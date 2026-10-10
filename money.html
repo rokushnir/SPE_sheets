@@ -1291,7 +1291,7 @@
 
   // ---------- малювання (завдання 12) ----------
   const pad = $('pad'), ctx = pad.getContext('2d');
-  let penColor = '#1e293b', erasing = false, drawing = false, history = [], lastPt = null;
+  let penColor = '#1e293b', erasing = false, drawing = false, undoStack = [], lastPt = null;
   const PAPER = '#fffdf8';
   function fitPad() {
     const dpr = window.devicePixelRatio || 1, w = pad.clientWidth, h = pad.clientHeight;
@@ -1309,7 +1309,7 @@
   function pt(e) { const b = pad.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; }
   pad.addEventListener('pointerdown', e => {
     drawing = true; pad.setPointerCapture(e.pointerId);
-    history.push(S.drawing); if (history.length > 30) history.shift();
+    undoStack.push(S.drawing); if (undoStack.length > 30) undoStack.shift();
     lastPt = pt(e);
     ctx.beginPath(); ctx.arc(lastPt[0], lastPt[1], (erasing ? 14 : 3) / 2, 0, Math.PI * 2);
     ctx.fillStyle = erasing ? PAPER : penColor; ctx.fill();
@@ -1331,9 +1331,9 @@
     $('eraser').classList.remove('active');
   }));
   $('eraser').addEventListener('click', () => { erasing = !erasing; $('eraser').classList.toggle('active', erasing); });
-  $('undo').addEventListener('click', () => { if (!history.length) return; S.drawing = history.pop(); save(); fitPad(); });
-  $('clearPad').addEventListener('click', () => { history.push(S.drawing); S.drawing = ''; save(); fitPad(); });
-  $('savePad').addEventListener('click', () => {
+  $('undo').addEventListener('click', () => { if (!undoStack.length) return; S.drawing = undoStack.pop(); save(); fitPad(); });
+  $('clearPad').addEventListener('click', () => { undoStack.push(S.drawing); S.drawing = ''; save(); fitPad(); });
+  $('savePad')?.addEventListener('click', () => {
     const a = document.createElement('a');
     a.href = pad.toDataURL('image/png'); a.download = 'miy-shliakh-do-tsilei.png'; a.click();
   });
@@ -1341,10 +1341,26 @@
   window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(fitPad, 150); });
 
   // ---------- очищення ----------
+  // підтвердження прямо на кнопці: перший клік питає, другий (протягом 4 с) очищає
+  let resetArmed = null;
   $('resetAll').addEventListener('click', () => {
-    if (!confirm('Очистити всі відповіді на цій сторінці?')) return;
+    const btn = $('resetAll');
+    if (!resetArmed) {
+      btn.textContent = 'Точно очистити? Натисни ще раз';
+      resetArmed = setTimeout(() => { resetArmed = null; btn.textContent = 'Очистити всі відповіді'; }, 4000);
+      return;
+    }
+    clearTimeout(resetArmed); resetArmed = null;
     try { localStorage.removeItem(KEY); } catch (e) {}
-    location.reload();
+    S = DEFAULTS(); undoStack = [];
+    document.querySelectorAll('[data-bind]').forEach(el => { const v = getPath(el.dataset.bind); el.value = v == null ? '' : v; });
+    $('dreams').querySelectorAll('input').forEach(cb => { cb.checked = false; });
+    $('mSpend').value = S.million.spend; $('mSave').value = S.million.save;
+    bindGame.sync();
+    Object.keys(LISTS).forEach(renderList);
+    renderMood(); renderAll(); renderGame(); fitPad();
+    btn.textContent = 'Відповіді очищено';
+    setTimeout(() => { btn.textContent = 'Очистити всі відповіді'; }, 2000);
   });
 
   function renderAll() { renderDreams(); renderCalcs(); }
