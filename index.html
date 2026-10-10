@@ -23,6 +23,8 @@
     --navy: #1b3a8a;
     --radius: 20px;
     --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    --c-mortgage: #2b56c4;
+    --c-rent: #d9661a;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -148,6 +150,34 @@
   th { background: #f8fafc; font-weight: 700; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
   tr:last-child td { border-bottom: 0; }
 
+  /* ---------- Calculator extras & chart ---------- */
+  .seg-3 { grid-template-columns: 1fr 1fr; }
+  .subhead { font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 6px 0 14px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .inputs label { display: block; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .inputs input { width: 100%; padding: 12px; border: 2px solid var(--line); border-radius: 10px; font: inherit; font-weight: 700; color: var(--text); background: #fff; }
+  .inputs input:focus { outline: none; border-color: var(--green); }
+  .hint { font-size: 13px; color: var(--muted); margin-top: 10px; }
+  .verdict { margin-top: 18px; padding: 16px; border-radius: 14px; background: rgba(74, 222, 128, .12); color: #bbf7d0; font-weight: 600; }
+  .verdict b { color: #fff; }
+  .chart-card { margin-top: 32px; }
+  .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  .chart-head h3 { margin: 0 0 4px; font-size: 22px; }
+  .chart-head p { margin: 0; color: var(--muted); }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--text); font-weight: 600; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
+  .chart-wrap { position: relative; margin-top: 12px; }
+  #chart { width: 100%; height: auto; display: block; overflow: visible; }
+  #chart text { font-family: inherit; }
+  .tip {
+    position: absolute; pointer-events: none; background: var(--text); color: #fff; border-radius: 10px;
+    padding: 10px 12px; font-size: 13px; line-height: 1.5; white-space: nowrap; opacity: 0; transition: opacity .1s;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .2); z-index: 5;
+  }
+  .tip b { font-size: 14px; }
+  .tip .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  @media (max-width: 640px) { .inputs { grid-template-columns: 1fr 1fr; } }
   /* ---------- Conditions ---------- */
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
@@ -300,14 +330,14 @@
   <section id="calculator">
     <div class="container">
       <div class="eyebrow">Калькулятор</div>
-      <h2>Розрахуйте іпотеку за 1 хвилину</h2>
-      <p class="section-lead">Змінюйте параметри — результат і графік виплат оновлюються миттєво.</p>
+      <h2>Іпотека чи оренда — що вигідніше?</h2>
+      <p class="section-lead">Порахуйте платіж за іпотекою і подивіться на графіку, з якого року щомісячний платіж стане меншим за оренду такої ж квартири.</p>
 
       <div class="calc">
         <div class="card">
           <div class="field">
             <div class="field-head"><label for="price">Вартість житла</label><output id="priceOut"></output></div>
-            <input type="range" id="price" min="500000" max="10000000" step="50000" value="2000000">
+            <input type="range" id="price" min="500000" max="10000000" step="12500" value="3187500">
             <div class="range-scale"><span>500 тис.</span><span>10 млн</span></div>
           </div>
           <div class="field">
@@ -320,24 +350,60 @@
             <input type="range" id="term" min="1" max="20" step="1" value="20">
             <div class="range-scale"><span>1 рік</span><span>20 років</span></div>
           </div>
-          <div class="field" style="margin-bottom:0">
+          <div class="field">
             <div class="field-head"><label>Ставка</label></div>
             <div class="seg" id="rateSeg">
-              <button type="button" data-rate="3" class="active">3% річних<small>Військові, медики, освітяни, науковці, ВПО</small></button>
-              <button type="button" data-rate="7">7% річних<small>Інші громадяни без власного житла</small></button>
+              <button type="button" data-rate="3">3% річних<small>Військові, медики, освітяни, науковці, ВПО</small></button>
+              <button type="button" data-rate="7" class="active">7% річних<small>Інші громадяни без власного житла</small></button>
             </div>
           </div>
+          <div class="field">
+            <div class="field-head"><label>Схема погашення</label></div>
+            <div class="seg" id="typeSeg">
+              <button type="button" data-type="classic" class="active">Класична<small>Тіло рівними частинами, платіж зменшується</small></button>
+              <button type="button" data-type="annuity">Ануїтет<small>Однаковий платіж увесь строк</small></button>
+            </div>
+          </div>
+
+          <div class="subhead">Оренда та прогноз</div>
+          <div class="inputs">
+            <div><label for="area">Площа, м²</label><input type="number" id="area" min="10" max="300" step="1" value="41"></div>
+            <div><label for="rentM2">Оренда, грн/м²</label><input type="number" id="rentM2" min="0" step="1" value="366"></div>
+            <div><label for="fx">Курс $, грн</label><input type="number" id="fx" min="1" step="0.1" value="42.5"></div>
+            <div><label for="fxGrow">Ріст курсу, грн/рік</label><input type="number" id="fxGrow" min="0" step="0.5" value="3"></div>
+            <div><label for="usdInfl">Інфляція $, %/рік</label><input type="number" id="usdInfl" min="0" step="0.5" value="4"></div>
+          </div>
+          <p class="hint">Оренда прив'язана до долара: щороку зростає на інфляцію $ і на ріст курсу. Платіж за іпотекою — у гривні й фіксований договором.</p>
         </div>
 
         <div class="card result">
-          <div class="big-lbl">Щомісячний платіж</div>
+          <div class="big-lbl" id="monthlyLbl">Щомісячний платіж</div>
           <div class="big" id="monthly">—</div>
           <div class="row"><span>Сума кредиту</span><b id="loan">—</b></div>
           <div class="row"><span>Перший внесок</span><b id="downSum">—</b></div>
           <div class="row"><span>Переплата (відсотки)</span><b id="over">—</b></div>
           <div class="row"><span>Загальна сума виплат</span><b id="total">—</b></div>
-          <p class="note">Розрахунок орієнтовний, ануїтетна схема. Не враховує страхування, оцінку та нотаріальні витрати.</p>
+          <div class="row"><span>Оренда зараз</span><b id="rentNow">—</b></div>
+          <div class="verdict" id="verdict"></div>
+          <p class="note">Розрахунок орієнтовний. Не враховує страхування, оцінку та нотаріальні витрати. Прогноз курсу й інфляції — припущення.</p>
           <a href="#contact" class="btn">Отримати точний розрахунок</a>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-head">
+          <div>
+            <h3>Платіж за іпотекою vs оренда, грн/міс</h3>
+            <p>Середній щомісячний платіж у кожному році кредиту</p>
+          </div>
+          <div class="legend">
+            <span><i style="background:var(--c-mortgage)"></i>Іпотека</span>
+            <span><i style="background:var(--c-rent)"></i>Оренда</span>
+          </div>
+        </div>
+        <div class="chart-wrap" id="chartWrap">
+          <svg id="chart" viewBox="0 0 1000 380" role="img" aria-label="Графік: щомісячний платіж за іпотекою порівняно з орендою по роках"></svg>
+          <div class="tip" id="tip"></div>
         </div>
       </div>
 
@@ -347,14 +413,13 @@
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Рік</th><th>Сплачено за рік</th><th>Тіло кредиту</th><th>Відсотки</th><th>Залишок боргу</th></tr></thead>
+            <thead><tr><th>Рік</th><th>Іпотека, грн/міс</th><th>Оренда, грн/міс</th><th>Тіло за рік</th><th>Відсотки за рік</th><th>Залишок боргу</th></tr></thead>
             <tbody id="schedule"></tbody>
           </table>
         </div>
       </div>
     </div>
   </section>
-
   <!-- CONDITIONS -->
   <section id="conditions" class="section-white">
     <div class="container">
@@ -497,9 +562,10 @@
 </footer>
 
 <script>
-  const fmt = n => Math.round(n).toLocaleString('uk-UA').replace(/,/g, ' ') + ' грн';
+  const fmt = n => Math.round(n).toLocaleString('uk-UA').replace(/[ ,]/g, ' ') + ' грн';
+  const fmtShort = n => n >= 1000 ? Math.round(n / 1000) + ' тис.' : Math.round(n) + '';
   const $ = id => document.getElementById(id);
-  let rate = 3;
+  let rate = 7, type = 'classic';
 
   function yearsLabel(n) {
     const m10 = n % 10, m100 = n % 100;
@@ -507,6 +573,7 @@
     if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return n + ' роки';
     return n + ' років';
   }
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
 
   function calc() {
     const price = +$('price').value;
@@ -516,39 +583,164 @@
     const loan = price - downSum;
     const n = years * 12;
     const r = rate / 100 / 12;
-    const monthly = r === 0 ? loan / n : loan * r / (1 - Math.pow(1 + r, -n));
-    const total = monthly * n;
+    const annuity = r === 0 ? loan / n : loan * r / (1 - Math.pow(1 + r, -n));
+    const bodyFixed = loan / n;
 
-    $('priceOut').textContent = fmt(price);
-    $('downOut').textContent = downPct + '% · ' + fmt(downSum);
-    $('termOut').textContent = yearsLabel(years);
-    $('monthly').textContent = fmt(monthly);
-    $('loan').textContent = fmt(loan);
-    $('downSum').textContent = fmt(downSum);
-    $('over').textContent = fmt(total - loan);
-    $('total').textContent = fmt(total);
+    const area = num('area'), rentM2 = num('rentM2'), fx0 = num('fx') || 1, fxGrow = num('fxGrow'), infl = num('usdInfl') / 100;
+    const rent0 = area * rentM2;
 
-    let balance = loan, rows = '';
+    // month-by-month schedule, aggregated per year
+    let balance = loan, totalPaid = 0, firstPay = 0, lastPay = 0;
+    const rows = [];
     for (let y = 1; y <= years; y++) {
       let interestY = 0, principalY = 0;
       for (let m = 0; m < 12; m++) {
         const interest = balance * r;
-        const principal = Math.min(monthly - interest, balance);
-        interestY += interest; principalY += principal; balance -= principal;
+        const principal = Math.min(type === 'classic' ? bodyFixed : annuity - interest, balance);
+        const pay = principal + interest;
+        if (y === 1 && m === 0) firstPay = pay;
+        lastPay = pay;
+        interestY += interest; principalY += principal; balance -= principal; totalPaid += pay;
       }
-      rows += `<tr><td>${y}</td><td>${fmt(interestY + principalY)}</td><td>${fmt(principalY)}</td><td>${fmt(interestY)}</td><td>${fmt(Math.max(balance, 0))}</td></tr>`;
+      const fxY = fx0 + fxGrow * (y - 1);
+      const rentY = rent0 * Math.pow(1 + infl, y - 1) * fxY / fx0;
+      rows.push({ y, mortgage: (interestY + principalY) / 12, rent: rentY, principalY, interestY, balance: Math.max(balance, 0) });
     }
-    $('schedule').innerHTML = rows;
+
+    $('priceOut').textContent = fmt(price);
+    $('downOut').textContent = downPct + '% · ' + fmt(downSum);
+    $('termOut').textContent = yearsLabel(years);
+    if (type === 'classic') {
+      $('monthlyLbl').textContent = 'Щомісячний платіж (перший → останній)';
+      $('monthly').innerHTML = fmt(firstPay) + '<span style="font-size:.45em;opacity:.8;font-weight:700"> → ' + fmt(lastPay) + '</span>';
+    } else {
+      $('monthlyLbl').textContent = 'Щомісячний платіж';
+      $('monthly').textContent = fmt(annuity);
+    }
+    $('loan').textContent = fmt(loan);
+    $('downSum').textContent = fmt(downSum);
+    $('over').textContent = fmt(totalPaid - loan);
+    $('total').textContent = fmt(totalPaid);
+    $('rentNow').textContent = fmt(rent0) + '/міс';
+
+    const cross = rows.find(d => d.mortgage <= d.rent);
+    let verdict;
+    if (!rent0) verdict = 'Вкажіть вартість оренди, щоб порівняти з іпотекою.';
+    else if (cross && cross.y === 1) verdict = 'Платіж за іпотекою <b>вже з першого року менший</b> за оренду такої квартири.';
+    else if (cross) verdict = 'Платіж за іпотекою стане меншим за оренду на <b>' + cross.y + '-й рік</b> (' + fmt(cross.mortgage) + ' проти ' + fmt(cross.rent) + ' на місяць).';
+    else verdict = 'За ' + yearsLabel(years) + ' платіж за іпотекою не стає меншим за оренду — спробуйте більший внесок або довший строк.';
+    $('verdict').innerHTML = verdict;
+
+    $('schedule').innerHTML = rows.map(d =>
+      `<tr><td>${d.y}</td><td>${fmt(d.mortgage)}</td><td>${fmt(d.rent)}</td><td>${fmt(d.principalY)}</td><td>${fmt(d.interestY)}</td><td>${fmt(d.balance)}</td></tr>`).join('');
+
+    drawChart(rows, cross);
   }
 
-  ['price', 'down', 'term'].forEach(id => $(id).addEventListener('input', calc));
-  document.querySelectorAll('#rateSeg button').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('#rateSeg button').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    rate = +b.dataset.rate;
-    calc();
-  }));
+  // ---------- chart (plain SVG) ----------
+  const css = getComputedStyle(document.documentElement);
+  const C_M = css.getPropertyValue('--c-mortgage').trim(), C_R = css.getPropertyValue('--c-rent').trim();
+  let chartState = null;
+
+  function niceMax(v) {
+    const p = Math.pow(10, Math.floor(Math.log10(v)));
+    for (const k of [1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) if (k * p >= v) return k * p;
+    return 10 * p;
+  }
+
+  function drawChart(rows, cross) {
+    const svg = $('chart');
+    const W = Math.max($('chartWrap').clientWidth, 280), small = W < 600;
+    const H = small ? 280 : 380, L = small ? 46 : 70, R = small ? 62 : 90, T = 20, B = 44;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const maxV = niceMax(Math.max(...rows.map(d => Math.max(d.mortgage, d.rent)), 1) * 1.05);
+    const n = rows.length;
+    const x = i => n === 1 ? L + (W - L - R) / 2 : L + i * (W - L - R) / (n - 1);
+    const y = v => T + (H - T - B) * (1 - v / maxV);
+    let s = '';
+    // grid + y labels
+    for (let k = 0; k <= 4; k++) {
+      const v = maxV * k / 4, yy = y(v);
+      s += `<line x1="${L}" x2="${W - R}" y1="${yy}" y2="${yy}" stroke="#e3e8ee" stroke-width="1"/>`;
+      s += `<text x="${L - 10}" y="${yy + 4}" text-anchor="end" font-size="13" fill="#5b6676">${fmtShort(v)}</text>`;
+    }
+    // x labels
+    const step = n > (small ? 6 : 12) ? (small ? Math.ceil(n / 6) : 2) : 1;
+    rows.forEach((d, i) => {
+      if ((i % step === 0 && i < n - 2) || i === n - 1) s += `<text x="${x(i)}" y="${H - B + 22}" text-anchor="middle" font-size="13" fill="#5b6676">${d.y}</text>`;
+    });
+    s += `<text x="${(L + W - R) / 2}" y="${H - 4}" text-anchor="middle" font-size="12" fill="#8a94a3">рік кредиту</text>`;
+    // crossover band
+    if (cross && cross.y > 1) {
+      const i = cross.y - 1;
+      s += `<line x1="${x(i)}" x2="${x(i)}" y1="${T}" y2="${H - B}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+      const lbl = small ? `з ${cross.y}-го року` : `з ${cross.y}-го року іпотека дешевша`;
+      s += `<text x="${x(i) + 8}" y="${T + 14}" font-size="13" font-weight="700" fill="#1e293b">${lbl}</text>`;
+    }
+    const path = key => rows.map((d, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(d[key]).toFixed(1)).join(' ');
+    s += `<path d="${path('rent')}" fill="none" stroke="${C_R}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    s += `<path d="${path('mortgage')}" fill="none" stroke="${C_M}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    // direct labels at line ends
+    const last = rows[n - 1];
+    let ym = y(last.mortgage), yr = y(last.rent);
+    if (Math.abs(ym - yr) < 18) { const mid = (ym + yr) / 2; if (ym < yr) { ym = mid - 9; yr = mid + 9; } else { ym = mid + 9; yr = mid - 9; } }
+    s += `<text x="${x(n - 1) + 10}" y="${ym + 4}" font-size="13" font-weight="700" fill="#1e293b">Іпотека</text>`;
+    s += `<text x="${x(n - 1) + 10}" y="${yr + 4}" font-size="13" font-weight="700" fill="#1e293b">Оренда</text>`;
+    // crossover marker
+    if (cross) {
+      const i = cross.y - 1;
+      s += `<circle cx="${x(i)}" cy="${y(cross.mortgage)}" r="6" fill="${C_M}" stroke="#fff" stroke-width="2"/>`;
+    }
+    // hover layer
+    s += `<g id="hover" style="display:none"><line id="hLine" y1="${T}" y2="${H - B}" stroke="#1e293b" stroke-width="1" opacity=".35"/>` +
+         `<circle id="hM" r="5" fill="${C_M}" stroke="#fff" stroke-width="2"/><circle id="hR" r="5" fill="${C_R}" stroke="#fff" stroke-width="2"/></g>`;
+    s += `<rect id="hit" x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent"/>`;
+    svg.innerHTML = s;
+    chartState = { rows, x, y, W, H, n };
+  }
+
+  function onMove(evt) {
+    if (!chartState) return;
+    const { rows, x, y, n, W, H } = chartState;
+    const svg = $('chart'), pt = svg.getBoundingClientRect();
+    const cx = ((evt.touches ? evt.touches[0].clientX : evt.clientX) - pt.left) * W / pt.width;
+    let i = 0, best = Infinity;
+    for (let k = 0; k < n; k++) { const dd = Math.abs(x(k) - cx); if (dd < best) { best = dd; i = k; } }
+    const d = rows[i];
+    $('hover').style.display = '';
+    $('hLine').setAttribute('x1', x(i)); $('hLine').setAttribute('x2', x(i));
+    $('hM').setAttribute('cx', x(i)); $('hM').setAttribute('cy', y(d.mortgage));
+    $('hR').setAttribute('cx', x(i)); $('hR').setAttribute('cy', y(d.rent));
+    const diff = d.rent - d.mortgage;
+    const tip = $('tip');
+    tip.innerHTML = `<b>${d.y}-й рік</b><br><span class="sw" style="background:${C_M}"></span>Іпотека: ${fmt(d.mortgage)}<br>` +
+      `<span class="sw" style="background:${C_R}"></span>Оренда: ${fmt(d.rent)}<br>` +
+      (diff >= 0 ? `Іпотека дешевша на ${fmt(diff)}` : `Оренда дешевша на ${fmt(-diff)}`);
+    tip.style.opacity = 1;
+    const px = x(i) * pt.width / W, wrapW = $('chartWrap').clientWidth;
+    const tw = tip.offsetWidth;
+    tip.style.left = Math.min(Math.max(px - tw / 2, 0), wrapW - tw) + 'px';
+    tip.style.top = (Math.min(y(d.mortgage), y(d.rent)) * pt.height / H - tip.offsetHeight - 14) + 'px';
+  }
+  function onLeave() { $('tip').style.opacity = 0; const h = $('hover'); if (h) h.style.display = 'none'; }
+  $('chart').addEventListener('mousemove', onMove);
+  $('chart').addEventListener('touchmove', onMove, { passive: true });
+  $('chart').addEventListener('touchstart', onMove, { passive: true });
+  $('chart').addEventListener('mouseleave', onLeave);
+
+  ['price', 'down', 'term', 'area', 'rentM2', 'fx', 'fxGrow', 'usdInfl'].forEach(id => $(id).addEventListener('input', calc));
+  function segment(id, onPick) {
+    document.querySelectorAll('#' + id + ' button').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('#' + id + ' button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      onPick(b);
+      calc();
+    }));
+  }
+  segment('rateSeg', b => rate = +b.dataset.rate);
+  segment('typeSeg', b => type = b.dataset.type);
   calc();
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(calc, 150); });
 
   // mobile menu
   const menu = $('menu'), burger = $('burger');
