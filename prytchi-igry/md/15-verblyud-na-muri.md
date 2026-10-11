@@ -1,4 +1,4 @@
-[← Усі ігри](../README.md) · [Відкрити як сторінку](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/15-verblyud-na-muri.html)
+[← Усі ігри](../README.md) · [Відкрити як сторінку](https://rokushnir.github.io/SPE_sheets/prytchi-15-verblyud-na-muri.html)
 
 # 15. Верблюд на мурі
 

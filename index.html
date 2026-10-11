@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgroPartners — іпотека єОселя</title>
+<meta name="description" content="Платформа нерухомості та іпотеки AgroPartners. Калькулятор іпотеки за програмою єОселя 2026, умови, переваги та консультація.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3f5f7;
+    --surface: #ffffff;
+    --text: #1e293b;
+    --muted: #5b6676;
+    --line: #e3e8ee;
+    --green: #16a34a;
+    --green-dark: #128a3e;
+    --green-soft: #e8f7ee;
+    --orange: #e8791c;
+    --yellow: #f6b81a;
+    --navy: #1b3a8a;
+    --radius: 20px;
+    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    --c-mortgage: #2b56c4;
+    --c-rent: #d9661a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255, 255, 255, .95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 84px; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo {
+    width: 64px; height: 64px; border: 3px solid var(--yellow); border-radius: 6px;
+    display: grid; place-content: center; text-align: center; line-height: 1.05; flex-shrink: 0;
+  }
+  .logo b { color: var(--navy); font-size: 18px; font-weight: 800; }
+  .logo small { color: var(--navy); font-size: 10px; font-weight: 700; }
+  .brand-name { font-size: 24px; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .brand-sub { font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+  .menu { display: flex; align-items: center; gap: 32px; font-weight: 500; }
+  .menu a:hover { color: var(--green); }
+  .menu a { white-space: nowrap; }
+  @media (max-width: 1440px) { .menu { gap: 18px; } }
+  .menu-drop { position: relative; }
+  .drop-btn { background: none; border: 0; padding: 0; font: inherit; font-weight: 500; color: inherit; cursor: pointer; white-space: nowrap; }
+  .drop-btn:hover { color: var(--green); }
+  .drop {
+    display: none; position: absolute; top: 100%; right: -12px; z-index: 60; min-width: 270px; padding: 8px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); flex-direction: column;
+  }
+  .menu-drop::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 10px; }
+  .drop a { padding: 10px 12px; border-radius: 8px; }
+  .drop a:hover { background: var(--green-soft); }
+  .drop { max-height: calc(100vh - 100px); overflow-y: auto; }
+  .drop-group { padding: 12px 12px 4px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+  .drop-group:first-child { padding-top: 4px; }
+  .menu-drop:hover .drop, .menu-drop:focus-within .drop, .menu-drop.open .drop { display: flex; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--green); color: #fff; font-weight: 800; letter-spacing: .03em;
+    padding: 16px 28px; border-radius: 12px; border: 0; cursor: pointer; font-size: 16px;
+    box-shadow: 0 8px 20px rgba(22, 163, 74, .25); transition: background .2s, transform .2s;
+    font-family: inherit;
+  }
+  .btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--green); border: 2px solid var(--green); box-shadow: none; }
+  .btn-outline:hover { background: var(--green-soft); }
+  .burger { display: none; background: none; border: 0; font-size: 28px; cursor: pointer; color: var(--text); }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 72px 0 56px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--green-soft); color: var(--green); font-weight: 700;
+    padding: 10px 20px; border-radius: 999px; font-size: 15px; letter-spacing: .03em; text-transform: uppercase;
+  }
+  .badge::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+  h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.1; font-weight: 900; margin: 28px 0 24px; max-width: 980px; }
+  .accent { color: var(--orange); }
+  .lead { font-size: clamp(17px, 2vw, 22px); color: var(--muted); max-width: 900px; margin: 0 0 36px; }
+  .lead strong { color: var(--text); }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+  .divider { border: 0; border-top: 1px solid var(--line); margin: 0 0 32px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 28px; text-align: center; box-shadow: var(--shadow);
+  }
+  .stat .num { font-size: clamp(32px, 4vw, 44px); font-weight: 900; color: var(--green); line-height: 1.1; }
+  .stat .lbl { color: var(--muted); margin-top: 6px; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 72px 0; }
+  .section-white { background: var(--surface); }
+  .eyebrow { color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px; }
+  h2 { font-size: clamp(28px, 3.5vw, 42px); line-height: 1.15; margin: 10px 0 16px; font-weight: 900; }
+  .section-lead { color: var(--muted); font-size: 18px; max-width: 760px; margin: 0 0 40px; }
+
+  /* ---------- About ---------- */
+  .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+  .checklist { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 14px; }
+  .checklist li { display: flex; gap: 12px; align-items: flex-start; }
+  .checklist li::before {
+    content: "✓"; flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--green-soft); color: var(--green); display: grid; place-content: center; font-weight: 800; font-size: 14px;
+  }
+  .about-card {
+    background: linear-gradient(135deg, var(--navy), #2b56c4); color: #fff; border-radius: 28px; padding: 40px;
+    box-shadow: 0 20px 40px rgba(27, 58, 138, .25);
+  }
+  .about-card h3 { margin: 0 0 12px; font-size: 26px; }
+  .about-card p { opacity: .9; margin: 0 0 24px; }
+  .about-card .row { display: flex; justify-content: space-between; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.2); }
+  .about-card .row b { font-size: 20px; }
+
+  /* ---------- Calculator ---------- */
+  .calc { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); }
+  .field { margin-bottom: 26px; }
+  .field-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; }
+  .field label { font-weight: 600; }
+  .field output { font-weight: 800; color: var(--green); font-size: 18px; white-space: nowrap; }
+  input[type=range] { width: 100%; accent-color: var(--green); height: 6px; cursor: pointer; }
+  .range-scale { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .seg button {
+    padding: 14px; border-radius: 12px; border: 2px solid var(--line); background: #fff; cursor: pointer;
+    font-weight: 700; font-size: 15px; color: var(--text); font-family: inherit; text-align: left;
+  }
+  .seg button small { display: block; font-weight: 500; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .seg button.active { border-color: var(--green); background: var(--green-soft); }
+  .result { background: var(--text); color: #fff; display: flex; flex-direction: column; }
+  .result .big-lbl { opacity: .7; }
+  .result .big { font-size: clamp(36px, 5vw, 52px); font-weight: 900; color: #4ade80; line-height: 1.1; margin: 6px 0 24px; }
+  .result .row { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.12); }
+  .result .row span { opacity: .75; }
+  .result .row b { text-align: right; }
+  .result .btn { margin-top: auto; width: 100%; }
+  .result .note { font-size: 13px; opacity: .6; margin: 18px 0; }
+  .schedule { margin-top: 32px; }
+  .schedule-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .schedule-head h3 { margin: 0; font-size: 22px; }
+  .table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; background: #fff; font-size: 15px; min-width: 560px; }
+  th, td { padding: 12px 16px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  th { background: #f8fafc; font-weight: 700; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+  tr:last-child td { border-bottom: 0; }
+
+  /* ---------- Calculator extras & chart ---------- */
+  .seg-3 { grid-template-columns: 1fr 1fr; }
+  .subhead { font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 6px 0 14px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .inputs label { display: block; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .inputs input { width: 100%; padding: 12px; border: 2px solid var(--line); border-radius: 10px; font: inherit; font-weight: 700; color: var(--text); background: #fff; }
+  .inputs input:focus { outline: none; border-color: var(--green); }
+  .hint { font-size: 13px; color: var(--muted); margin-top: 10px; }
+  .verdict { margin-top: 18px; padding: 16px; border-radius: 14px; background: rgba(74, 222, 128, .12); color: #bbf7d0; font-weight: 600; }
+  .verdict b { color: #fff; }
+  .chart-card { margin-top: 32px; }
+  .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  .chart-head h3 { margin: 0 0 4px; font-size: 22px; }
+  .chart-head p { margin: 0; color: var(--muted); }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--text); font-weight: 600; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
+  .chart-wrap { position: relative; margin-top: 12px; }
+  #chart { width: 100%; height: auto; display: block; overflow: visible; }
+  #chart text { font-family: inherit; }
+  .tip {
+    position: absolute; pointer-events: none; background: var(--text); color: #fff; border-radius: 10px;
+    padding: 10px 12px; font-size: 13px; line-height: 1.5; white-space: nowrap; opacity: 0; transition: opacity .1s;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .2); z-index: 5;
+  }
+  .tip b { font-size: 14px; }
+  .tip .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  @media (max-width: 640px) { .inputs { grid-template-columns: 1fr 1fr; } }
+  /* ---------- Conditions ---------- */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .cond .tag { display: inline-block; font-weight: 900; font-size: 34px; color: var(--green); }
+  .cond .tag.orange { color: var(--orange); }
+  .cond h3 { margin: 8px 0 10px; font-size: 20px; }
+  .cond p, .cond li { color: var(--muted); }
+  .cond ul { padding-left: 20px; margin: 0; }
+  .cond li { margin-bottom: 6px; }
+  .disclaimer { color: var(--muted); font-size: 14px; margin-top: 24px; }
+
+  /* ---------- Benefits ---------- */
+  .icon {
+    width: 56px; height: 56px; border-radius: 16px; background: var(--green-soft); color: var(--green);
+    display: grid; place-content: center; font-size: 26px; margin-bottom: 18px;
+  }
+  .benefit h3 { margin: 0 0 8px; font-size: 20px; }
+  .benefit p { margin: 0; color: var(--muted); }
+
+  /* ---------- Steps ---------- */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: step; }
+  .step { position: relative; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    display: grid; place-content: center; width: 44px; height: 44px; border-radius: 50%;
+    background: var(--orange); color: #fff; font-weight: 800; margin-bottom: 16px;
+  }
+  .step h3 { margin: 0 0 6px; font-size: 18px; }
+  .step p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 880px; }
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 0 24px; margin-bottom: 12px; }
+  summary {
+    cursor: pointer; list-style: none; padding: 20px 0; font-weight: 700; font-size: 17px;
+    display: flex; justify-content: space-between; gap: 16px; align-items: center;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 26px; color: var(--green); font-weight: 400; transition: transform .2s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { margin: 0 0 20px; color: var(--muted); }
+
+  /* ---------- Contact ---------- */
+  .contact { background: linear-gradient(135deg, #0f5132, var(--green)); color: #fff; border-radius: 28px; padding: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .contact h2 { color: #fff; }
+  .contact p { opacity: .9; font-size: 18px; }
+  form { display: grid; gap: 14px; }
+  .input {
+    width: 100%; padding: 16px 18px; border-radius: 12px; border: 0; font-size: 16px; font-family: inherit; color: var(--text);
+  }
+  form .btn { background: var(--orange); box-shadow: none; }
+  form .btn:hover { background: #cf6912; }
+  .form-note { font-size: 13px; opacity: .75; }
+  .thanks { display: none; background: rgba(255,255,255,.15); padding: 20px; border-radius: 14px; font-weight: 600; }
+
+  footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1270px) {
+    .menu { display: none; position: absolute; top: 84px; left: 0; right: 0; background: #fff; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 16px 20px; border-bottom: 1px solid var(--line); }
+    .menu.open { display: flex; }
+    .menu a { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .menu .btn { margin-top: 12px; }
+    .burger { display: block; }
+    .drop-btn { display: none; }
+    .drop { display: flex; position: static; min-width: 0; padding: 0; border: 0; box-shadow: none; background: transparent; }
+    .drop a { border-radius: 0; }
+    .menu-drop::after { display: none; }
+    .drop { max-height: none; overflow: visible; }
+    .drop-group, .drop-group:first-child { padding: 18px 0 4px; }
+    .menu { max-height: calc(100vh - 84px); overflow-y: auto; }
+  }
+  @media (max-width: 1000px) {
+    .about-grid, .calc, .contact { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .stats, .grid-3, .grid-2, .steps { grid-template-columns: 1fr; }
+    .brand-name { font-size: 20px; }
+    .brand-sub { display: none; }
+    .logo { width: 52px; height: 52px; }
+    .card, .about-card { padding: 24px; }
+    .contact { padding: 28px; }
+    section { padding: 56px 0; }
+    .hero { padding: 48px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#top" class="brand" aria-label="AgroPartners — на головну">
+      <div class="logo"><b>Agro</b><small>Partners</small></div>
+      <div>
+        <div class="brand-name">AgroPartners</div>
+        <div class="brand-sub">Платформа нерухомості &amp; іпотеки</div>
+      </div>
+    </a>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">☰</button>
+    <nav class="menu" id="menu">
+      <a href="#about">Про програму</a>
+      <a href="#calculator">Калькулятор</a>
+      <a href="#conditions">Умови єОселя</a>
+      <a href="#benefits">Переваги</a>
+      <a href="#faq">Часті питання</a>
+      <div class="menu-drop" id="menuDrop">
+        <button class="drop-btn" id="dropBtn" type="button" aria-expanded="false" aria-controls="dropList">📚 Зошити <span aria-hidden="true">▾</span></button>
+        <div class="drop" id="dropList">
+          <div class="drop-group">Тайм-менеджмент</div>
+          <a href="goals.html">🎯 Цілі та звички</a>
+          <a href="smart.html">🧪 SMART-лабораторія</a>
+          <a href="time.html">⏳ Час життя</a>
+          <a href="planuvannia.html">🗓️ Техніки планування</a>
+          <div class="drop-group">Фінансова грамотність</div>
+          <a href="money.html">💰 Гра «Гроші»</a>
+          <a href="kapital.html">🏗️ Капітал і активи</a>
+          <a href="finplan.html">📈 Фінансовий план</a>
+          <a href="finchat.html">💬 Запитай Романа</a>
+          <div class="drop-group">Публічні виступи</div>
+          <a href="speech.html">🎤 Як почати виступати</a>
+          <a href="structure.html">🧱 Структура виступу</a>
+          <a href="vystupy.html">📖 Історії та елевейтор піч</a>
+          <a href="zoshyt.html">👀 Привернення уваги</a>
+          <a href="zapytannia.html">❓ Робота із запитаннями</a>
+          <div class="drop-group">Мистецтво перемовин</div>
+          <a href="liderstvo.html">🧭 Лідерство у спілкуванні</a>
+          <a href="neverbalna.html">🙌 Невербальна комунікація</a>
+          <a href="peremovyny.html">🤝 Перемовини</a>
+          <div class="drop-group">Як запустити свій проект</div>
+          <a href="idei.html">💡 Ідеї і їх кастинг</a>
+          <a href="start-produkt.html">🚀 Продукт</a>
+          <a href="mvp.html">🛴 MVP продукту</a>
+          <a href="finmodel.html">🧮 Фінансова модель</a>
+          <a href="start-rynok.html">🎯 Ринок і ніша</a>
+          <a href="sotsialni.html">🌱 Соціальні проекти</a>
+          <a href="start-prodazhi.html">🛒 Як почати продавати</a>
+          <a href="auditoriia.html">👥 Цільова аудиторія</a>
+          <a href="komanda.html">🧩 Команда проекту</a>
+          <a href="investytsii.html">💸 Де шукати інвестиції</a>
+          <a href="pitch.html">🎬 Pitch deck</a>
+          <a href="obhovorennia.html">🏁 Обговорення проектів</a>
+          <div class="drop-group">Суперкерівник: управління колективом</div>
+          <a href="styl.html">🧭 Стиль управління</a>
+          <a href="rutyna.html">⏱️ Самоорганізація керівника</a>
+          <a href="nayim.html">🔎 Пошук і добір людей</a>
+          <a href="komunikatsiia.html">📡 Внутрішня комунікація і наради</a>
+          <a href="delehuvannia.html">🎯 Делегування і контроль</a>
+          <a href="kolektyv.html">👥 Карта колективу</a>
+          <a href="ideyi.html">💡 Банк ідей</a>
+          <a href="navchannia.html">🎓 Внутрішнє навчання</a>
+          <a href="utrymannia.html">🏆 Втримати найкращих</a>
+          <a href="zvilnennia.html">🚪 Звільнення</a>
+          <a href="zminy.html">👹 Монстр змін</a>
+          <div class="drop-group">Бізнес-інкубатор</div>
+          <a href="arkhitektura.html">🏗️ Бізнес-архітектура</a>
+          <a href="model.html">🧬 Бізнес-модель і цінності</a>
+          <a href="protsesy.html">⚙️ Чек-листи і бізнес-процеси</a>
+          <a href="orgstruktura.html">🗂️ Оргструктура і завдання посад</a>
+          <a href="kpi.html">📊 Конструктор КРІ</a>
+          <a href="rynok.html">🗺️ Ринок, ніша, гіпотези</a>
+          <a href="yakist.html">✅ Управління якістю</a>
+          <a href="kliienty.html">🤝 Клієнти: ABC, LTV, аватар</a>
+          <a href="bil.html">🩹 Біль клієнта</a>
+          <a href="produkt.html">📦 Продукт, USP і SWOT</a>
+          <a href="prodazhi.html">🔻 Лунка продажів</a>
+          <a href="marketynh.html">📣 Маркетингова стратегія</a>
+          <a href="tsina.html">🏷️ Ціна, вартість, цінність</a>
+          <a href="oblik.html">🧾 Облік і витрати</a>
+          <a href="biudzhet.html">💼 Бюджети і показники</a>
+          <a href="yunit.html">🧮 Фінансова деталізація</a>
+          <div class="drop-group">Поведінка людини у формулах і моделях</div>
+          <a href="formuly.html">📘 Зміст інтерактивної книги</a>
+          <a href="formuly-1-vsesvit.html">🌌 1. Архітектура Всесвіту</a>
+          <a href="formuly-2-vzaiemyny.html">🤝 2. Взаємини людей</a>
+          <a href="formuly-3-kokhannia.html">❤️ 3. Формули кохання</a>
+          <a href="formuly-4-komunikatsiia.html">💬 4. Комунікація</a>
+          <a href="formuly-5-efektyvnist.html">🚀 5. Ефективність</a>
+          <a href="formuly-6-sotsium.html">👥 6. Соціальна поведінка</a>
+          <div class="drop-group">Прогрес</div>
+          <a href="shtab.html">🛰️ Штаб керівника</a>
+        </div>
+      </div>
+      <a href="#contact" class="btn">КОНСУЛЬТАЦІЯ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge">Державна програма «єОселя» 2026</span>
+      <h1>Допомагаємо заробляти та купувати житло на <span class="accent">вигідних умовах іпотеки</span></h1>
+      <p class="lead">Розрахуйте свій щомісячний платіж, переплату та графік виплат за 1 хвилину. Отримайте повне супроводження від експертів <strong>AgroPartners</strong> — від вибору об'єкта до підписання угоди.</p>
+      <div class="hero-actions">
+        <a href="#calculator" class="btn">Розрахувати платіж</a>
+        <a href="#contact" class="btn btn-outline">Безкоштовна консультація</a>
+      </div>
+      <hr class="divider">
+      <div class="stats">
+        <div class="stat"><div class="num">від 3%</div><div class="lbl">річна ставка за програмою</div></div>
+        <div class="stat"><div class="num">до 20 років</div><div class="lbl">термін кредитування</div></div>
+        <div class="stat"><div class="num">від 20%</div><div class="lbl">перший внесок</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section-white">
+    <div class="container about-grid">
+      <div>
+        <div class="eyebrow">Про програму</div>
+        <h2>Що таке «єОселя»?</h2>
+        <p class="section-lead">Державна програма доступної іпотеки, яка дозволяє купити квартиру чи будинок за пільговою ставкою 3% або 7% річних. Різницю з ринковою ставкою компенсує держава.</p>
+        <ul class="checklist">
+          <li>Купівля житла на первинному та вторинному ринку</li>
+          <li>Фіксована ставка на весь строк кредиту</li>
+          <li>Подання заявки онлайн через застосунок «Дія»</li>
+          <li>Без прихованих комісій від держави</li>
+        </ul>
+      </div>
+      <div class="about-card">
+        <h3>Приклад розрахунку</h3>
+        <p>Квартира за 2 000 000 грн, перший внесок 20%, ставка 3%, строк 20 років.</p>
+        <div class="row"><span>Сума кредиту</span><b>1 600 000 грн</b></div>
+        <div class="row"><span>Щомісячний платіж</span><b>≈ 8 874 грн</b></div>
+        <div class="row"><span>Переплата за 20 років</span><b>≈ 529 700 грн</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section id="calculator">
+    <div class="container">
+      <div class="eyebrow">Калькулятор</div>
+      <h2>Іпотека чи оренда — що вигідніше?</h2>
+      <p class="section-lead">Порахуйте платіж за іпотекою і подивіться на графіку, з якого року щомісячний платіж стане меншим за оренду такої ж квартири.</p>
+
+      <div class="calc">
+        <div class="card">
+          <div class="field">
+            <div class="field-head"><label for="price">Вартість житла</label><output id="priceOut"></output></div>
+            <input type="range" id="price" min="500000" max="10000000" step="12500" value="3187500">
+            <div class="range-scale"><span>500 тис.</span><span>10 млн</span></div>
+          </div>
+          <div class="field">
+            <div class="field-head"><label for="down">Перший внесок</label><output id="downOut"></output></div>
+            <input type="range" id="down" min="20" max="90" step="1" value="20">
+            <div class="range-scale"><span>20%</span><span>90%</span></div>
+          </div>
+          <div class="field">
+            <div class="field-head"><label for="term">Строк кредиту</label><output id="termOut"></output></div>
+            <input type="range" id="term" min="1" max="20" step="1" value="20">
+            <div class="range-scale"><span>1 рік</span><span>20 років</span></div>
+          </div>
+          <div class="field">
+            <div class="field-head"><label>Ставка</label></div>
+            <div class="seg" id="rateSeg">
+              <button type="button" data-rate="3">3% річних<small>Військові, медики, освітяни, науковці, ВПО</small></button>
+              <button type="button" data-rate="7" class="active">7% річних<small>Інші громадяни без власного житла</small></button>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-head"><label>Схема погашення</label></div>
+            <div class="seg" id="typeSeg">
+              <button type="button" data-type="classic" class="active">Класична<small>Тіло рівними частинами, платіж зменшується</small></button>
+              <button type="button" data-type="annuity">Ануїтет<small>Однаковий платіж увесь строк</small></button>
+            </div>
+          </div>
+
+          <div class="subhead">Оренда та прогноз</div>
+          <div class="inputs">
+            <div><label for="area">Площа, м²</label><input type="number" id="area" min="10" max="300" step="1" value="41"></div>
+            <div><label for="rentM2">Оренда, грн/м²</label><input type="number" id="rentM2" min="0" step="1" value="366"></div>
+            <div><label for="fx">Курс $, грн</label><input type="number" id="fx" min="1" step="0.1" value="42.5"></div>
+            <div><label for="fxGrow">Ріст курсу, грн/рік</label><input type="number" id="fxGrow" min="0" step="0.5" value="3"></div>
+            <div><label for="usdInfl">Інфляція $, %/рік</label><input type="number" id="usdInfl" min="0" step="0.5" value="4"></div>
+          </div>
+          <p class="hint">Оренда прив'язана до долара: щороку зростає на інфляцію $ і на ріст курсу. Платіж за іпотекою — у гривні й фіксований договором.</p>
+        </div>
+
+        <div class="card result">
+          <div class="big-lbl" id="monthlyLbl">Щомісячний платіж</div>
+          <div class="big" id="monthly">—</div>
+          <div class="row"><span>Сума кредиту</span><b id="loan">—</b></div>
+          <div class="row"><span>Перший внесок</span><b id="downSum">—</b></div>
+          <div class="row"><span>Переплата (відсотки)</span><b id="over">—</b></div>
+          <div class="row"><span>Загальна сума виплат</span><b id="total">—</b></div>
+          <div class="row"><span>Оренда зараз</span><b id="rentNow">—</b></div>
+          <div class="verdict" id="verdict"></div>
+          <p class="note">Розрахунок орієнтовний. Не враховує страхування, оцінку та нотаріальні витрати. Прогноз курсу й інфляції — припущення.</p>
+          <a href="#contact" class="btn">Отримати точний розрахунок</a>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-head">
+          <div>
+            <h3>Платіж за іпотекою vs оренда, грн/міс</h3>
+            <p>Середній щомісячний платіж у кожному році кредиту</p>
+          </div>
+          <div class="legend">
+            <span><i style="background:var(--c-mortgage)"></i>Іпотека</span>
+            <span><i style="background:var(--c-rent)"></i>Оренда</span>
+          </div>
+        </div>
+        <div class="chart-wrap" id="chartWrap">
+          <svg id="chart" viewBox="0 0 1000 380" role="img" aria-label="Графік: щомісячний платіж за іпотекою порівняно з орендою по роках"></svg>
+          <div class="tip" id="tip"></div>
+        </div>
+      </div>
+
+      <div class="schedule">
+        <div class="schedule-head">
+          <h3>Графік виплат по роках</h3>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Рік</th><th>Іпотека, грн/міс</th><th>Оренда, грн/міс</th><th>Тіло за рік</th><th>Відсотки за рік</th><th>Залишок боргу</th></tr></thead>
+            <tbody id="schedule"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CONDITIONS -->
+  <section id="conditions" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Умови єОселя</div>
+      <h2>Хто може отримати пільгову іпотеку</h2>
+      <p class="section-lead">Ставка залежить від категорії позичальника. Основна вимога — відсутність власного житла понад встановлену норму площі.</p>
+      <div class="grid-3">
+        <div class="card cond">
+          <span class="tag">3%</span>
+          <h3>Пільгові категорії</h3>
+          <ul>
+            <li>Військовослужбовці ЗСУ, НГУ, СБУ, ДПСУ та інших формувань</li>
+            <li>Медичні працівники</li>
+            <li>Педагогічні та науково-педагогічні працівники</li>
+            <li>Наукові працівники</li>
+            <li>Ветерани війни та внутрішньо переміщені особи</li>
+          </ul>
+        </div>
+        <div class="card cond">
+          <span class="tag orange">7%</span>
+          <h3>Інші громадяни</h3>
+          <ul>
+            <li>Громадяни України без власного житла</li>
+            <li>Або з житлом, площа якого менша за норму</li>
+            <li>Достатній офіційний дохід для обслуговування кредиту</li>
+          </ul>
+        </div>
+        <div class="card cond">
+          <span class="tag">20 р.</span>
+          <h3>Параметри кредиту</h3>
+          <ul>
+            <li>Перший внесок — від 20%</li>
+            <li>Строк — до 20 років</li>
+            <li>Житло не старше 3 років (або новобудова)</li>
+            <li>Обмеження за площею та вартістю 1 м²</li>
+          </ul>
+        </div>
+      </div>
+      <p class="disclaimer">* Умови програми можуть змінюватися. Актуальні вимоги уточнюйте на консультації або на офіційному сайті програми «єОселя».</p>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section id="benefits">
+    <div class="container">
+      <div class="eyebrow">Переваги</div>
+      <h2>Чому обирають AgroPartners</h2>
+      <p class="section-lead">Беремо на себе всю складну частину — ви отримуєте ключі від нового житла.</p>
+      <div class="grid-3">
+        <div class="card benefit"><div class="icon">🏠</div><h3>Підбір об'єкта</h3><p>Знаходимо житло, яке відповідає вимогам програми та вашому бюджету.</p></div>
+        <div class="card benefit"><div class="icon">📋</div><h3>Документи під ключ</h3><p>Готуємо пакет документів і супроводжуємо подання заявки в «Дії».</p></div>
+        <div class="card benefit"><div class="icon">🏦</div><h3>Робота з банками</h3><p>Допомагаємо обрати банк-партнер і пройти верифікацію без зайвих відмов.</p></div>
+        <div class="card benefit"><div class="icon">⚖️</div><h3>Юридична перевірка</h3><p>Перевіряємо забудовника та чистоту об'єкта перед підписанням угоди.</p></div>
+        <div class="card benefit"><div class="icon">💰</div><h3>Інвестиційний підхід</h3><p>Підказуємо, як житло може приносити дохід — оренда, перепродаж, капіталізація.</p></div>
+        <div class="card benefit"><div class="icon">🤝</div><h3>Супровід до угоди</h3><p>Персональний менеджер на зв'язку на кожному етапі — до отримання ключів.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section class="section-white">
+    <div class="container">
+      <div class="eyebrow">Як це працює</div>
+      <h2>4 кроки до власного житла</h2>
+      <p class="section-lead">Прозорий процес без зайвих візитів і черг.</p>
+      <div class="steps">
+        <div class="step"><h3>Консультація</h3><p>Оцінюємо ваші можливості та категорію за програмою.</p></div>
+        <div class="step"><h3>Підбір житла</h3><p>Обираємо об'єкт, що відповідає вимогам єОселя.</p></div>
+        <div class="step"><h3>Заявка та банк</h3><p>Подаємо заявку в «Дії» та проходимо погодження банку.</p></div>
+        <div class="step"><h3>Угода та ключі</h3><p>Підписуємо договір у нотаріуса — ви отримуєте ключі.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="eyebrow">Часті питання</div>
+      <h2>Відповіді на популярні запитання</h2>
+      <div class="faq" style="margin-top:32px">
+        <details open>
+          <summary>Хто може взяти іпотеку під 3%?</summary>
+          <p>Військовослужбовці, ветерани, медики, освітяни, науковці та внутрішньо переміщені особи. Інші громадяни можуть отримати кредит під 7% річних.</p>
+        </details>
+        <details>
+          <summary>Який мінімальний перший внесок?</summary>
+          <p>Як правило — від 20% вартості житла. Для окремих категорій можуть діяти знижені вимоги, уточнюйте на консультації.</p>
+        </details>
+        <details>
+          <summary>Чи можна купити житло на вторинному ринку?</summary>
+          <p>Так, якщо будинку не більше 3 років (з моменту введення в експлуатацію) і об'єкт відповідає обмеженням за площею та вартістю.</p>
+        </details>
+        <details>
+          <summary>Чи можна погасити кредит достроково?</summary>
+          <p>Так, дострокове погашення дозволене без штрафних санкцій — це зменшить загальну переплату.</p>
+        </details>
+        <details>
+          <summary>Скільки коштують послуги AgroPartners?</summary>
+          <p>Перша консультація безкоштовна. Вартість повного супроводу залежить від обсягу робіт — розрахуємо індивідуально.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="padding-top:0">
+    <div class="container">
+      <div class="contact">
+        <div>
+          <h2>Отримайте безкоштовну консультацію</h2>
+          <p>Залиште контакти — експерт AgroPartners зателефонує протягом робочого дня, перевірить вашу відповідність програмі та підготує точний розрахунок.</p>
+        </div>
+        <div>
+          <form id="leadForm">
+            <input class="input" name="name" placeholder="Ваше ім'я" required autocomplete="name">
+            <input class="input" name="phone" type="tel" placeholder="+380 (__) ___-__-__" required autocomplete="tel" pattern="[\d\s\+\-\(\)]{10,}">
+            <select class="input" name="category">
+              <option value="">Ваша категорія (необов'язково)</option>
+              <option>Військовослужбовець / ветеран</option>
+              <option>Медик</option>
+              <option>Освітянин / науковець</option>
+              <option>ВПО</option>
+              <option>Інше</option>
+            </select>
+            <button class="btn" type="submit">НАДІСЛАТИ ЗАЯВКУ</button>
+            <div class="form-note">Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних.</div>
+          </form>
+          <div class="thanks" id="thanks">Дякуємо! Заявку отримано — ми зв'яжемося з вами найближчим часом.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> AgroPartners — платформа нерухомості та іпотеки</div>
+    <div>Інформація на сайті не є публічною офертою.</div>
+  </div>
+</footer>
+
+<script>
+  const fmt = n => Math.round(n).toLocaleString('uk-UA').replace(/[ ,]/g, ' ') + ' грн';
+  const fmtShort = n => n >= 1000 ? Math.round(n / 1000) + ' тис.' : Math.round(n) + '';
+  const $ = id => document.getElementById(id);
+  let rate = 7, type = 'classic';
+
+  function yearsLabel(n) {
+    const m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return n + ' рік';
+    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return n + ' роки';
+    return n + ' років';
+  }
+  const num = id => Math.max(0, parseFloat($(id).value) || 0);
+
+  function calc() {
+    const price = +$('price').value;
+    const downPct = +$('down').value;
+    const years = +$('term').value;
+    const downSum = price * downPct / 100;
+    const loan = price - downSum;
+    const n = years * 12;
+    const r = rate / 100 / 12;
+    const annuity = r === 0 ? loan / n : loan * r / (1 - Math.pow(1 + r, -n));
+    const bodyFixed = loan / n;
+
+    const area = num('area'), rentM2 = num('rentM2'), fx0 = num('fx') || 1, fxGrow = num('fxGrow'), infl = num('usdInfl') / 100;
+    const rent0 = area * rentM2;
+
+    // month-by-month schedule, aggregated per year
+    let balance = loan, totalPaid = 0, firstPay = 0, lastPay = 0;
+    const rows = [];
+    for (let y = 1; y <= years; y++) {
+      let interestY = 0, principalY = 0;
+      for (let m = 0; m < 12; m++) {
+        const interest = balance * r;
+        const principal = Math.min(type === 'classic' ? bodyFixed : annuity - interest, balance);
+        const pay = principal + interest;
+        if (y === 1 && m === 0) firstPay = pay;
+        lastPay = pay;
+        interestY += interest; principalY += principal; balance -= principal; totalPaid += pay;
+      }
+      const fxY = fx0 + fxGrow * (y - 1);
+      const rentY = rent0 * Math.pow(1 + infl, y - 1) * fxY / fx0;
+      rows.push({ y, mortgage: (interestY + principalY) / 12, rent: rentY, principalY, interestY, balance: Math.max(balance, 0) });
+    }
+
+    $('priceOut').textContent = fmt(price);
+    $('downOut').textContent = downPct + '% · ' + fmt(downSum);
+    $('termOut').textContent = yearsLabel(years);
+    if (type === 'classic') {
+      $('monthlyLbl').textContent = 'Щомісячний платіж (перший → останній)';
+      $('monthly').innerHTML = fmt(firstPay) + '<span style="font-size:.45em;opacity:.8;font-weight:700"> → ' + fmt(lastPay) + '</span>';
+    } else {
+      $('monthlyLbl').textContent = 'Щомісячний платіж';
+      $('monthly').textContent = fmt(annuity);
+    }
+    $('loan').textContent = fmt(loan);
+    $('downSum').textContent = fmt(downSum);
+    $('over').textContent = fmt(totalPaid - loan);
+    $('total').textContent = fmt(totalPaid);
+    $('rentNow').textContent = fmt(rent0) + '/міс';
+
+    const cross = rows.find(d => d.mortgage <= d.rent);
+    let verdict;
+    if (!rent0) verdict = 'Вкажіть вартість оренди, щоб порівняти з іпотекою.';
+    else if (cross && cross.y === 1) verdict = 'Платіж за іпотекою <b>вже з першого року менший</b> за оренду такої квартири.';
+    else if (cross) verdict = 'Платіж за іпотекою стане меншим за оренду на <b>' + cross.y + '-й рік</b> (' + fmt(cross.mortgage) + ' проти ' + fmt(cross.rent) + ' на місяць).';
+    else verdict = 'За ' + yearsLabel(years) + ' платіж за іпотекою не стає меншим за оренду — спробуйте більший внесок або довший строк.';
+    $('verdict').innerHTML = verdict;
+
+    $('schedule').innerHTML = rows.map(d =>
+      `<tr><td>${d.y}</td><td>${fmt(d.mortgage)}</td><td>${fmt(d.rent)}</td><td>${fmt(d.principalY)}</td><td>${fmt(d.interestY)}</td><td>${fmt(d.balance)}</td></tr>`).join('');
+
+    drawChart(rows, cross);
+  }
+
+  // ---------- chart (plain SVG) ----------
+  const css = getComputedStyle(document.documentElement);
+  const C_M = css.getPropertyValue('--c-mortgage').trim(), C_R = css.getPropertyValue('--c-rent').trim();
+  let chartState = null;
+
+  function niceMax(v) {
+    const p = Math.pow(10, Math.floor(Math.log10(v)));
+    for (const k of [1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) if (k * p >= v) return k * p;
+    return 10 * p;
+  }
+
+  function drawChart(rows, cross) {
+    const svg = $('chart');
+    const W = Math.max($('chartWrap').clientWidth, 280), small = W < 600;
+    const H = small ? 280 : 380, L = small ? 46 : 70, R = small ? 62 : 90, T = 20, B = 44;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const maxV = niceMax(Math.max(...rows.map(d => Math.max(d.mortgage, d.rent)), 1) * 1.05);
+    const n = rows.length;
+    const x = i => n === 1 ? L + (W - L - R) / 2 : L + i * (W - L - R) / (n - 1);
+    const y = v => T + (H - T - B) * (1 - v / maxV);
+    let s = '';
+    // grid + y labels
+    for (let k = 0; k <= 4; k++) {
+      const v = maxV * k / 4, yy = y(v);
+      s += `<line x1="${L}" x2="${W - R}" y1="${yy}" y2="${yy}" stroke="#e3e8ee" stroke-width="1"/>`;
+      s += `<text x="${L - 10}" y="${yy + 4}" text-anchor="end" font-size="13" fill="#5b6676">${fmtShort(v)}</text>`;
+    }
+    // x labels
+    const step = n > (small ? 6 : 12) ? (small ? Math.ceil(n / 6) : 2) : 1;
+    rows.forEach((d, i) => {
+      if ((i % step === 0 && i < n - 2) || i === n - 1) s += `<text x="${x(i)}" y="${H - B + 22}" text-anchor="middle" font-size="13" fill="#5b6676">${d.y}</text>`;
+    });
+    s += `<text x="${(L + W - R) / 2}" y="${H - 4}" text-anchor="middle" font-size="12" fill="#8a94a3">рік кредиту</text>`;
+    // crossover band
+    if (cross && cross.y > 1) {
+      const i = cross.y - 1;
+      s += `<line x1="${x(i)}" x2="${x(i)}" y1="${T}" y2="${H - B}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+      const lbl = small ? `з ${cross.y}-го року` : `з ${cross.y}-го року іпотека дешевша`;
+      s += `<text x="${x(i) + 8}" y="${T + 14}" font-size="13" font-weight="700" fill="#1e293b">${lbl}</text>`;
+    }
+    const path = key => rows.map((d, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(d[key]).toFixed(1)).join(' ');
+    s += `<path d="${path('rent')}" fill="none" stroke="${C_R}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    s += `<path d="${path('mortgage')}" fill="none" stroke="${C_M}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    // direct labels at line ends
+    const last = rows[n - 1];
+    let ym = y(last.mortgage), yr = y(last.rent);
+    if (Math.abs(ym - yr) < 18) { const mid = (ym + yr) / 2; if (ym < yr) { ym = mid - 9; yr = mid + 9; } else { ym = mid + 9; yr = mid - 9; } }
+    s += `<text x="${x(n - 1) + 10}" y="${ym + 4}" font-size="13" font-weight="700" fill="#1e293b">Іпотека</text>`;
+    s += `<text x="${x(n - 1) + 10}" y="${yr + 4}" font-size="13" font-weight="700" fill="#1e293b">Оренда</text>`;
+    // crossover marker
+    if (cross) {
+      const i = cross.y - 1;
+      s += `<circle cx="${x(i)}" cy="${y(cross.mortgage)}" r="6" fill="${C_M}" stroke="#fff" stroke-width="2"/>`;
+    }
+    // hover layer
+    s += `<g id="hover" style="display:none"><line id="hLine" y1="${T}" y2="${H - B}" stroke="#1e293b" stroke-width="1" opacity=".35"/>` +
+         `<circle id="hM" r="5" fill="${C_M}" stroke="#fff" stroke-width="2"/><circle id="hR" r="5" fill="${C_R}" stroke="#fff" stroke-width="2"/></g>`;
+    s += `<rect id="hit" x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent"/>`;
+    svg.innerHTML = s;
+    chartState = { rows, x, y, W, H, n };
+  }
+
+  function onMove(evt) {
+    if (!chartState) return;
+    const { rows, x, y, n, W, H } = chartState;
+    const svg = $('chart'), pt = svg.getBoundingClientRect();
+    const cx = ((evt.touches ? evt.touches[0].clientX : evt.clientX) - pt.left) * W / pt.width;
+    let i = 0, best = Infinity;
+    for (let k = 0; k < n; k++) { const dd = Math.abs(x(k) - cx); if (dd < best) { best = dd; i = k; } }
+    const d = rows[i];
+    $('hover').style.display = '';
+    $('hLine').setAttribute('x1', x(i)); $('hLine').setAttribute('x2', x(i));
+    $('hM').setAttribute('cx', x(i)); $('hM').setAttribute('cy', y(d.mortgage));
+    $('hR').setAttribute('cx', x(i)); $('hR').setAttribute('cy', y(d.rent));
+    const diff = d.rent - d.mortgage;
+    const tip = $('tip');
+    tip.innerHTML = `<b>${d.y}-й рік</b><br><span class="sw" style="background:${C_M}"></span>Іпотека: ${fmt(d.mortgage)}<br>` +
+      `<span class="sw" style="background:${C_R}"></span>Оренда: ${fmt(d.rent)}<br>` +
+      (diff >= 0 ? `Іпотека дешевша на ${fmt(diff)}` : `Оренда дешевша на ${fmt(-diff)}`);
+    tip.style.opacity = 1;
+    const px = x(i) * pt.width / W, wrapW = $('chartWrap').clientWidth;
+    const tw = tip.offsetWidth;
+    tip.style.left = Math.min(Math.max(px - tw / 2, 0), wrapW - tw) + 'px';
+    tip.style.top = (Math.min(y(d.mortgage), y(d.rent)) * pt.height / H - tip.offsetHeight - 14) + 'px';
+  }
+  function onLeave() { $('tip').style.opacity = 0; const h = $('hover'); if (h) h.style.display = 'none'; }
+  $('chart').addEventListener('mousemove', onMove);
+  $('chart').addEventListener('touchmove', onMove, { passive: true });
+  $('chart').addEventListener('touchstart', onMove, { passive: true });
+  $('chart').addEventListener('mouseleave', onLeave);
+
+  ['price', 'down', 'term', 'area', 'rentM2', 'fx', 'fxGrow', 'usdInfl'].forEach(id => $(id).addEventListener('input', calc));
+  function segment(id, onPick) {
+    document.querySelectorAll('#' + id + ' button').forEach(b => b.addEventListener('click', () => {
+      document.querySelectorAll('#' + id + ' button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      onPick(b);
+      calc();
+    }));
+  }
+  segment('rateSeg', b => rate = +b.dataset.rate);
+  segment('typeSeg', b => type = b.dataset.type);
+  calc();
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(calc, 150); });
+
+  // mobile menu
+  const menu = $('menu'), burger = $('burger');
+  burger.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+  // випадний список «Зошити»: клік для дотикових екранів, закриття кліком поза ним
+  const drop = $('menuDrop'), dropBtn = $('dropBtn');
+  dropBtn.addEventListener('click', () => dropBtn.setAttribute('aria-expanded', drop.classList.toggle('open')));
+  document.addEventListener('click', e => { if (!drop.contains(e.target)) { drop.classList.remove('open'); dropBtn.setAttribute('aria-expanded', false); } });
+
+  // lead form (demo: no backend yet)
+  $('leadForm').addEventListener('submit', e => {
+    e.preventDefault();
+    e.target.style.display = 'none';
+    $('thanks').style.display = 'block';
+  });
+
+  $('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

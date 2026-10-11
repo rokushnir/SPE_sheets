@@ -2,25 +2,25 @@
 
 П’ятнадцять рухливих ігор за притчами з книги «Історії і притчі для особистісного зростання». У кожній грі учасники стають персонажами притчі і рухаються простором, а під час руху щось відбувається. Наприкінці кожен обирає, і від вибору залежить один із кількох фіналів.
 
-**Відкрити як сайт:** [головна сторінка](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/index.html)
+**Відкрити як сайт:** [головна сторінка](https://rokushnir.github.io/SPE_sheets/prytchi.html)
 
 | № | Гра | Притча | Формат | Сторінка | Markdown |
 |---|---|---|---|---|---|
-| 01 | **Гілка над проваллям** | «Атеїст» | Гра наосліп за голосом провідника | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/01-hilka-nad-provallyam.html) | [читати](md/01-hilka-nad-provallyam.md) |
-| 02 | **Подвір’я** | «Орел, який став куркою» | Рольова гра-хроніка за сезонами | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/02-podvirya.html) | [читати](md/02-podvirya.md) |
-| 03 | **Переправа** | «Жінка і ченці» | Естафета з вантажем | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/03-pereprava.html) | [читати](md/03-pereprava.md) |
-| 04 | **Два однакові світи** | «Рай і пекло» | Соціальний експеримент у двох дзеркальних зонах | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/04-dva-odnakovi-svity.html) | [читати](md/04-dva-odnakovi-svity.md) |
-| 05 | **Вакансія Лисиці** | «Лісова демократія» | Гра на вибування з перестановками («кадрові стільці») | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/05-vakansiya-lysytsi.html) | [читати](md/05-vakansiya-lysytsi.md) |
-| 06 | **Не цвірінькай!** | «Історія одного горобчика» | Стелс-гра на тишу і завмирання | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/06-ne-tsvirinkay.html) | [читати](md/06-ne-tsvirinkay.md) |
-| 07 | **Двері султана** | «Важкі двері» | Квест-кімната | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/07-dveri-sultana.html) | [читати](md/07-dveri-sultana.md) |
-| 08 | **Перехрестя на Багдад** | «Запитання» | Орієнтування з контрольними пунктами | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/08-perekhrestya-na-bahdad.html) | [читати](md/08-perekhrestya-na-bahdad.md) |
-| 09 | **Шлях до озера** | «Про лицаря і дракона» | Жива настільна гра | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/09-shlyakh-do-ozera.html) | [читати](md/09-shlyakh-do-ozera.md) |
-| 10 | **Вічна мелодія** | «Притча про скрипаля» | Ритмічне коло і бодіперкусія | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/10-vichna-melodiya.html) | [читати](md/10-vichna-melodiya.md) |
-| 11 | **98 перлин** | «Намисто» | Детектив із допитами | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/11-98-perlyn.html) | [читати](md/11-98-perlyn.md) |
-| 12 | **Тісна хата** | «Коза» | Просторовий фізичний челендж | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/12-tisna-khata.html) | [читати](md/12-tisna-khata.md) |
-| 13 | **Базар** | «Ініціатива» | Економічна симуляція | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/13-bazar.html) | [читати](md/13-bazar.md) |
-| 14 | **Слоняча мотузка** | «Про мотузку, яка втримує слона» | Смуга перешкод із невидимими межами | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/14-slonyacha-motuzka.html) | [читати](md/14-slonyacha-motuzka.md) |
-| 15 | **Верблюд на мурі** | «Спокуса очевидним» | Інженерний командний виклик | [відкрити](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/15-verblyud-na-muri.html) | [читати](md/15-verblyud-na-muri.md) |
+| 01 | **Гілка над проваллям** | «Атеїст» | Гра наосліп за голосом провідника | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-01-hilka-nad-provallyam.html) | [читати](md/01-hilka-nad-provallyam.md) |
+| 02 | **Подвір’я** | «Орел, який став куркою» | Рольова гра-хроніка за сезонами | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-02-podvirya.html) | [читати](md/02-podvirya.md) |
+| 03 | **Переправа** | «Жінка і ченці» | Естафета з вантажем | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-03-pereprava.html) | [читати](md/03-pereprava.md) |
+| 04 | **Два однакові світи** | «Рай і пекло» | Соціальний експеримент у двох дзеркальних зонах | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-04-dva-odnakovi-svity.html) | [читати](md/04-dva-odnakovi-svity.md) |
+| 05 | **Вакансія Лисиці** | «Лісова демократія» | Гра на вибування з перестановками («кадрові стільці») | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-05-vakansiya-lysytsi.html) | [читати](md/05-vakansiya-lysytsi.md) |
+| 06 | **Не цвірінькай!** | «Історія одного горобчика» | Стелс-гра на тишу і завмирання | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-06-ne-tsvirinkay.html) | [читати](md/06-ne-tsvirinkay.md) |
+| 07 | **Двері султана** | «Важкі двері» | Квест-кімната | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-07-dveri-sultana.html) | [читати](md/07-dveri-sultana.md) |
+| 08 | **Перехрестя на Багдад** | «Запитання» | Орієнтування з контрольними пунктами | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-08-perekhrestya-na-bahdad.html) | [читати](md/08-perekhrestya-na-bahdad.md) |
+| 09 | **Шлях до озера** | «Про лицаря і дракона» | Жива настільна гра | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-09-shlyakh-do-ozera.html) | [читати](md/09-shlyakh-do-ozera.md) |
+| 10 | **Вічна мелодія** | «Притча про скрипаля» | Ритмічне коло і бодіперкусія | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-10-vichna-melodiya.html) | [читати](md/10-vichna-melodiya.md) |
+| 11 | **98 перлин** | «Намисто» | Детектив із допитами | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-11-98-perlyn.html) | [читати](md/11-98-perlyn.md) |
+| 12 | **Тісна хата** | «Коза» | Просторовий фізичний челендж | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-12-tisna-khata.html) | [читати](md/12-tisna-khata.md) |
+| 13 | **Базар** | «Ініціатива» | Економічна симуляція | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-13-bazar.html) | [читати](md/13-bazar.md) |
+| 14 | **Слоняча мотузка** | «Про мотузку, яка втримує слона» | Смуга перешкод із невидимими межами | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-14-slonyacha-motuzka.html) | [читати](md/14-slonyacha-motuzka.md) |
+| 15 | **Верблюд на мурі** | «Спокуса очевидним» | Інженерний командний виклик | [відкрити](https://rokushnir.github.io/SPE_sheets/prytchi-15-verblyud-na-muri.html) | [читати](md/15-verblyud-na-muri.md) |
 
 ## Як побудована кожна гра
 

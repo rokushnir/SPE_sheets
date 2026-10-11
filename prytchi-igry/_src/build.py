@@ -4,7 +4,7 @@
     python3 prytchi-igry/_src/build.py [--artifacts DIR] [--urls urls.json]
 
 Результат:
-    prytchi-igry/index.html, prytchi-igry/<slug>.html  — повні HTML-сторінки (GitHub Pages, htmlpreview)
+    prytchi.html, prytchi-<slug>.html (у корені)        — повні HTML-сторінки для GitHub Pages
     prytchi-igry/README.md, prytchi-igry/md/<slug>.md  — Markdown, що відкривається прямо на GitHub
     --artifacts DIR — фрагменти сторінок для публікації як окремі артефакти Claude
 """
@@ -19,8 +19,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import data  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO_ROOT = os.path.dirname(ROOT)
 REPO = "rokushnir/SPE_sheets"
-BRANCH = "claude/wizardly-rubin-l3togl"
+BRANCH = "main"
+PAGES = "https://rokushnir.github.io/SPE_sheets"
 FOLDER = "prytchi-igry"
 COLLECTION = "Притчі в русі"
 
@@ -431,14 +433,18 @@ def index_fragment(links, github_url=None):
 
 # ----------------------------------------------------------------- Markdown
 
-def preview_url(path):
-    return f"https://htmlpreview.github.io/?https://github.com/{REPO}/blob/{BRANCH}/{FOLDER}/{path}"
+def html_name(slug):
+    return "prytchi.html" if slug == "index" else f"prytchi-{slug}.html"
+
+
+def preview_url(slug):
+    return f"{PAGES}/{html_name(slug)}"
 
 
 def game_md(i, g):
     num = f"{i + 1:02d}"
     out = [
-        f"[← Усі ігри](../README.md) · [Відкрити як сторінку]({preview_url(g['slug'] + '.html')})",
+        f"[← Усі ігри](../README.md) · [Відкрити як сторінку]({preview_url(g['slug'])})",
         "",
         f"# {num}. {g['game']}",
         "",
@@ -480,7 +486,7 @@ def readme_md(artifact_urls):
         "",
         data.INTRO,
         "",
-        f"**Відкрити як сайт:** [головна сторінка]({preview_url('index.html')})",
+        f"**Відкрити як сайт:** [головна сторінка]({preview_url('index')})",
         "",
         "| № | Гра | Притча | Формат | Сторінка | Markdown |",
         "|---|---|---|---|---|---|",
@@ -488,7 +494,7 @@ def readme_md(artifact_urls):
     for i, g in enumerate(data.GAMES):
         out.append(
             f"| {i + 1:02d} | **{g['game']}** | «{g['parable']}» | {g['format']} | "
-            f"[відкрити]({preview_url(g['slug'] + '.html')}) | [читати](md/{g['slug']}.md) |"
+            f"[відкрити]({preview_url(g['slug'])}) | [читати](md/{g['slug']}.md) |"
         )
     out += ["", "## Як побудована кожна гра", ""]
     out += [f"{k + 1}. **{a}.** {b}" for k, (a, b) in enumerate(data.STRUCTURE)]
@@ -519,15 +525,15 @@ def main():
     args = ap.parse_args()
 
     # Повні сторінки для GitHub
-    rel = {"index": "index.html"}
-    rel.update({g["slug"]: f"{g['slug']}.html" for g in data.GAMES})
+    rel = {"index": html_name("index")}
+    rel.update({g["slug"]: html_name(g["slug"]) for g in data.GAMES})
     os.makedirs(os.path.join(ROOT, "md"), exist_ok=True)
     for i, g in enumerate(data.GAMES):
-        with open(os.path.join(ROOT, f"{g['slug']}.html"), "w", encoding="utf-8") as f:
+        with open(os.path.join(REPO_ROOT, rel[g["slug"]]), "w", encoding="utf-8") as f:
             f.write(full_document(game_fragment(i, g, rel)))
         with open(os.path.join(ROOT, "md", f"{g['slug']}.md"), "w", encoding="utf-8") as f:
             f.write(game_md(i, g))
-    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
+    with open(os.path.join(REPO_ROOT, rel["index"]), "w", encoding="utf-8") as f:
         f.write(full_document(index_fragment(rel)))
     with open(os.path.join(ROOT, "README.md"), "w", encoding="utf-8") as f:
         f.write(readme_md({}))

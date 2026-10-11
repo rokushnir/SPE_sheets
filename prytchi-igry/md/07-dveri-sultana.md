@@ -1,4 +1,4 @@
-[← Усі ігри](../README.md) · [Відкрити як сторінку](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/07-dveri-sultana.html)
+[← Усі ігри](../README.md) · [Відкрити як сторінку](https://rokushnir.github.io/SPE_sheets/prytchi-07-dveri-sultana.html)
 
 # 07. Двері султана
 

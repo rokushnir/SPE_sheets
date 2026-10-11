@@ -1,0 +1,1382 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMART-лабораторія</title>
+<meta name="description" content="Інтерактивна SMART-лабораторія Campus13: напиши свою ціль — і Смарті перевірить, чи вона конкретна, вимірювана, досяжна, мотивуюча й обмежена в часі.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #3fd49f;
+    --green-deep: #14a874;
+    --green-soft: #e3f8ef;
+    --green-glow: rgba(63, 212, 159, .35);
+    --ink: #1d2433;
+    --muted: #6b7280;
+    --faint: #a3a9b3;
+    --page: #f3f3f3;
+    --panel: #ffffff;
+    --line: #e4e6ea;
+    --gold: #f5b82e;
+    --gold-soft: #fff4d6;
+    --red: #ef5b5b;
+    --red-soft: #ffe3e3;
+    --blue: #4d8dff;
+    --blue-soft: #e2edff;
+    --pink: #ff5c9a;
+    --pink-soft: #ffe4ef;
+    --violet: #8b5cf6;
+    --violet-soft: #efe7ff;
+    --shadow: 0 10px 30px rgba(29, 36, 51, .07);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--page);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  button, input, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  .wrap { width: min(860px, 100% - 32px); margin-inline: auto; }
+
+  /* ---------- HUD ---------- */
+  .hud {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .hud-in { display: flex; align-items: center; gap: 14px; min-height: 70px; padding: 8px 0; }
+  .lvl-ring { position: relative; width: 50px; height: 50px; flex: none; }
+  .lvl-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .lvl-ring circle { fill: none; stroke-width: 5; }
+  .lvl-ring .bg { stroke: var(--green-soft); }
+  .lvl-ring .fg { stroke: var(--green); stroke-linecap: round; transition: stroke-dashoffset .6s cubic-bezier(.2, .9, .3, 1.2), stroke .3s; }
+  .lvl-ring b {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-family: "Unbounded"; font-weight: 800; font-size: 12px;
+  }
+  .hud-main { flex: 1; min-width: 0; }
+  .hud-title { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .hud-title strong { font-family: "Unbounded"; font-size: 14px; }
+  .hud-title span { font-size: 12px; color: var(--muted); }
+  .xpbar { height: 8px; border-radius: 99px; background: var(--green-soft); margin-top: 6px; overflow: hidden; }
+  .xpbar i {
+    display: block; height: 100%; width: 0; border-radius: inherit;
+    background: linear-gradient(90deg, var(--green), #7ee8c2);
+    transition: width .6s cubic-bezier(.2, .9, .3, 1.2);
+  }
+  .pills { display: flex; gap: 6px; flex: none; }
+  .pl {
+    width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+    font-family: "Unbounded"; font-weight: 800; font-size: 14px;
+    background: var(--page); color: var(--faint); transition: background .3s, color .3s, transform .3s;
+    text-decoration: none;
+  }
+  .pl.s2 { background: var(--green); color: #fff; }
+  .pl.s1 { background: var(--gold); color: var(--ink); }
+  .pl.s0 { background: var(--red); color: #fff; }
+  .pl:hover { transform: translateY(-2px); }
+  .pl.blink { animation: plblink 1s infinite; }
+  @keyframes plblink { 50% { background: var(--pink); color: #fff; transform: scale(1.12); } }
+
+  /* ---------- аркуші ---------- */
+  .sheet {
+    background: var(--panel); border-radius: 20px; box-shadow: var(--shadow);
+    padding: 28px; margin-top: 24px;
+  }
+  .kicker { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
+  .title { font-family: "Unbounded"; font-weight: 700; font-size: clamp(22px, 4vw, 30px); line-height: 1.2; margin: 4px 0 8px; }
+  .title em { font-style: normal; color: var(--green-deep); }
+  .lead { margin: 0; color: var(--muted); font-size: 14px; }
+  .h2 { font-family: "Unbounded"; font-weight: 700; font-size: 20px; margin: 0 0 6px; }
+
+  /* ---------- сцена з маскотом ---------- */
+  .stage { display: flex; align-items: center; gap: 18px; margin-top: 18px; }
+  .mascot { width: 170px; flex: none; overflow: visible; }
+  .mascot .body { animation: bob 3s ease-in-out infinite; transform-origin: 100px 170px; }
+  @keyframes bob { 50% { transform: translateY(-5px); } }
+  .mascot.hit .body { animation: wobble .6s; }
+  @keyframes wobble { 25% { transform: rotate(-6deg); } 60% { transform: rotate(4deg); } }
+  .mascot #arrow { transition: transform .7s cubic-bezier(.2, .9, .3, 1.15), opacity .4s; }
+  .mascot #mouth { transition: d .4s; }
+  .mascot .eyes-happy, .mascot .sparks { display: none; }
+  .mascot.super .eyes-normal { display: none; }
+  .mascot.super .eyes-happy, .mascot.super .sparks { display: inline; }
+  .mascot .sparks { animation: twinkle 1.2s infinite; transform-origin: 100px 95px; }
+  @keyframes twinkle { 50% { opacity: .3; transform: scale(1.08); } }
+  .mascot #pupils { transition: transform .4s; }
+
+  .bubble {
+    position: relative; flex: 1; background: var(--page); border-radius: 18px;
+    padding: 14px 18px; font-weight: 700; font-size: 15px; min-height: 64px;
+    display: flex; align-items: center;
+  }
+  .bubble::before {
+    content: ""; position: absolute; left: -10px; top: 50%; margin-top: -10px;
+    border: 10px solid transparent; border-right-color: var(--page); border-left: 0;
+  }
+  .bubble.pop { animation: pop .35s; }
+  @keyframes pop { 40% { transform: scale(1.04); } }
+
+  /* ---------- поле цілі ---------- */
+  .goal-label { display: block; font-weight: 800; font-size: 15px; margin: 24px 0 8px; }
+  .goal {
+    width: 100%; resize: none; overflow: hidden; min-height: 92px;
+    border: 2px dashed var(--green); border-radius: 14px; padding: 14px 16px;
+    font-size: 17px; font-weight: 600; line-height: 1.5; background: #fff;
+    transition: box-shadow .2s, border-color .2s;
+  }
+  .goal:focus { outline: none; border-style: solid; box-shadow: 0 0 0 5px var(--green-glow); }
+  .examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; align-items: center; }
+  .examples > span { font-size: 12px; font-weight: 700; color: var(--muted); }
+  .ex {
+    border: 1.5px solid var(--line); background: var(--panel); border-radius: 99px;
+    padding: 6px 12px; font-weight: 700; font-size: 12px; transition: border-color .2s, transform .2s;
+  }
+  .ex:hover { border-color: var(--green); transform: rotate(-2deg) scale(1.04); }
+
+  /* ---------- лупа ---------- */
+  .lens { margin-top: 22px; background: var(--page); border-radius: 14px; padding: 14px 16px; }
+  .lens-head { font-weight: 800; font-size: 13px; color: var(--muted); }
+  .preview { font-size: 17px; font-weight: 600; line-height: 2; margin-top: 4px; word-wrap: break-word; min-height: 34px; }
+  .preview .ph { color: var(--faint); font-weight: 500; font-size: 14px; }
+  .preview mark { color: inherit; border-radius: 6px; padding: 2px 3px; cursor: help; }
+  .hl-num { background: #cff5e4; box-shadow: inset 0 -2px 0 var(--green-deep); }
+  .hl-time { background: var(--blue-soft); box-shadow: inset 0 -2px 0 var(--blue); }
+  .hl-freq { background: #eef4ff; box-shadow: inset 0 -2px 0 #9dbcff; }
+  .hl-vague { background: var(--gold-soft); text-decoration: underline wavy var(--gold); text-underline-offset: 4px; }
+  .hl-warn { background: #ffe8cc; text-decoration: underline wavy #f08c2e; text-underline-offset: 4px; }
+  .hl-unreal { background: var(--red-soft); text-decoration: underline wavy var(--red); text-underline-offset: 4px; animation: shake 2.4s infinite; display: inline-block; line-height: 1.4; }
+  @keyframes shake { 0%, 88%, 100% { transform: none; } 91% { transform: translateX(-2px) rotate(-1deg); } 95% { transform: translateX(2px) rotate(1deg); } }
+  .hl-ext { background: var(--violet-soft); box-shadow: inset 0 -2px 0 var(--violet); animation: extblink 1.1s infinite; }
+  @keyframes extblink { 50% { background: var(--pink); color: #fff; } }
+  .hl-int { background: var(--pink-soft); box-shadow: inset 0 -2px 0 var(--pink); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .legend span { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; }
+
+  /* ---------- картки літер ---------- */
+  .letters { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+  .L {
+    position: relative; border: 2px dashed var(--line); border-radius: 16px; padding: 16px 16px 14px;
+    display: flex; flex-direction: column; gap: 8px; transition: border-color .3s, background .3s, box-shadow .3s;
+    scroll-margin-top: 90px;
+  }
+  .L:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .L-top { display: flex; align-items: center; gap: 12px; }
+  .L-letter {
+    width: 52px; height: 52px; border-radius: 14px; flex: none; display: grid; place-items: center;
+    font-family: "Unbounded"; font-weight: 800; font-size: 26px; background: var(--page); color: var(--faint);
+    transition: background .3s, color .3s, transform .4s;
+  }
+  .L-name { flex: 1; min-width: 0; }
+  .L-name b { display: block; font-size: 16px; font-weight: 800; }
+  .L-name small { font-size: 11px; color: var(--faint); font-weight: 700; letter-spacing: .4px; text-transform: uppercase; }
+  .L-pic { font-size: 40px; line-height: 1; transition: transform .4s; }
+  .L-q { font-size: 13px; color: var(--muted); font-style: italic; }
+  .st {
+    align-self: flex-start; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 99px;
+    background: var(--page); color: var(--muted);
+  }
+  .L-msg { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .L-msg li { font-size: 14px; font-weight: 600; line-height: 1.4; padding-left: 22px; position: relative; }
+  .L-msg li::before { content: attr(data-i); position: absolute; left: 0; top: 0; }
+  .L-msg li.tip { font-weight: 500; color: var(--muted); font-size: 13px; }
+
+  .L.s2 { border-style: solid; border-color: var(--green); background: var(--green-soft); }
+  .L.s2 .L-letter { background: var(--green); color: #fff; transform: rotate(360deg); }
+  .L.s2 .st { background: var(--green); color: #fff; }
+  .L.s1 { border-style: solid; border-color: var(--gold); background: #fffaf0; }
+  .L.s1 .L-letter { background: var(--gold); color: var(--ink); }
+  .L.s1 .st { background: var(--gold); color: var(--ink); }
+  .L.s0 { border-style: solid; border-color: var(--red); background: #fff7f7; }
+  .L.s0 .L-letter { background: var(--red); color: #fff; }
+  .L.s0 .st { background: var(--red); color: #fff; }
+  .L.s0 .L-pic { transform: rotate(-12deg) scale(.92); }
+  .L.s2 .L-pic { transform: scale(1.1); }
+
+  .L.blink { animation: cardblink 1.1s infinite; }
+  .L.blink .L-letter { animation: letterblink 1.1s infinite; }
+  @keyframes cardblink {
+    0%, 100% { border-color: var(--pink); box-shadow: 0 0 0 0 rgba(255, 92, 154, .0); }
+    50% { border-color: var(--violet); box-shadow: 0 0 0 7px rgba(255, 92, 154, .25); background: var(--pink-soft); }
+  }
+  @keyframes letterblink { 50% { background: var(--pink); color: #fff; transform: scale(1.1) rotate(-6deg); } }
+
+  /* контролери в картках */
+  .ctl { margin-top: 4px; }
+  .ctl label { display: block; font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+  .why {
+    width: 100%; border: 0; border-radius: 10px; padding: 10px 12px; font-size: 14px; font-weight: 600;
+    background: #fff; box-shadow: inset 0 0 0 1.5px var(--line);
+  }
+  .why:focus { outline: none; box-shadow: inset 0 0 0 2px var(--pink); }
+  .L.blink .why { animation: whyglow 1.1s infinite; }
+  @keyframes whyglow { 50% { box-shadow: inset 0 0 0 2px var(--pink), 0 0 0 4px rgba(255, 92, 154, .2); } }
+  .fires { display: flex; align-items: center; gap: 2px; margin-top: 10px; flex-wrap: wrap; }
+  .fires > span { font-size: 12px; font-weight: 700; color: var(--muted); margin-right: 6px; }
+  .fires button { border: 0; background: none; padding: 0 1px; font-size: 22px; line-height: 1; filter: grayscale(1); opacity: .35; transition: transform .15s, filter .2s, opacity .2s; }
+  .fires button.on { filter: none; opacity: 1; }
+  .fires button:hover { transform: scale(1.25) rotate(-8deg); }
+  .belief { display: flex; align-items: center; gap: 10px; }
+  .belief input { flex: 1; accent-color: var(--green-deep); }
+  .belief b { font-size: 26px; width: 34px; text-align: center; }
+  .belief-cap { font-size: 12px; color: var(--muted); font-weight: 700; margin-top: 2px; }
+  .add-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .add-chips button {
+    border: 1.5px dashed var(--blue); background: #fff; color: var(--blue); border-radius: 99px;
+    padding: 5px 11px; font-weight: 800; font-size: 12px;
+  }
+  .add-chips button:hover { background: var(--blue-soft); border-style: solid; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-top: 22px; }
+  .big-btn {
+    border: 0; border-radius: 99px; padding: 12px 20px;
+    background: var(--ink); color: #fff; font-weight: 800; font-size: 14px;
+    transition: transform .15s, background .2s;
+  }
+  .big-btn:hover { transform: translateY(-2px); }
+  .big-btn em { font-style: normal; color: var(--green); }
+  .big-btn.ready { background: var(--green); color: var(--ink); box-shadow: 0 8px 24px var(--green-glow); }
+  .big-btn.ready em { color: var(--ink); }
+  .score-line { font-size: 13px; font-weight: 700; color: var(--muted); }
+
+  /* ---------- конструктор ---------- */
+  details.builder > summary {
+    list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px;
+  }
+  details.builder > summary::-webkit-details-marker { display: none; }
+  .sum-ico { font-size: 34px; }
+  .sum-txt { flex: 1; }
+  .sum-txt b { font-family: "Unbounded"; font-size: 17px; display: block; }
+  .sum-txt small { color: var(--muted); font-size: 13px; }
+  .sum-arr { font-size: 20px; transition: transform .3s; }
+  details[open] .sum-arr { transform: rotate(180deg); }
+  .steps { display: grid; gap: 14px; margin-top: 18px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; }
+  .step-n {
+    flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--green); color: #fff;
+    display: grid; place-items: center; font-family: "Unbounded"; font-weight: 700; font-size: 13px;
+  }
+  .step-b { flex: 1; min-width: 0; }
+  .step-b label { display: block; font-weight: 800; font-size: 14px; }
+  .step-b small { display: block; color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+  .step-b input {
+    width: 100%; border: 0; border-radius: 10px; padding: 10px 12px; font-size: 14px; font-weight: 600;
+    background: var(--page);
+  }
+  .step-b input:focus { outline: 2px solid var(--green); }
+  .built {
+    margin-top: 16px; border-radius: 14px; padding: 14px 16px; background: var(--green-soft);
+    font-weight: 700; font-size: 15px; min-height: 52px;
+  }
+  .built.empty { background: var(--page); color: var(--faint); font-weight: 500; font-size: 13px; }
+
+  /* ---------- колекція ---------- */
+  .goals { display: grid; gap: 12px; margin-top: 16px; }
+  .gcard {
+    position: relative; border-radius: 14px; padding: 14px 16px 12px; background: var(--page);
+    display: grid; gap: 8px; animation: rise .35s both;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+  .gcard.done { background: var(--gold-soft); box-shadow: inset 0 0 0 1.5px var(--gold); }
+  .g-text { font-weight: 700; font-size: 15px; padding-right: 30px; }
+  .gcard.done .g-text::before { content: "🏆 "; }
+  .g-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .g-meta .mini { width: 24px; height: 24px; border-radius: 7px; font-size: 11px; }
+  .g-meta .tag { font-size: 12px; font-weight: 700; color: var(--muted); background: #fff; border-radius: 99px; padding: 3px 9px; }
+  .g-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .g-btns button {
+    border: 1.5px solid var(--line); background: #fff; border-radius: 99px; padding: 5px 12px;
+    font-weight: 700; font-size: 12px;
+  }
+  .g-btns button:hover { border-color: var(--green); }
+  .g-del {
+    position: absolute; top: 8px; right: 8px; border: 0; background: none; color: var(--faint);
+    width: 28px; height: 28px; border-radius: 50%; font-size: 18px;
+  }
+  .g-del:hover, .g-del.armed { background: #fde8e8; color: #c0392b; }
+  .empty-goals { text-align: center; padding: 26px 10px; color: var(--muted); font-size: 14px; }
+  .empty-goals b { display: block; font-size: 40px; }
+
+  /* ---------- нижня панель ---------- */
+  .foot { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 26px 0 60px; }
+  .saved { font-size: 12px; color: var(--muted); }
+  .saved b { color: var(--green-deep); }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tool {
+    border: 1.5px solid var(--line); background: var(--panel); border-radius: 99px;
+    padding: 8px 14px; font-weight: 700; font-size: 13px;
+  }
+  .tool:hover { border-color: var(--green); }
+  .tool.danger.armed { background: #c0392b; border-color: #c0392b; color: #fff; }
+  .page-num { text-align: right; font-size: 12px; color: var(--faint); margin-top: 26px; }
+
+  /* ---------- тост і конфеті ---------- */
+  .toasts { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 60; display: grid; gap: 8px; justify-items: center; pointer-events: none; }
+  .toast {
+    background: var(--ink); color: #fff; border-radius: 14px; padding: 12px 18px;
+    font-weight: 700; font-size: 14px; box-shadow: 0 14px 40px rgba(0, 0, 0, .25);
+    display: flex; align-items: center; gap: 10px; animation: toast 3.4s both;
+    max-width: calc(100vw - 32px);
+  }
+  .toast .big { font-size: 26px; }
+  .toast small { display: block; font-weight: 500; opacity: .75; font-size: 12px; }
+  .toast.lvl { background: linear-gradient(135deg, var(--green-deep), var(--green)); }
+  @keyframes toast {
+    0% { opacity: 0; transform: translateY(20px) scale(.9); }
+    10%, 85% { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: translateY(10px); }
+  }
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 70; }
+
+  @media (max-width: 640px) {
+    .sheet { padding: 22px 16px; border-radius: 16px; }
+    .letters { grid-template-columns: 1fr; }
+    .stage { flex-direction: column; gap: 6px; }
+    .mascot { width: 140px; }
+    .bubble { width: 100%; }
+    .bubble::before { left: 50%; top: -10px; margin: 0 0 0 -10px; border: 10px solid transparent; border-bottom-color: var(--page); border-top: 0; }
+    .hud-title span { display: none; }
+    .pl { width: 28px; height: 28px; font-size: 12px; border-radius: 8px; }
+    .pills { gap: 4px; }
+    .goal, .preview { font-size: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  @media print {
+    body { background: #fff; }
+    .hud, .foot, .toasts, #confetti, .examples, .builder-sheet, .actions, .g-btns, .g-del, .add-chips { display: none !important; }
+    .sheet { box-shadow: none; padding: 0; margin: 0 0 18px; }
+    .L { break-inside: avoid; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hud" aria-label="Сила цілі">
+  <div class="wrap hud-in">
+    <div class="lvl-ring" title="Сила цілі">
+      <svg viewBox="0 0 50 50" aria-hidden="true">
+        <circle class="bg" cx="25" cy="25" r="21"></circle>
+        <circle class="fg" id="ring" cx="25" cy="25" r="21" stroke-dasharray="131.95" stroke-dashoffset="131.95"></circle>
+      </svg>
+      <b id="pctVal">0%</b>
+    </div>
+    <div class="hud-main">
+      <div class="hud-title"><strong id="lvlName">Чекаю ціль</strong><span id="lvlNext">напиши її нижче 👇</span></div>
+      <div class="xpbar"><i id="xpFill"></i></div>
+    </div>
+    <nav class="pills" id="pills" aria-label="Літери SMART"></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="sheet">
+    <div class="kicker">Цілі · Campus13</div>
+    <h1 class="title">SMART-лабораторія: <em>влуч у свою ціль</em></h1>
+    <p class="lead">Напиши ціль своїми словами. Смарті перевірить її за п’ятьма літерами — і підсвітить, що вже влучно, а що летить повз.</p>
+
+    <div class="stage">
+      <svg class="mascot" id="mascot" viewBox="0 0 200 185" role="img" aria-label="Смарті — мішень-талісман">
+        <ellipse cx="100" cy="176" rx="52" ry="6" fill="rgba(29,36,51,.08)"></ellipse>
+        <g class="body">
+          <ellipse cx="74" cy="166" rx="13" ry="7" fill="#14a874"></ellipse>
+          <ellipse cx="126" cy="166" rx="13" ry="7" fill="#14a874"></ellipse>
+          <circle cx="100" cy="95" r="70" fill="#3fd49f"></circle>
+          <circle cx="100" cy="95" r="55" fill="#ffffff"></circle>
+          <circle cx="100" cy="95" r="40" fill="#bdf2dd"></circle>
+          <circle cx="100" cy="95" r="25" fill="#ffffff"></circle>
+          <circle cx="100" cy="95" r="10" fill="#f5b82e"></circle>
+          <g class="eyes-normal">
+            <ellipse cx="76" cy="66" rx="11" ry="12" fill="#fff" stroke="#1d2433" stroke-width="3"></ellipse>
+            <ellipse cx="124" cy="66" rx="11" ry="12" fill="#fff" stroke="#1d2433" stroke-width="3"></ellipse>
+            <g id="pupils">
+              <circle cx="78" cy="69" r="5" fill="#1d2433"></circle>
+              <circle cx="126" cy="69" r="5" fill="#1d2433"></circle>
+              <circle cx="80" cy="67" r="1.6" fill="#fff"></circle>
+              <circle cx="128" cy="67" r="1.6" fill="#fff"></circle>
+            </g>
+          </g>
+          <g class="eyes-happy" fill="none" stroke="#1d2433" stroke-width="4" stroke-linecap="round">
+            <path d="M66 70 Q76 56 86 70"></path>
+            <path d="M114 70 Q124 56 134 70"></path>
+          </g>
+          <ellipse cx="60" cy="96" rx="9" ry="5" fill="#ff8fb5" opacity=".55"></ellipse>
+          <ellipse cx="140" cy="96" rx="9" ry="5" fill="#ff8fb5" opacity=".55"></ellipse>
+          <path id="mouth" d="M88 124 Q100 130 112 124" fill="none" stroke="#1d2433" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+        <g id="arrow" style="transform: translate(90px, -90px); opacity: 0">
+          <line x1="100" y1="95" x2="168" y2="27" stroke="#1d2433" stroke-width="5" stroke-linecap="round"></line>
+          <path d="M160 19 L182 13 L176 35 Z" fill="#ff5c9a"></path>
+          <path d="M154 25 L170 9 M162 33 L178 17" stroke="#ff5c9a" stroke-width="5" stroke-linecap="round"></path>
+        </g>
+        <g class="sparks" fill="#f5b82e">
+          <path d="M22 30 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4z"></path>
+          <path d="M178 120 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"></path>
+          <path d="M30 140 l3 6 6 3 -6 3 -3 6 -3 -6 -6 -3 6 -3z"></path>
+        </g>
+      </svg>
+      <div class="bubble" id="bubble" aria-live="polite"></div>
+    </div>
+
+    <label class="goal-label" for="goal">🎯 Моя ціль</label>
+    <textarea class="goal" id="goal" rows="2" placeholder="Наприклад: хочу бути здоровішим… (а потім подивись, що скаже Смарті)"></textarea>
+    <div class="examples" id="examples"><span>Спробуй приклад:</span></div>
+
+    <div class="lens">
+      <div class="lens-head">🔍 Ціль під лупою — наведи на підсвічене слово</div>
+      <div class="preview" id="preview"></div>
+      <div class="legend">
+        <span class="hl-num">🔢 цифри</span>
+        <span class="hl-time">⏰ дедлайн</span>
+        <span class="hl-freq">🔁 регулярність</span>
+        <span class="hl-vague">🌫️ розмито</span>
+        <span class="hl-warn">🤔 перевір реальність</span>
+        <span class="hl-unreal">🚫 нереально</span>
+        <span class="hl-ext">📢 чужа мотивація</span>
+        <span class="hl-int">💖 твоє «навіщо»</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <h2 class="h2">Перевірка за SMART</h2>
+    <p class="lead">Кожна літера — окрема перевірка. Зелена — влучно, жовта — майже, червона — мимо. А якщо щось мигає рожевим — зверни увагу!</p>
+
+    <div class="letters">
+      <article class="L" id="L-S">
+        <div class="L-top">
+          <div class="L-letter">S</div>
+          <div class="L-name"><b>Конкретна</b><small>Specific</small></div>
+          <div class="L-pic" aria-hidden="true">🔎</div>
+        </div>
+        <div class="L-q">Що саме ти зробиш? Без «краще», «більше» і «якось».</div>
+        <span class="st" id="st-S">чекаю…</span>
+        <ul class="L-msg" id="msg-S"></ul>
+      </article>
+
+      <article class="L" id="L-M">
+        <div class="L-top">
+          <div class="L-letter">M</div>
+          <div class="L-name"><b>Вимірювана</b><small>Measurable</small></div>
+          <div class="L-pic" aria-hidden="true">📏</div>
+        </div>
+        <div class="L-q">Як ти зрозумієш, що вже досяг(-ла)? Де цифри?</div>
+        <span class="st" id="st-M">чекаю…</span>
+        <ul class="L-msg" id="msg-M"></ul>
+      </article>
+
+      <article class="L" id="L-A">
+        <div class="L-top">
+          <div class="L-letter">A</div>
+          <div class="L-name"><b>Досяжна</b><small>Achievable</small></div>
+          <div class="L-pic" aria-hidden="true">🧗</div>
+        </div>
+        <div class="L-q">Це реально з твоїм часом, силами й ресурсами?</div>
+        <span class="st" id="st-A">чекаю…</span>
+        <ul class="L-msg" id="msg-A"></ul>
+        <div class="ctl">
+          <label for="belief">Наскільки ти віриш, що це реально?</label>
+          <div class="belief"><input type="range" id="belief" min="1" max="10" step="1" value="5" aria-describedby="beliefCap"><b id="beliefEmo">❔</b></div>
+          <div class="belief-cap" id="beliefCap">Посунь повзунок</div>
+        </div>
+      </article>
+
+      <article class="L" id="L-R">
+        <div class="L-top">
+          <div class="L-letter">R</div>
+          <div class="L-name"><b>Мотивуюча</b><small>Relevant</small></div>
+          <div class="L-pic" aria-hidden="true">🔥</div>
+        </div>
+        <div class="L-q">Це справді твоя ціль? Чим вона тебе запалює?</div>
+        <span class="st" id="st-R">чекаю…</span>
+        <ul class="L-msg" id="msg-R"></ul>
+        <div class="ctl">
+          <label for="why">Чим воно тебе мотивує?</label>
+          <input class="why" id="why" placeholder="Щоб… / Бо мені… / Я мрію…">
+          <div class="fires" id="fires"><span>Як сильно хочеш?</span></div>
+        </div>
+      </article>
+
+      <article class="L" id="L-T">
+        <div class="L-top">
+          <div class="L-letter">T</div>
+          <div class="L-name"><b>Обмежена в часі</b><small>Time-bound</small></div>
+          <div class="L-pic" aria-hidden="true">⏰</div>
+        </div>
+        <div class="L-q">До коли? Без дедлайну ціль — просто мрія.</div>
+        <span class="st" id="st-T">чекаю…</span>
+        <ul class="L-msg" id="msg-T"></ul>
+        <div class="ctl">
+          <label>Швидко додати дедлайн:</label>
+          <div class="add-chips" id="addChips"></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="actions">
+      <span class="score-line" id="scoreLine">Влучань: 0 з 5</span>
+      <button class="big-btn" id="saveGoal">📌 Зберегти в «Мої цілі»</button>
+    </div>
+  </section>
+
+  <section class="sheet builder-sheet">
+    <details class="builder" id="builder">
+      <summary>
+        <span class="sum-ico" aria-hidden="true">🧩</span>
+        <span class="sum-txt"><b>Конструктор цілі</b><small>Не знаєш, з чого почати? Збери ціль з чотирьох деталей.</small></span>
+        <span class="sum-arr" aria-hidden="true">⌄</span>
+      </summary>
+      <div class="steps">
+        <div class="step"><div class="step-n">1</div><div class="step-b">
+          <label for="bWhat">Що саме ти зробиш? 🔎</label><small>Дія: «пробігти без зупинки», «прочитати», «заробити», «вивчити»</small>
+          <input id="bWhat" placeholder="пробігти без зупинки">
+        </div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-b">
+          <label for="bQty">Скільки? 📏</label><small>Цифра й одиниця: «5 км», «3 книжки», «2000 грн», «300 слів»</small>
+          <input id="bQty" placeholder="5 км">
+        </div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-b">
+          <label for="bDate">До якої дати? ⏰</label><small>Обери день, коли підіб’єш підсумок</small>
+          <input id="bDate" type="date">
+        </div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-b">
+          <label for="bWhy">Навіщо це тобі? 🔥</label><small>Твоя причина, а не чужа: «щоб…»</small>
+          <input id="bWhy" placeholder="почуватися сильнішим і поїхати на змагання">
+        </div></div>
+      </div>
+      <div class="built empty" id="built">Тут з’явиться твоя ціль…</div>
+      <div class="actions" style="margin-top:14px">
+        <span class="score-line">Готово? Перенеси її нагору — і Смарті перевірить.</span>
+        <button class="big-btn" id="useBuilt">✨ Перевірити цю ціль</button>
+      </div>
+    </details>
+  </section>
+
+  <section class="sheet">
+    <h2 class="h2">Мої цілі</h2>
+    <p class="lead" id="goalsLead">Збережені цілі живуть у цьому браузері. Досягнув(-ла) — тисни 🏆!</p>
+    <div class="goals" id="goals"></div>
+    <div class="page-num">SMART-лабораторія · Campus13</div>
+  </section>
+
+  <div class="foot">
+    <div class="saved" id="saved">Усе зберігається автоматично в цьому браузері.</div>
+    <div class="tools">
+      <button class="tool" id="printBtn">🖨️ Друк / PDF</button>
+      <button class="tool danger" id="resetBtn">↺ Почати заново</button>
+    </div>
+  </div>
+</main>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+(() => {
+  const KEY = "campus13-smart-v1";
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const grow = el => { el.style.height = "auto"; el.style.height = el.scrollHeight + "px"; };
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const LETTERS = ["S", "M", "A", "R", "T"];
+
+  const EXAMPLES = [
+    ["🌫️", "Хочу бути здоровішим"],
+    ["📚", "Читати більше книжок"],
+    ["💸", "Заробити мільйон гривень за місяць"],
+    ["📢", "Треба вивчити англійську, бо мама сказала"],
+    ["🏃", "Пробігти 5 км без зупинки до 1 грудня, щоб почуватися сильнішим"],
+  ];
+
+  // ======================================================================
+  //  АНАЛІЗАТОР
+  // ======================================================================
+  const B = "(?<![\\p{L}\\d'])";            // початок слова
+  const E = "(?![\\p{L}'])";                // кінець слова
+  const W = body => new RegExp(B + "(?:" + body + ")" + E, "giu");
+  const all = (re, s) => [...s.matchAll(re)].map(m => ({ s: m.index, e: m.index + m[0].length, m }));
+  const overlaps = (a, list) => list.some(b => a.s < b.e && b.s < a.e);
+
+  const MG = ["січня", "лютого", "березня", "квітня", "травня", "червня", "липня", "серпня", "вересня", "жовтня", "листопада", "грудня"];
+  const ML = ["січні", "лютому", "березні", "квітні", "травні", "червні", "липні", "серпні", "вересні", "жовтні", "листопаді", "грудні"];
+
+  const WN = {
+    "один": 1, "одна": 1, "одне": 1, "одного": 1, "одну": 1, "два": 2, "дві": 2, "двох": 2, "три": 3, "трьох": 3,
+    "чотири": 4, "чотирьох": 4, "п'ять": 5, "п'яти": 5, "шість": 6, "шести": 6, "сім": 7, "семи": 7,
+    "вісім": 8, "восьми": 8, "дев'ять": 9, "дев'яти": 9, "десять": 10, "десяти": 10, "одинадцять": 11,
+    "дванадцять": 12, "п'ятнадцять": 15, "двадцять": 20, "тридцять": 30, "сорок": 40, "п'ятдесят": 50,
+    "сто": 100, "двісті": 200, "триста": 300, "п'ятсот": 500, "півтора": 1.5, "півтори": 1.5,
+    "десяток": 10, "сотню": 100, "сотня": 100, "тисяча": 1e3, "тисячу": 1e3, "тисячі": 1e3, "тисяч": 1e3,
+    "мільйон": 1e6, "мільйона": 1e6, "мільйони": 1e6, "мільйонів": 1e6, "мільйонером": 1e6, "мільйонеркою": 1e6,
+    "мільярд": 1e9, "мільярда": 1e9, "мільярди": 1e9, "мільярдів": 1e9,
+  };
+  const WORDS = Object.keys(WN).sort((a, b) => b.length - a.length).join("|");
+  const NUM_RE = new RegExp(
+    `${B}(?:(\\d{1,3}(?:[ \\u00a0]\\d{3})+(?:[.,]\\d+)?|\\d+(?:[.,]\\d+)?)|(${WORDS})(?![\\p{L}']))` +
+    `(?:\\s*(тисяч\\p{L}*|тис\\.?|мільйон\\p{L}*|млн|мільярд\\p{L}*|млрд|к|k)(?![\\p{L}]))?`, "giu");
+  const SMALLW = "один|одну|два|дві|три|чотири|п'ять|шість|сім|вісім|дев'ять|десять|пів|півтора|півтори|кілька|декілька|пару";
+  const SMALLV = { "один": 1, "одну": 1, "два": 2, "дві": 2, "три": 3, "чотири": 4, "п'ять": 5, "шість": 6, "сім": 7, "вісім": 8, "дев'ять": 9, "десять": 10, "пів": .5, "півтора": 1.5, "півтори": 1.5, "кілька": 3, "декілька": 3, "пару": 2 };
+
+  // ---------- дати ----------
+  const midnight = () => { const t = new Date(); t.setHours(0, 0, 0, 0); return t; };
+  const daysTo = d => Math.round((d - midnight()) / 864e5);
+  const nextDay = (m, d) => {
+    const y = new Date().getFullYear();
+    let x = new Date(y, m, d);
+    if (daysTo(x) < 0) x = new Date(y + 1, m, d);
+    return Math.max(1, daysTo(x));
+  };
+  const endOfMonth = (off = 0) => { const n = new Date(); return Math.max(1, daysTo(new Date(n.getFullYear(), n.getMonth() + 1 + off, 0))); };
+  const toWeekday = wd => { const g = new Date().getDay(); return ((wd - g + 7) % 7) || 7; };
+  const WEEKDAYS = { "неділ": 0, "понеділ": 1, "вівтор": 2, "серед": 3, "четвер": 4, "п'ятниц": 5, "субот": 6 };
+  const wdOf = w => { for (const k in WEEKDAYS) if (w.startsWith(k)) return WEEKDAYS[k]; return null; };
+
+  function periodEnd(word, next) {
+    const w = word.replace(/\s+/g, " ");
+    const now = new Date(), m = now.getMonth();
+    if (w.startsWith("тиж")) return ((7 - now.getDay()) % 7 || 7) + (next ? 7 : 0);
+    if (w.startsWith("міс")) return endOfMonth(next ? 1 : 0);
+    if (w.startsWith("навч")) return nextDay(4, 31);
+    if (w.startsWith("рок") || w.startsWith("рік")) return daysTo(new Date(now.getFullYear() + (next ? 1 : 0), 11, 31)) || 1;
+    if (w.startsWith("літ")) return nextDay(7, 31);
+    if (w.startsWith("зим")) return nextDay(1, 28);
+    if (w.startsWith("осен") || w.startsWith("осін")) return nextDay(10, 30);
+    if (w.startsWith("весн")) return nextDay(4, 31);
+    if (w.startsWith("семестр")) return m <= 4 ? nextDay(4, 31) : nextDay(11, 25);
+    if (w.startsWith("четв")) return 60;
+    if (w.startsWith("канік")) return m >= 5 && m <= 7 ? nextDay(7, 31) : 14;
+    if (w.startsWith("дня") || w.startsWith("день")) return 1;
+    if (w.startsWith("вихідн")) return toWeekday(0);
+    return null;
+  }
+  function periodStart(word) {
+    const w = word.replace(/\s+/g, " ");
+    if (w.startsWith("літ")) return nextDay(5, 1);
+    if (w.startsWith("зим")) return nextDay(11, 1);
+    if (w.startsWith("осен") || w.startsWith("осін")) return nextDay(8, 1);
+    if (w.startsWith("весн")) return nextDay(2, 1);
+    if (w.startsWith("нового")) return nextDay(0, 1);
+    if (w.startsWith("канік")) return Math.min(nextDay(5, 1), nextDay(11, 25));
+    if (w.startsWith("випуск")) return nextDay(5, 20);
+    if (/^(іспит|екзамен|нмт|зно)/.test(w)) return nextDay(4, 20);
+    if (w.startsWith("завтра")) return 1;
+    if (w.startsWith("вихідн")) return toWeekday(6);
+    const wd = wdOf(w);
+    if (wd !== null) return toWeekday(wd);
+    return null; // подія без відомої дати (концерт, день народження…)
+  }
+
+  const MGR = MG.join("|"), MLR = ML.join("|");
+  const TIME_RULES = [
+    [`(?:за|через|протягом)\\s+(?:(\\d+(?:[.,]\\d+)?|${SMALLW})\\s*)?(дн\\p{L}*|день|доб\\p{L}*|тиж\\p{L}*|місяц\\p{L}*|місяць|рік|роки|років|року)`, m => {
+      const n = m[1] ? (SMALLV[m[1]] ?? parseFloat(m[1].replace(",", "."))) : 1;
+      const u = m[2];
+      const k = u.startsWith("тиж") ? 7 : u.startsWith("міс") ? 30 : /^(рік|рок)/.test(u) ? 365 : 1;
+      return Math.max(1, Math.round(n * k));
+    }],
+    [`(?:до|на|по)\\s+(\\d{1,2})[./](\\d{1,2})(?:[./](\\d{2,4}))?`, m => {
+      const d = +m[1], mo = +m[2] - 1;
+      if (mo < 0 || mo > 11 || d < 1 || d > 31) return null;
+      if (m[3]) { const y = m[3].length === 2 ? 2000 + +m[3] : +m[3]; return Math.max(1, daysTo(new Date(y, mo, d))); }
+      return nextDay(mo, d);
+    }],
+    [`(?:(?:до|на|по)\\s+)?(\\d{1,2})(?:-?го)?\\s+(${MGR})(?:\\s+(20\\d\\d)(?:\\s*(?:року|р\\.))?)?`, m => {
+      const mo = MG.indexOf(m[2]);
+      if (m[3]) return Math.max(1, daysTo(new Date(+m[3], mo, +m[1])));
+      return nextDay(mo, +m[1]);
+    }],
+    [`(?:до\\s+кінця|наприкінці)\\s+(${MGR})`, m => { const mo = MG.indexOf(m[1]); return nextDay(mo + 1, 0) || nextDay(mo, 28); }],
+    [`до\\s+(${MGR})`, m => nextDay(MG.indexOf(m[1]), 1)],
+    [`(?:у|в)\\s+(${MLR})`, m => { const mo = ML.indexOf(m[1]); return nextDay(mo + 1, 0); }],
+    [`до\\s+кінця\\s+(тижня|місяця|року|літа|зими|осені|весни|семестру|четверті|канікул|навчального\\s+року|дня|вихідних)`, m => periodEnd(m[1], false)],
+    [`(?:до|перед)\\s+(літа|зими|осені|весни|нового\\s+року|канікул|випускного|іспит\\p{L}*|екзамен\\p{L}*|нмт|зно|дня\\s+народження|понеділка|вівторка|середи|четверга|п'ятниці|суботи|неділі|вихідних|завтра|концерту|змагань|турніру|олімпіади|поїздки|літніх\\s+канікул)`, m => periodStart(m[1])],
+    [`(цього|наступного|цієї|наступної)\\s+(тижня|місяця|року|літа|семестру|осені|весни|зими|четверті)`, m => periodEnd(m[2], m[1].startsWith("наступн"))],
+    [`(?:на|у|в)\\s+(цьому|наступному)\\s+(тижні|місяці|році|семестрі)`, m => periodEnd(m[2].replace(/і$/, "я"), m[1] === "наступному")],
+    [`(влітку|взимку|восени|навесні)`, m => periodEnd({ "влітку": "літа", "взимку": "зими", "восени": "осені", "навесні": "весни" }[m[1]], false)],
+    [`за\\s+(літо|зиму|осінь|весну|семестр|четверть|канікули|навчальний\\s+рік)`, m => periodEnd(m[1], false)],
+    [`(сьогодні|завтра)`, m => (m[1] === "завтра" ? 1 : 1)],
+    [`(?:у|в|до|на)\\s+(20\\d\\d)(?:\\s*(?:році|року|рік|р\\.))?`, m => {
+      const y = +m[1], now = new Date().getFullYear();
+      if (y < now) return null;
+      return Math.max(1, daysTo(new Date(y, 11, 31)));
+    }],
+    [`(?:до|на|у|в)\\s+(понеділок|вівторок|середу|четвер|п'ятницю|суботу|неділю)`, m => toWeekday(wdOf(m[1]))],
+  ].map(([re, fn]) => [W(re), fn]);
+
+  const VAGUE_TIME = W("колись|коли-небудь|згодом|потім|скоро|незабаром|якнайшвидше|якомога\\s+швидше|найближчим\\s+часом|одного\\s+дня|в\\s+майбутньому|у\\s+майбутньому|з\\s+часом|рано\\s+чи\\s+пізно|коли\\s+буде\\s+час");
+  const FREQ = W("щодня|щоденно|щоранку|щовечора|щотижня|щомісяця|щороку|кожн\\p{L}*\\s+(?:день|дня|ранку|ранок|вечора|вечір|тиждень|тижня|місяць|місяця|понеділ\\p{L}*|вівтор\\p{L}*|серед\\p{L}*|четвер\\p{L}*|п'ятниц\\p{L}*|субот\\p{L}*|неділ\\p{L}*|вихідн\\p{L}*|урок\\p{L}*|тренуван\\p{L}*|перерв\\p{L}*)|(?:раз\\p{L}*\\s+)?(?:на|в)\\s+(?:день|тиждень|місяць|добу)|по\\s+(?:понеділк|вівторк|середах|четверг|п'ятниц|суботах|неділях|вихідних)\\p{L}*");
+  const VAGUE = W("краще|кращ\\p{L}*|покращ\\p{L}*|більше|менше|частіше|рідше|щось|якось|десь|трохи|трошки|багато|мало|нормальн\\p{L}*|добре|гарн\\p{L}*|успішн\\p{L}*|щаслив\\p{L}*|здоров\\p{L}*|крут\\p{L}*|класн\\p{L}*|відом\\p{L}*|популярн\\p{L}*|багат\\p{L}*|розумн\\p{L}*|постара\\p{L}*|спробую|спробувати|мабуть|може|кілька|декілька|активн\\p{L}*|продуктивн\\p{L}*|дисципл\\p{L}*|мотивован\\p{L}*|сильн\\p{L}*|стрункі\\p{L}*|красив\\p{L}*|вільн\\p{L}*\\s+час\\p{L}*");
+  const VAGUE_QTY = /^(більше|менше|частіше|рідше|трохи|трошки|багато|мало|кілька|декілька|покращ)/;
+  const ABSOLUTE = W("найкращ\\p{L}*|номер\\s+один|ідеальн\\p{L}*|завжди|ніколи|жодного\\s+разу|без\\s+жодн\\p{L}*|без\\s+вихідних|без\\s+пропусків|на\\s+всі\\s+12|на\\s+відмінно\\s+з\\s+усіх|всі\\s+предмети|усі\\s+предмети");
+  const EXT = W("треба|потрібно|мушу|муситиму|повинен|повинна|повинні|змуси\\p{L}*|змушу\\p{L}*|мама|мамі|маму|мамою|тато|тата|татові|батьк\\p{L}*|вчител\\p{L}*|вчительк\\p{L}*|класн\\p{L}*\\s+керівн\\p{L}*|бо\\s+всі|як\\s+у\\s+всіх|як\\s+усі|сказал\\p{L}*|сказав|вимага\\p{L}*|доведеться|насвар\\p{L}*|покара\\p{L}*|лаял\\p{L}*|сварил\\p{L}*|так\\s+прийнято");
+  const INT = W("хочу|хочеться|мрі\\p{L}*|мрію|люблю|обожнюю|цікав\\p{L}*|подоба\\p{L}*|кайф\\p{L}*|пиша\\p{L}*|надих\\p{L}*|для\\s+себе|відчу\\p{L}*|почува\\p{L}*|радіс\\p{L}*|радіт\\p{L}*|задовол\\p{L}*|впевнен\\p{L}*|свобод\\p{L}*|власн\\p{L}*|сам\\s+собі|сама\\s+собі|енергі\\p{L}*|сильніш\\p{L}*|здоров\\p{L}*|поїха\\p{L}*|подорож\\p{L}*|купити|купл\\p{L}*|друз\\p{L}*|команд\\p{L}*|змагань|концерт\\p{L}*|мрію|горить|запалює|драйв\\p{L}*");
+  const REASON = /(?<![\p{L}'])(щоб|аби|бо|тому\s+що|адже|заради|оскільки)(?![\p{L}'])/iu;
+  const WEAK_WHY = /^\s*(не\s+знаю|хз|х\.з\.?|просто|просто\s+так|так\s+треба|бо\s+треба|треба|бо\s+так|так|ну|нема|ніяк|ні|-+|\.+|\?+|бо\s+сказали|сказали)\s*[.!?]*\s*$/iu;
+
+  function parseNums(norm) {
+    return [...norm.matchAll(NUM_RE)].map(m => {
+      let v = m[1] ? parseFloat(m[1].replace(/[  ]/g, "").replace(",", ".")) : WN[m[2]];
+      const mult = m[3] || "";
+      if (/^(тис|к|k)/.test(mult)) v *= 1e3;
+      else if (/^(мільйон|млн)/.test(mult)) v *= 1e6;
+      else if (/^(мільярд|млрд)/.test(mult)) v *= 1e9;
+      const s = m.index, e = m.index + m[0].length;
+      const after = norm.slice(e).match(/^\s*([%$€₴]|[\p{L}']+)/u);
+      const next = after ? norm.slice(e + after[0].length).match(/^\s+([\p{L}']+)/u) : null;
+      return { s, e, v, unit: after ? after[1] : "", unit2: next ? next[1] : "", uEnd: after ? e + after[0].length : e, raw: m[0] };
+    });
+  }
+
+  function analyze(goal, why, fire, belief) {
+    const text = String(goal || "");
+    const norm = text.replace(/[’ʼ`]/g, "'").toLowerCase();
+    const whyN = String(why || "").replace(/[’ʼ`]/g, "'").toLowerCase().trim();
+    const words = (norm.match(/[\p{L}\d']+/gu) || []).length;
+    const res = { empty: !norm.trim(), marks: [], L: {}, deadline: null };
+    if (res.empty) {
+      for (const k of LETTERS) res.L[k] = { score: null, msgs: [] };
+      res.total = 0; res.pct = 0;
+      return res;
+    }
+    const mark = (s, e, type, tip) => res.marks.push({ s, e, type, tip });
+
+    const rm = norm.match(REASON);
+    const coreEnd = rm ? rm.index : norm.length;
+    const reasonText = rm ? norm.slice(rm.index + rm[0].length).trim() : "";
+
+    // ---------- T: дедлайни ----------
+    let times = [];
+    for (const [re, fn] of TIME_RULES) for (const x of all(re, norm)) times.push({ ...x, days: fn(x.m) });
+    times.sort((a, b) => (b.e - b.s) - (a.e - a.s));
+    const tKeep = [];
+    for (const t of times) if (!overlaps(t, tKeep)) tKeep.push(t);
+    times = tKeep.sort((a, b) => a.s - b.s);
+    const known = times.filter(t => t.days != null);
+    const deadlineDays = known.length ? Math.min(...known.map(t => t.days)) : null;
+    times.forEach(t => mark(t.s, t.e, "time", t.days != null ? `Дедлайн ✓ — приблизно ${t.days} дн.` : "Дедлайн ✓ — постав точну дату, щоб рахувати дні"));
+    const freqs = all(FREQ, norm).filter(f => !overlaps(f, times));
+    freqs.forEach(f => mark(f.s, f.e, "freq", "Регулярність ✓ — це звичка"));
+    const vagueT = all(VAGUE_TIME, norm).filter(v => !overlaps(v, times));
+    vagueT.forEach(v => mark(v.s, v.e, "vague", "«Колись» — це коли? Назви дату"));
+
+    // ---------- M: цифри ----------
+    const nums = parseNums(norm).filter(n => !overlaps(n, times));
+    nums.forEach(n => mark(n.s, n.uEnd, "num", "Цифра ✓ — прогрес можна виміряти"));
+    const hasNum = nums.length > 0;
+    const freqMeasurable = freqs.some(f => /раз/.test(f.m[0]));
+
+    // ---------- S: розмитість ----------
+    const vague = all(VAGUE, norm).filter(v => v.s < coreEnd && !overlaps(v, times));
+    vague.forEach(v => mark(v.s, v.e, "vague", "Розмите слово — а що саме?"));
+    const vagueQty = vague.filter(v => VAGUE_QTY.test(v.m[0]));
+
+    // ---------- A: реалістичність ----------
+    const red = [], yellow = [];
+    const flag = (lvl, s, e, msg) => { (lvl === "red" ? red : yellow).push(msg); mark(s, e, lvl === "red" ? "unreal" : "warn", msg); };
+    const perDay = /щодня|щоденно|на день|в день|за день|на добу|кожен день|кожного дня|щоранку|щовечора/.test(norm);
+    const perWeek = /щотижня|на тиждень|в тиждень|за тиждень|кожен тиждень|кожного тижня/.test(norm);
+    const perMonth = /щомісяця|на місяць|в місяць|за місяць|кожен місяць|кожного місяця/.test(norm);
+    const perDayRate = v => perDay ? v : perWeek ? v / 7 : perMonth ? v / 30 : deadlineDays ? v / deadlineDays : null;
+    const fmt = v => v >= 1e6 ? (v / 1e6).toLocaleString("uk-UA") + " млн" : Math.round(v).toLocaleString("uk-UA");
+
+    for (const n of nums) {
+      const u = n.unit, v = n.v;
+      const U = re => re.test(u) || re.test(n.unit2);
+      let hit = false;
+      const F = (lvl, msg) => { hit = true; flag(lvl, n.s, n.uEnd, msg); };
+      if (u === "%" || u.startsWith("відсот")) {
+        if (v > 100) F("red", "Більше ніж 100%? Навіть супергерої так не можуть 😅");
+      } else if (u.startsWith("год")) {
+        if (perDay && v > 24) F("red", "У добі лише 24 години ⏳");
+        else if (perDay && v > 14) F("red", `${fmt(v)} годин на день? А спати й їсти коли? 😴`);
+        else if (perDay && v > 8) F("yellow", `${fmt(v)} годин щодня — це як повна робоча зміна. Витримаєш?`);
+        else if (perWeek && v > 70) F("red", "Стільки годин на тиждень — шлях до вигорання 🔋");
+      } else if (u === "кг" || u.startsWith("кіло")) {
+        if (/схуд|скину|скинут|втрат|набр|набира|накач|мінус|плюс|ваг/.test(norm)) {
+          const weeks = deadlineDays ? deadlineDays / 7 : null;
+          if (weeks) {
+            const rate = v / weeks;
+            if (rate > 1.5) F("red", `${fmt(v)} кг за ${deadlineDays} дн. — це ~${rate.toFixed(1)} кг на тиждень. Небезпечно для здоров’я! Норма — до 0,5–1 кг.`);
+            else if (rate > 1) F("yellow", `~${rate.toFixed(1)} кг на тиждень — на межі. Може, дати собі більше часу?`);
+          } else if (v > 15) F("yellow", `${fmt(v)} кг — велика ціль. Розбий на етапи й порадься з лікарем 🩺`);
+        }
+      }
+      const isMoney = /^(грн|гривн|гривен|₴|\$|долар|бакс|usd|євро|€|eur)/.test(u) || /[$₴€]/.test(norm.slice(Math.max(0, n.s - 2), n.s)) ||
+        /мільйонер|мільярдер/.test(n.raw + u) || (v >= 1e6 && /заробит|зароб|накопич|відклас|грош|бізнес|мати/.test(norm));
+      if (!hit && isMoney) {
+        if (v >= 1e6 && deadlineDays && deadlineDays <= 365) F("red", `${fmt(v)} за ${deadlineDays} дн.? Таке буває хіба в кіно 🎬 Почни з реальної суми — наприклад, перших 2 000 грн.`);
+        else if (v >= 1e6) F("yellow", "Мільйон — класна мрія! Але яка перша сходинка? Постав проміжну ціль на рік 🪜");
+        else if (v >= 1e5 && deadlineDays && deadlineDays <= 60) F("yellow", `${fmt(v)} за ${deadlineDays} дн. — дуже амбітно. Звідки візьмуться гроші?`);
+      }
+      if (!hit && U(/^(підпис|фоловер|фолловер|follower|лайк|вподоб|перегляд|глядач)/)) {
+        if (v >= 1e6) F("red", `${fmt(v)} — це рівень зірок. Почни з першої тисячі ⭐`);
+        else if (v >= 1e5) F("yellow", `${fmt(v)} — дуже амбітно. Що буде першою сходинкою?`);
+        else if (v >= 1e4 && deadlineDays && deadlineDays <= 31) F("yellow", `${fmt(v)} за місяць — складно без вірусного везіння 🍀`);
+      }
+      if (!hit && u === "км" && /біг|пробіг|пробі|марафон|бігт|біжу/.test(norm)) {
+        if (v > 42.2) F("red", `${fmt(v)} км — це вже ультрамарафон 🏃‍♂️ Може, почнемо з 5?`);
+        else if (v > 21 && deadlineDays && deadlineDays < 90) F("yellow", "Напівмарафон за кілька тижнів з нуля — ризиковано для колін 🦵");
+        else if (v > 10 && deadlineDays && deadlineDays < 14) F("yellow", "Дуже мало часу на підготовку — додай тижнів");
+      }
+      if (!hit && U(/^(книг|книж)/)) {
+        const pm = perDay ? v * 30 : perWeek ? v * 4.3 : perMonth ? v : deadlineDays ? v / deadlineDays * 30 : null;
+        if (pm && pm > 30) F("red", `Це ~${Math.round(pm)} книжок на місяць — більше ніж по одній на день 📚😵`);
+        else if (pm && pm > 12) F("yellow", `~${Math.round(pm)} книжок на місяць — дуже багато. Встигнеш ще й жити? 🙂`);
+      }
+      if (!hit && U(/^сторін/)) {
+        const pd = perDayRate(v);
+        if (pd && pd > 200) F("red", `~${Math.round(pd)} сторінок на день — це вже марафон читання`);
+        else if (pd && pd > 100) F("yellow", `~${Math.round(pd)} сторінок на день — багато. Може, 30–50?`);
+      }
+      if (!hit && U(/^(слів|слова|слово)/)) {
+        const pd = perDayRate(v);
+        if (pd && pd > 100) F("red", `~${Math.round(pd)} нових слів на день — мозок не встигне запам’ятати 🧠`);
+        else if (pd && pd > 40) F("yellow", `~${Math.round(pd)} слів на день — інтенсивно. 10–20 реальніше`);
+      }
+      if (!hit && U(/^(віджим|присід|підтяг)/)) {
+        if (v > 500) F("red", `${fmt(v)} за раз? Це рекорд Гіннесса 💪`);
+        else if (v > 150 && deadlineDays && deadlineDays < 60) F("yellow", "Дуже швидкий прогрес — бережи суглоби");
+      }
+      if (!hit && !isMoney && v >= 1e5) F("yellow", `Ого, ${fmt(v)}! Це точно реально?`);
+    }
+
+    const lang = norm.match(/(вивч|вчити|опанув|заговор|розмовля|вільно)[\p{L}']*[^.!?]{0,40}?(англійськ|німецьк|французьк|іспанськ|італійськ|польськ|японськ|китайськ|корейськ)\p{L}*/u)
+      || norm.match(/(англійськ|німецьк|французьк|іспанськ|італійськ|польськ|японськ|китайськ|корейськ)\p{L}*[^.!?]{0,40}?(вивч|вчити|опанув|вільно)[\p{L}']*/u);
+    if (lang && !hasNum) {
+      const s = lang.index, e = s + lang[0].length;
+      if (deadlineDays && deadlineDays <= 60) flag("red", s, e, "Мову за кілька тижнів повністю не вивчиш 🗣️ Зате реально вивчити 300 слів або пройти рівень A1!");
+      else if (/вільно/.test(lang[0]) && deadlineDays && deadlineDays <= 365) flag("yellow", s, e, "«Вільно» за рік — дуже амбітно. Обери рівень: A2, B1?");
+      else flag("yellow", s, e, "«Вивчити мову» — безкінечна ціль. Що саме: рівень, кількість слів, урок?");
+    }
+    for (const a of all(ABSOLUTE, norm)) if (!overlaps(a, times)) flag("yellow", a.s, a.e, "Максималізм! «Завжди / найкращий / ідеально» тисне. Дай собі право на помилку 🤏");
+    const bigVerb = /вивч|стати|стану|заробит|схуд|накач|опанув|змінит/.test(norm);
+    if (deadlineDays && deadlineDays <= 2 && bigVerb && !red.length) {
+      const t = known.find(x => x.days === deadlineDays);
+      flag("yellow", t.s, t.e, "Зовсім мало часу на таку справу ⏱️");
+    }
+
+    // ---------- R: мотивація ----------
+    const ext = [...all(EXT, norm).map(x => ({ ...x, src: "goal" })), ...all(EXT, whyN).map(x => ({ ...x, src: "why" }))];
+    all(EXT, norm).forEach(x => mark(x.s, x.e, "ext", "Звучить як чужа ціль — а чого хочеш ТИ?"));
+    const intIn = s => all(INT, s).length > 0;
+    all(INT, norm).filter(x => x.s >= coreEnd || /^(хочу|хочеться|мрію|люблю|обожнюю)/.test(x.m[0]))
+      .forEach(x => mark(x.s, x.e, "int", "Твоє «хочу» 💖"));
+    const reasonOk = reasonText.replace(/[^\p{L}\d]/gu, "").length >= 5 && !WEAK_WHY.test(reasonText);
+    const whyOk = whyN.replace(/[^\p{L}\d]/gu, "").length >= 5 && !WEAK_WHY.test(whyN);
+    const whyWeak = whyN && WEAK_WHY.test(whyN);
+    const intrinsicReason = intIn(reasonText) || intIn(whyN);
+    const extOnly = ext.length > 0 && !intrinsicReason && !(whyOk && !all(EXT, whyN).length);
+
+    // ======================== оцінки ========================
+    const L = res.L;
+    // S
+    {
+      const vw = [...new Set(vague.map(v => v.m[0]))].slice(0, 3).map(w => `«${w}»`).join(", ");
+      const coreWords = (norm.slice(0, coreEnd).match(/[\p{L}\d']+/gu) || []).length;
+      let sc, msgs = [];
+      if (coreWords < 3) { sc = 0; msgs.push(["❌", "Поки що це гасло, а не ціль. Що конкретно ти зробиш?"]); }
+      else if (vague.length && !hasNum) { sc = 0; msgs.push(["🌫️", `${vw} — розмито. Як виглядатиме «готово»?`]); }
+      else if (vague.length) { sc = 1; msgs.push(["🌫️", `Є розмите ${vw}. Можна сказати точніше?`]); }
+      else if (coreWords < 5) { sc = 1; msgs.push(["✏️", "Коротко. Додай деталь: що, де, як саме?"]); }
+      else { sc = 2; msgs.push(["✅", "Чітко й зрозуміло — так тримати!"]); }
+      if (sc < 2) msgs.push(["💡", "Заміни «читати більше» на «прочитати 3 книжки фентезі». Відчуваєш різницю?", true]);
+      L.S = { score: sc, msgs };
+    }
+    // M
+    {
+      let sc, msgs = [];
+      if (hasNum) {
+        const list = nums.slice(0, 3).map(n => `«${text.slice(n.s, n.uEnd).trim()}»`).join(", ");
+        sc = 2; msgs.push(["📏", `Є цифри: ${list} — прогрес можна виміряти!`]);
+      } else if (freqMeasurable) {
+        sc = 2; msgs.push(["🔁", "Є частота — можна рахувати рази."]);
+      } else if (vagueQty.length) {
+        sc = 0; msgs.push(["🤷", `«${vagueQty[0].m[0]}» — це скільки? На 1? На 100? Постав число.`]);
+      } else if (freqs.length) {
+        sc = 1; msgs.push(["🔁", "Регулярність є — а скільки саме за раз? Хвилин, сторінок, кілометрів?"]);
+      } else {
+        sc = 0; msgs.push(["❌", "Немає жодної цифри! Як ти зрозумієш, що вже досяг(-ла)?"]);
+      }
+      if (sc < 2) msgs.push(["💡", "Що можна порахувати: кілометри, сторінки, хвилини, гривні, бали, рази, слова.", true]);
+      L.M = { score: sc, msgs };
+    }
+    // A
+    {
+      let sc = red.length ? 0 : yellow.length ? 1 : 2, msgs = [];
+      red.forEach(m => msgs.push(["🚫", m]));
+      yellow.forEach(m => msgs.push(["🤔", m]));
+      if (belief != null && belief <= 3) {
+        sc = Math.min(sc, 1);
+        msgs.push(["🙈", `Ти віриш лише на ${belief}/10. Зменш планку або розбий ціль на маленькі кроки.`]);
+      }
+      if (!msgs.length) {
+        msgs.push(["✅", "Нічого фантастичного не бачу — виглядає реально!"]);
+        if (belief != null && belief >= 9) msgs.push(["💡", "Віриш на 9–10? Може, ціль занадто легка — додай трохи виклику 💪", true]);
+        else msgs.push(["💡", "Хороша ціль трохи «розтягує»: не надто легка, але й не з космосу.", true]);
+      }
+      L.A = { score: sc, msgs };
+    }
+    // R
+    {
+      let sc, msgs = [], blink = false;
+      if (fire && fire <= 2) {
+        sc = 0; blink = true;
+        msgs.push(["🧊", `Вогник лише ${fire}/5… Схоже, ця ціль тебе не запалює. Чим воно тебе мотивує?`]);
+      } else if (extOnly) {
+        sc = 0; blink = true;
+        const who = [...new Set(ext.map(x => x.m[0]))].slice(0, 2).map(w => `«${w}»`).join(", ");
+        msgs.push(["📢", `${who} — це звучить як чужа ціль. А чого хочеш саме ТИ?`]);
+        msgs.push(["💡", "Знайди свою причину: «щоб поїхати в табір за кордон», «щоб дивитися серіали без субтитрів».", true]);
+      } else if (whyWeak && !reasonOk) {
+        sc = 0; blink = true;
+        msgs.push(["🙃", `«${whyN}» — це не мотивація. Уяви, що вже досяг(-ла): що змінилося?`]);
+      } else if (!reasonOk && !whyOk) {
+        sc = 1; blink = true;
+        msgs.push(["❓", "Чим воно тебе мотивує? Допиши «щоб…» або заповни поле нижче."]);
+      } else {
+        sc = 2;
+        msgs.push(["💖", "Є твоє «навіщо» — це паливо, яке не дасть кинути на півдорозі!"]);
+        if (ext.length) msgs.push(["💡", "Трохи чужих «треба» є — але своя причина важливіша.", true]);
+        if (fire === 3) msgs.push(["💡", "Вогник 3/5 — норм. Що зробить ціль ще яскравішою?", true]);
+      }
+      L.R = { score: sc, msgs, blink };
+    }
+    // T
+    {
+      let sc, msgs = [];
+      if (times.length) {
+        const t = known.length ? known.find(x => x.days === deadlineDays) : times[0];
+        const label = text.slice(t.s, t.e).trim();
+        res.deadline = { label, days: t.days ?? null };
+        sc = 2;
+        msgs.push(["⏰", t.days != null ? `Дедлайн «${label}» — це приблизно ${t.days} ${plural(t.days, "день", "дні", "днів")}.` : `Дедлайн «${label}» ✓ Знаєш точну дату? Запиши її!`]);
+        if (t.days != null && t.days > 365) msgs.push(["💡", "Більше року — додай проміжну контрольну точку.", true]);
+      } else if (vagueT.length) {
+        sc = 0; msgs.push(["☁️", `«${vagueT[0].m[0]}» — це коли? Назви конкретну дату.`]);
+      } else if (freqs.length) {
+        sc = 1; msgs.push(["🔁", "Регулярність є 👍 А коли підіб’єш підсумок? Додай «до…»."]);
+      } else {
+        sc = 0; msgs.push(["❌", "Без дедлайну ціль — просто мрія ☁️ До коли?"]);
+      }
+      L.T = { score: sc, msgs };
+    }
+    res.total = LETTERS.reduce((a, k) => a + L[k].score, 0);
+    res.pct = Math.round(res.total * 10);
+    return res;
+  }
+
+  function plural(n, one, few, many) {
+    const a = Math.abs(n) % 100, b = a % 10;
+    if (a > 10 && a < 20) return many;
+    if (b === 1) return one;
+    if (b >= 2 && b <= 4) return few;
+    return many;
+  }
+
+  // ======================================================================
+  //  СТАН
+  // ======================================================================
+  const fresh = () => ({ goal: "", why: "", fire: 0, belief: null, goals: [], builder: { what: "", qty: "", date: "", why: "" } });
+  function normalize(s) {
+    const f = fresh();
+    if (!s || typeof s !== "object") return f;
+    return {
+      goal: String(s.goal || ""), why: String(s.why || ""),
+      fire: Math.max(0, Math.min(5, +s.fire || 0)),
+      belief: s.belief == null ? null : Math.max(1, Math.min(10, +s.belief || 5)),
+      goals: Array.isArray(s.goals) ? s.goals.filter(g => g && g.goal).map(g => ({
+        id: g.id || uid(), goal: String(g.goal), why: String(g.why || ""), fire: +g.fire || 0,
+        belief: g.belief == null ? null : +g.belief, created: g.created || Date.now(), done: !!g.done,
+      })) : [],
+      builder: { ...f.builder, ...(s.builder || {}) },
+    };
+  }
+  let state;
+  try { state = normalize(JSON.parse(localStorage.getItem(KEY) || "null")); } catch (e) { state = fresh(); }
+
+  let saveTimer;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(flush, 300);
+  }
+  function flush() {
+    clearTimeout(saveTimer);
+    try {
+      localStorage.setItem(KEY, JSON.stringify(state));
+      const t = new Date().toLocaleTimeString("uk-UA", { hour: "2-digit", minute: "2-digit" });
+      $("#saved").innerHTML = `<b>✓ Збережено</b> о ${t} у цьому браузері`;
+    } catch (e) {
+      $("#saved").textContent = "Браузер не дає зберегти дані — скористайся «Друк / PDF».";
+    }
+  }
+  addEventListener("pagehide", flush);
+
+  // ======================================================================
+  //  ВІДОБРАЖЕННЯ
+  // ======================================================================
+  const STATUS = { null: "чекаю…", 0: "❌ мимо", 1: "⚠️ майже", 2: "✅ влучно" };
+  const MOUTHS = {
+    idle: "M88 124 Q100 130 112 124",
+    sad: "M84 128 Q100 114 116 128",
+    meh: "M86 123 L114 123",
+    smile: "M82 118 Q100 136 118 118",
+    super: "M80 114 Q100 146 120 114 Z",
+  };
+
+  $("#pills").innerHTML = LETTERS.map(k => `<a class="pl" href="#L-${k}" id="pl-${k}" title="${k}">${k}</a>`).join("");
+  $("#examples").insertAdjacentHTML("beforeend", EXAMPLES.map(([e, t], i) => `<button class="ex" data-ex="${i}">${e} ${esc(t)}</button>`).join(""));
+  $("#fires").insertAdjacentHTML("beforeend", [1, 2, 3, 4, 5].map(n => `<button data-fire="${n}" aria-label="Бажання ${n} з 5">🔥</button>`).join(""));
+  const T_CHIPS = ["за 2 тижні", "до кінця місяця", "до кінця семестру", "до літа", "до Нового року"];
+  $("#addChips").innerHTML = T_CHIPS.map(t => `<button data-add="${esc(t)}">+ ${esc(t)}</button>`).join("");
+
+  function previewHTML(text, marks) {
+    const PRI = { unreal: 0, warn: 1, ext: 2, time: 3, freq: 4, num: 5, vague: 6, int: 7 };
+    const placed = [];
+    [...marks].sort((a, b) => PRI[a.type] - PRI[b.type] || a.s - b.s).forEach(m => { if (!overlaps(m, placed)) placed.push(m); });
+    placed.sort((a, b) => a.s - b.s);
+    let out = "", i = 0;
+    for (const m of placed) {
+      out += esc(text.slice(i, m.s));
+      out += `<mark class="hl-${m.type}" title="${esc(m.tip)}">${esc(text.slice(m.s, m.e))}</mark>`;
+      i = m.e;
+    }
+    return out + esc(text.slice(i));
+  }
+
+  function bubbleText(r) {
+    if (r.empty) return "Привіт! Я Смарті 🎯 Напиши свою ціль — і я перевірю, чи влучить вона в яблучко.";
+    if (r.pct === 100) return "В ЯБЛУЧКО! 🎉 Це справжня SMART-ціль. Збережи її і вперед!";
+    if (r.L.R.blink && r.L.R.score === 0) return "Стоп-стоп! А тебе це взагалі запалює? 🔥 Подивись на рожеву літеру R.";
+    if (r.L.A.score === 0) return "Ого, це вже фантастика 🚀 Давай опустимо планку до реальної.";
+    if (r.pct < 30) return "Ой, поки що летить мимо… 🙈 Дивись на червоні картки нижче.";
+    if (r.pct < 60) return "Вже теплішає! 🌤️ Додай цифри й дедлайн — і стріла піде в центр.";
+    if (r.pct < 90) return "Майже в яблучко! 🎯 Залишилось трошки підкрутити.";
+    return "Ще один крок — і буде ідеальне влучання! ✨";
+  }
+
+  function levelName(r) {
+    if (r.empty) return ["Чекаю ціль", "напиши її нижче 👇"];
+    if (r.pct === 100) return ["SMART-ціль 🎯", "усі 5 літер влучили!"];
+    if (r.pct < 30) return ["Мрія в хмарах ☁️", "додай конкретики"];
+    if (r.pct < 60) return ["Чернетка ✏️", "вже є від чого відштовхнутися"];
+    if (r.pct < 90) return ["Майже план 🛠️", "ще трохи"];
+    return ["Майже в яблучко", "один крок до 100%"];
+  }
+
+  let lastPct = null, lastBubble = "";
+  function render() {
+    const r = analyze(state.goal, state.why, state.fire, state.belief);
+    // HUD
+    const [nm, sub] = levelName(r);
+    $("#lvlName").textContent = nm;
+    $("#lvlNext").textContent = sub;
+    $("#pctVal").textContent = r.pct + "%";
+    $("#xpFill").style.width = r.pct + "%";
+    $("#ring").style.strokeDashoffset = (131.95 * (1 - r.pct / 100)).toFixed(2);
+    $("#ring").style.stroke = r.pct >= 70 ? "var(--green)" : r.pct >= 40 ? "var(--gold)" : "var(--red)";
+    // картки
+    for (const k of LETTERS) {
+      const l = r.L[k];
+      const card = $("#L-" + k), pill = $("#pl-" + k);
+      card.className = "L" + (l.score == null ? "" : " s" + l.score) + (l.blink ? " blink" : "");
+      pill.className = "pl" + (l.score == null ? "" : " s" + l.score) + (l.blink ? " blink" : "");
+      $("#st-" + k).textContent = STATUS[l.score];
+      $("#msg-" + k).innerHTML = l.msgs.map(([i, t, tip]) => `<li data-i="${i}"${tip ? ' class="tip"' : ""}>${esc(t)}</li>`).join("");
+    }
+    // лупа
+    $("#preview").innerHTML = r.empty ? `<span class="ph">Тут твоя ціль засвітиться кольорами…</span>` : previewHTML(state.goal, r.marks);
+    // маскот
+    const svg = $("#mascot");
+    const arrow = $("#arrow");
+    if (r.empty) {
+      arrow.style.transform = "translate(90px, -90px)";
+      arrow.style.opacity = 0;
+    } else {
+      const d = (1 - r.pct / 100) * 50;
+      arrow.style.transform = `translate(${(-0.72 * d).toFixed(1)}px, ${(0.69 * d).toFixed(1)}px)`;
+      arrow.style.opacity = 1;
+    }
+    const mood = r.empty ? "idle" : r.pct === 100 ? "super" : r.pct >= 70 ? "smile" : r.pct >= 40 ? "meh" : "sad";
+    $("#mouth").setAttribute("d", MOUTHS[mood]);
+    $("#mouth").setAttribute("fill", mood === "super" ? "#1d2433" : "none");
+    svg.classList.toggle("super", mood === "super");
+    $("#pupils").style.transform = r.empty ? "translate(0,0)" : mood === "sad" ? "translate(-2px, 3px)" : "translate(1px, 2px)";
+    if (lastPct !== null && lastPct !== r.pct && !r.empty) {
+      svg.classList.remove("hit"); void svg.getBoundingClientRect(); svg.classList.add("hit");
+    }
+    const bt = bubbleText(r);
+    if (bt !== lastBubble) {
+      const b = $("#bubble");
+      b.textContent = bt;
+      b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
+      lastBubble = bt;
+    }
+    // підсумок
+    const hits = LETTERS.filter(k => r.L[k].score === 2).length;
+    $("#scoreLine").textContent = r.empty ? "Влучань: 0 з 5" : `Влучань: ${hits} з 5 · сила цілі ${r.pct}%`;
+    $("#saveGoal").classList.toggle("ready", r.pct === 100);
+    $("#saveGoal").innerHTML = r.pct === 100 ? "📌 Зберегти SMART-ціль <em>🎯</em>" : "📌 Зберегти в «Мої цілі»";
+    // фанфари
+    if (lastPct !== null && r.pct === 100 && lastPct < 100) {
+      const rc = svg.getBoundingClientRect();
+      confetti(rc.left + rc.width / 2, rc.top + rc.height / 2, 180);
+      toast("🎯", "В яблучко! Це SMART-ціль", "Усі 5 літер зелені — збережи її", "lvl");
+    }
+    lastPct = r.pct;
+    return r;
+  }
+
+  // ---------- контролери ----------
+  function renderControls() {
+    $("#goal").value = state.goal;
+    $("#why").value = state.why;
+    grow($("#goal"));
+    renderFires();
+    renderBelief();
+  }
+  function renderFires() {
+    document.querySelectorAll("[data-fire]").forEach(b => b.classList.toggle("on", +b.dataset.fire <= state.fire));
+  }
+  function renderBelief() {
+    const v = state.belief;
+    $("#belief").value = v ?? 5;
+    const emo = v == null ? "❔" : v <= 3 ? "😰" : v <= 6 ? "🤔" : v <= 8 ? "💪" : "😎";
+    $("#beliefEmo").textContent = emo;
+    $("#beliefCap").textContent = v == null ? "Посунь повзунок — це теж частина перевірки" :
+      `${v}/10 · ` + (v <= 3 ? "сумнівів багато" : v <= 6 ? "ну, можливо…" : v <= 8 ? "реально, якщо постаратися" : "впевнено!");
+  }
+
+  $("#goal").addEventListener("input", e => { state.goal = e.target.value; grow(e.target); render(); save(); });
+  $("#why").addEventListener("input", e => { state.why = e.target.value; render(); save(); });
+  $("#belief").addEventListener("input", e => { state.belief = +e.target.value; renderBelief(); render(); save(); });
+  $("#fires").addEventListener("click", e => {
+    const b = e.target.closest("[data-fire]");
+    if (!b) return;
+    const n = +b.dataset.fire;
+    state.fire = state.fire === n ? 0 : n;
+    renderFires();
+    if (state.fire >= 4) { const rc = b.getBoundingClientRect(); confetti(rc.left + rc.width / 2, rc.top, 25); }
+    render(); save();
+  });
+  $("#examples").addEventListener("click", e => {
+    const b = e.target.closest("[data-ex]");
+    if (!b) return;
+    state.goal = EXAMPLES[+b.dataset.ex][1];
+    state.why = ""; state.fire = 0; state.belief = null;
+    renderControls(); render(); save();
+  });
+  $("#addChips").addEventListener("click", e => {
+    const b = e.target.closest("[data-add]");
+    if (!b) return;
+    const add = b.dataset.add;
+    let g = state.goal.trim();
+    if (!g) { $("#goal").focus(); toast("✍️", "Спочатку напиши саму ціль"); return; }
+    const norm = g.replace(/[’ʼ`]/g, "'");
+    const m = norm.match(REASON);
+    if (m && m.index > 0) {
+      const head = g.slice(0, m.index).replace(/[\s,]+$/, "");
+      g = `${head} ${add}, ${g.slice(m.index)}`;
+    } else {
+      const end = g.match(/[.!]+$/);
+      g = g.replace(/[.!]+$/, "") + " " + add + (end ? end[0] : "");
+    }
+    state.goal = g;
+    renderControls(); render(); save();
+  });
+
+  // ---------- конструктор ----------
+  function fmtDate(iso) {
+    if (!iso) return "";
+    const [y, m, d] = iso.split("-").map(Number);
+    if (!y || !m || !d) return "";
+    return `${d} ${MG[m - 1]}` + (y !== new Date().getFullYear() ? ` ${y} року` : "");
+  }
+  function built() {
+    const b = state.builder;
+    const what = b.what.trim(), qty = b.qty.trim(), date = fmtDate(b.date), why = b.why.trim();
+    if (!what) return "";
+    let s = what.charAt(0).toUpperCase() + what.slice(1);
+    if (qty) s += " " + qty;
+    if (date) s += " до " + date;
+    if (why) s += (/^(щоб|аби|бо|тому\s+що|адже|заради)(?![\p{L}'])/iu.test(why) ? ", " : ", щоб ") + why;
+    return s.replace(/\s+/g, " ").replace(/[.!]+$/, "") + ".";
+  }
+  function renderBuilt() {
+    const s = built();
+    const el = $("#built");
+    el.classList.toggle("empty", !s);
+    el.textContent = s || "Тут з’явиться твоя ціль…";
+  }
+  const BMAP = { bWhat: "what", bQty: "qty", bDate: "date", bWhy: "why" };
+  for (const id in BMAP) {
+    $("#" + id).value = state.builder[BMAP[id]] || "";
+    $("#" + id).addEventListener("input", e => { state.builder[BMAP[id]] = e.target.value; renderBuilt(); save(); });
+  }
+  $("#useBuilt").addEventListener("click", () => {
+    const s = built();
+    if (!s) { $("#bWhat").focus(); toast("🧩", "Заповни хоча б перший крок"); return; }
+    state.goal = s; state.why = "";
+    renderControls(); render(); save();
+    $("#goal").scrollIntoView({ behavior: "smooth", block: "center" });
+    toast("✨", "Ціль зібрано!", "Дивись, що скаже Смарті");
+  });
+
+  // ---------- колекція ----------
+  function renderGoals() {
+    const list = state.goals;
+    const done = list.filter(g => g.done).length;
+    $("#goalsLead").textContent = list.length
+      ? `Цілей: ${list.length} · досягнуто: ${done} 🏆`
+      : "Збережені цілі живуть у цьому браузері. Досягнув(-ла) — тисни 🏆!";
+    if (!list.length) {
+      $("#goals").innerHTML = `<div class="empty-goals"><b>🗂️</b>Поки порожньо. Доведи ціль до зеленого — і збережи її сюди.</div>`;
+      return;
+    }
+    $("#goals").innerHTML = list.map(g => {
+      const r = analyze(g.goal, g.why, g.fire, g.belief);
+      const minis = LETTERS.map(k => `<span class="pl mini s${r.L[k].score}">${k}</span>`).join("");
+      const dl = r.deadline ? `<span class="tag">⏰ ${esc(r.deadline.label)}</span>` : "";
+      const why = g.why.trim() ? `<span class="tag">🔥 ${esc(g.why.trim())}</span>` : "";
+      return `<div class="gcard ${g.done ? "done" : ""}" data-id="${g.id}">
+        <button class="g-del" data-gdel aria-label="Видалити ціль" title="Видалити">×</button>
+        <div class="g-text">${esc(g.goal)}</div>
+        <div class="g-meta">${minis}<span class="tag">${r.pct}%</span>${dl}${why}</div>
+        <div class="g-btns">
+          <button data-gdone>${g.done ? "↩︎ Ще в процесі" : "🏆 Досягнуто!"}</button>
+          <button data-gedit>✏️ Перевірити ще раз</button>
+        </div>
+      </div>`;
+    }).join("");
+  }
+  $("#saveGoal").addEventListener("click", () => {
+    const g = state.goal.trim();
+    if (!g) { $("#goal").focus(); toast("✍️", "Спочатку напиши ціль"); return; }
+    const r = analyze(state.goal, state.why, state.fire, state.belief);
+    const ex = state.goals.find(x => x.goal.trim() === g);
+    if (ex) Object.assign(ex, { why: state.why, fire: state.fire, belief: state.belief });
+    else state.goals.unshift({ id: uid(), goal: g, why: state.why, fire: state.fire, belief: state.belief, created: Date.now(), done: false });
+    renderGoals(); save();
+    if (r.pct === 100) toast("📌", "SMART-ціль збережено!", "Тепер головне — діяти 🚀", "lvl");
+    else toast("📌", "Ціль збережено", `Сила ${r.pct}% — можна ще покращити`);
+  });
+  $("#goals").addEventListener("click", e => {
+    const card = e.target.closest(".gcard");
+    if (!card) return;
+    const g = state.goals.find(x => x.id === card.dataset.id);
+    if (!g) return;
+    if (e.target.closest("[data-gdone]")) {
+      g.done = !g.done;
+      renderGoals(); save();
+      if (g.done) {
+        const rc = card.getBoundingClientRect();
+        confetti(rc.left + rc.width / 2, rc.top + 20, 140);
+        toast("🏆", "Ціль досягнуто!", "Ти молодець — час для нової 🚀", "lvl");
+      }
+      return;
+    }
+    if (e.target.closest("[data-gedit]")) {
+      Object.assign(state, { goal: g.goal, why: g.why, fire: g.fire, belief: g.belief });
+      renderControls(); render(); save();
+      $("#goal").scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    const del = e.target.closest("[data-gdel]");
+    if (del) {
+      if (!del.classList.contains("armed")) {
+        del.classList.add("armed"); del.textContent = "?";
+        toast("🗑️", "Натисни × ще раз, щоб видалити ціль");
+        setTimeout(() => { if (del.isConnected) { del.classList.remove("armed"); del.textContent = "×"; } }, 3000);
+        return;
+      }
+      state.goals = state.goals.filter(x => x !== g);
+      renderGoals(); save();
+    }
+  });
+
+  // ---------- інструменти ----------
+  $("#printBtn").addEventListener("click", () => print());
+  let resetTimer;
+  $("#resetBtn").addEventListener("click", e => {
+    const b = e.currentTarget;
+    if (!b.classList.contains("armed")) {
+      b.classList.add("armed");
+      b.textContent = "Точно? Натисни ще раз";
+      resetTimer = setTimeout(() => { b.classList.remove("armed"); b.textContent = "↺ Почати заново"; }, 3500);
+      return;
+    }
+    clearTimeout(resetTimer);
+    b.classList.remove("armed");
+    b.textContent = "↺ Почати заново";
+    const goals = state.goals;
+    state = fresh();
+    state.goals = goals;
+    for (const id in BMAP) $("#" + id).value = "";
+    lastPct = null;
+    renderControls(); renderBuilt(); render(); save();
+    toast("🌱", "Чистий аркуш. Нова ціль чекає!", "«Мої цілі» залишилися на місці");
+  });
+
+  // ---------- ефекти ----------
+  function toast(big, text, sub = "", cls = "") {
+    const el = document.createElement("div");
+    el.className = "toast " + cls;
+    el.innerHTML = `<span class="big">${big}</span><span>${esc(text)}${sub ? `<small>${esc(sub)}</small>` : ""}</span>`;
+    $("#toasts").appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+  const cv = $("#confetti");
+  const ctx = cv.getContext("2d");
+  let parts = [], raf = 0;
+  const COLORS = ["#3fd49f", "#14a874", "#f5b82e", "#7ee8c2", "#1d2433", "#ff5c9a", "#4d8dff"];
+  function confetti(x, y, n) {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    cv.width = innerWidth * devicePixelRatio;
+    cv.height = innerHeight * devicePixelRatio;
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+      parts.push({
+        x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 5,
+        s: 4 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .4,
+        c: COLORS[i % COLORS.length], life: 70 + Math.random() * 40,
+      });
+    }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function tick() {
+    const d = devicePixelRatio;
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    parts = parts.filter(p => p.life-- > 0);
+    for (const p of parts) {
+      p.vy += .25; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      ctx.save();
+      ctx.globalAlpha = Math.min(1, p.life / 30);
+      ctx.translate(p.x * d, p.y * d); ctx.rotate(p.r);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.s * d / 2, -p.s * d / 4, p.s * d, p.s * d / 2);
+      ctx.restore();
+    }
+    raf = parts.length ? requestAnimationFrame(tick) : (ctx.clearRect(0, 0, cv.width, cv.height), 0);
+  }
+
+  // ---------- старт ----------
+  renderControls();
+  renderBuilt();
+  renderGoals();
+  render();
+  if (document.fonts) document.fonts.ready.then(() => grow($("#goal")));
+  addEventListener("resize", () => grow($("#goal")));
+})();
+</script>
+</body>
+</html>

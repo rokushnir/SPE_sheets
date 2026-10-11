@@ -1,0 +1,1327 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Техніки планування</title>
+<meta name="description" content="Тайм-менеджмент, заняття 02 «Техніки планування і структуризація часу»: список і пріоритети справ, калькулятор правила 10 000 годин, інтерактивна схема ЕКГ, проактивна мова, кумири, 12 питань розділу, тижневий планер 80/20, пропорція справ на день і головні висновки.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Робочий зошит «Тайм-менеджмент», заняття 02: світло-сірий аркуш, помаранчеві акценти, персикові підкладки. */
+  :root {
+    --bg: #ececec; --paper: #f7f7f7; --surface: #ffffff; --text: #1f1f22; --muted: #66666d; --faint: #9a9aa1; --line: #e2e2e4;
+    --orange: #ff8a00; --orange-2: #f57c00; --orange-3: #ffa53a; --peach: #f9d4ad; --peach-soft: #fde9d5;
+    --dark: #3a3a3e; --on-dark: #ffffff; --on-orange: #ffffff;
+    --ok: #22a447; --no: #e5484d; --grey: #8d8d94;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .07); --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121214; --paper: #1a1a1d; --surface: #232327; --text: #ededf0; --muted: #a5a5ad; --faint: #75757d; --line: #33333a;
+      --orange: #ff9419; --orange-2: #f08300; --orange-3: #ffa53a; --peach: #5a3b1c; --peach-soft: #3a2a1a;
+      --dark: #2e2e33; --grey: #6d6d75; --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121214; --paper: #1a1a1d; --surface: #232327; --text: #ededf0; --muted: #a5a5ad; --faint: #75757d; --line: #33333a;
+    --orange: #ff9419; --orange-2: #f08300; --orange-3: #ffa53a; --peach: #5a3b1c; --peach-soft: #3a2a1a;
+    --dark: #2e2e33; --grey: #6d6d75; --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+  .wrap { width: min(1000px, 100% - 32px); margin: 0 auto; padding: 24px 0 80px; }
+  .sheet { position: relative; background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(18px, 4vw, 40px); scroll-margin-top: 64px; }
+  .sheet + .sheet { margin-top: 24px; }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- Навігація ---------- */
+  .secnav {
+    position: sticky; top: 0; z-index: 40; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    margin: 0 -4px 16px; padding: 10px 4px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px);
+  }
+  .secnav::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) { .secnav { flex-wrap: wrap; justify-content: center; } }
+  .secnav a {
+    flex: none; text-decoration: none; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 700; white-space: nowrap;
+  }
+  .secnav a:hover { border-color: var(--orange); color: var(--text); }
+  .secnav a.done { border-color: var(--orange); }
+  .secnav a.done::after { content: " ✓"; color: var(--orange-2); }
+
+  /* ---------- Шапка як у зошиті ---------- */
+  .lesson { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+  .lesson-num { background: var(--orange); color: var(--on-orange); border-radius: 10px; padding: 6px 12px 4px; text-align: center; font-family: "Unbounded", sans-serif; line-height: 1; }
+  .lesson-num b { display: block; font-size: 34px; font-weight: 700; }
+  .lesson-num small { font-family: "Inter", sans-serif; font-size: 10px; letter-spacing: .04em; }
+  .lesson-sub { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+  h1 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(20px, 3.4vw, 32px); line-height: 1.15; margin: 2px 0 0; text-wrap: balance; }
+  h2 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(17px, 2.6vw, 22px); line-height: 1.2; margin: 2px 0 0; text-wrap: balance; }
+  .lead { color: var(--muted); max-width: 720px; margin: 18px 0 0; }
+
+  /* Слот «наліпка настрою» */
+  .mood-wrap { position: relative; }
+  .sticker {
+    width: 140px; min-height: 72px; border: 2px dashed var(--line); border-radius: 14px; background: transparent;
+    display: grid; place-items: center; color: var(--faint); font-family: "Unbounded", sans-serif; font-size: 12px; line-height: 1.2; padding: 6px;
+    transition: transform .2s, border-color .2s;
+  }
+  .sticker:hover { border-color: var(--orange-3); transform: rotate(-3deg); }
+  .sticker.has { border-color: transparent; font-size: 44px; }
+  .sticker.has img { width: 84px; height: auto; transform: rotate(-6deg); filter: drop-shadow(0 6px 8px rgba(0,0,0,.22)); animation: stick .5s cubic-bezier(.3,1.6,.5,1); }
+  @keyframes stick { from { transform: scale(1.5) rotate(18deg); opacity: 0; } to { transform: rotate(-6deg); opacity: 1; } }
+  .mood-pop {
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 50; width: 250px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; box-shadow: var(--shadow); padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  }
+  .mood-pop[hidden] { display: none; }
+  .mood-pop p { grid-column: 1 / -1; margin: 0 0 4px; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .mood-pop button { border: 1px solid var(--line); background: var(--paper); border-radius: 12px; padding: 6px; font-size: 24px; line-height: 1; min-height: 46px; }
+  .mood-pop button:hover { border-color: var(--orange); }
+  .mood-pop .big { grid-column: span 2; }
+  .mood-pop .big img { width: 64px; height: auto; display: block; margin: 0 auto; }
+  .mood-pop .rm { grid-column: 1 / -1; font-size: 13px; font-weight: 600; color: var(--muted); min-height: 0; }
+
+  /* Прогрес і значки */
+  .hud { display: grid; grid-template-columns: 1fr auto; gap: 10px 18px; align-items: center; margin-top: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .hud-txt { font-size: 13px; color: var(--muted); }
+  .hud-txt b { color: var(--text); }
+  .bar { height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 6px; }
+  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--orange), var(--orange-3)); border-radius: 99px; transition: width .5s; }
+  .badges { display: flex; gap: 4px; flex-wrap: wrap; }
+  .badges span { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; font-size: 16px; background: var(--paper); border: 1px solid var(--line); filter: grayscale(1); opacity: .45; }
+  .badges span.on { filter: none; opacity: 1; border-color: var(--orange); background: var(--peach-soft); }
+  .badges span.pop { animation: pop .6s; }
+  @keyframes pop { 40% { transform: scale(1.35) rotate(-8deg); } }
+
+  /* ---------- Розділи ---------- */
+  .sec-head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin-bottom: 6px; }
+  .sec-num { width: 46px; height: 46px; border-radius: 12px; background: var(--orange); color: var(--on-orange); display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 20px; }
+  .sec-num.ico { font-size: 22px; font-family: inherit; }
+  .hint { color: var(--muted); font-size: 14px; margin: 8px 0 14px; max-width: 740px; }
+  .q { font-weight: 800; font-size: 16px; margin: 22px 0 8px; }
+  .tip { background: var(--peach-soft); border-radius: 12px; padding: 12px 14px; font-size: 14px; margin: 14px 0 0; }
+  .tip b { color: var(--orange-2); }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .btn { border: 0; border-radius: 12px; background: var(--orange); color: var(--on-orange); font-weight: 800; padding: 11px 18px; white-space: nowrap; transition: background .2s, transform .15s; }
+  .btn:hover { background: var(--orange-2); transform: translateY(-1px); }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+  .btn-ghost:hover { background: var(--peach-soft); }
+  .btn-sm { padding: 7px 12px; font-size: 13px; border-radius: 10px; }
+  .field, .area, select.field {
+    width: 100%; min-width: 0; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 11px; font-size: 15px;
+  }
+  .field:focus, .area:focus { outline: 0; border-color: var(--orange); box-shadow: 0 0 0 3px var(--peach-soft); }
+  .area { resize: vertical; min-height: 84px; line-height: 1.45; }
+  .rm { border: 0; background: transparent; color: var(--faint); font-size: 20px; line-height: 1; padding: 4px 6px; border-radius: 8px; }
+  .rm:hover { color: var(--no); background: var(--peach-soft); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; align-items: center; }
+  .chips small { color: var(--faint); font-size: 12px; font-weight: 600; }
+  .chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 11px; font-size: 13px; font-weight: 600; }
+  .chip:hover { border-color: var(--orange); background: var(--peach-soft); }
+  .shake { animation: shake .4s; }
+  @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+
+  /* Наліпка-нагорода (лисиця) на куті виконаного розділу */
+  .reward { position: absolute; top: -14px; right: -10px; width: 62px; height: auto; transform: rotate(9deg); filter: drop-shadow(0 5px 7px rgba(0,0,0,.22)); z-index: 5; pointer-events: auto; transition: transform .2s; }
+  .reward:hover { transform: rotate(2deg) translateY(-4px) scale(1.05); }
+  .flyer { position: fixed; z-index: 99; width: 62px; pointer-events: none; filter: drop-shadow(0 10px 14px rgba(0,0,0,.3)); transition: transform .9s cubic-bezier(.4,1.4,.5,1), opacity .3s; }
+
+  /* Текстові наліпки */
+  .tst { display: inline-block; background: #fff; color: #1f1f22; border-radius: 12px; padding: 8px 10px 7px; font-weight: 800; font-size: 13px; line-height: 1.15; text-align: center; box-shadow: 0 6px 16px rgba(0,0,0,.16); transform: rotate(4deg); transition: transform .2s; }
+  .tst span { display: block; margin-top: 4px; background: var(--orange); color: #fff; border-radius: 6px; padding: 3px 8px; }
+  .tst:hover { transform: rotate(0) translateY(-3px); }
+  .tst.l { transform: rotate(-4deg); }
+
+  /* ---------- 1. Список справ ---------- */
+  .tlist { display: grid; gap: 8px; }
+  .trow { display: grid; grid-template-columns: minmax(0, 1fr) 110px 172px 130px auto; gap: 8px; align-items: center; }
+  .thead { font-size: 12px; font-weight: 700; color: var(--muted); }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+  .seg button { flex: 1; border: 0; background: transparent; padding: 8px 0; font-weight: 800; font-size: 14px; color: var(--muted); min-width: 0; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--orange); color: var(--on-orange); }
+  .seg button.x[aria-pressed="true"] { background: var(--grey); }
+  .trow.refused .field:first-child { text-decoration: line-through; color: var(--faint); }
+  .row-tools { display: flex; }
+  .mini { border: 0; background: transparent; color: var(--orange-2); font-weight: 800; font-size: 12px; padding: 4px 6px; border-radius: 8px; white-space: nowrap; }
+  .mini:hover { background: var(--peach-soft); }
+  .tsum { margin-top: 14px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+  .kpi small { display: block; font-size: 12px; color: var(--muted); font-weight: 600; }
+  .kpi b { font-family: "Unbounded", sans-serif; font-size: 18px; }
+  .kpi.free b { color: var(--ok); }
+  .stack { display: flex; height: 14px; border-radius: 99px; overflow: hidden; background: var(--line); margin-top: 10px; }
+  .stack i { display: block; height: 100%; transition: width .4s; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; background: var(--c); vertical-align: -1px; }
+
+  /* ---------- 2. 10 000 годин ---------- */
+  .tk-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 20px; align-items: start; }
+  .skills { display: grid; gap: 8px; }
+  .skill { display: grid; grid-template-columns: 22px minmax(0, 1fr) 96px auto; gap: 6px; align-items: center; }
+  .skill input[type=radio] { accent-color: var(--orange); width: 18px; height: 18px; margin: 0; }
+  .hrs { position: relative; }
+  .hrs .field { padding-right: 34px; }
+  .hrs::after { content: "год"; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--faint); pointer-events: none; }
+  .chart { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 8px; }
+  .chart svg { width: 100%; height: auto; display: block; }
+  .calc { margin-top: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .calc-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: center; }
+  .calc label { font-weight: 700; font-size: 14px; }
+  input[type=range] { width: 100%; accent-color: var(--orange); }
+  .pace { font-family: "Unbounded", sans-serif; font-size: 22px; color: var(--orange-2); white-space: nowrap; }
+  .years { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+  .years button { border: 1px solid var(--line); background: var(--paper); border-radius: 12px; padding: 10px 8px; text-align: left; }
+  .years button:hover { border-color: var(--orange); }
+  .years small { display: block; font-size: 12px; color: var(--muted); font-weight: 600; }
+  .years b { font-size: 16px; }
+  .verdict { margin-top: 14px; background: linear-gradient(110deg, var(--orange), var(--orange-3)); color: #fff; border-radius: 14px; padding: 14px 16px; }
+  .verdict small { display: block; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; opacity: .9; }
+  .verdict b { display: block; font-size: 19px; line-height: 1.3; margin-top: 2px; }
+  .verdict span { font-size: 13px; opacity: .95; }
+  .scale { position: relative; margin: 26px 0 4px; height: 12px; border-radius: 99px; background: linear-gradient(90deg, var(--peach-soft), var(--peach), var(--orange-3), var(--orange)); }
+  .scale .mk { position: absolute; top: 50%; width: 20px; height: 20px; border-radius: 50%; transform: translate(-50%, -50%); border: 3px solid var(--surface); box-shadow: 0 2px 6px rgba(0,0,0,.25); transition: left .5s; }
+  .scale .now { background: var(--dark); }
+  .scale .fut { background: var(--orange-2); }
+  .scale .mk::after { content: attr(data-l); position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 700; white-space: nowrap; color: var(--muted); }
+  .levels { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .levels span { text-align: center; }
+  .levels span.on { color: var(--orange-2); font-weight: 800; }
+
+  /* ---------- 3. ЕКГ ---------- */
+  .ekg { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+  .flow { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px; }
+  .flow svg { width: 100%; height: auto; display: block; }
+  .flow .edge { fill: none; stroke: var(--orange-3); stroke-width: 2; opacity: .55; transition: stroke .3s, opacity .3s; }
+  .flow .elbl { font: 700 11px Inter, sans-serif; fill: var(--muted); }
+  .flow .dia { fill: var(--surface); stroke: var(--orange); stroke-width: 2; transition: fill .3s; }
+  .flow .box { fill: var(--orange); }
+  .flow .box.info { fill: var(--dark); }
+  .flow .box.now { fill: #e5484d; }
+  .flow .box.trash { fill: var(--grey); }
+  .flow text { font-family: Inter, sans-serif; }
+  .flow .dt { font-size: 12.5px; font-weight: 700; fill: var(--text); text-anchor: middle; }
+  .flow .bt { font-size: 13px; font-weight: 800; fill: #fff; text-anchor: middle; }
+  .flow .cnt { font-size: 11px; font-weight: 800; fill: var(--orange-2); text-anchor: middle; }
+  .flow .edge.lit { stroke: var(--orange-2); stroke-width: 4; opacity: 1; stroke-dasharray: 7 5; animation: ants .6s linear infinite; }
+  @keyframes ants { to { stroke-dashoffset: -12; } }
+  .flow .node.lit .dia { fill: var(--peach); }
+  .flow .node.cur .dia { fill: var(--peach); stroke-width: 4; animation: glow 1.1s ease-in-out infinite; }
+  @keyframes glow { 50% { stroke: var(--orange-3); stroke-width: 6; } }
+  .flow .node.end.lit rect { stroke: var(--text); stroke-width: 3; }
+  .flow .node.end.hit { animation: hit .7s; transform-box: fill-box; transform-origin: center; }
+  @keyframes hit { 40% { transform: scale(1.15); } }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .in-row { display: flex; gap: 8px; }
+  .qbox { margin-top: 14px; border-radius: 14px; background: var(--peach-soft); padding: 14px; min-height: 140px; }
+  .qbox .step { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--orange-2); }
+  .qbox h3 { margin: 4px 0 2px; font-size: 18px; line-height: 1.3; }
+  .qbox p { margin: 0 0 12px; font-size: 13px; color: var(--muted); }
+  .qbox .ans { display: flex; gap: 8px; flex-wrap: wrap; }
+  .qbox .ans .btn { flex: 1; min-width: 110px; }
+  .qbox .sub { display: grid; gap: 6px; margin-bottom: 10px; }
+  .qbox .sub label { font-size: 12px; font-weight: 700; color: var(--muted); }
+  .crumbs { font-size: 12px; color: var(--muted); margin-top: 10px; }
+  .trays { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+  .tray { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px; min-height: 120px; transition: box-shadow .3s; }
+  .tray.hit { box-shadow: 0 0 0 3px var(--orange-3); }
+  .tray h4 { margin: 0 0 6px; font-size: 13px; display: flex; justify-content: space-between; gap: 6px; }
+  .tray h4 em { font-style: normal; background: var(--peach-soft); color: var(--orange-2); border-radius: 99px; padding: 0 8px; }
+  .tray ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .tray li { font-size: 13px; background: var(--paper); border-radius: 8px; padding: 6px 4px 6px 8px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px; align-items: start; animation: drop .35s both; }
+  .tray li .t { overflow-wrap: anywhere; }
+  .tray li small { display: block; color: var(--muted); font-size: 11px; }
+  .tray li.done .t { text-decoration: line-through; color: var(--faint); }
+  .tray li .ops { display: flex; align-items: center; }
+  .tray li .rm { font-size: 16px; padding: 2px 4px; }
+  .tray .empty { font-size: 12px; color: var(--faint); }
+  .tray .go { border: 0; background: var(--orange); color: #fff; border-radius: 7px; font-size: 11px; font-weight: 800; padding: 3px 6px; }
+  .tray .go.run { background: var(--ok); }
+  .capy { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .capy[hidden] { display: none; }
+  .capy img { width: 52px; height: auto; transform: rotate(-8deg); filter: drop-shadow(0 4px 6px rgba(0,0,0,.2)); animation: wink 2.4s ease-in-out infinite; }
+  @keyframes wink { 0%, 80%, 100% { transform: rotate(-8deg); } 88% { transform: rotate(4deg) scale(1.06); } }
+  @keyframes drop { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- 4. Мова ---------- */
+  .lang { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+  .lcol { border-radius: 14px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); }
+  .lcol h3 { margin: 0 0 6px; font-size: 14px; }
+  .lcol.pro h3 { color: var(--orange-2); }
+  .lcol label { display: flex; gap: 8px; align-items: center; padding: 5px 0; font-size: 14px; cursor: pointer; }
+  .lcol input { width: 18px; height: 18px; accent-color: var(--orange); flex: none; }
+  .mirror { margin-top: 8px; background: var(--surface); border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; font-size: 15px; min-height: 44px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .mirror:empty::before { content: "Тут підсвітяться твої слова: помаранчеві — проактивні, сірі закреслені — реактивні."; color: var(--faint); font-size: 13px; }
+  .mirror mark { border-radius: 4px; padding: 0 2px; }
+  .mirror .p { background: var(--peach); color: var(--text); font-weight: 700; }
+  .mirror .r { background: var(--line); color: var(--muted); text-decoration: line-through; }
+  .meter { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; margin-top: 10px; font-size: 13px; font-weight: 700; }
+  .meter .bar { margin: 0; height: 12px; background: var(--line); }
+  .meter .bar i { background: linear-gradient(90deg, var(--grey), var(--orange)); }
+
+  /* ---------- 5. Кумири (ДЗ) ---------- */
+  .hw-head { display: flex; align-items: center; gap: 12px; }
+  .hw-ico { width: 46px; height: 46px; border-radius: 50%; border: 3px dashed var(--orange); display: grid; place-items: center; font-size: 22px; flex: none; }
+  .idols { display: grid; gap: 8px; }
+  .irow { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr) minmax(0, 1.1fr) auto; gap: 8px; align-items: start; }
+  .cloud { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; margin-top: 14px; min-height: 40px; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+  .cloud:empty::before { content: "Хмара якостей з'явиться, коли впишеш якості кумирів."; color: var(--faint); font-size: 13px; }
+  .cloud span { font-weight: 800; color: var(--orange-2); line-height: 1.1; }
+
+  /* ---------- 6. Колода питань ---------- */
+  .deck { max-width: 640px; margin: 10px auto 0; }
+  .cardwrap { position: relative; padding: 10px 10px 0; }
+  .cardwrap::before, .cardwrap::after { content: ""; position: absolute; inset: 18px 4px -10px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; transform: rotate(2.5deg); }
+  .cardwrap::after { transform: rotate(-2deg); inset: 14px 8px -6px; }
+  .qcard { position: relative; z-index: 2; background: var(--surface); border: 2px solid var(--orange); border-radius: 20px; padding: 22px 20px 18px; min-height: 270px; display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow); transition: transform .28s, opacity .28s; }
+  .qcard.out-l { transform: translateX(-60px) rotate(-6deg); opacity: 0; }
+  .qcard.out-r { transform: translateX(60px) rotate(6deg); opacity: 0; }
+  .qcard .qn { width: 40px; height: 40px; border-radius: 10px; background: var(--orange); color: #fff; display: grid; place-items: center; font: 700 18px "Unbounded", sans-serif; }
+  .qcard .qt { font-size: 19px; font-weight: 800; line-height: 1.3; margin: 0; }
+  .qcard .area { flex: 1; min-height: 100px; }
+  .deck-nav { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+  .deck-nav .count { font-weight: 800; min-width: 64px; text-align: center; }
+  .dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 12px; }
+  .dots button { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); font-size: 12px; font-weight: 800; color: var(--muted); padding: 0; }
+  .dots button.ans { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .dots button.cur { box-shadow: 0 0 0 3px var(--peach); border-color: var(--orange-2); }
+
+  /* ---------- 7. Тиждень ---------- */
+  .wk-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: var(--dark); color: var(--on-dark); border-radius: 12px; padding: 10px 14px; }
+  .wk-top .yr { font: 700 20px "Unbounded", sans-serif; }
+  .wk-top .wk { font-weight: 800; letter-spacing: .06em; }
+  .wk-top input { border: 0; border-radius: 8px; padding: 6px 8px; background: rgba(255,255,255,.14); color: #fff; color-scheme: dark; }
+  .wk-top .btn-sm { background: rgba(255,255,255,.16); color: #fff; border: 0; }
+  .wk-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-top: 14px; align-items: start; }
+  .cat { background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+  .cat h3 { margin: 0; background: var(--dark); color: var(--on-dark); font-size: 13px; padding: 7px 12px; display: flex; justify-content: space-between; }
+  .cat ul { list-style: none; margin: 0; padding: 6px 10px 10px; display: grid; gap: 2px; }
+  .cat li { display: grid; grid-template-columns: minmax(0, 1fr) 24px; gap: 8px; align-items: center; border-bottom: 1px dashed var(--line); }
+  .cat li input[type=text] { border: 0; background: transparent; padding: 7px 0; font-size: 14px; outline: 0; min-width: 0; }
+  .cat li input[type=checkbox], .top8 input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--orange); margin: 0; }
+  .cat li.d input[type=text], .top8 li.d input[type=text] { text-decoration: line-through; color: var(--faint); }
+  .top8 { border: 2px solid var(--dark); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .top8-h { background: var(--dark); color: var(--on-dark); display: flex; align-items: center; gap: 10px; padding: 8px 12px; font-size: 13px; font-weight: 700; line-height: 1.25; }
+  .top8-h b { font: 700 34px "Unbounded", sans-serif; }
+  .top8 ol { list-style: none; margin: 0; padding: 6px 10px 10px; display: grid; gap: 2px; }
+  .top8 li { display: grid; grid-template-columns: 26px minmax(0, 1fr) 24px; gap: 8px; align-items: center; border-bottom: 1px dashed var(--line); }
+  .top8 li > span { background: var(--dark); color: #fff; font-weight: 800; font-size: 13px; text-align: center; border-radius: 4px; padding: 2px 0; }
+  .top8 li input[type=text] { border: 0; background: transparent; padding: 7px 0; font-size: 14px; outline: 0; min-width: 0; }
+  .pareto { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center; margin-top: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  .ring { --p: 0; width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--orange) calc(var(--p) * 1%), var(--line) 0); transition: --p .5s; }
+  .ring div { width: 64px; height: 64px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font: 700 16px "Unbounded", sans-serif; }
+  .pareto p { margin: 0; font-size: 13px; color: var(--muted); }
+  .pareto p b { color: var(--text); }
+  .quote { margin-top: 18px; background: #ffc04d; color: #1f1f22; border-radius: 12px; padding: 12px 16px; display: grid; grid-template-columns: auto 1fr; gap: 12px; }
+  .quote b { font: 700 22px "Unbounded", sans-serif; line-height: 1; }
+  .quote p { margin: 0; font-weight: 600; }
+  .quote cite { display: block; text-align: right; font-size: 13px; font-weight: 500; }
+
+  /* ---------- 8. Пропорція справ ---------- */
+  .day { display: grid; gap: 8px; }
+  .drow { display: grid; grid-template-columns: minmax(0, 1fr) repeat(6, 56px) 30px; gap: 6px; align-items: center; }
+  .dhead { font-size: 11px; font-weight: 700; color: var(--muted); text-align: center; line-height: 1.15; }
+  .dhead span:first-child { text-align: left; }
+  .tg { height: 40px; border: 2px solid var(--orange-3); background: var(--surface); border-radius: 9px; font-size: 18px; padding: 0; transition: background .2s, transform .15s; }
+  .tg:hover { transform: scale(1.06); }
+  .tg[aria-pressed="true"] { background: var(--orange); border-color: var(--orange); }
+  .tg .lb { display: none; }
+  .dsum { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-top: 16px; }
+  .dsum .box { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; font-size: 14px; }
+  .dsum h3 { margin: 0 0 8px; font-size: 14px; }
+  .order { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+  .order .no { color: var(--faint); }
+  .motto { font: 700 clamp(16px, 2.4vw, 20px) "Unbounded", sans-serif; color: var(--orange); margin: 22px 0 0; line-height: 1.35; }
+
+  /* ---------- 9. Нотатки ---------- */
+  .notes-h { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .notes-h h2::after { content: ""; display: block; width: 46px; height: 3px; background: var(--orange); border-radius: 2px; margin-top: 8px; }
+  .dotted { width: 100%; min-height: 220px; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; resize: vertical; font-size: 15px; line-height: 24px;
+    background-color: var(--surface); background-image: radial-gradient(circle, var(--orange-3) 1px, transparent 1.4px); background-size: 24px 24px; background-position: 4px 18px; background-attachment: local; }
+  .dotted:focus { outline: 0; border-color: var(--orange); }
+  .takeaway { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: end; margin-top: 22px; }
+  .takeaway label { font-size: 12px; font-weight: 800; letter-spacing: .08em; color: var(--orange-2); text-transform: uppercase; padding-bottom: 10px; }
+  .takeaway input { border: 0; border-bottom: 2px solid var(--peach); background: transparent; padding: 8px 2px; font-size: 16px; font-weight: 600; outline: 0; width: 100%; min-width: 0; }
+  .takeaway input:focus { border-color: var(--orange); }
+  .final { margin-top: 20px; text-align: center; font-weight: 700; color: var(--muted); }
+  .final.all { color: var(--ok); }
+
+  .foot { text-align: center; color: var(--faint); font-size: 13px; margin-top: 28px; }
+  .foot a { color: var(--orange-2); font-weight: 700; text-decoration: none; }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 30px); opacity: 0; pointer-events: none; background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; transition: .3s; z-index: 90; max-width: calc(100% - 32px); text-align: center; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  canvas#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 95; }
+  [hidden] { display: none !important; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 860px) {
+    .tk-grid, .ekg { grid-template-columns: 1fr; }
+    .trays { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .trays .tray:first-child { grid-column: 1 / -1; }
+    .trow { grid-template-columns: minmax(0, 1fr) 100px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+    .trow .field:first-child { grid-column: 1 / -1; }
+    .trow .seg { grid-column: 1 / -1; }
+    .trow .row-tools { grid-column: 1 / -1; justify-content: space-between; }
+    .thead { display: none; }
+    .drow.dhead { display: none; }
+    .drow { grid-template-columns: repeat(3, minmax(0, 1fr)) 30px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+    .drow .field { grid-column: 1 / -2; }
+    .drow .rm { grid-column: -2 / -1; grid-row: 1; }
+    .drow .tg { height: auto; min-height: 38px; font-size: 13px; font-weight: 700; display: flex; gap: 4px; align-items: center; justify-content: center; padding: 4px; border-width: 1.5px; }
+    .drow .tg .lb { display: inline; color: var(--text); }
+    .drow .tg[aria-pressed="true"] .lb { color: #fff; }
+  }
+  @media (max-width: 640px) {
+    .lesson { grid-template-columns: auto 1fr; }
+    .mood-wrap { grid-column: 1 / -1; }
+    .sticker { width: 100%; min-height: 52px; }
+    .sticker.has img { width: 64px; }
+    .mood-pop { left: 0; right: auto; }
+    .sec-head { grid-template-columns: auto 1fr; }
+    .sec-head > .tst, .sec-head > .sec-tools { grid-column: 1 / -1; justify-self: start; }
+    .hud { grid-template-columns: 1fr; }
+    .tsum, .years { grid-template-columns: 1fr; }
+    .lang, .wk-grid, .dsum { grid-template-columns: 1fr; }
+    .irow { grid-template-columns: minmax(0, 1fr) auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+    .irow .field:not(:first-child) { grid-column: 1 / -1; }
+    .irow .rm { grid-column: 2; grid-row: 1; }
+    .ihead { display: none !important; }
+    .skill { grid-template-columns: 22px minmax(0, 1fr) 86px auto; }
+    .takeaway { grid-template-columns: 1fr; gap: 0; }
+    .takeaway label { padding: 0; }
+    .reward { width: 50px; right: -6px; }
+    .qcard .qt { font-size: 17px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  @media print {
+    body { background: #fff; }
+    .secnav, .actions, .toast, .mood-pop, .hud { display: none !important; }
+    .sheet { box-shadow: none; break-inside: avoid-page; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="secnav" id="secnav" aria-label="Розділи заняття">
+    <a href="#s1" data-s="1">1 · Справи</a>
+    <a href="#s2" data-s="2">2 · 10 000 годин</a>
+    <a href="#s3" data-s="3">3 · ЕКГ</a>
+    <a href="#s4" data-s="4">4 · Мова</a>
+    <a href="#s5" data-s="5">5 · Кумири (ДЗ)</a>
+    <a href="#s6" data-s="6">6 · 12 питань</a>
+    <a href="#s7" data-s="7">7 · Тиждень</a>
+    <a href="#s8" data-s="8">8 · Пропорція</a>
+    <a href="#s9" data-s="9">9 · Головне</a>
+  </nav>
+
+  <!-- Джерело наліпок: кожна вставлена один раз, далі клонуємо src у JS -->
+  <div hidden aria-hidden="true">
+    <img id="srcFox" data-st="fox" src="data:image/webp;base64,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" alt="Наліпка: лисиця «Ідея вже в роботі»" width="213" height="250">
+    <img id="srcCapy" data-st="capybara-music" src="data:image/webp;base64,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" alt="Наліпка: капібара «Без паніки»" width="205" height="238">
+  </div>
+
+  <!-- ===== Шапка ===== -->
+  <section class="sheet" id="top">
+    <div class="lesson">
+      <div class="lesson-num"><b>02</b><small>заняття</small></div>
+      <div>
+        <div class="lesson-sub">Тайм-менеджмент</div>
+        <h1>Техніки планування і структуризація часу</h1>
+      </div>
+      <div class="mood-wrap">
+        <button class="sticker" id="mood" type="button" aria-haspopup="true" aria-expanded="false" title="Обери наліпку настрою">наліпка<br>настрою</button>
+        <div class="mood-pop" id="moodPop" hidden>
+          <p>Який у тебе настрій?</p>
+          <button type="button" class="big" data-mood="fox" aria-label="Лисиця «Ідея вже в роботі»"></button>
+          <button type="button" class="big" data-mood="capybara-music" aria-label="Капібара «Без паніки»"></button>
+          <button type="button" data-mood="🔥">🔥</button><button type="button" data-mood="😎">😎</button>
+          <button type="button" data-mood="🤯">🤯</button><button type="button" data-mood="😴">😴</button>
+          <button type="button" class="rm" data-mood="">Зняти наліпку</button>
+        </div>
+      </div>
+    </div>
+    <p class="lead">Сьогодні вчимося розкладати справи по поличках: що взяти, від чого відмовитися, скільки годин треба до майстерності, куди відправити кожну «інформацію» і як спланувати тиждень так, щоб 8 справ дали 80% результату.</p>
+    <div class="hud" aria-live="polite">
+      <div>
+        <div class="hud-txt">Заповнено <b id="pct">0%</b> · розділів виконано <b id="doneN">0</b> з 9</div>
+        <div class="bar"><i id="pbar"></i></div>
+      </div>
+      <div class="badges" id="badges" aria-label="Значки за розділи"></div>
+    </div>
+  </section>
+
+  <!-- ===== 1. Випиши й структуруй усі справи ===== -->
+  <section class="sheet" id="s1" data-sec="1">
+    <div class="sec-head">
+      <span class="sec-num">1</span>
+      <div><div class="lesson-sub">Список справ</div><h2>Випиши й структуруй усі справи</h2></div>
+    </div>
+    <p class="hint">Вивантаж із голови все, що висить. Для кожної справи оціни час, постав пріоритет <b>А</b> (обов'язково), <b>Б</b> (бажано), <b>В</b> (якщо буде час) — або чесно відмовся <b>✕</b>. І признач, коли зробиш.</p>
+    <div class="tlist" id="tasks"></div>
+    <div class="actions">
+      <button class="btn btn-sm" type="button" id="addTask">+ Справа</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-ex="1">Приклад</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-clr="1">Очистити</button>
+    </div>
+    <div class="tsum">
+      <div class="kpi"><small>Беру в роботу</small><b id="kTake">0 год</b></div>
+      <div class="kpi free"><small>Звільнено відмовами</small><b id="kFree">0 хв</b></div>
+      <div class="kpi"><small>Без часу «коли»</small><b id="kNoWhen">0</b></div>
+    </div>
+    <div class="stack" id="tStack" aria-hidden="true"></div>
+    <div class="legend"><span style="--c:var(--orange)">А</span><span style="--c:var(--orange-3)">Б</span><span style="--c:var(--peach)">В</span><span style="--c:var(--grey)">відмова</span></div>
+    <p class="tip">Кнопка <b>→ ЕКГ</b> біля справи відправить її в схему з розділу 3 — там вирішиш, куди її покласти.</p>
+  </section>
+
+  <!-- ===== 2. Правило 10 000 годин ===== -->
+  <section class="sheet" id="s2" data-sec="2">
+    <div class="sec-head">
+      <span class="sec-num">2</span>
+      <div><div class="lesson-sub">Майстерність</div><h2>Правило 10 000 годин</h2></div>
+      <div class="tst">ти вже<span>майже там!</span></div>
+    </div>
+    <p class="hint">Щоб стати майстром у справі, потрібно близько 10 000 годин практики. Скільки годин напрацювань у тебе вже є? І скільки часу щодня треба впродовж року–трьох, щоб набрати 10 000?</p>
+    <div class="tk-grid">
+      <div>
+        <p class="q" style="margin-top:0">Твої справи й години</p>
+        <div class="skills" id="skills"></div>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn btn-sm" type="button" id="addSkill">+ Справа</button>
+          <button class="btn btn-ghost btn-sm" type="button" data-ex="2">Приклад</button>
+          <button class="btn btn-ghost btn-sm" type="button" data-clr="2">Очистити</button>
+        </div>
+        <p class="hint" style="font-size:12px">Як порахувати: роки × тижні × години. Наприклад, 2 роки по 3 год на тиждень ≈ 300 год.</p>
+      </div>
+      <div class="chart"><svg id="tkChart" viewBox="0 0 600 320" role="img" aria-label="Стовпчики годин до позначки 10 000"></svg></div>
+    </div>
+    <div class="calc">
+      <div class="calc-row">
+        <label for="pace">Скільки годин на день ти готовий(-а) вкладати в «<span id="selName">справу</span>»?</label>
+        <div class="pace"><span id="paceOut">1</span> год</div>
+      </div>
+      <input type="range" id="pace" min="0.25" max="8" step="0.25" value="1">
+      <div class="years" id="years"></div>
+      <div class="verdict" id="verdict"></div>
+      <div class="scale" id="scale"><i class="mk now" id="mkNow" data-l="зараз"></i><i class="mk fut" id="mkFut" data-l="за рік"></i></div>
+      <div class="levels" id="levels"></div>
+    </div>
+  </section>
+
+  <!-- ===== 3. Технологія ЕКГ ===== -->
+  <section class="sheet" id="s3" data-sec="3">
+    <div class="sec-head">
+      <span class="sec-num">3</span>
+      <div><div class="lesson-sub">Від інформації до дії</div><h2>Технологія ЕКГ</h2></div>
+    </div>
+    <p class="hint">Кожну справу проведи по схемі — від «інформації» до конкретної дії. Вписуй справу, відповідай на питання, і шлях підсвітиться до потрібної скриньки.</p>
+    <div class="ekg">
+      <div class="flow">
+        <svg id="flow" viewBox="0 0 440 530" role="img" aria-label="Блок-схема ЕКГ: від інформації до календаря, списку справ, довідок, кошика або дії зараз">
+          <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#f57c00"/></marker></defs>
+          <path class="edge" id="e-info" d="M220 48V75" marker-end="url(#ar)"/>
+          <path class="edge" id="e-q1-q2" d="M150 110H121" marker-end="url(#ar)"/><text class="elbl" x="136" y="102" text-anchor="middle">ні</text>
+          <path class="edge" id="e-q2-ref" d="M70 140V181" marker-end="url(#ar)"/><text class="elbl" x="78" y="166">так</text>
+          <path class="edge" id="e-q2-trash" d="M70 80V49" marker-end="url(#ar)"/><text class="elbl" x="78" y="68">ні</text>
+          <path class="edge" id="e-q1-q3" d="M220 145V177" marker-end="url(#ar)"/><text class="elbl" x="228" y="166">так</text>
+          <path class="edge" id="e-q3-q4" d="M285 210H314" marker-end="url(#ar)"/><text class="elbl" x="300" y="200" text-anchor="middle" font-size="10">проект</text>
+          <path class="edge" id="e-q4-list" d="M370 242V391" marker-end="url(#ar)"/><text class="elbl" x="378" y="320">крок</text>
+          <path class="edge" id="e-q3-q5" d="M220 242V276" marker-end="url(#ar)"/><text class="elbl" x="228" y="264">дія</text>
+          <path class="edge" id="e-q5-now" d="M150 310H126" marker-end="url(#ar)"/><text class="elbl" x="138" y="302" text-anchor="middle">так</text>
+          <path class="edge" id="e-q5-q6" d="M220 343V376" marker-end="url(#ar)"/><text class="elbl" x="228" y="364">ні</text>
+          <path class="edge" id="e-q6-list" d="M295 410H314" marker-end="url(#ar)"/><text class="elbl" x="305" y="401" text-anchor="middle">ні</text>
+          <path class="edge" id="e-q6-cal" d="M220 443V476" marker-end="url(#ar)"/><text class="elbl" x="228" y="464">так</text>
+
+          <g class="node end" id="n-info"><rect class="box info" x="160" y="12" width="120" height="36" rx="8"/><text class="bt" x="220" y="35">Інформація</text></g>
+          <g class="node end" id="n-trash"><rect class="box trash" x="15" y="12" width="110" height="36" rx="8"/><text class="bt" x="70" y="35">Відкинути</text></g>
+          <g class="node" id="n-q1"><polygon class="dia" points="220,75 290,110 220,145 150,110"/><text class="dt" x="220" y="106">Можна щось</text><text class="dt" x="220" y="121">зробити?</text></g>
+          <g class="node" id="n-q2"><polygon class="dia" points="70,80 120,110 70,140 20,110"/><text class="dt" x="70" y="114">Важливо?</text></g>
+          <g class="node end" id="n-ref"><rect class="box" x="15" y="182" width="110" height="36" rx="8"/><text class="bt" x="70" y="205">В довідки</text></g>
+          <g class="node" id="n-q3"><polygon class="dia" points="220,178 285,210 220,242 155,210"/><text class="dt" x="220" y="206">Проект</text><text class="dt" x="220" y="221">чи дія?</text></g>
+          <g class="node" id="n-q4"><polygon class="dia" points="370,178 425,210 370,242 315,210"/><text class="dt" x="370" y="206">Наступний</text><text class="dt" x="370" y="221">крок?</text></g>
+          <g class="node" id="n-q5"><polygon class="dia" points="220,277 290,310 220,343 150,310"/><text class="dt" x="220" y="306">Зробиться</text><text class="dt" x="220" y="321">за 2 хв?</text></g>
+          <g class="node end" id="n-now"><rect class="box now" x="15" y="292" width="110" height="36" rx="8"/><text class="bt" x="70" y="315">Зробити зараз</text></g>
+          <g class="node" id="n-q6"><polygon class="dia" points="220,377 295,410 220,443 145,410"/><text class="dt" x="220" y="406">Фіксований</text><text class="dt" x="220" y="421">час?</text></g>
+          <g class="node end" id="n-list"><rect class="box" x="315" y="392" width="110" height="36" rx="8"/><text class="bt" x="370" y="415">Список справ</text></g>
+          <g class="node end" id="n-cal"><rect class="box" x="160" y="477" width="120" height="36" rx="8"/><text class="bt" x="220" y="500">Календар</text></g>
+          <text class="cnt" id="c-trash" x="70" y="62"></text><text class="cnt" id="c-ref" x="70" y="232"></text>
+          <text class="cnt" id="c-now" x="70" y="342"></text><text class="cnt" id="c-list" x="370" y="442"></text><text class="cnt" id="c-cal" x="300" y="500" text-anchor="start"></text>
+        </svg>
+      </div>
+      <div class="panel">
+        <label class="q" for="ekgIn" style="display:block;margin-top:0">Справа або «інформація»</label>
+        <div class="in-row">
+          <input class="field" id="ekgIn" placeholder="Напр.: лист від куратора про проект" autocomplete="off">
+          <button class="btn" type="button" id="ekgGo">Провести</button>
+        </div>
+        <div class="chips" id="ekgChips"></div>
+        <div class="qbox" id="qbox" aria-live="polite"></div>
+        <div class="crumbs" id="crumbs"></div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn btn-ghost btn-sm" type="button" data-ex="3">Приклад</button>
+          <button class="btn btn-ghost btn-sm" type="button" data-clr="3">Очистити скриньки</button>
+        </div>
+      </div>
+    </div>
+    <div class="trays" id="trays"></div>
+  </section>
+
+  <!-- ===== 4. Проактивна і реактивна мова ===== -->
+  <section class="sheet" id="s4" data-sec="4">
+    <div class="sec-head">
+      <span class="sec-num">4</span>
+      <div><div class="lesson-sub">Мова планів</div><h2>Проактивна чи реактивна мова?</h2></div>
+    </div>
+    <p class="hint">Познач фрази, які ти кажеш найчастіше. А потім напиши кілька речень про свої плани на тиждень — детектор підсвітить, якою мовою ти їх формулюєш.</p>
+    <div class="lang" id="langCols">
+      <div class="lcol pro"><h3>Проактивна мова</h3></div>
+      <div class="lcol"><h3>Реактивна мова</h3></div>
+    </div>
+    <label class="q" for="langTxt" style="display:block">Мої плани на тиждень — своїми словами</label>
+    <textarea class="area" id="langTxt" placeholder="Напр.: Цього тижня я спробую нарешті почати англійську, якщо встигну…"></textarea>
+    <div class="mirror" id="mirror" aria-live="polite"></div>
+    <div class="meter"><span>реакція</span><div class="bar"><i id="langBar"></i></div><span id="langPct">—</span></div>
+    <p class="tip" id="langTip">Проактивна мова звучить як рішення: «я зроблю», «я оберу», «погляньмо на варіанти».</p>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" type="button" data-ex="4">Приклад</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-clr="4">Очистити</button>
+    </div>
+  </section>
+
+  <!-- ===== 5. Домашнє завдання: кумири ===== -->
+  <section class="sheet" id="s5" data-sec="5">
+    <div class="hw-head">
+      <span class="hw-ico" aria-hidden="true">🏠</span>
+      <div><div class="lesson-sub">Заняття 2</div><h2>Домашнє завдання</h2></div>
+    </div>
+    <p class="q">Пригадай своїх кумирів і розбери їхні якості</p>
+    <p class="hint">Кого ти поважаєш — людей зі світу чи зі свого оточення? Якими якостями вони володіли і за яких умов (якої діяльності) ці якості розвиваються?</p>
+    <div class="idols" id="idols"></div>
+    <div class="chips" id="qChips"><small>Якості (тапни — додасться в рядок, де курсор):</small></div>
+    <p class="q">Хмара якостей твоїх кумирів</p>
+    <div class="cloud" id="cloud"></div>
+    <p class="tip" id="idolTip">Найчастіша якість — підказка, що варто прокачувати тобі. Її можна додати як справу в «Правило 10 000 годин».</p>
+    <div class="actions">
+      <button class="btn btn-sm" type="button" id="addIdol">+ Кумир</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="idolToTk" hidden>Додати якість у 10 000 годин</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-ex="5">Приклад</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-clr="5">Очистити</button>
+    </div>
+  </section>
+
+  <!-- ===== 6. Питання в кінці розділу ===== -->
+  <section class="sheet" id="s6" data-sec="6">
+    <div class="sec-head">
+      <span class="sec-num ico" aria-hidden="true">?</span>
+      <div><div class="lesson-sub">Тайм-менеджмент</div><h2>Питання в кінці розділу</h2></div>
+    </div>
+    <p class="hint">12 карток, щоб подумати про свій час. Гортай колоду, відповідай коротко і чесно. Порядок — будь-який.</p>
+    <div class="deck">
+      <div class="cardwrap">
+        <div class="qcard" id="qcard">
+          <span class="qn" id="qn">1</span>
+          <p class="qt" id="qt"></p>
+          <label class="vh" for="qa">Твоя відповідь</label>
+          <textarea class="area" id="qa" placeholder="Твоя відповідь…"></textarea>
+          <div class="chips" id="q12chips" hidden></div>
+        </div>
+      </div>
+      <div class="deck-nav">
+        <button class="btn btn-ghost" type="button" id="qPrev" aria-label="Попереднє питання">←</button>
+        <span class="count" id="qCount">1 / 12</span>
+        <button class="btn" type="button" id="qNext" aria-label="Наступне питання">→</button>
+        <button class="btn btn-ghost btn-sm" type="button" id="qRand">🔀 Випадкове без відповіді</button>
+      </div>
+      <div class="dots" id="dots" aria-label="Питання"></div>
+    </div>
+    <div class="actions" style="justify-content:center">
+      <button class="btn btn-ghost btn-sm" type="button" data-ex="6">Приклад</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-clr="6">Очистити</button>
+    </div>
+  </section>
+
+  <!-- ===== 7. Тижневий планер ===== -->
+  <section class="sheet" id="s7" data-sec="7">
+    <div class="sec-head">
+      <span class="sec-num ico" aria-hidden="true">📅</span>
+      <div><div class="lesson-sub">Тайм-менеджмент</div><h2>Завдання на місяць</h2></div>
+    </div>
+    <p class="hint">Тижневий розворот: зустрічі, дзвінки, листи й події — плюс 8 найважливіших справ, які згенерують 80% результатів тижня (принцип Парето 80/20). Порожній рядок унизу кожного списку додається сам.</p>
+    <div class="wk-top">
+      <span class="yr" id="wkYr">2026</span>
+      <span class="wk" id="wkLbl"># ТИЖДЕНЬ __.__ – __.__</span>
+      <label class="vh" for="wkStart">Початок тижня</label>
+      <input type="date" id="wkStart">
+      <button class="btn btn-sm" type="button" id="wkNow">Цей тиждень</button>
+    </div>
+    <div class="wk-grid">
+      <div style="display:grid;gap:14px" id="catsL"></div>
+      <div style="display:grid;gap:14px">
+        <div class="top8">
+          <div class="top8-h"><b>8</b><span>найважливіших справ, які згенерують 80% результатів тижня</span></div>
+          <ol id="top8"></ol>
+        </div>
+        <div class="pareto">
+          <div class="ring" id="ring"><div id="ringTxt">0%</div></div>
+          <p id="paretoTxt">Кожна виконана справа з вісімки — це ~10% результату тижня. <b>Вісім із восьми = 80%.</b> Решта 20% — усе інше.</p>
+        </div>
+        <div id="catsR" style="display:grid;gap:14px"></div>
+      </div>
+    </div>
+    <div class="quote"><b>99</b><p>Всяка радість у світі витікає з бажання щастя іншим. Всяке страждання бере початок у бажанні щастя лише собі.<cite>Далай Лама</cite></p></div>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" type="button" data-ex="7">Приклад</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-clr="7">Очистити</button>
+    </div>
+  </section>
+
+  <!-- ===== 8. Пропорція справ на щодень ===== -->
+  <section class="sheet" id="s8" data-sec="8">
+    <div class="sec-head">
+      <span class="sec-num ico" aria-hidden="true">⚖️</span>
+      <div><div class="lesson-sub">Тайм-менеджмент</div><h2>Пропорція справ на щодень</h2></div>
+    </div>
+    <p class="hint">Розкладай день за важливістю, складністю та відчуттям «хочу / треба / мушу». Найважливіше, найскладніше і найменш приємне — по одному завданню на день.</p>
+    <div class="day" id="day"></div>
+    <div class="actions">
+      <button class="btn btn-sm" type="button" id="addDay">+ Завдання</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-ex="8">Приклад</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-clr="8">Очистити</button>
+    </div>
+    <div class="dsum">
+      <div class="box">
+        <h3>Пропорція дня</h3>
+        <div class="stack" id="dStack" style="margin-top:0"></div>
+        <div class="legend" id="dLegend"></div>
+        <p id="dTip" style="margin:10px 0 0;font-size:13px;color:var(--muted)"></p>
+      </div>
+      <div class="box">
+        <h3>Три головні завдання дня</h3>
+        <ol class="order" id="dOrder"></ol>
+      </div>
+    </div>
+    <p class="motto">Плануй тиждень наперед —<br>і живи за своїми пріоритетами.</p>
+  </section>
+
+  <!-- ===== 9. Нотатки і головне ===== -->
+  <section class="sheet" id="s9" data-sec="9">
+    <div class="notes-h">
+      <div><h2>Нотатки</h2><p class="hint" style="margin-top:6px">Ідеї, які не можна загубити</p></div>
+      <div class="tst l">збережи<span>думку</span></div>
+    </div>
+    <label class="vh" for="notes">Нотатки</label>
+    <textarea class="dotted" id="notes" placeholder="Ідеї, інсайти, що хочеш спробувати…"></textarea>
+    <div class="takeaway">
+      <label for="main">Головне, що забираю з розділу:</label>
+      <input id="main" placeholder="Одне речення — найцінніше для тебе">
+    </div>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" type="button" data-ex="9">Приклад</button>
+      <button class="btn btn-ghost btn-sm" type="button" data-clr="9">Очистити</button>
+    </div>
+    <p class="final" id="final"></p>
+  </section>
+
+  <p class="foot"><a href="index.html">← Усі зошити</a><br>Робочий зошит Campus 13 · Тайм-менеджмент · заняття 02</p>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<canvas id="confetti" hidden></canvas>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const KEY = 'spe-planuvannia-v1';
+  const pad = (n) => String(n).padStart(2, '0');
+  const fmtH = (m) => { m = Math.round(m); const h = Math.floor(m / 60), r = m % 60; return h ? h + ' год' + (r ? ' ' + r + ' хв' : '') : r + ' хв'; };
+  const num = (v) => { const n = parseFloat(String(v).replace(',', '.').replace(/\s/g, '')); return isFinite(n) ? n : 0; };
+  const nf = (n) => Math.round(n).toLocaleString('uk-UA');
+
+  /* ---------- Стан і сховище ---------- */
+  const CAT_IDS = ['meet', 'mail', 'call', 'event', 'fin', 'other'];
+  const fresh = () => ({
+    mood: '',
+    tasks: [0, 1, 2].map(() => ({ t: '', min: '', pr: '', when: '' })),
+    tk: { skills: [{ n: '', h: '' }], sel: 0, pd: 1 },
+    ekg: [],
+    lang: { txt: '', tk: [0, 0, 0, 0, 0, 0] },
+    idols: [0, 1, 2].map(() => ({ w: '', q: '', c: '' })),
+    qs: Array(12).fill(''), qi: 0,
+    week: { start: '', cats: Object.fromEntries(CAT_IDS.map((k) => [k, []])), top: Array.from({ length: 8 }, () => ({ t: '', d: false })) },
+    day: { rows: Array.from({ length: 6 }, () => ({ t: '', m: '' })), imp: -1, hard: -1, unpl: -1 },
+    notes: '', main: ''
+  });
+  let S = fresh();
+  try {
+    const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (raw && typeof raw === 'object') {
+      const f = fresh();
+      S = Object.assign(f, raw);
+      S.tk = Object.assign(f.tk, raw.tk); S.lang = Object.assign(fresh().lang, raw.lang); S.day = Object.assign(fresh().day, raw.day);
+      S.week = Object.assign(fresh().week, raw.week); S.week.cats = Object.assign(fresh().week.cats, S.week.cats);
+    }
+  } catch (e) { S = fresh(); }
+  let saveT;
+  const save = () => { clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 200); progress(); };
+
+  function toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+  const shake = (el) => { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); };
+  const FOX = $('#srcFox').src, CAPY = $('#srcCapy').src;
+  const img = (src, alt, cls) => { const i = new Image(); i.src = src; i.alt = alt; if (cls) i.className = cls; return i; };
+
+  /* ---------- Наліпка настрою ---------- */
+  const moodBtn = $('#mood'), moodPop = $('#moodPop');
+  $('[data-mood="fox"]').append(img(FOX, ''));
+  $('[data-mood="capybara-music"]').append(img(CAPY, ''));
+  function paintMood() {
+    const m = S.mood; moodBtn.classList.toggle('has', !!m);
+    if (!m) moodBtn.innerHTML = 'наліпка<br>настрою';
+    else if (m === 'fox') { moodBtn.textContent = ''; moodBtn.append(img(FOX, 'Наліпка настрою: лисиця «Ідея вже в роботі»')); }
+    else if (m === 'capybara-music') { moodBtn.textContent = ''; moodBtn.append(img(CAPY, 'Наліпка настрою: капібара «Без паніки»')); }
+    else moodBtn.textContent = m;
+  }
+  const togglePop = (open) => { moodPop.hidden = !open; moodBtn.setAttribute('aria-expanded', open); };
+  moodBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePop(moodPop.hidden); });
+  moodPop.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-mood]'); if (!b) return;
+    S.mood = b.dataset.mood; paintMood(); togglePop(false); save(); moodBtn.focus();
+  });
+  document.addEventListener('click', (e) => { if (!moodPop.hidden && !e.target.closest('.mood-wrap')) togglePop(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !moodPop.hidden) { togglePop(false); moodBtn.focus(); } });
+
+  /* ================= 1. Список справ ================= */
+  const TIMES = [['', '— час —'], [5, '5 хв'], [15, '15 хв'], [30, '30 хв'], [45, '45 хв'], [60, '1 год'], [90, '1,5 год'], [120, '2 год'], [180, '3 год'], [240, '4 год'], [480, 'весь день']];
+  const PR = [['A', 'А', 'Обов\'язково'], ['B', 'Б', 'Бажано'], ['C', 'В', 'Якщо буде час'], ['X', '✕', 'Відмова']];
+  function renderTasks() {
+    $('#tasks').innerHTML = `<div class="trow thead" aria-hidden="true"><span>Справа</span><span>Скільки часу</span><span>Пріоритет або відмова</span><span>Коли зроблю</span><span></span></div>` +
+      S.tasks.map((r, i) => `<div class="trow${r.pr === 'X' ? ' refused' : ''}" data-i="${i}">
+        <input class="field" data-f="t" value="${esc(r.t)}" placeholder="Справа ${i + 1}" aria-label="Справа ${i + 1}">
+        <select class="field" data-f="min" aria-label="Скільки часу потрібно">${TIMES.map(([v, l]) => `<option value="${v}"${String(r.min) === String(v) ? ' selected' : ''}>${l}</option>`).join('')}</select>
+        <div class="seg" role="group" aria-label="Пріоритет">${PR.map(([k, l, tt]) => `<button type="button" class="${k === 'X' ? 'x' : ''}" data-pr="${k}" title="${tt}" aria-pressed="${r.pr === k}">${l}</button>`).join('')}</div>
+        <input class="field" data-f="when" value="${esc(r.when)}" placeholder="коли? пн 18:00" aria-label="Коли зробиш">
+        <div class="row-tools"><button type="button" class="mini" data-toekg title="Провести через ЕКГ">→ ЕКГ</button><button type="button" class="rm" data-rm aria-label="Видалити справу">×</button></div>
+      </div>`).join('');
+    sumTasks();
+  }
+  function sumTasks() {
+    let take = 0, free = 0, noWhen = 0; const by = { A: 0, B: 0, C: 0, X: 0 };
+    S.tasks.forEach((r) => {
+      const m = num(r.min); if (!r.t.trim()) return;
+      if (r.pr === 'X') { free += m; by.X += m; } else { take += m; if (r.pr) by[r.pr] += m; if (!r.when.trim()) noWhen++; }
+    });
+    $('#kTake').textContent = fmtH(take); $('#kFree').textContent = fmtH(free); $('#kNoWhen').textContent = noWhen;
+    const tot = by.A + by.B + by.C + by.X || 1;
+    $('#tStack').innerHTML = [['A', 'var(--orange)'], ['B', 'var(--orange-3)'], ['C', 'var(--peach)'], ['X', 'repeating-linear-gradient(45deg,var(--grey) 0 5px,transparent 5px 9px)']]
+      .map(([k, c]) => `<i style="width:${by[k] / tot * 100}%;background:${c}"></i>`).join('');
+  }
+  $('#tasks').addEventListener('input', (e) => {
+    const row = e.target.closest('.trow'); const f = e.target.dataset.f; if (!row || !f) return;
+    S.tasks[+row.dataset.i][f] = e.target.value; sumTasks(); save(); ekgChips();
+  });
+  $('#tasks').addEventListener('click', (e) => {
+    const row = e.target.closest('.trow'); if (!row) return; const i = +row.dataset.i;
+    const pr = e.target.closest('[data-pr]');
+    if (pr) { const r = S.tasks[i]; r.pr = r.pr === pr.dataset.pr ? '' : pr.dataset.pr; renderTasks(); save(); if (r.pr === 'X' && r.t) toast('Відмова — теж рішення. Час звільнено 💪'); return; }
+    if (e.target.closest('[data-rm]')) { S.tasks.splice(i, 1); if (!S.tasks.length) S.tasks.push({ t: '', min: '', pr: '', when: '' }); renderTasks(); save(); ekgChips(); return; }
+    if (e.target.closest('[data-toekg]')) {
+      const t = S.tasks[i].t.trim(); if (!t) { shake(row); return; }
+      $('#ekgIn').value = t; $('#s3').scrollIntoView({ behavior: RM ? 'auto' : 'smooth' }); setTimeout(() => startEkg(), RM ? 0 : 450);
+    }
+  });
+  $('#addTask').addEventListener('click', () => { S.tasks.push({ t: '', min: '', pr: '', when: '' }); renderTasks(); save(); $$('#tasks .trow:not(.thead) .field')[(S.tasks.length - 1) * 3]?.focus(); });
+
+  /* ================= 2. 10 000 годин ================= */
+  const GOAL = 10000;
+  const LEVELS = [[0, 'Новачок'], [500, 'Учень'], [2000, 'Практик'], [5000, 'Профі'], [8000, 'Експерт'], [10000, 'Майстер']];
+  const lvl = (h) => LEVELS.reduce((a, l, i) => (h >= l[0] ? i : a), 0);
+  const MONTHS = ['січні', 'лютому', 'березні', 'квітні', 'травні', 'червні', 'липні', 'серпні', 'вересні', 'жовтні', 'листопаді', 'грудні'];
+  const ago = (y) => { const yy = Math.floor(y), mm = Math.round((y - yy) * 12); return (yy ? yy + ' р. ' : '') + (mm ? mm + ' міс.' : (yy ? '' : 'менше місяця')); };
+  function renderSkills() {
+    if (S.tk.sel >= S.tk.skills.length) S.tk.sel = 0;
+    $('#skills').innerHTML = S.tk.skills.map((s, i) => `<div class="skill" data-i="${i}">
+      <input type="radio" name="sk" ${i === S.tk.sel ? 'checked' : ''} aria-label="Обрати для розрахунку">
+      <input class="field" data-f="n" value="${esc(s.n)}" placeholder="Справа: гітара, код, англійська…" aria-label="Справа ${i + 1}">
+      <span class="hrs"><input class="field" data-f="h" inputmode="decimal" value="${esc(s.h)}" placeholder="0" aria-label="Годин уже є"></span>
+      <button type="button" class="rm" data-rm aria-label="Видалити">×</button></div>`).join('');
+    calc();
+  }
+  function calc() {
+    const s = S.tk.skills[S.tk.sel] || { n: '', h: '' };
+    const have = Math.min(GOAL, num(s.h)), left = Math.max(0, GOAL - have), pd = S.tk.pd;
+    $('#selName').textContent = s.n.trim() || 'справу';
+    $('#pace').value = pd; $('#paceOut').textContent = String(pd).replace('.', ',');
+    $('#years').innerHTML = [1, 2, 3].map((y) => `<button type="button" data-pd="${left / (365 * y)}"><small>набрати за ${y} ${y === 1 ? 'рік' : 'роки'}</small><b>${(left / (365 * y)).toFixed(1).replace('.', ',')} год/день</b></button>`).join('');
+    const days = left / pd, years = days / 365;
+    const d = new Date(); d.setDate(d.getDate() + Math.ceil(days));
+    $('#verdict').innerHTML = left <= 0
+      ? `<small>Майстерність</small><b>Ти вже маєш 10 000 годин у «${esc(s.n || 'справі')}» 🏆</b><span>Час ділитися досвідом і брати нову вершину.</span>`
+      : `<small>Твоя дата майстерності</small><b>Майстер у «${esc(s.n.trim() || 'справі')}» — у ${MONTHS[d.getMonth()]} ${d.getFullYear()}</b><span>Ще ${nf(left)} год · через ${ago(years)} при ${String(pd).replace('.', ',')} год щодня${years > 15 ? ' — може, додати хоч пів години?' : ''}</span>`;
+    const fut = Math.min(GOAL, have + pd * 365);
+    $('#mkNow').style.left = (have / GOAL * 100) + '%'; $('#mkFut').style.left = (fut / GOAL * 100) + '%';
+    $('#mkNow').dataset.l = 'зараз · ' + nf(have); $('#mkFut').dataset.l = 'за рік · ' + nf(fut);
+    const L = lvl(have);
+    $('#levels').innerHTML = LEVELS.map((l, i) => `<span class="${i === L ? 'on' : ''}">${l[1]}<br>${nf(l[0])}</span>`).join('');
+    drawChart();
+  }
+  function drawChart() {
+    const sk = S.tk.skills, n = Math.max(sk.length, 1), X0 = 64, X1 = 584, Y0 = 270, Y1 = 34;
+    const y = (h) => Y0 - Math.min(h, GOAL) / GOAL * (Y0 - Y1);
+    const slot = (X1 - X0) / n, bw = Math.min(70, slot * .55);
+    let g = '';
+    [0, 2500, 5000, 7500].forEach((v) => { g += `<line x1="${X0}" x2="${X1}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${X0 - 8}" y="${y(v) + 4}" text-anchor="end" font-size="12" fill="var(--muted)">${nf(v)}</text>`; });
+    g += `<line x1="${X0}" x2="${X1}" y1="${y(GOAL)}" y2="${y(GOAL)}" stroke="var(--orange-2)" stroke-width="2" stroke-dasharray="6 5"/>
+      <text x="${X0 - 8}" y="${y(GOAL) + 4}" text-anchor="end" font-size="12" font-weight="800" fill="var(--orange-2)">10 000</text>
+      <text x="${X1}" y="${y(GOAL) - 8}" text-anchor="end" font-size="12" font-weight="700" fill="var(--orange-2)">🏁 майстерність</text>`;
+    sk.forEach((s, i) => {
+      const h = Math.min(GOAL, num(s.h)), cx = X0 + slot * (i + .5), sel = i === S.tk.sel;
+      const fut = sel ? Math.min(GOAL, h + S.tk.pd * 365) : h;
+      if (sel && fut > h) g += `<rect x="${cx - bw / 2}" y="${y(fut)}" width="${bw}" height="${y(h) - y(fut)}" rx="6" fill="var(--peach)" stroke="var(--orange-3)" stroke-dasharray="4 3"/><text x="${cx}" y="${y(fut) - 6}" text-anchor="middle" font-size="11" fill="var(--orange-2)" font-weight="700">+рік</text>`;
+      g += `<rect class="bar-r" data-i="${i}" x="${cx - bw / 2}" y="${y(h)}" width="${bw}" height="${Math.max(2, Y0 - y(h))}" rx="6" fill="${sel ? 'var(--orange)' : 'var(--orange-3)'}" opacity="${sel ? 1 : .6}" style="cursor:pointer"><title>${esc(s.n || 'Справа')}: ${nf(h)} год</title></rect>`;
+      if (h > 0) g += `<text x="${cx}" y="${Math.min(y(h) - 6, Y0 - 6)}" text-anchor="middle" font-size="12" font-weight="800" fill="var(--text)">${nf(h)}</text>`;
+      const nm = (s.n.trim() || 'справа ' + (i + 1)); g += `<text x="${cx}" y="${Y0 + 20}" text-anchor="middle" font-size="12" font-weight="${sel ? 800 : 600}" fill="var(--text)">${esc(nm.length > 12 ? nm.slice(0, 11) + '…' : nm)}</text>`;
+    });
+    g += `<line x1="${X0}" y1="${Y1 - 12}" x2="${X0}" y2="${Y0}" stroke="var(--orange)" stroke-width="2"/><line x1="${X0}" y1="${Y0}" x2="${X1 + 6}" y2="${Y0}" stroke="var(--orange)" stroke-width="2"/>
+      <text x="${X1}" y="${Y0 + 42}" text-anchor="end" font-size="12" font-weight="700" fill="var(--muted)">Справа →</text><text x="${X0 + 6}" y="${Y1 - 16}" font-size="12" font-weight="700" fill="var(--muted)">год</text>`;
+    $('#tkChart').innerHTML = g;
+  }
+  $('#tkChart').addEventListener('click', (e) => { const b = e.target.closest('.bar-r'); if (b) { S.tk.sel = +b.dataset.i; renderSkills(); save(); } });
+  $('#skills').addEventListener('input', (e) => {
+    const r = e.target.closest('.skill'); if (!r) return; const i = +r.dataset.i;
+    if (e.target.type === 'radio') { S.tk.sel = i; calc(); save(); return; }
+    S.tk.skills[i][e.target.dataset.f] = e.target.value; if (e.target.dataset.f === 'h' || i === S.tk.sel) calc(); else drawChart(); save();
+  });
+  $('#skills').addEventListener('change', (e) => { if (e.target.type === 'radio') { S.tk.sel = +e.target.closest('.skill').dataset.i; calc(); save(); } });
+  $('#skills').addEventListener('click', (e) => {
+    if (!e.target.closest('[data-rm]')) return; const i = +e.target.closest('.skill').dataset.i;
+    S.tk.skills.splice(i, 1); if (!S.tk.skills.length) S.tk.skills.push({ n: '', h: '' }); renderSkills(); save();
+  });
+  $('#addSkill').addEventListener('click', () => {
+    if (S.tk.skills.length >= 6) { toast('До 6 справ — фокус важливіший за кількість'); return; }
+    S.tk.skills.push({ n: '', h: '' }); S.tk.sel = S.tk.skills.length - 1; renderSkills(); save(); $$('#skills [data-f="n"]').pop().focus();
+  });
+  $('#pace').addEventListener('input', (e) => { S.tk.pd = +e.target.value; calc(); save(); });
+  $('#years').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-pd]'); if (!b) return;
+    S.tk.pd = Math.min(8, Math.max(.25, Math.round(+b.dataset.pd * 4) / 4)); calc(); save();
+    if (+b.dataset.pd > 8) toast('Понад 8 год щодня — це вже марафон. Можливо, 3 роки реалістичніші?');
+  });
+
+  /* ================= 3. Технологія ЕКГ ================= */
+  const Q = {
+    q1: { q: 'Чи можна з цим щось зробити?', h: 'Чи вимагає це від тебе дії — зараз або колись?', a: [['Так', 'q3', 'e-q1-q3'], ['Ні', 'q2', 'e-q1-q2']] },
+    q2: { q: 'Це важливо?', h: 'Знадобиться потім? Тоді збережи в довідки, щоб не шукати.', a: [['Так', 'ref', 'e-q2-ref'], ['Ні', 'trash', 'e-q2-trash']] },
+    q3: { q: 'Це проект чи одна дія?', h: 'Проект — коли кроків більше, ніж один.', a: [['Проект', 'q4', 'e-q3-q4'], ['Дія', 'q5', 'e-q3-q5']] },
+    q4: { q: 'Який наступний крок?', h: 'Одна конкретна дія, з якої почнеш. Вона піде в список справ.', input: 1, a: [['У список справ', 'list', 'e-q4-list']] },
+    q5: { q: 'Зробиться за 2 хвилини?', h: 'Якщо так — не записуй, просто зроби одразу.', a: [['Так', 'now', 'e-q5-now'], ['Ні', 'q6', 'e-q5-q6']] },
+    q6: { q: 'Є фіксований час?', h: 'Зустріч, дзвінок о певній годині, дедлайн? Тоді — в календар.', time: 1, a: [['Так', 'cal', 'e-q6-cal'], ['Ні', 'list', 'e-q6-list']] }
+  };
+  const BOX = { now: ['⚡', 'Зробити зараз'], cal: ['📅', 'Календар'], list: ['✅', 'Список справ'], ref: ['🗂', 'Довідки'], trash: ['🗑', 'Кошик'] };
+  let cur = null, timer = null;
+  const flow = $('#flow');
+  const clearFlow = () => $$('.lit, .cur', flow).forEach((n) => n.classList.remove('lit', 'cur'));
+  const lit = (id) => flow.querySelector('#' + id)?.classList.add('lit');
+  function startEkg() {
+    const t = $('#ekgIn').value.trim();
+    if (!t) { shake($('#ekgIn')); $('#ekgIn').focus(); return; }
+    cur = { t, at: 'q1', path: ['інформація'] }; clearFlow(); lit('n-info'); lit('e-info'); paintQ();
+  }
+  function paintQ() {
+    const box = $('#qbox');
+    if (!cur) { box.innerHTML = '<div class="step">Як це працює</div><h3>Впиши справу й натисни «Провести»</h3><p>Схема поставить до шести простих питань. Відповідь «так/ні» — і справа опиниться у своїй скриньці.</p>'; $('#crumbs').textContent = ''; return; }
+    $$('.node.cur', flow).forEach((n) => n.classList.remove('cur'));
+    flow.querySelector('#n-' + cur.at).classList.add('cur', 'lit');
+    const q = Q[cur.at];
+    box.innerHTML = `<div class="step">«${esc(cur.t.length > 40 ? cur.t.slice(0, 39) + '…' : cur.t)}»</div><h3>${q.q}</h3><p>${q.h}</p>
+      ${q.input ? '<div class="sub"><label for="nextStep">Наступний крок</label><input class="field" id="nextStep" placeholder="Напр.: написати план на 5 пунктів"></div>' : ''}
+      ${q.time ? '<div class="sub"><label for="calWhen">Коли? (для «Так»)</label><input class="field" type="datetime-local" id="calWhen"></div>' : ''}
+      <div class="ans">${q.a.map(([l], k) => `<button type="button" class="btn${k ? ' btn-ghost' : ''}" data-a="${k}">${l}</button>`).join('')}</div>`;
+    $('#crumbs').textContent = 'Шлях: ' + cur.path.join(' → ');
+    const f = box.querySelector('#nextStep') || box.querySelector('[data-a]'); if (f && document.activeElement !== $('#ekgIn')) f.focus({ preventScroll: true });
+  }
+  $('#qbox').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-a]'); if (!b || !cur) return;
+    const q = Q[cur.at], [lab, to, edge] = q.a[+b.dataset.a];
+    const item = { id: Date.now().toString(36), t: cur.t, box: '', note: '', done: false };
+    if (q.input) { const v = $('#nextStep').value.trim(); if (!v) { shake($('#nextStep')); $('#nextStep').focus(); return; } item.note = 'крок: ' + v; }
+    if (q.time && to === 'cal') { const v = $('#calWhen').value; if (v) { const d = new Date(v); item.when = v; item.note = d.toLocaleString('uk-UA', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } }
+    lit(edge); cur.path.push(lab.toLowerCase());
+    if (Q[to]) { cur.at = to; paintQ(); return; }
+    // кінцева скринька
+    flow.querySelector('#n-' + cur.at).classList.remove('cur');
+    const end = flow.querySelector('#n-' + to); end.classList.add('lit', 'hit'); setTimeout(() => end.classList.remove('hit'), 800);
+    item.box = to; S.ekg.push(item); cur.path.push(BOX[to][1]);
+    $('#crumbs').textContent = 'Шлях: ' + cur.path.join(' → ');
+    $('#qbox').innerHTML = `<div class="step">Готово</div><h3>${BOX[to][0]} ${BOX[to][1]}</h3><p>${{ now: 'Не відкладай — постав двохвилинний таймер у скриньці нижче.', cal: 'Час зафіксовано — тепер це зустріч із собою.', list: 'Справа чекає у списку. Наступний крок уже зрозумілий.', ref: 'Збережено на потім — голова вільна.', trash: 'Відкинуто без жалю. Мінус одна думка.' }[to]}</p><div class="ans"><button type="button" class="btn" id="ekgNext">Наступна справа</button></div>`;
+    cur = null; $('#ekgIn').value = ''; renderTrays(to); save(); ekgChips();
+    $('#ekgNext').focus({ preventScroll: true });
+  });
+  $('#qbox').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.id === 'nextStep') { e.preventDefault(); $('#qbox [data-a]').click(); } });
+  document.addEventListener('click', (e) => { if (e.target.id === 'ekgNext') { clearFlow(); paintQ(); $('#ekgIn').focus(); } });
+  $('#ekgGo').addEventListener('click', startEkg);
+  $('#ekgIn').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); startEkg(); } });
+  function ekgChips() {
+    const done = new Set(S.ekg.map((x) => x.t));
+    const fromList = S.tasks.map((r) => r.t.trim()).filter((t) => t && !done.has(t)).slice(0, 5);
+    $('#ekgChips').innerHTML = fromList.length ? '<small>З твого списку:</small>' + fromList.map((t) => `<button type="button" class="chip" data-t="${esc(t)}">${esc(t.length > 28 ? t.slice(0, 27) + '…' : t)}</button>`).join('') : '';
+  }
+  $('#ekgChips').addEventListener('click', (e) => { const c = e.target.closest('[data-t]'); if (c) { $('#ekgIn').value = c.dataset.t; startEkg(); } });
+  function renderTrays(hit) {
+    $('#trays').innerHTML = Object.keys(BOX).map((k) => {
+      let items = S.ekg.filter((x) => x.box === k);
+      if (k === 'cal') items = items.slice().sort((a, b) => (a.when || 'z').localeCompare(b.when || 'z'));
+      return `<div class="tray${hit === k ? ' hit' : ''}" data-box="${k}"><h4><span>${BOX[k][0]} ${BOX[k][1]}</span><em>${items.length}</em></h4>
+        <ul>${items.map((x) => `<li class="${x.done ? 'done' : ''}" data-id="${x.id}"><span class="t">${esc(x.t)}${x.note ? `<small>${esc(x.note)}</small>` : ''}</span><span class="ops">${k === 'now' ? `<button type="button" class="go${timer && timer.id === x.id ? ' run' : ''}" data-go>${x.done ? '✓' : timer && timer.id === x.id ? fmtT(timer.left) : '▶ 2:00'}</button>` : ''}<button type="button" class="rm" data-rm aria-label="Прибрати">×</button></span></li>`).join('') || '<li class="empty" style="background:none">порожньо</li>'}</ul>
+        ${k === 'now' ? '<div class="capy" id="capy" hidden></div>' : ''}</div>`;
+    }).join('');
+    Object.keys(BOX).forEach((k) => { const n = S.ekg.filter((x) => x.box === k).length; $('#c-' + k).textContent = n ? '×' + n : ''; });
+    if (timer) showCapy(true);
+    if (hit) setTimeout(() => $(`.tray[data-box="${hit}"]`)?.classList.remove('hit'), 900);
+  }
+  const fmtT = (s) => Math.floor(s / 60) + ':' + pad(s % 60);
+  function showCapy(on) {
+    const c = $('#capy'); if (!c) return; c.hidden = !on;
+    if (on && !c.firstChild) { c.append(img(CAPY, 'Наліпка: капібара «Без паніки»')); c.append(document.createTextNode('Без паніки — це лише дві хвилини.')); }
+  }
+  $('#trays').addEventListener('click', (e) => {
+    const li = e.target.closest('li[data-id]'); if (!li) return; const x = S.ekg.find((i) => i.id === li.dataset.id); if (!x) return;
+    if (e.target.closest('[data-rm]')) { if (timer && timer.id === x.id) stopTimer(); S.ekg.splice(S.ekg.indexOf(x), 1); renderTrays(); save(); ekgChips(); return; }
+    if (e.target.closest('[data-go]')) {
+      if (x.done) { x.done = false; renderTrays(); save(); return; }
+      if (timer && timer.id === x.id) { stopTimer(); x.done = true; renderTrays(); save(); toast('Зроблено! Одна справа менше в голові ⚡'); return; }
+      stopTimer(); timer = { id: x.id, left: 120 };
+      timer.h = setInterval(() => {
+        timer.left--; const b = $(`li[data-id="${timer.id}"] [data-go]`); if (b) b.textContent = fmtT(timer.left);
+        if (timer.left <= 0) { const it = S.ekg.find((i) => i.id === timer.id); stopTimer(); if (it) it.done = true; renderTrays(); save(); toast('Дві хвилини минули. Встиг(-ла)? Якщо ні — у список справ.'); }
+      }, 1000);
+      renderTrays();
+    }
+  });
+  function stopTimer() { if (timer) clearInterval(timer.h); timer = null; showCapy(false); }
+
+  /* ================= 4. Мова ================= */
+  const PRO = ['«Я це зроблю»', '«Я можу змінитись на кращого»', '«Погляньмо, які в нас варіанти»'];
+  const REA = ['«Я спробую»', '«Така моя вдача»', '«Тут нічого не вдієш»'];
+  const cols = $$('#langCols .lcol');
+  cols[0].insertAdjacentHTML('beforeend', PRO.map((p, i) => `<label><input type="checkbox" data-tk="${i}">${p}</label>`).join(''));
+  cols[1].insertAdjacentHTML('beforeend', REA.map((p, i) => `<label><input type="checkbox" data-tk="${i + 3}">${p}</label>`).join(''));
+  const RX_P = /(зроблю|зробл[юя]|я можу|можу змін\S*|змінюсь|погляньмо|подивімось|варіант\S*|оберу|обираю|вирішу|вирішую|вирішив|вирішила|планую|почну|починаю|домовлюся|знайду|беру відповідальність|я хочу|я обираю|візьму|спланую|я буду|сплануй)/gi;
+  const RX_R = /(спробую|постараюсь|постараюся|така моя вдача|нічого не вдієш|не можу|немає часу|нема часу|якщо встигну|як вийде|як буде|мабуть|колись|змушений|змушена|не винн?ий|не винна|мені не дають|у мене не вийде|не вийде|ніколи не|завжди так|не знаю як)/gi;
+  function paintLang() {
+    $$('#langCols input').forEach((c) => { c.checked = !!S.lang.tk[+c.dataset.tk]; });
+    const t = S.lang.txt; $('#langTxt').value = t;
+    const marks = [];
+    t.replace(RX_P, (m, _a, o) => { marks.push([o, m.length, 'p']); return m; });
+    t.replace(RX_R, (m, _a, o) => { marks.push([o, m.length, 'r']); return m; });
+    marks.sort((a, b) => a[0] - b[0]);
+    let html = '', pos = 0, p = 0, r = 0;
+    marks.forEach(([o, l, k]) => { if (o < pos) return; html += esc(t.slice(pos, o)) + `<mark class="${k}">${esc(t.substr(o, l))}</mark>`; pos = o + l; k === 'p' ? p++ : r++; });
+    html += esc(t.slice(pos)); $('#mirror').innerHTML = t.trim() ? html : '';
+    const tot = p + r, pct = tot ? Math.round(p / tot * 100) : 0;
+    $('#langBar').style.width = (tot ? pct : 0) + '%'; $('#langPct').textContent = tot ? pct + '% проактивно' : '—';
+    $('#langTip').innerHTML = !tot ? 'Проактивна мова звучить як рішення: «я зроблю», «я оберу», «погляньмо на варіанти».'
+      : pct >= 70 ? '<b>Звучить як рішення!</b> Ти говориш мовою людини, яка керує своїм часом.'
+      : pct >= 40 ? '<b>Наполовину.</b> Знайди сірі слова й заміни їх: «спробую» → «зроблю до…», «немає часу» → «я обираю інше».'
+      : '<b>Багато реакції.</b> Кожне «спробую» — лазівка для відкладання. Перепиши одне речення як рішення з датою.';
+  }
+  $('#langCols').addEventListener('change', (e) => { const c = e.target.closest('[data-tk]'); if (c) { S.lang.tk[+c.dataset.tk] = c.checked ? 1 : 0; save(); } });
+  $('#langTxt').addEventListener('input', (e) => { S.lang.txt = e.target.value; paintLang(); save(); });
+
+  /* ================= 5. Кумири ================= */
+  const QUAL = ['дисципліна', 'наполегливість', 'цікавість', 'сміливість', 'терпіння', 'системність', 'фокус', 'емпатія', 'лідерство', 'креативність', 'чесність', 'працьовитість'];
+  let idolFocus = 0;
+  $('#qChips').insertAdjacentHTML('beforeend', QUAL.map((q) => `<button type="button" class="chip" data-q="${q}">${q}</button>`).join(''));
+  function renderIdols() {
+    $('#idols').innerHTML = `<div class="irow ihead thead" aria-hidden="true"><span>Приклад (кумир)</span><span>Якими якостями володів (-ла)</span><span>За яких умов (діяльності) розвиваються ці якості</span><span></span></div>` +
+      S.idols.map((r, i) => `<div class="irow" data-i="${i}">
+        <input class="field" data-f="w" value="${esc(r.w)}" placeholder="Кумир ${i + 1}" aria-label="Кумир ${i + 1}">
+        <input class="field" data-f="q" value="${esc(r.q)}" placeholder="якості через кому" aria-label="Якості кумира ${i + 1}">
+        <input class="field" data-f="c" value="${esc(r.c)}" placeholder="умови / діяльність" aria-label="Умови розвитку якостей ${i + 1}">
+        <button type="button" class="rm" data-rm aria-label="Видалити">×</button></div>`).join('');
+    cloud();
+  }
+  let topQ = '';
+  function cloud() {
+    const cnt = {};
+    S.idols.forEach((r) => r.q.split(/[,;]+/).map((s) => s.trim().toLowerCase()).filter(Boolean).forEach((q) => { cnt[q] = (cnt[q] || 0) + 1; }));
+    const arr = Object.entries(cnt).sort((a, b) => b[1] - a[1]); const mx = arr[0]?.[1] || 1;
+    $('#cloud').innerHTML = arr.map(([q, n]) => `<span style="font-size:${14 + (n / mx) * 16}px;opacity:${.55 + n / mx * .45}">${esc(q)}</span>`).join('');
+    topQ = arr[0]?.[0] || '';
+    $('#idolToTk').hidden = !topQ; $('#idolToTk').textContent = topQ ? `«${topQ}» → 10 000 годин` : '';
+    $('#idolTip').innerHTML = topQ ? `Найчастіша якість — <b>${esc(topQ)}</b>. Подумай, у якій діяльності ти можеш тренувати її щодня.` : 'Найчастіша якість — підказка, що варто прокачувати тобі. Її можна додати як справу в «Правило 10 000 годин».';
+  }
+  $('#idols').addEventListener('input', (e) => { const r = e.target.closest('.irow'); if (!r || !e.target.dataset.f) return; S.idols[+r.dataset.i][e.target.dataset.f] = e.target.value; cloud(); save(); });
+  $('#idols').addEventListener('focusin', (e) => { const r = e.target.closest('.irow'); if (r && r.dataset.i) idolFocus = +r.dataset.i; });
+  $('#idols').addEventListener('click', (e) => { if (!e.target.closest('[data-rm]')) return; S.idols.splice(+e.target.closest('.irow').dataset.i, 1); if (!S.idols.length) S.idols.push({ w: '', q: '', c: '' }); renderIdols(); save(); });
+  $('#qChips').addEventListener('click', (e) => {
+    const c = e.target.closest('[data-q]'); if (!c) return; const r = S.idols[Math.min(idolFocus, S.idols.length - 1)];
+    const list = r.q.split(/[,;]+/).map((s) => s.trim()).filter(Boolean); if (!list.includes(c.dataset.q)) list.push(c.dataset.q);
+    r.q = list.join(', '); renderIdols(); save();
+  });
+  $('#addIdol').addEventListener('click', () => { S.idols.push({ w: '', q: '', c: '' }); renderIdols(); save(); $$('#idols [data-f="w"]').pop().focus(); });
+  $('#idolToTk').addEventListener('click', () => {
+    if (!topQ) return; const ex = S.tk.skills.findIndex((s) => s.n.trim().toLowerCase() === topQ);
+    if (ex >= 0) S.tk.sel = ex; else { const empty = S.tk.skills.findIndex((s) => !s.n.trim()); if (empty >= 0) { S.tk.skills[empty].n = topQ; S.tk.sel = empty; } else if (S.tk.skills.length < 6) { S.tk.skills.push({ n: topQ, h: '' }); S.tk.sel = S.tk.skills.length - 1; } }
+    renderSkills(); save(); toast(`«${topQ}» додано в правило 10 000 годин`); $('#s2').scrollIntoView({ behavior: RM ? 'auto' : 'smooth' });
+  });
+
+  /* ================= 6. 12 питань ================= */
+  const QS = ['Чим би ти займався/лась у світі без електрики і будь-яких технічних пристроїв?', 'Чим ти займатимешся, маючи необмежені фінансові ресурси?', 'Чим готовий/а пожертвувати сьогодні заради довготермінової цілі?', 'Що ти готовий/а зробити, незважаючи ні на що?', 'Про що готовий/а сказати: «Я це зроблю — і крапка»?', 'Що ти створив/ла сьогодні?', 'Чим би зайнявся/лась, якби мав/ла додатковий день на тиждень?', 'Чому одна людина досягає висот, а інша — ні?', 'Чим будеш займатися, маючи додаткову годину в добі?', 'Чим будеш займатися, маючи додаткові 5 хвилин у добі?', 'Що ти робиш під час очікування?', 'Які слова вживаєш зі словом «час»: витрачати, вбивати — чи вкладати, інвестувати?'];
+  const W12 = ['витрачати', 'вбивати', 'гаяти', 'вкладати', 'інвестувати', 'цінувати'];
+  $('#dots').innerHTML = QS.map((_, i) => `<button type="button" data-q="${i}" aria-label="Питання ${i + 1}">${i + 1}</button>`).join('');
+  $('#q12chips').innerHTML = '<small>Мої слова:</small>' + W12.map((w) => `<button type="button" class="chip" data-w="${w}">${w} час</button>`).join('');
+  function paintQ6() {
+    const i = S.qi; $('#qn').textContent = i + 1; $('#qt').textContent = QS[i]; $('#qa').value = S.qs[i];
+    $('#qCount').textContent = `${i + 1} / 12`; $('#q12chips').hidden = i !== 11; dots();
+  }
+  const dots = () => $$('#dots button').forEach((b, i) => { b.classList.toggle('ans', !!S.qs[i].trim()); b.classList.toggle('cur', i === S.qi); b.setAttribute('aria-current', i === S.qi ? 'true' : 'false'); });
+  function goQ(i, dir) {
+    i = (i + 12) % 12; if (i === S.qi) return;
+    const c = $('#qcard'); S.qi = i; save();
+    if (RM) { paintQ6(); return; }
+    c.classList.add(dir < 0 ? 'out-r' : 'out-l');
+    setTimeout(() => { paintQ6(); c.classList.remove('out-l', 'out-r'); c.classList.add(dir < 0 ? 'out-l' : 'out-r'); void c.offsetWidth; c.classList.remove('out-l', 'out-r'); }, 230);
+  }
+  $('#qPrev').addEventListener('click', () => goQ(S.qi - 1, -1));
+  $('#qNext').addEventListener('click', () => goQ(S.qi + 1, 1));
+  $('#qRand').addEventListener('click', () => {
+    const open = QS.map((_, i) => i).filter((i) => !S.qs[i].trim() && i !== S.qi);
+    if (!open.length) { toast('Усі 12 карток з відповідями — сильний результат! 🎉'); return; }
+    goQ(open[Math.floor(Math.random() * open.length)], 1);
+  });
+  $('#dots').addEventListener('click', (e) => { const b = e.target.closest('[data-q]'); if (b) goQ(+b.dataset.q, +b.dataset.q < S.qi ? -1 : 1); });
+  $('#qa').addEventListener('input', (e) => { S.qs[S.qi] = e.target.value; dots(); save(); });
+  $('#qcard').addEventListener('keydown', (e) => { if (e.target.tagName !== 'TEXTAREA') { if (e.key === 'ArrowRight') goQ(S.qi + 1, 1); if (e.key === 'ArrowLeft') goQ(S.qi - 1, -1); } });
+  $('#q12chips').addEventListener('click', (e) => {
+    const c = e.target.closest('[data-w]'); if (!c) return; const v = S.qs[11];
+    S.qs[11] = v ? (v.trim().replace(/[.]$/, '') + ', ' + c.dataset.w) : 'Я кажу: ' + c.dataset.w; $('#qa').value = S.qs[11]; dots(); save();
+  });
+
+  /* ================= 7. Тиждень ================= */
+  const CATS = { meet: ['Зустрічі', '👥'], mail: ['Важливі е-мейли', '✉️'], call: ['Ключові телефонні дзвінки', '📱'], event: ['Заходи, презентації, тренінги', '🎤'], fin: ['Фінансові операції', '💲'], other: ['Інше', '📝'] };
+  const catHTML = (k) => `<div class="cat" data-cat="${k}"><h3><span>${CATS[k][0]}</span><span aria-hidden="true">${CATS[k][1]}</span></h3><ul></ul></div>`;
+  $('#catsL').innerHTML = ['meet', 'mail', 'call', 'event'].map(catHTML).join('');
+  $('#catsR').innerHTML = ['fin', 'other'].map(catHTML).join('');
+  function renderCat(k) {
+    const list = S.week.cats[k]; const rows = list.concat([{ t: '', d: false, ghost: 1 }]);
+    $(`.cat[data-cat="${k}"] ul`).innerHTML = rows.map((r, i) => `<li class="${r.d ? 'd' : ''}" data-i="${i}"><input type="text" value="${esc(r.t)}" placeholder="${r.ghost ? '+ додати' : ''}" aria-label="${CATS[k][0]}, рядок ${i + 1}"><input type="checkbox" ${r.d ? 'checked' : ''} ${r.ghost ? 'disabled' : ''} aria-label="Виконано"></li>`).join('');
+  }
+  function renderTop() {
+    $('#top8').innerHTML = S.week.top.map((r, i) => `<li class="${r.d ? 'd' : ''}" data-i="${i}"><span>${i + 1}</span><input type="text" value="${esc(r.t)}" aria-label="Найважливіша справа ${i + 1}"><input type="checkbox" ${r.d ? 'checked' : ''} aria-label="Виконано"></li>`).join('');
+    pareto();
+  }
+  function pareto() {
+    const done = S.week.top.filter((r) => r.d && r.t.trim()).length, filled = S.week.top.filter((r) => r.t.trim()).length;
+    const p = done * 10; $('#ring').style.setProperty('--p', p / .8 * .8); $('#ring').style.background = `conic-gradient(var(--orange) ${p}%, var(--line) 0)`;
+    $('#ringTxt').textContent = p + '%';
+    $('#paretoTxt').innerHTML = done >= 8 ? '<b>80% результату тижня вже твої!</b> Решта — бонус. Можна видихнути.'
+      : filled < 8 ? `Вписано ${filled} з 8. Кожна виконана справа з вісімки — це ~10% результату тижня. <b>Вісім із восьми = 80%.</b>`
+      : `Виконано ${done} з 8 — це ~${p}% результату. <b>Ще ${8 - done} — і 80% тижня закрито.</b>`;
+  }
+  function weekLabel() {
+    const v = S.week.start; $('#wkStart').value = v;
+    if (!v) { $('#wkLbl').textContent = '# ТИЖДЕНЬ __.__ – __.__'; $('#wkYr').textContent = new Date().getFullYear(); return; }
+    const d = new Date(v + 'T12:00'), e = new Date(d); e.setDate(d.getDate() + 6);
+    const t = new Date(d); t.setDate(t.getDate() + 3 - ((t.getDay() + 6) % 7)); const y1 = new Date(t.getFullYear(), 0, 4);
+    const wk = 1 + Math.round(((t - y1) / 864e5 - 3 + ((y1.getDay() + 6) % 7)) / 7);
+    const f = (x) => pad(x.getDate()) + '.' + pad(x.getMonth() + 1);
+    $('#wkYr').textContent = d.getFullYear(); $('#wkLbl').textContent = `#${wk} ТИЖДЕНЬ ${f(d)} – ${f(e)}`;
+  }
+  $('#wkStart').addEventListener('change', (e) => { S.week.start = e.target.value; weekLabel(); save(); });
+  $('#wkNow').addEventListener('click', () => { const d = new Date(); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); S.week.start = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; weekLabel(); save(); });
+  $('.wk-grid').addEventListener('input', (e) => {
+    const li = e.target.closest('li'); if (!li || e.target.type !== 'text') return; const i = +li.dataset.i;
+    const cat = e.target.closest('.cat');
+    if (cat) {
+      const k = cat.dataset.cat, list = S.week.cats[k];
+      if (i >= list.length) { list.push({ t: e.target.value, d: false }); const pos = e.target.selectionStart; renderCat(k); const inp = $$(`.cat[data-cat="${k}"] li input[type=text]`)[i]; inp.focus(); inp.setSelectionRange(pos, pos); }
+      else list[i].t = e.target.value;
+    } else { S.week.top[i].t = e.target.value; pareto(); }
+    save();
+  });
+  $('.wk-grid').addEventListener('focusout', (e) => {
+    const cat = e.target.closest('.cat'); if (!cat || e.target.type !== 'text') return; const k = cat.dataset.cat;
+    if (S.week.cats[k].some((r) => !r.t.trim())) {
+      setTimeout(() => { if (cat.contains(document.activeElement)) return; S.week.cats[k] = S.week.cats[k].filter((r) => r.t.trim()); renderCat(k); save(); }, 0);
+    }
+  });
+  $('.wk-grid').addEventListener('change', (e) => {
+    if (e.target.type !== 'checkbox') return; const li = e.target.closest('li'), i = +li.dataset.i, cat = e.target.closest('.cat');
+    const r = cat ? S.week.cats[cat.dataset.cat][i] : S.week.top[i]; if (!r) return;
+    r.d = e.target.checked; li.classList.toggle('d', r.d);
+    if (!cat) { pareto(); if (r.d && S.week.top.filter((x) => x.d && x.t.trim()).length === 8) toast('8 з 8! 80% результату тижня — твої 🏆'); }
+    save();
+  });
+
+  /* ================= 8. Пропорція справ ================= */
+  const MARK = [['imp', '★', 'Найважливіше'], ['hard', '⛰', 'Найскладніше'], ['unpl', '🐸', 'Найменш приємне']];
+  const FEEL = [['want', 'Хочу'], ['need', 'Треба'], ['must', 'Мушу']];
+  function renderDay() {
+    $('#day').innerHTML = `<div class="drow dhead" aria-hidden="true"><span>Завдання</span><span>Найваж&shy;ливіше завдання дня</span><span>Найскла&shy;дніше завдання дня</span><span>Найменш приємне завдання дня</span><span>Хочу</span><span>Треба</span><span>Мушу</span><span></span></div>` +
+      S.day.rows.map((r, i) => `<div class="drow" data-i="${i}">
+        <input class="field" value="${esc(r.t)}" placeholder="Завдання ${i + 1}" aria-label="Завдання ${i + 1}">
+        ${MARK.map(([k, ic, l]) => `<button type="button" class="tg" data-mk="${k}" aria-pressed="${S.day[k] === i}" aria-label="${l} завдання дня"><span aria-hidden="true">${ic}</span><span class="lb">${l.replace('Най', 'Най­').split(' ')[0]}</span></button>`).join('')}
+        ${FEEL.map(([k, l]) => `<button type="button" class="tg" data-fl="${k}" aria-pressed="${r.m === k}" aria-label="${l}"><span aria-hidden="true">${r.m === k ? '✓' : ''}</span><span class="lb">${l}</span></button>`).join('')}
+        <button type="button" class="rm" data-rm aria-label="Видалити">×</button></div>`).join('');
+    sumDay();
+  }
+  function sumDay() {
+    const c = { want: 0, need: 0, must: 0 }; S.day.rows.forEach((r) => { if (r.m) c[r.m]++; });
+    const tot = c.want + c.need + c.must;
+    const COL = { want: 'var(--orange)', need: 'var(--orange-3)', must: 'var(--grey)' };
+    $('#dStack').innerHTML = tot ? FEEL.map(([k]) => `<i style="width:${c[k] / tot * 100}%;background:${COL[k]}"></i>`).join('') : '';
+    $('#dLegend').innerHTML = FEEL.map(([k, l]) => `<span style="--c:${COL[k]}">${l} · ${tot ? Math.round(c[k] / tot * 100) : 0}%</span>`).join('');
+    $('#dTip').textContent = !tot ? 'Познач для кожного завдання «хочу», «треба» чи «мушу».'
+      : c.must / tot > .5 ? 'Забагато «мушу». Що з цього можна делегувати, скоротити або знайти в ньому своє «хочу»?'
+      : !c.want ? 'Жодного «хочу» — додай хоч одну справу для себе. Це паливо на весь день.'
+      : 'Гарний баланс: є і обов\'язки, і справи, що надихають.';
+    const nm = (i) => (i >= 0 && S.day.rows[i] && S.day.rows[i].t.trim()) ? esc(S.day.rows[i].t) : '';
+    $('#dOrder').innerHTML = MARK.map(([k, ic, l]) => `<li>${ic} <b>${l}:</b> ${nm(S.day[k]) || '<span class="no">не обрано</span>'}</li>`).join('') +
+      (nm(S.day.unpl) ? `<li style="list-style:none;margin-left:-20px;color:var(--muted);font-size:13px">Порада: найменш приємне зроби першим — і решта дня буде легшою.</li>` : '');
+  }
+  $('#day').addEventListener('input', (e) => { const r = e.target.closest('.drow'); if (!r || r.classList.contains('dhead')) return; S.day.rows[+r.dataset.i].t = e.target.value; sumDay(); save(); });
+  $('#day').addEventListener('click', (e) => {
+    const r = e.target.closest('.drow'); if (!r || r.classList.contains('dhead')) return; const i = +r.dataset.i;
+    const mk = e.target.closest('[data-mk]'), fl = e.target.closest('[data-fl]');
+    if (mk) { const k = mk.dataset.mk; S.day[k] = S.day[k] === i ? -1 : i; }
+    else if (fl) { const row = S.day.rows[i]; row.m = row.m === fl.dataset.fl ? '' : fl.dataset.fl; }
+    else if (e.target.closest('[data-rm]')) {
+      S.day.rows.splice(i, 1); MARK.forEach(([k]) => { if (S.day[k] === i) S.day[k] = -1; else if (S.day[k] > i) S.day[k]--; });
+      if (!S.day.rows.length) S.day.rows.push({ t: '', m: '' });
+    } else return;
+    const sel = mk ? `[data-mk="${mk.dataset.mk}"]` : fl ? `[data-fl="${fl.dataset.fl}"]` : null;
+    renderDay(); save(); if (sel) $(`.drow[data-i="${i}"] ${sel}`)?.focus();
+  });
+  $('#addDay').addEventListener('click', () => { S.day.rows.push({ t: '', m: '' }); renderDay(); save(); $$('#day .drow:not(.dhead) .field').pop().focus(); });
+
+  /* ================= 9. Нотатки ================= */
+  $('#notes').addEventListener('input', (e) => { S.notes = e.target.value; save(); });
+  $('#main').addEventListener('input', (e) => { S.main = e.target.value; save(); });
+
+  /* ---------- Приклади й очищення ---------- */
+  const EX = {
+    1: () => { S.tasks = [
+      { t: 'Підготувати презентацію для команди', min: 120, pr: 'A', when: 'вт 16:00' }, { t: 'Подзвонити бабусі', min: 15, pr: 'A', when: 'сьогодні 19:00' },
+      { t: 'Розібрати 30 непрочитаних листів', min: 45, pr: 'B', when: 'ср ранок' }, { t: 'Переглянути новий серіал', min: 240, pr: 'X', when: '' },
+      { t: 'Записатися на курс англійської', min: 15, pr: 'B', when: '' }, { t: 'Перефарбувати полицю', min: 180, pr: 'C', when: 'сб' }]; renderTasks(); ekgChips(); },
+    2: () => { S.tk = { skills: [{ n: 'Гітара', h: '450' }, { n: 'Програмування', h: '1200' }, { n: 'Англійська', h: '2600' }, { n: 'Публічні виступи', h: '80' }], sel: 1, pd: 2 }; renderSkills(); },
+    3: () => {
+      const id = () => Math.random().toString(36).slice(2, 9);
+      S.ekg = S.ekg.concat([
+        { id: id(), t: 'Відповісти Олі «так» щодо суботи', box: 'now', note: '', done: true }, { id: id(), t: 'Зустріч із ментором', box: 'cal', note: 'чт, 16 жовт., 17:00', when: '2026-10-16T17:00' },
+        { id: id(), t: 'Запустити свій подкаст', box: 'list', note: 'крок: скласти список 10 тем' }, { id: id(), t: 'Стаття про сон і продуктивність', box: 'ref', note: '' },
+        { id: id(), t: 'Розсилка зі знижками на кросівки', box: 'trash', note: '' }]);
+      $('#ekgIn').value = 'Лист від куратора: здати звіт до п\'ятниці'; renderTrays(); ekgChips();
+    },
+    4: () => { S.lang = { tk: [1, 0, 1, 1, 0, 0], txt: 'Цього тижня я спробую почати бігати, якщо встигну. Але я зроблю презентацію до середи і погляньмо, які варіанти є для літньої практики. Англійську, мабуть, колись потім — немає часу.' }; paintLang(); },
+    5: () => { S.idols = [
+      { w: 'Ігор Сікорський', q: 'сміливість, наполегливість, цікавість', c: 'інженерія, експерименти, право на помилку' },
+      { w: 'Леся Українка', q: 'сміливість, працьовитість, дисципліна', c: 'щоденне письмо, читання, подолання хвороби' },
+      { w: 'Мій тренер з плавання', q: 'дисципліна, терпіння, наполегливість', c: 'регулярні тренування о 6:00, змагання' }]; renderIdols(); },
+    6: () => { const A = ['Малював би, грав на гітарі й ходив у походи.', 'Відкрив би школу програмування для дітей у малих містах.', 'Двома годинами соцмереж на день.', 'Закінчити школу з хорошим атестатом.', 'Щоранку 20 хвилин англійської.', 'Сторінку коду для свого бота.', 'Спорт і читання.', 'Одна щодня робить маленький крок, інша чекає натхнення.', 'Тренувався б на гітарі.', 'Розтяжка або 5 слів англійською.', 'Гортаю стрічку… Можна слухати подкаст.', 'Здебільшого «витрачати». Хочу частіше казати «інвестувати».'];
+      A.forEach((a, i) => { if (!S.qs[i].trim()) S.qs[i] = a; }); paintQ6(); },
+    7: () => {
+      const d = new Date(); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); S.week.start = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+      const L = (a) => a.map((t, i) => ({ t, d: i === 0 }));
+      S.week.cats = { meet: L(['Пн 17:00 — команда проекту', 'Чт — ментор']), mail: L(['Куратору: звіт', 'Організаторам хакатону']), call: L(['Бабуся — неділя', 'Тренер: розклад']), event: L(['Ср — воркшоп з публічних виступів']), fin: L(['Оплатити спортзал', 'Відкласти 10% кишенькових']), other: L(['Купити подарунок другу']) };
+      S.week.top = ['Підготувати презентацію', 'Здати звіт куратору', '3 тренування', 'Розділ з історії', 'Зустріч із ментором', 'Сценарій подкасту', '5 уроків англійської', 'Прибрати робоче місце'].map((t, i) => ({ t, d: i < 3 }));
+      weekLabel(); CAT_IDS.forEach(renderCat); renderTop();
+    },
+    8: () => { S.day = { rows: [{ t: 'Контрольна з алгебри — підготовка', m: 'must' }, { t: 'Подзвонити щодо практики', m: 'need' }, { t: 'Тренування з футболу', m: 'want' }, { t: 'Прибрати кімнату', m: 'need' }, { t: 'Монтаж відео для каналу', m: 'want' }, { t: 'Написати есе', m: 'must' }], imp: 0, hard: 5, unpl: 1 }; renderDay(); },
+    9: () => { S.notes = '• Ідея: щонеділі 20 хв на тижневий планер.\n• «Спробую» → «зроблю до…»\n• Справи на 2 хв — одразу, не записувати.'; S.main = 'Кожну справу проводжу через ЕКГ, а вісімку важливих планую наперед.'; $('#notes').value = S.notes; $('#main').value = S.main; }
+  };
+  const CLR = {
+    1: () => { S.tasks = fresh().tasks; renderTasks(); ekgChips(); },
+    2: () => { S.tk = fresh().tk; renderSkills(); },
+    3: () => { stopTimer(); S.ekg = []; cur = null; clearFlow(); paintQ(); renderTrays(); },
+    4: () => { S.lang = fresh().lang; paintLang(); },
+    5: () => { S.idols = fresh().idols; renderIdols(); },
+    6: () => { S.qs = fresh().qs; S.qi = 0; paintQ6(); },
+    7: () => { S.week = fresh().week; weekLabel(); CAT_IDS.forEach(renderCat); renderTop(); },
+    8: () => { S.day = fresh().day; renderDay(); },
+    9: () => { S.notes = ''; S.main = ''; $('#notes').value = ''; $('#main').value = ''; }
+  };
+  document.addEventListener('click', (e) => {
+    const ex = e.target.closest('[data-ex]'), cl = e.target.closest('[data-clr]');
+    if (ex) { EX[ex.dataset.ex](); save(); toast('Приклад заповнено — зміни під себе'); }
+    if (cl) { if (!confirm('Очистити цей розділ?')) return; CLR[cl.dataset.clr](); save(); }
+  });
+
+  /* ---------- Прогрес, значки, лисиця-нагорода ---------- */
+  const ICONS = ['📝', '⏳', '🧭', '💬', '🌟', '❓', '📅', '⚖️', '🎒'];
+  const NAMES = ['Справи', '10 000 годин', 'ЕКГ', 'Мова', 'Кумири', '12 питань', 'Тиждень', 'Пропорція', 'Головне'];
+  $('#badges').innerHTML = ICONS.map((ic, i) => `<span title="${NAMES[i]}" role="img" aria-label="${NAMES[i]}">${ic}</span>`).join('');
+  const has = (s) => !!String(s || '').trim();
+  const FR = [
+    () => Math.min(1, S.tasks.filter((r) => has(r.t) && r.pr).length / 3),
+    () => { const s = S.tk.skills.filter((x) => has(x.n)); return (s.length ? .5 : 0) + (s.some((x) => has(x.h)) ? .5 : 0); },
+    () => Math.min(1, S.ekg.length / 3),
+    () => (S.lang.tk.some(Boolean) ? .5 : 0) + Math.min(.5, S.lang.txt.trim().length / 60),
+    () => Math.min(1, S.idols.filter((r) => has(r.w) && has(r.q)).length / 2),
+    () => Math.min(1, S.qs.filter(has).length / 6),
+    () => Math.min(.5, CAT_IDS.reduce((a, k) => a + S.week.cats[k].filter((r) => has(r.t)).length, 0) / 8) + Math.min(.5, S.week.top.filter((r) => has(r.t)).length / 6),
+    () => Math.min(.6, S.day.rows.filter((r) => has(r.t) && r.m).length / 5) + MARK.filter(([k]) => S.day[k] >= 0).length / 3 * .4,
+    () => has(S.main) ? 1 : (has(S.notes) ? .4 : 0)
+  ];
+  let prevDone = null;
+  function progress() {
+    const fr = FR.map((f) => Math.min(1, f())), done = fr.map((f) => f >= .999);
+    const pct = Math.round(fr.reduce((a, b) => a + b, 0) / fr.length * 100);
+    $('#pct').textContent = pct + '%'; $('#pbar').style.width = pct + '%'; $('#doneN').textContent = done.filter(Boolean).length;
+    done.forEach((d, i) => {
+      const b = $('#badges').children[i], sec = $('#s' + (i + 1)), nav = $(`.secnav a[data-s="${i + 1}"]`);
+      b.classList.toggle('on', d); nav.classList.toggle('done', d);
+      let r = sec.querySelector(':scope > .reward');
+      if (d && !r) {
+        r = img(FOX, 'Наліпка-нагорода: лисиця «Ідея вже в роботі»', 'reward'); r.style.transform = `rotate(${[9, -7, 12, -4][i % 4]}deg)`; sec.append(r);
+        if (prevDone && !prevDone[i]) { flyTo(r); b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); toast(`Розділ «${NAMES[i]}» виконано! ${ICONS[i]}`); }
+      } else if (!d && r) r.remove();
+    });
+    const all = done.every(Boolean);
+    $('#final').className = 'final' + (all ? ' all' : '');
+    $('#final').textContent = all ? '🏆 Усі 9 розділів виконано. Ти розклав(-ла) свій час по поличках — так тримати!' : `Залишилось розділів: ${done.filter((d) => !d).length}. Значки вгорі покажуть, які саме.`;
+    if (prevDone && all && !prevDone.every(Boolean)) confetti();
+    prevDone = done;
+  }
+  function flyTo(target) {
+    if (RM) return;
+    const rc = target.getBoundingClientRect(); if (rc.bottom < 0 || rc.top > innerHeight) return;
+    const f = img(FOX, '', 'flyer'); f.setAttribute('aria-hidden', 'true');
+    f.style.left = (innerWidth / 2 - 31) + 'px'; f.style.top = (innerHeight / 2 - 36) + 'px'; f.style.transform = 'scale(2.4) rotate(-20deg)';
+    target.style.visibility = 'hidden'; document.body.append(f);
+    requestAnimationFrame(() => requestAnimationFrame(() => { f.style.transform = `translate(${rc.left - innerWidth / 2 + 31}px, ${rc.top - innerHeight / 2 + 36}px) scale(1) rotate(9deg)`; }));
+    setTimeout(() => { f.remove(); target.style.visibility = ''; }, 950);
+  }
+  function confetti() {
+    if (RM) return; const c = $('#confetti'); c.hidden = false; const x = c.getContext('2d');
+    c.width = innerWidth; c.height = innerHeight;
+    const P = Array.from({ length: 140 }, () => ({ x: Math.random() * c.width, y: -20 - Math.random() * c.height * .5, v: 2 + Math.random() * 4, r: Math.random() * 6.28, s: 5 + Math.random() * 6, c: ['#ff8a00', '#ffa53a', '#f9d4ad', '#22a447', '#3f7ff0'][Math.floor(Math.random() * 5)] }));
+    let t = 0; (function f() { x.clearRect(0, 0, c.width, c.height); P.forEach((p) => { p.y += p.v; p.x += Math.sin((t + p.r) / 12); p.r += .1; x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.fillStyle = p.c; x.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); x.restore(); }); if (++t < 200) requestAnimationFrame(f); else c.hidden = true; })();
+  }
+
+  /* ---------- Старт ---------- */
+  paintMood(); renderTasks(); renderSkills(); paintQ(); renderTrays(); ekgChips(); paintLang(); renderIdols(); paintQ6();
+  weekLabel(); CAT_IDS.forEach(renderCat); renderTop(); renderDay();
+  $('#notes').value = S.notes; $('#main').value = S.main;
+  progress();
+})();
+</script>
+</body>
+</html>

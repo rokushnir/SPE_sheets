@@ -1,0 +1,1305 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лідерство у спілкуванні</title>
+<meta name="description" content="Заняття 01 «Лідерство у спілкуванні» курсу «Мистецтво ведення перемовин»: ефективна розмова, якості лідера з радар-діаграмою, колесо принципів спілкування, тренажер активного слухання, пазл зі структури розмови з 10 кроків і домашнє завдання.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Стиль робочого зошита «Мистецтво перемовин»: світло-сірий аркуш, фіолетові плашки й лілові підкладки. */
+  :root {
+    --bg: #ececec;
+    --paper: #f5f5f6;
+    --surface: #ffffff;
+    --text: #1f1f22;
+    --muted: #63636b;
+    --faint: #9a9aa1;
+    --line: #e2e2e6;
+    --violet: #9b6cf0;
+    --violet-2: #7d4fe0;
+    --deep: #402090;
+    --lilac: #ece4fd;
+    --lilac-2: #d9c9fb;
+    --on-violet: #ffffff;
+    --head: #402090;
+    --ok: #22a447;
+    --ok-soft: #dcf3e2;
+    --no: #e5484d;
+    --no-soft: #fde3e4;
+    --shadow: 0 12px 30px rgba(40, 20, 90, .08);
+    --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121215; --paper: #1a1a1f; --surface: #24232b; --text: #ededf2; --muted: #a8a6b3; --faint: #77757f; --line: #33313b;
+      --violet: #a57cf5; --violet-2: #8e62ec; --deep: #2c1866; --lilac: #2b2342; --lilac-2: #3d3160; --head: #c8b2ff;
+      --ok-soft: #173a22; --no-soft: #43201f; --shadow: 0 12px 30px rgba(0, 0, 0, .4); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121215; --paper: #1a1a1f; --surface: #24232b; --text: #ededf2; --muted: #a8a6b3; --faint: #77757f; --line: #33313b;
+    --violet: #a57cf5; --violet-2: #8e62ec; --deep: #2c1866; --lilac: #2b2342; --lilac-2: #3d3160; --head: #c8b2ff;
+    --ok-soft: #173a22; --no-soft: #43201f; --shadow: 0 12px 30px rgba(0, 0, 0, .4); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  button, input, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--violet); outline-offset: 2px; }
+  .wrap { width: min(1000px, 100% - 32px); margin: 0 auto; padding: 8px 0 60px; }
+  .sheet { position: relative; background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(18px, 4vw, 40px); scroll-margin-top: 70px; }
+  .sheet + .sheet { margin-top: 24px; }
+
+  /* ---------- Навігація + прогрес ---------- */
+  .secnav-box {
+    position: sticky; top: 0; z-index: 40; margin: 0 -4px 14px; padding: 10px 4px 8px;
+    background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px);
+  }
+  .secnav { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .secnav::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) { .secnav { flex-wrap: wrap; justify-content: center; } }
+  .secnav a {
+    flex: none; text-decoration: none; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 700; white-space: nowrap; transition: background .2s, color .2s;
+  }
+  .secnav a:hover { border-color: var(--violet); color: var(--text); }
+  .secnav a.on { background: var(--violet); border-color: var(--violet); color: var(--on-violet); }
+  .secnav a.done::after { content: " ✓"; color: var(--ok); }
+  .secnav a.on.done::after { color: #fff; }
+  .topbar { height: 5px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 8px; }
+  .topbar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--violet), var(--deep)); transition: width .5s; }
+
+  /* ---------- Шапка як у зошиті ---------- */
+  .lesson { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+  .lesson-num {
+    background: var(--violet); color: var(--on-violet); border-radius: 10px; padding: 7px 12px 5px; text-align: center;
+    font-family: "Unbounded", sans-serif; line-height: 1;
+  }
+  .lesson-num b { display: block; font-size: 34px; font-weight: 700; }
+  .lesson-num small { font-family: "Inter", sans-serif; font-size: 10px; letter-spacing: .04em; }
+  .lesson-sub { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+  h1 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(21px, 3.4vw, 32px); line-height: 1.15; margin: 2px 0 0; text-wrap: balance; }
+  .mood-wrap { position: relative; }
+  .sticker {
+    width: 132px; min-height: 70px; border: 2px dashed var(--line); border-radius: 14px; background: transparent;
+    display: grid; place-items: center; color: var(--faint); font-family: "Unbounded", sans-serif; font-size: 12px; line-height: 1.2;
+    padding: 6px; transition: transform .2s, border-color .2s;
+  }
+  .sticker:hover { border-color: var(--violet); transform: rotate(-3deg); }
+  .sticker.has { border-color: transparent; padding: 0; }
+  .sticker.has .emo { font-size: 44px; line-height: 1; display: inline-block; transform: rotate(-6deg); }
+  .sticker.has img { width: 96px; height: auto; transform: rotate(-6deg); filter: drop-shadow(0 6px 8px rgba(30, 10, 70, .28)); }
+  .sticker.pop .emo, .sticker.pop img { animation: stick .55s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes stick { 0% { transform: scale(1.8) rotate(18deg); opacity: 0; } 100% { transform: scale(1) rotate(-6deg); opacity: 1; } }
+  .picker {
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; width: 268px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; box-shadow: var(--shadow); padding: 12px; display: grid; gap: 10px;
+  }
+  .picker[hidden] { display: none; }
+  .picker small { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .pk-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pk-row button { border: 1px solid var(--line); background: var(--paper); border-radius: 12px; padding: 4px; line-height: 1; transition: transform .15s, border-color .15s; }
+  .pk-row button:hover { transform: rotate(-4deg) translateY(-2px); border-color: var(--violet); }
+  .pk-row button[aria-pressed="true"] { border-color: var(--violet); box-shadow: 0 0 0 2px var(--lilac-2); }
+  .pk-row img { width: 72px; height: auto; display: block; }
+  .pk-row .e { font-size: 26px; width: 44px; height: 44px; }
+  .pk-clear { justify-self: start; border: 0; background: transparent; color: var(--muted); font-size: 12px; text-decoration: underline; padding: 0; }
+
+  .chapter { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 13px; color: var(--muted); }
+  .chapter b { font-family: "Unbounded", sans-serif; font-size: 11px; color: var(--on-violet); background: var(--deep); border-radius: 6px; padding: 4px 8px; }
+  .chapter span.on { color: var(--head); font-weight: 700; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 16px; }
+  .badge {
+    width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-size: 17px; background: var(--surface);
+    border: 2px dashed var(--line); filter: grayscale(1); opacity: .55; transition: .35s;
+  }
+  .badge.on { filter: none; opacity: 1; border: 2px solid var(--violet); background: var(--lilac); transform: rotate(-6deg); }
+  .badges-txt { font-size: 13px; color: var(--muted); margin-left: 4px; }
+  .badges-txt b { color: var(--head); }
+
+  /* ---------- Загальні елементи розділів ---------- */
+  .sec-head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin-bottom: 6px; }
+  .sec-num {
+    width: 46px; height: 46px; border-radius: 12px; background: var(--violet); color: var(--on-violet); display: grid; place-items: center;
+    font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 20px;
+  }
+  .sheet.done .sec-num { background: var(--ok); }
+  h2 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(17px, 2.6vw, 22px); line-height: 1.2; margin: 2px 0 0; text-wrap: balance; }
+  h3 { font-size: 16px; font-weight: 800; margin: 26px 0 8px; }
+  .sec-tools { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .hint { color: var(--muted); font-size: 14px; font-style: italic; margin: 6px 0 14px; max-width: 720px; }
+  .btn {
+    border: 0; border-radius: 12px; background: var(--violet); color: var(--on-violet); font-weight: 800; padding: 11px 18px;
+    white-space: nowrap; transition: background .2s, transform .15s;
+  }
+  .btn:hover { background: var(--violet-2); transform: translateY(-1px); }
+  .btn:disabled { opacity: .5; cursor: default; transform: none; }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+  .btn-ghost:hover { background: var(--lilac); }
+  .btn-sm { padding: 7px 12px; font-size: 13px; border-radius: 10px; }
+  .field, .area {
+    width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; font-size: 15px;
+  }
+  .area { resize: vertical; min-height: 76px; line-height: 1.45; }
+  .field:focus, .area:focus { outline: 2px solid var(--violet); outline-offset: 0; border-color: transparent; }
+  ::placeholder { color: var(--faint); }
+  .lbl { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin: 0 0 4px; letter-spacing: .02em; }
+  .tip { background: var(--lilac); border-radius: 12px; padding: 12px 14px; font-size: 14px; margin: 14px 0 0; }
+  .tip b { color: var(--head); }
+  .shake { animation: shake .4s; }
+  @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+
+  /* Нагорода-наліпка, що прилітає на куток картки */
+  .reward {
+    position: absolute; top: -18px; right: -10px; width: 92px; height: auto; z-index: 5; pointer-events: auto;
+    transform: rotate(9deg); filter: drop-shadow(0 8px 10px rgba(30, 10, 70, .3)); transition: transform .25s;
+  }
+  .reward:hover { transform: rotate(2deg) translateY(-4px) scale(1.05); }
+  .reward.fly { animation: fly .9s cubic-bezier(.2, 1.3, .4, 1); }
+  @keyframes fly { 0% { transform: translate(-40vw, 40vh) scale(2.4) rotate(-40deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: rotate(9deg); } }
+
+  /* Текстова наліпка (CSS) */
+  .tsticker {
+    display: inline-flex; flex-direction: column; align-items: flex-start; gap: 3px; background: #fff; color: #1d1b24; border-radius: 12px;
+    padding: 8px 10px 9px; box-shadow: 0 6px 16px rgba(30, 10, 70, .22); transform: rotate(-4deg); font-weight: 800; font-size: 14px; line-height: 1.1;
+    transition: transform .2s;
+  }
+  .tsticker span { background: var(--violet); color: #fff; border-radius: 6px; padding: 3px 7px; font-size: 13px; }
+  .tsticker:hover { transform: rotate(0) translateY(-3px); }
+
+  /* ---------- 1. Ефективна розмова ---------- */
+  .defs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+  .def { background: var(--violet); color: var(--on-violet); border-radius: 10px; padding: 12px 14px; font-size: 14.5px; line-height: 1.4; }
+  .def b { font-weight: 800; }
+  .tree { position: relative; margin-top: 22px; }
+  .tree-title { text-align: center; font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 18px; }
+  .tree svg.branches { display: block; width: 100%; height: 70px; overflow: visible; }
+  .branches path { fill: none; stroke: var(--lilac-2); stroke-width: 3; stroke-linecap: round; transition: stroke .4s; }
+  .branches path.lit { stroke: var(--violet); stroke-dasharray: 400; animation: draw .8s ease-out; }
+  @keyframes draw { from { stroke-dashoffset: 400; } to { stroke-dashoffset: 0; } }
+  .who-row { max-width: 460px; margin: 16px auto 0; }
+  .nodes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .node { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; transition: border-color .3s, box-shadow .3s; }
+  .node-h { display: flex; gap: 10px; align-items: center; }
+  .dot { flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--lilac-2); transition: .3s; }
+  .node.lit { border-color: var(--violet); box-shadow: 0 6px 18px rgba(155, 108, 240, .18); }
+  .node.lit .dot { background: var(--deep); box-shadow: 0 0 0 5px var(--lilac-2); }
+  .node b { font-size: 15.5px; }
+  .node p { font-size: 13.5px; color: var(--muted); margin: 6px 0 10px; line-height: 1.4; }
+  .verdict { margin-top: 14px; text-align: center; font-weight: 700; font-size: 14px; color: var(--muted); min-height: 22px; }
+  .verdict.ok { color: var(--ok); }
+
+  /* ---------- 2. Лідер: радар ---------- */
+  .leader { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 22px; align-items: start; margin-top: 16px; }
+  .traits { display: grid; gap: 8px; }
+  .trait { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+  .trait-top { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: baseline; }
+  .trait-top b { font-size: 14.5px; }
+  .trait-top small { display: block; font-size: 12px; color: var(--muted); line-height: 1.35; font-weight: 400; }
+  .tval { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 18px; color: var(--head); min-width: 30px; text-align: right; }
+  .tval.none { color: var(--faint); font-size: 14px; }
+  .trait input[type="range"] { width: 100%; accent-color: var(--violet); margin: 6px 0 4px; }
+  .trait.unset input[type="range"] { opacity: .45; }
+  .trait .field { font-size: 13.5px; padding: 7px 10px; }
+  .radar-box { position: sticky; top: 92px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+  .radar-box svg { display: block; width: 100%; height: auto; }
+  .rgrid { fill: none; stroke: var(--line); }
+  .raxis { stroke: var(--line); }
+  .rlab { font-size: 14px; fill: var(--muted); font-weight: 600; }
+  .rlab.hi { fill: var(--head); font-weight: 800; }
+  .rpoly { fill: color-mix(in srgb, var(--violet) 30%, transparent); stroke: var(--violet); stroke-width: 2.5; stroke-linejoin: round; transition: all .4s; }
+  .rdot { fill: var(--deep); stroke: #fff; stroke-width: 1.5; }
+  .radar-sum { font-size: 13.5px; display: grid; gap: 6px; margin-top: 6px; }
+  .radar-sum div { background: var(--paper); border-radius: 10px; padding: 8px 10px; }
+  .radar-sum b { color: var(--head); }
+  .radar-avg { text-align: center; font-family: "Unbounded", sans-serif; font-size: 13px; color: var(--muted); }
+  .radar-avg b { font-size: 22px; color: var(--head); }
+
+  /* ---------- 3. Колесо принципів ---------- */
+  .wheel-grid { display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 24px; align-items: center; margin-top: 14px; }
+  .wheel-box { position: relative; width: 100%; max-width: 300px; margin: 0 auto; }
+  .wheel-box svg { display: block; width: 100%; height: auto; }
+  #wheel { transform-origin: 150px 150px; transform-box: view-box; transition: transform 3.6s cubic-bezier(.12, .7, .1, 1); }
+  .wseg text { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 22px; fill: #fff; }
+  .wpin { fill: var(--deep); }
+  .spin-btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 78px; height: 78px; border-radius: 50%; border: 4px solid #fff; background: var(--deep); color: #fff; font-weight: 800; font-size: 13px; box-shadow: 0 6px 16px rgba(30, 10, 70, .35); padding: 0; }
+  .spin-btn:hover { background: var(--violet-2); }
+  .plist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
+  .plist li { display: flex; gap: 8px; align-items: center; font-size: 14.5px; padding: 6px 8px; border-radius: 10px; transition: background .3s; }
+  .plist li i { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--c); color: #fff; font-style: normal; font-weight: 800; font-size: 12px; display: grid; place-items: center; }
+  .plist li.on { background: var(--lilac); font-weight: 700; }
+  .challenge { margin-top: 16px; background: var(--surface); border: 2px solid var(--violet); border-radius: 14px; padding: 14px 16px; }
+  .challenge[hidden] { display: none; }
+  .challenge small { font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--violet-2); }
+  .challenge h4 { margin: 2px 0 6px; font-size: 17px; }
+  .challenge p { margin: 0 0 10px; font-size: 14.5px; }
+  .chk { display: inline-flex; gap: 8px; align-items: center; font-weight: 700; font-size: 14px; cursor: pointer; }
+  .chk input { width: 20px; height: 20px; accent-color: var(--violet); }
+
+  /* ---------- 4. Тренажер активного слухання ---------- */
+  .techs { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+  .techs li { display: flex; gap: 10px; align-items: center; font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 7px 10px; transition: .3s; }
+  .techs li i { flex: none; width: 26px; height: 26px; border-radius: 7px; background: var(--deep); color: #fff; font-style: normal; font-weight: 800; font-size: 13px; display: grid; place-items: center; }
+  .techs li.flash { border-color: var(--violet); background: var(--lilac); transform: scale(1.03); }
+  .trainer { margin-top: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .tr-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); font-weight: 700; }
+  .tr-dots { display: flex; gap: 4px; }
+  .tr-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+  .tr-dots i.ok { background: var(--ok); } .tr-dots i.no { background: var(--no); } .tr-dots i.cur { background: var(--violet); }
+  .bubble { position: relative; margin: 14px 0 16px; background: var(--lilac); border-radius: 16px 16px 16px 4px; padding: 12px 14px; font-size: 16px; font-weight: 600; max-width: 560px; }
+  .bubble small { display: block; font-size: 11px; font-weight: 800; color: var(--violet-2); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 2px; }
+  .answers { display: grid; gap: 8px; }
+  .ans { text-align: left; border: 1.5px solid var(--line); background: var(--paper); border-radius: 12px; padding: 10px 14px; font-size: 15px; transition: border-color .2s, background .2s; }
+  .ans:hover:not(:disabled) { border-color: var(--violet); }
+  .ans:disabled { cursor: default; }
+  .ans.ok { border-color: var(--ok); background: var(--ok-soft); }
+  .ans.no { border-color: var(--no); background: var(--no-soft); }
+  .ans.dim { opacity: .55; }
+  .fb { margin-top: 12px; font-size: 14px; border-radius: 12px; padding: 10px 12px; }
+  .fb.ok { background: var(--ok-soft); } .fb.no { background: var(--no-soft); }
+  .fb b { display: block; margin-bottom: 2px; }
+  .tr-end { text-align: center; padding: 10px 0; }
+  .tr-end .big { font-family: "Unbounded", sans-serif; font-size: 40px; font-weight: 700; color: var(--head); line-height: 1; }
+  .tr-end p { margin: 8px 0 14px; }
+
+  /* ---------- 5. Слухання і теми ---------- */
+  .two { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 22px; align-items: start; margin-top: 10px; }
+  .need { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .need label { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; cursor: pointer; height: 100%; transition: border-color .2s, background .2s; }
+  .need input { flex: none; width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--violet); }
+  .need label:has(input:checked) { border-color: var(--violet); background: var(--lilac); }
+  .gauge { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; text-align: center; }
+  .gauge svg { width: 100%; max-width: 260px; height: auto; display: block; margin: 0 auto; }
+  .g-bg { fill: none; stroke: var(--line); stroke-width: 18; stroke-linecap: round; }
+  .g-fg { fill: none; stroke: var(--violet); stroke-width: 18; stroke-linecap: round; transition: stroke-dasharray .6s; }
+  #needle { transform-origin: 130px 130px; transition: transform .6s cubic-bezier(.3, 1.4, .5, 1); }
+  .g-lvl { font-weight: 800; font-size: 16px; color: var(--head); }
+  .g-sub { font-size: 13px; color: var(--muted); }
+  .topics { margin-top: 18px; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .cats { display: grid; gap: 6px; margin: 8px 0 12px; }
+  .cats label { display: flex; gap: 8px; align-items: center; font-size: 14px; cursor: pointer; }
+  .cats input { width: 18px; height: 18px; accent-color: var(--violet); }
+  .topic-out { background: var(--surface); border-radius: 12px; padding: 12px 14px; font-weight: 700; font-size: 15.5px; min-height: 48px; border: 1px dashed var(--lilac-2); }
+  .topic-out small { display: block; font-size: 11px; font-weight: 800; color: var(--violet-2); letter-spacing: .08em; text-transform: uppercase; }
+  .topic-out.roll { animation: roll .35s; }
+  @keyframes roll { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .row-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .saved-topics { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+  .saved-topics li { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; background: var(--surface); border-radius: 10px; padding: 7px 10px; }
+  .saved-topics li span { flex: 1; }
+  .saved-topics button { border: 0; background: transparent; color: var(--faint); font-size: 16px; line-height: 1; padding: 0 4px; }
+  .saved-topics button:hover { color: var(--no); }
+
+  /* ---------- 6. Пазл структури розмови ---------- */
+  .puz { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 20px; align-items: start; margin-top: 14px; }
+  .bank { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; min-height: 120px; background: var(--paper); border: 2px dashed var(--line); border-radius: 14px; padding: 10px; }
+  .bank:empty::after { content: "Усі кроки розставлено — перевір!"; color: var(--faint); font-size: 14px; align-self: center; margin: auto; }
+  .card {
+    border: 1.5px solid var(--violet); background: var(--surface); color: var(--text); border-radius: 10px; padding: 8px 10px; font-size: 13.5px;
+    font-weight: 600; line-height: 1.3; text-align: left; touch-action: manipulation; transition: transform .15s, box-shadow .15s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(155, 108, 240, .2); }
+  .card.dragging { opacity: .4; }
+  .slots { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+  .slot { display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center; min-height: 50px; }
+  .slot:nth-child(even) { transform: translateY(26px); }
+  .slot-n { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--violet); background: var(--surface); color: var(--head); font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 14px; display: grid; place-items: center; }
+  .slot-box { min-height: 48px; border: 2px dashed var(--lilac-2); border-radius: 10px; display: flex; align-items: stretch; transition: border-color .2s, background .2s; }
+  .slot-box.over { border-color: var(--violet); background: var(--lilac); }
+  .slot-box .card { flex: 1; border-color: var(--lilac-2); }
+  .slot-box.next { border-color: var(--violet); }
+  .slot.ok .slot-n { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .slot.ok .card { border-color: var(--ok); }
+  .slot.no .card { border-color: var(--no); background: var(--no-soft); }
+  .puz-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 40px; }
+  .puz-msg { font-size: 14px; font-weight: 700; color: var(--muted); }
+  .puz-tsticker { position: absolute; right: 26px; top: 82px; }
+  .zig { margin-top: 20px; }
+  .zig[hidden] { display: none; }
+  .zig svg { display: block; width: 100%; height: auto; }
+  .zbox { fill: var(--surface); stroke: var(--violet); stroke-width: 2; }
+  .zcircle { fill: var(--surface); stroke: var(--violet); stroke-width: 2; }
+  .znum { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 15px; fill: var(--head); text-anchor: middle; }
+  .ztxt { font-size: 12px; fill: var(--text); }
+  .zline { fill: none; stroke: var(--faint); stroke-width: 1.8; stroke-dasharray: 600; stroke-dashoffset: 600; }
+  .zig.go .zline { animation: zl 1.8s ease-out forwards; animation-delay: calc(var(--k) * .18s); }
+  @keyframes zl { to { stroke-dashoffset: 0; } }
+  .steps-ex { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .steps-ex details { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 14px; }
+  .steps-ex summary { cursor: pointer; font-weight: 700; }
+  .steps-ex summary b { color: var(--head); font-family: "Unbounded", sans-serif; font-size: 13px; margin-right: 4px; }
+  .steps-ex p { margin: 6px 0 2px; color: var(--muted); }
+
+  let zigW = 0;
+  addEventListener('resize', () => { clearTimeout(zigW); zigW = setTimeout(() => { if (S.puz.solved) drawZig(); }, 200); });
+
+  /* ---------- 7. Домашнє завдання ---------- */
+  .hw-title { display: flex; align-items: center; gap: 12px; }
+  .hw-icon { width: 46px; height: 46px; flex: none; }
+  .hw { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .task { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; transition: border-color .3s; }
+  .task.done { border-color: var(--ok); }
+  .task-h { display: flex; gap: 10px; align-items: flex-start; font-weight: 700; font-size: 15px; line-height: 1.35; }
+  .task-h input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--violet); }
+  .counter { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; margin: 14px 0 12px; }
+  .ring-btn { position: relative; width: 112px; height: 112px; border: 0; background: transparent; padding: 0; border-radius: 50%; }
+  .ring-btn svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--line); stroke-width: 10; }
+  .ring-fg { fill: none; stroke: var(--violet); stroke-width: 10; stroke-linecap: round; transition: stroke-dasharray .35s; }
+  .ring-in { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; line-height: 1.05; }
+  .ring-in b { font-family: "Unbounded", sans-serif; font-size: 28px; color: var(--head); }
+  .ring-in small { font-size: 11px; color: var(--muted); font-weight: 700; }
+  .ring-btn:active .ring-in { transform: scale(.94); }
+  .ring-btn.bump svg { animation: bump .3s; }
+  @keyframes bump { 50% { transform: rotate(-90deg) scale(1.07); } }
+  .cnt-msg { font-size: 14px; font-weight: 600; }
+  .cnt-tools { display: flex; gap: 6px; margin-top: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+  .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 5px 11px; font-size: 13px; font-weight: 600; transition: .2s; }
+  .chip:hover { border-color: var(--violet); }
+  .chip[aria-pressed="true"] { background: var(--violet); border-color: var(--violet); color: #fff; }
+  .stack { display: grid; gap: 10px; }
+  .hw-tsticker { position: absolute; right: 14px; top: -14px; }
+  .quote { display: grid; grid-template-columns: auto 1fr; gap: 14px; margin-top: 20px; background: var(--lilac); border-radius: 14px; padding: 16px 18px; }
+  .quote .qm { font-family: "Unbounded", sans-serif; font-size: 34px; font-weight: 700; color: var(--head); line-height: .9; }
+  .quote p { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.35; }
+  .quote small { display: block; margin-top: 6px; font-size: 12.5px; color: var(--muted); font-style: italic; }
+
+  .foot { text-align: center; margin-top: 30px; font-size: 13px; color: var(--muted); }
+  .foot a { color: var(--head); font-weight: 700; text-decoration: none; }
+  .foot a:hover { text-decoration: underline; }
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 30px); opacity: 0; pointer-events: none; max-width: calc(100% - 32px);
+    background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; transition: .3s; z-index: 90;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  canvas#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 95; }
+
+  @media (max-width: 860px) {
+    .leader, .two, .puz, .wheel-grid { grid-template-columns: 1fr; }
+    .radar-box { position: static; order: -1; }
+    .puz-tsticker { display: none; }
+  }
+  @media (max-width: 680px) {
+    .lesson { grid-template-columns: auto 1fr; }
+    .mood-wrap { grid-column: 1 / -1; }
+    .sticker { width: 100%; min-height: 54px; }
+    .picker { left: 0; right: auto; }
+    .defs, .nodes, .hw, .need, .steps-ex { grid-template-columns: 1fr; }
+    .tree svg.branches { display: none; }
+    .sec-head { grid-template-columns: auto 1fr; }
+    .sec-tools { grid-column: 1 / -1; justify-content: flex-start; }
+    .reward { width: 70px; top: -14px; right: -6px; }
+    .plist { grid-template-columns: 1fr; }
+    .slots { grid-template-columns: 1fr; }
+    .slot:nth-child(even) { transform: none; }
+    .puz-bar { margin-top: 14px; }
+    .hw-tsticker { position: static; margin: 0 0 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .zline { stroke-dashoffset: 0; }
+  }
+  @media print {
+    body { background: #fff; }
+    .wrap { width: 100%; padding: 0; }
+    .sheet { box-shadow: none; }
+    .no-print, .secnav-box, .toast, .sec-tools { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="secnav-box no-print">
+    <nav class="secnav" id="secnav" aria-label="Розділи заняття">
+      <a href="#top" data-s="s1">1 · Ефективна розмова</a>
+      <a href="#s2" data-s="s2">2 · Лідер</a>
+      <a href="#s3" data-s="s3">3 · Принципи</a>
+      <a href="#s4" data-s="s4">4 · Активне слухання</a>
+      <a href="#s5" data-s="s5">5 · Як слухати</a>
+      <a href="#s6" data-s="s6">6 · Структура розмови</a>
+      <a href="#s7" data-s="s7">7 · ДЗ</a>
+    </nav>
+    <div class="topbar" aria-hidden="true"><i id="topbar"></i></div>
+  </div>
+
+  <!-- ============ Шапка + 1. Ефективна розмова ============ -->
+  <section class="sheet" id="top" data-sec="s1">
+    <div class="lesson">
+      <div class="lesson-num"><b>01</b><small>заняття</small></div>
+      <div>
+        <div class="lesson-sub">Мистецтво перемовин</div>
+        <h1>Лідерство у спілкуванні</h1>
+      </div>
+      <div class="mood-wrap no-print">
+        <button class="sticker" id="sticker" type="button" aria-haspopup="true" aria-expanded="false" title="Обери наліпку настрою">наліпка<br>настрою</button>
+        <div class="picker" id="picker" hidden role="dialog" aria-label="Вибір наліпки настрою">
+          <small>Який у тебе настрій?</small>
+          <div class="pk-row">
+            <button type="button" data-mood="lesya" aria-label="Леся Українка «Мрій без меж»"><img data-st="lesya" src="data:image/webp;base64,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" alt="Наліпка: Леся Українка «Мрій без меж»" width="234" height="297"></button>
+            <button type="button" data-mood="wolf" aria-label="Вовк «Будь сміливим»"><img data-st="wolf" src="data:image/webp;base64,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" alt="Наліпка: вовк «Будь сміливим»" width="241" height="253"></button>
+          </div>
+          <div class="pk-row" id="pk-emo"></div>
+          <button class="pk-clear" type="button" id="pk-clear">зняти наліпку</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <b>РОЗДІЛ 04</b>
+      <span class="on">Лідерство у спілкуванні</span><span>·</span><span>Невербальна комунікація</span><span>·</span><span>Перемовини і вміння домовлятись</span>
+    </div>
+
+    <div class="badges no-print" id="badges" aria-label="Значки за розділи"></div>
+
+    <div class="defs">
+      <div class="def"><b>Лідер</b> — той, хто володіє собою через самоусвідомлення і розуміння своїх цілей.</div>
+      <div class="def"><b>Ефективність</b> — результат, коли ти робиш щось краще, і це пов'язано з часом.</div>
+    </div>
+
+    <div class="sec-head" style="margin-top:28px">
+      <div class="sec-num">1</div>
+      <div><h2>Ефективна розмова</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-sm" type="button" data-example="s1">Приклад</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-clear="s1">Очистити</button>
+      </div>
+    </div>
+    <p class="hint">Згадай розмову, яка чекає на тебе найближчим часом, і перевір: вона цілеспрямована, позитивна й корисна? Кожна заповнена гілка засвічується.</p>
+
+    <div class="who-row">
+      <label class="lbl" for="c-who">З ким і про що розмова?</label>
+      <input class="field" id="c-who" data-c="who" placeholder="Напр.: з класною керівницею про участь у хакатоні">
+    </div>
+    <div class="tree">
+      <svg class="branches" viewBox="0 0 900 70" preserveAspectRatio="none" aria-hidden="true">
+        <path id="br0" d="M450 2 C 420 30, 250 20, 150 68"/>
+        <path id="br1" d="M450 2 C 450 30, 450 40, 450 68"/>
+        <path id="br2" d="M450 2 C 480 30, 650 20, 750 68"/>
+      </svg>
+      <div class="nodes">
+        <div class="node" id="nd0">
+          <div class="node-h"><span class="dot"></span><b>Цілеспрямована</b></div>
+          <p>Задай ціль перед кожною розмовою.</p>
+          <label class="lbl" for="c-goal">Моя ціль</label>
+          <textarea class="area" id="c-goal" data-c="goal" placeholder="Чого я хочу досягти?"></textarea>
+        </div>
+        <div class="node" id="nd1">
+          <div class="node-h"><span class="dot"></span><b>Позитивна</b></div>
+          <p>Від слова <i>positum</i>: фактична, з повагою до себе й співрозмовника.</p>
+          <label class="lbl" for="c-pos">Факти + як покажу повагу</label>
+          <textarea class="area" id="c-pos" data-c="pos" placeholder="На які факти спираюсь? Як подбаю про повагу?"></textarea>
+        </div>
+        <div class="node" id="nd2">
+          <div class="node-h"><span class="dot"></span><b>Корисна</b></div>
+          <p>У результаті отримуєш щось більше і якісніше.</p>
+          <label class="lbl" for="c-use">Що отримаємо обоє</label>
+          <textarea class="area" id="c-use" data-c="use" placeholder="Яка користь для мене і для співрозмовника?"></textarea>
+        </div>
+      </div>
+      <div class="verdict" id="verdict" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ============ 2. Лідер ============ -->
+  <section class="sheet" id="s2" data-sec="s2">
+    <div class="sec-head">
+      <div class="sec-num">2</div>
+      <div><h2>Лідер</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-sm" type="button" data-example="s2">Приклад</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-clear="s2">Очистити</button>
+      </div>
+    </div>
+    <p class="hint">Дев'ять ознак лідера в розмові. Оціни себе від 0 до 10 і запиши, як це проявляється в тебе, — радар намалює твій лідерський профіль.</p>
+    <div class="leader">
+      <div class="traits" id="traits"></div>
+      <div class="radar-box">
+        <svg id="radar" viewBox="-45 -12 490 424" role="img" aria-label="Радар-діаграма лідерських якостей"></svg>
+        <div class="radar-avg" id="radar-avg"></div>
+        <div class="radar-sum" id="radar-sum"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. Принципи спілкування ============ -->
+  <section class="sheet" id="s3" data-sec="s3">
+    <div class="sec-head">
+      <div class="sec-num">3</div>
+      <div><h2>Принципи спілкування</h2></div>
+      <div></div>
+    </div>
+    <p class="hint">Сім принципів, які тримають тебе в рівновазі в будь-якій розмові. Крутни колесо — отримаєш принцип дня і маленький виклик.</p>
+    <div class="wheel-grid">
+      <div class="wheel-box">
+        <svg viewBox="0 0 300 312" aria-hidden="true">
+          <g id="wheel"></g>
+          <path class="wpin" d="M136 2 L164 2 L150 32 Z"/>
+        </svg>
+        <button class="spin-btn" type="button" id="spin">Крутни!</button>
+      </div>
+      <div>
+        <ul class="plist" id="plist"></ul>
+        <div class="challenge" id="challenge" hidden aria-live="polite">
+          <small>Принцип дня</small>
+          <h4 id="ch-title"></h4>
+          <p id="ch-text"></p>
+          <label class="chk"><input type="checkbox" id="ch-done"> Виклик прийнято й виконано</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. Активне слухання ============ -->
+  <section class="sheet" id="s4" data-sec="s4">
+    <div class="sec-head">
+      <div class="sec-num">4</div>
+      <div><h2>Активне слухання</h2></div>
+      <div></div>
+    </div>
+    <p class="hint">Активне слухання проявляється у:</p>
+    <ol class="techs" id="techs"></ol>
+    <div class="trainer" id="trainer" aria-live="polite"></div>
+  </section>
+
+  <!-- ============ 5. Для слухання необхідно + теми ============ -->
+  <section class="sheet" id="s5" data-sec="s5">
+    <div class="sec-head">
+      <div class="sec-num">5</div>
+      <div><h2>Для слухання необхідно</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-sm" type="button" data-example="s5">Приклад</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-clear="s5">Очистити</button>
+      </div>
+    </div>
+    <p class="hint">Познач, що в тебе вже виходить. Стрілка покаже твій рівень слухача.</p>
+    <div class="two">
+      <ul class="need" id="need"></ul>
+      <div>
+        <div class="gauge">
+          <svg viewBox="0 0 260 150" aria-hidden="true">
+            <path class="g-bg" d="M20 130 A110 110 0 0 1 240 130"/>
+            <path class="g-fg" id="gfg" d="M20 130 A110 110 0 0 1 240 130"/>
+            <g id="needle"><path d="M130 130 L130 44" stroke="var(--deep)" stroke-width="5" stroke-linecap="round"/><circle cx="130" cy="130" r="10" fill="var(--deep)"/></g>
+            <text x="22" y="148" font-size="11" fill="var(--faint)">чую</text>
+            <text x="238" y="148" font-size="11" fill="var(--faint)" text-anchor="end">слухаю</text>
+          </svg>
+          <div class="g-lvl" id="glvl"></div>
+          <div class="g-sub" id="gsub"></div>
+        </div>
+        <div class="topics">
+          <b>Про що завжди можна поговорити</b>
+          <div class="cats" id="cats"></div>
+          <div class="topic-out" id="topic-out" aria-live="polite"><small>Генератор тем</small>Натисни «Дай тему» — і розмова почнеться легко.</div>
+          <div class="row-btns">
+            <button class="btn btn-sm" type="button" id="topic-gen">Дай тему</button>
+            <button class="btn btn-ghost btn-sm" type="button" id="topic-save" disabled>Зберегти</button>
+          </div>
+          <ul class="saved-topics" id="saved-topics"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. Структура ефективної розмови ============ -->
+  <section class="sheet" id="s6" data-sec="s6">
+    <div class="sec-head">
+      <div class="sec-num">6</div>
+      <div><h2>Структура ефективної розмови</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-sm" type="button" id="puz-shuffle">Перемішати</button>
+      </div>
+    </div>
+    <p class="hint">Розмова — це пазл із 10 кроків. Перетягни картки в комірки або просто тапай: картка стане в найближчу вільну комірку, тап по ній — поверне назад.</p>
+    <div class="puz-tsticker tsticker" aria-hidden="true">з'єднай<span>точки</span></div>
+    <div class="puz">
+      <div class="bank" id="bank" aria-label="Кроки, які ще не розставлено"></div>
+      <ol class="slots" id="slots"></ol>
+    </div>
+    <div class="puz-bar">
+      <button class="btn" type="button" id="puz-check">Перевірити</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="puz-hint">Підказка</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="puz-show">Показати відповідь</button>
+      <span class="puz-msg" id="puz-msg" aria-live="polite"></span>
+    </div>
+    <div class="zig" id="zig" hidden>
+      <svg id="zig-svg" viewBox="0 0 640 506" role="img" aria-label="Схема: 10 кроків ефективної розмови"></svg>
+      <div class="steps-ex" id="steps-ex"></div>
+    </div>
+  </section>
+
+  <!-- ============ 7. Домашнє завдання ============ -->
+  <section class="sheet" id="s7" data-sec="s7">
+    <div class="sec-head">
+      <div class="sec-num">7</div>
+      <div class="hw-title">
+        <div><div class="lesson-sub">Заняття 1</div><h2>Домашнє завдання</h2></div>
+      </div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-sm" type="button" data-example="s7">Приклад</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-clear="s7">Очистити</button>
+      </div>
+    </div>
+    <div class="hw">
+      <div class="task" id="task1" style="position:relative">
+        <label class="task-h"><input type="checkbox" id="hw-d1"> Підтримай розмову на 15 реплік, навіть коли тобі зовсім не цікаво.</label>
+        <div class="counter">
+          <button class="ring-btn" type="button" id="ring" aria-label="Додати репліку">
+            <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"/><circle class="ring-fg" id="ring-fg" cx="60" cy="60" r="50" stroke-dasharray="0 400"/></svg>
+            <span class="ring-in"><b id="ring-n">0</b><small>з 15 реплік</small></span>
+          </button>
+          <div>
+            <div class="cnt-msg" id="cnt-msg"></div>
+            <div class="cnt-tools"><button class="btn btn-ghost btn-sm" type="button" id="ring-minus">−1</button><button class="btn btn-ghost btn-sm" type="button" id="ring-reset">з нуля</button></div>
+          </div>
+        </div>
+        <div class="stack">
+          <div><label class="lbl" for="hw-who">З ким говорив(-ла)</label><input class="field" id="hw-who" data-h="who" placeholder="Напр.: сусід по парті"></div>
+          <div><label class="lbl" for="hw-topic">Про що була розмова</label><input class="field" id="hw-topic" data-h="topic" placeholder="Тема, яка мені була не дуже цікава"></div>
+        </div>
+      </div>
+      <div class="task" id="task2" style="position:relative">
+        <div class="hw-tsticker tsticker" aria-hidden="true">не зупиняйся<span>зараз</span></div>
+        <label class="task-h"><input type="checkbox" id="hw-d2"> Завдяки активному слуханню дізнайся в співрозмовника щось дуже цікаве.</label>
+        <div class="stack" style="margin-top:14px">
+          <div><label class="lbl" for="hw-learned">Що цікавого я дізнався(-лась)</label><textarea class="area" id="hw-learned" data-h="learned" placeholder="Факт, історія, захоплення, про які я й не здогадувався(-лась)"></textarea></div>
+          <div><span class="lbl">Які прийоми активного слухання спрацювали</span><div class="chips" id="hw-tech"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="quote">
+      <div class="qm">99</div>
+      <div>
+        <p>Результат приходить не тому, що все робиш сам, а тому, що вмієш працювати з людьми.</p>
+        <small>Богдан Ханенко — український підприємець, меценат і колекціонер, який зароблені кошти спрямовував не лише на бізнес, а й на підтримку культури та мистецтва України.</small>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <a href="index.html">← Усі зошити</a>
+    <div>Робочий зошит Campus 13 · Мистецтво ведення перемовин і вміння домовлятись · заняття 01</div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+  /* ---------- Дані заняття ---------- */
+  const TRAITS = [
+    ['знає свою ціль', 'Перед розмовою розуміє, чого хоче досягти', 'ціль'],
+    ['запитує', 'Ставить питання замість тиску й здогадок', 'запитує'],
+    ['оцінює', 'Аналізує ситуацію, людей і результат', 'оцінює'],
+    ['контролює темп мови', 'Не тараторить, тримає паузи', 'темп'],
+    ['говорить про своє', 'Від себе: «я думаю», «мені важливо»', 'про|своє'],
+    ['має останнє слово', 'Підсумовує й завершує розмову', 'останнє|слово'],
+    ['не дотримується умовностей', 'Діє за суттю, а не за шаблоном «так прийнято»', 'без|умовностей'],
+    ['говорить мовою проблеми', 'Говорить про суть і про те, що болить співрозмовнику', 'мова|проблеми'],
+    ['не пояснює й не виправдовується', 'Озвучує позицію спокійно, без виправдань', 'без|виправдань'],
+  ];
+  const PRINC = [
+    ['це тимчасово', 'Будь-яка незручна розмова мине. Сьогодні в напруженій ситуації скажи собі «це тимчасово» і зроби три повільні вдихи перед відповіддю.'],
+    ['усе можна змінити', 'Згадай розмову, яка пішла не так, і придумай одну фразу, що могла б змінити її хід. Скажи її, якщо випаде нагода.'],
+    ['повага до своєї позиції', 'Сьогодні хоча б раз спокійно скажи «я думаю інакше» замість мовчазної згоди.'],
+    ['повага до позиції іншого', 'Перш ніж заперечити, перекажи думку співрозмовника своїми словами — і спитай, чи правильно ти зрозумів(-ла).'],
+    ['не чекай нічого', 'Зроби комусь приємне без очікування відповіді: щиро подякуй, допоможи, просто вислухай.'],
+    ['це можливість', 'Знайди в сьогоднішній складній розмові одну річ, якої вона тебе навчила. Запиши її для себе.'],
+    ['без гніву й упередження', 'Поговори з людиною, про яку маєш упереджену думку, і знайди в ній щось нове.'],
+  ];
+  const PCOL = ['#9b6cf0', '#402090', '#7d4fe0', '#5a34b8', '#b48af7', '#6a3fd0', '#8a5ae8'];
+  const TECHS = ['підтриманні зорового контакту', 'киванні головою в ритм слів співрозмовника', 'погодженні (так, угу, ясно)', 'уточненні', 'переформулюванні', 'повторенні слів співрозмовника', 'віддзеркаленні співрозмовника'];
+  const TECH_SHORT = ['зоровий контакт', 'кивання', 'погодження', 'уточнення', 'переформулювання', 'повторення слів', 'віддзеркалення'];
+  // Тренажер: репліка, варіанти [текст, правильний?, пояснення], номери прийомів (з 1)
+  const ROUNDS = [
+    ['Я вже тиждень не можу сісти за проєкт, усе валиться з рук.', [
+      ['Тобто ти хочеш почати, але щось постійно заважає зосередитись?', 1, 'Переформулювання: ти показуєш, що почув(-ла) суть, і даєш людині продовжити.'],
+      ['Та просто візьми й зроби, що тут складного!', 0, 'Порада без запиту знецінює почуття — людина закриється.'],
+      ['О, у мене теж так було! Слухай, розповім…', 0, 'Перехоплення розмови: фокус зміщується на тебе.']], [5]],
+    ['Учора тренер розкритикував мене при всій команді.', [
+      ['Ну, тренер же краще знає.', 0, 'Ти став(-ла) на чужий бік, навіть не дослухавши.'],
+      ['При всій команді… І як ти почувався(-лась) у той момент?', 1, 'Повторення слів + уточнення: людина бачить, що тобі не байдуже.'],
+      ['Забий, не зважай.', 0, 'Знецінення: «не зважай» звучить як «твої почуття неважливі».']], [6, 4]],
+    ['Думаю, чи не перейти мені в іншу школу.', [
+      ['Не вигадуй, звикнеш!', 0, 'Оцінка й тиск замість інтересу.'],
+      ['А знаєш, моя сестра теж переходила…', 0, 'Історія про себе — це вже не слухання.'],
+      ['А що саме тебе спонукає про це думати?', 1, 'Уточнення: відкрите питання допомагає людині розібратись.']], [4]],
+    ['Мене дратує, що в команді ніхто не дотримується дедлайнів!', [
+      ['Схоже, тебе справді злить, що доводиться тягнути все самому(-ій).', 1, 'Віддзеркалення почуттів: ти називаєш емоцію — і людині стає легше.'],
+      ['Ти теж не завжди здаєш вчасно.', 0, 'Звинувачення у відповідь — пряма дорога до сварки.'],
+      ['Ага… (дивишся в телефон)', 0, 'Без зорового контакту «ага» звучить як «мені байдуже».']], [7]],
+    ['Я виступав(-ла) на конференції, і, здається, нормально вийшло!', [
+      ['Нормально — це ще не відмінно.', 0, 'Критика там, де людина ділиться радістю.'],
+      ['Нормально? Розкажи, що тобі вдалося найбільше!', 1, 'Повторення слова + запит: ти підхоплюєш думку й заохочуєш розповідати.'],
+      ['Конференції — це нудно.', 0, 'Оцінка теми закриває розмову.']], [6, 4]],
+    ['Не знаю, чи погоджуватися на підробіток: грошей мало, але досвід…', [
+      ['Звісно, погоджуйся!', 0, 'Рішення за людину, ще до того, як вона договорила.'],
+      ['Я б нізащо не пішов(-ла).', 0, 'Твоя позиція замість її роздумів.'],
+      ['Тобто ти зважуєш: менше грошей зараз, але більше досвіду на майбутнє?', 1, 'Переформулювання допомагає людині почути власні аргументи.']], [5]],
+    ['Ми з другом посварилися через якусь дурницю.', [
+      ['Через дурницю? А з чого все почалося?', 1, 'Повторення + уточнення: м\'яко запрошуєш розповісти більше.'],
+      ['Значить, не такий він і друг.', 0, 'Поспішний висновок і оцінка.'],
+      ['Помиритесь, не переймайся.', 0, 'Заспокоювання без слухання — розмову закрито.']], [6, 4]],
+    ['Мені запропонували вести шкільний подкаст, але я ніколи не говорив(-ла) у мікрофон.', [
+      ['Та це легко, всі вміють.', 0, 'Знецінення страху: людина почувається незрозумілою.'],
+      ['Тобі цікаво, але страшно, бо досвіду ще немає, — я правильно зрозумів(-ла)?', 1, 'Віддзеркалення + уточнення: ти називаєш обидва почуття й перевіряєш себе.'],
+      ['Подкасти зараз ніхто не слухає.', 0, 'Оцінка ідеї замість підтримки.']], [7, 4]],
+  ];
+  const NEED = ['перестати говорити', 'мовчати', 'не перебивати', 'намагатись зрозуміти почуття', 'не вдавати, а слухати', 'стримувати свої почуття', 'не планувати відповідь до кінця сказаного', 'прибрати подразнюючі моменти', 'бути «тут і зараз» зі співрозмовником', 'вірити, що тобі хочуть сказати правду', 'бути емоційним (ефект залучення)'];
+  const LEVELS = [[0, 'Чую, але не слухаю', 'Почни з простого: перестань говорити й не перебивай.'], [4, 'Уважний слухач', 'Добре! Тепер спробуй не планувати відповідь, поки людина говорить.'], [8, 'Майстер слухання', 'З тобою хочеться говорити. Тримай рівень!'], [11, 'Легенда слухання', 'Усі 11 навичок — ти той, кому довіряють секрети.']];
+  const CATS = [
+    ['про те, що оточує і обʼєднує', ['Що тебе сьогодні сюди привело?', 'Як тобі це місце — подобається?', 'Яку музику ти зараз слухаєш у дорозі?', 'Ти вже бачив(-ла) новий мурал біля школи?', 'Як думаєш, що в нашому місті варто змінити першим?', 'Хто з вчителів тебе найбільше надихає?']],
+    ['про себе', ['Я нещодавно дізнався(-лась) одну цікаву річ — розповісти?', 'Я зараз готуюсь до виступу й трохи хвилююсь. У тебе таке буває?', 'Почав(-ла) бігати зранку — це важче, ніж здавалося!', 'Мене зараз захоплює одна ідея проєкту — можна поділюся?', 'Вчора я вперше приготував(-ла) щось складне — і воно навіть вийшло.']],
+    ['про співрозмовника', ['Чим ти зараз найбільше захоплюєшся?', 'Що тебе надихає останнім часом?', 'Як ти зазвичай відпочиваєш після важкого дня?', 'Яка твоя найбільша перемога цього року?', 'Якби мав(-ла) вільний місяць — що б робив(-ла)?', 'Що б ти порадив(-ла) собі рік тому?']],
+  ];
+  const STEPS = [
+    ['Вироблення ставлення + самоналаштування', 'Налаштуйся: навіщо мені ця розмова і в якому стані я хочу в неї зайти.'],
+    ['Невербальний аналіз співрозмовника', 'Придивись до пози, міміки, темпу: в якому стані зараз людина?'],
+    ['Власна невербальна конгруентність', 'Твоє тіло каже те саме, що й слова: пряма постава, відкриті руки, спокійний голос.'],
+    ['Налаштувати співрозмовника', 'Підлаштуйся під темп і тон, створи комфорт, щоб людина відкрилась.'],
+    ['Встановлення зорового контакту', 'Погляд очі-в-очі: «я тут, і я з тобою».'],
+    ['Назвати співрозмовника на імʼя', 'Ім\'я — найприємніший звук для людини. Воно одразу додає тепла.'],
+    ['Подарунок на початок', 'Щирий комплімент, корисна порада чи цікавий факт — маленький жест, що відкриває двері.'],
+    ['Комунікація: доповнення + розуміння потреби', 'Слухай, доповнюй, з\'ясуй, чого людина насправді хоче.'],
+    ['Позитив на завершення (емоції)', 'Заверши на теплій ноті: подяка, усмішка, чітка домовленість.'],
+    ['Аналіз результатів', 'Що вийшло? Що зробиш інакше наступного разу?'],
+  ];
+  const MOOD_EMO = ['😎', '🤝', '🔥', '🙂', '🤔', '😴'];
+  const BADGES = [['s1', '🎯', 'Ефективна розмова'], ['s2', '🚩', 'Профіль лідера'], ['s3', '🎡', 'Принцип дня'], ['s4', '👂', 'Тренажер слухання'], ['s5', '💬', 'Слухач'], ['s6', '🧩', 'Пазл розмови'], ['s7', '🏆', 'Домашнє завдання']];
+
+  /* ---------- Збереження ---------- */
+  const KEY = 'spe-liderstvo-v1';
+  const fresh = () => ({
+    mood: null,
+    conv: { who: '', goal: '', pos: '', use: '' },
+    traits: Array(9).fill(null), notes: Array(9).fill(''),
+    wheel: { idx: -1, rot: 0, done: false },
+    tr: { i: 0, ans: [] },
+    need: Array(11).fill(false), cats: [true, true, true], topics: [],
+    puz: { order: shuffle([...Array(10).keys()]), slots: Array(10).fill(null), solved: false, tries: 0 },
+    hw: { count: 0, who: '', topic: '', learned: '', tech: [], d1: false, d2: false },
+    rewards: {}, done: {},
+  });
+  let S = fresh();
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) {
+      const d = JSON.parse(raw), f = fresh();
+      S = Object.assign(f, d);
+      ['conv', 'wheel', 'tr', 'puz', 'hw'].forEach((k) => { S[k] = Object.assign(f[k], d[k] || {}); });
+    }
+  } catch (e) { /* сховище недоступне — працюємо без нього */ }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ігноруємо */ } updateProgress(); };
+
+  function toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  /* ---------- Наліпки ---------- */
+  const STK = { lesya: $('img[data-st="lesya"]'), wolf: $('img[data-st="wolf"]') };
+  const ALT = { lesya: 'Наліпка: Леся Українка «Мрій без меж»', wolf: 'Наліпка: вовк «Будь сміливим»' };
+  const cloneSticker = (name) => { const im = new Image(); im.src = STK[name].src; im.alt = ALT[name]; return im; };
+
+  const stickerEl = $('#sticker'), picker = $('#picker');
+  $('#pk-emo').innerHTML = MOOD_EMO.map((e) => `<button type="button" class="e" data-mood="${e}" aria-label="Настрій ${e}">${e}</button>`).join('');
+  function paintMood(pop) {
+    const m = S.mood;
+    stickerEl.classList.toggle('has', !!m);
+    if (!m) stickerEl.innerHTML = 'наліпка<br>настрою';
+    else if (STK[m]) { stickerEl.innerHTML = ''; stickerEl.appendChild(cloneSticker(m)); }
+    else stickerEl.innerHTML = `<span class="emo">${m}</span>`;
+    $$('[data-mood]', picker).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mood === m)));
+    if (pop) { stickerEl.classList.remove('pop'); void stickerEl.offsetWidth; stickerEl.classList.add('pop'); }
+  }
+  const openPicker = (on) => { picker.hidden = !on; stickerEl.setAttribute('aria-expanded', String(on)); };
+  stickerEl.addEventListener('click', (e) => { e.stopPropagation(); openPicker(picker.hidden); });
+  picker.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const b = e.target.closest('[data-mood]');
+    if (b) { S.mood = b.dataset.mood; save(); paintMood(true); openPicker(false); }
+    if (e.target.id === 'pk-clear') { S.mood = null; save(); paintMood(); openPicker(false); }
+  });
+  document.addEventListener('click', () => openPicker(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') openPicker(false); });
+
+  // Нагорода: наліпка прилітає й приклеюється на куток розділу
+  function reward(secId, name, animate) {
+    const sec = $('#' + secId);
+    if (sec.querySelector('.reward')) return;
+    const im = cloneSticker(name); im.className = 'reward' + (animate ? ' fly' : '');
+    im.title = name === 'wolf' ? 'Будь сміливим!' : 'Мрій без меж!';
+    sec.appendChild(im);
+    if (animate) { S.rewards[secId] = name; save(); }
+  }
+
+  /* ---------- Конфеті ---------- */
+  function confetti() {
+    if (RM) return;
+    const c = $('#confetti'), x = c.getContext('2d');
+    c.width = innerWidth; c.height = innerHeight;
+    const cols = ['#9b6cf0', '#402090', '#ece4fd', '#22a447', '#ffb24d'];
+    const P = Array.from({ length: 120 }, () => ({ x: innerWidth / 2, y: innerHeight * .4, vx: (Math.random() - .5) * 14, vy: Math.random() * -12 - 3, s: Math.random() * 6 + 4, c: cols[Math.floor(Math.random() * cols.length)], r: Math.random() * 6 }));
+    let t = 0;
+    (function frame() {
+      x.clearRect(0, 0, c.width, c.height);
+      P.forEach((p) => { p.x += p.vx; p.y += p.vy; p.vy += .35; p.r += .1; x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.fillStyle = p.c; x.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); x.restore(); });
+      if (++t < 110) requestAnimationFrame(frame); else x.clearRect(0, 0, c.width, c.height);
+    })();
+  }
+
+  /* ---------- 1. Ефективна розмова ---------- */
+  const C_KEYS = ['goal', 'pos', 'use'];
+  function paintConv() {
+    $$('[data-c]').forEach((el) => { el.value = S.conv[el.dataset.c]; });
+    lightConv();
+  }
+  function lightConv() {
+    let n = 0;
+    C_KEYS.forEach((k, i) => {
+      const on = S.conv[k].trim().length > 2; if (on) n++;
+      const nd = $('#nd' + i), br = $('#br' + i);
+      if (nd.classList.contains('lit') !== on) { nd.classList.toggle('lit', on); br.classList.toggle('lit', on); }
+    });
+    const v = $('#verdict');
+    v.className = 'verdict' + (n === 3 ? ' ok' : '');
+    v.textContent = ['Поки жодна гілка не світиться — почни з цілі.', 'Одна гілка є! Додай ще дві.', 'Майже: залишилась одна гілка.', 'Розмова цілеспрямована, позитивна й корисна — ти готовий(-а)!'][n];
+  }
+  $$('[data-c]').forEach((el) => el.addEventListener('input', () => { S.conv[el.dataset.c] = el.value; lightConv(); save(); }));
+
+  /* ---------- 2. Лідер: повзунки + радар ---------- */
+  const traitsEl = $('#traits');
+  traitsEl.innerHTML = TRAITS.map((t, i) => `
+    <div class="trait" data-i="${i}">
+      <div class="trait-top"><label for="tr${i}"><b>${t[0]}</b><small>${t[1]}</small></label><span class="tval" id="tv${i}"></span></div>
+      <input type="range" id="tr${i}" min="0" max="10" step="1" value="5" data-t="${i}">
+      <input class="field" data-n="${i}" aria-label="Як «${t[0]}» проявляється в мене" placeholder="Як це проявляється в мене?">
+    </div>`).join('');
+  function paintTraits() {
+    TRAITS.forEach((t, i) => {
+      const v = S.traits[i], row = traitsEl.children[i];
+      row.classList.toggle('unset', v == null);
+      $('#tr' + i).value = v == null ? 5 : v;
+      const tv = $('#tv' + i); tv.textContent = v == null ? '—' : v; tv.classList.toggle('none', v == null);
+      $(`[data-n="${i}"]`).value = S.notes[i];
+    });
+    drawRadar();
+  }
+  traitsEl.addEventListener('input', (e) => {
+    const t = e.target;
+    if (t.dataset.t != null) { const i = +t.dataset.t; S.traits[i] = +t.value; traitsEl.children[i].classList.remove('unset'); const tv = $('#tv' + i); tv.textContent = t.value; tv.classList.remove('none'); drawRadar(); }
+    if (t.dataset.n != null) S.notes[+t.dataset.n] = t.value;
+    save();
+  });
+  // Позначаємо оцінку і при простому тапі по повзунку (без зсуву)
+  traitsEl.addEventListener('change', (e) => { const t = e.target; if (t.dataset.t != null && S.traits[+t.dataset.t] == null) { S.traits[+t.dataset.t] = +t.value; paintTraits(); save(); } });
+
+  function drawRadar() {
+    const cx = 200, cy = 200, R = 140, n = TRAITS.length;
+    const pt = (i, r) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
+    let h = '';
+    for (let k = 1; k <= 5; k++) h += `<polygon class="rgrid" points="${TRAITS.map((_, i) => pt(i, R * k / 5).join(',')).join(' ')}"/>`;
+    const vals = S.traits.map((v) => (v == null ? 0 : v));
+    const max = Math.max(...vals);
+    TRAITS.forEach((t, i) => {
+      const [x, y] = pt(i, R), [lx, ly] = pt(i, R + 18);
+      h += `<line class="raxis" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"/>`;
+      const anchor = Math.abs(lx - cx) < 12 ? 'middle' : lx > cx ? 'start' : 'end';
+      const hi = S.traits[i] != null && vals[i] === max && max > 0;
+      const ln = t[2].split('|'), y0 = ly + 5 - (ln.length - 1) * 8;
+      h += `<text class="rlab${hi ? ' hi' : ''}" x="${lx}" y="${y0}" text-anchor="${anchor}">${ln.map((l, k) => `<tspan x="${lx}" dy="${k ? 16 : 0}">${l}</tspan>`).join('')}</text>`;
+    });
+    const poly = vals.map((v, i) => pt(i, R * v / 10).join(',')).join(' ');
+    h += `<polygon class="rpoly" points="${poly}"/>`;
+    vals.forEach((v, i) => { if (S.traits[i] != null) { const [x, y] = pt(i, R * v / 10); h += `<circle class="rdot" cx="${x}" cy="${y}" r="4.5"/>`; } });
+    // прапор лідера в центрі
+    h += `<g transform="translate(${cx - 12} ${cy - 16})" opacity=".55"><path d="M4 0 V32" stroke="var(--deep)" stroke-width="3" stroke-linecap="round"/><path d="M5 2 C12 -2 16 6 24 2 V14 C16 18 12 10 5 14 Z" fill="var(--violet)"/></g>`;
+    $('#radar').innerHTML = h;
+
+    const rated = S.traits.map((v, i) => [v, i]).filter(([v]) => v != null);
+    const avgEl = $('#radar-avg'), sumEl = $('#radar-sum');
+    if (!rated.length) { avgEl.innerHTML = 'Оціни хоча б одну якість'; sumEl.innerHTML = ''; return; }
+    const avg = rated.reduce((s, [v]) => s + v, 0) / rated.length;
+    avgEl.innerHTML = `<b>${avg.toFixed(1)}</b> / 10 · оцінено ${rated.length} з 9`;
+    const sorted = rated.slice().sort((a, b) => b[0] - a[0]);
+    const top = sorted[0], low = sorted[sorted.length - 1];
+    sumEl.innerHTML = `<div>💪 Твоя суперсила: <b>${TRAITS[top[1]][0]}</b></div>` +
+      (rated.length > 1 && low[0] < top[0] ? `<div>🌱 Зона росту: <b>${TRAITS[low[1]][0]}</b> — спробуй потренувати це в найближчій розмові.</div>` : '');
+  }
+
+  /* ---------- 3. Колесо принципів ---------- */
+  (function buildWheel() {
+    const n = PRINC.length, cx = 150, cy = 160, r = 140;
+    let h = '';
+    PRINC.forEach((p, i) => {
+      const a0 = -Math.PI / 2 + (i - .5) * 2 * Math.PI / n, a1 = a0 + 2 * Math.PI / n, am = (a0 + a1) / 2;
+      const x0 = cx + r * Math.cos(a0), y0 = cy + r * Math.sin(a0), x1 = cx + r * Math.cos(a1), y1 = cy + r * Math.sin(a1);
+      const tx = cx + r * .72 * Math.cos(am), ty = cy + r * .72 * Math.sin(am);
+      h += `<g class="wseg"><path d="M${cx} ${cy} L${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1} Z" fill="${PCOL[i]}" stroke="#fff" stroke-width="2"/><text x="${tx}" y="${ty + 8}" text-anchor="middle">${i + 1}</text></g>`;
+    });
+    h += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#fff" stroke-width="4"/>`;
+    const w = $('#wheel'); w.innerHTML = h; w.style.transformOrigin = `${cx}px ${cy}px`;
+    $('.spin-btn').style.top = (cy / 312 * 100) + '%';
+  })();
+  $('#plist').innerHTML = PRINC.map((p, i) => `<li data-p="${i}"><i style="--c:${PCOL[i]}">${i + 1}</i>${p[0]}</li>`).join('');
+  function paintWheel(animate) {
+    const w = $('#wheel');
+    if (!animate) { w.style.transition = 'none'; w.style.transform = `rotate(${S.wheel.rot}deg)`; void w.offsetWidth; w.style.transition = ''; }
+    $$('#plist li').forEach((li) => li.classList.toggle('on', +li.dataset.p === S.wheel.idx));
+    const ch = $('#challenge');
+    if (S.wheel.idx < 0) { ch.hidden = true; return; }
+    ch.hidden = false;
+    $('#ch-title').textContent = `${S.wheel.idx + 1}. «${PRINC[S.wheel.idx][0]}»`;
+    $('#ch-text').textContent = PRINC[S.wheel.idx][1];
+    $('#ch-done').checked = S.wheel.done;
+  }
+  let spinning = false;
+  $('#spin').addEventListener('click', () => {
+    if (spinning) return;
+    const n = PRINC.length;
+    let idx; do { idx = Math.floor(Math.random() * n); } while (idx === S.wheel.idx && n > 1);
+    // сегмент idx має опинитися під стрілкою (вгорі): кут = -idx*360/n (за модулем), + кілька обертів
+    const cur = S.wheel.rot, target = -idx * 360 / n + (Math.random() - .5) * (300 / n);
+    const base = cur - (((cur - target) % 360) + 360) % 360;
+    const rot = base + 360 * 5;
+    spinning = true; $('#spin').disabled = true;
+    const w = $('#wheel'); w.style.transform = `rotate(${rot}deg)`;
+    $$('#plist li').forEach((li) => li.classList.remove('on'));
+    $('#challenge').hidden = true;
+    setTimeout(() => {
+      spinning = false; $('#spin').disabled = false;
+      S.wheel = { idx, rot, done: false }; save(); paintWheel(false);
+    }, RM ? 50 : 3700);
+  });
+  $('#ch-done').addEventListener('change', (e) => { S.wheel.done = e.target.checked; save(); if (e.target.checked) toast('Принцип прийнято! Так тримати 💜'); });
+
+  /* ---------- 4. Тренажер активного слухання ---------- */
+  $('#techs').innerHTML = TECHS.map((t, i) => `<li data-tech="${i + 1}"><i>${i + 1}</i>${t}</li>`).join('');
+  let order = [];
+  function flashTech(nums) {
+    $$('#techs li').forEach((li) => li.classList.toggle('flash', nums.includes(+li.dataset.tech)));
+    setTimeout(() => $$('#techs li').forEach((li) => li.classList.remove('flash')), 2400);
+  }
+  function renderTrainer() {
+    const T = $('#trainer'), i = S.tr.i, total = ROUNDS.length;
+    const score = S.tr.ans.filter((a, k) => ROUNDS[k] && ROUNDS[k][1][a] && ROUNDS[k][1][a][1]).length;
+    const dots = ROUNDS.map((_, k) => { const a = S.tr.ans[k]; const cls = a == null ? (k === i ? 'cur' : '') : (ROUNDS[k][1][a][1] ? 'ok' : 'no'); return `<i class="${cls}"></i>`; }).join('');
+    if (i >= total) {
+      const msg = score >= 7 ? 'Блискуче! Ти справді вмієш слухати.' : score >= 5 ? 'Добре! Ще трохи практики — і ти майстер.' : 'Слухати — це навичка. Спробуй ще раз, тепер ти знаєш пастки.';
+      T.innerHTML = `<div class="tr-top"><span>Тренажер завершено</span><span class="tr-dots">${dots}</span></div>
+        <div class="tr-end"><div class="big">${score}/${total}</div><p>${msg}</p><button class="btn" type="button" id="tr-again">Пройти ще раз</button></div>`;
+      $('#tr-again').onclick = () => { S.tr = { i: 0, ans: [] }; save(); renderTrainer(); };
+      return;
+    }
+    const R = ROUNDS[i], a = S.tr.ans[i];
+    if (a == null || !order.length) order = shuffle([0, 1, 2]);
+    T.innerHTML = `<div class="tr-top"><span>Тренажер · репліка ${i + 1} з ${total} · ✔ ${score}</span><span class="tr-dots">${dots}</span></div>
+      <div class="bubble"><small>Співрозмовник</small>«${esc(R[0])}»</div>
+      <div class="hint" style="margin:0 0 8px">Обери відповідь активного слухача:</div>
+      <div class="answers">${order.map((o) => `<button class="ans" type="button" data-o="${o}">${esc(R[1][o][0])}</button>`).join('')}</div>
+      <div id="tr-fb"></div>`;
+    if (a != null) showFeedback(a, false);
+  }
+  function showFeedback(a, isNew) {
+    const i = S.tr.i, R = ROUNDS[i], good = R[1].findIndex((x) => x[1]);
+    $$('#trainer .ans').forEach((b) => { const o = +b.dataset.o; b.disabled = true; b.classList.add(o === good ? 'ok' : o === a ? 'no' : 'dim'); });
+    const ok = !!R[1][a][1];
+    $('#tr-fb').innerHTML = `<div class="fb ${ok ? 'ok' : 'no'}"><b>${ok ? 'Так! ' : 'Не зовсім. '}</b>${esc(R[1][a][2])}${ok ? '' : '<br><b style="display:inline">Краще:</b> ' + esc(R[1][good][2])}</div>
+      <div class="row-btns"><button class="btn btn-sm" type="button" id="tr-next">${i + 1 < ROUNDS.length ? 'Наступна репліка →' : 'Результат'}</button></div>`;
+    $('#tr-next').onclick = () => { S.tr.i++; order = []; save(); renderTrainer(); $('#trainer').scrollIntoView({ block: 'nearest', behavior: RM ? 'auto' : 'smooth' }); };
+    if (isNew) flashTech(R[2]);
+  }
+  $('#trainer').addEventListener('click', (e) => {
+    const b = e.target.closest('.ans'); if (!b || b.disabled) return;
+    const a = +b.dataset.o; S.tr.ans[S.tr.i] = a; save();
+    const dots = $$('#trainer .tr-dots i'); if (dots[S.tr.i]) dots[S.tr.i].className = ROUNDS[S.tr.i][1][a][1] ? 'ok' : 'no';
+    showFeedback(a, true);
+  });
+
+  /* ---------- 5. Для слухання необхідно + теми ---------- */
+  $('#need').innerHTML = NEED.map((t, i) => `<li><label><input type="checkbox" data-need="${i}">${t}</label></li>`).join('');
+  $('#cats').innerHTML = CATS.map((c, i) => `<label><input type="checkbox" data-cat="${i}">${c[0]}</label>`).join('');
+  const ARC = Math.PI * 110;
+  function paintNeed() {
+    $$('[data-need]').forEach((el) => { el.checked = S.need[+el.dataset.need]; });
+    $$('[data-cat]').forEach((el) => { el.checked = S.cats[+el.dataset.cat]; });
+    gauge();
+    paintTopics();
+  }
+  function gauge() {
+    const n = S.need.filter(Boolean).length, p = n / NEED.length;
+    $('#gfg').setAttribute('stroke-dasharray', `${ARC * p} ${ARC}`);
+    $('#needle').style.transform = `rotate(${-90 + 180 * p}deg)`;
+    const L = LEVELS.filter((l) => n >= l[0]).pop();
+    $('#glvl').textContent = `${L[1]} · ${n}/${NEED.length}`;
+    $('#gsub').textContent = L[2];
+  }
+  $('#need').addEventListener('change', (e) => { const i = e.target.dataset.need; if (i == null) return; S.need[+i] = e.target.checked; gauge(); save(); });
+  $('#cats').addEventListener('change', (e) => { const i = e.target.dataset.cat; if (i == null) return; S.cats[+i] = e.target.checked; save(); });
+  let curTopic = null;
+  $('#topic-gen').addEventListener('click', () => {
+    const pool = []; CATS.forEach((c, i) => { if (S.cats[i]) c[1].forEach((q) => pool.push([i, q])); });
+    const out = $('#topic-out');
+    if (!pool.length) { out.innerHTML = '<small>Генератор тем</small>Познач хоча б одну категорію вище 🙂'; return; }
+    let pick; do { pick = pool[Math.floor(Math.random() * pool.length)]; } while (pool.length > 1 && curTopic && pick[1] === curTopic);
+    curTopic = pick[1];
+    out.innerHTML = `<small>${esc(CATS[pick[0]][0])}</small>${esc(pick[1])}`;
+    out.classList.remove('roll'); void out.offsetWidth; out.classList.add('roll');
+    $('#topic-save').disabled = S.topics.includes(curTopic);
+  });
+  $('#topic-save').addEventListener('click', () => {
+    if (!curTopic || S.topics.includes(curTopic)) return;
+    S.topics.unshift(curTopic); S.topics = S.topics.slice(0, 6); save(); paintTopics(); $('#topic-save').disabled = true; toast('Тему збережено — використай у розмові!');
+  });
+  function paintTopics() {
+    $('#saved-topics').innerHTML = S.topics.map((t, i) => `<li><span>💬 ${esc(t)}</span><button type="button" data-rmt="${i}" aria-label="Видалити тему">×</button></li>`).join('');
+  }
+  $('#saved-topics').addEventListener('click', (e) => { const b = e.target.closest('[data-rmt]'); if (!b) return; S.topics.splice(+b.dataset.rmt, 1); save(); paintTopics(); });
+
+  /* ---------- 6. Пазл: структура розмови ---------- */
+  const bank = $('#bank'), slots = $('#slots');
+  slots.innerHTML = STEPS.map((_, i) => `<li class="slot" data-slot="${i}"><span class="slot-n">${i + 1}</span><div class="slot-box" data-drop="${i}"></div></li>`).join('');
+  const cardHtml = (k) => `<button class="card" type="button" draggable="true" data-card="${k}">${STEPS[k][0]}</button>`;
+  function paintPuzzle() {
+    const P = S.puz, placed = new Set(P.slots.filter((v) => v != null));
+    bank.innerHTML = P.order.filter((k) => !placed.has(k)).map(cardHtml).join('');
+    const firstEmpty = P.slots.indexOf(null);
+    $$('.slot', slots).forEach((li, i) => {
+      const box = li.querySelector('.slot-box'), v = P.slots[i];
+      box.innerHTML = v == null ? '' : cardHtml(v);
+      box.classList.toggle('next', i === firstEmpty);
+      li.classList.remove('no'); li.classList.toggle('ok', P.solved);
+    });
+    const msg = $('#puz-msg');
+    if (P.solved) msg.textContent = `Пазл складено${P.tries ? ` · спроб: ${P.tries}` : ''} 🧩`;
+    else if (!msg.dataset.keep) msg.textContent = `Розставлено ${placed.size} з 10`;
+    delete msg.dataset.keep;
+    const zig = $('#zig');
+    if (P.solved && zig.hidden) { zig.hidden = false; drawZig(); }
+    if (!P.solved) zig.hidden = true;
+  }
+  function place(k, slot) {
+    const P = S.puz; if (P.solved) return;
+    const from = P.slots.indexOf(k); if (from >= 0) P.slots[from] = null;
+    if (slot == null) slot = P.slots.indexOf(null);
+    if (slot < 0) return;
+    const prev = P.slots[slot];
+    P.slots[slot] = k;
+    if (prev != null && from >= 0) P.slots[from] = prev; // обмін місцями при перетягуванні між комірками
+    save(); paintPuzzle();
+  }
+  // Тап / клік: з банку — у першу вільну комірку; з комірки — назад у банк
+  document.getElementById('s6').addEventListener('click', (e) => {
+    const c = e.target.closest('.card'); if (!c || S.puz.solved) return;
+    const k = +c.dataset.card;
+    if (c.closest('#bank')) place(k, null);
+    else { S.puz.slots[S.puz.slots.indexOf(k)] = null; save(); paintPuzzle(); }
+  });
+  // Перетягування мишею (HTML5 DnD)
+  let dragK = null;
+  document.addEventListener('dragstart', (e) => { const c = e.target.closest && e.target.closest('.card'); if (!c) return; dragK = +c.dataset.card; c.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', String(dragK)); } catch (er) { /* */ } });
+  document.addEventListener('dragend', () => { dragK = null; $$('.dragging').forEach((c) => c.classList.remove('dragging')); $$('.slot-box.over').forEach((b) => b.classList.remove('over')); });
+  $('#s6').addEventListener('dragover', (e) => { const box = e.target.closest('[data-drop], #bank'); if (box && dragK != null) { e.preventDefault(); $$('.slot-box.over').forEach((b) => b !== box && b.classList.remove('over')); if (box.dataset.drop != null) box.classList.add('over'); } });
+  $('#s6').addEventListener('drop', (e) => {
+    const box = e.target.closest('[data-drop], #bank'); if (!box || dragK == null) return;
+    e.preventDefault();
+    if (box.id === 'bank') { const f = S.puz.slots.indexOf(dragK); if (f >= 0) { S.puz.slots[f] = null; save(); paintPuzzle(); } }
+    else place(dragK, +box.dataset.drop);
+  });
+  $('#puz-check').addEventListener('click', () => {
+    const P = S.puz; if (P.solved) return;
+    const filled = P.slots.filter((v) => v != null).length;
+    const msg = $('#puz-msg');
+    if (filled < 10) { msg.dataset.keep = 1; msg.textContent = `Ще ${10 - filled} крок(и) без місця.`; paintPuzzle(); return; }
+    P.tries++;
+    const right = P.slots.filter((v, i) => v === i).length;
+    if (right === 10) {
+      P.solved = true; save(); paintPuzzle(); confetti(); toast('Структура розмови складена! 🧩');
+      $('#zig').scrollIntoView({ block: 'nearest', behavior: RM ? 'auto' : 'smooth' });
+      return;
+    }
+    save();
+    $$('.slot', slots).forEach((li, i) => { li.classList.toggle('ok', P.slots[i] === i); li.classList.toggle('no', P.slots[i] !== i); });
+    const wrong = $$('.slot.no', slots); wrong.forEach((li) => { li.classList.remove('shake'); void li.offsetWidth; li.classList.add('shake'); });
+    msg.textContent = `На своєму місці ${right} з 10. Червоні — переставити.`;
+  });
+  $('#puz-hint').addEventListener('click', () => {
+    const P = S.puz; if (P.solved) return;
+    const i = P.slots.findIndex((v, k) => v !== k);
+    if (i < 0) return;
+    const occupied = P.slots.indexOf(i);
+    if (occupied >= 0) P.slots[occupied] = null;
+    const prev = P.slots[i]; P.slots[i] = i;
+    if (prev != null && occupied >= 0) P.slots[occupied] = prev;
+    save(); paintPuzzle();
+    const li = slots.children[i]; li.classList.add('ok'); toast(`Крок ${i + 1}: «${STEPS[i][0]}»`);
+  });
+  $('#puz-show').addEventListener('click', () => { S.puz.slots = [...Array(10).keys()]; S.puz.solved = true; save(); paintPuzzle(); });
+  $('#puz-shuffle').addEventListener('click', () => { S.puz = { order: shuffle([...Array(10).keys()]), slots: Array(10).fill(null), solved: false, tries: 0 }; save(); paintPuzzle(); });
+
+  // Схема як у зошиті: непарні кроки зліва, парні справа, лінії-зигзаг 1→2→3…
+  function drawZig() {
+    const narrow = $('#zig').clientWidth < 560;
+    const W = narrow ? 360 : 640, bw = narrow ? 152 : 220, bh = 66, gapY = 100, lx = narrow ? 4 : 30, rx = W - lx - bw, maxCh = narrow ? 17 : 24;
+    $('#zig-svg').setAttribute('viewBox', `0 0 ${W} ${20 + 4 * gapY + bh + 20}`);
+    const pos = STEPS.map((_, i) => ({ x: i % 2 ? rx : lx, y: 20 + Math.floor(i / 2) * gapY + (i % 2 ? 0 : 0) }));
+    const wrapTxt = (s) => { const w = s.split(' '), out = []; let line = ''; w.forEach((x) => { if ((line + ' ' + x).trim().length > maxCh) { out.push(line.trim()); line = x; } else line += ' ' + x; }); out.push(line.trim()); return out; };
+    let lines = '', boxes = '';
+    for (let i = 0; i < 9; i++) {
+      const a = pos[i], b = pos[i + 1];
+      const x1 = a.x + (i % 2 ? 0 : bw), y1 = a.y + bh / 2 + 6, x2 = b.x + (i % 2 ? bw : 0), y2 = b.y + bh / 2 + 6;
+      const mx = (x1 + x2) / 2;
+      lines += `<path class="zline" style="--k:${i}" d="M${x1} ${y1} C${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}"/>`;
+    }
+    STEPS.forEach((s, i) => {
+      const p = pos[i], t = wrapTxt(s[0]);
+      boxes += `<rect class="zbox" x="${p.x}" y="${p.y + 6}" width="${bw}" height="${bh}" rx="10"/>`;
+      boxes += `<text class="ztxt" x="${p.x + 14}" y="${p.y + 6 + bh / 2 - (t.length - 1) * 7.5 + 4}">${t.map((l, k) => `<tspan x="${p.x + 14}" dy="${k ? 15 : 0}">${esc(l)}</tspan>`).join('')}</text>`;
+      boxes += `<circle class="zcircle" cx="${p.x + bw - 12}" cy="${p.y + 6}" r="17"/><text class="znum" x="${p.x + bw - 12}" y="${p.y + 11.5}">${i + 1}</text>`;
+    });
+    $('#zig-svg').innerHTML = lines + boxes;
+    const z = $('#zig'); z.classList.remove('go'); void z.offsetWidth; z.classList.add('go');
+    $('#steps-ex').innerHTML = STEPS.map((s, i) => `<details><summary><b>${i + 1}</b>${esc(s[0])}</summary><p>${esc(s[1])}</p></details>`).join('');
+  }
+
+  /* ---------- 7. Домашнє завдання ---------- */
+  $('#hw-tech').innerHTML = TECH_SHORT.map((t, i) => `<button class="chip" type="button" data-tech-c="${i}" aria-pressed="false">${t}</button>`).join('');
+  const RING = 2 * Math.PI * 50;
+  const CNT_MSG = [[0, 'Тапай коло після кожної своєї репліки.'], [1, 'Почалось! Став уточнювальні питання.'], [5, 'Третина шляху. Спробуй повторити слова співрозмовника.'], [10, 'Ще 5! Переформулюй, що почув(-ла).'], [14, 'Остання репліка — заверши позитивом!'], [15, '15 реплік! Ти втримав(-ла) розмову 🎉']];
+  function paintHW() {
+    const H = S.hw;
+    $$('[data-h]').forEach((el) => { el.value = H[el.dataset.h]; });
+    $$('[data-tech-c]').forEach((b) => b.setAttribute('aria-pressed', String(H.tech.includes(+b.dataset.techC))));
+    $('#hw-d1').checked = H.d1; $('#hw-d2').checked = H.d2;
+    $('#task1').classList.toggle('done', H.d1); $('#task2').classList.toggle('done', H.d2);
+    paintRing();
+  }
+  function paintRing() {
+    const n = S.hw.count;
+    $('#ring-n').textContent = n;
+    $('#ring-fg').setAttribute('stroke-dasharray', `${RING * Math.min(n, 15) / 15} ${RING}`);
+    $('#cnt-msg').textContent = CNT_MSG.filter((m) => n >= m[0]).pop()[1];
+  }
+  $('#ring').addEventListener('click', () => {
+    const H = S.hw; if (H.count >= 15) { toast('Вже 15! Можна йти на рекорд — але ДЗ виконано 😉'); }
+    H.count = Math.min(H.count + 1, 99);
+    const r = $('#ring'); r.classList.remove('bump'); void r.offsetWidth; r.classList.add('bump');
+    if (H.count === 15 && !H.d1) { H.d1 = true; paintHW(); confetti(); } else paintRing();
+    save();
+  });
+  $('#ring-minus').addEventListener('click', () => { S.hw.count = Math.max(0, S.hw.count - 1); paintRing(); save(); });
+  $('#ring-reset').addEventListener('click', () => { S.hw.count = 0; paintRing(); save(); });
+  $$('[data-h]').forEach((el) => el.addEventListener('input', () => { S.hw[el.dataset.h] = el.value; save(); }));
+  $('#hw-tech').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-tech-c]'); if (!b) return;
+    const i = +b.dataset.techC, t = S.hw.tech, k = t.indexOf(i);
+    if (k >= 0) t.splice(k, 1); else t.push(i);
+    b.setAttribute('aria-pressed', String(k < 0)); save();
+  });
+  ['d1', 'd2'].forEach((d) => $('#hw-' + d).addEventListener('change', (e) => { S.hw[d] = e.target.checked; paintHW(); save(); }));
+
+  /* ---------- Приклад / Очистити ---------- */
+  const EXAMPLES = {
+    s1: () => {
+      const ex = { who: 'З класною керівницею — про участь нашої команди в хакатоні', goal: 'Отримати дозвіл пропустити два уроки в п\'ятницю й домовитися, як надолужимо матеріал.', pos: 'Покажу програму хакатону й лист від організаторів. Подякую за підтримку минулого разу, вислухаю її сумніви.', use: 'Команда отримає досвід і, можливо, приз, а школа — ще одну перемогу для свого рейтингу.' };
+      Object.keys(ex).forEach((k) => { if (!S.conv[k].trim()) S.conv[k] = ex[k]; }); paintConv();
+    },
+    s2: () => {
+      const v = [8, 6, 7, 4, 7, 5, 6, 5, 3];
+      const n = ['Перед кожним проєктом пишу ціль на стікері', 'Питаю «а як ти це бачиш?» на зустрічах команди', 'Після виступів розбираю, що вдалося', 'Коли хвилююсь — тараторю, треба пауз', 'Кажу «я пропоную», а не «треба»', 'Іноді розмова розповзається без підсумку', 'Можу запропонувати нестандартний формат', 'Питаю, що саме заважає людині', 'Часто виправдовуюсь, коли запізнююсь'];
+      S.traits = S.traits.map((x, i) => (x == null ? v[i] : x)); S.notes = S.notes.map((x, i) => x || n[i]); paintTraits();
+    },
+    s5: () => {
+      [0, 2, 3, 4, 8, 9].forEach((i) => { S.need[i] = true; });
+      if (!S.topics.length) S.topics = ['Чим ти зараз найбільше захоплюєшся?', 'Як тобі це місце — подобається?'];
+      paintNeed();
+    },
+    s7: () => {
+      const H = S.hw;
+      if (!H.who) H.who = 'Дідусь'; if (!H.topic) H.topic = 'Риболовля й різні види гачків';
+      if (!H.learned) H.learned = 'Виявилось, що в молодості дідусь був радистом на кораблі й досі пам\'ятає азбуку Морзе. Обіцяв навчити!';
+      if (!H.tech.length) H.tech = [3, 4, 5];
+      if (!H.count) H.count = 15;
+      H.d1 = true; H.d2 = true; paintHW();
+    },
+  };
+  const CLEAR = {
+    s1: () => { S.conv = fresh().conv; paintConv(); },
+    s2: () => { S.traits = Array(9).fill(null); S.notes = Array(9).fill(''); paintTraits(); },
+    s5: () => { S.need = Array(11).fill(false); S.topics = []; paintNeed(); },
+    s7: () => { S.hw = fresh().hw; paintHW(); },
+  };
+  document.addEventListener('click', (e) => {
+    const ex = e.target.closest('[data-example]'), cl = e.target.closest('[data-clear]');
+    if (ex) { EXAMPLES[ex.dataset.example](); save(); toast('Приклад підставлено в порожні поля — заміни своїм'); }
+    if (cl && confirm('Очистити всі записи в цьому розділі?')) { CLEAR[cl.dataset.clear](); save(); }
+  });
+
+  /* ---------- Прогрес і значки ---------- */
+  $('#badges').innerHTML = BADGES.map((b) => `<span class="badge" data-b="${b[0]}" title="${b[2]}">${b[1]}</span>`).join('') + '<span class="badges-txt" id="badges-txt"></span>';
+  const CHECK = {
+    s1: () => C_KEYS.every((k) => S.conv[k].trim().length > 2),
+    s2: () => S.traits.every((v) => v != null),
+    s3: () => S.wheel.idx >= 0 && S.wheel.done,
+    s4: () => S.tr.i >= ROUNDS.length,
+    s5: () => S.need.filter(Boolean).length >= 6 && S.topics.length > 0,
+    s6: () => S.puz.solved,
+    s7: () => S.hw.d1 && S.hw.d2,
+  };
+  let booted = false;
+  function updateProgress() {
+    let n = 0;
+    BADGES.forEach(([id, , name]) => {
+      const ok = CHECK[id](); if (ok) n++;
+      $(`[data-b="${id}"]`).classList.toggle('on', ok);
+      $(`[data-s="${id}"]`).classList.toggle('done', ok);
+      document.querySelector(`[data-sec="${id}"]`).classList.toggle('done', ok);
+      if (ok && !S.done[id]) { S.done[id] = 1; if (booted) toast(`Значок «${name}» отримано!`); }
+      if (!ok && S.done[id]) delete S.done[id];
+    });
+    $('#topbar').style.width = (n / BADGES.length * 100) + '%';
+    $('#badges-txt').innerHTML = n === BADGES.length ? '<b>Усі 7 значків!</b> Ти лідер розмови 💜' : `Значки: <b>${n}</b> з 7`;
+    // Нагороди-наліпки: вовк — за сміливе проходження тренажера (≥6), Леся — за виконане ДЗ
+    const score = S.tr.ans.filter((a, k) => ROUNDS[k] && ROUNDS[k][1][a] && ROUNDS[k][1][a][1]).length;
+    if (S.tr.i >= ROUNDS.length && score >= 6) reward('s4', 'wolf', booted && !S.rewards.s4);
+    if (S.hw.d1 && S.hw.d2) reward('s7', 'lesya', booted && !S.rewards.s7);
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* */ }
+  }
+
+  /* ---------- Навігація: підсвічуємо розділ на екрані ---------- */
+  const nav = $('#secnav'), links = $$('a', nav);
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      links.forEach((a) => {
+        const on = a.getAttribute('href') === '#' + en.target.id;
+        a.classList.toggle('on', on);
+        if (on) nav.scrollTo({ left: a.offsetLeft - 12, behavior: RM ? 'auto' : 'smooth' });
+      });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  $$('.sheet').forEach((s) => io.observe(s));
+
+  paintMood(); paintConv(); paintTraits(); paintWheel(false); renderTrainer(); paintNeed(); paintPuzzle(); paintHW();
+  updateProgress(); booted = true;
+})();
+</script>
+</body>
+</html>

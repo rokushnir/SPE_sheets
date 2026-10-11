@@ -1,4 +1,4 @@
-[← Усі ігри](../README.md) · [Відкрити як сторінку](https://htmlpreview.github.io/?https://github.com/rokushnir/SPE_sheets/blob/claude/wizardly-rubin-l3togl/prytchi-igry/03-pereprava.html)
+[← Усі ігри](../README.md) · [Відкрити як сторінку](https://rokushnir.github.io/SPE_sheets/prytchi-03-pereprava.html)
 
 # 03. Переправа
 
