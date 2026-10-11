@@ -522,7 +522,7 @@ button { font: inherit; }
     state = "intro";
     const controls = (G.controls || []).map((c) => `<li>${c}</li>`).join("");
     showScreen(
-      `<span class="eyebrow">Гра ${esc(META.num || G.id)} · за притчею «${esc(G.parable)}»</span>
+      `<span class="eyebrow">Гра ${esc(META.num || G.id)} · ${G.eyebrow ? esc(G.eyebrow) : `за притчею «${esc(G.parable)}»`}</span>
        <h1>${esc(G.title)}</h1>
        <p class="story">${esc(G.story)}</p>
        ${G.goal ? `<p>${esc(G.goal)}</p>` : ""}

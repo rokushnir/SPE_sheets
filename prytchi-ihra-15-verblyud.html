@@ -177,7 +177,7 @@ button { font: inherit; }
 <div id="pad" class="pad" aria-hidden="true"><div class="stick"><div class="knob"></div></div><div class="pbtns"><button type="button" data-k="alt" hidden>Б</button><button type="button" data-k="act">Дія</button></div></div>
 <p class="help" id="help"></p>
 </div>
-<script>window.PG_META = {"num": "15", "hub": "prytchi-ihry.html", "next": ""};</script>
+<script>window.PG_META = {"num": "15", "hub": "prytchi-ihry.html", "next": "prytchi-ihra-16-uhoda.html"};</script>
 <script>/* Рушій ігор «Притчі в русі»: цикл гри, керування (клавіатура, миша, сенсор),
    діалоги з вибором, банери, HUD, фінали з підрахунком знайдених, простий звук. */
 (function () {
@@ -522,7 +522,7 @@ button { font: inherit; }
     state = "intro";
     const controls = (G.controls || []).map((c) => `<li>${c}</li>`).join("");
     showScreen(
-      `<span class="eyebrow">Гра ${esc(META.num || G.id)} · за притчею «${esc(G.parable)}»</span>
+      `<span class="eyebrow">Гра ${esc(META.num || G.id)} · ${G.eyebrow ? esc(G.eyebrow) : `за притчею «${esc(G.parable)}»`}</span>
        <h1>${esc(G.title)}</h1>
        <p class="story">${esc(G.story)}</p>
        ${G.goal ? `<p>${esc(G.goal)}</p>` : ""}
