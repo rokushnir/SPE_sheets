@@ -35,12 +35,12 @@
 
 **Як запустити свій проект**
 - [01 — Ідеї і їх кастинг](https://rokushnir.github.io/SPE_sheets/idei.html) — `idei.html`: маршрут курсу, кастинг ідей, концепція Ікіґай, галерея натхнення.
-- [02 — Продукт: що це і яким буває](https://rokushnir.github.io/SPE_sheets/produkt.html) — `produkt.html`: що таке продукт, ракета бренду, види продуктів, враження.
+- [02 — Продукт: що це і яким буває](https://rokushnir.github.io/SPE_sheets/start-produkt.html) — `start-produkt.html`: що таке продукт, ракета бренду, види продуктів, враження.
 - [03 — MVP продукту](https://rokushnir.github.io/SPE_sheets/mvp.html) — `mvp.html`: коло гіпотез «створив → оцінив → навчився», карта перевірок, функції MVP.
 - [04 — Фінансова модель проекту](https://rokushnir.github.io/SPE_sheets/finmodel.html) — `finmodel.html`: CAPEX, OPEX, точка беззбитковості, рентабельність і окупність.
-- [05 — Ринок і ніша. Місткість ринку](https://rokushnir.github.io/SPE_sheets/rynok.html) — `rynok.html`: біль клієнта, рішення, TAM/SAM/SOM, конкуренти, ніша.
+- [05 — Ринок і ніша. Місткість ринку](https://rokushnir.github.io/SPE_sheets/start-rynok.html) — `start-rynok.html`: біль клієнта, рішення, TAM/SAM/SOM, конкуренти, ніша.
 - [06 — Соціальні проекти і їх значення](https://rokushnir.github.io/SPE_sheets/sotsialni.html) — `sotsialni.html`: карта змін міста, вартість проектів, мій проект.
-- [07 — Як почати продавати?](https://rokushnir.github.io/SPE_sheets/prodazhi.html) — `prodazhi.html`: росток від ідеї до грошей, продаж одним реченням, сумніви клієнта, воронка.
+- [07 — Як почати продавати?](https://rokushnir.github.io/SPE_sheets/start-prodazhi.html) — `start-prodazhi.html`: росток від ідеї до грошей, продаж одним реченням, сумніви клієнта, воронка.
 - [08 — Цільова аудиторія. Бізнес-модель](https://rokushnir.github.io/SPE_sheets/auditoriia.html) — `auditoriia.html`: цифри чи логіка, аватар клієнта, B2B/B2C, повторні продажі.
 - [09 — Команда твого проекту](https://rokushnir.github.io/SPE_sheets/komanda.html) — `komanda.html`: послідовність запуску, команда мрії, люди поруч, оргструктура.
 - [10 — Де шукати інвестиції?](https://rokushnir.github.io/SPE_sheets/investytsii.html) — `investytsii.html`: хто що купує в інвестора, драбина раундів, калькулятор частки.
