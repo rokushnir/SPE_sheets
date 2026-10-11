@@ -138,7 +138,7 @@ def wheel(labels, size=120, label=None):
     """Колесо балансу: спиці зі шкалою 1–10."""
     n = len(labels)
     c, r = 100, 62
-    parts = [f'<svg viewBox="-58 -4 316 208" class="svg" style="height:{size}mm">']
+    parts = [f'<svg viewBox="-58 -4 316 208" class="svg plot connect" style="height:{size}mm">']
     for k in range(1, 11):
         parts.append(f'<circle cx="{c}" cy="{c}" r="{r * k / 10:.1f}" class="ring{" major" if k % 5 == 0 else ""}"/>')
     for i, lab in enumerate(labels):
@@ -178,7 +178,7 @@ def flow_chart(size=95):
     states =[('«Потік»', 45), ('Підйом', 85), ('Паніка', 128), ('Хвилювання', 175),
               ('Апатія', 225), ('Нудьга', 265), ('Розслабленість', 310), ('Контроль', 0)]
     c, r = 108, 56
-    p = [f'<svg viewBox="0 0 215 200" class="svg" style="height:{size}mm">',
+    p = [f'<svg viewBox="0 0 215 200" class="svg plot connect" style="height:{size}mm">',
          '<line x1="20" y1="185" x2="195" y2="185" class="axis"/>',
          '<line x1="20" y1="185" x2="20" y2="8" class="axis"/>',
          '<text x="195" y="196" text-anchor="end" class="axl">Майстерність (навички) →</text>',
@@ -198,7 +198,7 @@ def life_timeline(h=80):
     """Графік позитивних/негативних спогадів за періодами життя."""
     periods = ['Дитинство', 'Підлітковий|вік', 'Доросле|життя', 'Поточний|час', 'Недалеке|майбутнє', 'Далеке|майбутнє']
     w, left = 260, 16
-    p = [f'<svg viewBox="0 0 {w} 134" class="svg" style="height:{h}mm;width:100%">',
+    p = [f'<svg viewBox="0 0 {w} 134" class="svg plot" style="height:{h}mm;width:100%">',
          f'<line x1="{left}" y1="60" x2="{w - 4}" y2="60" class="axis"/>',
          f'<line x1="{left}" y1="4" x2="{left}" y2="116" class="axis"/>',
          '<text x="9" y="32" class="axl" text-anchor="middle" transform="rotate(-90 9 32)">+ позитивні</text>',
