@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Фінансова модель проекту</title>
+<meta name="description" content="Заняття 04 курсу «Як запустити свій проект»: капітальні витрати (CAPEX), операційні витрати OPEX = змінні + постійні, дохід, прибуток, рентабельність, термін окупності, точка беззбитковості та домашнє завдання — інтерактивний калькулятор.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Стиль робочого зошита «Як запустити свій проект»: світло-сірий аркуш, блакитні шапки таблиць і темно-сині рядки «РАЗОМ». */
+  :root {
+    --bg: #ececec;
+    --paper: #f5f6f7;
+    --surface: #ffffff;
+    --text: #1d1f24;
+    --muted: #5f6570;
+    --faint: #98a0aa;
+    --line: #e1e4e8;
+    --sky: #1fb5f0;
+    --sky-2: #0090e0;
+    --navy: #0b5f95;
+    --total: #2f66d0;
+    --sky-soft: #dff3fd;
+    --sky-head: #6fcff5;
+    --accent-text: #0b5f95;
+    --on-sky: #ffffff;
+    --ok: #1f9d4a;
+    --ok-soft: #dcf5e4;
+    --warn: #d98a00;
+    --no: #e5484d;
+    --no-soft: #fde4e4;
+    --c-rev: #0090e0;
+    --c-cost: #e5484d;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .07);
+    --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #101215; --paper: #181b1f; --surface: #22262c; --text: #eceef1; --muted: #a6adb7; --faint: #77808b; --line: #31363d;
+      --sky: #22b0ea; --sky-2: #1898d4; --navy: #0d6aa6; --total: #2d5fc0; --sky-soft: #12324a; --sky-head: #1b6f99; --accent-text: #6fd0f7;
+      --ok: #3cc46b; --ok-soft: #173a25; --warn: #f0a92a; --no: #f05a5f; --no-soft: #43201f; --c-rev: #1898d4; --c-cost: #f05a5f;
+      --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #101215; --paper: #181b1f; --surface: #22262c; --text: #eceef1; --muted: #a6adb7; --faint: #77808b; --line: #31363d;
+    --sky: #22b0ea; --sky-2: #1898d4; --navy: #0d6aa6; --total: #2d5fc0; --sky-soft: #12324a; --sky-head: #1b6f99; --accent-text: #6fd0f7;
+    --ok: #3cc46b; --ok-soft: #173a25; --warn: #f0a92a; --no: #f05a5f; --no-soft: #43201f; --c-rev: #1898d4; --c-cost: #f05a5f;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .wrap { width: min(980px, 100% - 32px); margin: 0 auto; padding: 28px 0 60px; }
+  .sheet { position: relative; background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(18px, 4vw, 40px); }
+  .sheet + .sheet { margin-top: 24px; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- Шапка як у зошиті ---------- */
+  .lesson { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+  .lesson-num { background: var(--sky); color: var(--on-sky); border-radius: 10px; padding: 6px 12px 4px; text-align: center; font-family: "Unbounded", sans-serif; line-height: 1; }
+  .lesson-num b { display: block; font-size: 34px; font-weight: 700; }
+  .lesson-num small { font-family: "Inter", sans-serif; font-size: 10px; letter-spacing: .04em; }
+  .lesson-sub { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+  h1 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(20px, 3.4vw, 32px); line-height: 1.15; margin: 2px 0 0; text-wrap: balance; }
+  .mood { position: relative; }
+  .sticker {
+    width: 128px; min-height: 70px; border: 2px dashed var(--line); border-radius: 14px; background: transparent;
+    display: grid; place-items: center; color: var(--faint); font-family: "Unbounded", sans-serif; font-size: 12px; line-height: 1.2;
+    padding: 6px; transition: transform .2s, border-color .2s;
+  }
+  .sticker:hover { border-color: var(--sky); transform: rotate(-3deg); }
+  .sticker.has { border-style: solid; border-color: var(--sky-soft); font-size: 40px; }
+  .sticker.has img { width: 92px; height: auto; }
+  .stk { filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .22)); transform: rotate(-6deg); transition: transform .25s, filter .25s; }
+  .stk:hover { transform: rotate(-2deg) translateY(-4px) scale(1.04); filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .25)); }
+  .stuck { animation: stick .55s cubic-bezier(.2, 1.6, .4, 1) both; }
+  @keyframes stick { from { transform: scale(1.8) rotate(-30deg); opacity: 0; } to { transform: rotate(-6deg); opacity: 1; } }
+  .picker {
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; width: 248px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; box-shadow: var(--shadow); padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  }
+  .picker[hidden] { display: none; }
+  .picker p { grid-column: 1 / -1; margin: 0 0 4px; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .picker button { border: 1px solid transparent; background: transparent; border-radius: 12px; padding: 4px; font-size: 26px; line-height: 1.2; }
+  .picker button:hover, .picker button[aria-pressed="true"] { border-color: var(--sky); background: var(--sky-soft); }
+  .picker .ps { grid-column: span 2; font-size: 11px; font-weight: 700; color: var(--muted); display: grid; justify-items: center; gap: 2px; }
+  .picker .ps img { width: 76px; height: auto; }
+
+  .intro { color: var(--muted); margin: 18px 0 0; max-width: 720px; }
+  .hud { margin-top: 18px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center; }
+  .bar { height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--sky), var(--sky-2)); border-radius: 99px; transition: width .5s; }
+  .hud-txt { font-size: 13px; font-weight: 700; color: var(--muted); }
+  .badges { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+  .bdg { font-size: 12px; font-weight: 700; color: var(--faint); border: 1px dashed var(--line); border-radius: 99px; padding: 3px 10px 3px 6px; display: inline-flex; gap: 4px; align-items: center; transition: .3s; }
+  .bdg i { font-style: normal; filter: grayscale(1); opacity: .5; }
+  .bdg.on { color: var(--accent-text); border-style: solid; border-color: var(--sky); background: var(--sky-soft); }
+  .bdg.on i { filter: none; opacity: 1; }
+  .bdg.pop { animation: pop .6s; }
+  @keyframes pop { 40% { transform: scale(1.25); } }
+
+  /* ---------- Навігація по розділах ---------- */
+  .secnav {
+    position: sticky; top: 0; z-index: 40; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    margin: 16px -4px; padding: 10px 4px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px);
+  }
+  .secnav::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) { .secnav { flex-wrap: wrap; justify-content: center; } }
+  .secnav a {
+    flex: none; text-decoration: none; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px 13px; font-size: 13px; font-weight: 700; white-space: nowrap; transition: background .2s, color .2s;
+  }
+  .secnav a:hover { border-color: var(--sky); color: var(--text); }
+  .secnav a.on { background: var(--sky); border-color: var(--sky); color: var(--on-sky); }
+  .secnav a.done::after { content: " ✓"; }
+
+  /* ---------- Розділи ---------- */
+  .sec-head { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
+  .kicker { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--sky-2); }
+  h2 { font-family: "Unbounded", sans-serif; font-size: clamp(18px, 2.6vw, 24px); line-height: 1.2; margin: 4px 0 6px; }
+  h3 { font-size: 16px; margin: 22px 0 4px; }
+  .lead { margin: 0 0 14px; max-width: 720px; }
+  .lead b { color: var(--accent-text); }
+  .hint { color: var(--muted); font-size: 14px; margin: 0 0 12px; max-width: 720px; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn {
+    border: 0; border-radius: 12px; background: var(--sky-2); color: var(--on-sky); font-weight: 800; padding: 10px 16px; font-size: 14px;
+    white-space: nowrap; transition: background .2s, transform .15s;
+  }
+  .btn:hover { background: var(--navy); transform: translateY(-1px); }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); font-weight: 700; }
+  .btn-ghost:hover { background: var(--sky-soft); }
+  .btn-sm { padding: 7px 12px; font-size: 13px; border-radius: 10px; }
+  .status { font-size: 12px; font-weight: 800; color: var(--faint); border: 1px dashed var(--line); border-radius: 99px; padding: 2px 10px; white-space: nowrap; }
+  .status.on { color: var(--ok); border: 1px solid var(--ok); background: var(--ok-soft); }
+
+  /* ---------- 1. Основні показники ---------- */
+  .goal-grid { display: grid; grid-template-columns: 1fr 190px; gap: 20px; align-items: center; }
+  .field { display: grid; gap: 4px; margin-top: 12px; }
+  .field > label, .qlabel { font-weight: 700; font-size: 15px; display: flex; gap: 8px; align-items: center; }
+  .tick { flex: none; width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--sky-head); display: grid; place-items: center; transition: .25s; }
+  .tick svg { width: 14px; height: 14px; opacity: 0; transition: .25s; }
+  .ans .tick { background: var(--sky); border-color: var(--sky); }
+  .ans .tick svg { opacity: 1; }
+  .inp {
+    width: 100%; min-width: 0; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; font-size: 16px; font-weight: 600;
+  }
+  .inp:focus { border-color: var(--sky); outline: 0; box-shadow: 0 0 0 3px var(--sky-soft); }
+  .inp::placeholder { color: var(--faint); font-weight: 500; }
+  .slide { display: grid; grid-template-columns: 1fr 120px; gap: 12px; align-items: center; }
+  .slide .inp { text-align: right; }
+  input[type=range] { width: 100%; accent-color: var(--sky-2); height: 28px; }
+  .calc { width: 100%; max-width: 190px; justify-self: center; transform: rotate(-8deg); filter: drop-shadow(0 12px 16px rgba(11, 95, 149, .25)); }
+  .calc text { font-family: "Unbounded", sans-serif; }
+
+  /* ---------- Таблиці витрат ---------- */
+  .tbl { display: grid; gap: 6px; margin-top: 10px; }
+  .trow { display: grid; grid-template-columns: minmax(0, 1fr) 128px 92px 34px; gap: 6px; align-items: stretch; }
+  .tbl.unit .trow { grid-template-columns: minmax(0, 1fr) 104px 112px 76px 34px; }
+  .th { background: var(--sky-head); color: #fff; font-weight: 800; font-size: 13px; text-align: center; border-radius: 6px; padding: 9px 6px; line-height: 1.2; }
+  :root[data-theme="dark"] .th { color: #e8f7ff; }
+  .trow input, .trow output, .ttot {
+    min-width: 0; border: 0; background: var(--surface); border-radius: 6px; padding: 10px 12px; font-size: 14px; font-weight: 500;
+  }
+  .trow input:focus { outline: 2px solid var(--sky); outline-offset: -2px; }
+  .trow input.tv { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .trow input::placeholder { color: var(--faint); font-weight: 500; }
+  .trow output { display: flex; align-items: center; justify-content: flex-end; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 13px; }
+  .share { position: relative; overflow: hidden; }
+  .share::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--w, 0%); background: var(--sky-soft); transition: width .4s; }
+  .share span { position: relative; }
+  .tdel { border: 0; background: transparent; color: var(--faint); font-size: 20px; line-height: 1; border-radius: 6px; }
+  .tdel:hover { color: var(--no); background: var(--no-soft); }
+  .trow.tot > * { background: var(--total); color: #fff; font-weight: 800; font-size: 13px; display: flex; align-items: center; border-radius: 6px; padding: 10px 12px; }
+  .trow.tot .r { justify-content: flex-end; font-variant-numeric: tabular-nums; }
+  .trow.tot .blank { background: transparent; }
+  .add { margin-top: 8px; border: 1px dashed var(--sky-head); background: transparent; color: var(--accent-text); border-radius: 10px; padding: 7px 12px; font-size: 13px; font-weight: 700; }
+  .add:hover { background: var(--sky-soft); }
+  .unit-note { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
+
+  .formula-banner { text-align: center; margin: 26px 0 8px; }
+  .formula-banner .big { font-family: "Unbounded", sans-serif; font-weight: 700; color: var(--total); font-size: clamp(16px, 2.6vw, 22px); }
+  :root[data-theme="dark"] .formula-banner .big { color: var(--accent-text); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .formula-banner .big { color: var(--accent-text); } }
+  .formula-banner .nums { font-weight: 800; font-size: 18px; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .split { display: flex; gap: 2px; height: 16px; border-radius: 6px; overflow: hidden; margin: 10px auto 6px; max-width: 560px; background: var(--line); }
+  .split i { display: block; height: 100%; transition: flex-grow .5s; min-width: 0; }
+  .split .v { background: var(--sky); }
+  .split .f { background: var(--navy); }
+  .split-leg { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+  .split-leg span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; background: var(--c, var(--sky)); }
+
+  /* ---------- Текстові наліпки ---------- */
+  .tsticker {
+    display: inline-grid; justify-items: start; gap: 4px; background: #fff; color: #1d1f24; border-radius: 14px; padding: 10px 12px 10px;
+    transform: rotate(4deg); box-shadow: 0 6px 16px rgba(0, 0, 0, .16); font-weight: 800; font-size: 14px; line-height: 1.1; transition: transform .25s;
+  }
+  .tsticker em { font-style: normal; background: var(--sky); color: #fff; border-radius: 7px; padding: 4px 8px; }
+  .tsticker:hover { transform: rotate(0) translateY(-3px); }
+  .tsticker.wiggle { animation: wiggle 1.4s ease-in-out infinite; }
+  @keyframes wiggle { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(-3deg) scale(1.04); } }
+
+  /* ---------- 4. Чотири числа ---------- */
+  .scen { display: inline-flex; flex-wrap: wrap; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px; }
+  .scen button { border: 0; background: transparent; border-radius: 10px; padding: 8px 12px; font-weight: 700; font-size: 14px; color: var(--muted); }
+  .scen button[aria-pressed="true"] { background: var(--sky-2); color: #fff; }
+  .scen-wrap { position: relative; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin: 6px 0 14px; padding-right: 70px; }
+  .scen-note { font-size: 13px; color: var(--muted); }
+  .levers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; background: var(--surface); border-radius: 14px; padding: 12px 16px; margin-bottom: 18px; }
+  .lever label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--muted); }
+  .lever label b { color: var(--text); font-variant-numeric: tabular-nums; }
+  .chain { display: grid; gap: 0; }
+  .card {
+    position: relative; background: var(--surface); border-radius: 16px; padding: 16px 18px; display: grid; grid-template-columns: minmax(0, 1fr) 170px; gap: 16px;
+  }
+  .card-h { display: flex; gap: 10px; align-items: center; }
+  .card-h .n { width: 26px; height: 26px; border-radius: 50%; background: var(--sky-soft); color: var(--accent-text); font-size: 11px; font-weight: 800; display: grid; place-items: center; flex: none; }
+  .card-h h3 { margin: 0; font-family: "Unbounded", sans-serif; font-size: 18px; }
+  .fchips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 0; }
+  .fc { display: inline-grid; justify-items: center; background: var(--sky-soft); color: var(--accent-text); border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: 800; line-height: 1.25; }
+  .fc.dark { background: var(--sky-2); color: #fff; }
+  .fc b { font-size: 14px; color: var(--text); font-variant-numeric: tabular-nums; }
+  .fc.dark b { color: #fff; }
+  .op { font-weight: 800; color: var(--sky-2); font-size: 18px; }
+  .res { margin-top: 10px; font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(22px, 3.4vw, 30px); color: var(--sky-2); font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .res.neg { color: var(--no); }
+  .res small { display: block; font-family: "Inter", sans-serif; font-size: 13px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+  .ex { border-left: 1px solid var(--line); padding-left: 14px; font-size: 13px; color: var(--muted); }
+  .ex .lbl { font-size: 10px; font-weight: 800; letter-spacing: .1em; color: var(--faint); }
+  .ex b { display: block; font-size: 18px; color: var(--sky-2); }
+  .ex i { font-style: normal; font-size: 11px; }
+  .arrow { display: flex; align-items: center; gap: 8px; padding: 4px 0 4px 26px; font-size: 11px; color: var(--faint); }
+  .arrow svg { width: 12px; height: 18px; color: var(--sky); }
+  .gauge-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .gauge { width: 190px; height: auto; flex: none; }
+  .gauge .needle { transition: transform .7s cubic-bezier(.3, 1.4, .5, 1); transform-origin: 100px 100px; }
+  .gauge text { font-size: 11px; fill: var(--muted); font-weight: 700; }
+  .pill { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 800; border-radius: 99px; padding: 4px 10px; }
+  .pill.g { background: var(--ok-soft); color: var(--ok); }
+  .pill.y { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+  .pill.r { background: var(--no-soft); color: var(--no); }
+  .months { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; margin-top: 12px; max-width: 420px; }
+  .months i { aspect-ratio: 1; border-radius: 5px; background: var(--line); display: grid; place-items: center; font-style: normal; font-size: 10px; font-weight: 700; color: var(--faint); transition: background .3s; }
+  .months i.f { background: var(--sky-soft); color: var(--accent-text); }
+  .months i.pay { background: var(--ok); color: #fff; animation: pop .6s; }
+  .months-leg { display: flex; justify-content: space-between; max-width: 420px; font-size: 11px; color: var(--faint); margin-top: 4px; }
+  .advice { margin-top: 18px; background: var(--sky-soft); border-radius: 14px; padding: 14px 16px; font-size: 14px; }
+  .advice b { color: var(--accent-text); }
+  .cmp { width: 100%; border-collapse: separate; border-spacing: 4px; margin-top: 16px; font-size: 13px; }
+  .cmp-box { overflow-x: auto; }
+  .cmp th, .cmp td { padding: 8px 10px; background: var(--surface); border-radius: 8px; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .cmp th:first-child, .cmp td:first-child { text-align: left; color: var(--muted); font-weight: 600; }
+  .cmp thead th { background: transparent; padding: 0; }
+  .cmp thead button { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 8px; font-weight: 800; font-size: 12px; }
+  .cmp thead button[aria-pressed="true"] { background: var(--sky-2); border-color: var(--sky-2); color: #fff; }
+  .cmp td.sel { box-shadow: inset 0 0 0 2px var(--sky); }
+  .stk-fly { position: absolute; width: 88px; height: auto; top: -22px; right: -10px; z-index: 5; pointer-events: auto; animation: fly .8s cubic-bezier(.2, 1.4, .4, 1) both; }
+  @keyframes fly { from { transform: translate(-160px, -120px) rotate(-40deg) scale(1.9); opacity: 0; } to { transform: rotate(8deg); opacity: 1; } }
+  .stk-fly:hover { transform: rotate(2deg) translateY(-4px); }
+  .stk-cap { position: absolute; right: -6px; top: 70px; font-size: 10px; font-weight: 800; color: var(--accent-text); transform: rotate(8deg); width: 100px; text-align: center; line-height: 1.15; }
+
+  /* ---------- 5. Точка беззбитковості ---------- */
+  .be-top { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+  .be-read { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 12px; }
+  .kpi { background: var(--surface); border-radius: 12px; padding: 10px 14px; min-width: 150px; }
+  .kpi small { display: block; font-size: 12px; color: var(--muted); font-weight: 600; }
+  .kpi b { font-size: 20px; font-variant-numeric: tabular-nums; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); margin: 4px 0 8px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend svg { width: 22px; height: 8px; }
+  .chart { position: relative; background: var(--surface); border-radius: 16px; padding: 8px; }
+  .chart svg { display: block; width: 100%; height: auto; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .chart .ax { stroke: var(--faint); stroke-width: 1; }
+  .chart .grid { stroke: var(--line); stroke-width: 1; }
+  .chart .tk { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .chart .rev { stroke: var(--c-rev); stroke-width: 2.5; fill: none; stroke-linecap: round; }
+  .chart .cost { stroke: var(--c-cost); stroke-width: 2.5; fill: none; stroke-linecap: round; }
+  .chart .fix { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 5; fill: none; }
+  .chart .loss { fill: var(--c-cost); opacity: .12; }
+  .chart .gain { fill: var(--ok); opacity: .14; }
+  .chart .zl { font-size: 12px; font-weight: 800; }
+  .chart .zl.l { fill: var(--no); } .chart .zl.g { fill: var(--ok); }
+  .chart .bep { fill: var(--surface); stroke: var(--text); stroke-width: 3; }
+  .chart .ring { fill: none; stroke: var(--sky); stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: ring 1.8s ease-out infinite; }
+  @keyframes ring { from { transform: scale(.6); opacity: 1; } to { transform: scale(2.6); opacity: 0; } }
+  .chart .bel { fill: var(--text); font-size: 12px; font-weight: 800; }
+  .chart .belbg { fill: var(--surface); stroke: var(--line); }
+  .chart .qline { stroke: var(--sky-2); stroke-width: 2; }
+  .chart .handle { fill: var(--sky-2); stroke: var(--surface); stroke-width: 3; cursor: ew-resize; }
+  .chart .handle:focus { outline: none; stroke: var(--text); }
+  .chart .hov { stroke: var(--faint); stroke-width: 1; stroke-dasharray: 3 3; }
+  .chart .dot { stroke: var(--surface); stroke-width: 2; }
+  .tip { position: absolute; pointer-events: none; background: var(--text); color: var(--bg); border-radius: 10px; padding: 8px 10px; font-size: 12px; line-height: 1.45; white-space: nowrap; transform: translate(-50%, -110%); opacity: 0; transition: opacity .15s; z-index: 3; font-variant-numeric: tabular-nums; }
+  .tip.show { opacity: 1; }
+  .be-formula { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; }
+  details.tv { margin-top: 12px; font-size: 13px; }
+  details.tv summary { cursor: pointer; font-weight: 700; color: var(--muted); }
+  details.tv table { border-collapse: collapse; margin-top: 8px; width: 100%; max-width: 560px; }
+  details.tv th, details.tv td { border-bottom: 1px solid var(--line); padding: 5px 8px; text-align: right; font-variant-numeric: tabular-nums; }
+  details.tv th:first-child, details.tv td:first-child { text-align: left; }
+  .be-st { position: absolute; right: 22px; top: -14px; }
+
+  /* ---------- 6. Перевір себе: сортування витрат ---------- */
+  .deck { display: grid; place-items: center; min-height: 150px; margin: 10px 0 14px; position: relative; }
+  .qcard {
+    width: min(360px, 100%); background: var(--surface); border: 2px solid var(--sky); border-radius: 18px; padding: 18px; text-align: center;
+    font-weight: 800; font-size: 18px; box-shadow: 0 10px 24px rgba(0, 0, 0, .08); touch-action: none; cursor: grab; user-select: none; position: relative; z-index: 2;
+  }
+  .qcard small { display: block; font-weight: 600; font-size: 12px; color: var(--faint); margin-top: 6px; }
+  .qcard.drag { cursor: grabbing; transition: none; box-shadow: 0 18px 34px rgba(0, 0, 0, .18); }
+  .qcard.back { transition: transform .3s; }
+  .qcard.bad { animation: shake .4s; border-color: var(--no); }
+  @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+  .qcard.fin { border-color: var(--ok); cursor: default; }
+  .qfb { min-height: 24px; text-align: center; font-size: 14px; font-weight: 600; margin: 0 0 10px; }
+  .qfb.ok { color: var(--ok); } .qfb.no { color: var(--no); }
+  .bins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .bin { border: 2px dashed var(--sky-head); background: var(--surface); border-radius: 14px; padding: 12px 10px; text-align: left; display: grid; align-content: start; gap: 6px; min-height: 120px; transition: .2s; }
+  .bin:hover, .bin.over { border-style: solid; border-color: var(--sky-2); background: var(--sky-soft); }
+  .bin b { font-size: 15px; display: flex; justify-content: space-between; gap: 6px; }
+  .bin b span { color: var(--accent-text); font-variant-numeric: tabular-nums; }
+  .bin small { color: var(--muted); font-size: 12px; line-height: 1.3; }
+  .bin ul { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; }
+  .bin li { font-size: 12px; font-weight: 600; background: var(--sky-soft); border-radius: 6px; padding: 3px 7px; animation: drop .35s both; }
+  .bin li.x { background: var(--no-soft); }
+  @keyframes drop { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- 7. Домашнє завдання ---------- */
+  .hw-head { display: flex; gap: 14px; align-items: center; }
+  .hw-ico { width: 54px; height: 54px; flex: none; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+  .chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 700; }
+  .chip:hover, .chip[aria-pressed="true"] { border-color: var(--sky); background: var(--sky-soft); }
+  .hw-pq { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+  .hw-res { margin-top: 16px; background: var(--surface); border-radius: 14px; padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; }
+  .hw-res div small { display: block; color: var(--total); font-weight: 800; font-size: 14px; }
+  :root[data-theme="dark"] .hw-res div small { color: var(--accent-text); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hw-res div small { color: var(--accent-text); } }
+  .hw-res div b { font-size: 20px; font-variant-numeric: tabular-nums; }
+  .hw-res div b.neg { color: var(--no); }
+  .race { margin-top: 18px; display: grid; gap: 10px; }
+  .race h3 { margin: 0; }
+  .race-row { display: grid; grid-template-columns: 150px 1fr; gap: 10px; align-items: center; font-size: 13px; }
+  .race-row span { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .race-bar { height: 22px; border-radius: 0 6px 6px 0; background: var(--line); position: relative; overflow: hidden; }
+  .race-bar i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--sky); border-radius: 0 6px 6px 0; transition: width .6s; }
+  .race-bar.hw i { background: var(--navy); }
+  .race-bar em { position: absolute; left: 8px; top: 2px; font-style: normal; font-weight: 800; font-size: 12px; color: var(--text); font-variant-numeric: tabular-nums; }
+  .race-note { font-size: 13px; color: var(--muted); }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 30px); opacity: 0; pointer-events: none; max-width: calc(100% - 32px);
+    background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 12px; font-weight: 600; font-size: 14px; transition: .3s; z-index: 90;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  footer { text-align: center; color: var(--faint); font-size: 13px; margin-top: 28px; display: grid; gap: 8px; justify-items: center; }
+  footer a { color: var(--accent-text); font-weight: 700; text-decoration: none; }
+  footer .reset { border: 0; background: transparent; color: var(--faint); text-decoration: underline; font-size: 12px; }
+
+  @media (max-width: 760px) {
+    .goal-grid { grid-template-columns: 1fr; }
+    .calc { max-width: 130px; order: -1; }
+    .card { grid-template-columns: 1fr; }
+    .ex { border-left: 0; border-top: 1px solid var(--line); padding: 10px 0 0; }
+    .levers { grid-template-columns: 1fr; }
+    .race-row { grid-template-columns: 100px 1fr; }
+  }
+  @media (max-width: 600px) {
+    .lesson { grid-template-columns: auto 1fr; }
+    .mood { grid-column: 1 / -1; justify-self: start; }
+    .sticker { width: 112px; min-height: 56px; }
+    .trow { grid-template-columns: minmax(0, 1fr) 84px 54px 28px; gap: 4px; }
+    .tbl.unit .trow { grid-template-columns: minmax(0, 1fr) 66px 80px 28px; }
+    .tbl.unit .trow > .sh { display: none; }
+    .trow input, .trow output, .trow.tot > * { padding: 9px 7px; font-size: 13px; }
+    .th { font-size: 11px; padding: 8px 3px; }
+    .slide { grid-template-columns: 1fr 96px; }
+    .bins { grid-template-columns: 1fr; }
+    .bin { min-height: 0; }
+    .hw-pq, .hw-res { grid-template-columns: 1fr; }
+    .scen-wrap { padding-right: 0; padding-top: 0; }
+    .be-st { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== Шапка заняття ===== -->
+  <header class="sheet">
+    <div class="lesson">
+      <div class="lesson-num"><b>04</b><small>заняття</small></div>
+      <div>
+        <div class="lesson-sub">Як запустити свій проект</div>
+        <h1>Фінансова модель проекту</h1>
+      </div>
+      <div class="mood">
+        <button class="sticker" id="moodBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Обрати наліпку настрою">наліпка настрою</button>
+        <div class="picker" id="picker" hidden>
+          <p>Який у тебе настрій?</p>
+          <button type="button" class="ps" data-mood="khanenko" aria-pressed="false"><img data-st="khanenko" src="data:image/webp;base64,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" alt="Наліпка: Богдан і Варвара Ханенки «Цінуй і примножуй»" width="160" height="160">Цінуй і примножуй</button>
+          <button type="button" class="ps" data-mood="musk" aria-pressed="false"><img data-st="musk" src="data:image/webp;base64,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" alt="Наліпка: Ілон Маск «Думай про велике»" width="160" height="160">Думай про велике</button>
+          <button type="button" data-mood="🤑" aria-pressed="false" aria-label="Гроші">🤑</button>
+          <button type="button" data-mood="🧮" aria-pressed="false" aria-label="Рахую">🧮</button>
+          <button type="button" data-mood="😬" aria-pressed="false" aria-label="Страшнувато">😬</button>
+          <button type="button" data-mood="🚀" aria-pressed="false" aria-label="Злітаю">🚀</button>
+        </div>
+      </div>
+    </div>
+    <p class="intro">Ідея стає бізнесом, коли сходяться цифри. Сьогодні ти збереш свою першу фінансову модель: скільки треба на старт, скільки йде щомісяця, скільки заробиш — і коли гроші повернуться.</p>
+    <div class="hud">
+      <div class="bar" aria-hidden="true"><i id="progBar"></i></div>
+      <div class="hud-txt" id="progTxt">0 з 7</div>
+      <div class="badges" id="badges"></div>
+    </div>
+  </header>
+
+  <nav class="secnav" id="secnav" aria-label="Розділи заняття">
+    <a href="#s-goal" data-sec="goal">1 · Показники</a>
+    <a href="#s-capex" data-sec="capex">2 · CAPEX</a>
+    <a href="#s-opex" data-sec="opex">3 · OPEX</a>
+    <a href="#s-four" data-sec="four">4 · Чотири числа</a>
+    <a href="#s-be" data-sec="be">5 · Беззбитковість</a>
+    <a href="#s-quiz" data-sec="quiz">6 · Перевір себе</a>
+    <a href="#s-hw" data-sec="hw">7 · Домашнє</a>
+  </nav>
+
+  <!-- ===== 1. Основні показники ===== -->
+  <section class="sheet" id="s-goal">
+    <div class="sec-head">
+      <div><div class="kicker">Крок 1</div><h2>Основні показники проекту</h2></div>
+      <span class="status" data-status="goal">не заповнено</span>
+    </div>
+    <div class="goal-grid">
+      <div>
+        <div class="field">
+          <label for="pName">Твій проект</label>
+          <input class="inp" id="pName" data-p="name" placeholder="Наприклад, свічки ручної роботи" autocomplete="off">
+        </div>
+        <div class="field" data-ans="target">
+          <label for="pTarget"><span class="tick"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>На які показники ти хочеш вийти?</label>
+          <div class="slide"><span class="hint" style="margin:0">Бажаний прибуток на місяць, грн</span><input class="inp num" id="pTarget" data-p="target" inputmode="decimal" placeholder="10 000"></div>
+        </div>
+        <div class="field" data-ans="price">
+          <label for="pPrice"><span class="tick"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>За якою ціною?</label>
+          <div class="slide"><input type="range" min="0" max="1000" step="5" data-p="price" data-rng="1000" aria-label="Ціна, грн (повзунок)"><input class="inp num" id="pPrice" data-p="price" inputmode="decimal" placeholder="грн"></div>
+        </div>
+        <div class="field" data-ans="qty">
+          <label for="pQty"><span class="tick"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>Скільки товарів і послуг на місяць надавати?</label>
+          <div class="slide"><input type="range" min="0" max="1000" step="1" data-p="qty" data-rng="1000" aria-label="Кількість на місяць (повзунок)"><input class="inp num" id="pQty" data-p="qty" inputmode="decimal" placeholder="шт"></div>
+        </div>
+      </div>
+      <!-- Калькулятор, як у зошиті: на екрані — твій дохід за місяць -->
+      <svg class="calc" viewBox="0 0 160 200" role="img" aria-labelledby="calcT">
+        <title id="calcT">Калькулятор показує дохід на місяць</title>
+        <rect x="6" y="6" width="148" height="188" rx="22" fill="#1fb5f0"/>
+        <rect x="6" y="6" width="148" height="188" rx="22" fill="url(#calcG)"/>
+        <defs><linearGradient id="calcG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#0b5f95" stop-opacity=".35"/></linearGradient></defs>
+        <rect x="20" y="20" width="120" height="44" rx="8" fill="#0b3d5e"/>
+        <text id="calcDisp" x="132" y="49" text-anchor="end" fill="#8fe3ff" font-size="15">0</text>
+        <text x="28" y="34" fill="#8fe3ff" font-size="7" opacity=".7">ДОХІД / МІС</text>
+        <g fill="#e6f7fe">
+          <rect x="22" y="78" width="32" height="28" rx="7"/><rect x="64" y="78" width="32" height="28" rx="7"/><rect x="106" y="78" width="32" height="28" rx="7" fill="#0b5f95"/>
+          <rect x="22" y="114" width="32" height="28" rx="7"/><rect x="64" y="114" width="32" height="28" rx="7"/><rect x="106" y="114" width="32" height="28" rx="7" fill="#0b5f95"/>
+          <rect x="22" y="150" width="32" height="28" rx="7"/><rect x="64" y="150" width="32" height="28" rx="7"/><rect x="106" y="150" width="32" height="28" rx="7" fill="#0b5f95"/>
+        </g>
+        <g fill="#fff" font-size="14" text-anchor="middle" font-weight="700"><text x="122" y="97">×</text><text x="122" y="133">−</text><text x="122" y="169">=</text></g>
+      </svg>
+    </div>
+    <div class="tools" style="margin-top:18px">
+      <button class="btn" type="button" data-example="goal">Приклад</button>
+      <button class="btn btn-ghost" type="button" data-clear="goal">Очистити</button>
+    </div>
+  </section>
+
+  <!-- ===== 2. CAPEX ===== -->
+  <section class="sheet" id="s-capex">
+    <div class="sec-head">
+      <div><div class="kicker">Крок 2</div><h2>Капітальні витрати (CAPEX)</h2></div>
+      <span class="status" data-status="capex">не заповнено</span>
+    </div>
+    <p class="lead"><b>CAPEX, грн</b> — одноразові витрати на старт: те, що купуєш один раз, щоб узагалі почати працювати.</p>
+    <div class="tbl" data-tbl="capex"></div>
+    <button class="add" type="button" data-add="capex">+ Додати рядок</button>
+    <div class="tools" style="margin-top:16px; align-items:center; justify-content:space-between">
+      <div class="tools">
+        <button class="btn" type="button" data-example="capex">Приклад</button>
+        <button class="btn btn-ghost" type="button" data-clear="capex">Очистити</button>
+      </div>
+      <span class="tsticker" aria-hidden="true">smart moves<em>only</em></span>
+    </div>
+  </section>
+
+  <!-- ===== 3. OPEX ===== -->
+  <section class="sheet" id="s-opex">
+    <div class="sec-head">
+      <div><div class="kicker">Крок 3</div><h2>Операційні витрати на місяць (OPEX)</h2></div>
+      <span class="status" data-status="opex">не заповнено</span>
+    </div>
+    <p class="lead"><b>OPEX</b> — витрати, які будуть повторюватись упродовж кожного місяця. Вони бувають двох видів.</p>
+    <h3>Змінні витрати <span class="hint">(пов'язані з собівартістю продукції / послуги)</span></h3>
+    <p class="hint">Пиши, скільки коштує <b>один</b> продаж, — сума за місяць порахується сама: × кількість продажів. Що більше продаєш, то більші змінні витрати.</p>
+    <div class="tbl unit" data-tbl="vari"></div>
+    <button class="add" type="button" data-add="vari">+ Додати рядок</button>
+    <h3>Постійні витрати <span class="hint">(не залежать від обсягу продукції / послуг)</span></h3>
+    <p class="hint">Платиш щомісяця, навіть якщо не продав жодної штуки.</p>
+    <div class="tbl" data-tbl="fixed"></div>
+    <button class="add" type="button" data-add="fixed">+ Додати рядок</button>
+
+    <div class="formula-banner">
+      <div class="big">РАЗОМ OPEX = Змінні + Постійні</div>
+      <div class="nums" id="opexNums">— = — + —</div>
+      <div class="split" aria-hidden="true"><i class="v" id="splitV" style="flex-grow:1"></i><i class="f" id="splitF" style="flex-grow:1"></i></div>
+      <div class="split-leg"><span style="--c:var(--sky)" id="legV">Змінні</span><span style="--c:var(--navy)" id="legF">Постійні</span></div>
+    </div>
+    <div class="tools" style="margin-top:14px">
+      <button class="btn" type="button" data-example="opex">Приклад</button>
+      <button class="btn btn-ghost" type="button" data-clear="opex">Очистити</button>
+    </div>
+  </section>
+
+  <!-- ===== 4. Чотири числа ===== -->
+  <section class="sheet" id="s-four">
+    <div class="sec-head">
+      <div><div class="kicker">Крок 4 · Порахуй для свого проєкту</div><h2>Чотири числа підприємця</h2></div>
+      <span class="status" data-status="four">чекає на дані</span>
+    </div>
+    <p class="lead">Чотири числа, які рахує кожен підприємець. Кожне наступне виростає з попереднього — тому рахувати їх треба саме <b>в такому порядку</b>.</p>
+    <div class="scen-wrap" id="scenWrap">
+      <div class="scen" role="group" aria-label="Сценарій">
+        <button type="button" data-scen="pess" aria-pressed="false">😟 Песимістичний</button>
+        <button type="button" data-scen="real" aria-pressed="true">🙂 Реалістичний</button>
+        <button type="button" data-scen="opt" aria-pressed="false">🚀 Оптимістичний</button>
+      </div>
+      <span class="scen-note" id="scenNote"></span>
+    </div>
+    <div class="levers">
+      <div class="lever"><label for="lvPrice">Ціна, грн <b id="lvPriceV">—</b></label><input id="lvPrice" type="range" min="0" max="1000" step="5" data-p="price" data-rng="1000"></div>
+      <div class="lever"><label for="lvQty">Кількість на місяць <b id="lvQtyV">—</b></label><input id="lvQty" type="range" min="0" max="1000" step="1" data-p="qty" data-rng="1000"></div>
+    </div>
+
+    <div class="chain">
+      <div class="card">
+        <div>
+          <div class="card-h"><span class="n">01</span><h3>Дохід</h3></div>
+          <div class="fchips"><span class="fc">Кількість<b id="f1q">—</b></span><span class="op">×</span><span class="fc">Ціна, грн<b id="f1p">—</b></span></div>
+          <div class="res" id="r1">—</div>
+        </div>
+        <div class="ex"><div class="lbl">ПРИКЛАД</div>200 × 150<b>30 000 грн</b></div>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v15M2 12l4 4 4-4"/></svg>результат іде в наступний крок</div>
+      <div class="card">
+        <div>
+          <div class="card-h"><span class="n">02</span><h3>Прибуток</h3></div>
+          <div class="fchips"><span class="fc dark">Дохід<b id="f2r">—</b></span><span class="op">−</span><span class="fc">Витрати<b id="f2c">—</b></span></div>
+          <div class="res" id="r2">—</div>
+        </div>
+        <div class="ex"><div class="lbl">ПРИКЛАД</div>30 000 − 22 000<b>8 000 грн</b></div>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v15M2 12l4 4 4-4"/></svg></div>
+      <div class="card">
+        <div>
+          <div class="card-h"><span class="n">03</span><h3>Рентабельність</h3></div>
+          <div class="fchips"><span class="fc dark">Прибуток<b id="f3p">—</b></span><span class="op">÷</span><span class="fc">Витрати<b id="f3c">—</b></span></div>
+          <div class="gauge-row">
+            <div class="res" id="r3">—</div>
+            <!-- «Спідометр» рентабельності: від −50 % до +100 % -->
+            <svg class="gauge" viewBox="0 0 200 118" role="img" aria-labelledby="gT">
+              <title id="gT">Спідометр рентабельності</title>
+              <path d="M16 100 A84 84 0 0 1 58 27.3" stroke="var(--no)" stroke-width="14" fill="none"/>
+              <path d="M60.3 26 A84 84 0 0 1 93.4 16.3" stroke="var(--warn)" stroke-width="14" fill="none"/>
+              <path d="M96.5 16.1 A84 84 0 0 1 184 100" stroke="var(--ok)" stroke-width="14" fill="none"/>
+              <text x="10" y="116">−50%</text><text x="52" y="44" text-anchor="middle">0</text><text x="178" y="116" text-anchor="end">+100%</text>
+              <g class="needle" id="needle"><path d="M100 100 L100 30" stroke="var(--text)" stroke-width="4" stroke-linecap="round"/></g>
+              <circle cx="100" cy="100" r="8" fill="var(--text)"/>
+            </svg>
+          </div>
+          <span class="pill" id="rentPill" hidden></span>
+        </div>
+        <div class="ex"><div class="lbl">ПРИКЛАД</div>8 000 ÷ 22 000<b>36 %</b></div>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 12 18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v15M2 12l4 4 4-4"/></svg></div>
+      <div class="card" id="payCard">
+        <div>
+          <div class="card-h"><span class="n">04</span><h3>Термін окупності</h3></div>
+          <div class="fchips"><span class="fc">CAPEX<b id="f4c">—</b></span><span class="op">÷</span><span class="fc dark">Прибуток × 12<b id="f4p">—</b></span></div>
+          <div class="res" id="r4">—</div>
+          <div class="months" id="months" aria-hidden="true"></div>
+          <div class="months-leg"><span>1 міс.</span><span>12</span><span>24 міс.</span></div>
+        </div>
+        <div class="ex"><div class="lbl">ПРИКЛАД</div>40 000 ÷ 96 000<b>0,42 року</b><i>≈ 5 місяців</i></div>
+      </div>
+    </div>
+
+    <div class="advice" id="advice" hidden></div>
+
+    <div class="cmp-box">
+      <table class="cmp" id="cmp">
+        <thead><tr><th></th>
+          <th><button type="button" data-scen="pess" aria-pressed="false">😟 Песим.</button></th>
+          <th><button type="button" data-scen="real" aria-pressed="true">🙂 Реаліст.</button></th>
+          <th><button type="button" data-scen="opt" aria-pressed="false">🚀 Оптим.</button></th></tr></thead>
+        <tbody id="cmpBody"></tbody>
+      </table>
+    </div>
+    <div class="tools" style="margin-top:16px">
+      <button class="btn btn-ghost btn-sm" type="button" id="copyBtn">📋 Скопіювати підсумок</button>
+    </div>
+  </section>
+
+  <!-- ===== 5. Точка беззбитковості ===== -->
+  <section class="sheet" id="s-be">
+    <span class="tsticker be-st" id="beSticker" aria-hidden="true">ще трохи і<em>буде результат</em></span>
+    <div class="sec-head">
+      <div><div class="kicker">Крок 5</div><h2>Точка беззбитковості</h2></div>
+      <span class="status" data-status="be">потягни графік</span>
+    </div>
+    <p class="lead">Це кількість продажів, за якої <b>дохід = витрати</b>: прибутку ще нема, але й збитку вже нема. Лівіше — мінус, правіше — заробіток. Тягни синю лінію по графіку (або повзунок), щоб побачити, що буде з прибутком.</p>
+    <div class="be-read">
+      <div class="kpi"><small>Беззбитковість</small><b id="beQ">—</b></div>
+      <div class="kpi"><small>Дохід у цій точці</small><b id="beR">—</b></div>
+      <div class="kpi"><small>Твій план зараз</small><b id="beNow">—</b></div>
+    </div>
+    <div class="legend" aria-hidden="true">
+      <span><svg viewBox="0 0 22 8"><path d="M1 4h20" stroke="var(--c-rev)" stroke-width="3" stroke-linecap="round"/></svg>Дохід</span>
+      <span><svg viewBox="0 0 22 8"><path d="M1 4h20" stroke="var(--c-cost)" stroke-width="3" stroke-linecap="round"/></svg>Усі витрати (OPEX)</span>
+      <span><svg viewBox="0 0 22 8"><path d="M1 4h20" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 3"/></svg>Постійні витрати</span>
+    </div>
+    <div class="chart" id="chartBox">
+      <svg id="beSvg" viewBox="0 0 640 340" role="img" aria-labelledby="beT beD">
+        <title id="beT">Графік точки беззбитковості</title>
+        <desc id="beD">Лінії доходу і витрат залежно від кількості продажів на місяць</desc>
+        <g id="bePlot"></g>
+        <line class="hov" id="beHov" x1="0" x2="0" y1="16" y2="300" visibility="hidden"/>
+        <g id="beQg"></g>
+      </svg>
+      <div class="tip" id="beTip"></div>
+    </div>
+    <div class="be-formula">
+      <span class="fc dark">Беззбитковість, шт<b id="bf0">—</b></span><span class="op">=</span>
+      <span class="fc">Постійні<b id="bf1">—</b></span><span class="op">÷</span>
+      <span class="fc">(Ціна − Змінні на 1 шт)<b id="bf2">—</b></span>
+    </div>
+    <details class="tv"><summary>Показати таблицею</summary><div id="beTable"></div></details>
+  </section>
+
+  <!-- ===== 6. Перевір себе ===== -->
+  <section class="sheet" id="s-quiz">
+    <div class="sec-head">
+      <div><div class="kicker">Крок 6 · Гра</div><h2>Розклади витрати по кошиках</h2></div>
+      <span class="status" data-status="quiz">0 / 12</span>
+    </div>
+    <p class="hint">Перетягни картку в потрібний кошик або просто натисни на кошик. Одноразове? Залежить від кількості продажів? Чи щомісячне за будь-яких умов?</p>
+    <div class="deck" id="deck"></div>
+    <p class="qfb" id="qfb" aria-live="polite"></p>
+    <div class="bins">
+      <button class="bin" type="button" data-bin="capex"><b>CAPEX <span id="bc-capex">0</span></b><small>одноразово на старт</small><ul id="bl-capex"></ul></button>
+      <button class="bin" type="button" data-bin="vari"><b>Змінні <span id="bc-vari">0</span></b><small>ростуть разом із продажами</small><ul id="bl-vari"></ul></button>
+      <button class="bin" type="button" data-bin="fixed"><b>Постійні <span id="bc-fixed">0</span></b><small>щомісяця, хоч би що</small><ul id="bl-fixed"></ul></button>
+    </div>
+    <div class="tools" style="margin-top:14px"><button class="btn btn-ghost btn-sm" type="button" id="quizReset">↺ Зіграти ще раз</button></div>
+  </section>
+
+  <!-- ===== 7. Домашнє завдання ===== -->
+  <section class="sheet" id="s-hw">
+    <div class="sec-head">
+      <div class="hw-head">
+        <svg class="hw-ico" viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="24" fill="none" stroke="var(--sky)" stroke-width="4" stroke-dasharray="6 4"/><path d="M18 30l6 6 13-16" fill="none" stroke="var(--sky-2)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><div class="lesson-sub">Заняття 4</div><h2 style="margin:0">Домашнє завдання</h2></div>
+      </div>
+      <span class="status" data-status="hw">не заповнено</span>
+    </div>
+    <p class="lead">Порахуй ще одну фінансову модель по українському бізнесу, який ти знаєш або яким користуєшся: бізнес батьків, крамниця біля дому, кав'ярня, магазин одягу, інстаграм блогера тощо.</p>
+    <div class="chips" id="hwTpl" role="group" aria-label="Шаблон бізнесу">
+      <button class="chip" type="button" data-tpl="cafe" aria-pressed="false">☕ Кав'ярня</button>
+      <button class="chip" type="button" data-tpl="shop" aria-pressed="false">🛒 Крамниця біля дому</button>
+      <button class="chip" type="button" data-tpl="clothes" aria-pressed="false">👕 Магазин одягу</button>
+      <button class="chip" type="button" data-tpl="blog" aria-pressed="false">📱 Інстаграм блогера</button>
+      <button class="chip" type="button" data-tpl="parents" aria-pressed="false">👨‍👩‍👧 Бізнес батьків</button>
+    </div>
+    <div class="field"><label for="hwName">Який бізнес рахуєш?</label><input class="inp" id="hwName" data-p="hw.name" placeholder="Наприклад, кав'ярня «Зерно» біля школи" autocomplete="off"></div>
+    <h3>Капітальні витрати (CAPEX), грн</h3>
+    <div class="tbl" data-tbl="hw.capex"></div>
+    <button class="add" type="button" data-add="hw.capex">+ Додати рядок</button>
+    <h3>Операційні витрати на місяць (OPEX)</h3>
+    <div class="tbl" data-tbl="hw.opex"></div>
+    <button class="add" type="button" data-add="hw.opex">+ Додати рядок</button>
+    <div class="hw-pq">
+      <div class="field"><label for="hwP">Середній чек / ціна, грн</label><input class="inp num" id="hwP" data-p="hw.price" inputmode="decimal" placeholder="65"></div>
+      <div class="field"><label for="hwQ">Продажів на місяць</label><input class="inp num" id="hwQ" data-p="hw.qty" inputmode="decimal" placeholder="3000"></div>
+    </div>
+    <div class="hw-res">
+      <div><small>Дохід</small><b id="h1">—</b></div>
+      <div><small>Рентабельність</small><b id="h3">—</b></div>
+      <div><small>Прибуток</small><b id="h2">—</b></div>
+      <div><small>Термін окупності</small><b id="h4">—</b></div>
+    </div>
+    <div class="race" id="race" hidden>
+      <h3>Хто окупиться швидше?</h3>
+      <div class="race-row"><span id="rcA">Твій проект</span><div class="race-bar"><i id="rbA"></i><em id="rvA"></em></div></div>
+      <div class="race-row"><span id="rcB">ДЗ</span><div class="race-bar hw"><i id="rbB"></i><em id="rvB"></em></div></div>
+      <p class="race-note" id="raceNote"></p>
+    </div>
+    <div class="tools" style="margin-top:16px">
+      <button class="btn" type="button" data-example="hw">Приклад</button>
+      <button class="btn btn-ghost" type="button" data-clear="hw">Очистити</button>
+    </div>
+  </section>
+
+  <footer>
+    <a href="index.html">← Усі зошити</a>
+    <span>Робочий зошит Campus 13 · Як запустити свій проект · заняття 04</span>
+    <button class="reset" type="button" id="resetAll">Стерти всі мої відповіді</button>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+  const KEY = 'spe-finmodel-v1';
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const num = (v) => { const n = parseFloat(String(v ?? '').replace(/\s| /g, '').replace(',', '.')); return isFinite(n) ? n : 0; };
+  const has = (v) => String(v ?? '').trim() !== '';
+  const NF = new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 0 });
+  const fmt = (n) => NF.format(Math.round(n));
+  const uah = (n) => fmt(n) + ' грн';
+  const pct = (x) => (x * 100).toLocaleString('uk-UA', { maximumFractionDigits: Math.abs(x) < 0.1 ? 1 : 0 }) + ' %';
+  const plural = (n, a, b, c) => { const m = Math.abs(n) % 100, k = m % 10; return m > 10 && m < 20 ? c : k === 1 ? a : k >= 2 && k <= 4 ? b : c; };
+  const compact = (v) => v >= 1e6 ? (v / 1e6).toLocaleString('uk-UA', { maximumFractionDigits: 1 }) + ' млн' : v >= 1e4 ? (v / 1e3).toLocaleString('uk-UA', { maximumFractionDigits: 0 }) + ' тис' : fmt(v);
+  const niceCeil = (v) => { if (!(v > 0)) return 10; const p = 10 ** Math.floor(Math.log10(v)); const m = v / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p; };
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Стан і сховище ---------- */
+  const rows = (names) => names.map((n) => ({ n, v: '' }));
+  const DEF = () => ({
+    name: '', target: '', price: '', qty: '',
+    capex: rows(['Обладнання', 'Техніка (комп\'ютери)', 'Сайт', 'Дизайн і лого', '']),
+    vari: rows(['Сировина і матеріали', 'Реклама', 'Витратні матеріали', '']),
+    fixed: rows(['Оренда приміщення', 'Зарплата', '']),
+    scen: 'real', beT: false, quiz: {}, mood: '', done: {},
+    hw: { name: '', tpl: '', price: '', qty: '', capex: rows(['', '', '', '']), opex: rows(['', '', '', '']) }
+  });
+  let S = DEF();
+  try {
+    const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (raw && typeof raw === 'object') { S = Object.assign(DEF(), raw); S.hw = Object.assign(DEF().hw, raw.hw || {}); }
+  } catch (e) { /* сховище недоступне — працюємо без нього */ }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ок */ } };
+  const getP = (p) => p.split('.').reduce((o, k) => (o == null ? o : o[k]), S);
+  const setP = (p, v) => { const ks = p.split('.'); let o = S; for (let i = 0; i < ks.length - 1; i++) o = o[ks[i]]; o[ks[ks.length - 1]] = v; };
+
+  /* ---------- Сценарії ---------- */
+  const SCEN = {
+    pess: { q: 0.7, v: 1.1, l: 'Песимістичний', note: 'продажів на 30 % менше, змінні витрати на 10 % дорожчі' },
+    real: { q: 1, v: 1, l: 'Реалістичний', note: 'усе саме так, як ти запланував' },
+    opt: { q: 1.3, v: 0.95, l: 'Оптимістичний', note: 'продажів на 30 % більше, закупівля на 5 % дешевша (опт)' }
+  };
+  const sum = (arr) => arr.reduce((a, r) => a + num(r.v), 0);
+
+  /* Фінансова модель проекту за обраним сценарієм */
+  function model(sc = S.scen, qOverride) {
+    const k = SCEN[sc];
+    const cap = sum(S.capex), F = sum(S.fixed), vu = sum(S.vari) * k.v, P = num(S.price);
+    const Q = qOverride != null ? qOverride : num(S.qty) * k.q;
+    const V = vu * Q, opex = V + F, rev = P * Q, profit = rev - opex;
+    const rent = opex > 0 ? profit / opex : null;
+    const payM = profit > 0 && cap > 0 ? cap / profit : null;
+    const qbe = P > vu && F > 0 ? F / (P - vu) : (P > vu && F === 0 ? 0 : null);
+    return { cap, F, vu, P, Q, V, opex, rev, profit, rent, payM, qbe };
+  }
+  const payText = (m) => {
+    if (m == null) return '—';
+    const y = m / 12, mm = Math.max(1, Math.ceil(m - 1e-9));
+    return y.toLocaleString('uk-UA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' року';
+  };
+  const payMonths = (m) => { const mm = Math.max(1, Math.ceil(m - 1e-9)); return `≈ ${mm} ${plural(mm, 'місяць', 'місяці', 'місяців')}`; };
+
+  /* ---------- Таблиці витрат ---------- */
+  const TBL = {
+    capex: { ph: 'Ще щось на старт', head: ['Назва', 'Сума, грн', 'Частка, %'] },
+    vari: { ph: 'Наприклад, пакування', unit: true, head: ['Назва', 'грн за 1 шт', 'за місяць', 'Частка, %'] },
+    fixed: { ph: 'Наприклад, інтернет', head: ['Назва', 'Сума, грн', 'Частка, %'] },
+    'hw.capex': { ph: 'Назва витрати', head: ['Назва', 'Сума, грн', 'Частка, %'] },
+    'hw.opex': { ph: 'Назва витрати', head: ['Назва', 'Сума, грн', 'Частка, %'] }
+  };
+  function renderTable(key) {
+    const el = document.querySelector(`[data-tbl="${key}"]`); const t = TBL[key]; const list = getP(key);
+    const id = key.replace('.', '-');
+    const mob = matchMedia('(max-width: 600px)').matches;
+    const head = t.unit ? (mob ? ['Назва', '1 шт', 'за міс.', ''] : t.head) : (mob ? ['Назва', 'Сума', '%'] : t.head);
+    let h = `<div class="trow" aria-hidden="true">${head.map((x, i) => `<div class="th${t.unit && i === 3 ? ' sh' : ''}">${x}</div>`).join('')}${t.unit && mob ? '' : ''}<div></div></div>`;
+    h += list.map((r, i) => `<div class="trow">
+      <label class="sr" for="f-${id}-${i}-n">Назва витрати ${i + 1}</label>
+      <input id="f-${id}-${i}-n" data-p="${key}.${i}.n" value="${esc(r.n)}" placeholder="${esc(t.ph)}" autocomplete="off">
+      <label class="sr" for="f-${id}-${i}-v">${t.unit ? 'Гривень за одну штуку' : 'Сума, грн'}</label>
+      <input class="tv" id="f-${id}-${i}-v" data-p="${key}.${i}.v" value="${esc(r.v)}" inputmode="decimal" placeholder="0" autocomplete="off">
+      ${t.unit ? `<output data-mon="${key}.${i}">—</output>` : ''}
+      <output class="share${t.unit ? ' sh' : ''}" data-share="${key}.${i}"><span>—</span></output>
+      <button class="tdel" type="button" data-del="${key}" data-i="${i}" aria-label="Видалити рядок ${i + 1}">×</button></div>`).join('');
+    h += `<div class="trow tot"><div>РАЗОМ</div>${t.unit ? '<div class="r" data-tot-u="' + key + '">—</div>' : ''}<div class="r" data-tot="${key}">—</div>${t.unit ? '<div class="r sh">100 %</div>' : '<div class="r">100 %</div>'}<div class="blank"></div></div>`;
+    el.innerHTML = h;
+  }
+  const renderAllTables = () => Object.keys(TBL).forEach(renderTable);
+
+  function updateTable(key, qty) {
+    const t = TBL[key]; const list = getP(key);
+    const vals = list.map((r) => num(r.v) * (t.unit ? qty : 1));
+    const tot = vals.reduce((a, b) => a + b, 0);
+    list.forEach((r, i) => {
+      const sh = document.querySelector(`[data-share="${key}.${i}"]`);
+      if (sh) { const p = tot > 0 ? vals[i] / tot : 0; sh.style.setProperty('--w', (p * 100).toFixed(1) + '%'); sh.firstChild.textContent = tot > 0 && has(r.v) ? Math.round(p * 100) + ' %' : '—'; }
+      const mo = document.querySelector(`[data-mon="${key}.${i}"]`);
+      if (mo) mo.textContent = has(r.v) && qty > 0 ? fmt(vals[i]) : '—';
+    });
+    const te = document.querySelector(`[data-tot="${key}"]`); if (te) te.textContent = tot > 0 ? fmt(tot) : '—';
+    const tu = document.querySelector(`[data-tot-u="${key}"]`); if (tu) { const u = sum(list); tu.textContent = u > 0 ? fmt(u) + '/шт' : '—'; }
+    return tot;
+  }
+
+  /* ---------- Прогрес і значки ---------- */
+  const SECS = [
+    { id: 'goal', e: '🎯', l: 'Ціль' }, { id: 'capex', e: '🏗️', l: 'Старт' }, { id: 'opex', e: '🔁', l: 'Щомісяця' },
+    { id: 'four', e: '🧮', l: '4 числа' }, { id: 'be', e: '⚖️', l: 'Баланс' }, { id: 'quiz', e: '🧩', l: 'Сортувальник' }, { id: 'hw', e: '🏠', l: 'Домашка' }
+  ];
+  $('badges').innerHTML = SECS.map((s) => `<span class="bdg" id="bdg-${s.id}" title="${s.l}"><i>${s.e}</i>${s.l}</span>`).join('');
+  const STATUS_TXT = { goal: 'не заповнено', capex: 'не заповнено', opex: 'не заповнено', four: 'чекає на дані', be: 'потягни графік', hw: 'не заповнено' };
+
+  function doneMap(m) {
+    const hwOk = sum(S.hw.capex) > 0 && sum(S.hw.opex) > 0 && num(S.hw.price) > 0 && num(S.hw.qty) > 0;
+    return {
+      goal: num(S.price) > 0 && num(S.qty) > 0 && num(S.target) > 0,
+      capex: m.cap > 0 && S.capex.filter((r) => num(r.v) > 0).length >= 2,
+      opex: sum(S.vari) > 0 && m.F > 0,
+      four: m.rev > 0 && m.opex > 0 && m.cap > 0,
+      be: m.qbe != null && m.qbe > 0 && S.beT,
+      quiz: Object.keys(S.quiz).length === QUIZ.length,
+      hw: hwOk
+    };
+  }
+  let firstPaint = true;
+  function updateProgress(m) {
+    const d = doneMap(m); let n = 0;
+    SECS.forEach((s) => {
+      const on = !!d[s.id]; if (on) n++;
+      const b = $('bdg-' + s.id); b.classList.toggle('on', on);
+      document.querySelector(`.secnav a[data-sec="${s.id}"]`).classList.toggle('done', on);
+      const st = document.querySelector(`[data-status="${s.id}"]`);
+      if (st && s.id !== 'quiz') { st.classList.toggle('on', on); st.textContent = on ? '✓ готово' : STATUS_TXT[s.id]; }
+      if (on && !S.done[s.id] && !firstPaint) { b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); toast(`${s.e} Значок «${s.l}» твій!`); }
+      S.done[s.id] = on;
+    });
+    $('progBar').style.width = (n / SECS.length * 100) + '%';
+    $('progTxt').textContent = n === SECS.length ? '🏆 7 з 7 — модель готова!' : `${n} з ${SECS.length} розділів`;
+    firstPaint = false;
+  }
+
+  /* ---------- Наліпки-нагороди ---------- */
+  const STK = { khanenko: { alt: 'Наліпка: Ханенки «Цінуй і примножуй»', cap: 'Цінуй і примножуй' }, musk: { alt: 'Наліпка: Ілон Маск «Думай про велике»', cap: 'Думай про велике' } };
+  const stSrc = (n) => (document.querySelector(`img[data-st="${n}"]`) || {}).src || '';
+  function reward(name, host, on) {
+    const old = host.querySelector(':scope > .stk-fly');
+    if (!on) { if (old) old.remove(); return; }
+    if (old) return;
+    const im = new Image(); im.src = stSrc(name); im.alt = STK[name].alt; im.className = 'stk stk-fly'; im.width = 88; im.height = 88;
+    host.appendChild(im);
+  }
+
+  /* ---------- Головне оновлення ---------- */
+  function syncInputs() {
+    document.querySelectorAll('[data-p]').forEach((el) => {
+      if (el === document.activeElement) return;
+      const v = getP(el.dataset.p);
+      if (el.type === 'range') {
+        const base = +el.dataset.rng, n = num(v);
+        el.max = Math.max(base, niceCeil(n * 1.5));
+        el.value = has(v) ? n : base / 4;
+        el.style.opacity = has(v) ? 1 : .5;
+      } else if (el.value !== String(v ?? '')) el.value = v ?? '';
+    });
+  }
+
+  function update() {
+    syncInputs();
+    const m = model();
+    const qBase = num(S.qty);
+    // таблиці
+    updateTable('capex'); updateTable('fixed'); updateTable('vari', qBase);
+    // показники кроку 1
+    ['target', 'price', 'qty'].forEach((k) => document.querySelector(`[data-ans="${k}"]`).classList.toggle('ans', num(S[k]) > 0));
+    $('calcDisp').textContent = num(S.price) && qBase ? compact(num(S.price) * qBase) : '0';
+    // банер OPEX (за базовим планом)
+    const V0 = sum(S.vari) * qBase, F0 = m.F;
+    $('opexNums').textContent = (V0 + F0) > 0 ? `${uah(V0 + F0)} = ${fmt(V0)} + ${fmt(F0)}` : '— = — + —';
+    $('splitV').style.flexGrow = V0 || (F0 ? 0 : 1); $('splitF').style.flexGrow = F0 || (V0 ? 0 : 1);
+    $('legV').textContent = 'Змінні' + (V0 + F0 > 0 ? ` · ${Math.round(V0 / (V0 + F0) * 100)} %` : '');
+    $('legF').textContent = 'Постійні' + (V0 + F0 > 0 ? ` · ${Math.round(F0 / (V0 + F0) * 100)} %` : '');
+    updateFour(m); updateCmp(); drawBE(); updateHW(m);
+    updateProgress(m); save();
+  }
+
+  /* ---------- Крок 4 ---------- */
+  function updateFour(m) {
+    document.querySelectorAll('[data-scen]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.scen === S.scen));
+    $('scenNote').textContent = SCEN[S.scen].note;
+    reward('musk', $('scenWrap'), S.scen === 'opt');
+    $('lvPriceV').textContent = m.P ? uah(m.P) : '—';
+    $('lvQtyV').textContent = num(S.qty) ? fmt(m.Q) + ' шт' + (S.scen !== 'real' ? ` (план ${fmt(num(S.qty))})` : '') : '—';
+    const ok = m.P > 0 && m.Q > 0;
+    $('f1q').textContent = m.Q ? fmt(m.Q) : '—'; $('f1p').textContent = m.P ? fmt(m.P) : '—';
+    $('r1').textContent = ok ? uah(m.rev) : '—';
+    $('f2r').textContent = ok ? fmt(m.rev) : '—'; $('f2c').textContent = m.opex ? fmt(m.opex) : '—';
+    const hasP = ok && m.opex > 0;
+    $('r2').textContent = hasP ? uah(m.profit) : '—'; $('r2').classList.toggle('neg', hasP && m.profit < 0);
+    $('f3p').textContent = hasP ? fmt(m.profit) : '—'; $('f3c').textContent = m.opex ? fmt(m.opex) : '—';
+    $('r3').textContent = hasP ? pct(m.rent) : '—'; $('r3').classList.toggle('neg', hasP && m.rent < 0);
+    // стрілка спідометра: −50 % → −90°, +100 % → +90°
+    const r = hasP ? Math.max(-0.5, Math.min(1, m.rent)) : -0.5;
+    $('needle').style.transform = `rotate(${-90 + (r + 0.5) / 1.5 * 180}deg)`;
+    const pill = $('rentPill'); pill.hidden = !hasP;
+    if (hasP) {
+      const [c, t] = m.rent < 0 ? ['r', '😟 Збиток: витрати більші за дохід'] : m.rent < 0.2 ? ['y', '🙂 Скромно: є куди рости'] : ['g', '🚀 Чудово: бізнес заробляє'];
+      pill.className = 'pill ' + c; pill.textContent = t;
+    }
+    $('f4c').textContent = m.cap ? fmt(m.cap) : '—'; $('f4p').textContent = hasP ? fmt(m.profit * 12) : '—';
+    const r4 = $('r4');
+    if (m.payM != null) r4.innerHTML = `${payText(m.payM)}<small>${payMonths(m.payM)}</small>`;
+    else r4.innerHTML = hasP && m.profit <= 0 ? 'не окупається<small>поки прибуток ≤ 0, гроші не повертаються</small>' : '—';
+    r4.classList.toggle('neg', hasP && m.profit <= 0);
+    const mm = m.payM != null ? Math.ceil(m.payM - 1e-9) : 0;
+    $('months').innerHTML = Array.from({ length: 24 }, (_, i) => `<i class="${m.payM != null ? (i + 1 === mm ? 'pay' : i + 1 < mm ? 'f' : '') : ''}">${i + 1 === mm ? '🪙' : i + 1}</i>`).join('');
+    if (mm > 24) $('months').lastElementChild.textContent = '24+';
+    reward('khanenko', $('payCard'), m.payM != null && m.payM <= 24);
+    // порада щодо цілі
+    const adv = $('advice'); const T = num(S.target);
+    if (T > 0 && hasP) {
+      const k = SCEN[S.scen];
+      const needQ = m.P > m.vu ? (m.F + T) / (m.P - m.vu) : null;
+      const needP = m.Q > 0 ? (m.F + T) / m.Q + m.vu : null;
+      adv.hidden = false;
+      adv.innerHTML = m.profit >= T
+        ? `🎉 Ціль <b>${uah(T)}</b> на місяць досягнута: прибуток ${uah(m.profit)}. Час думати, куди інвестувати далі.`
+        : `🎯 До цілі <b>${uah(T)}</b> бракує ${uah(T - m.profit)}. Варіанти: продавати <b>${needQ ? fmt(Math.ceil(needQ / k.q)) + ' шт' : '—'}</b> на місяць за тієї ж ціни, або підняти ціну до <b>${needP ? uah(Math.ceil(needP)) : '—'}</b> за тієї ж кількості. Або зменшити витрати.`;
+    } else adv.hidden = true;
+  }
+
+  function updateCmp() {
+    const cells = ['pess', 'real', 'opt'].map((sc) => model(sc));
+    const row = (l, f) => `<tr><td>${l}</td>${cells.map((m, i) => `<td class="${['pess', 'real', 'opt'][i] === S.scen ? 'sel' : ''}">${f(m)}</td>`).join('')}</tr>`;
+    const ok = (m) => m.P > 0 && m.Q > 0 && m.opex > 0;
+    $('cmpBody').innerHTML =
+      row('Продажі, шт', (m) => m.Q ? fmt(m.Q) : '—') +
+      row('Прибуток', (m) => ok(m) ? uah(m.profit) : '—') +
+      row('Рентабельність', (m) => ok(m) ? pct(m.rent) : '—') +
+      row('Окупність', (m) => m.payM != null ? Math.ceil(m.payM - 1e-9) + ' міс.' : ok(m) ? '∞' : '—');
+  }
+
+  /* ---------- Крок 5: графік беззбитковості ---------- */
+  const W = 640, H = 340, ML = 62, MR = 18, MT = 18, MB = 40, PW = W - ML - MR, PH = H - MT - MB;
+  let drag = null; // { xmax, ymax } — фіксуємо масштаб на час перетягування
+  function scale() {
+    const m = model();
+    let xmax, ymax;
+    if (drag) ({ xmax, ymax } = drag);
+    else {
+      xmax = niceCeil(Math.max(m.Q, m.qbe || 0, 10) * 1.5);
+      ymax = niceCeil(Math.max(m.P * xmax, m.F + m.vu * xmax, 100) * 1.05);
+    }
+    return { m, xmax, ymax, X: (q) => ML + q / xmax * PW, Y: (v) => MT + PH - Math.min(v, ymax * 1.2) / ymax * PH };
+  }
+  function drawBE() {
+    const { m, xmax, ymax, X, Y } = scale();
+    const ready = m.P > 0 && (m.F > 0 || m.vu > 0);
+    let g = '';
+    for (let i = 0; i <= 5; i++) {
+      const v = ymax * i / 5, y = Y(v), q = xmax * i / 5, x = X(q);
+      g += `<line class="grid" x1="${ML}" x2="${W - MR}" y1="${y}" y2="${y}"/><text class="tk" x="${ML - 8}" y="${y + 4}" text-anchor="end">${compact(v)}</text>`;
+      g += `<text class="tk" x="${x}" y="${H - MB + 18}" text-anchor="middle">${fmt(q)}</text>`;
+    }
+    g += `<line class="ax" x1="${ML}" x2="${W - MR}" y1="${MT + PH}" y2="${MT + PH}"/><line class="ax" x1="${ML}" x2="${ML}" y1="${MT}" y2="${MT + PH}"/>`;
+    g += `<text class="tk" x="${W - MR}" y="${H - 4}" text-anchor="end">продажів на місяць, шт →</text><text class="tk" x="8" y="${MT - 4}">грн</text>`;
+    if (!ready) {
+      g += `<text class="tk" x="${ML + PW / 2}" y="${MT + PH / 2}" text-anchor="middle" style="font-size:14px">Заповни ціну й витрати в кроках 1–3 — і тут з'являться лінії</text>`;
+      $('bePlot').innerHTML = g; $('beQg').innerHTML = '';
+      ['beQ', 'beR', 'beNow', 'bf0', 'bf1', 'bf2'].forEach((id) => { $(id).textContent = '—'; }); $('beTable').innerHTML = '';
+      return;
+    }
+    const rev = (q) => m.P * q, cost = (q) => m.F + m.vu * q;
+    const qb = m.qbe != null ? Math.min(m.qbe, xmax) : xmax;
+    const pts = (arr) => arr.map(([q, v]) => `${X(q).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+    // зони збитку і прибутку між лініями
+    g += `<polygon class="loss" points="${pts([[0, cost(0)], [qb, cost(qb)], [qb, rev(qb)], [0, 0]])}"/>`;
+    if (m.qbe != null && m.qbe < xmax) {
+      g += `<polygon class="gain" points="${pts([[m.qbe, rev(m.qbe)], [xmax, rev(xmax)], [xmax, cost(xmax)]])}"/>`;
+      g += `<text class="zl g" x="${X(xmax) - 8}" y="${Y((rev(xmax) + cost(xmax)) / 2) + 4}" text-anchor="end">прибуток</text>`;
+    }
+    if (qb > xmax * 0.18) g += `<text class="zl l" x="${X(qb * 0.12)}" y="${Y(cost(qb * 0.12)) - 8}">збиток</text>`;
+    g += `<line class="fix" x1="${X(0)}" x2="${X(xmax)}" y1="${Y(m.F)}" y2="${Y(m.F)}"/>`;
+    g += `<polyline class="cost" points="${pts([[0, cost(0)], [xmax, cost(xmax)]])}"/>`;
+    g += `<polyline class="rev" points="${pts([[0, 0], [xmax, rev(xmax)]])}"/>`;
+    if (m.qbe != null && m.qbe <= xmax) {
+      const bx = X(m.qbe), by = Y(rev(m.qbe));
+      const lbl = `${fmt(Math.ceil(m.qbe))} шт · ${compact(rev(m.qbe))} грн`;
+      const lw = lbl.length * 6.6 + 16, lx = Math.min(Math.max(bx - lw / 2, ML + 2), W - MR - lw), ly = by - 40 < MT ? by + 16 : by - 38;
+      g += `<circle class="ring" cx="${bx}" cy="${by}" r="9"/><circle class="bep" cx="${bx}" cy="${by}" r="7"/>`;
+      g += `<rect class="belbg" x="${lx}" y="${ly}" width="${lw}" height="24" rx="8"/><text class="bel" x="${lx + lw / 2}" y="${ly + 16}" text-anchor="middle">${lbl}</text>`;
+    }
+    $('bePlot').innerHTML = g;
+    // поточний план (перетягувана лінія)
+    const qx = X(Math.min(m.Q, xmax));
+    const pr = m.rev - m.opex;
+    $('beQg').innerHTML = `<line class="qline" x1="${qx}" x2="${qx}" y1="${MT}" y2="${MT + PH}"/>
+      <circle class="dot" cx="${qx}" cy="${Y(rev(m.Q))}" r="5" fill="var(--c-rev)"/><circle class="dot" cx="${qx}" cy="${Y(cost(m.Q))}" r="5" fill="var(--c-cost)"/>
+      <circle class="handle" id="beHandle" cx="${qx}" cy="${MT + PH}" r="11" tabindex="0" role="slider" aria-label="Кількість продажів на місяць"
+        aria-valuemin="0" aria-valuemax="${Math.round(xmax)}" aria-valuenow="${Math.round(m.Q)}" aria-valuetext="${fmt(m.Q)} шт, прибуток ${fmt(pr)} грн"/>`;
+    // показники
+    $('beQ').textContent = m.qbe != null ? fmt(Math.ceil(m.qbe)) + ' шт/міс' : 'недосяжна';
+    $('beR').textContent = m.qbe != null ? uah(rev(m.qbe)) : '—';
+    $('beNow').textContent = `${fmt(m.Q)} шт → ${pr >= 0 ? '+' : ''}${fmt(pr)} грн`;
+    $('beNow').style.color = pr >= 0 ? 'var(--ok)' : 'var(--no)';
+    $('bf0').textContent = m.qbe != null ? fmt(Math.ceil(m.qbe)) : '—';
+    $('bf1').textContent = fmt(m.F); $('bf2').textContent = `${fmt(m.P)} − ${fmt(m.vu)}`;
+    // текстова наліпка ворушиться, коли до беззбитковості зовсім близько
+    $('beSticker').classList.toggle('wiggle', m.qbe != null && m.Q < m.qbe && m.Q >= m.qbe * 0.7);
+    // таблиця для доступності
+    const qs = [0, m.qbe != null ? Math.ceil(m.qbe) : null, Math.round(m.Q), Math.round(xmax)].filter((q) => q != null);
+    $('beTable').innerHTML = `<table><tr><th>Продажів, шт</th><th>Дохід</th><th>Витрати</th><th>Прибуток</th></tr>${[...new Set(qs)].sort((a, b) => a - b).map((q) => `<tr><td>${fmt(q)}</td><td>${fmt(rev(q))}</td><td>${fmt(cost(q))}</td><td>${fmt(rev(q) - cost(q))}</td></tr>`).join('')}</table>`;
+    if (m.P <= m.vu) $('beQ').title = 'Ціна не покриває змінні витрати на 1 шт — кожен продаж збитковий';
+  }
+
+  const svg = $('beSvg');
+  const qAt = (e) => { const r = svg.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width * W; const { xmax } = scale(); return Math.max(0, Math.min(xmax, (x - ML) / PW * xmax)); };
+  function setQFromScen(q) { const k = SCEN[S.scen].q; S.qty = String(Math.max(0, Math.round(q / k))); S.beT = true; update(); }
+  svg.addEventListener('pointerdown', (e) => {
+    const m = model(); if (!(m.P > 0)) return;
+    const { xmax, ymax } = scale(); drag = { xmax, ymax }; svg.setPointerCapture(e.pointerId);
+    $('beTip').classList.remove('show'); $('beHov').setAttribute('visibility', 'hidden');
+    setQFromScen(qAt(e));
+  });
+  svg.addEventListener('pointermove', (e) => {
+    if (drag) { setQFromScen(qAt(e)); return; }
+    const m = model(); if (!(m.P > 0) || e.pointerType === 'touch') return;
+    const q = qAt(e), { X } = scale(), x = X(q);
+    const rev = m.P * q, cost = m.F + m.vu * q;
+    const hov = $('beHov'); hov.setAttribute('x1', x); hov.setAttribute('x2', x); hov.setAttribute('visibility', 'visible');
+    const tip = $('beTip'); const r = svg.getBoundingClientRect(); const box = $('chartBox').getBoundingClientRect();
+    tip.innerHTML = `<b>${fmt(q)} шт</b><br>Дохід: ${uah(rev)}<br>Витрати: ${uah(cost)}<br>${rev - cost >= 0 ? 'Прибуток' : 'Збиток'}: ${uah(Math.abs(rev - cost))}`;
+    tip.style.left = Math.min(Math.max(e.clientX - box.left, 80), box.width - 80) + 'px'; tip.style.top = (e.clientY - box.top) + 'px'; tip.classList.add('show');
+  });
+  const endDrag = () => { if (drag) { drag = null; update(); } };
+  svg.addEventListener('pointerup', endDrag); svg.addEventListener('pointercancel', endDrag);
+  svg.addEventListener('pointerleave', () => { $('beTip').classList.remove('show'); $('beHov').setAttribute('visibility', 'hidden'); });
+  svg.addEventListener('keydown', (e) => {
+    if (e.target.id !== 'beHandle') return;
+    const m = model(); const { xmax } = scale(); const step = Math.max(1, Math.round(xmax / 50));
+    const d = { ArrowRight: step, ArrowUp: step, ArrowLeft: -step, ArrowDown: -step }[e.key];
+    if (d == null) return; e.preventDefault(); setQFromScen(Math.max(0, m.Q + d));
+    const h = $('beHandle'); if (h) h.focus();
+  });
+
+  /* ---------- Крок 6: гра «Розклади витрати» ---------- */
+  const QUIZ = [
+    ['Кавомашина для кав\'ярні', 'capex', 'купуєш один раз на старт'],
+    ['Оренда приміщення', 'fixed', 'платиш щомісяця, навіть без продажів'],
+    ['Кавові зерна і молоко', 'vari', 'більше чашок — більше зерна'],
+    ['Розробка сайту', 'capex', 'робиш один раз перед запуском'],
+    ['Зарплата адміністратора', 'fixed', 'не залежить від кількості продажів'],
+    ['Пакування для кожного замовлення', 'vari', 'одне замовлення — одна коробка'],
+    ['Логотип і фірмовий стиль', 'capex', 'разова інвестиція в бренд'],
+    ['Кур\'єрська доставка замовлень', 'vari', 'платиш за кожну доставку'],
+    ['Інтернет і хостинг сайту', 'fixed', 'щомісячна підписка'],
+    ['Ноутбук для роботи', 'capex', 'техніка на старт'],
+    ['Комісія банку з кожної оплати', 'vari', 'відсоток від кожного продажу'],
+    ['Бухгалтер на аутсорсі', 'fixed', 'фіксована щомісячна плата']
+  ];
+  const BIN_L = { capex: 'CAPEX', vari: 'Змінні', fixed: 'Постійні' };
+  function renderQuiz() {
+    const done = Object.keys(S.quiz).length;
+    const cur = QUIZ.findIndex((_, i) => !(i in S.quiz));
+    const okN = Object.values(S.quiz).filter((r) => r.ok).length;
+    $('deck').innerHTML = cur < 0
+      ? `<div class="qcard fin">🏆 Усі ${QUIZ.length} витрат розкладено!<small>Правильно з першої спроби: ${okN} з ${QUIZ.length}${okN === QUIZ.length ? ' — ідеально!' : ''}</small></div>`
+      : `<div class="qcard" id="qcard" tabindex="0" aria-describedby="qfb">${esc(QUIZ[cur][0])}<small>картка ${cur + 1} з ${QUIZ.length} · тягни або тисни на кошик</small></div>`;
+    ['capex', 'vari', 'fixed'].forEach((b) => {
+      const items = QUIZ.map((q, i) => [q, i]).filter(([q, i]) => i in S.quiz && q[1] === b);
+      $('bc-' + b).textContent = items.length;
+      $('bl-' + b).innerHTML = items.map(([q, i]) => `<li class="${S.quiz[i].ok ? '' : 'x'}">${S.quiz[i].ok ? '✓' : '↪'} ${esc(q[0])}</li>`).join('');
+    });
+    const st = document.querySelector('[data-status="quiz"]');
+    st.textContent = done === QUIZ.length ? `✓ ${okN} / ${QUIZ.length}` : `${done} / ${QUIZ.length}`; st.classList.toggle('on', done === QUIZ.length);
+    bindCard();
+  }
+  let busy = false;
+  function answer(bin) {
+    const cur = QUIZ.findIndex((_, i) => !(i in S.quiz)); if (cur < 0 || busy) return;
+    const [t, right, why] = QUIZ[cur]; const fb = $('qfb'); const card = $('qcard');
+    if (bin === right) {
+      S.quiz[cur] = { ok: true }; fb.className = 'qfb ok'; fb.textContent = `✓ Так! ${t} — ${BIN_L[right]}: ${why}.`;
+      renderQuiz(); update();
+    } else {
+      busy = true; fb.className = 'qfb no'; fb.textContent = `Не зовсім. ${t} — це ${BIN_L[right]}: ${why}.`;
+      if (card) { card.style.transform = ''; card.classList.add('bad'); }
+      setTimeout(() => { busy = false; S.quiz[cur] = { ok: false }; renderQuiz(); update(); }, reduced ? 300 : 1300);
+    }
+  }
+  document.querySelectorAll('[data-bin]').forEach((b) => b.addEventListener('click', () => answer(b.dataset.bin)));
+  function bindCard() {
+    const c = $('qcard'); if (!c) return;
+    let sx = 0, sy = 0, on = false, moved = false;
+    c.addEventListener('pointerdown', (e) => { on = true; moved = false; sx = e.clientX; sy = e.clientY; c.setPointerCapture(e.pointerId); c.classList.add('drag'); c.classList.remove('back'); });
+    c.addEventListener('pointermove', (e) => {
+      if (!on) return; const dx = e.clientX - sx, dy = e.clientY - sy; if (Math.abs(dx) + Math.abs(dy) > 6) moved = true;
+      c.style.transform = `translate(${dx}px, ${dy}px) rotate(${dx / 20}deg)`;
+      c.style.visibility = 'hidden'; const under = document.elementFromPoint(e.clientX, e.clientY); c.style.visibility = '';
+      document.querySelectorAll('.bin').forEach((b) => b.classList.toggle('over', !!under && b.contains(under)));
+    });
+    const up = (e) => {
+      if (!on) return; on = false; c.classList.remove('drag');
+      c.style.visibility = 'hidden'; const under = document.elementFromPoint(e.clientX, e.clientY); c.style.visibility = '';
+      const bin = under && under.closest('[data-bin]');
+      document.querySelectorAll('.bin').forEach((b) => b.classList.remove('over'));
+      if (bin && moved) answer(bin.dataset.bin); else { c.classList.add('back'); c.style.transform = ''; }
+    };
+    c.addEventListener('pointerup', up); c.addEventListener('pointercancel', up);
+    c.addEventListener('keydown', (e) => { const b = { 1: 'capex', 2: 'vari', 3: 'fixed' }[e.key]; if (b) answer(b); });
+  }
+  $('quizReset').addEventListener('click', () => { S.quiz = {}; $('qfb').textContent = ''; renderQuiz(); update(); });
+
+  /* ---------- Крок 7: домашнє завдання ---------- */
+  const TPL = {
+    cafe: { name: 'Кав\'ярня біля дому', capex: ['Кавомашина і кавомолка', 'Ремонт і меблі', 'Посуд і барна стійка', 'Вивіска'], opex: ['Оренда', 'Зарплата бариста', 'Кава, молоко, стаканчики', 'Комунальні послуги'] },
+    shop: { name: 'Крамниця біля дому', capex: ['Холодильники і стелажі', 'Каса і термінал', 'Ремонт', 'Вивіска'], opex: ['Оренда', 'Зарплата продавця', 'Закупівля товару', 'Комунальні послуги'] },
+    clothes: { name: 'Магазин одягу', capex: ['Ремонт і примірочні', 'Вішаки і стелажі', 'Перша партія одягу', 'Сайт і лого'], opex: ['Оренда', 'Зарплата консультанта', 'Закупівля одягу', 'Реклама в соцмережах'] },
+    blog: { name: 'Інстаграм блогера', capex: ['Камера і світло', 'Мікрофон', 'Ноутбук для монтажу', 'Дизайн профілю'], opex: ['Монтажер', 'Реклама', 'Реквізит', 'Підписки на сервіси'] },
+    parents: { name: 'Бізнес батьків', capex: ['Обладнання', 'Ремонт', 'Техніка', 'Інше на старт'], opex: ['Оренда', 'Зарплати', 'Матеріали', 'Інше щомісяця'] }
+  };
+  const fitRows = (list, names) => { while (list.length < names.length) list.push({ n: '', v: '' }); names.forEach((n, i) => { list[i].n = n; }); };
+  $('hwTpl').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-tpl]'); if (!b) return; const t = TPL[b.dataset.tpl];
+    S.hw.tpl = b.dataset.tpl; if (!has(S.hw.name) || Object.values(TPL).some((x) => x.name === S.hw.name)) S.hw.name = t.name;
+    fitRows(S.hw.capex, t.capex); fitRows(S.hw.opex, t.opex);
+    renderTable('hw.capex'); renderTable('hw.opex'); update(); toast('Назви підставлено — допиши суми');
+  });
+  function updateHW(m) {
+    document.querySelectorAll('[data-tpl]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.tpl === S.hw.tpl));
+    const cap = updateTable('hw.capex'), opex = updateTable('hw.opex');
+    const P = num(S.hw.price), Q = num(S.hw.qty), rev = P * Q, pr = rev - opex;
+    const ok = rev > 0 && opex > 0;
+    $('h1').textContent = rev > 0 ? uah(rev) : '—';
+    $('h2').textContent = ok ? uah(pr) : '—'; $('h2').classList.toggle('neg', ok && pr < 0);
+    $('h3').textContent = ok ? pct(pr / opex) : '—'; $('h3').classList.toggle('neg', ok && pr < 0);
+    const pay = ok && pr > 0 && cap > 0 ? cap / pr : null;
+    $('h4').textContent = pay != null ? `${payText(pay)} ${payMonths(pay)}` : ok && cap > 0 ? 'не окупається' : '—';
+    $('h4').classList.toggle('neg', ok && pr <= 0);
+    // перегони окупності: твій проект проти бізнесу з ДЗ
+    const a = model('real').payM, race = $('race');
+    race.hidden = !(a != null && pay != null);
+    if (!race.hidden) {
+      const mx = Math.max(a, pay);
+      $('rcA').textContent = has(S.name) ? S.name : 'Твій проект'; $('rcB').textContent = has(S.hw.name) ? S.hw.name : 'Бізнес з ДЗ';
+      $('rbA').style.width = (a / mx * 100) + '%'; $('rbB').style.width = (pay / mx * 100) + '%';
+      $('rvA').textContent = Math.ceil(a - 1e-9) + ' міс.'; $('rvB').textContent = Math.ceil(pay - 1e-9) + ' міс.';
+      $('raceNote').textContent = Math.abs(a - pay) < 0.5 ? 'Майже нічия! Окупаються однаково швидко.' : `${a < pay ? $('rcA').textContent : $('rcB').textContent} окупиться швидше. Коротша смужка — швидше повертаються вкладені гроші.`;
+    }
+  }
+
+  /* ---------- Приклади й очищення ---------- */
+  const fill = (list, vals) => vals.forEach((v, i) => { if (list[i]) list[i].v = v; });
+  const EX = {
+    goal: () => { S.name = 'Свічки ручної роботи'; S.target = '10000'; S.price = '150'; S.qty = '200'; },
+    capex: () => { S.capex = DEF().capex; fill(S.capex, ['18000', '12000', '6000', '4000']); },
+    opex: () => { S.vari = DEF().vari; S.fixed = DEF().fixed; fill(S.vari, ['25', '10', '5']); fill(S.fixed, ['6000', '8000']); },
+    hw: () => {
+      S.hw.tpl = 'cafe'; S.hw.name = 'Кав\'ярня біля дому'; S.hw.capex = rows(TPL.cafe.capex); S.hw.opex = rows(TPL.cafe.opex);
+      fill(S.hw.capex, ['180000', '120000', '50000', '20000']); fill(S.hw.opex, ['25000', '50000', '75000', '8000']); S.hw.price = '65'; S.hw.qty = '3000';
+    }
+  };
+  const CLR = {
+    goal: () => { S.name = ''; S.target = ''; S.price = ''; S.qty = ''; },
+    capex: () => { S.capex = DEF().capex; },
+    opex: () => { S.vari = DEF().vari; S.fixed = DEF().fixed; },
+    hw: () => { S.hw = DEF().hw; }
+  };
+  document.addEventListener('click', (e) => {
+    const ex = e.target.closest('[data-example]'), cl = e.target.closest('[data-clear]');
+    const ad = e.target.closest('[data-add]'), dl = e.target.closest('[data-del]'), sc = e.target.closest('[data-scen]');
+    if (ex) { EX[ex.dataset.example](); renderAllTables(); update(); toast('Заповнено прикладом із зошита — зміни під себе'); }
+    if (cl) { CLR[cl.dataset.clear](); renderAllTables(); update(); }
+    if (ad) { const l = getP(ad.dataset.add); l.push({ n: '', v: '' }); renderTable(ad.dataset.add); update(); const ins = document.querySelectorAll(`[data-tbl="${ad.dataset.add}"] input[data-p$=".n"]`); ins[ins.length - 1].focus(); }
+    if (dl) { const l = getP(dl.dataset.del); l.splice(+dl.dataset.i, 1); if (!l.length) l.push({ n: '', v: '' }); renderTable(dl.dataset.del); update(); }
+    if (sc) { S.scen = sc.dataset.scen; update(); if (S.scen === 'opt') toast('🚀 Думай про велике! А тепер глянь і на песимістичний.'); }
+  });
+  document.addEventListener('input', (e) => {
+    const p = e.target.dataset.p; if (!p) return;
+    setP(p, e.target.value); update();
+  });
+
+  /* ---------- Наліпка настрою ---------- */
+  const moodBtn = $('moodBtn'), picker = $('picker');
+  function paintMood(anim) {
+    const v = S.mood; moodBtn.classList.toggle('has', !!v);
+    picker.querySelectorAll('[data-mood]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.mood === v));
+    if (!v) { moodBtn.textContent = 'наліпка настрою'; return; }
+    if (STK[v]) { moodBtn.innerHTML = `<img class="stk${anim ? ' stuck' : ''}" src="${stSrc(v)}" alt="${esc(STK[v].alt)}" width="92" height="92">`; }
+    else moodBtn.innerHTML = `<span class="${anim ? 'stuck' : ''}" style="display:inline-block">${v}</span>`;
+    moodBtn.setAttribute('aria-label', 'Наліпка настрою: ' + (STK[v] ? STK[v].cap : v) + '. Змінити');
+  }
+  moodBtn.addEventListener('click', (e) => { e.stopPropagation(); picker.hidden = !picker.hidden; moodBtn.setAttribute('aria-expanded', !picker.hidden); });
+  picker.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-mood]'); if (!b) return;
+    S.mood = S.mood === b.dataset.mood ? '' : b.dataset.mood; save(); paintMood(true); picker.hidden = true; moodBtn.setAttribute('aria-expanded', 'false'); moodBtn.focus();
+  });
+  document.addEventListener('click', (e) => { if (!picker.hidden && !e.target.closest('.mood')) { picker.hidden = true; moodBtn.setAttribute('aria-expanded', 'false'); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !picker.hidden) { picker.hidden = true; moodBtn.setAttribute('aria-expanded', 'false'); moodBtn.focus(); } });
+
+  /* ---------- Дрібниці: тост, копіювання, скидання, навігація ---------- */
+  let tt;
+  function toast(t) { const el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 2600); }
+  $('copyBtn').addEventListener('click', () => {
+    const m = model();
+    const txt = [`Фінансова модель: ${S.name || 'мій проект'} (${SCEN[S.scen].l.toLowerCase()} сценарій)`,
+      `CAPEX: ${uah(m.cap)}`, `OPEX на місяць: ${uah(m.opex)} (змінні ${fmt(m.V)} + постійні ${fmt(m.F)})`,
+      `Дохід: ${fmt(m.Q)} × ${fmt(m.P)} = ${uah(m.rev)}`, `Прибуток: ${uah(m.profit)}`,
+      `Рентабельність: ${m.rent != null ? pct(m.rent) : '—'}`, `Термін окупності: ${m.payM != null ? payText(m.payM) + ' ' + payMonths(m.payM) : '—'}`,
+      `Точка беззбитковості: ${m.qbe != null ? fmt(Math.ceil(m.qbe)) + ' шт/міс' : '—'}`].join('\n');
+    const ok = () => toast('📋 Підсумок скопійовано');
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(ok, () => toast('Не вдалося скопіювати')); else toast('Копіювання недоступне');
+  });
+  $('resetAll').addEventListener('click', () => {
+    if (!confirm('Стерти всі відповіді на цій сторінці?')) return;
+    S = DEF(); save(); renderAllTables(); renderQuiz(); paintMood(false); firstPaint = true; update(); $('qfb').textContent = '';
+  });
+  const links = [...document.querySelectorAll('.secnav a')];
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) links.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id)); }), { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('section.sheet').forEach((s) => io.observe(s));
+  }
+  let mobWas = matchMedia('(max-width: 600px)').matches;
+  addEventListener('resize', () => { const mob = matchMedia('(max-width: 600px)').matches; if (mob !== mobWas) { mobWas = mob; renderAllTables(); update(); } });
+
+  renderAllTables(); renderQuiz(); paintMood(false); update();
+})();
+</script>
+</body>
+</html>

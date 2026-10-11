@@ -1,0 +1,1466 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Команда твого проєкту</title>
+<meta name="description" content="Заняття 09 курсу «Як запустити свій проект»: послідовність запуску, хто і коли це робить, команда мрії й покриття функцій, перелік людей поруч, організаційна структура на пів року і домашнє завдання — розповісти друзям і покликати в команду.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Стиль робочого зошита «Як запустити свій проект»: світло-сірий аркуш, блакитні й темно-сині плашки. */
+  :root {
+    --bg: #ececec;
+    --paper: #f7f7f7;
+    --surface: #ffffff;
+    --text: #1f1f22;
+    --muted: #63646b;
+    --faint: #94959c;
+    --line: #e0e2e5;
+    --sky: #1fb5f0;
+    --sky-2: #0090e0;
+    --sky-3: #8fd8f8;
+    --btn: #0880c8;
+    --navy: #0b5f95;
+    --sky-soft: #dff3fd;
+    --accent-text: #0b5f95;
+    --on-sky: #ffffff;
+    --ok: #22a447;
+    --no: #e5484d;
+    --warn: #e08a00;
+    --warn-soft: #fff1d9;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .07);
+    --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1215; --paper: #171b1f; --surface: #20262c; --text: #ecf0f3; --muted: #a6b0b8; --faint: #6f7a84; --line: #2e363d;
+      --sky: #2bbcf3; --sky-2: #1a9ee6; --sky-3: #1f6f99; --btn: #1386cc; --navy: #0e6aa6; --sky-soft: #12324a; --accent-text: #74cdf7;
+      --warn: #f5a524; --warn-soft: #3a2c12; --shadow: 0 12px 30px rgba(0, 0, 0, .4); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1215; --paper: #171b1f; --surface: #20262c; --text: #ecf0f3; --muted: #a6b0b8; --faint: #6f7a84; --line: #2e363d;
+    --sky: #2bbcf3; --sky-2: #1a9ee6; --sky-3: #1f6f99; --btn: #1386cc; --navy: #0e6aa6; --sky-soft: #12324a; --accent-text: #74cdf7;
+    --warn: #f5a524; --warn-soft: #3a2c12; --shadow: 0 12px 30px rgba(0, 0, 0, .4); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .wrap { width: min(1000px, 100% - 32px); margin: 0 auto; padding: 18px 0 60px; }
+  .sheet { position: relative; background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(18px, 4vw, 40px); }
+  .sheet + .sheet { margin-top: 24px; }
+  .hidden { display: none !important; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- Навігація ---------- */
+  .secnav {
+    position: sticky; top: 0; z-index: 40; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    margin: 0 -4px 14px; padding: 10px 4px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px);
+  }
+  .secnav::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) { .secnav { flex-wrap: wrap; justify-content: center; } }
+  .secnav a {
+    flex: none; text-decoration: none; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px 13px; font-size: 13px; font-weight: 700; white-space: nowrap; transition: background .2s, color .2s;
+  }
+  .secnav a:hover { border-color: var(--sky); color: var(--text); }
+  .secnav a.on { background: var(--btn); border-color: var(--btn); color: var(--on-sky); }
+  .secnav a.ok::after { content: " ✓"; color: var(--ok); }
+  .secnav a.on.ok::after { color: #c9f5d4; }
+
+  /* ---------- Шапка як у зошиті ---------- */
+  .lesson { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+  .lesson-num {
+    background: var(--sky); color: var(--on-sky); border-radius: 10px; padding: 7px 12px 5px; text-align: center;
+    font-family: "Unbounded", sans-serif; line-height: 1;
+  }
+  .lesson-num b { display: block; font-size: 34px; font-weight: 700; }
+  .lesson-num small { font-family: "Inter", sans-serif; font-size: 10px; letter-spacing: .04em; }
+  .lesson-sub { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+  h1 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(21px, 3.4vw, 32px); line-height: 1.15; margin: 2px 0 0; text-wrap: balance; }
+  h2 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(17px, 2.6vw, 22px); line-height: 1.2; margin: 2px 0 0; text-wrap: balance; }
+
+  /* Слот «наліпка настрою» */
+  .mood { position: relative; }
+  .sticker {
+    width: 132px; min-height: 68px; border: 2px dashed var(--line); border-radius: 14px; background: transparent;
+    display: grid; place-items: center; color: var(--faint); font-family: "Unbounded", sans-serif; font-size: 12px; line-height: 1.2;
+    padding: 6px; transition: transform .2s, border-color .2s;
+  }
+  .sticker:hover { border-color: var(--sky); transform: rotate(-3deg); }
+  .sticker.has { border-color: transparent; font-size: 40px; padding: 0; }
+  .sticker.has img { width: 92px; height: auto; }
+  .sticker.has > * { animation: stick .55s cubic-bezier(.2, 1.6, .4, 1) both; transform: rotate(-6deg); }
+  @keyframes stick { from { transform: scale(1.6) rotate(12deg); opacity: 0; } to { transform: scale(1) rotate(-6deg); opacity: 1; } }
+  .mood-pop {
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 50; width: 260px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; box-shadow: var(--shadow); padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  }
+  .mood-pop p { grid-column: 1 / -1; margin: 0 0 2px; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .mood-pop button { border: 1px solid var(--line); background: var(--paper); border-radius: 12px; padding: 4px; font-size: 26px; min-height: 52px; display: grid; place-items: center; }
+  .mood-pop button:hover { border-color: var(--sky); background: var(--sky-soft); }
+  .mood-pop button.big { grid-column: span 2; min-height: 96px; }
+  .mood-pop button.big img { width: 76px; height: auto; }
+  .mood-pop .off { grid-column: 1 / -1; font-size: 13px; font-weight: 700; min-height: 0; padding: 6px; color: var(--muted); }
+
+  /* Наліпки-картинки виглядають як наклейки */
+  .stk { filter: drop-shadow(0 3px 4px rgba(0, 0, 0, .25)); transform: rotate(-6deg); transition: transform .25s, filter .25s; user-select: none; -webkit-user-drag: none; }
+  .stk:hover { transform: rotate(-1deg) translateY(-4px) scale(1.04); filter: drop-shadow(0 10px 10px rgba(0, 0, 0, .28)); }
+  .award { position: absolute; top: -20px; right: -4px; width: 78px; height: auto; z-index: 5; pointer-events: auto; }
+  .award.fly { animation: flyin .9s cubic-bezier(.2, 1.3, .4, 1) both; }
+  @keyframes flyin {
+    0% { transform: translate(-60vw, 30vh) rotate(-60deg) scale(.4); opacity: 0; }
+    60% { opacity: 1; }
+    100% { transform: rotate(-6deg) scale(1); opacity: 1; }
+  }
+  .takeoff { position: fixed; left: -140px; bottom: 10vh; width: 120px; z-index: 99; pointer-events: none; animation: takeoff 2.4s cubic-bezier(.45, 0, .3, 1) forwards; }
+  @keyframes takeoff {
+    0% { transform: translate(0, 0) rotate(10deg); }
+    50% { transform: translate(55vw, -25vh) rotate(-8deg) scale(1.15); }
+    100% { transform: translate(115vw, -90vh) rotate(-20deg) scale(.7); }
+  }
+
+  /* Текстові наліпки Campus */
+  .tstk {
+    display: inline-flex; flex-direction: column; align-items: flex-start; gap: 4px; background: #fff; color: #1b1b1f;
+    border-radius: 14px; padding: 9px 12px 10px; box-shadow: 0 6px 16px rgba(0, 0, 0, .16); transform: rotate(-4deg);
+    font-weight: 800; font-size: 15px; line-height: 1.1; transition: transform .25s; flex: none;
+  }
+  .tstk span { background: var(--sky); color: #fff; border-radius: 7px; padding: 3px 8px 4px; font-size: 14px; }
+  .tstk.r { transform: rotate(3deg); }
+  .tstk:hover { transform: rotate(0) translateY(-3px); }
+
+  /* ---------- Загальне ---------- */
+  .quote { margin: 22px 0 0; font-size: clamp(17px, 2.4vw, 20px); font-style: italic; font-weight: 500; }
+  .intro { color: var(--muted); max-width: 720px; margin: 8px 0 0; }
+  .sec-head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin-bottom: 6px; padding-right: 50px; }
+  .sec-num {
+    width: 40px; height: 40px; border-radius: 12px; background: var(--sky-soft); color: var(--accent-text); display: grid; place-items: center;
+    font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 17px; transition: background .3s, color .3s;
+  }
+  .sheet.done .sec-num { background: var(--ok); color: #fff; }
+  .sec-tools { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .q { font-weight: 800; font-size: 17px; margin: 22px 0 2px; }
+  .hint { color: var(--muted); font-size: 14px; margin: 0 0 12px; max-width: 760px; }
+  .btn {
+    border: 0; border-radius: 12px; background: var(--btn); color: var(--on-sky); font-weight: 800; padding: 11px 18px;
+    white-space: nowrap; transition: background .2s, transform .15s;
+  }
+  .btn:hover { background: var(--navy); transform: translateY(-1px); }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+  .btn-ghost:hover { background: var(--sky-soft); }
+  .btn-s { font-size: 13px; padding: 7px 12px; border-radius: 10px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600;
+    transition: border-color .2s, background .2s, color .2s;
+  }
+  .chip:hover { border-color: var(--sky); background: var(--sky-soft); }
+  .chip[aria-pressed="true"], .chip.on { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .field { display: block; }
+  .field > span { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+  .inp, textarea.inp, select.inp {
+    width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; font-size: 15px;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .inp:focus { outline: 0; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-soft); }
+  textarea.inp { resize: vertical; min-height: 92px; line-height: 1.45; }
+  .inp::placeholder { color: var(--faint); }
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 30px); opacity: 0; pointer-events: none; max-width: calc(100% - 32px);
+    background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; transition: .3s; z-index: 90;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* ---------- Прогрес сторінки ---------- */
+  .prog { margin-top: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+  .prog-top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: baseline; font-size: 14px; }
+  .prog-top b { font-family: "Unbounded", sans-serif; font-size: 15px; }
+  .bar { height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; margin: 10px 0 10px; }
+  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--sky), var(--sky-2)); border-radius: 99px; transition: width .6s; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { font-size: 12px; font-weight: 700; border-radius: 99px; padding: 4px 10px; background: var(--paper); color: var(--faint); border: 1px solid var(--line); text-decoration: none; }
+  .pill.ok { background: var(--sky-soft); color: var(--accent-text); border-color: transparent; }
+  .badge { display: inline-flex; gap: 6px; align-items: center; font-weight: 800; color: var(--accent-text); }
+
+  /* ---------- 1. Таймлайн-приклад ---------- */
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 14px; }
+  .tl-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; align-items: start; }
+  .tl { list-style: none; margin: 0; padding: 0; }
+  .tl li { display: grid; grid-template-columns: 104px 26px 1fr; gap: 10px; align-items: center; min-height: 32px; position: relative; cursor: pointer; }
+  .tl li::before { content: ""; position: absolute; left: 116px; top: 0; bottom: 0; width: 3px; background: var(--sky-3); opacity: .5; }
+  .tl li:first-child::before { top: 50%; }
+  .tl li:last-child::before { bottom: 50%; }
+  .tl li.past::before, .tl li.cur::before { background: var(--sky); opacity: 1; }
+  .tl li.cur::before { bottom: 50%; }
+  .tl li.cur:first-child::before { display: none; }
+  .tl .per { text-align: right; font-size: 12px; font-weight: 800; color: var(--accent-text); }
+  .tl .dot { justify-self: center; width: 13px; height: 13px; border-radius: 50%; background: var(--surface); border: 3px solid var(--sky); position: relative; z-index: 1; transition: transform .25s, background .25s; }
+  .tl li.big .dot { width: 20px; height: 20px; border-color: var(--navy); }
+  .tl li.past .dot { background: var(--sky); }
+  .tl li.big.past .dot { background: var(--navy); }
+  .tl li.cur .dot { background: var(--sky); transform: scale(1.5); box-shadow: 0 0 0 6px var(--sky-soft); }
+  .tl .txt { font-size: 14px; color: var(--muted); transition: color .2s; }
+  .tl li.big .txt { font-weight: 800; color: var(--accent-text); text-transform: uppercase; font-size: 13px; letter-spacing: .02em; }
+  .tl li.cur .txt, .tl li.past .txt { color: var(--text); }
+  .tl li.big.cur .txt, .tl li.big.past .txt { color: var(--accent-text); }
+  .tl li:hover .txt { color: var(--text); }
+  .tl-side { position: sticky; top: 70px; display: grid; gap: 12px; }
+  .phase { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .phase small { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--btn); border-radius: 6px; padding: 2px 8px; }
+  .phase small.ph-x { background: var(--navy); }
+  .phase small.ph-after { background: var(--ok); }
+  .phase .p-per { font-family: "Unbounded", sans-serif; font-size: 18px; margin: 10px 0 2px; }
+  .phase .p-txt { font-weight: 600; min-height: 48px; }
+  .phase .p-tip { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+  .tl-ctrl { display: flex; gap: 8px; align-items: center; }
+  .tl-ctrl input { flex: 1; min-width: 0; accent-color: var(--sky-2); }
+
+  /* ---------- 2. Своя послідовність ---------- */
+  .ruler { display: flex; align-items: center; gap: 0; margin: 4px 0 14px; }
+  .ruler i { flex: 1; height: 4px; background: var(--line); transition: background .3s; }
+  .ruler b { flex: none; width: 14px; height: 14px; border-radius: 50%; background: var(--line); transition: background .3s, transform .3s; }
+  .ruler b.on { background: var(--sky); }
+  .ruler b.on + i { background: var(--sky-3); }
+  .ruler b:last-of-type { width: 22px; height: 22px; }
+  .ruler b.lit { transform: scale(1.6); background: var(--warn); }
+  .ruler-txt { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .seq { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .seq li { display: grid; grid-template-columns: 128px 1fr; gap: 8px; align-items: stretch; transition: transform .2s; }
+  .seq .per {
+    display: grid; place-items: center; text-align: center; background: var(--navy); color: #fff; font-size: 12px; font-weight: 700;
+    border-radius: 8px; padding: 6px; transition: background .3s, transform .3s;
+  }
+  .seq.mkt .per { background: var(--sky); color: #083a5a; }
+  .seq li:last-child .per { font-weight: 800; letter-spacing: .03em; }
+  .seq input { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 12px; font-size: 15px; min-width: 0; }
+  .seq input:focus { outline: 0; border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-soft); }
+  .seq li.lit .per { background: var(--warn); color: #fff; transform: scale(1.05); }
+  .seq li.lit input { border-color: var(--warn); }
+  .go-x { text-align: center; font-family: "Unbounded", sans-serif; font-size: 22px; color: var(--accent-text); margin-top: 10px; min-height: 30px; }
+  .go-x.boom { animation: boom .8s both; }
+  @keyframes boom { 0% { transform: scale(.4); opacity: 0; } 60% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); } }
+
+  /* ---------- 3. Хто і коли ---------- */
+  .who-list { display: grid; gap: 6px; }
+  .who-row { display: grid; grid-template-columns: 110px 1fr 210px; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 6px 8px 6px 12px; }
+  .who-row .per { font-size: 12px; font-weight: 800; color: var(--accent-text); }
+  .who-row .per em { display: block; font-style: normal; font-weight: 600; color: var(--faint); font-size: 11px; }
+  .who-row .t { font-size: 14px; }
+  .who-row select { border: 1px solid var(--line); background: var(--paper); border-radius: 8px; padding: 7px 8px; font-size: 14px; min-width: 0; width: 100%; }
+  .who-row.set { border-color: var(--sky-3); }
+  .empty { border: 2px dashed var(--line); border-radius: 12px; padding: 16px; color: var(--faint); font-size: 14px; text-align: center; }
+  .load { display: grid; gap: 8px; margin-top: 16px; }
+  .load-row { display: grid; grid-template-columns: 150px 1fr 34px; gap: 10px; align-items: center; font-size: 13px; font-weight: 600; }
+  .load-row .lb { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .load-row .tr { height: 12px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .load-row .tr i { display: block; height: 100%; background: var(--sky); border-radius: 99px; transition: width .5s; }
+  .load-row.me .tr i { background: var(--navy); }
+  .load-row.hot .tr i { background: var(--warn); }
+  .warnbox { margin-top: 12px; background: var(--warn-soft); border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+
+  /* ---------- 4. Команда мрії ---------- */
+  .dream { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; margin-top: 8px; }
+  .deck, .table { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; min-height: 60px; border-radius: 16px; padding: 10px; transition: background .2s, box-shadow .2s; }
+  .deck { background: transparent; border: 2px dashed var(--line); }
+  .table {
+    min-height: 150px; background: radial-gradient(ellipse at center, var(--sky-soft) 0, var(--sky-soft) 55%, transparent 56%), var(--surface);
+    border: 2px solid var(--sky-3); border-radius: 80px / 50px; padding: 26px 22px; justify-content: center; align-items: center; position: relative;
+  }
+  .table::before { content: "стіл команди"; position: absolute; top: 7px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-text); opacity: .7; }
+  .table .ph { color: var(--faint); font-size: 13px; text-align: center; }
+  .over { box-shadow: 0 0 0 4px var(--sky); }
+  .role {
+    display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--surface); border-radius: 12px;
+    padding: 8px 11px; font-size: 13px; font-weight: 700; touch-action: manipulation; transition: transform .15s, box-shadow .2s;
+  }
+  .role:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0, 0, 0, .08); }
+  .role .e { font-size: 17px; }
+  .role.in { background: var(--navy); color: #fff; border-color: var(--navy); animation: land .4s cubic-bezier(.2, 1.5, .4, 1) both; }
+  .role.in.found { background: var(--btn); }
+  @keyframes land { from { transform: translateY(-14px) scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
+  .role[draggable="true"] { cursor: grab; }
+  .donut-box { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px; position: sticky; top: 70px; }
+  .donut { display: block; width: 210px; max-width: 100%; margin: 0 auto; }
+  .seg { transition: fill .4s; stroke: var(--surface); stroke-width: 2; }
+  .seg.me { fill: var(--navy); }
+  .seg.person { fill: var(--sky); }
+  .seg.want { fill: url(#hatch); }
+  .seg.gap { fill: var(--line); }
+  .hatch-a { fill: var(--sky-soft); }
+  .hatch-b { fill: var(--sky-3); }
+  .d-big { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 30px; fill: var(--text); }
+  .d-sm { font-size: 11px; fill: var(--muted); font-weight: 600; }
+  .legend { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 4px; font-size: 13px; }
+  .legend li { display: grid; grid-template-columns: 12px 22px 1fr; gap: 6px; align-items: center; }
+  .legend i { width: 12px; height: 12px; border-radius: 3px; background: var(--line); }
+  .legend .me i { background: var(--navy); }
+  .legend .person i { background: var(--sky); }
+  .legend .want i { background: repeating-linear-gradient(45deg, var(--sky-soft) 0 3px, var(--sky-3) 3px 6px); }
+  .legend em { font-style: normal; color: var(--muted); }
+  .legend .gap em { color: var(--no); font-weight: 600; }
+  .keys { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11px; color: var(--muted); margin-top: 8px; justify-content: center; }
+  .keys span::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+  .keys .k1::before { background: var(--navy); }
+  .keys .k2::before { background: var(--sky); }
+  .keys .k3::before { background: repeating-linear-gradient(45deg, var(--sky-soft) 0 2px, var(--sky-3) 2px 4px); }
+  .keys .k4::before { background: var(--line); }
+  .seek { margin-top: 14px; background: var(--sky-soft); border-radius: 14px; padding: 12px 14px; font-size: 14px; }
+  .seek b { color: var(--accent-text); }
+  .seek .chips { margin-top: 8px; }
+  .supermsg { font-size: 13px; color: var(--warn); font-weight: 600; min-height: 20px; margin-top: 6px; }
+
+  /* ---------- 5. Люди поруч ---------- */
+  .ptable { display: grid; gap: 6px; }
+  .prow { display: grid; grid-template-columns: 1.1fr 1fr 1fr 1.4fr 34px; gap: 6px; align-items: center; }
+  .phead { font-size: 12px; font-weight: 700; color: #fff; }
+  .phead div { background: var(--sky-2); border-radius: 8px; padding: 8px 10px; text-align: center; line-height: 1.2; }
+  .prow .inp { padding: 9px 10px; font-size: 14px; }
+  .rm { border: 0; background: transparent; color: var(--faint); font-size: 20px; line-height: 1; padding: 4px; border-radius: 8px; }
+  .rm:hover { color: var(--no); background: var(--surface); }
+  .cost { margin-top: 18px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .way { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; text-align: left; display: grid; gap: 4px; }
+  .way b { font-size: 14px; }
+  .way .m { display: flex; gap: 6px; font-size: 12px; color: var(--muted); align-items: center; }
+  .way .m i { flex: 1; height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; position: relative; }
+  .way .m i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--v); background: var(--sky); border-radius: 99px; }
+  .way .m.share i::after { background: var(--navy); }
+  .way .m.risk i::after { background: var(--warn); }
+  .way:hover { border-color: var(--sky); }
+
+  /* ---------- 6. Оргструктура ---------- */
+  .org-top { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; justify-content: space-between; margin: 6px 0 12px; }
+  .org-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .month { display: grid; grid-template-columns: auto minmax(120px, 260px) auto; gap: 10px; align-items: center; font-size: 13px; font-weight: 700; }
+  .month input { accent-color: var(--sky-2); width: 100%; }
+  .month output { font-family: "Unbounded", sans-serif; font-size: 13px; color: var(--accent-text); min-width: 74px; }
+  .org-scroll { overflow-x: auto; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); padding: 10px; }
+  #orgSvg { display: block; margin: 0 auto; height: auto; }
+  .ln { stroke: var(--sky-3); stroke-width: 2.5; fill: none; }
+  .node { cursor: pointer; outline: none; transition: opacity .35s; }
+  .node rect { transition: stroke .2s, fill .3s; }
+  .node text { pointer-events: none; font-family: Inter, system-ui, sans-serif; }
+  .n-root rect { fill: var(--navy); }
+  .n-root text, .n-dir text { fill: #fff; font-weight: 800; }
+  .n-dir rect { fill: var(--btn); }
+  .n-role rect { fill: var(--paper); stroke: var(--line); stroke-width: 1.5; }
+  .n-role text { fill: var(--text); font-weight: 700; }
+  .n-role text.sub { fill: var(--muted); font-weight: 600; }
+  .n-add rect { fill: transparent; stroke: var(--sky); stroke-width: 1.5; stroke-dasharray: 5 4; }
+  .n-add text { fill: var(--accent-text); font-weight: 700; }
+  .node:hover rect, .node:focus-visible rect { stroke: var(--sky); stroke-width: 3; }
+  .node.sel rect { stroke: var(--warn); stroke-width: 3; }
+  .node.future { opacity: .32; }
+  .node.future rect { stroke-dasharray: 4 3; }
+  .node.pop { animation: pop .45s cubic-bezier(.2, 1.6, .4, 1) both; transform-box: fill-box; transform-origin: center; }
+  @keyframes pop { from { transform: scale(.3); opacity: 0; } to { transform: none; opacity: 1; } }
+  .org-edit { margin-top: 12px; background: var(--sky-soft); border-radius: 14px; padding: 12px 14px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: 10px; align-items: end; }
+  .org-edit .t { grid-column: 1 / -1; font-size: 13px; font-weight: 800; color: var(--accent-text); }
+  .org-edit.idle { display: block; color: var(--muted); font-size: 14px; }
+  .org-sum { font-size: 14px; color: var(--muted); margin-top: 10px; }
+  .org-sum b { color: var(--text); }
+
+  /* ---------- 7. ДЗ ---------- */
+  .hw-head { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin: 6px 0 4px; }
+  .ad { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 24px; align-items: start; }
+  .ad-form { display: grid; gap: 10px; }
+  .poster {
+    position: relative; border-radius: 20px; padding: 20px 18px 18px; color: #fff; min-height: 300px; overflow: hidden;
+    background: linear-gradient(150deg, #1fb5f0 0%, #0a84cc 55%, #0b5f95 100%); box-shadow: 0 16px 34px rgba(11, 95, 149, .3);
+  }
+  .poster::before { content: ""; position: absolute; right: -60px; top: -60px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255, 255, 255, .12); }
+  .poster .tag { display: inline-block; background: #fff; color: #0b5f95; font-weight: 800; font-size: 11px; letter-spacing: .12em; border-radius: 6px; padding: 3px 8px; }
+  .poster h3 { font-family: "Unbounded", sans-serif; font-size: 22px; line-height: 1.15; margin: 12px 0 10px; overflow-wrap: anywhere; position: relative; }
+  .poster p { margin: 0 0 8px; font-size: 14px; overflow-wrap: anywhere; }
+  .poster p b { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
+  .poster .ct { margin-top: 12px; background: rgba(255, 255, 255, .18); border-radius: 10px; padding: 8px 10px; font-weight: 700; }
+  .poster .blank { opacity: .55; font-style: italic; }
+  .pilot { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+  .pilot img { width: 84px; height: auto; flex: none; }
+  .pilot .bub { background: var(--surface); border: 1px solid var(--line); border-radius: 14px 14px 14px 4px; padding: 8px 12px; font-size: 13px; color: var(--muted); }
+  .pilot img.hop { animation: hop .9s both; }
+  @keyframes hop { 30% { transform: translateY(-26px) rotate(-14deg); } 60% { transform: translateY(-8px) rotate(2deg); } 100% { transform: rotate(-6deg); } }
+  .talk-form { display: grid; grid-template-columns: 1fr auto 1.5fr auto; gap: 8px; align-items: end; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px; }
+  .reacts { display: flex; gap: 4px; }
+  .reacts button { border: 1px solid var(--line); background: var(--paper); border-radius: 10px; font-size: 20px; width: 42px; height: 42px; padding: 0; }
+  .reacts button[aria-pressed="true"] { border-color: var(--sky-2); background: var(--sky-soft); box-shadow: 0 0 0 2px var(--sky-3); }
+  .talks { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+  .talks li { display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; animation: land .35s both; }
+  .talks .em { font-size: 22px; }
+  .talks .tx { font-size: 14px; }
+  .talks .tx b { margin-right: 6px; }
+  .talk-meter { display: flex; gap: 6px; align-items: center; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--muted); flex-wrap: wrap; }
+  .talk-meter span.dotx { width: 22px; height: 22px; border-radius: 50%; border: 2px dashed var(--sky-3); display: inline-grid; place-items: center; font-size: 12px; }
+  .talk-meter span.dotx.on { background: var(--sky); border: 0; color: #fff; }
+
+  footer { text-align: center; margin-top: 28px; font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+  footer a { color: var(--accent-text); font-weight: 700; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 860px) {
+    .tl-wrap, .dream, .ad, .two { grid-template-columns: 1fr; }
+    .tl-side, .donut-box { position: static; }
+    .tl-side { order: -1; }
+    .cost { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 720px) {
+    .lesson { grid-template-columns: auto 1fr; }
+    .mood { grid-column: 1 / -1; }
+    .sticker { width: 100%; min-height: 50px; }
+    .sticker.has img { width: 74px; }
+    .mood-pop { left: 0; right: auto; width: 100%; }
+    .sec-head { grid-template-columns: auto 1fr; padding-right: 40px; }
+    .sec-tools { grid-column: 1 / -1; justify-content: flex-start; }
+    .award { width: 62px; top: -16px; }
+    .phead { display: none; }
+    .prow { grid-template-columns: 1fr 1fr; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px; position: relative; padding-top: 30px; }
+    .prow .rm { position: absolute; top: 2px; right: 4px; }
+    .prow .who { grid-column: 1 / -1; }
+    .prow .cond { grid-column: 1 / -1; }
+    .prow::before { content: attr(data-n); position: absolute; top: 7px; left: 10px; font-size: 11px; font-weight: 800; color: var(--accent-text); letter-spacing: .06em; text-transform: uppercase; }
+    .who-row { grid-template-columns: 1fr; gap: 4px; padding: 8px 10px; }
+    .org-edit { grid-template-columns: 1fr 1fr; }
+    .org-edit .wide { grid-column: 1 / -1; }
+    .talk-form { grid-template-columns: 1fr; }
+    .month { grid-template-columns: auto 1fr auto; width: 100%; }
+    .load-row { grid-template-columns: 110px 1fr 30px; }
+  }
+  @media (max-width: 480px) {
+    .tl li { grid-template-columns: 78px 22px 1fr; gap: 8px; }
+    .tl li::before { left: 94.5px; }
+    .tl .per { font-size: 11px; }
+    .tl .txt { font-size: 13px; }
+    .seq li { grid-template-columns: 96px 1fr; }
+    .seq .per { font-size: 11px; }
+    .cost { grid-template-columns: 1fr; }
+    .tstk { font-size: 13px; }
+    .tstk span { font-size: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  @media print {
+    body { background: #fff; }
+    .secnav, .sec-tools, .toast, .mood-pop, .award, footer a { display: none !important; }
+    .sheet { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<!-- Джерело наліпок: кожна вбудована лише раз, далі клонуємо src у JS -->
+<div hidden aria-hidden="true" id="stkPool">
+  <img data-st="goose" src="data:image/webp;base64,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" alt="Наліпка: гусак «Все ок, рухайся далі»" width="204" height="231">
+  <img data-st="sikorsky" src="data:image/webp;base64,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" alt="Наліпка: Ігор Сікорський «Ідеї злітають»" width="251" height="292">
+</div>
+
+<div class="wrap">
+  <nav class="secnav" id="secnav" aria-label="Розділи заняття">
+    <a href="#s1" data-s="s1">1 · Як запускати</a>
+    <a href="#s2" data-s="s2">2 · Твоя послідовність</a>
+    <a href="#s3" data-s="s3">3 · Хто і коли</a>
+    <a href="#s4" data-s="s4">4 · Команда мрії</a>
+    <a href="#s5" data-s="s5">5 · Люди поруч</a>
+    <a href="#s6" data-s="s6">6 · Оргструктура</a>
+    <a href="#s7" data-s="s7">7 · ДЗ</a>
+  </nav>
+
+  <!-- ===== Шапка ===== -->
+  <header class="sheet" id="top">
+    <div class="lesson">
+      <div class="lesson-num"><b>09</b><small>заняття</small></div>
+      <div>
+        <div class="lesson-sub">Як запустити свій проект</div>
+        <h1>Команда твого проєкту</h1>
+      </div>
+      <div class="mood">
+        <button class="sticker" id="sticker" type="button" aria-haspopup="true" aria-expanded="false" title="Обери наліпку настрою">наліпка<br>настрою</button>
+        <div class="mood-pop hidden" id="moodPop" role="menu" aria-label="Наліпка настрою">
+          <p>Як ти сьогодні?</p>
+          <button class="big" type="button" data-mood="goose" aria-label="Гусак «Все ок, рухайся далі»"></button>
+          <button class="big" type="button" data-mood="sikorsky" aria-label="Сікорський «Ідеї злітають»"></button>
+          <button type="button" data-mood="🤝" aria-label="Разом">🤝</button>
+          <button type="button" data-mood="🚀" aria-label="Готовий до старту">🚀</button>
+          <button type="button" data-mood="🔥" aria-label="Горю ідеєю">🔥</button>
+          <button type="button" data-mood="🤯" aria-label="Голова кипить">🤯</button>
+          <button class="off" type="button" data-mood="" >Зняти наліпку</button>
+        </div>
+      </div>
+    </div>
+    <p class="quote">«Все, чого немає написаного, — не існує».</p>
+    <p class="intro"><b>Разом</b> проєкт росте швидше. Сьогодні ти розпишеш, що і коли треба зробити до запуску, побачиш, які функції закриваєш сам, кого шукаєш, — і збереш команду та її структуру на найближчі пів року.</p>
+    <div class="prog" aria-live="polite">
+      <div class="prog-top"><b id="progTxt">0 з 7 розділів</b><span class="badge" id="badge">🎯 Мета — значок «Капітан команди»</span></div>
+      <div class="bar"><i id="progBar"></i></div>
+      <div class="pills" id="pills"></div>
+    </div>
+  </header>
+
+  <!-- ===== 1. Послідовність запуску — приклад ===== -->
+  <section class="sheet" id="s1">
+    <div class="sec-head">
+      <span class="sec-num">1</span>
+      <div><div class="lesson-sub">Приклад</div><h2>Пропиши послідовність запуску</h2></div>
+    </div>
+    <p class="hint">Запуск — це не один день, а ланцюжок кроків до і після «Дня Х». Подивись, як це виглядає на прикладі. Тисни на крок або програй увесь запуск.</p>
+    <div class="tabs" role="tablist" id="exTabs"></div>
+    <div class="tl-wrap">
+      <ol class="tl" id="tl"></ol>
+      <div class="tl-side">
+        <div class="phase" aria-live="polite">
+          <small id="phTag">Підготовка</small>
+          <div class="p-per" id="phPer"></div>
+          <div class="p-txt" id="phTxt"></div>
+          <p class="p-tip" id="phTip"></p>
+        </div>
+        <div class="tl-ctrl">
+          <button class="btn btn-s" id="tlPlay" type="button">▶ Програти запуск</button>
+          <label class="sr" for="tlRange">Крок запуску</label>
+          <input type="range" id="tlRange" min="0" max="10" value="0">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 2. Своя послідовність ===== -->
+  <section class="sheet" id="s2">
+    <div class="sec-head">
+      <span class="sec-num">2</span>
+      <div><div class="lesson-sub">Відлік до Дня Х</div><h2>Тепер розпиши свою послідовність</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-s" type="button" data-example="s2">✨ Приклад</button>
+        <button class="btn btn-ghost btn-s" type="button" data-clear="s2">Очистити</button>
+      </div>
+    </div>
+    <p class="hint">Два сценарії, як у зошиті: відкриття нової локації і вихід на новий ринок. Що конкретно треба зробити в кожен період?</p>
+    <div class="tabs" role="tablist" id="seqTabs">
+      <button class="chip" role="tab" type="button" data-tab="loc">📍 Відкриття нової локації</button>
+      <button class="chip" role="tab" type="button" data-tab="mkt">🌍 Вихід на новий ринок</button>
+    </div>
+    <div class="ruler" id="ruler" aria-hidden="true"></div>
+    <div class="ruler-txt" id="rulerTxt"></div>
+    <ol class="seq" id="seq" style="margin-top:10px"></ol>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center">
+      <button class="btn" type="button" id="countdown">🚀 Запустити відлік</button>
+      <span class="hint" style="margin:0">Пройдись по своєму плану — кожен крок підсвітиться по черзі.</span>
+    </div>
+    <div class="go-x" id="goX" aria-live="polite"></div>
+  </section>
+
+  <!-- ===== 3. Хто і коли ===== -->
+  <section class="sheet" id="s3">
+    <div class="sec-head">
+      <span class="sec-num">3</span>
+      <div><div class="lesson-sub">Відповідальні</div><h2>Напиши, хто і коли має це зробити</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-s" type="button" data-example="s3">✨ Приклад</button>
+        <button class="btn btn-ghost btn-s" type="button" data-clear="s3">Очистити</button>
+      </div>
+    </div>
+    <p class="hint">У кожного кроку має бути «власник». Признач відповідальних — і подивись, на кого лягає найбільше. Люди з розділу 5 і ролі зі столу команди (розділ 4) теж з'являться в списку.</p>
+    <div class="who-list" id="whoList"></div>
+    <div class="two" style="margin-top:6px">
+      <div>
+        <p class="q">Навантаження</p>
+        <div class="load" id="load"></div>
+        <div id="loadWarn"></div>
+      </div>
+      <label class="field">
+        <p class="q" style="margin-bottom:8px">Нотатки: хто, коли, що саме</p>
+        <textarea class="inp" id="whoText" rows="5" placeholder="Напр.: Я — домовляюся про приміщення до 1 березня. Оля — вивіска й меню за 2 тижні до відкриття…"></textarea>
+      </label>
+    </div>
+  </section>
+
+  <!-- ===== 4. Команда мрії ===== -->
+  <section class="sheet" id="s4">
+    <div class="sec-head">
+      <span class="sec-num">4</span>
+      <div><div class="lesson-sub">Функції і ролі</div><h2>Збери команду мрії</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-s" type="button" data-example="s4">✨ Приклад</button>
+        <button class="btn btn-ghost btn-s" type="button" data-clear="s4">Очистити</button>
+      </div>
+    </div>
+    <p class="q">Крок 1. Які функції ти чесно закриваєш сам?</p>
+    <p class="hint">Функція — це «для чого» (що треба робити). Обери те, що вмієш робити добре вже зараз.</p>
+    <div class="chips" id="meChips"></div>
+    <div class="supermsg" id="superMsg" aria-live="polite"></div>
+    <div class="dream">
+      <div>
+        <p class="q" style="margin-top:6px">Крок 2. Кого посадиш за стіл?</p>
+        <p class="hint">Роль — це «яка посада». Перетягни картку на стіл або просто натисни на неї. Натисни ще раз — повернеться в колоду.</p>
+        <div class="table" id="table" aria-label="Стіл команди"></div>
+        <p class="hint" style="margin:14px 0 6px;font-weight:700">Колода ролей</p>
+        <div class="deck" id="deck" aria-label="Колода ролей"></div>
+        <div class="seek" id="seek" aria-live="polite"></div>
+      </div>
+      <div class="donut-box">
+        <svg class="donut" id="donut" viewBox="0 0 200 200" role="img" aria-label="Покриття функцій командою"></svg>
+        <div class="keys"><span class="k1">ти</span><span class="k2">є людина</span><span class="k3">шукаєш</span><span class="k4">ніхто</span></div>
+        <ul class="legend" id="legend"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. Люди поруч ===== -->
+  <section class="sheet" id="s5">
+    <div class="sec-head">
+      <span class="sec-num">5</span>
+      <div><div class="lesson-sub">На кого спертися</div><h2>Склади перелік людей, на яких можеш розраховувати</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-s" type="button" data-example="s5">✨ Приклад</button>
+        <button class="btn btn-ghost btn-s" type="button" data-clear="s5">Очистити</button>
+      </div>
+    </div>
+    <p class="hint">Які функції (для чого?) і ролі (які посади?) вони можуть закривати — і на яких умовах ти їх залучиш. Функції людей одразу зафарбують кільце в розділі 4.</p>
+    <div class="ptable" id="ptable">
+      <div class="prow phead" aria-hidden="true"><div>Хто (ПІ)</div><div>Функція</div><div>Роль</div><div>На яких умовах долучиш?</div><span></span></div>
+    </div>
+    <datalist id="roleList"></datalist>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center">
+      <button class="btn btn-ghost btn-s" type="button" id="addPerson">+ Додати людину</button>
+      <span class="hint" style="margin:0 0 0 6px">Швидкі умови:</span>
+      <div class="chips" id="condChips"></div>
+    </div>
+    <p class="q">Яка вартість залучення різними способами?</p>
+    <p class="hint">Кожен спосіб чимось «оплачується»: грошима зараз, часткою в компанії чи ризиком, що людина зникне. Натисни на спосіб, щоб додати його в нотатки.</p>
+    <div class="cost" id="cost"></div>
+    <label class="field" style="margin-top:10px">
+      <span>Твої висновки про вартість залучення</span>
+      <textarea class="inp" id="costText" rows="3" placeholder="Напр.: дизайнерці — частка, бо грошей зараз мало; бухгалтер — аутсорс за фіксовану плату…"></textarea>
+    </label>
+  </section>
+
+  <!-- ===== 6. Оргструктура ===== -->
+  <section class="sheet" id="s6">
+    <div class="sec-head">
+      <span class="sec-num">6</span>
+      <div><div class="lesson-sub">Хто кому підпорядковується</div><h2>Склади організаційну структуру</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-s" type="button" data-example="s6">✨ Приклад</button>
+        <button class="btn btn-ghost btn-s" type="button" data-clear="s6">Очистити</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+      <p class="hint" style="margin:0;flex:1 1 320px">Посади, потрібні на наступні пів року. Натисни на блок, щоб перейменувати його, вписати людину і місяць, коли вона потрібна. «+ роль» — додати посаду в напрямок.</p>
+      <div class="tstk r" aria-hidden="true">з'єднай<span>точки</span></div>
+    </div>
+    <div class="org-top">
+      <div class="org-btns">
+        <button class="btn btn-ghost btn-s" type="button" id="addDir">+ Напрямок</button>
+        <button class="btn btn-ghost btn-s" type="button" id="fromDream">⚡ Зібрати зі столу команди</button>
+      </div>
+      <label class="month">
+        <span>Команда</span>
+        <input type="range" id="month" min="0" max="6" value="6" aria-label="Місяць від сьогодні">
+        <output id="monthOut">через 6 міс</output>
+      </label>
+    </div>
+    <div class="org-scroll"><svg id="orgSvg" role="group" aria-label="Організаційна структура"></svg></div>
+    <div class="org-edit idle" id="orgEdit">Натисни на будь-який блок схеми, щоб його редагувати.</div>
+    <div class="org-sum" id="orgSum" aria-live="polite"></div>
+  </section>
+
+  <!-- ===== 7. Домашнє завдання ===== -->
+  <section class="sheet" id="s7">
+    <div class="sec-head">
+      <span class="sec-num">7</span>
+      <div><div class="lesson-sub">Заняття 9 · Домашнє завдання</div><h2>Друзі вірять у тебе</h2></div>
+      <div class="sec-tools">
+        <button class="btn btn-ghost btn-s" type="button" data-example="s7">✨ Приклад</button>
+        <button class="btn btn-ghost btn-s" type="button" data-clear="s7">Очистити</button>
+      </div>
+    </div>
+    <div class="hw-head">
+      <p class="hint" style="margin:0;flex:1 1 320px;font-size:15px;color:var(--text)"><b>Поспілкуйся з друзями і знайомими, розкажи про свій проєкт.</b><br>Запропонуй долучитися — і послухай їхній зворотний зв'язок.</p>
+      <div class="tstk" aria-hidden="true">це трохи<span>віри в себе</span></div>
+    </div>
+
+    <p class="q">Оголошення «Шукаю в команду»</p>
+    <p class="hint">Збери коротке оголошення — його зручно надіслати другові чи кинути в чат класу.</p>
+    <div class="ad">
+      <div class="ad-form">
+        <label class="field"><span>Мій проєкт одним реченням</span><input class="inp" data-ad="proj" maxlength="120" placeholder="Напр.: Багаторазові стакани для кав'ярень міста"></label>
+        <div class="field">
+          <label for="adWho" style="display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px">Кого шукаю</label>
+          <input class="inp" id="adWho" data-ad="who" maxlength="60" placeholder="Напр.: SMM-менеджера">
+          <div class="chips" id="adChips" style="margin-top:6px"></div>
+        </div>
+        <label class="field"><span>Що робитиме</span><input class="inp" data-ad="what" maxlength="140" placeholder="Напр.: вести Instagram, 5 годин на тиждень"></label>
+        <label class="field"><span>Що пропоную</span><input class="inp" data-ad="offer" maxlength="140" placeholder="Напр.: досвід у стартапі, % від продажів"></label>
+        <label class="field"><span>Як зв'язатися</span><input class="inp" data-ad="contact" maxlength="80" placeholder="Напр.: @nickname у Telegram"></label>
+      </div>
+      <div>
+        <div class="poster" id="poster" aria-live="polite"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn btn-s" type="button" id="copyAd">📋 Копіювати оголошення</button>
+        </div>
+        <div class="pilot" id="pilot"><span class="bub">Ідеї злітають, коли є з ким їх підняти. Розкажи про свою ще комусь!</span></div>
+      </div>
+    </div>
+
+    <p class="q">Журнал розмов</p>
+    <p class="hint">З ким поговорив, як відреагували і що порадили. Мета — щонайменше 5 розмов.</p>
+    <form class="talk-form" id="talkForm" autocomplete="off">
+      <label class="field"><span>З ким</span><input class="inp" id="tName" maxlength="40" placeholder="Ім'я"></label>
+      <div class="field"><span>Реакція</span>
+        <div class="reacts" id="reacts" role="radiogroup" aria-label="Реакція"></div>
+      </div>
+      <label class="field"><span>Що сказали / порадили</span><input class="inp" id="tText" maxlength="140" placeholder="Напр.: готовий допомогти з відео"></label>
+      <button class="btn" type="submit">Додати</button>
+    </form>
+    <div class="talk-meter" id="talkMeter"></div>
+    <ul class="talks" id="talks"></ul>
+  </section>
+
+  <footer>
+    <a href="index.html">← Усі зошити</a>
+    <span>Робочий зошит Campus 13 · Як запустити свій проект · заняття 09</span>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  'use strict';
+  const KEY = 'spe-komanda-v1';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Дані заняття ---------- */
+  const FUN = [
+    { id: 'prod', e: '🧭', t: 'Продукт і ідея' },
+    { id: 'tech', e: '💻', t: 'Технології' },
+    { id: 'design', e: '🎨', t: 'Дизайн і бренд' },
+    { id: 'mkt', e: '📣', t: 'Маркетинг і SMM' },
+    { id: 'sales', e: '🤝', t: 'Продажі й клієнти' },
+    { id: 'fin', e: '💰', t: 'Фінанси й облік' },
+    { id: 'ops', e: '⚙️', t: 'Операції й логістика' },
+    { id: 'law', e: '⚖️', t: 'Юридичні питання' },
+  ];
+  const FN = Object.fromEntries(FUN.map((f) => [f.id, f]));
+  const ROLES = [
+    { id: 'pm', e: '🧭', t: 'Продакт-менеджер', f: ['prod'] },
+    { id: 'dev', e: '💻', t: 'Розробник', f: ['tech'] },
+    { id: 'analyst', e: '📊', t: 'Аналітик', f: ['tech', 'fin'] },
+    { id: 'design', e: '🎨', t: 'Дизайнер', f: ['design'] },
+    { id: 'mkt', e: '📣', t: 'Маркетолог', f: ['mkt'] },
+    { id: 'smm', e: '📱', t: 'SMM / контент', f: ['mkt', 'design'] },
+    { id: 'sales', e: '🤝', t: 'Менеджер з продажу', f: ['sales'] },
+    { id: 'support', e: '💬', t: 'Підтримка клієнтів', f: ['sales'] },
+    { id: 'fin', e: '💰', t: 'Бухгалтер / фінансист', f: ['fin'] },
+    { id: 'ops', e: '⚙️', t: 'Операційний менеджер', f: ['ops'] },
+    { id: 'log', e: '📦', t: 'Логіст / закупівлі', f: ['ops'] },
+    { id: 'law', e: '⚖️', t: 'Юрист', f: ['law'] },
+  ];
+  const RL = Object.fromEntries(ROLES.map((r) => [r.id, r]));
+  const PERIODS = ['За три місяці', 'За два місяці', 'За місяць', 'За три тижні', 'За два тижні', 'За десять днів', 'За тиждень', "За п'ять днів", 'За три дні', 'День Х'];
+  const SCEN = { loc: 'Відкриття нової локації', mkt: 'Вихід на новий ринок' };
+
+  // Приклади запуску (перший — з зошита). b — ключова подія, ph — фаза
+  const TL = {
+    shop: { t: '🏪 Магазин', steps: [
+      ['За 3 міс', 'Email-розсилка: декларація про наміри'], ['За 2 міс', 'Інформування через газети в поштовій скриньці'],
+      ['За міс', 'Email-форма для попередніх замовлень'], ['За 3 тижні', 'Пропозиція оформити картку лояльності'],
+      ['За 2 тижні', 'Підготовка і монтаж вивіски'], ['За 10 днів', 'Реклама сайту магазину через email'],
+      ['За тиждень', 'Буклет із детальною інформацією про продукцію'], ['За 5 днів', 'Персональні дзвінки ключовим клієнтам'],
+      ['За 3 дні', 'SMS-розсилка'], ['За день', 'Прийом гостей з інших міст'], ['День Х', 'Відкриття магазину', 1],
+      ['Через день', 'Обробка й аналіз результатів першого дня'], ['Через 3 дні', 'Довезення матеріалів, яких забракло'],
+      ['День запуску', 'Контакт: чи почав користуватись товаром', 1], ['Через тиждень', 'Отримання відгуку від клієнта'],
+      ['Через 10 днів', 'Пропозиція повторної покупки'], ['Через місяць', 'Пропозиція оформити картку постійного покупця'],
+    ] },
+    product: { t: '📦 Новий товар', steps: [
+      ['За 3 міс', 'Опитати 20 клієнтів: чого їм бракує'], ['За 2 міс', 'Прототип і перші тести з друзями'],
+      ['За міс', 'Лендинг «Скоро» з формою передзамовлення'], ['За 3 тижні', 'Фото й відео товару для соцмереж'],
+      ['За 2 тижні', 'Домовитися з 3 блогерами про огляди'], ['За 10 днів', 'Тизер у сторіз: «вгадай, що це»'],
+      ['За тиждень', 'Знижка на передзамовлення для підписників'], ['За 5 днів', 'Перевірити склад і упаковку'],
+      ['За 3 дні', 'Прямий ефір: розпаковка'], ['За день', 'Нагадати всім, хто лишив заявку'], ['День Х', 'Старт продажів', 1],
+      ['Через день', 'Відповісти на всі коментарі й питання'], ['Через 3 дні', 'Аналіз: що купують і звідки приходять'],
+      ['Через тиждень', 'Зібрати перші відгуки й фото покупців'], ['Через 10 днів', 'Акція «купи другу — подаруй другові»'],
+      ['Через місяць', 'Рішення: масштабуємо чи доробляємо'],
+    ] },
+    market: { t: '🌍 Вихід на ринок', steps: [
+      ['За 3 міс', 'Дослідити ринок і конкурентів у новому місті'], ['За 2 міс', 'Знайти місцевого партнера чи дистриб’ютора'],
+      ['За міс', 'Адаптувати ціни, мову й упаковку'], ['За 3 тижні', 'Договори, реєстрація, логістика'],
+      ['За 2 тижні', 'Сторінка в соцмережах для нового регіону'], ['За 10 днів', 'Знайомство з місцевими медіа й спільнотами'],
+      ['За тиждень', 'Пробна партія у 2–3 точках продажу'], ['За 5 днів', 'Навчити команду партнера'],
+      ['За 3 дні', 'Таргетована реклама на нове місто'], ['День Х', 'Вихід на ринок', 1],
+      ['Через день', 'Перші продажі: що спрацювало'], ['Через тиждень', 'Зустріч із партнером: перші висновки'],
+      ['Через місяць', 'План розширення на нові точки'],
+    ] },
+  };
+  const TIPS = {
+    before: 'Підготовка: прогріваєш аудиторію і збираєш тих, хто вже чекає. Кожен крок — чиясь задача.',
+    x: 'Головний день. Усе, що підготовлено раніше, має спрацювати одночасно — без команди це майже неможливо.',
+    after: 'Після запуску: не загубити клієнта. Відгук, повторна покупка, лояльність — це теж частина плану.',
+  };
+
+  const SEQ_EX = {
+    loc: ['Обрати приміщення, порахувати оренду і потік людей', 'Ремонт, замовлення обладнання', 'Найняти 2 бариста, сторінка нової точки в Instagram',
+      'Домовитися з сусідніми офісами про корпоративні знижки', 'Вивіска, меню, дегустації для команди', 'Розіграш «кава на місяць» серед підписників',
+      'Листівки в офісах і ЖК поруч', 'Запросити місцевих блогерів на передвідкриття', 'Генеральна репетиція зміни', 'Відкриття! Перша кава — у подарунок'],
+    mkt: ['Вивчити конкурентів і ціни на новому ринку', 'Знайти службу доставки, перекласти сайт', 'Зареєструватися на маркетплейсі',
+      'Знайти 5 перших покупців серед знайомих', 'Сторінка в соцмережах мовою ринку', 'Пробна відправка: терміни й упаковка',
+      'Домовитися про огляд з місцевим блогером', 'Налаштувати рекламу на нове місто', 'Розсилка зі стартовою знижкою', 'Старт продажів на новому ринку'],
+  };
+  const PEOPLE_EX = [
+    { n: 'Оля Коваль', f: 'design', r: 'Дизайнерка', c: 'Частка 5% після 6 міс роботи' },
+    { n: 'Максим (брат)', f: 'tech', r: 'Розробник сайту', c: 'Оплата за задачу, зі знижкою' },
+    { n: 'Ірина Петрівна', f: 'fin', r: 'Радниця з фінансів', c: 'Безкоштовно, як менторка, раз на місяць' },
+    { n: 'Дмитро Савчук', f: 'sales', r: 'Менеджер з продажу', c: 'Ставка + 10% від продажів' },
+  ];
+  const CONDS = ['Частка в компанії', 'Зарплата / ставка', 'Оплата за задачу', '% від продажів', 'Досвід і портфоліо', 'Бартер'];
+  const WAYS = [
+    { t: '💵 Зарплата', d: 'Найнадійніше, але треба гроші щомісяця.', m: 85, s: 0, r: 20 },
+    { t: '🧾 Фриланс за задачу', d: 'Платиш тільки за результат, але людина не «твоя».', m: 50, s: 0, r: 50 },
+    { t: '📈 Частка в компанії', d: 'Без грошей зараз, але ділиш компанію назавжди.', m: 5, s: 90, r: 35 },
+    { t: '🤗 Друзі / волонтери', d: 'Безкоштовно, але без гарантій термінів.', m: 0, s: 0, r: 85 },
+  ];
+  const REACT = [['fire', '🔥', 'Хоче долучитися'], ['think', '🤔', 'Подумає'], ['tip', '💡', 'Дав пораду'], ['no', '🙅', 'Не цікаво']];
+  const RE = Object.fromEntries(REACT.map((r) => [r[0], r]));
+  const AD_EX = { proj: 'EcoCup — багаторазові стакани для кав\'ярень нашого міста', who: 'SMM-менеджера', what: 'вести Instagram і TikTok, знімати короткі відео, 5–7 годин на тиждень', offer: 'досвід у справжньому стартапі, % від продажів, гнучкий графік', contact: '@ecocup_team у Telegram' };
+  const TALK_EX = [{ n: 'Марко', r: 'fire', t: 'Хоче допомогти з відео' }, { n: 'Тітка Оля', r: 'tip', t: 'Радить почати з однієї кав\'ярні' }, { n: 'Соня', r: 'think', t: 'Подумає до п\'ятниці' }];
+
+  const MONTHS = ['одразу', 'через 1 міс', 'через 2 міс', 'через 3 міс', 'через 4 міс', 'через 5 міс', 'через 6 міс'];
+  const blankPeople = () => [0, 1, 2].map(() => ({ id: uid(), n: '', f: '', r: '', c: '' }));
+  const blankOrg = () => ({ root: 'Засновник', dirs: [1, 2, 3].map((i) => ({ id: uid(), t: 'Напрямок ' + i, roles: [] })) });
+
+  const fresh = () => ({
+    mood: '', ex: 'shop', exDone: false,
+    tab: 'loc', seq: { loc: Array(10).fill(''), mkt: Array(10).fill('') },
+    owners: {}, whoText: '',
+    me: [], table: [],
+    people: blankPeople(), costText: '',
+    org: blankOrg(), month: 6,
+    ad: { proj: '', who: '', what: '', offer: '', contact: '' }, talks: [],
+    awarded: [], final: false,
+  });
+
+  /* ---------- Сховище (працює й без localStorage) ---------- */
+  let S = fresh();
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) {
+      const d = JSON.parse(raw);
+      if (d && typeof d === 'object') {
+        S = Object.assign(fresh(), d);
+        S.seq = Object.assign(fresh().seq, d.seq || {});
+        S.ad = Object.assign(fresh().ad, d.ad || {});
+        if (!Array.isArray(S.people) || !S.people.length) S.people = blankPeople();
+        if (!S.org || !Array.isArray(S.org.dirs)) S.org = blankOrg();
+      }
+    }
+  } catch (e) { /* сховище недоступне — працюємо з чистого аркуша */ }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ігноруємо */ }
+    progress();
+  }
+
+  function toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  /* ---------- Наліпки ---------- */
+  const STK = { goose: $('#stkPool [data-st="goose"]'), sikorsky: $('#stkPool [data-st="sikorsky"]') };
+  function stk(name, cls = '') {
+    const im = new Image();
+    im.src = STK[name].src; im.alt = STK[name].alt; im.width = STK[name].width; im.height = STK[name].height;
+    im.className = 'stk ' + cls; im.draggable = false;
+    return im;
+  }
+  // Слот «наліпка настрою»
+  const slot = $('#sticker'), pop = $('#moodPop');
+  pop.querySelector('[data-mood="goose"]').append(stk('goose'));
+  pop.querySelector('[data-mood="sikorsky"]').append(stk('sikorsky'));
+  function paintMood() {
+    slot.textContent = '';
+    if (!S.mood) { slot.innerHTML = 'наліпка<br>настрою'; slot.classList.remove('has'); return; }
+    slot.classList.add('has');
+    if (STK[S.mood]) slot.append(stk(S.mood)); else { const s = document.createElement('span'); s.textContent = S.mood; slot.append(s); }
+  }
+  function togglePop(open) {
+    pop.classList.toggle('hidden', !open); slot.setAttribute('aria-expanded', String(open));
+    if (open) pop.querySelector('button').focus();
+  }
+  slot.addEventListener('click', () => togglePop(pop.classList.contains('hidden')));
+  pop.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-mood]'); if (!b) return;
+    S.mood = b.dataset.mood; save(); paintMood(); togglePop(false); slot.focus();
+  });
+  document.addEventListener('click', (e) => { if (!e.target.closest('.mood')) togglePop(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !pop.classList.contains('hidden')) { togglePop(false); slot.focus(); } });
+
+  /* ---------- 1. Таймлайн-приклад ---------- */
+  let tlPos = 0, tlTimer = null;
+  function renderExTabs() {
+    $('#exTabs').innerHTML = Object.entries(TL).map(([k, v]) =>
+      `<button class="chip${S.ex === k ? ' on' : ''}" role="tab" aria-selected="${S.ex === k}" type="button" data-ex="${k}">${v.t}</button>`).join('');
+  }
+  function renderTL() {
+    const steps = TL[S.ex].steps;
+    $('#tl').innerHTML = steps.map((s, i) =>
+      `<li class="${s[2] ? 'big' : ''}" data-i="${i}"><span class="per">${esc(s[0])}</span><span class="dot"></span><span class="txt">${esc(s[1])}</span></li>`).join('');
+    const r = $('#tlRange'); r.max = steps.length - 1;
+    setTL(Math.min(tlPos, steps.length - 1));
+  }
+  function setTL(i) {
+    const steps = TL[S.ex].steps; tlPos = i; $('#tlRange').value = i;
+    const xi = steps.findIndex((s) => s[2]);
+    $$('#tl li').forEach((li, k) => { li.classList.toggle('past', k < i); li.classList.toggle('cur', k === i); });
+    const ph = i < xi ? 'before' : i === xi ? 'x' : 'after';
+    const tag = $('#phTag');
+    tag.textContent = { before: 'Підготовка', x: 'День Х', after: 'Після запуску' }[ph];
+    tag.className = { before: '', x: 'ph-x', after: 'ph-after' }[ph];
+    $('#phPer').textContent = `${steps[i][0]} · крок ${i + 1}/${steps.length}`;
+    $('#phTxt').textContent = steps[i][1];
+    $('#phTip').textContent = TIPS[ph];
+    if (i === steps.length - 1 && !S.exDone) { S.exDone = true; save(); }
+  }
+  function stopPlay() { clearInterval(tlTimer); tlTimer = null; $('#tlPlay').textContent = '▶ Програти запуск'; }
+  $('#tlPlay').addEventListener('click', () => {
+    if (tlTimer) return stopPlay();
+    const n = TL[S.ex].steps.length;
+    if (tlPos >= n - 1) setTL(0);
+    $('#tlPlay').textContent = '⏸ Пауза';
+    tlTimer = setInterval(() => { if (tlPos >= n - 1) return stopPlay(); setTL(tlPos + 1); }, reduced ? 350 : 650);
+  });
+  $('#tlRange').addEventListener('input', (e) => { stopPlay(); setTL(+e.target.value); });
+  $('#tl').addEventListener('click', (e) => { const li = e.target.closest('li'); if (li) { stopPlay(); setTL(+li.dataset.i); } });
+  $('#exTabs').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-ex]'); if (!b) return;
+    stopPlay(); S.ex = b.dataset.ex; tlPos = 0; save(); renderExTabs(); renderTL();
+  });
+
+  /* ---------- 2. Своя послідовність ---------- */
+  function renderSeq() {
+    $$('#seqTabs [data-tab]').forEach((b) => { const on = b.dataset.tab === S.tab; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+    const list = $('#seq'); list.className = 'seq ' + S.tab;
+    list.innerHTML = PERIODS.map((p, i) =>
+      `<li><label class="per" for="sq${i}">${p}</label><input id="sq${i}" data-i="${i}" maxlength="120" value="${esc(S.seq[S.tab][i])}" placeholder="${i === 9 ? 'Що відбувається в День Х?' : 'Що треба зробити?'}"></li>`).join('');
+    renderRuler();
+  }
+  function renderRuler() {
+    const v = S.seq[S.tab];
+    $('#ruler').innerHTML = v.map((x, i) => `<b class="${x.trim() ? 'on' : ''}"></b>${i < 9 ? '<i></i>' : ''}`).join('');
+    const n = v.filter((x) => x.trim()).length;
+    $('#rulerTxt').textContent = `${SCEN[S.tab]}: заповнено ${n} з 10 кроків`;
+  }
+  $('#seqTabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) { S.tab = b.dataset.tab; save(); renderSeq(); $('#goX').textContent = ''; } });
+  $('#seq').addEventListener('input', (e) => {
+    const i = e.target.dataset.i; if (i == null) return;
+    S.seq[S.tab][+i] = e.target.value; save(); renderRuler(); renderWho();
+  });
+  let cdBusy = false;
+  $('#countdown').addEventListener('click', async () => {
+    if (cdBusy) return;
+    const v = S.seq[S.tab], idx = v.map((x, i) => (x.trim() ? i : -1)).filter((i) => i >= 0);
+    const gx = $('#goX');
+    if (!idx.length) { gx.textContent = 'Спершу впиши хоча б один крок 🙂'; return; }
+    cdBusy = true; gx.textContent = ''; gx.classList.remove('boom');
+    const lis = $$('#seq li'), dots = $$('#ruler b');
+    for (const i of idx) {
+      lis[i].classList.add('lit'); dots[i] && dots[i].classList.add('lit');
+      await new Promise((r) => setTimeout(r, reduced ? 120 : 380));
+      lis[i].classList.remove('lit'); dots[i] && dots[i].classList.remove('lit');
+    }
+    const missing = 10 - idx.length;
+    gx.textContent = missing ? `🚀 Злітаємо! Ще ${missing} період(и) без плану — додай їх.` : '🚀 День Х! План готовий від і до.';
+    void gx.offsetWidth; gx.classList.add('boom');
+    cdBusy = false;
+  });
+
+  /* ---------- 3. Хто і коли ---------- */
+  function ownerOptions() {
+    const o = [['me', 'Я (засновник)']];
+    S.people.filter((p) => p.n.trim()).forEach((p) => o.push(['p:' + p.id, p.n.trim() + (p.r.trim() ? ' — ' + p.r.trim() : '')]));
+    S.table.forEach((id) => RL[id] && o.push(['r:' + id, 'Шукаю: ' + RL[id].t]));
+    o.push(['ext', 'Підрядник / сервіс']);
+    return o;
+  }
+  function ownerName(k) { const f = ownerOptions().find((o) => o[0] === k); return f ? f[1] : null; }
+  function filledSteps() {
+    const out = [];
+    ['loc', 'mkt'].forEach((t) => S.seq[t].forEach((x, i) => { if (x.trim()) out.push({ k: t + '-' + i, t, i, x: x.trim() }); }));
+    return out;
+  }
+  function renderWho() {
+    const steps = filledSteps(), opts = ownerOptions();
+    if (!steps.length) {
+      $('#whoList').innerHTML = '<div class="empty">Тут з\'являться кроки з розділу 2. Заповни свою послідовність — і признач, хто за що відповідає.</div>';
+    } else {
+      $('#whoList').innerHTML = steps.map((s) => {
+        const cur = S.owners[s.k] || '';
+        return `<div class="who-row${cur ? ' set' : ''}"><div class="per">${PERIODS[s.i]}<em>${s.t === 'loc' ? '📍 локація' : '🌍 ринок'}</em></div>
+          <div class="t">${esc(s.x)}</div>
+          <select data-k="${s.k}" aria-label="Хто відповідає: ${esc(s.x)}"><option value="">— хто? —</option>${opts.map((o) => `<option value="${o[0]}"${o[0] === cur ? ' selected' : ''}>${esc(o[1])}</option>`).join('')}</select></div>`;
+      }).join('');
+    }
+    renderLoad();
+  }
+  function renderLoad() {
+    const steps = filledSteps(), cnt = {};
+    let total = 0;
+    steps.forEach((s) => { const o = S.owners[s.k]; if (o && ownerName(o)) { cnt[o] = (cnt[o] || 0) + 1; total++; } });
+    const rows = Object.entries(cnt).sort((a, b) => b[1] - a[1]);
+    const max = rows.length ? rows[0][1] : 1;
+    $('#load').innerHTML = rows.length ? rows.map(([k, n]) => {
+      const hot = n / total > .6 && total >= 3;
+      return `<div class="load-row${k === 'me' ? ' me' : ''}${hot ? ' hot' : ''}"><span class="lb" title="${esc(ownerName(k))}">${esc(ownerName(k))}</span><span class="tr"><i style="width:${(n / max) * 100}%"></i></span><b>${n}</b></div>`;
+    }).join('') : '<div class="empty">Признач відповідальних — і тут з\'явиться діаграма навантаження.</div>';
+    const me = cnt.me || 0;
+    $('#loadWarn').innerHTML = total >= 3 && me / total > .6
+      ? `<div class="warnbox">⚠️ На тобі ${Math.round((me / total) * 100)}% кроків. Саме тому тобі потрібна команда — подивись, кого посадити за стіл у розділі 4.</div>`
+      : total >= 3 ? '<div class="warnbox" style="background:var(--sky-soft)">👍 Задачі розподілені — так запуск не тримається на одній людині.</div>' : '';
+  }
+  $('#whoList').addEventListener('change', (e) => {
+    const k = e.target.dataset.k; if (!k) return;
+    if (e.target.value) S.owners[k] = e.target.value; else delete S.owners[k];
+    e.target.closest('.who-row').classList.toggle('set', !!e.target.value);
+    save(); renderLoad();
+  });
+  $('#whoText').addEventListener('input', (e) => { S.whoText = e.target.value; save(); });
+
+  /* ---------- 4. Команда мрії ---------- */
+  function fnState(f) {
+    if (S.me.includes(f)) return { k: 'me', w: 'ти' };
+    const p = S.people.find((x) => x.f === f && x.n.trim());
+    if (p) return { k: 'person', w: p.n.trim() };
+    const r = S.table.map((id) => RL[id]).find((x) => x && x.f.includes(f));
+    if (r) return { k: 'want', w: 'шукаєш: ' + r.t };
+    return { k: 'gap', w: 'ніхто' };
+  }
+  function renderMe() {
+    $('#meChips').innerHTML = FUN.map((f) => `<button class="chip" type="button" data-f="${f.id}" aria-pressed="${S.me.includes(f.id)}">${f.e} ${f.t}</button>`).join('');
+    const n = S.me.length;
+    $('#superMsg').textContent = n > 4 ? '🦸 Супергерой? Чесно: на старті засновник добре закриває 2–3 функції. Решту — команда.' : n === 0 ? '' : '';
+  }
+  function roleBtn(r, inTable) {
+    const found = inTable && r.f.some((f) => { const st = fnState(f).k; return st === 'me' || st === 'person'; });
+    return `<button class="role${inTable ? ' in' : ''}${found ? ' found' : ''}" type="button" draggable="true" data-role="${r.id}" aria-label="${r.t}: ${inTable ? 'прибрати зі столу' : 'посадити за стіл'}"><span class="e">${r.e}</span>${r.t}</button>`;
+  }
+  function renderDream() {
+    const t = S.table.map((id) => RL[id]).filter(Boolean);
+    $('#table').innerHTML = t.length ? t.map((r) => roleBtn(r, true)).join('') : '<span class="ph">Перетягни сюди ролі або натисни на картку в колоді ↓</span>';
+    $('#deck').innerHTML = ROLES.filter((r) => !S.table.includes(r.id)).map((r) => roleBtn(r, false)).join('') || '<span class="ph" style="color:var(--faint);font-size:13px">Усі ролі за столом. Це вже ціла компанія 😄</span>';
+    renderDonut();
+  }
+  function renderDonut() {
+    const cx = 100, cy = 100, r0 = 60, r1 = 94, step = 360 / FUN.length;
+    const pt = (r, a) => [cx + r * Math.sin(a * Math.PI / 180), cy - r * Math.cos(a * Math.PI / 180)];
+    const arc = (a0, a1) => {
+      const [x0, y0] = pt(r1, a0), [x1, y1] = pt(r1, a1), [x2, y2] = pt(r0, a1), [x3, y3] = pt(r0, a0);
+      return `M${x0.toFixed(2)} ${y0.toFixed(2)}A${r1} ${r1} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}L${x2.toFixed(2)} ${y2.toFixed(2)}A${r0} ${r0} 0 0 0 ${x3.toFixed(2)} ${y3.toFixed(2)}Z`;
+    };
+    let covered = 0, svg = '<defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect class="hatch-a" width="7" height="7"/><rect class="hatch-b" width="3" height="7"/></pattern></defs>';
+    FUN.forEach((f, i) => {
+      const st = fnState(f.id); if (st.k !== 'gap') covered++;
+      const [ex, ey] = pt((r0 + r1) / 2, i * step + step / 2);
+      svg += `<path class="seg ${st.k}" d="${arc(i * step + 1, (i + 1) * step - 1)}"><title>${f.t}: ${st.w}</title></path>`;
+      svg += `<text x="${ex.toFixed(1)}" y="${(ey + 6).toFixed(1)}" text-anchor="middle" font-size="16" aria-hidden="true">${f.e}</text>`;
+    });
+    svg += `<text class="d-big" x="100" y="104" text-anchor="middle">${covered}/${FUN.length}</text><text class="d-sm" x="100" y="122" text-anchor="middle">функцій закрито</text>`;
+    $('#donut').innerHTML = svg;
+    $('#donut').setAttribute('aria-label', `Покриття функцій: ${covered} з ${FUN.length}`);
+    $('#legend').innerHTML = FUN.map((f) => { const st = fnState(f.id); return `<li class="${st.k}"><i></i><span>${f.e}</span><span>${f.t} — <em>${esc(st.w)}</em></span></li>`; }).join('');
+    // Кого шукаєш
+    const want = S.table.map((id) => RL[id]).filter((r) => r && !r.f.some((f) => ['me', 'person'].includes(fnState(f).k)));
+    const gaps = FUN.filter((f) => fnState(f.id).k === 'gap');
+    let h = want.length ? `<b>Кого шукаєш:</b> ${want.map((r) => r.e + ' ' + r.t).join(', ')}.` : S.table.length ? '<b>Усі ролі за столом уже мають людей</b> — або ти закриваєш їх сам. 💪' : '<b>Кого шукаєш?</b> Посади за стіл ролі, яких бракує.';
+    if (gaps.length) h += `<div style="margin-top:6px">Ніхто не закриває: ${gaps.map((f) => f.t.toLowerCase()).join(', ')}. Додати роль:</div><div class="chips">${gaps.map((f) => { const r = ROLES.find((x) => x.f[0] === f.id && !S.table.includes(x.id)); return r ? `<button class="chip" type="button" data-addrole="${r.id}">+ ${r.e} ${r.t}</button>` : ''; }).join('')}</div>`;
+    $('#seek').innerHTML = h;
+    renderAdChips();
+  }
+  function toggleRole(id, to) {
+    const inT = S.table.includes(id);
+    const want = to == null ? !inT : to;
+    if (want && !inT) S.table.push(id);
+    if (!want && inT) S.table = S.table.filter((x) => x !== id);
+    save(); renderDream(); renderWho();
+  }
+  $('#meChips').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-f]'); if (!b) return;
+    const f = b.dataset.f;
+    S.me = S.me.includes(f) ? S.me.filter((x) => x !== f) : S.me.concat(f);
+    save(); renderMe(); renderDream();
+  });
+  $('#s4').addEventListener('click', (e) => {
+    const r = e.target.closest('[data-role]'); if (r) return toggleRole(r.dataset.role);
+    const a = e.target.closest('[data-addrole]'); if (a) toggleRole(a.dataset.addrole, true);
+  });
+  // Перетягування (миша); на тач-екранах працює тап
+  let dragId = null;
+  $('#s4').addEventListener('dragstart', (e) => { const r = e.target.closest('[data-role]'); if (!r) return; dragId = r.dataset.role; e.dataTransfer.setData('text/plain', dragId); e.dataTransfer.effectAllowed = 'move'; });
+  [['#table', true], ['#deck', false]].forEach(([sel, to]) => {
+    const z = $(sel);
+    z.addEventListener('dragover', (e) => { if (dragId) { e.preventDefault(); z.classList.add('over'); } });
+    z.addEventListener('dragleave', () => z.classList.remove('over'));
+    z.addEventListener('drop', (e) => { e.preventDefault(); z.classList.remove('over'); if (dragId) toggleRole(dragId, to); dragId = null; });
+  });
+  document.addEventListener('dragend', () => { dragId = null; $$('.over').forEach((z) => z.classList.remove('over')); });
+
+  /* ---------- 5. Люди поруч ---------- */
+  let lastCond = null;
+  function renderPeople() {
+    $$('#ptable .prow:not(.phead)').forEach((r) => r.remove());
+    const fOpts = (cur) => `<option value="">— функція —</option>${FUN.map((f) => `<option value="${f.id}"${f.id === cur ? ' selected' : ''}>${f.e} ${f.t}</option>`).join('')}`;
+    $('#ptable').insertAdjacentHTML('beforeend', S.people.map((p, i) => `
+      <div class="prow" data-id="${p.id}" data-n="Людина ${i + 1}">
+        <input class="inp who" data-p="n" value="${esc(p.n)}" placeholder="Прізвище, ім'я" aria-label="Хто (ПІ), людина ${i + 1}" maxlength="60">
+        <select class="inp" data-p="f" aria-label="Функція, людина ${i + 1}">${fOpts(p.f)}</select>
+        <input class="inp" data-p="r" value="${esc(p.r)}" placeholder="Роль / посада" list="roleList" aria-label="Роль, людина ${i + 1}" maxlength="60">
+        <input class="inp cond" data-p="c" value="${esc(p.c)}" placeholder="На яких умовах?" aria-label="На яких умовах долучиш, людина ${i + 1}" maxlength="120">
+        <button class="rm" type="button" data-rm="${p.id}" aria-label="Прибрати людину ${i + 1}">×</button>
+      </div>`).join(''));
+  }
+  $('#roleList').innerHTML = ROLES.map((r) => `<option value="${r.t}">`).join('');
+  $('#condChips').innerHTML = CONDS.map((c) => `<button class="chip" type="button" data-cond="${esc(c)}">${c}</button>`).join('');
+  $('#cost').innerHTML = WAYS.map((w, i) => `<button class="way" type="button" data-way="${i}"><b>${w.t}</b><span style="font-size:12px;color:var(--muted)">${w.d}</span>
+    <span class="m">гроші зараз <i style="--v:${w.m}%"></i></span><span class="m share">частка <i style="--v:${w.s}%"></i></span><span class="m risk">ризик <i style="--v:${w.r}%"></i></span></button>`).join('');
+  function peopleChanged() { save(); renderDonut(); renderDream(); renderWho(); }
+  $('#ptable').addEventListener('input', (e) => {
+    const row = e.target.closest('.prow'), k = e.target.dataset.p; if (!row || !k) return;
+    const p = S.people.find((x) => x.id === row.dataset.id); if (!p) return;
+    p[k] = e.target.value;
+    if (k === 'r' && !p.f) { // підказуємо функцію за назвою ролі
+      const r = ROLES.find((x) => x.t.toLowerCase() === e.target.value.trim().toLowerCase());
+      if (r) { p.f = r.f[0]; row.querySelector('[data-p="f"]').value = p.f; }
+    }
+    if (k === 'c') { save(); return; }
+    if (k === 'n') { save(); renderDonut(); renderWho(); return; } // не перебудовуємо колоду, поки людина друкує
+    peopleChanged();
+  });
+  $('#ptable').addEventListener('focusin', (e) => { if (e.target.dataset.p === 'c') lastCond = e.target.closest('.prow').dataset.id; });
+  $('#ptable').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-rm]'); if (!b) return;
+    S.people = S.people.filter((p) => p.id !== b.dataset.rm);
+    if (!S.people.length) S.people = blankPeople().slice(0, 1);
+    renderPeople(); peopleChanged();
+  });
+  $('#addPerson').addEventListener('click', () => {
+    S.people.push({ id: uid(), n: '', f: '', r: '', c: '' }); renderPeople(); save();
+    $$('#ptable .prow:not(.phead)').pop().querySelector('input').focus();
+  });
+  $('#condChips').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-cond]'); if (!b) return;
+    let p = S.people.find((x) => x.id === lastCond) || S.people.find((x) => !x.c.trim()) || S.people[S.people.length - 1];
+    p.c = p.c.trim() ? p.c.trim() + ', ' + b.dataset.cond.toLowerCase() : b.dataset.cond;
+    renderPeople(); save(); toast('Умову додано: ' + (p.n.trim() || 'людина без імені'));
+  });
+  $('#cost').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-way]'); if (!b) return;
+    const w = WAYS[+b.dataset.way], line = `${w.t.replace(/^\S+\s/, '')} — ${w.d}`;
+    if (S.costText.includes(line)) return toast('Цей спосіб уже в нотатках');
+    S.costText = (S.costText.trim() ? S.costText.trim() + '\n' : '') + line;
+    $('#costText').value = S.costText; save();
+  });
+  $('#costText').addEventListener('input', (e) => { S.costText = e.target.value; save(); });
+
+  /* ---------- 6. Оргструктура (SVG-дерево) ---------- */
+  let sel = null, seen = new Set();
+  const wrap = (t, max) => { // ділимо текст на ≤2 рядки
+    const w = String(t).trim().split(/\s+/); const lines = [''];
+    w.forEach((x) => { const cur = lines[lines.length - 1]; if ((cur + ' ' + x).trim().length <= max || !cur) lines[lines.length - 1] = (cur + ' ' + x).trim(); else lines.push(x); });
+    if (lines.length > 2) { lines.length = 2; lines[1] = lines[1].slice(0, max - 1) + '…'; }
+    return lines.map((l) => (l.length > max ? l.slice(0, max - 1) + '…' : l));
+  };
+  const cut = (t, max) => (t.length > max ? t.slice(0, max - 1) + '…' : t);
+  function txt(lines, x, yc, size, cls = '') {
+    const lh = size * 1.2, y0 = yc - ((lines.length - 1) * lh) / 2 + size * .36;
+    return lines.map((l, i) => `<text class="${cls}" x="${x}" y="${(y0 + i * lh).toFixed(1)}" text-anchor="middle" font-size="${size}">${esc(l)}</text>`).join('');
+  }
+  function renderOrg() {
+    const o = S.org, n = Math.max(o.dirs.length, 1), CW = 132, G = 12, P = 6;
+    const W = Math.max(n * CW + (n - 1) * G + 2 * P, 300);
+    const x0 = (W - (n * CW + (n - 1) * G)) / 2;
+    const colX = (i) => x0 + i * (CW + G), cxx = (i) => colX(i) + CW / 2;
+    const rootW = 200, rootH = 48, rootY = P, busY = rootY + rootH + 18, dirY = busY + 18, dirH = 44, roleY0 = dirY + dirH + 16, RH = 40, RS = 50;
+    const nodes = Math.max(1, ...o.dirs.map((d) => d.roles.length + (d.roles.length < 5 ? 1 : 0)));
+    const H = roleY0 + nodes * RS - 10 + P;
+    const now = new Set();
+    let L = '', N = '';
+    const node = (key, cls, x, y, w, h, label, inner, extra = '') => {
+      now.add(key);
+      const isSel = sel && sel.key === key;
+      N += `<g class="node ${cls}${isSel ? ' sel' : ''}${!seen.has(key) && seen.size ? ' pop' : ''}${extra}" tabindex="0" role="button" aria-label="${esc(label)}" data-key="${key}"><title>${esc(label)}</title><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10"/>${inner}</g>`;
+    };
+    // корінь
+    node('root', 'n-root', (W - rootW) / 2, rootY, rootW, rootH, 'Засновник: ' + o.root, txt(wrap(o.root || 'Засновник', 24), W / 2, rootY + rootH / 2, 14));
+    if (o.dirs.length) {
+      L += `<path class="ln" d="M${W / 2} ${rootY + rootH}V${busY}"/>`;
+      if (o.dirs.length > 1) L += `<path class="ln" d="M${cxx(0)} ${busY}H${cxx(o.dirs.length - 1)}"/>`;
+    }
+    let present = 1, total = 1;
+    o.dirs.forEach((d, i) => {
+      const cx = cxx(i);
+      L += `<path class="ln" d="M${cx} ${busY}V${dirY}"/>`;
+      node('d' + d.id, 'n-dir', colX(i), dirY, CW, dirH, 'Напрямок: ' + d.t, txt(wrap(d.t || 'Напрямок', 17), cx, dirY + dirH / 2, 12.5));
+      const k = d.roles.length + (d.roles.length < 5 ? 1 : 0);
+      if (k) L += `<path class="ln" d="M${cx} ${dirY + dirH}V${roleY0 + (k - 1) * RS + RH / 2}"/>`;
+      d.roles.forEach((r, j) => {
+        const y = roleY0 + j * RS, fut = (r.m || 0) > S.month; total++; if (!fut) present++;
+        const sub = r.who.trim() ? '👤 ' + r.who.trim() : (r.m ? 'з’явиться ' + MONTHS[r.m] : 'шукаю');
+        const inner = txt([cut(r.t || 'роль…', 18)], cx, y + 14, 12) + txt([cut(sub, 21)], cx, y + 29, 10.5, 'sub');
+        node('r' + r.id, 'n-role', colX(i) + 4, y, CW - 8, RH, `Посада ${r.t || 'без назви'}, ${sub}, ${MONTHS[r.m || 0]}`, inner, fut ? ' future' : '');
+      });
+      if (d.roles.length < 5) {
+        const y = roleY0 + d.roles.length * RS;
+        node('a' + d.id, 'n-add', colX(i) + 4, y, CW - 8, RH, 'Додати роль у напрямок ' + d.t, txt(['+ роль'], cx, y + RH / 2, 12.5));
+      }
+    });
+    const svg = $('#orgSvg');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', W); svg.style.width = '100%'; svg.style.maxWidth = W + 'px'; svg.style.minWidth = Math.round(W * .82) + 'px';
+    svg.innerHTML = L + N;
+    seen = now;
+    $('#monthOut').textContent = S.month ? 'через ' + S.month + ' міс' : 'сьогодні';
+    $('#month').value = S.month;
+    const people = o.dirs.reduce((a, d) => a + d.roles.filter((r) => r.who.trim()).length, 0);
+    $('#orgSum').innerHTML = `${S.month ? 'Через ' + S.month + ' міс' : 'Сьогодні'} у команді <b>${present}</b> з ${total} посад (разом із тобою). Уже є людей: <b>${people}</b>, шукаєш ще <b>${total - 1 - people}</b>.`;
+    $('#addDir').disabled = o.dirs.length >= 4;
+  }
+  function findSel() {
+    if (!sel) return null;
+    if (sel.key === 'root') return { kind: 'root' };
+    const id = sel.key.slice(1);
+    for (const d of S.org.dirs) {
+      if (sel.key === 'd' + d.id) return { kind: 'dir', d };
+      const r = d.roles.find((x) => x.id === id && sel.key === 'r' + id); if (r) return { kind: 'role', d, r };
+    }
+    return null;
+  }
+  function renderEdit() {
+    const box = $('#orgEdit'), f = findSel();
+    if (!f) { box.className = 'org-edit idle'; box.textContent = 'Натисни на будь-який блок схеми, щоб його редагувати.'; return; }
+    box.className = 'org-edit';
+    if (f.kind === 'root') {
+      box.innerHTML = `<div class="t">Вершина структури</div><label class="field wide" style="grid-column:1/-1"><span>Засновник (можна з ім'ям)</span><input class="inp" data-e="root" maxlength="40" value="${esc(S.org.root)}"></label>`;
+    } else if (f.kind === 'dir') {
+      box.innerHTML = `<div class="t">Напрямок</div><label class="field wide" style="grid-column:1/4"><span>Назва напрямку</span><input class="inp" data-e="dir" maxlength="40" value="${esc(f.d.t)}" placeholder="Напр.: Маркетинг і продажі"></label>
+        <button class="btn btn-ghost btn-s" type="button" data-e="deldir">🗑 Видалити напрямок</button>`;
+    } else {
+      box.innerHTML = `<div class="t">Посада в напрямку «${esc(f.d.t)}»</div>
+        <label class="field wide"><span>Посада</span><input class="inp" data-e="rt" maxlength="40" value="${esc(f.r.t)}" placeholder="Напр.: SMM-менеджер" list="roleList"></label>
+        <label class="field"><span>Хто (або порожньо — шукаю)</span><input class="inp" data-e="rw" maxlength="30" value="${esc(f.r.who)}" placeholder="Ім'я"></label>
+        <label class="field"><span>Коли потрібна</span><select class="inp" data-e="rm">${MONTHS.map((m, i) => `<option value="${i}"${i === (f.r.m || 0) ? ' selected' : ''}>${m}</option>`).join('')}</select></label>
+        <button class="btn btn-ghost btn-s" type="button" data-e="delrole">🗑 Видалити</button>`;
+    }
+  }
+  function pick(key) {
+    if (key[0] === 'a') { // додати роль
+      const d = S.org.dirs.find((x) => 'a' + x.id === key); if (!d) return;
+      const r = { id: uid(), t: '', who: '', m: 0 }; d.roles.push(r); sel = { key: 'r' + r.id }; save();
+      renderOrg(); renderEdit(); const inp = $('#orgEdit [data-e="rt"]'); inp && inp.focus(); return;
+    }
+    sel = { key }; renderOrg(); renderEdit();
+    const inp = $('#orgEdit input'); inp && inp.focus({ preventScroll: true });
+  }
+  $('#orgSvg').addEventListener('click', (e) => { const g = e.target.closest('.node'); if (g) pick(g.dataset.key); });
+  $('#orgSvg').addEventListener('keydown', (e) => { const g = e.target.closest('.node'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); pick(g.dataset.key); } });
+  $('#orgEdit').addEventListener('input', (e) => {
+    const f = findSel(), k = e.target.dataset.e; if (!f || !k) return;
+    if (k === 'root') S.org.root = e.target.value;
+    if (k === 'dir') f.d.t = e.target.value;
+    if (k === 'rt') f.r.t = e.target.value;
+    if (k === 'rw') f.r.who = e.target.value;
+    if (k === 'rm') f.r.m = +e.target.value;
+    save(); renderOrg();
+  });
+  $('#orgEdit').addEventListener('click', (e) => {
+    const f = findSel(), k = e.target.dataset.e; if (!f) return;
+    if (k === 'deldir') { S.org.dirs = S.org.dirs.filter((d) => d !== f.d); sel = null; }
+    else if (k === 'delrole') { f.d.roles = f.d.roles.filter((r) => r !== f.r); sel = null; }
+    else return;
+    save(); renderOrg(); renderEdit();
+  });
+  $('#addDir').addEventListener('click', () => {
+    if (S.org.dirs.length >= 4) return;
+    const d = { id: uid(), t: 'Напрямок ' + (S.org.dirs.length + 1), roles: [] };
+    S.org.dirs.push(d); sel = { key: 'd' + d.id }; save(); renderOrg(); renderEdit();
+  });
+  $('#month').addEventListener('input', (e) => { S.month = +e.target.value; save(); renderOrg(); });
+  // Будуємо структуру з ролей, які стоять на столі команди
+  const GROUPS = [['Продукт', ['prod', 'tech', 'design']], ['Маркетинг і продажі', ['mkt', 'sales']], ['Фінанси й операції', ['fin', 'ops', 'law']]];
+  $('#fromDream').addEventListener('click', () => {
+    if (!S.table.length) return toast('Спершу посади ролі за стіл у розділі 4');
+    if (S.org.dirs.some((d) => d.roles.length) && !confirm('Замінити поточну структуру ролями зі столу команди?')) return;
+    const used = new Set();
+    S.org.dirs = GROUPS.map(([t, fs]) => ({
+      id: uid(), t,
+      roles: S.table.map((id) => RL[id]).filter((r) => r && fs.includes(r.f[0])).map((r) => {
+        const p = S.people.find((x) => x.n.trim() && r.f.includes(x.f) && !used.has(x.id)); if (p) used.add(p.id);
+        return { id: uid(), t: r.t, who: p ? p.n.trim() : '', m: p ? 0 : 2 };
+      }),
+    })).filter((d) => d.roles.length);
+    if (!S.org.dirs.length) S.org = blankOrg();
+    sel = null; save(); renderOrg(); renderEdit(); toast('Структуру зібрано — тепер відредагуй під себе');
+  });
+
+  /* ---------- 7. ДЗ: оголошення і журнал розмов ---------- */
+  const pilot = stk('sikorsky'); $('#pilot').prepend(pilot);
+  function renderPoster() {
+    const a = S.ad, v = (x, ph) => (x.trim() ? esc(x.trim()) : `<span class="blank">${ph}</span>`);
+    $('#poster').innerHTML = `<span class="tag">ШУКАЮ В КОМАНДУ</span><h3>${v(a.who, 'Кого шукаєш?')}</h3>
+      <p><b>Проєкт</b>${v(a.proj, 'про що твій проєкт')}</p><p><b>Що робитимеш</b>${v(a.what, 'які задачі')}</p>
+      <p><b>Що пропоную</b>${v(a.offer, 'умови й бонуси')}</p><div class="ct">✉️ ${v(a.contact, 'як зв\'язатися')}</div>`;
+  }
+  function renderAdChips() {
+    const want = S.table.map((id) => RL[id]).filter((r) => r && !r.f.some((f) => ['me', 'person'].includes(fnState(f).k)));
+    $('#adChips').innerHTML = want.length ? '<span style="font-size:12px;color:var(--muted);align-self:center">З розділу 4:</span>' + want.map((r) => `<button class="chip" type="button" data-adwho="${esc(r.t)}">${r.e} ${r.t}</button>`).join('') : '';
+  }
+  function fillAd() { $$('[data-ad]').forEach((i) => { i.value = S.ad[i.dataset.ad] || ''; }); renderPoster(); }
+  $('#s7').addEventListener('input', (e) => { const k = e.target.dataset.ad; if (!k) return; S.ad[k] = e.target.value; save(); renderPoster(); });
+  $('#adChips').addEventListener('click', (e) => { const b = e.target.closest('[data-adwho]'); if (!b) return; S.ad.who = b.dataset.adwho; $('#adWho').value = S.ad.who; save(); renderPoster(); });
+  $('#copyAd').addEventListener('click', async () => {
+    const a = S.ad;
+    if (!a.who.trim() && !a.proj.trim()) return toast('Заповни хоча б «Проєкт» і «Кого шукаю»');
+    const text = `🔎 Шукаю в команду: ${a.who.trim() || '…'}\n\nПроєкт: ${a.proj.trim()}\nЩо робитимеш: ${a.what.trim()}\nЩо пропоную: ${a.offer.trim()}\nПиши: ${a.contact.trim()}`;
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+      try { const t = document.createElement('textarea'); t.value = text; document.body.append(t); t.select(); ok = document.execCommand('copy'); t.remove(); } catch (e2) { ok = false; }
+    }
+    toast(ok ? 'Скопійовано! Надішли другові 🚀' : 'Не вдалося скопіювати — виділи текст вручну');
+    pilot.classList.remove('hop'); void pilot.offsetWidth; pilot.classList.add('hop');
+  });
+  let react = 'fire';
+  $('#reacts').innerHTML = REACT.map(([k, e, t]) => `<button type="button" role="radio" data-r="${k}" aria-pressed="${k === react}" aria-checked="${k === react}" aria-label="${t}" title="${t}">${e}</button>`).join('');
+  $('#reacts').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-r]'); if (!b) return; react = b.dataset.r;
+    $$('#reacts button').forEach((x) => { const on = x === b; x.setAttribute('aria-pressed', on); x.setAttribute('aria-checked', on); });
+  });
+  $('#talkForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const n = $('#tName').value.trim(), t = $('#tText').value.trim();
+    if (!n) { $('#tName').focus(); return toast('Напиши, з ким говорив'); }
+    S.talks.push({ id: uid(), n, r: react, t }); $('#tName').value = ''; $('#tText').value = '';
+    save(); renderTalks(); $('#tName').focus();
+    if (S.talks.length === 5) toast('5 розмов! Друзі вірять у тебе 💙');
+  });
+  function renderTalks() {
+    const n = S.talks.length, fire = S.talks.filter((t) => t.r === 'fire').length;
+    $('#talkMeter').innerHTML = `Розмов: ${n}/5 ${[0, 1, 2, 3, 4].map((i) => `<span class="dotx${i < n ? ' on' : ''}">${i < n ? '✓' : ''}</span>`).join('')}${fire ? `<span style="margin-left:6px">🔥 хочуть долучитися: ${fire}</span>` : ''}`;
+    $('#talks').innerHTML = S.talks.map((t) => `<li><span class="em" title="${RE[t.r] ? RE[t.r][2] : ''}">${RE[t.r] ? RE[t.r][1] : '💬'}</span><span class="tx"><b>${esc(t.n)}</b>${esc(t.t)}</span><button class="rm" type="button" data-talk="${t.id}" aria-label="Видалити запис про ${esc(t.n)}">×</button></li>`).join('');
+  }
+  $('#talks').addEventListener('click', (e) => { const b = e.target.closest('[data-talk]'); if (!b) return; S.talks = S.talks.filter((t) => t.id !== b.dataset.talk); save(); renderTalks(); });
+
+  /* ---------- Приклади й очищення ---------- */
+  const isEmpty = {
+    s2: () => !S.seq.loc.some((x) => x.trim()) && !S.seq.mkt.some((x) => x.trim()),
+    s3: () => !Object.keys(S.owners).length && !S.whoText.trim(),
+    s4: () => !S.me.length && !S.table.length,
+    s5: () => !S.people.some((p) => p.n.trim() || p.r.trim() || p.c.trim()) && !S.costText.trim(),
+    s6: () => !S.org.dirs.some((d) => d.roles.length),
+    s7: () => !Object.values(S.ad).some((x) => x.trim()) && !S.talks.length,
+  };
+  const EXAMPLE = {
+    s2: () => { S.seq = { loc: SEQ_EX.loc.slice(), mkt: SEQ_EX.mkt.slice() }; renderSeq(); renderWho(); },
+    s3: () => {
+      if (!filledSteps().length) S.seq = { loc: SEQ_EX.loc.slice(), mkt: S.seq.mkt }, renderSeq();
+      const opts = ownerOptions().map((o) => o[0]), rot = ['me', 'me', opts[1] || 'ext', 'me', opts[2] || 'ext', 'ext', opts[1] || 'me', 'me'];
+      filledSteps().forEach((s, i) => { S.owners[s.k] = rot[i % rot.length]; });
+      S.whoText = 'Я — приміщення й оренда до кінця місяця. Підрядник — ремонт за 2 місяці. Оля — вивіска й меню за 2 тижні. Дмитро — домовленості з офісами за 3 тижні.';
+      $('#whoText').value = S.whoText; renderWho();
+    },
+    s4: () => { S.me = ['prod', 'mkt']; S.table = ['dev', 'design', 'sales', 'fin', 'ops']; renderMe(); renderDream(); renderWho(); },
+    s5: () => { S.people = PEOPLE_EX.map((p) => ({ id: uid(), ...p })); S.costText = 'Фрилансер — платиш за задачу, гроші одразу. Частка — без грошей зараз, але ділиш компанію. Друзі-волонтери — безкоштовно, але без гарантій термінів.'; $('#costText').value = S.costText; renderPeople(); renderDream(); renderWho(); },
+    s6: () => {
+      S.org = { root: 'Засновниця — Аня', dirs: [
+        { id: uid(), t: 'Продукт', roles: [{ id: uid(), t: 'Розробник', who: 'Максим', m: 0 }, { id: uid(), t: 'Дизайнерка', who: 'Оля', m: 0 }, { id: uid(), t: 'Тестувальник', who: '', m: 4 }] },
+        { id: uid(), t: 'Маркетинг і продажі', roles: [{ id: uid(), t: 'SMM-менеджер', who: '', m: 1 }, { id: uid(), t: 'Менеджер з продажу', who: 'Дмитро', m: 2 }] },
+        { id: uid(), t: 'Фінанси й операції', roles: [{ id: uid(), t: 'Бухгалтер (аутсорс)', who: '', m: 3 }, { id: uid(), t: 'Логіст', who: '', m: 5 }] },
+      ] };
+      S.month = 6; sel = null; renderOrg(); renderEdit();
+    },
+    s7: () => { S.ad = { ...AD_EX }; S.talks = TALK_EX.map((t) => ({ id: uid(), ...t })); fillAd(); renderTalks(); },
+  };
+  const CLEAR = {
+    s2: () => { S.seq = fresh().seq; renderSeq(); renderWho(); $('#goX').textContent = ''; },
+    s3: () => { S.owners = {}; S.whoText = ''; $('#whoText').value = ''; renderWho(); },
+    s4: () => { S.me = []; S.table = []; renderMe(); renderDream(); renderWho(); },
+    s5: () => { S.people = blankPeople(); S.costText = ''; $('#costText').value = ''; renderPeople(); renderDream(); renderWho(); },
+    s6: () => { S.org = blankOrg(); S.month = 6; sel = null; renderOrg(); renderEdit(); },
+    s7: () => { S.ad = fresh().ad; S.talks = []; fillAd(); renderTalks(); },
+  };
+  document.addEventListener('click', (e) => {
+    const ex = e.target.closest('[data-example]'), cl = e.target.closest('[data-clear]');
+    if (ex) {
+      const s = ex.dataset.example;
+      if (!isEmpty[s]() && !confirm('Замінити твої записи в цьому розділі прикладом?')) return;
+      EXAMPLE[s](); save(); toast('Приклад підставлено — тепер заміни своїм');
+    }
+    if (cl && confirm('Очистити всі записи в цьому розділі?')) { CLEAR[cl.dataset.clear](); save(); }
+  });
+
+  /* ---------- Прогрес, значки і нагороди ---------- */
+  const SECS = [['s1', 'Як запускати'], ['s2', 'Послідовність'], ['s3', 'Хто і коли'], ['s4', 'Команда мрії'], ['s5', 'Люди поруч'], ['s6', 'Оргструктура'], ['s7', 'ДЗ']];
+  const DONE = {
+    s1: () => S.exDone,
+    s2: () => S.seq.loc.concat(S.seq.mkt).filter((x) => x.trim()).length >= 6,
+    s3: () => filledSteps().filter((s) => S.owners[s.k]).length >= 3 || S.whoText.trim().length >= 30,
+    s4: () => S.me.length >= 1 && FUN.filter((f) => fnState(f.id).k !== 'gap').length >= 6,
+    s5: () => S.people.filter((p) => p.n.trim() && (p.r.trim() || p.f)).length >= 3,
+    s6: () => S.org.dirs.filter((d) => d.roles.some((r) => r.t.trim())).length >= 2 && S.org.dirs.reduce((a, d) => a + d.roles.filter((r) => r.t.trim()).length, 0) >= 4,
+    s7: () => !!(S.ad.proj.trim() && S.ad.who.trim()) && S.talks.length >= 2,
+  };
+  let booted = false;
+  function progress() {
+    const done = SECS.filter(([id]) => DONE[id]());
+    const n = done.length;
+    $('#progTxt').textContent = `${n} з 7 розділів`;
+    $('#progBar').style.width = (n / 7) * 100 + '%';
+    $('#pills').innerHTML = SECS.map(([id, t]) => `<a class="pill${DONE[id]() ? ' ok' : ''}" href="#${id}">${DONE[id]() ? '✓ ' : ''}${t}</a>`).join('');
+    $('#badge').textContent = n === 7 ? '🏅 Значок «Капітан команди» твій!' : n >= 4 ? '⚓ Значок «Боцман» — ще трохи до капітана' : '🎯 Мета — значок «Капітан команди»';
+    SECS.forEach(([id]) => {
+      const sec = $('#' + id), ok = DONE[id](), nav = $(`#secnav [data-s="${id}"]`);
+      sec.classList.toggle('done', ok); nav.classList.toggle('ok', ok);
+      let a = sec.querySelector(':scope > .award');
+      if (ok && !a) {
+        a = stk('goose', 'award'); a.title = 'Все ок, рухайся далі!'; sec.append(a);
+        if (booted && !S.awarded.includes(id)) { a.classList.add('fly'); toast('Розділ виконано. Все ок, рухайся далі! 🪿'); }
+      }
+      if (!ok && a) a.remove();
+      if (ok && !S.awarded.includes(id)) S.awarded.push(id);
+      if (!ok) S.awarded = S.awarded.filter((x) => x !== id);
+    });
+    if (n === 7 && !S.final && booted) {
+      S.final = true;
+      if (!reduced) { const p = stk('sikorsky', 'takeoff'); document.body.append(p); setTimeout(() => p.remove(), 2600); }
+      setTimeout(() => toast('Ідеї злітають! Команда зібрана — капітане, вперед 🚁'), 400);
+    }
+    if (n < 7) S.final = false;
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* ігноруємо */ }
+  }
+
+  /* ---------- Навігація: підсвічуємо поточний розділ ---------- */
+  const links = $$('#secnav a');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((en) => {
+      if (en.isIntersecting) links.forEach((l) => l.classList.toggle('on', l.dataset.s === en.target.id));
+    }), { rootMargin: '-40% 0px -55% 0px' });
+    SECS.forEach(([id]) => io.observe($('#' + id)));
+  }
+
+  /* ---------- Старт ---------- */
+  paintMood(); renderExTabs(); renderTL(); renderSeq(); $('#whoText').value = S.whoText;
+  renderMe(); renderPeople(); renderDream(); renderWho(); $('#costText').value = S.costText;
+  renderOrg(); renderEdit(); fillAd(); renderTalks();
+  progress(); booted = true;
+})();
+</script>
+</body>
+</html>

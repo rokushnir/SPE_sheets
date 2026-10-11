@@ -1,0 +1,1400 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Фінансовий план</title>
+<meta name="description" content="Заняття 03 «Особистий фінансовий і інвестиційний план»: план доходу й навичок на 5 років, SMART-конструктор фінансової цілі, родинні моделі про гроші, симулятор складних відсотків «матрац чи інвестиції», мапа ідей заробітку, інвестиційний план на 10 років, інвестиційні інструменти й динаміка капіталу.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Стиль робочого зошита «Фінансова грамотність»: світло-сірий аркуш, сині плашки, темно-сині заголовки таблиць. */
+  :root {
+    --bg: #eceef2;
+    --paper: #f7f8fa;
+    --surface: #ffffff;
+    --text: #1b1d24;
+    --muted: #5f6573;
+    --faint: #939aa7;
+    --line: #e0e4eb;
+    --blue: #3f7ff0;
+    --blue-2: #1f4fbf;
+    --blue-3: #6d9ef6;
+    --navy: #0f3a9e;
+    --sky: #dbe6fd;
+    --sky-soft: #eef3fe;
+    --on-blue: #ffffff;
+    --ok: #1f9d55;
+    --ok-soft: #dcf3e5;
+    --no: #e5484d;
+    --warn: #e08a00;
+    --quote: #2b2f36;
+    --shadow: 0 12px 30px rgba(10, 30, 80, .07);
+    --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1116; --paper: #171a21; --surface: #20242d; --text: #eceef3; --muted: #a6acb8; --faint: #747b89; --line: #2f3440;
+      --blue: #5b93ff; --blue-2: #3f7ff0; --blue-3: #86aefc; --navy: #2b55ba; --sky: #1f2e54; --sky-soft: #1a2238;
+      --ok: #3cc077; --ok-soft: #173a27; --no: #ff6b6f; --warn: #ffb02e; --quote: #262a33;
+      --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1116; --paper: #171a21; --surface: #20242d; --text: #eceef3; --muted: #a6acb8; --faint: #747b89; --line: #2f3440;
+    --blue: #5b93ff; --blue-2: #3f7ff0; --blue-3: #86aefc; --navy: #2b55ba; --sky: #1f2e54; --sky-soft: #1a2238;
+    --ok: #3cc077; --ok-soft: #173a27; --no: #ff6b6f; --warn: #ffb02e; --quote: #262a33;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .wrap { width: min(1020px, 100% - 32px); margin: 0 auto; padding: 20px 0 80px; }
+  .sheet { position: relative; background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(18px, 4vw, 40px); scroll-margin-top: 64px; }
+  .sheet + .sheet { margin-top: 24px; }
+  .hidden { display: none !important; }
+
+  /* ---------- Навігація по розділах ---------- */
+  .secnav {
+    position: sticky; top: 0; z-index: 40; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    margin: 0 -4px 14px; padding: 10px 4px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px);
+  }
+  .secnav::-webkit-scrollbar { display: none; }
+  @media (min-width: 980px) { .secnav { flex-wrap: wrap; justify-content: center; } }
+  .secnav a {
+    flex: none; text-decoration: none; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 700; white-space: nowrap; transition: background .2s, color .2s;
+  }
+  .secnav a:hover { border-color: var(--blue); color: var(--text); }
+  .secnav a.done { border-color: var(--ok); color: var(--ok); }
+  .secnav a.on { background: var(--blue-2); border-color: var(--blue-2); color: var(--on-blue); }
+
+  /* ---------- Шапка як у зошиті ---------- */
+  .lesson { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+  .lesson-num {
+    background: var(--blue); color: var(--on-blue); border-radius: 12px; padding: 8px 12px 6px; text-align: center;
+    font-family: "Unbounded", sans-serif; line-height: 1;
+  }
+  .lesson-num b { display: block; font-size: 34px; font-weight: 700; }
+  .lesson-num small { font-family: "Inter", sans-serif; font-size: 10px; letter-spacing: .04em; }
+  .lesson-sub { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+  h1 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(20px, 3.4vw, 32px); line-height: 1.15; margin: 2px 0 0; text-wrap: balance; }
+  h2 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(17px, 2.6vw, 22px); line-height: 1.2; margin: 2px 0 0; text-wrap: balance; }
+  h3 { font-size: 16px; font-weight: 800; margin: 24px 0 4px; }
+
+  .mood-wrap { position: relative; }
+  .sticker {
+    width: 132px; min-height: 70px; border: 2px dashed var(--line); border-radius: 14px; background: transparent;
+    display: grid; place-items: center; color: var(--faint); font-family: "Unbounded", sans-serif; font-size: 12px; line-height: 1.2;
+    padding: 6px; transition: transform .2s, border-color .2s;
+  }
+  .sticker:hover { border-color: var(--blue-3); transform: rotate(-3deg); }
+  .sticker.has { border-color: transparent; font-size: 40px; }
+  .sticker.has img { width: 92px; height: auto; transform: rotate(-6deg); filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .25)); animation: stick .5s cubic-bezier(.2, 1.6, .4, 1); }
+  @keyframes stick { from { transform: scale(1.6) rotate(14deg); opacity: 0; } to { transform: rotate(-6deg); opacity: 1; } }
+  .mood-pop {
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 50; width: 252px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; box-shadow: var(--shadow); padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  }
+  .mood-pop[hidden] { display: none; }
+  .mood-pop p { grid-column: 1 / -1; margin: 0 0 2px; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .mood-pop button { border: 1px solid var(--line); background: var(--paper); border-radius: 10px; font-size: 22px; padding: 4px; min-height: 44px; }
+  .mood-pop button:hover { border-color: var(--blue); }
+  .mood-pop .mood-st { grid-column: span 2; padding: 6px; }
+  .mood-pop .mood-st img { width: 70px; height: auto; filter: drop-shadow(0 3px 4px rgba(0, 0, 0, .2)); transition: transform .2s; }
+  .mood-pop .mood-st:hover img { transform: rotate(-5deg) scale(1.05); }
+  .mood-pop .mood-clear { grid-column: 1 / -1; font-size: 13px; font-weight: 600; color: var(--muted); }
+
+  .overall { margin-top: 18px; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
+  .bar { height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--ok)); border-radius: 99px; transition: width .6s; }
+  .overall span { font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+
+  /* ---------- Заголовки розділів ---------- */
+  .sec-head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin-bottom: 6px; }
+  .sec-num {
+    width: 46px; height: 46px; border-radius: 12px; background: var(--blue); color: var(--on-blue); display: grid; place-items: center;
+    font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 18px; transition: background .3s;
+  }
+  .sec-num.done { background: var(--ok); }
+  .sec-tools { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .btn {
+    border: 0; border-radius: 12px; background: var(--blue-2); color: var(--on-blue); font-weight: 800; padding: 11px 18px;
+    white-space: nowrap; transition: background .2s, transform .15s;
+  }
+  .btn:hover { background: var(--navy); transform: translateY(-1px); }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+  .btn-ghost:hover { background: var(--sky-soft); }
+  .btn-sm { padding: 8px 12px; font-size: 13px; border-radius: 10px; }
+  .q { font-weight: 800; font-size: 17px; margin: 22px 0 2px; }
+  .hint { color: var(--muted); font-size: 14px; font-style: italic; margin: 0 0 12px; max-width: 760px; }
+  .tip { background: var(--sky-soft); border-radius: 12px; padding: 12px 14px; font-size: 14px; margin: 14px 0 0; }
+  .tip b { color: var(--blue-2); }
+  :root[data-theme="dark"] .tip b { color: var(--blue-3); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tip b { color: var(--blue-3); } }
+  textarea.area, input.field {
+    width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; font-size: 15px;
+  }
+  textarea.area { min-height: 96px; resize: vertical; line-height: 1.45; }
+  textarea.area:focus, input.field:focus, .cell:focus { outline: 0; border-color: var(--blue); box-shadow: 0 0 0 3px var(--sky); }
+  input::placeholder, textarea::placeholder { color: var(--faint); }
+  .lbl { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin: 0 0 4px; letter-spacing: .02em; }
+
+  /* ---------- Таблиці-сітки зошита ---------- */
+  .scroller { overflow-x: auto; margin: 10px -4px 0; padding: 0 4px 6px; -webkit-overflow-scrolling: touch; }
+  table.grid { border-collapse: separate; border-spacing: 4px; width: 100%; }
+  table.grid th { background: var(--navy); color: var(--on-blue); font-size: 12px; font-weight: 700; border-radius: 7px; padding: 8px 6px; text-align: center; }
+  table.grid th.rowh {
+    text-align: left; font-weight: 600; background: transparent; color: var(--muted); font-size: 12px; line-height: 1.25; min-width: 120px;
+    position: sticky; left: 0; z-index: 2; background: var(--paper);
+  }
+  table.grid th.corner { background: var(--blue); position: sticky; left: 0; z-index: 3; text-align: left; }
+  table.grid td { padding: 0; }
+  .cell {
+    width: 100%; min-width: 70px; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 8px; font-size: 14px;
+    text-align: center; font-weight: 600;
+  }
+  .cell.txt { text-align: left; font-weight: 500; font-size: 13px; }
+  .cell.lab { text-align: left; font-weight: 600; font-size: 12px; color: var(--muted); background: transparent; border-style: dashed; }
+  .unit { font-size: 10px; font-weight: 600; color: var(--faint); display: block; }
+
+  /* міні-стовпчики плану на 5 років */
+  .minis { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .mini { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .mini-h { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 700; }
+  .mini-h b { color: var(--ok); white-space: nowrap; }
+  .cols { display: flex; align-items: flex-end; gap: 8px; height: 110px; margin-top: 10px; }
+  .col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; min-width: 0; }
+  .col i { display: block; width: 100%; max-width: 46px; border-radius: 6px 6px 3px 3px; background: var(--blue); height: 0; transition: height .5s cubic-bezier(.2, .9, .3, 1.2); min-height: 2px; }
+  .col.cap i { background: var(--ok); }
+  .col small { font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .col em { font-style: normal; font-size: 10px; font-weight: 700; margin-bottom: 3px; white-space: nowrap; }
+
+  /* ---------- SMART ---------- */
+  .smart-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 18px; margin-top: 14px; align-items: start; }
+  .srow {
+    display: grid; grid-template-columns: 46px 1fr; gap: 10px; align-items: start; background: var(--sky-soft); border-radius: 12px;
+    padding: 8px 10px 10px 8px; transition: background .3s, box-shadow .3s;
+  }
+  .srow + .srow { margin-top: 6px; }
+  .letter {
+    width: 46px; height: 46px; border-radius: 10px; display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-size: 20px; font-weight: 700;
+    background: var(--surface); color: var(--faint); border: 2px dashed var(--line); transition: all .35s cubic-bezier(.2, 1.4, .4, 1);
+  }
+  .srow.lit .letter { background: var(--blue); color: var(--on-blue); border: 2px solid var(--blue); transform: rotate(-4deg) scale(1.05); }
+  .srow.lit:nth-child(even) .letter { background: var(--navy); border-color: var(--navy); }
+  .srow.lit { background: var(--sky); }
+  .srow .en { font-weight: 800; font-size: 15px; }
+  .srow .en small { font-weight: 700; color: var(--blue-2); font-size: 11px; margin-left: 6px; }
+  :root[data-theme="dark"] .srow .en small { color: var(--blue-3); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .srow .en small { color: var(--blue-3); } }
+  .srow .def { font-size: 12px; color: var(--muted); margin: 0 0 6px; }
+  .srow input { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 8px 10px; font-size: 14px; }
+  .srow input:focus { outline: 0; border-color: var(--blue); }
+  .srow.mot .letter { font-size: 15px; width: 46px; }
+  .srow.mot.lit .letter { background: var(--ok); border-color: var(--ok); }
+  .preview {
+    position: sticky; top: 70px; background: var(--surface); border: 2px solid var(--blue); border-radius: 16px; padding: 16px; min-height: 160px;
+  }
+  .preview .lesson-sub { color: var(--blue); }
+  .preview p.goaltext { font-size: 17px; font-weight: 700; line-height: 1.4; margin: 8px 0 12px; }
+  .preview p.goaltext mark { background: var(--sky); color: inherit; border-radius: 4px; padding: 0 3px; }
+  .preview p.goaltext .gap { color: var(--faint); font-weight: 500; border-bottom: 2px dotted var(--faint); }
+  .meter { display: flex; gap: 4px; margin: 6px 0 12px; }
+  .meter span { flex: 1; height: 8px; border-radius: 4px; background: var(--line); transition: background .3s; }
+  .meter span.on { background: var(--blue); }
+  .meter span.on.m6 { background: var(--ok); }
+  .verdict { font-size: 13px; color: var(--muted); margin: 0 0 12px; }
+
+  .glist { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+  .glist li { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 6px 8px; }
+  .gnum { width: 28px; height: 28px; border-radius: 8px; background: var(--blue); color: var(--on-blue); display: grid; place-items: center; font-weight: 800; font-size: 14px; }
+  .glist input { border: 0; background: transparent; padding: 8px 4px; font-size: 15px; font-weight: 500; min-width: 0; width: 100%; }
+  .glist input:focus { outline: 0; }
+  .chips { display: flex; gap: 3px; }
+  .chips button, .chips span {
+    width: 24px; height: 26px; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); font-size: 11px; font-weight: 800; color: var(--faint);
+    display: grid; place-items: center; padding: 0;
+  }
+  .chips .on { background: var(--blue); color: var(--on-blue); border-color: var(--blue); }
+  .chips .man.on { background: var(--navy); border-color: var(--navy); }
+  .chips .plus.on { background: var(--ok); border-color: var(--ok); }
+
+  /* текстові наліпки */
+  .tsticker {
+    position: absolute; z-index: 3; background: #fff; color: #1b1d24; border-radius: 14px; padding: 8px 12px 10px; box-shadow: 0 8px 18px rgba(0, 0, 0, .18);
+    transform: rotate(5deg); font-weight: 800; font-size: 14px; line-height: 1.1; text-align: center; pointer-events: auto; transition: transform .25s;
+  }
+  .tsticker span { display: block; margin-top: 6px; background: var(--blue); color: #fff; border-radius: 8px; padding: 4px 8px; font-size: 13px; }
+  .tsticker:hover { transform: rotate(0) translateY(-3px); }
+  .tsticker.s1 { right: 22px; top: -16px; }
+  .tsticker.s2 { right: 26px; top: -18px; transform: rotate(-5deg); }
+  .tsticker.s2 span { background: var(--ok); }
+
+  /* ---------- Родинні моделі: ваги ---------- */
+  .fam-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; align-items: start; }
+  .slist { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; counter-reset: s; }
+  .slist li { display: grid; grid-template-columns: 22px 1fr auto; gap: 8px; align-items: center; counter-increment: s; }
+  .slist li::before { content: counter(s); font-size: 12px; font-weight: 700; color: var(--faint); text-align: right; }
+  .slist input { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 8px 10px; font-size: 14px; min-width: 0; width: 100%; }
+  .slist input:focus { outline: 0; border-color: var(--blue); }
+  .slist.more li:nth-child(n+8) { display: none; }
+  .sign { display: flex; gap: 3px; }
+  .sign button { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); font-weight: 800; font-size: 16px; padding: 0; color: var(--faint); }
+  .sign button[aria-pressed="true"].p { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .sign button[aria-pressed="true"].n { background: var(--no); border-color: var(--no); color: #fff; }
+  .scale-card { position: sticky; top: 70px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; text-align: center; }
+  .scale-card svg { width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto; }
+  #beam { transform-origin: 150px 60px; transition: transform .8s cubic-bezier(.3, 1.6, .5, 1); }
+  .pans { transition: transform .8s cubic-bezier(.3, 1.6, .5, 1); }
+  .score { display: flex; justify-content: center; gap: 18px; font-weight: 800; margin-top: 4px; }
+  .score .p { color: var(--ok); } .score .n { color: var(--no); }
+  .scale-msg { font-size: 13px; color: var(--muted); margin: 8px 0 0; text-align: left; }
+
+  /* ---------- Симулятор складних відсотків ---------- */
+  .sim { display: grid; grid-template-columns: 280px 1fr; gap: 18px; margin-top: 14px; }
+  .sliders { display: grid; gap: 14px; align-content: start; }
+  .sl label { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 700; color: var(--muted); }
+  .sl label output { color: var(--text); font-weight: 800; font-size: 15px; }
+  input[type="range"] { width: 100%; accent-color: var(--blue); height: 28px; }
+  .chart-box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 10px; position: relative; min-width: 0; }
+  #simSvg { width: 100%; height: 270px; display: block; touch-action: pan-y; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--muted); padding: 2px 6px 4px; }
+  .legend i { display: inline-block; width: 14px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+  .tipbox {
+    position: absolute; pointer-events: none; background: var(--text); color: var(--bg); font-size: 12px; border-radius: 8px; padding: 6px 9px;
+    line-height: 1.35; opacity: 0; transition: opacity .15s; white-space: nowrap; z-index: 4;
+  }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+  .kpi small { display: block; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .kpi b { display: block; font-family: "Unbounded", sans-serif; font-size: clamp(15px, 2.2vw, 19px); margin-top: 2px; white-space: nowrap; }
+  .kpi span { font-size: 12px; color: var(--muted); }
+  .kpi.inv b { color: var(--blue); } .kpi.mat b { color: var(--muted); } .kpi.gain b { color: var(--ok); }
+  .delay {
+    margin-top: 18px; display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center;
+    background: linear-gradient(110deg, var(--sky), var(--sky-soft)); border-radius: 16px; padding: 14px 18px;
+  }
+  .capy { width: 112px; height: auto; transform: rotate(-7deg); filter: drop-shadow(0 8px 10px rgba(0, 0, 0, .25)); transition: transform .3s; }
+  .capy:hover { transform: rotate(-2deg) translateY(-4px) scale(1.04); }
+  .capy.wiggle { animation: wiggle .6s; }
+  @keyframes wiggle { 25% { transform: rotate(-14deg) translateX(-4px); } 60% { transform: rotate(2deg) translateX(6px); } }
+  .delay h3 { margin: 0 0 4px; }
+  .delay p { margin: 6px 0 0; font-size: 15px; }
+  .delay p b.loss { color: var(--no); font-size: 18px; }
+
+  /* ---------- Ідеї ---------- */
+  .ideas { display: grid; gap: 6px; margin-top: 12px; }
+  .irow { display: grid; grid-template-columns: 26px 2.2fr 1.1fr 1.4fr 1.3fr .8fr 1.1fr 1.2fr; gap: 6px; align-items: center; }
+  .irow.head > div { background: var(--navy); color: var(--on-blue); font-size: 11px; font-weight: 700; border-radius: 7px; padding: 8px 6px; text-align: center; line-height: 1.2; align-self: stretch; display: grid; place-items: center; }
+  .irow.head > div:first-child { background: transparent; }
+  .irow .n { font-size: 12px; font-weight: 800; color: var(--faint); text-align: center; }
+  .irow input { width: 100%; min-width: 0; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 8px 6px; font-size: 13px; }
+  .irow input:focus { outline: 0; border-color: var(--blue); }
+  .pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 3px; align-items: center; }
+  .pair span { font-size: 13px; color: var(--faint); font-weight: 700; }
+  .pair input.plus { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+  .pair input.minus { border-color: color-mix(in srgb, var(--no) 45%, var(--line)); }
+  .ev { font-size: 13px; font-weight: 800; text-align: right; white-space: nowrap; padding-right: 4px; }
+  .ev.neg { color: var(--no); } .ev.pos { color: var(--ok); }
+  .irow .ml { display: none; }
+  .irow.top input.prio { background: var(--ok-soft); border-color: var(--ok); font-weight: 800; }
+  .map-wrap { display: grid; grid-template-columns: 1fr 260px; gap: 16px; margin-top: 18px; align-items: center; }
+  .map-wrap svg { width: 100%; height: auto; display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+  .map-wrap .bub { transition: transform .5s cubic-bezier(.2, 1.4, .4, 1); }
+
+  /* ---------- Інвестиційний план ---------- */
+  .plan-top { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-top: 10px; }
+  .plan-top > div { min-width: 120px; }
+  .plan-top input { width: 120px; }
+  .plan-top .grow { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; background: var(--sky-soft); border-radius: 12px; padding: 8px 10px; }
+  .plan-top .grow input { width: 70px; }
+  table.plan td.calc { background: var(--paper); border: 1px solid transparent; border-radius: 8px; font-size: 12.5px; font-weight: 700; text-align: center; padding: 9px 4px; min-width: 70px; white-space: nowrap; color: var(--muted); }
+  table.plan td.calc.neg { color: var(--no); }
+  table.plan td.calc.inv { color: var(--blue); }
+  table.plan td.calc.capv { background: var(--ok-soft); color: var(--ok); font-weight: 800; }
+  table.plan .y1 .cell, table.plan td.y1.calc { background: var(--sky-soft); }
+  table.plan th.rowh.invh { color: var(--blue); }
+  table.plan th.rowh.caph { color: var(--ok); font-weight: 800; }
+  table.plan th.meta { background: var(--sky); color: var(--text); font-weight: 600; }
+  .legend2 { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .legend2 i { display: inline-block; width: 13px; height: 13px; border-radius: 4px; vertical-align: -2px; margin-right: 6px; }
+  .bars { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 14px 8px; }
+  .bars-h { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; font-weight: 700; }
+  .bars-h b { color: var(--ok); }
+  .bcols { display: flex; align-items: flex-end; gap: 6px; height: 190px; margin-top: 12px; }
+  .bcol { flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+  .bcol em { font-style: normal; font-size: 10px; font-weight: 800; color: var(--ok); margin-bottom: 3px; white-space: nowrap; }
+  .stack { width: 100%; max-width: 54px; display: flex; flex-direction: column-reverse; border-radius: 7px 7px 3px 3px; overflow: hidden; height: 0; transition: height .6s cubic-bezier(.2, .9, .3, 1.15); min-height: 2px; background: var(--line); }
+  .stack .own { background: var(--navy); transition: height .6s; }
+  .stack .gain { background: var(--blue-3); transition: height .6s; }
+  .bcol small { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+  /* ---------- Інструменти ---------- */
+  .palette { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight: 600; transition: border-color .2s, background .2s; }
+  .chip:hover, .chip[aria-pressed="true"] { border-color: var(--blue); background: var(--sky-soft); }
+  .icard { margin-top: 10px; background: var(--surface); border: 2px solid var(--blue); border-radius: 14px; padding: 12px 14px; display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; animation: pop .3s; }
+  .icard h4 { margin: 0; font-size: 15px; }
+  .icard p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+  .risk { display: inline-flex; gap: 3px; margin-left: 8px; vertical-align: middle; }
+  .risk i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .risk i.on { background: var(--warn); }
+  .icard .acts { display: flex; flex-direction: column; gap: 6px; }
+  @keyframes pop { from { transform: scale(.96); opacity: 0; } }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .nlist { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 6px; }
+  .nlist li { display: grid; grid-template-columns: 28px 1fr; gap: 8px; align-items: center; }
+  .nlist input { border: 0; border-bottom: 1px solid var(--line); background: transparent; padding: 8px 4px; font-size: 14px; min-width: 0; width: 100%; }
+  .nlist input:focus { outline: 0; border-bottom-color: var(--blue); }
+  .nlist input.flash { animation: flash 1s; }
+  @keyframes flash { 0%, 50% { background: var(--sky); } }
+  .franklin { margin-top: 18px; background: var(--sky-soft); border-radius: 14px; padding: 14px 16px; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; }
+  .franklin .qm { font-family: "Unbounded", sans-serif; font-size: 26px; font-weight: 700; color: var(--blue); line-height: 1; }
+  .franklin b { font-size: 16px; }
+  .franklin p { margin: 6px 0 0; font-size: 12px; font-style: italic; color: var(--muted); }
+
+  /* ---------- Динаміка капіталу ---------- */
+  #dynSvg { width: 100%; height: 230px; display: block; }
+  .prompts { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+  .age-badge { display: inline-block; background: var(--blue); color: var(--on-blue); border-radius: 8px; padding: 2px 8px; font-weight: 800; font-size: 13px; font-style: normal; }
+
+  /* ---------- Слово ---------- */
+  .quote-card { background: var(--quote); color: #f2f3f5; border-radius: 18px; padding: 24px 26px; margin-top: 14px; }
+  :root:not([data-theme="dark"]) .quote-card { --quote: #2b2f36; }
+  .quote-card .qm { font-family: "Unbounded", sans-serif; font-size: 52px; line-height: .8; color: #5b93ff; font-weight: 700; }
+  .quote-card blockquote { margin: 10px 0 0; font-family: "Unbounded", sans-serif; font-size: clamp(16px, 2.6vw, 22px); line-height: 1.4; font-weight: 500; }
+  .quote-card .who { margin-top: 18px; padding-top: 12px; border-top: 3px solid #5b93ff; width: max-content; font-weight: 800; }
+  .quote-card .who span { display: block; font-weight: 500; font-size: 12px; color: #aab0bb; }
+  .quote-card .src { font-size: 11px; color: #9aa1ad; margin-top: 10px; }
+  .world { margin-top: 14px; background: var(--surface); border-radius: 16px; padding: 16px 18px; border: 1px solid var(--line); }
+  .world small { font-size: 11px; font-weight: 800; color: var(--blue); letter-spacing: .08em; text-transform: uppercase; }
+  .world p { margin: 8px 0 4px; font-size: 16px; }
+  .world .by { font-weight: 700; font-size: 13px; color: var(--muted); }
+  .src-count { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .src-count button { min-width: 36px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); font-weight: 800; }
+  .src-count button[aria-pressed="true"] { background: var(--blue-2); color: #fff; border-color: var(--blue-2); }
+  .src-count output { font-weight: 700; color: var(--text); flex-basis: 100%; }
+
+  .final { margin-top: 18px; display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; background: linear-gradient(110deg, var(--ok), #4cc46a); color: #fff; border-radius: 16px; padding: 14px 18px; }
+  .final img { width: 90px; height: auto; transform: rotate(-8deg); filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .25)); }
+  .final b { font-size: 18px; display: block; }
+
+  /* нагорода: їжак прилітає в куток */
+  .reward { position: fixed; z-index: 96; width: 84px; height: auto; pointer-events: none; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .3)); }
+  .badge-pop {
+    position: absolute; right: -10px; top: -14px; z-index: 5; width: 74px; pointer-events: none; transform: rotate(10deg);
+    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .25)); animation: fadeout 3.4s forwards;
+  }
+  @keyframes fadeout { 0%, 75% { opacity: 1; } 100% { opacity: 0; transform: rotate(18deg) translateY(-10px); } }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 30px); opacity: 0; pointer-events: none; max-width: calc(100% - 32px);
+    background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; transition: .3s; z-index: 97;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  footer { text-align: center; margin-top: 28px; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--blue); font-weight: 700; text-decoration: none; }
+
+  /* ---------- Мобільна верстка ---------- */
+  @media (max-width: 860px) {
+    .smart-grid, .fam-grid, .sim, .map-wrap { grid-template-columns: 1fr; }
+    .preview, .scale-card { position: static; }
+    .kpis { grid-template-columns: 1fr 1fr; }
+    .irow.head { display: none; }
+    .irow { grid-template-columns: 1fr 1fr; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px; gap: 8px; }
+    .irow .n { grid-column: 1 / -1; text-align: left; }
+    .irow > .name { grid-column: 1 / -1; }
+    .irow .ml { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 2px; }
+    .ev { text-align: left; align-self: end; padding-bottom: 8px; }
+  }
+  @media (max-width: 760px) {
+    .lesson { grid-template-columns: auto 1fr; }
+    .mood-wrap { grid-column: 1 / -1; }
+    .sticker { width: 100%; min-height: 52px; }
+    .mood-pop { left: 0; right: auto; }
+    .sec-head { grid-template-columns: auto 1fr; }
+    .sec-tools { grid-column: 1 / -1; justify-content: flex-start; }
+    .two, .minis { grid-template-columns: 1fr; }
+    .delay { grid-template-columns: 1fr; text-align: left; }
+    .capy { width: 96px; }
+    .tsticker { display: none; }
+    .glist li { grid-template-columns: 28px 1fr; }
+    .glist .chips { grid-column: 2; }
+    .icard { grid-template-columns: 1fr; }
+    .icard .acts { flex-direction: row; }
+    .final { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  @media print {
+    body { background: #fff; }
+    .wrap { width: 100%; padding: 0; }
+    .sheet { box-shadow: none; }
+    .no-print, .secnav, .sec-tools, .toast { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="secnav no-print" id="secnav" aria-label="Розділи заняття">
+    <a href="#top" data-s="1">1 · План на 5 років</a>
+    <a href="#s2" data-s="2">2 · SMART-ціль</a>
+    <a href="#s3" data-s="3">3 · Родинні моделі</a>
+    <a href="#s4" data-s="4">4 · Магія відсотків</a>
+    <a href="#s5" data-s="5">5 · Ідеї (ДЗ)</a>
+    <a href="#s6" data-s="6">6 · План на 10 років</a>
+    <a href="#s7" data-s="7">7 · Інструменти</a>
+    <a href="#s8" data-s="8">8 · Капітал і я через 10</a>
+    <a href="#s9" data-s="9">9 · Слово</a>
+  </nav>
+
+  <!-- ===================== 1. Шапка + план на 5 років ===================== -->
+  <section class="sheet" id="top" data-sec="1">
+    <div class="lesson">
+      <div class="lesson-num"><b>03</b><small>заняття</small></div>
+      <div>
+        <div class="lesson-sub">Фінансова грамотність</div>
+        <h1>Особистий фінансовий і інвестиційний план</h1>
+      </div>
+      <div class="mood-wrap">
+        <button class="sticker" id="sticker" type="button" aria-haspopup="true" aria-expanded="false" title="Обери наліпку настрою">наліпка<br>настрою</button>
+        <div class="mood-pop" id="moodPop" hidden>
+          <p>Який у тебе настрій?</p>
+          <button type="button" class="mood-st" data-mood="hedgehog" aria-label="Їжак «Маленькі кроки — великі плани»"><img data-st="hedgehog" src="data:image/webp;base64,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" alt="Наліпка: їжак «Маленькі кроки — великі плани»" width="70" height="77" id="hedgeSrc"></button>
+          <button type="button" class="mood-st" data-mood="capy" aria-label="Капібара «Або зараз, або ніколи»"><img class="capy-clone" alt="Наліпка: капібара «Або зараз, або ніколи»" width="70" height="83"></button>
+          <button type="button" data-mood="🤑" aria-label="Гроші">🤑</button>
+          <button type="button" data-mood="💪" aria-label="Сила">💪</button>
+          <button type="button" data-mood="🤔" aria-label="Думаю">🤔</button>
+          <button type="button" data-mood="😴" aria-label="Втомився">😴</button>
+          <button type="button" class="mood-clear" data-mood="">Прибрати наліпку</button>
+        </div>
+      </div>
+    </div>
+    <div class="overall" aria-live="polite">
+      <div class="bar" role="progressbar" aria-label="Заповнено розділів" aria-valuemin="0" aria-valuemax="9" id="ovBar"><i id="ovFill"></i></div>
+      <span id="ovTxt">0 з 9 розділів</span>
+    </div>
+
+    <div class="sec-head" style="margin-top:26px">
+      <span class="sec-num" data-num="1">1</span>
+      <div><div class="lesson-sub">Дорожня карта</div><h2>Скільки, коли і завдяки яким навичкам ти заробиш?</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-example="t5" type="button">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="t5" type="button">Очистити</button></div>
+    </div>
+    <p class="hint">Заповни по роках. Числа одразу перетворюються на стовпчики — побачиш, як ростуть дохід і капітал. Навички пиши словами: що саме вмітимеш.</p>
+    <div class="scroller">
+      <table class="grid" id="t5"></table>
+    </div>
+    <div class="minis">
+      <div class="mini"><div class="mini-h"><span>Дохід на місяць</span><b id="incX"></b></div><div class="cols" id="incCols"></div></div>
+      <div class="mini"><div class="mini-h"><span>Капітал / заощадження</span><b id="capX"></b></div><div class="cols" id="capCols"></div></div>
+    </div>
+  </section>
+
+  <!-- ===================== 2. SMART ===================== -->
+  <section class="sheet" id="s2" data-sec="2">
+    <div class="tsticker s1" aria-hidden="true">smart moves<span>only</span></div>
+    <div class="sec-head">
+      <span class="sec-num" data-num="2">2</span>
+      <div><div class="lesson-sub">Якою має бути ціль</div><h2>SMART-конструктор фінансової цілі</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-example="smart" type="button">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="smart" type="button">Очистити</button></div>
+    </div>
+    <p class="hint">Заповнюй рядки — літери загоряються, коли умова виконана. Праворуч збирається готове формулювання цілі.</p>
+    <div class="smart-grid">
+      <div id="smartRows"></div>
+      <div class="preview" aria-live="polite">
+        <div class="lesson-sub">Моя ціль звучить так</div>
+        <div class="meter" id="meter"><span></span><span></span><span></span><span></span><span></span><span class="m6"></span></div>
+        <p class="goaltext" id="goalText"></p>
+        <p class="verdict" id="verdict"></p>
+        <button class="btn btn-sm" id="addGoal" type="button">Додати до моїх цілей ↓</button>
+      </div>
+    </div>
+
+    <p class="q">Напиши свої фінансові цілі на найближчі 5 років</p>
+    <p class="hint">S, M і T сторінка перевіряє сама (конкретика, цифри, дата). A, R і «+» (мотивує) — натисни, коли чесно можеш сказати «так».</p>
+    <ol class="glist" id="glist"></ol>
+    <div class="sec-tools" style="justify-content:flex-start;margin-top:10px"><button class="btn btn-ghost btn-sm" data-example="goals" type="button">Приклад цілей</button><button class="btn btn-ghost btn-sm" data-clear="goals" type="button">Очистити цілі</button></div>
+  </section>
+
+  <!-- ===================== 3. Родинні моделі ===================== -->
+  <section class="sheet" id="s3" data-sec="3">
+    <div class="sec-head">
+      <span class="sec-num" data-num="3">3</span>
+      <div><div class="lesson-sub">Звідки беруться мої думки про гроші</div><h2>Родинні моделі</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-example="fam" type="button">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="fam" type="button">Очистити</button></div>
+    </div>
+    <p class="q">Напиши 10–15 приказок про гроші, які ти чув/ла від своїх родичів</p>
+    <p class="hint">Познач кожну: «+» — допомагає рости, «−» — гальмує. Ваги покажуть, чого в тебе в голові більше.</p>
+    <div class="fam-grid">
+      <div>
+        <ol class="slist more" id="sayList"></ol>
+        <button class="btn btn-ghost btn-sm" id="moreSay" type="button" style="margin-top:8px">Показати ще рядки (до 15)</button>
+      </div>
+      <div class="scale-card" aria-live="polite">
+        <svg viewBox="0 0 300 190" role="img" aria-label="Ваги: позитивні проти негативних приказок">
+          <rect x="144" y="60" width="12" height="110" rx="4" fill="var(--faint)"/>
+          <rect x="105" y="168" width="90" height="12" rx="6" fill="var(--faint)"/>
+          <g id="beam">
+            <rect x="30" y="55" width="240" height="10" rx="5" fill="var(--blue-2)"/>
+            <circle cx="150" cy="60" r="9" fill="var(--blue)"/>
+            <g class="pan" id="panL"><line x1="40" y1="60" x2="22" y2="112" stroke="var(--muted)" stroke-width="2"/><line x1="40" y1="60" x2="58" y2="112" stroke="var(--muted)" stroke-width="2"/><path d="M10 112 h60 a30 16 0 0 1 -60 0z" fill="var(--ok)"/><text x="40" y="104" text-anchor="middle" font-size="18" font-weight="800" fill="var(--ok)" id="cntP">0</text></g>
+            <g class="pan" id="panR"><line x1="260" y1="60" x2="242" y2="112" stroke="var(--muted)" stroke-width="2"/><line x1="260" y1="60" x2="278" y2="112" stroke="var(--muted)" stroke-width="2"/><path d="M230 112 h60 a30 16 0 0 1 -60 0z" fill="var(--no)"/><text x="260" y="104" text-anchor="middle" font-size="18" font-weight="800" fill="var(--no)" id="cntN">0</text></g>
+          </g>
+        </svg>
+        <div class="score"><span class="p">+ позитивні</span><span class="n">− негативні</span></div>
+        <p class="scale-msg" id="scaleMsg"></p>
+      </div>
+    </div>
+    <label class="q" for="sayAn" style="display:block">Проаналізуй: скільки приказок позитивних, а скільки негативних? Що це означає?</label>
+    <textarea class="area" id="sayAn" data-bind="sayAn" placeholder="Що я помічаю…"></textarea>
+
+    <p class="q">Напиши і розкажи 3–5 фінансових історій з дитинства</p>
+    <p class="hint">Коротко: що сталося і що ти тоді відчув/ла. Познач «+» або «−».</p>
+    <ol class="slist" id="storyList"></ol>
+    <label class="q" for="storyAn" style="display:block">Які з них позитивні, а які негативні? Чи впливають ці історії на тебе досі?</label>
+    <textarea class="area" id="storyAn" data-bind="storyAn" placeholder="Досі помічаю, що…"></textarea>
+    <label class="q" for="oldest" style="display:block">Напиши свою найдавнішу родинну історію</label>
+    <textarea class="area" id="oldest" data-bind="oldest" placeholder="Мій прадід / прабабуся…"></textarea>
+  </section>
+
+  <!-- ===================== 4. Симулятор ===================== -->
+  <section class="sheet" id="s4" data-sec="4">
+    <div class="sec-head">
+      <span class="sec-num" data-num="4">4</span>
+      <div><div class="lesson-sub">Розминка перед планом</div><h2>Матрац чи інвестиції: магія складних відсотків</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-example="sim" type="button">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="sim" type="button">Скинути</button></div>
+    </div>
+    <p class="hint">Рухай повзунки. Сіра лінія — гроші під матрацом, синя — ті самі гроші, які щороку приносять відсотки, а відсотки — нові відсотки.</p>
+    <div class="sim">
+      <div class="sliders">
+        <div class="sl"><label for="pm">Відкладаю щомісяця <output id="pmO"></output></label><input type="range" id="pm" min="100" max="10000" step="100"></div>
+        <div class="sl"><label for="rate">Дохідність на рік <output id="rateO"></output></label><input type="range" id="rate" min="0" max="30" step="0.5"></div>
+        <div class="sl"><label for="yrs">Скільки років <output id="yrsO"></output></label><input type="range" id="yrs" min="1" max="40" step="1"></div>
+        <div class="sl"><label for="infl">Інфляція на рік <output id="inflO"></output></label><input type="range" id="infl" min="0" max="20" step="0.5"></div>
+        <p class="tip" id="rule72" style="margin:0"></p>
+      </div>
+      <div class="chart-box">
+        <div class="legend"><span><i style="background:var(--blue)"></i>Інвестував</span><span><i style="background:var(--faint)"></i>Під матрацом</span><span><i style="background:var(--no)"></i>Матрац після інфляції</span></div>
+        <svg id="simSvg" aria-label="Графік зростання грошей" role="img"></svg>
+        <div class="tipbox" id="simTip"></div>
+      </div>
+    </div>
+    <div class="kpis" aria-live="polite">
+      <div class="kpi mat"><small>Під матрацом</small><b id="kMat">—</b><span id="kMatR"></span></div>
+      <div class="kpi inv"><small>Інвестував</small><b id="kInv">—</b><span id="kInvR"></span></div>
+      <div class="kpi gain"><small>Заробили відсотки</small><b id="kGain">—</b><span id="kGainR"></span></div>
+      <div class="kpi"><small>Твої внески</small><b id="kOwn">—</b><span id="kOwnR"></span></div>
+    </div>
+    <div class="delay">
+      <img data-st="capybara-skate" src="data:image/webp;base64,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" alt="Наліпка: капібара «Або зараз, або ніколи»" width="112" height="133" class="capy" id="capy">
+      <div>
+        <h3>Ціна зволікання</h3>
+        <div class="sl"><label for="delay">А якщо почати на … років пізніше? <output id="delayO"></output></label><input type="range" id="delay" min="1" max="10" step="1"></div>
+        <p id="delayTxt"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 5. ДЗ: ідеї ===================== -->
+  <section class="sheet" id="s5" data-sec="5">
+    <div class="sec-head">
+      <span class="sec-num" data-num="5">5</span>
+      <div><div class="lesson-sub">Заняття 3 · Домашнє завдання</div><h2>Випиши ідеї, які хотів/ла б утілити</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-example="ideas" type="button">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="ideas" type="button">Очистити</button></div>
+    </div>
+    <p class="hint">Який прибуток вони можуть для тебе згенерувати? Ризики: оціни шанс успіху (+) і провалу (−) від 1 до 10. Сторінка порахує очікувану вигоду: прибуток × шанс успіху − гроші на старт.</p>
+    <div class="ideas" id="ideas"></div>
+    <div class="sec-tools" style="justify-content:flex-start;margin-top:10px"><button class="btn btn-sm" id="autoPrio" type="button">Розставити пріоритети за вигодою</button></div>
+    <div class="map-wrap">
+      <svg id="ideaMap" viewBox="0 0 520 300" role="img" aria-label="Мапа ідей: шанс успіху і прибуток"></svg>
+      <div>
+        <h3 style="margin-top:0">Мапа ідей</h3>
+        <p class="hint" style="font-style:normal">Праворуч — більший шанс успіху, вище — більший прибуток. Розмір кульки — скільки годин треба вкласти.</p>
+        <p class="tip" id="mapTip">Додай хоча б одну ідею з прибутком і ризиками — вона з’явиться на мапі.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 6. ДЗ: інвестиційний план ===================== -->
+  <section class="sheet" id="s6" data-sec="6">
+    <div class="tsticker s2" aria-hidden="true">ще трохи і<span>буде результат</span></div>
+    <div class="sec-head">
+      <span class="sec-num" data-num="6">6</span>
+      <div><div class="lesson-sub">Домашнє завдання</div><h2>Інвестиційний план на 10 років</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-example="plan" type="button">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="plan" type="button">Очистити</button></div>
+    </div>
+    <p class="hint">Заповни по роках дохід, витрати й дохідність — решту таблиця порахує сама. Порожня клітинка бере значення з попереднього року (бачиш його блідим).</p>
+    <div class="plan-top">
+      <div><label class="lbl" for="pAge">Мій вік у 2026</label><input class="field" id="pAge" data-bind="plan.age" inputmode="numeric" placeholder="14"></div>
+      <div><label class="lbl" for="pStart">Стартовий капітал, грн</label><input class="field" id="pStart" data-bind="plan.start" inputmode="numeric" placeholder="0"></div>
+      <div class="grow">
+        <div><label class="lbl" for="pGi">Дохід +%/рік</label><input class="field" id="pGi" data-bind="plan.gi" inputmode="decimal"></div>
+        <div><label class="lbl" for="pGe">Витрати +%/рік</label><input class="field" id="pGe" data-bind="plan.ge" inputmode="decimal"></div>
+        <button class="btn btn-sm" id="spread" type="button">Розписати роки з 1-го</button>
+      </div>
+    </div>
+    <div class="scroller">
+      <table class="grid plan" id="plan"></table>
+    </div>
+    <div class="legend2"><span><i style="background:var(--sky-soft);border:1px solid var(--line)"></i>стартовий рік</span><span><i style="background:var(--blue)"></i>інвестиційний дохід</span><span><i style="background:var(--ok)"></i>підсумковий капітал</span></div>
+    <p class="hint" style="margin-top:8px">Як рахуємо: накопичено за рік = (дохід − витрати) × 12; інвестиційний дохід = капітал минулого року × %; капітал = минулий капітал + накопичене + інвестиційний дохід.</p>
+    <div class="bars">
+      <div class="bars-h"><span>Капітал по роках: <span style="color:var(--blue-2)">■</span> мої накопичення <span style="color:var(--blue-3)">■</span> заробили інвестиції</span><b id="planSum"></b></div>
+      <div class="bcols" id="bcols"></div>
+    </div>
+  </section>
+
+  <!-- ===================== 7. Інструменти ===================== -->
+  <section class="sheet" id="s7" data-sec="7">
+    <div class="sec-head">
+      <span class="sec-num" data-num="7">7</span>
+      <div><div class="lesson-sub">Домашнє завдання</div><h2>Інвестиційні інструменти</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-example="instr" type="button">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="instr" type="button">Очистити</button></div>
+    </div>
+    <p class="hint">Тапни на інструмент — побачиш, що це і наскільки ризиковано. Кнопками «Знаю» / «Хочу» додай у списки нижче. Або впиши своє.</p>
+    <div class="palette" id="palette"></div>
+    <div id="icard"></div>
+    <div class="two" style="margin-top:14px">
+      <div><p class="q" style="margin-top:6px">Які інвестиційні інструменти знаєш?</p><ol class="nlist" id="knowList"></ol></div>
+      <div><p class="q" style="margin-top:6px">У що можеш і хочеш інвестувати?</p><ol class="nlist" id="wantList"></ol></div>
+    </div>
+    <p class="tip">До 18 років більшість інструментів відкривають разом із батьками. А в знання можна інвестувати вже сьогодні.</p>
+    <div class="franklin"><span class="qm">99</span><div><b>Інвестиція в знання приносить найкращі дивіденди</b><p>Бенджамін Франклін — людина, яка починала як друкар і самоук, а згодом стала винахідником, ученим і одним із творців США.</p></div></div>
+  </section>
+
+  <!-- ===================== 8. Динаміка капіталу + через 10 років ===================== -->
+  <section class="sheet" id="s8" data-sec="8">
+    <div class="sec-head">
+      <span class="sec-num" data-num="8">8</span>
+      <div><div class="lesson-sub">Домашнє завдання</div><h2>Динаміка капіталу по роках</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-example="dyn" type="button">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="dyn" type="button">Очистити</button></div>
+    </div>
+    <p class="hint">У першій колонці — вид капіталу (гроші, депозит, ОВДП, техніка, знання…), далі — сума на кінець кожного року. Лінії намалюються самі.</p>
+    <div class="sec-tools" style="justify-content:flex-start"><button class="btn btn-sm" id="pull" type="button">Підтягнути загальний капітал із плану на 10 років</button></div>
+    <div class="scroller"><table class="grid" id="dyn"></table></div>
+    <div class="chart-box" style="margin-top:12px">
+      <div class="legend" id="dynLegend"></div>
+      <svg id="dynSvg" role="img" aria-label="Графік динаміки капіталу"></svg>
+    </div>
+
+    <label class="q" for="future" style="display:block">Напиши, яким/якою ти бачиш себе через 10 років? <em class="age-badge" id="ageBadge"></em></label>
+    <p class="hint">Не знаєш, з чого почати? Тапни підказку — вона з’явиться в тексті.</p>
+    <div class="prompts" id="prompts"></div>
+    <textarea class="area" id="future" data-bind="future" style="min-height:130px" placeholder="Через 10 років я…"></textarea>
+    <div class="sec-tools" style="justify-content:flex-start;margin-top:8px"><button class="btn btn-ghost btn-sm" data-example="future" type="button">Приклад тексту</button></div>
+  </section>
+
+  <!-- ===================== 9. Слово ===================== -->
+  <section class="sheet" id="s9" data-sec="9">
+    <div class="sec-head">
+      <span class="sec-num" data-num="9">9</span>
+      <div><h2>Слово, яке варто тримати в голові</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-example="take" type="button">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="take" type="button">Очистити</button></div>
+    </div>
+    <div class="quote-card">
+      <div class="qm" aria-hidden="true">«</div>
+      <blockquote>Захопився українським національним рухом не тільки до глибини душі, а й до глибини кишені.</blockquote>
+      <div class="who">Євген Чикаленко<span>1861–1929</span></div>
+      <div class="src">Із листування Є. Чикаленка; думка стала девізом Ліги українських меценатів</div>
+    </div>
+    <div class="world">
+      <small>А ось як про це кажуть у світі</small>
+      <p>«Ніколи не залежте від одного джерела доходу.»</p>
+      <div class="by">— Воррен Баффет</div>
+      <div class="src-count" role="group" aria-label="Скільки джерел доходу в тебе буде через 5 років">
+        <span>Скільки джерел доходу плануєш мати через 5 років?</span>
+        <button type="button" data-src="1">1</button><button type="button" data-src="2">2</button><button type="button" data-src="3">3</button><button type="button" data-src="4">4</button><button type="button" data-src="5">5+</button>
+        <output id="srcO"></output>
+      </div>
+    </div>
+    <label class="q" for="take" style="display:block">Що я з цього забираю</label>
+    <textarea class="area" id="take" data-bind="take" placeholder="Головна думка для мене…"></textarea>
+    <div class="final hidden" id="final">
+      <img class="hedge-clone" alt="Наліпка: їжак «Маленькі кроки — великі плани»" width="90" height="99">
+      <div><b>Усі 9 розділів заповнено!</b>Маленькі кроки — великі плани. Повертайся до плану раз на пів року й звіряй цифри з реальністю.</div>
+    </div>
+  </section>
+
+  <footer>
+    <a href="index.html">← Усі зошити</a>
+    <div>Робочий зошит Campus 13 · Фінансова грамотність · заняття 03</div>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  'use strict';
+  const KEY = 'spe-finplan-v1';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const A = (n, v = '') => Array.from({ length: n }, () => (typeof v === 'function' ? v() : v));
+  const fmt = new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 0 });
+  const money = v => fmt.format(Math.round(v)) + ' грн';
+  // скорочено: 12,5 тис / 1,2 млн
+  const short = v => {
+    const a = Math.abs(v), s = v < 0 ? '−' : '';
+    if (a >= 1e6) return s + (a / 1e6).toFixed(a >= 1e7 ? 0 : 1).replace('.', ',') + ' млн';
+    if (a >= 1e3) return s + (a / 1e3).toFixed(a >= 1e5 ? 0 : 1).replace('.', ',').replace(',0', '') + ' тис';
+    return s + Math.round(a);
+  };
+  const num = v => { const n = parseFloat(String(v ?? '').replace(/\s/g, '').replace(',', '.')); return isFinite(n) ? n : 0; };
+  const has = v => String(v ?? '').trim() !== '';
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const YEARS10 = A(10).map((_, i) => 2026 + i);
+
+  /* ---------- Стан і сховище ---------- */
+  const fresh = () => ({
+    mood: '',
+    t5: { inc: A(5), cap: A(5), k1: A(5), k2: A(5), k3: A(5), x1: A(5), x2: A(5), l1: '', l2: '' },
+    smart: { s: '', m: '', a: '', r: '', t: '', mot: '' },
+    goals: A(5), gok: A(5, () => ({ a: false, r: false, p: false })),
+    say: A(15, () => ({ t: '', s: 0 })), sayAn: '',
+    stories: A(5, () => ({ t: '', s: 0 })), storyAn: '', oldest: '',
+    sim: { pm: 1000, rate: 12, yrs: 10, infl: 8, delay: 5, touched: false },
+    ideas: A(10, () => ({ n: '', p: '', h: '', m: '', plus: '', minus: '', prio: '', dl: '' })),
+    plan: { age: '14', start: '', gi: '10', ge: '5', inc: A(10), exp: A(10), rate: A(10) },
+    know: A(5), want: A(5),
+    dyn: A(8, () => ({ l: '', v: A(9) })),
+    future: '', take: '', src: 0,
+    done: {}
+  });
+  // м'яке злиття збереженого стану зі структурою за замовчуванням
+  const merge = (base, saved) => {
+    if (Array.isArray(base)) return base.map((b, i) => (Array.isArray(saved) && i in saved ? merge(b, saved[i]) : b));
+    if (base && typeof base === 'object') {
+      const o = {};
+      for (const k in base) o[k] = saved && typeof saved === 'object' && k in saved ? merge(base[k], saved[k]) : base[k];
+      return o;
+    }
+    if (saved === null || saved === undefined) return base;
+    if (typeof base === typeof saved) return saved;
+    if (typeof base === 'string' && typeof saved === 'number') return String(saved);
+    return base;
+  };
+  let S = fresh();
+  try {
+    const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (raw && typeof raw === 'object') { S = merge(fresh(), raw); S.done = raw.done && typeof raw.done === 'object' ? raw.done : {}; }
+  } catch (e) {}
+  let saveT;
+  const save = () => { clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 200); };
+  const getP = path => path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), S);
+  const setP = (path, v) => { const ks = path.split('.'); const last = ks.pop(); const o = ks.reduce((a, k) => a[k], S); o[last] = v; };
+
+  const toastEl = $('#toast'); let toastT;
+  const toast = msg => { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 2400); };
+
+  /* ---------- Наліпки: клонуємо src, щоб кожна була в HTML лише раз ---------- */
+  const hedgeSrc = $('#hedgeSrc').src, capySrc = $('#capy').src;
+  $$('.capy-clone').forEach(i => (i.src = capySrc));
+  $$('.hedge-clone').forEach(i => (i.src = hedgeSrc));
+
+  const stickerEl = $('#sticker'), pop = $('#moodPop');
+  const paintMood = (anim) => {
+    const m = S.mood;
+    stickerEl.classList.toggle('has', !!m);
+    if (!m) { stickerEl.innerHTML = 'наліпка<br>настрою'; return; }
+    if (m === 'hedgehog' || m === 'capy') {
+      stickerEl.innerHTML = `<img src="${m === 'hedgehog' ? hedgeSrc : capySrc}" alt="${m === 'hedgehog' ? 'Їжак «Маленькі кроки — великі плани»' : 'Капібара «Або зараз, або ніколи»'}" width="92" height="104">`;
+      if (!anim) stickerEl.firstChild.style.animation = 'none';
+    } else stickerEl.textContent = m;
+  };
+  stickerEl.addEventListener('click', e => { e.stopPropagation(); pop.hidden = !pop.hidden; stickerEl.setAttribute('aria-expanded', String(!pop.hidden)); });
+  pop.addEventListener('click', e => {
+    const b = e.target.closest('[data-mood]'); if (!b) return;
+    S.mood = b.dataset.mood; save(); paintMood(true); pop.hidden = true; stickerEl.setAttribute('aria-expanded', 'false'); stickerEl.focus();
+  });
+  document.addEventListener('click', e => { if (!pop.hidden && !e.target.closest('.mood-wrap')) { pop.hidden = true; stickerEl.setAttribute('aria-expanded', 'false'); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden) { pop.hidden = true; stickerEl.focus(); } });
+
+  /* ===================== 1. План на 5 років ===================== */
+  const T5ROWS = [
+    ['inc', 'Середній місячний дохід, який планую досягнути', 'грн/міс', 'n'],
+    ['cap', 'Капітал / заощадження / майно, яке планую накопичити', 'грн', 'n'],
+    ['k1', 'Ключова компетенція №1, яку планую розвинути', '', 't'],
+    ['k2', 'Ключова компетенція №2, яку планую розвинути', '', 't'],
+    ['k3', 'Ключова компетенція №3, яку планую розвинути', '', 't'],
+    ['x1', '', '', 't', 'l1'],
+    ['x2', '', '', 't', 'l2']
+  ];
+  const buildT5 = () => {
+    let h = '<thead><tr><th class="corner">Показник | Рік</th>' + [2026, 2027, 2028, 2029, 2030].map(y => `<th>${y}</th>`).join('') + '</tr></thead><tbody>';
+    T5ROWS.forEach(([k, label, unit, type, lk]) => {
+      const head = lk
+        ? `<th class="rowh"><input class="cell lab" data-bind="t5.${lk}" placeholder="Свій показник…" aria-label="Назва власного показника"></th>`
+        : `<th class="rowh" scope="row">${label}${unit ? `<span class="unit">${unit}</span>` : ''}</th>`;
+      h += `<tr>${head}` + A(5).map((_, i) => `<td><input class="cell ${type === 't' ? 'txt' : ''}" data-bind="t5.${k}.${i}" ${type === 'n' ? 'inputmode="numeric"' : ''} aria-label="${esc(label || 'Свій показник')}, ${2026 + i}"></td>`).join('') + '</tr>';
+    });
+    $('#t5').innerHTML = h + '</tbody>';
+  };
+  const miniCols = (el, vals, cls) => {
+    const max = Math.max(1, ...vals);
+    el.innerHTML = vals.map((v, i) => `<div class="col ${cls}"><em>${v ? short(v) : ''}</em><i style="height:${(v / max) * 82}%"></i><small>${2026 + i}</small></div>`).join('');
+  };
+  const growth = vals => { const f = vals.find(v => v > 0), l = [...vals].reverse().find(v => v > 0); return f && l && l > f ? '×' + (l / f).toFixed(1).replace('.', ',') + ' за 5 років' : ''; };
+  const renderT5 = () => {
+    const inc = S.t5.inc.map(num), cap = S.t5.cap.map(num);
+    miniCols($('#incCols'), inc, ''); miniCols($('#capCols'), cap, 'cap');
+    $('#incX').textContent = growth(inc); $('#capX').textContent = growth(cap);
+  };
+
+  /* ===================== 2. SMART ===================== */
+  const SMART = [
+    ['s', 'S', 'Specific', 'Конкретна', 'Чітко описана: що саме, скільки і для чого.', 'Що саме і для чого? Напр.: накопичити на ноутбук для дизайну'],
+    ['m', 'M', 'Measurable', 'Вимірна', 'Визначена в цифрах — щоб бачити прогрес.', 'Скільки? Напр.: 30 000 грн'],
+    ['a', 'A', 'Achievable', 'Реальна', 'Розумію, як її досягну і який мій перший крок.', 'Мій перший крок…'],
+    ['r', 'R', 'Relevant', 'Твоя власна', 'Готовий/а взяти за неї відповідальність.', 'Це моя ціль, бо…'],
+    ['t', 'T', 'Time-based', 'Визначена в часі', 'Є дата, до якої докладаю максимум зусиль.', ''],
+    ['mot', '+', 'Мотивує', 'шоста умова', 'Якої немає в абревіатурі: ціль має спонукати діяти щодня.', 'Що я відчую / що зміниться, коли досягну?']
+  ];
+  const words = s => String(s).trim().split(/\s+/).filter(Boolean).length;
+  const smartOk = {
+    s: v => words(v) >= 3,
+    m: v => /\d/.test(v),
+    a: v => words(v) >= 2,
+    r: v => words(v) >= 2,
+    t: v => { const d = new Date(v); return has(v) && !isNaN(d) && d > new Date(); },
+    mot: v => words(v) >= 2
+  };
+  const buildSmart = () => {
+    $('#smartRows').innerHTML = SMART.map(([k, L, en, ua, def, ph]) => `
+      <div class="srow ${k === 'mot' ? 'mot' : ''}" data-k="${k}">
+        <div class="letter" aria-hidden="true">${L}</div>
+        <div><div class="en">${en}<small>${ua}</small></div><p class="def">${def}</p>
+        <input ${k === 't' ? 'type="date"' : ''} data-bind="smart.${k}" placeholder="${esc(ph)}" aria-label="${en} — ${ua}"></div>
+      </div>`).join('');
+  };
+  const dateUa = v => { const d = new Date(v); return isNaN(d) ? '' : d.toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }); };
+  const smartSentence = () => {
+    const s = S.smart, part = (v, ph) => (has(v) ? `<mark>${esc(v.trim())}</mark>` : `<span class="gap">${ph}</span>`);
+    return `До ${has(s.t) ? `<mark>${esc(dateUa(s.t))}</mark>` : '<span class="gap">дата</span>'} я хочу ${part(s.s, 'що саме')} — ${part(s.m, 'скільки')}. Перший крок: ${part(s.a, 'який')}. Це моя ціль, бо ${part(s.r, 'чому')}. Мотивує: ${part(s.mot, 'що зміниться')}.`;
+  };
+  const renderSmart = () => {
+    let n = 0;
+    SMART.forEach(([k]) => { const ok = smartOk[k](S.smart[k]); if (ok) n++; $(`.srow[data-k="${k}"]`).classList.toggle('lit', ok); });
+    $$('#meter span').forEach((sp, i) => sp.classList.toggle('on', i < n));
+    $('#goalText').innerHTML = smartSentence();
+    $('#verdict').textContent = n === 6 ? 'Супер: ціль SMART і ще й мотивує. Час додати її до списку!' :
+      n >= 4 ? `Майже готово: бракує ${6 - n} умов${6 - n === 1 ? 'и' : ''}.` : n ? 'Продовжуй — кожна літера робить ціль сильнішою.' : 'Почни з будь-якого рядка ліворуч.';
+  };
+  const plainGoal = () => {
+    const s = S.smart; const d = has(s.t) ? new Date(s.t) : null;
+    return `${d && !isNaN(d) ? 'До ' + dateUa(s.t) + ' ' : ''}${s.s.trim()}${has(s.m) ? ' — ' + s.m.trim() : ''}`.trim();
+  };
+  $('#addGoal').addEventListener('click', () => {
+    if (!has(S.smart.s)) { toast('Спершу заповни рядок S — що саме?'); return; }
+    let i = S.goals.findIndex(g => !has(g)); if (i < 0) i = 4;
+    S.goals[i] = plainGoal();
+    const okA = smartOk.a(S.smart.a), okR = smartOk.r(S.smart.r), okP = smartOk.mot(S.smart.mot);
+    S.gok[i] = { a: okA, r: okR, p: okP };
+    save(); fillInputs(); renderGoals(); progress();
+    toast(`Ціль додано під №${i + 1}`);
+    const inp = $(`#glist li:nth-child(${i + 1}) input`); inp.focus();
+  });
+  const autoS = g => words(g) >= 4, autoM = g => /\d/.test(g.replace(/20\d\d/g, '')), autoT = g => /20\d\d|до\s|кін(ц|е)|січ|лют|бер|квіт|трав|черв|лип|серп|верес|жовт|листоп|груд|місяц|рік|рок/i.test(g);
+  const buildGoals = () => {
+    $('#glist').innerHTML = A(5).map((_, i) => `<li><span class="gnum">${i + 1}</span>
+      <input data-bind="goals.${i}" placeholder="Фінансова ціль №${i + 1}" aria-label="Фінансова ціль №${i + 1}">
+      <div class="chips" data-g="${i}">
+        <span data-c="S" title="Конкретна (авто)">S</span><span data-c="M" title="Вимірна (авто)">M</span>
+        <button type="button" class="man" data-m="a" aria-label="A — реальна" title="Реальна: знаю перший крок">A</button>
+        <button type="button" class="man" data-m="r" aria-label="R — моя власна" title="Моя власна">R</button>
+        <span data-c="T" title="Визначена в часі (авто)">T</span>
+        <button type="button" class="plus" data-m="p" aria-label="Мотивує" title="Мотивує">+</button>
+      </div></li>`).join('');
+  };
+  const renderGoals = () => {
+    $$('#glist .chips').forEach(ch => {
+      const i = +ch.dataset.g, g = S.goals[i] || '';
+      $('[data-c="S"]', ch).classList.toggle('on', autoS(g));
+      $('[data-c="M"]', ch).classList.toggle('on', autoM(g));
+      $('[data-c="T"]', ch).classList.toggle('on', autoT(g));
+      ['a', 'r', 'p'].forEach(m => { const b = $(`[data-m="${m}"]`, ch); b.classList.toggle('on', !!S.gok[i][m]); b.setAttribute('aria-pressed', String(!!S.gok[i][m])); });
+    });
+  };
+  $('#glist').addEventListener('click', e => {
+    const b = e.target.closest('[data-m]'); if (!b) return;
+    const i = +b.closest('.chips').dataset.g; S.gok[i][b.dataset.m] = !S.gok[i][b.dataset.m]; save(); renderGoals();
+  });
+
+  /* ===================== 3. Родинні моделі ===================== */
+  const buildList = (el, key, n, ph) => {
+    el.innerHTML = A(n).map((_, i) => `<li><input data-bind="${key}.${i}.t" placeholder="${ph(i)}" aria-label="${key === 'say' ? 'Приказка' : 'Історія'} №${i + 1}">
+      <div class="sign" role="group" aria-label="Оцінка"><button type="button" class="p" data-sign="${key}.${i}" data-v="1" aria-label="Позитивна">+</button><button type="button" class="n" data-sign="${key}.${i}" data-v="-1" aria-label="Негативна">−</button></div></li>`).join('');
+  };
+  const SAY_PH = ['Напр.: «Копійка гривню береже»', 'Напр.: «Не в грошах щастя»', 'Ще одна приказка…'];
+  const renderSigns = () => $$('[data-sign]').forEach(b => { const it = getP(b.dataset.sign); b.setAttribute('aria-pressed', String(it.s === +b.dataset.v)); });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-sign]'); if (!b) return;
+    const it = getP(b.dataset.sign), v = +b.dataset.v; it.s = it.s === v ? 0 : v; save(); renderSigns(); renderScale(); progress();
+  });
+  $('#moreSay').addEventListener('click', () => { $('#sayList').classList.remove('more'); $('#moreSay').remove(); });
+  const renderScale = () => {
+    const p = S.say.filter(x => x.s === 1).length, n = S.say.filter(x => x.s === -1).length;
+    $('#cntP').textContent = p; $('#cntN').textContent = n;
+    const ang = Math.max(-16, Math.min(16, (n - p) * 3));
+    $('#beam').style.transform = `rotate(${ang}deg)`;
+    // чаші висять вертикально — компенсуємо поворот
+    $('#panL').style.transform = `rotate(${-ang}deg)`; $('#panL').style.transformOrigin = '40px 60px'; $('#panL').style.transition = 'transform .8s cubic-bezier(.3,1.6,.5,1)';
+    $('#panR').style.transform = `rotate(${-ang}deg)`; $('#panR').style.transformOrigin = '260px 60px'; $('#panR').style.transition = 'transform .8s cubic-bezier(.3,1.6,.5,1)';
+    const filled = S.say.filter(x => has(x.t)).length;
+    $('#scaleMsg').textContent = !p && !n ? (filled ? 'Тепер познач кожну приказку «+» чи «−».' : 'Напиши приказки й познач їх — ваги оживуть.') :
+      p > n ? `Позитивних більше (${p}:${n}). Родина передала тобі здебільшого «грошові» установки зростання — спирайся на них.` :
+      n > p ? `Негативних більше (${n}:${p}). Це не вирок: це звички мислення, які можна переписати. Які з них справді твої?` :
+      `Порівну (${p}:${n}). Ти між двома світами — обери, які думки берешо собі в дорослість.`.replace('берешо', 'береш');
+  };
+
+  /* ===================== 4. Симулятор ===================== */
+  const simSeries = (pm, rate, yrs, infl) => {
+    const r = rate / 100 / 12, out = [{ m: 0, inv: 0, mat: 0, real: 0 }]; let bal = 0;
+    for (let m = 1; m <= yrs * 12; m++) {
+      bal = bal * (1 + r) + pm;
+      const mat = pm * m; out.push({ m, inv: bal, mat, real: mat / Math.pow(1 + infl / 100, m / 12) });
+    }
+    return out;
+  };
+  const sims = ['pm', 'rate', 'yrs', 'infl', 'delay'];
+  const svgNS = 'http://www.w3.org/2000/svg';
+  let simData = [], simGeom = null, drawnOnce = false;
+  const renderSim = () => {
+    const { pm, rate, yrs, infl, delay } = S.sim;
+    $('#pmO').textContent = money(pm); $('#rateO').textContent = String(rate).replace('.', ',') + '%';
+    $('#yrsO').textContent = yrs + ' ' + plural(yrs, 'рік', 'роки', 'років'); $('#inflO').textContent = String(infl).replace('.', ',') + '%';
+    $('#delayO').textContent = delay + ' ' + plural(delay, 'рік', 'роки', 'років');
+    simData = simSeries(pm, rate, yrs, infl);
+    const last = simData[simData.length - 1], realInv = last.inv / Math.pow(1 + infl / 100, yrs);
+    $('#kMat').textContent = short(last.mat) + ' грн'; $('#kMatR').textContent = infl ? `купівельна сила ≈ ${short(last.real)} грн сьогодні` : 'без інфляції';
+    $('#kInv').textContent = short(last.inv) + ' грн'; $('#kInvR').textContent = infl ? `≈ ${short(realInv)} грн у сьогоднішніх цінах` : '';
+    $('#kGain').textContent = short(last.inv - last.mat) + ' грн'; $('#kGainR').textContent = last.mat ? `+${Math.round((last.inv / last.mat - 1) * 100)}% до внесків` : '';
+    $('#kOwn').textContent = short(last.mat) + ' грн'; $('#kOwnR').textContent = `${yrs * 12} внесків по ${short(pm)}`;
+    $('#rule72').innerHTML = rate > 0 ? `<b>Правило 72:</b> при ${String(rate).replace('.', ',')}% гроші подвоюються приблизно за <b>${(72 / rate).toFixed(1).replace('.', ',')} р.</b>` + (infl > 0 ? ` А інфляція ${String(infl).replace('.', ',')}% «з’їдає» половину матраца за ${(72 / infl).toFixed(1).replace('.', ',')} р.` : '') : '<b>0%</b> — гроші просто лежать. Додай дохідність!';
+    // ціна зволікання: той самий кінцевий рік, але старт пізніше
+    if (delay >= yrs) $('#delayTxt').innerHTML = `Почнеш через ${delay} ${plural(delay, 'рік', 'роки', 'років')} — а план уже закінчився. Втрачено <b class="loss">${short(last.inv)} грн</b>. Або зараз, або ніколи!`;
+    else {
+      const late = simSeries(pm, rate, yrs - delay, infl).pop().inv, loss = last.inv - late;
+      $('#delayTxt').innerHTML = `Матимеш ${short(late)} грн замість ${short(last.inv)} грн. Зволікання коштує <b class="loss">${short(loss)} грн</b> — це ${Math.round(loss / last.inv * 100)}% результату.`;
+    }
+    drawSim();
+  };
+  const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
+  const drawSim = () => {
+    const svg = $('#simSvg'), W = Math.max(260, svg.clientWidth || 600), H = 270, L = 52, R = 12, T = 12, B = 26;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const yrs = S.sim.yrs, max = Math.max(1, ...simData.map(d => d.inv), ...simData.map(d => d.mat));
+    const x = m => L + (m / (yrs * 12)) * (W - L - R), y = v => T + (1 - v / max) * (H - T - B);
+    simGeom = { x, y, L, R, W, yrs };
+    const path = key => simData.map((d, i) => (i ? 'L' : 'M') + x(d.m).toFixed(1) + ' ' + y(d[key]).toFixed(1)).join('');
+    let g = '';
+    for (let k = 0; k <= 4; k++) { const v = (max / 4) * k, yy = y(v); g += `<line x1="${L}" x2="${W - R}" y1="${yy}" y2="${yy}" stroke="var(--line)"/><text x="${L - 6}" y="${yy + 4}" text-anchor="end" font-size="10" fill="var(--faint)">${short(v)}</text>`; }
+    const step = yrs <= 10 ? 1 : yrs <= 20 ? 2 : 5;
+    for (let t = 0; t <= yrs; t += step) g += `<text x="${x(t * 12)}" y="${H - 8}" text-anchor="middle" font-size="10" fill="var(--faint)">${t}</text>`;
+    const area = path('inv') + `L${x(yrs * 12)} ${y(0)}L${x(0)} ${y(0)}Z`;
+    svg.innerHTML = `<defs><linearGradient id="gInv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--blue)" stop-opacity=".35"/><stop offset="1" stop-color="var(--blue)" stop-opacity="0"/></linearGradient></defs>${g}
+      <path d="${area}" fill="url(#gInv)"/>
+      <path d="${path('mat')}" fill="none" stroke="var(--faint)" stroke-width="2.5"/>
+      ${S.sim.infl > 0 ? `<path d="${path('real')}" fill="none" stroke="var(--no)" stroke-width="2" stroke-dasharray="5 4"/>` : ''}
+      <path class="invline" d="${path('inv')}" fill="none" stroke="var(--blue)" stroke-width="3.5" stroke-linecap="round"/>
+      <line id="hov" y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="3 3" opacity="0"/>
+      <circle id="hovDot" r="5" fill="var(--blue)" stroke="var(--surface)" stroke-width="2" opacity="0"/>`;
+    if (!drawnOnce && !reduced) {
+      const p = $('.invline', svg), len = p.getTotalLength ? p.getTotalLength() : 0;
+      if (len) { p.style.strokeDasharray = len; p.style.strokeDashoffset = len; p.getBoundingClientRect(); p.style.transition = 'stroke-dashoffset 1.4s ease-out'; p.style.strokeDashoffset = 0; }
+    }
+    drawnOnce = true;
+  };
+  const simSvg = $('#simSvg'), tip = $('#simTip');
+  simSvg.addEventListener('pointermove', e => {
+    if (!simGeom) return;
+    const r = simSvg.getBoundingClientRect(), px = (e.clientX - r.left) * (simGeom.W / r.width);
+    const m = Math.round(Math.max(0, Math.min(1, (px - simGeom.L) / (simGeom.W - simGeom.L - simGeom.R))) * simGeom.yrs * 12);
+    const d = simData[m]; if (!d) return;
+    const hx = simGeom.x(m);
+    $('#hov').setAttribute('x1', hx); $('#hov').setAttribute('x2', hx); $('#hov').setAttribute('opacity', 1);
+    $('#hovDot').setAttribute('cx', hx); $('#hovDot').setAttribute('cy', simGeom.y(d.inv)); $('#hovDot').setAttribute('opacity', 1);
+    tip.innerHTML = `<b>${(m / 12).toFixed(1).replace('.', ',')} р.</b><br>Інвестиції: ${money(d.inv)}<br>Матрац: ${money(d.mat)}`;
+    const box = simSvg.parentElement.getBoundingClientRect();
+    let left = e.clientX - box.left + 12; if (left > box.width - 170) left = e.clientX - box.left - 170;
+    tip.style.left = left + 'px'; tip.style.top = (e.clientY - box.top - 60) + 'px'; tip.style.opacity = 1;
+  });
+  simSvg.addEventListener('pointerleave', () => { tip.style.opacity = 0; const h = $('#hov'); if (h) h.setAttribute('opacity', 0); const d = $('#hovDot'); if (d) d.setAttribute('opacity', 0); });
+  sims.forEach(k => $('#' + k).addEventListener('input', e => {
+    S.sim[k] = +e.target.value; S.sim.touched = true; save(); renderSim(); progress();
+    if (k === 'delay') { const c = $('#capy'); c.classList.remove('wiggle'); void c.offsetWidth; c.classList.add('wiggle'); }
+  }));
+  const fillSim = () => sims.forEach(k => ($('#' + k).value = S.sim[k]));
+
+  /* ===================== 5. Ідеї ===================== */
+  const buildIdeas = () => {
+    let h = `<div class="irow head" aria-hidden="true"><div></div><div>Назва ідеї</div><div>Скільки прибутку може згенерувати, грн/рік</div><div>Час і гроші на втілення (год. / грн)</div><div>Ризики: успіх / провал (1–10)</div><div>Пріоритет</div><div>Дедлайн (доки втілиш)</div><div>Очікувана вигода</div></div>`;
+    S.ideas.forEach((_, i) => {
+      const b = `ideas.${i}`;
+      h += `<div class="irow" data-i="${i}"><div class="n">${i + 1}</div>
+        <div class="name"><span class="ml">Назва ідеї</span><input data-bind="${b}.n" placeholder="Ідея №${i + 1}" aria-label="Назва ідеї №${i + 1}"></div>
+        <div><span class="ml">Прибуток, грн/рік</span><input data-bind="${b}.p" inputmode="numeric" aria-label="Прибуток ідеї №${i + 1}, грн на рік"></div>
+        <div><span class="ml">Час / гроші</span><div class="pair"><input data-bind="${b}.h" inputmode="numeric" placeholder="год" aria-label="Години на ідею №${i + 1}"><span>/</span><input data-bind="${b}.m" inputmode="numeric" placeholder="грн" aria-label="Гроші на ідею №${i + 1}"></div></div>
+        <div><span class="ml">Успіх + / провал −</span><div class="pair"><input class="plus" data-bind="${b}.plus" inputmode="numeric" placeholder="+" aria-label="Шанс успіху ідеї №${i + 1}, 1–10"><span>/</span><input class="minus" data-bind="${b}.minus" inputmode="numeric" placeholder="−" aria-label="Ризик провалу ідеї №${i + 1}, 1–10"></div></div>
+        <div><span class="ml">Пріоритет</span><input class="prio" data-bind="${b}.prio" inputmode="numeric" aria-label="Пріоритет ідеї №${i + 1}"></div>
+        <div><span class="ml">Дедлайн</span><input type="date" data-bind="${b}.dl" aria-label="Дедлайн ідеї №${i + 1}"></div>
+        <div class="ev" data-ev="${i}"></div></div>`;
+    });
+    $('#ideas').innerHTML = h;
+  };
+  const chance = it => { const p = Math.min(10, num(it.plus)), m = Math.min(10, num(it.minus)); return p + m ? p / (p + m) : 0; };
+  const evOf = it => num(it.p) * chance(it) - num(it.m);
+  const ideaReady = it => has(it.n) && has(it.p) && (has(it.plus) || has(it.minus));
+  const renderIdeas = () => {
+    S.ideas.forEach((it, i) => {
+      const el = $(`[data-ev="${i}"]`), ok = ideaReady(it);
+      el.textContent = ok ? (evOf(it) >= 0 ? '+' : '') + short(evOf(it)) + ' грн' : '';
+      el.className = 'ev ' + (ok ? (evOf(it) >= 0 ? 'pos' : 'neg') : '');
+      $(`.irow[data-i="${i}"]`).classList.toggle('top', num(it.prio) === 1);
+    });
+    drawMap();
+  };
+  const drawMap = () => {
+    const W = 520, H = 300, L = 46, R = 14, T = 14, B = 34, list = S.ideas.map((it, i) => ({ it, i })).filter(o => ideaReady(o.it));
+    const maxP = Math.max(1000, ...list.map(o => num(o.it.p))), maxH = Math.max(1, ...list.map(o => num(o.it.h)));
+    const x = c => L + c * (W - L - R), y = p => T + (1 - p / maxP) * (H - T - B);
+    const mx = x(.5), my = y(maxP / 2);
+    let s = `<rect x="${mx}" y="${T}" width="${W - R - mx}" height="${my - T}" fill="var(--ok)" opacity=".1"/><rect x="${L}" y="${my}" width="${mx - L}" height="${H - B - my}" fill="var(--no)" opacity=".07"/>
+      <line x1="${mx}" x2="${mx}" y1="${T}" y2="${H - B}" stroke="var(--line)" stroke-dasharray="4 4"/><line x1="${L}" x2="${W - R}" y1="${my}" y2="${my}" stroke="var(--line)" stroke-dasharray="4 4"/>
+      <line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="var(--faint)"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H - B}" stroke="var(--faint)"/>
+      <text x="${W - R - 6}" y="${T + 16}" text-anchor="end" font-size="12" font-weight="800" fill="var(--ok)">★ Зірки</text>
+      <text x="${L + 6}" y="${T + 16}" font-size="12" font-weight="800" fill="var(--warn)">Сміливі ставки</text>
+      <text x="${W - R - 6}" y="${H - B - 8}" text-anchor="end" font-size="12" font-weight="800" fill="var(--blue)">Швидкі перемоги</text>
+      <text x="${L + 6}" y="${H - B - 8}" font-size="12" font-weight="800" fill="var(--no)">Пастки</text>
+      <text x="${(L + W - R) / 2}" y="${H - 10}" text-anchor="middle" font-size="11" fill="var(--muted)">шанс успіху →</text>
+      <text x="14" y="${(T + H - B) / 2}" text-anchor="middle" font-size="11" fill="var(--muted)" transform="rotate(-90 14 ${(T + H - B) / 2})">прибуток →</text>
+      <text x="${L - 4}" y="${T + 10}" text-anchor="end" font-size="9" fill="var(--faint)">${short(maxP)}</text>`;
+    list.forEach(({ it, i }) => {
+      const r = 10 + 16 * Math.sqrt(num(it.h) / maxH), cx = x(chance(it)), cy = y(num(it.p));
+      s += `<g class="bub"><title>${esc(it.n)}: ${money(num(it.p))}/рік, шанс ${Math.round(chance(it) * 100)}%</title><circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--blue)" opacity=".8" stroke="var(--surface)" stroke-width="2"/><text x="${cx}" y="${cy + 4}" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">${i + 1}</text></g>`;
+    });
+    $('#ideaMap').innerHTML = s;
+    if (list.length) {
+      const stars = list.filter(o => chance(o.it) >= .5 && num(o.it.p) >= maxP / 2).map(o => '№' + (o.i + 1));
+      const best = list.slice().sort((a, b) => evOf(b.it) - evOf(a.it))[0];
+      $('#mapTip').innerHTML = (stars.length ? `<b>Зірки:</b> ${stars.join(', ')} — великий прибуток і високий шанс. ` : '') + `<b>Найбільша очікувана вигода:</b> «${esc(best.it.n)}» (${short(evOf(best.it))} грн).`;
+    } else $('#mapTip').textContent = 'Додай хоча б одну ідею з прибутком і ризиками — вона з’явиться на мапі.';
+  };
+  $('#autoPrio').addEventListener('click', () => {
+    const list = S.ideas.map((it, i) => ({ it, i })).filter(o => ideaReady(o.it)).sort((a, b) => evOf(b.it) - evOf(a.it));
+    if (!list.length) { toast('Заповни назву, прибуток і ризики хоча б для однієї ідеї'); return; }
+    list.forEach((o, k) => (o.it.prio = String(k + 1)));
+    save(); fillInputs(); renderIdeas(); toast('Пріоритети розставлено: 1 — найвигідніша');
+  });
+
+  /* ===================== 6. Інвестиційний план ===================== */
+  const PROWS = [
+    ['inc', 'Дохід на місяць', 'in'], ['incY', 'Річний дохід', 'c'], ['exp', 'Витрати на місяць', 'in'], ['expY', 'Річні витрати', 'c'],
+    ['pct', '% витрат', 'c'], ['savM', 'Накопичено щомісяця', 'c'], ['savY', 'Накопичено за рік', 'c'],
+    ['rate', 'Інвестиційний % річний', 'in', 'invh'], ['gain', '% на інвестиції за рік', 'c'], ['cap', 'Капітал + % за рік', 'c', 'caph']
+  ];
+  const buildPlan = () => {
+    let h = '<thead><tr><th class="corner">Через … років</th>' + YEARS10.map((_, i) => `<th>${i + 1}</th>`).join('') + '</tr>';
+    h += '<tr><th class="rowh">Вік</th>' + YEARS10.map((_, i) => `<th class="meta" data-age="${i}"></th>`).join('') + '</tr>';
+    h += '<tr><th class="rowh">Рік</th>' + YEARS10.map(y => `<th class="meta">${y}</th>`).join('') + '</tr></thead><tbody>';
+    PROWS.forEach(([k, label, type, cls]) => {
+      h += `<tr><th class="rowh ${cls || ''}" scope="row">${label}</th>` + YEARS10.map((y, i) => type === 'in'
+        ? `<td class="${i === 0 ? 'y1' : ''}"><input class="cell" data-bind="plan.${k}.${i}" inputmode="decimal" aria-label="${label}, ${y}"></td>`
+        : `<td class="calc ${i === 0 ? 'y1' : ''} ${k === 'gain' ? 'inv' : ''} ${k === 'cap' ? 'capv' : ''}" data-c="${k}.${i}"></td>`).join('') + '</tr>';
+    });
+    $('#plan').innerHTML = h + '</tbody>';
+  };
+  // ефективні значення: порожня клітинка = попередній рік
+  const eff = arr => { let prev = ''; return arr.map(v => (has(v) ? (prev = v) : prev)); };
+  const planCalc = () => {
+    const inc = eff(S.plan.inc), exp = eff(S.plan.exp), rate = eff(S.plan.rate);
+    let cap = num(S.plan.start), own = num(S.plan.start);
+    return YEARS10.map((_, i) => {
+      const iM = num(inc[i]), eM = num(exp[i]), r = num(rate[i]);
+      const savM = iM - eM, savY = savM * 12, gain = cap * r / 100;
+      cap = cap + savY + gain; own += savY;
+      return { inc: inc[i], exp: exp[i], rate: rate[i], incY: iM * 12, expY: eM * 12, pct: iM ? Math.round(eM / iM * 100) : 0, savM, savY, gain, cap, own, any: has(inc[i]) || has(exp[i]) };
+    });
+  };
+  let planRows = [];
+  const renderPlan = () => {
+    planRows = planCalc();
+    const age = num(S.plan.age) || 14;
+    $$('[data-age]').forEach(th => (th.textContent = age + +th.dataset.age));
+    planRows.forEach((r, i) => {
+      ['inc', 'exp', 'rate'].forEach(k => { const inp = $(`[data-bind="plan.${k}.${i}"]`); if (inp) inp.placeholder = has(S.plan[k][i]) ? '' : (r[k] || ''); });
+      const set = (k, txt, neg) => { const c = $(`[data-c="${k}.${i}"]`); c.textContent = r.any ? txt : ''; c.classList.toggle('neg', !!neg && r.any); };
+      set('incY', short(r.incY)); set('expY', short(r.expY)); set('pct', r.pct + '%', r.pct > 100);
+      set('savM', short(r.savM), r.savM < 0); set('savY', short(r.savY), r.savY < 0);
+      set('gain', short(r.gain), r.gain < 0); set('cap', short(r.cap), r.cap < 0);
+    });
+    const max = Math.max(1, ...planRows.map(r => Math.max(0, r.cap)));
+    $('#bcols').innerHTML = planRows.map((r, i) => {
+      const capH = r.any ? Math.max(0, r.cap) / max * 86 : 0, ownPart = r.cap > 0 ? Math.max(0, Math.min(r.own, r.cap)) / r.cap * 100 : 100;
+      return `<div class="bcol" title="${YEARS10[i]}: капітал ${money(r.cap)}"><em>${r.any ? short(r.cap) : ''}</em><div class="stack" style="height:${capH}%"><div class="own" style="height:${ownPart}%"></div><div class="gain" style="height:${100 - ownPart}%"></div></div><small>${YEARS10[i]}</small></div>`;
+    }).join('');
+    const lastAny = [...planRows].reverse().find(r => r.any);
+    $('#planSum').textContent = lastAny ? `через 10 років: ${short(lastAny.cap)} грн, з них інвестиції заробили ${short(Math.max(0, lastAny.cap - lastAny.own))} грн` : '';
+    $('#ageBadge').textContent = `тобі буде ${age + 10}`;
+  };
+  $('#spread').addEventListener('click', () => {
+    const i0 = num(S.plan.inc[0]), e0 = num(S.plan.exp[0]);
+    if (!i0) { toast('Спершу впиши дохід на місяць у 1-й рік'); return; }
+    const gi = num(S.plan.gi) / 100, ge = num(S.plan.ge) / 100;
+    for (let i = 1; i < 10; i++) { S.plan.inc[i] = String(Math.round(i0 * Math.pow(1 + gi, i) / 100) * 100); if (e0) S.plan.exp[i] = String(Math.round(e0 * Math.pow(1 + ge, i) / 100) * 100); }
+    save(); fillInputs(); renderPlan(); progress(); toast('Роки розписано — підправ цифри під себе');
+  });
+
+  /* ===================== 7. Інструменти ===================== */
+  const INSTR = [
+    ['Депозит у банку', 1, 'Гроші лежать у банку під відсоток. Простий старт; вклади гарантує Фонд гарантування вкладів.'],
+    ['ОВДП', 1, 'Облігації внутрішньої державної позики: позичаєш гроші державі під відсоток. Військові ОВДП ще й допомагають армії.'],
+    ['Акції компаній', 4, 'Частка в бізнесі. Можуть сильно рости й сильно падати — потрібен довгий горизонт.'],
+    ['Індексні фонди (ETF)', 3, 'Кошик із сотень акцій одразу: ризик розподілено, керувати майже не треба.'],
+    ['Золото', 2, 'Захист у кризу та від інфляції, але само по собі дохід не приносить.'],
+    ['Валюта', 2, 'Долар чи євро бережуть від знецінення гривні, але не ростуть самі.'],
+    ['Нерухомість', 2, 'Оренда + зростання ціни. Потрібен великий стартовий капітал.'],
+    ['Власна справа', 5, 'Найвищий потенціал і найвищий ризик. Згадай свої ідеї з розділу 5!'],
+    ['Знання і навички', 1, 'Курси, книжки, менторство. Найкращі дивіденди — за Франкліном.'],
+    ['Криптовалюта', 5, 'Дуже мінлива. Тільки ті гроші, які не шкода втратити.']
+  ];
+  const buildInstr = () => {
+    $('#palette').innerHTML = INSTR.map((x, i) => `<button type="button" class="chip" data-ins="${i}" aria-pressed="false">${x[0]}</button>`).join('');
+    const li = key => A(5).map((_, i) => `<li><span class="gnum">${i + 1}</span><input data-bind="${key}.${i}" aria-label="${key === 'know' ? 'Інструмент, який знаю' : 'Хочу інвестувати в'} №${i + 1}"></li>`).join('');
+    $('#knowList').innerHTML = li('know'); $('#wantList').innerHTML = li('want');
+  };
+  $('#palette').addEventListener('click', e => {
+    const b = e.target.closest('[data-ins]'); if (!b) return;
+    const [n, r, d] = INSTR[+b.dataset.ins];
+    $$('#palette .chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
+    $('#icard').innerHTML = `<div class="icard"><div><h4>${n}<span class="risk" aria-label="Ризик ${r} з 5">${A(5).map((_, k) => `<i class="${k < r ? 'on' : ''}"></i>`).join('')}</span></h4><p>${d}</p></div>
+      <div class="acts"><button class="btn btn-sm" type="button" data-to="know" data-n="${esc(n)}">Знаю →</button><button class="btn btn-ghost btn-sm" type="button" data-to="want" data-n="${esc(n)}">Хочу →</button></div></div>`;
+  });
+  $('#icard').addEventListener('click', e => {
+    const b = e.target.closest('[data-to]'); if (!b) return;
+    const arr = S[b.dataset.to], n = b.dataset.n;
+    if (arr.some(v => v.trim().toLowerCase() === n.toLowerCase())) { toast('Уже є в списку'); return; }
+    const i = arr.findIndex(v => !has(v)); if (i < 0) { toast('Список повний — звільни рядок'); return; }
+    arr[i] = n; save(); fillInputs(); progress();
+    const inp = $(`[data-bind="${b.dataset.to}.${i}"]`); inp.classList.remove('flash'); void inp.offsetWidth; inp.classList.add('flash');
+    toast(`Додано: ${n}`);
+  });
+
+  /* ===================== 8. Динаміка капіталу ===================== */
+  const DYNY = A(9).map((_, i) => 2026 + i);
+  const COLORS = ['#3f7ff0', '#1f9d55', '#ff8a00', '#9b6cf0', '#1fb5f0', '#e5484d', '#c9a227', '#8a8f9c'];
+  const buildDyn = () => {
+    let h = '<thead><tr><th class="corner">Капітал</th>' + DYNY.map(y => `<th>${y}</th>`).join('') + '</tr></thead><tbody>';
+    S.dyn.forEach((_, r) => {
+      h += `<tr><th class="rowh"><input class="cell lab" data-bind="dyn.${r}.l" placeholder="Вид капіталу…" aria-label="Вид капіталу №${r + 1}" style="border-left:4px solid ${COLORS[r]}"></th>` +
+        DYNY.map((y, i) => `<td><input class="cell" data-bind="dyn.${r}.v.${i}" inputmode="numeric" aria-label="Капітал ${r + 1}, ${y}"></td>`).join('') + '</tr>';
+    });
+    $('#dyn').innerHTML = h + '</tbody>';
+  };
+  const renderDyn = () => {
+    const svg = $('#dynSvg'), W = Math.max(260, svg.clientWidth || 600), H = 230, L = 50, R = 12, T = 12, B = 24;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const rows = S.dyn.map((d, r) => ({ d, r })).filter(o => o.d.v.some(has));
+    const max = Math.max(1, ...rows.flatMap(o => o.d.v.map(num)));
+    const x = i => L + i / 8 * (W - L - R), y = v => T + (1 - v / max) * (H - T - B);
+    let s = '';
+    for (let k = 0; k <= 4; k++) { const v = max / 4 * k; s += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end" font-size="10" fill="var(--faint)">${short(v)}</text>`; }
+    DYNY.forEach((yr, i) => { if (W > 420 || i % 2 === 0) s += `<text x="${x(i)}" y="${H - 6}" text-anchor="middle" font-size="10" fill="var(--faint)">${yr}</text>`; });
+    rows.forEach(({ d, r }) => {
+      const pts = d.v.map((v, i) => (has(v) ? [x(i), y(num(v))] : null)).filter(Boolean);
+      if (pts.length > 1) s += `<polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="${COLORS[r]}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
+      pts.forEach(p => (s += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${COLORS[r]}" stroke="var(--surface)" stroke-width="1.5"/>`));
+    });
+    if (!rows.length) s += `<text x="${W / 2}" y="${H / 2}" text-anchor="middle" font-size="13" fill="var(--faint)">Тут з’являться лінії твого капіталу</text>`;
+    svg.innerHTML = s;
+    $('#dynLegend').innerHTML = rows.map(({ d, r }) => `<span><i style="background:${COLORS[r]}"></i>${esc(d.l || 'Капітал ' + (r + 1))}</span>`).join('');
+  };
+  const pullPlan = () => {
+    const rows = planCalc();
+    if (!rows.some(r => r.any)) return false;
+    let r = S.dyn.findIndex(d => d.l === 'Загальний капітал (з плану)'); if (r < 0) r = S.dyn.findIndex(d => !has(d.l) && !d.v.some(has)); if (r < 0) r = 0;
+    S.dyn[r] = { l: 'Загальний капітал (з плану)', v: DYNY.map((_, i) => (rows[i].any ? String(Math.round(rows[i].cap)) : '')) };
+    return true;
+  };
+  $('#pull').addEventListener('click', () => {
+    if (!pullPlan()) { toast('Спершу заповни інвестиційний план (розділ 6)'); return; }
+    save(); fillInputs(); renderDyn(); toast('Капітал із плану додано в таблицю');
+  });
+  const PROMPTS = ['Де я живу?', 'Чим займаюся?', 'Скільки заробляю?', 'Скільки джерел доходу маю?', 'Що вже вмію?', 'Хто поруч зі мною?', 'Що я купив/ла чи створив/ла?'];
+  $('#prompts').innerHTML = PROMPTS.map(p => `<button type="button" class="chip" data-pr="${esc(p)}">${p}</button>`).join('');
+  $('#prompts').addEventListener('click', e => {
+    const b = e.target.closest('[data-pr]'); if (!b) return;
+    const ta = $('#future'); ta.value = (ta.value.trim() ? ta.value.trim() + '\n' : '') + b.dataset.pr + ' '; S.future = ta.value; save(); ta.focus(); progress();
+  });
+
+  /* ===================== 9. Слово: джерела доходу ===================== */
+  const SRCMSG = ['', 'Одне джерело — як стілець на одній ніжці. Баффет би занервував 🙂', 'Два — уже стабільніше. Яке буде третім?', 'Три джерела — класна страховка від сюрпризів.', 'Чотири! Ти мислиш як інвестор.', 'П’ять і більше — справжня фінансова екосистема.'];
+  const renderSrc = () => { $$('[data-src]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.src === S.src))); $('#srcO').textContent = SRCMSG[S.src] || ''; };
+  $('.src-count').addEventListener('click', e => { const b = e.target.closest('[data-src]'); if (!b) return; S.src = +b.dataset.src; save(); renderSrc(); });
+
+  /* ---------- Прив'язка полів ---------- */
+  const fillInputs = () => $$('[data-bind]').forEach(el => { const v = getP(el.dataset.bind); el.value = v ?? ''; });
+  const onChange = path => {
+    const k = path.split('.')[0];
+    if (k === 't5') renderT5();
+    else if (k === 'smart') renderSmart();
+    else if (k === 'goals') renderGoals();
+    else if (k === 'say' || k === 'stories') renderScale();
+    else if (k === 'ideas') renderIdeas();
+    else if (k === 'plan') renderPlan();
+    else if (k === 'dyn') renderDyn();
+    progress();
+  };
+  document.addEventListener('input', e => {
+    const el = e.target.closest('[data-bind]'); if (!el) return;
+    setP(el.dataset.bind, el.value); save(); onChange(el.dataset.bind);
+  });
+
+  /* ---------- Приклади й очищення ---------- */
+  const EX = {
+    t5: () => Object.assign(S.t5, {
+      inc: ['2000', '5000', '9000', '15000', '25000'], cap: ['5000', '20000', '50000', '100000', '180000'],
+      k1: ['Англійська B1', 'Англійська B2', 'Розмовна B2+', 'C1', 'C1 + ділова'],
+      k2: ['Canva, монтаж', 'Figma', 'UI/UX-дизайн', 'Портфоліо з 10 проєктів', 'Junior-дизайнер'],
+      k3: ['Публічні виступи', 'Продажі', 'Перемовини', 'Робота в команді', 'Лідерство'],
+      l1: 'Джерела доходу', x1: ['Кишенькові + підробіток', 'Літня робота', 'Фриланс', 'Фриланс + стипендія', 'Робота + фриланс'],
+      l2: 'Велика покупка', x2: ['Навушники', 'Ноутбук', 'Курс дизайну', 'Подорож', 'Внесок на авто']
+    }),
+    smart: () => Object.assign(S.smart, { s: 'накопичити на власний ноутбук для дизайну', m: '30 000 грн', a: 'відкладати 20% кишенькових і взяти перше замовлення на дизайн', r: 'це мій інструмент для заробітку, і я сам/сама так вирішив/ла', t: '2027-09-01', mot: 'зможу працювати над своїми проєктами й заробляти більше' }),
+    goals: () => {
+      S.goals = ['До червня 2027 накопичити 30 000 грн на ноутбук', 'До кінця 2026 знайти 3 перших клієнти на дизайн', 'До 2028 мати подушку безпеки 20 000 грн', 'З вересня 2027 вкладати 1000 грн щомісяця в ОВДП', 'До 2031 заробляти 25 000 грн на місяць'];
+      S.gok = [{ a: true, r: true, p: true }, { a: true, r: true, p: true }, { a: true, r: false, p: false }, { a: true, r: true, p: false }, { a: false, r: true, p: true }];
+    },
+    fam: () => {
+      const say = [['Копійка гривню береже', 1], ['Гроші люблять рахунок', 1], ['Без труда нема плода', 1], ['Гроші не ростуть на деревах', -1], ['Не в грошах щастя', -1], ['Багатими стають лише нечесні', -1], ['Гроші псують людей', -1], ['Хто рано встає, тому Бог дає', 1], ['Гроші до грошей ідуть', 1], ['Ми не можемо собі цього дозволити', -1], ['Гроші люблять тишу', 1], ['Заощаджене — все одно що зароблене', 1]];
+      S.say = A(15).map((_, i) => (say[i] ? { t: say[i][0], s: say[i][1] } : { t: '', s: 0 }));
+      S.sayAn = 'Позитивних більше (7 проти 5), але негативні звучали частіше — коли грошей бракувало. Залишаю собі «гроші люблять рахунок», а «не можемо дозволити» міняю на «як я можу це собі дозволити?».';
+      S.stories = [{ t: 'У 7 років бабуся подарувала скарбничку — пів року збирав на велосипед і купив сам', s: 1 }, { t: 'Тато взяв кредит на телефон і довго віддавав — удома всі нервували', s: -1 }, { t: 'На шкільному ярмарку продали печиво й заробили 300 грн на клас', s: 1 }, { t: '', s: 0 }, { t: '', s: 0 }];
+      S.storyAn = 'Досі побоююся кредитів, зате обожнюю відчуття, коли купую щось на власні гроші.';
+      S.oldest = 'Прадід Іван у 1930-х ховав срібні монети в глечику під піччю — знайшли їх лише після війни. Відтоді в родині кажуть: гроші треба тримати так, щоб їх не забрали.';
+    },
+    sim: () => Object.assign(S.sim, { pm: 1000, rate: 14, yrs: 15, infl: 8, delay: 5, touched: true }),
+    ideas: () => {
+      const ex = [['Дизайн постів для місцевих кав’ярень', '24000', '60', '0', '8', '3', '2026-12-31'], ['Репетиторство з математики для 5–6 класу', '18000', '100', '0', '9', '2', '2026-11-01'], ['Перепродаж кросівок', '15000', '40', '8000', '5', '6', '2027-03-01'], ['YouTube-канал про ігри', '10000', '200', '3000', '3', '7', '2027-06-01'], ['Вигул собак у районі', '12000', '120', '0', '8', '2', '2026-11-15']];
+      S.ideas = A(10).map((_, i) => { const e = ex[i]; return e ? { n: e[0], p: e[1], h: e[2], m: e[3], plus: e[4], minus: e[5], prio: '', dl: e[6] } : { n: '', p: '', h: '', m: '', plus: '', minus: '', prio: '', dl: '' }; });
+    },
+    plan: () => Object.assign(S.plan, { age: '14', start: '5000', gi: '15', ge: '10', inc: ['3000', '', '6000', '', '10000', '15000', '', '25000', '', '40000'], exp: ['2000', '', '4000', '', '6000', '9000', '', '14000', '', '22000'], rate: ['12', '', '', '', '14', '', '', '', '', ''] }),
+    instr: () => { S.know = ['Депозит у банку', 'ОВДП', 'Акції компаній', 'Золото', 'Нерухомість']; S.want = ['Знання і навички (курс дизайну)', 'ОВДП', 'Індексні фонди (ETF)', 'Власна справа', '']; },
+    dyn: () => {
+      if (!planCalc().some(r => r.any)) EX.plan();
+      S.dyn = A(8, () => ({ l: '', v: A(9) }));
+      pullPlan();
+      S.dyn[1] = { l: 'Техніка й інструменти', v: ['3000', '30000', '30000', '32000', '45000', '45000', '50000', '60000', '60000'] };
+      S.dyn[2] = { l: 'Вкладено в знання', v: ['1000', '4000', '8000', '14000', '20000', '28000', '35000', '42000', '50000'] };
+    },
+    future: () => { S.future = 'Мені ' + ((num(S.plan.age) || 14) + 10) + '. Я UI/UX-дизайнер у міжнародній команді й маю маленьку студію з двома друзями. Заробляю близько 40 000 грн на місяць і маю три джерела доходу: робота, фриланс і дивіденди з ETF. Вільно говорю англійською, щороку подорожую і допомагаю молодшим ученицям та учням Campus.'; },
+    take: () => { S.take = 'Інвестувати можна не лише гроші, а й себе. Хочу мати кілька джерел доходу й почати відкладати вже зараз — хай навіть 200 грн на місяць.'; S.src = 3; }
+  };
+  const CL = {
+    t5: () => (S.t5 = fresh().t5),
+    smart: () => (S.smart = fresh().smart),
+    goals: () => { S.goals = A(5); S.gok = fresh().gok; },
+    fam: () => { const f = fresh(); S.say = f.say; S.sayAn = ''; S.stories = f.stories; S.storyAn = ''; S.oldest = ''; },
+    sim: () => (S.sim = fresh().sim),
+    ideas: () => (S.ideas = fresh().ideas),
+    plan: () => (S.plan = fresh().plan),
+    instr: () => { S.know = A(5); S.want = A(5); },
+    dyn: () => (S.dyn = fresh().dyn),
+    take: () => { S.take = ''; S.src = 0; }
+  };
+  // приклад заповнює лише порожній розділ; якщо щось уже є — питаємо
+  const sectionEmpty = k => ({
+    t5: () => !Object.values(S.t5).flat().some(has), smart: () => !Object.values(S.smart).some(has), goals: () => !S.goals.some(has),
+    fam: () => !S.say.some(x => has(x.t)) && !S.stories.some(x => has(x.t)) && !has(S.sayAn) && !has(S.oldest), sim: () => true,
+    ideas: () => !S.ideas.some(x => has(x.n)), plan: () => !S.plan.inc.some(has) && !S.plan.exp.some(has), instr: () => !S.know.some(has) && !S.want.some(has),
+    dyn: () => !S.dyn.some(d => has(d.l) || d.v.some(has)), future: () => !has(S.future), take: () => !has(S.take)
+  }[k] || (() => true))();
+  const renderAll = () => { fillInputs(); fillSim(); renderT5(); renderSmart(); renderGoals(); renderSigns(); renderScale(); renderSim(); renderIdeas(); renderPlan(); renderDyn(); renderSrc(); progress(); };
+  document.addEventListener('click', e => {
+    const ex = e.target.closest('[data-example]'), cl = e.target.closest('[data-clear]');
+    if (ex) {
+      const k = ex.dataset.example;
+      if (!sectionEmpty(k) && !confirm('Замінити твої записи в цьому розділі прикладом?')) return;
+      EX[k](); if (k === 'fam') { $('#sayList').classList.remove('more'); const m = $('#moreSay'); if (m) m.remove(); }
+      save(); renderAll(); toast('Приклад підставлено — заміни своїми даними');
+    }
+    if (cl && confirm('Очистити всі записи в цьому розділі?')) { CL[cl.dataset.clear](); save(); renderAll(); toast('Розділ очищено'); }
+  });
+
+  /* ---------- Прогрес і нагорода-їжак ---------- */
+  const DONE = {
+    1: () => Object.entries(S.t5).filter(([k]) => k !== 'l1' && k !== 'l2').flatMap(([, v]) => v).filter(has).length >= 4,
+    2: () => S.goals.filter(has).length >= 3,
+    3: () => S.say.filter(x => has(x.t)).length >= 5,
+    4: () => S.sim.touched,
+    5: () => S.ideas.filter(x => has(x.n)).length >= 3,
+    6: () => has(S.plan.inc[0]) && has(S.plan.exp[0]),
+    7: () => [...S.know, ...S.want].filter(has).length >= 3,
+    8: () => S.future.trim().length >= 15,
+    9: () => S.take.trim().length >= 10
+  };
+  let booted = false;
+  const flyHedgehog = sec => {
+    const target = $(`.sheet[data-sec="${sec}"]`); if (!target) return;
+    const badge = new Image(); badge.src = hedgeSrc; badge.alt = ''; badge.className = 'badge-pop'; badge.width = 74; badge.height = 82;
+    if (reduced) { target.appendChild(badge); setTimeout(() => badge.remove(), 3600); return; }
+    const fly = new Image(); fly.src = hedgeSrc; fly.alt = ''; fly.className = 'reward';
+    document.body.appendChild(fly);
+    const tr = target.getBoundingClientRect(), endX = Math.min(window.innerWidth - 90, tr.right - 70), endY = Math.max(10, tr.top - 10);
+    fly.style.left = '50%'; fly.style.top = '45%';
+    const anim = fly.animate([
+      { transform: 'translate(-50%,-50%) scale(.3) rotate(-30deg)', opacity: 0 },
+      { transform: 'translate(-50%,-50%) scale(1.5) rotate(8deg)', opacity: 1, offset: .35 },
+      { transform: `translate(${endX - window.innerWidth / 2}px, ${endY - window.innerHeight * .45}px) scale(.9) rotate(10deg)`, opacity: 1 }
+    ], { duration: 1100, easing: 'cubic-bezier(.3,.8,.4,1)' });
+    anim.onfinish = () => { fly.remove(); target.appendChild(badge); setTimeout(() => badge.remove(), 3600); };
+  };
+  const progress = () => {
+    let n = 0;
+    for (let s = 1; s <= 9; s++) {
+      const ok = DONE[s](); if (ok) n++;
+      $(`.sec-num[data-num="${s}"]`).classList.toggle('done', ok);
+      $(`.sec-num[data-num="${s}"]`).textContent = ok ? '✓' : s;
+      $(`#secnav a[data-s="${s}"]`).classList.toggle('done', ok);
+      if (ok && !S.done[s]) { S.done[s] = true; save(); if (booted) { flyHedgehog(s); toast(n === 9 ? 'Усі розділи готові! 🎉' : 'Розділ виконано — маленький крок до великого плану'); } }
+    }
+    $('#ovFill').style.width = (n / 9 * 100) + '%'; $('#ovBar').setAttribute('aria-valuenow', n);
+    $('#ovTxt').textContent = `${n} з 9 розділів`;
+    $('#final').classList.toggle('hidden', n < 9);
+  };
+
+  /* ---------- Підсвічування навігації ---------- */
+  const navLinks = $$('#secnav a');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(en => {
+      if (!en.isIntersecting) return;
+      const id = en.target.id; navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id));
+      const on = navLinks.find(a => a.classList.contains('on')); if (on && on.scrollIntoView && booted) on.parentElement.scrollTo({ left: on.offsetLeft - 40, behavior: reduced ? 'auto' : 'smooth' });
+    }), { rootMargin: '-40% 0px -55% 0px' });
+    $$('.sheet').forEach(s => io.observe(s));
+  }
+
+  /* ---------- Старт ---------- */
+  buildT5(); buildSmart(); buildGoals();
+  buildList($('#sayList'), 'say', 15, i => SAY_PH[Math.min(i, 2)]);
+  buildList($('#storyList'), 'stories', 5, i => (i === 0 ? 'Напр.: у 7 років я вперше сам/сама купив/ла…' : `Історія №${i + 1}`));
+  if (S.say.slice(7).some(x => has(x.t))) { $('#sayList').classList.remove('more'); $('#moreSay').remove(); }
+  buildIdeas(); buildPlan(); buildInstr(); buildDyn();
+  paintMood(false);
+  renderAll();
+  booted = true;
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { drawSim(); renderDyn(); }, 150); });
+})();
+</script>
+</body>
+</html>

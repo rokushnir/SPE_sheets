@@ -1,0 +1,1416 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Соціальні проекти</title>
+<meta name="description" content="Заняття 06 «Соціальні проекти і їх значення» курсу «Як запустити свій проект»: карта змін твого міста, проекти, що вже змінили місто, вартість реалізації (капітальні й операційні витрати), хто і за які гроші їх зробив, твій соціальний проект із термометром збору коштів, що про тебе знатимуть через 100 років і домашнє завдання — стаття про тебе в енциклопедії майбутнього.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Стиль робочого зошита «Як запустити свій проект»: світло-сірий аркуш, блакитні плашки, білі поля. */
+  :root {
+    --bg: #ececec;
+    --paper: #f7f7f7;
+    --surface: #ffffff;
+    --text: #1f1f22;
+    --muted: #66666d;
+    --faint: #9a9aa1;
+    --line: #e2e2e4;
+    --blue: #1fb5f0;
+    --blue-2: #0090e0;
+    --navy: #0b5f95;
+    --sky: #dff3fd;
+    --sky-2: #eef9fe;
+    --on-blue: #ffffff;
+    --warm: #ff8a3d;
+    --ok: #22a447;
+    --no: #e5484d;
+    --gold: #f2b705;
+    --ground: #e3f3ea;
+    --block: #cfeadb;
+    --block-lit: #9fdcf6;
+    --road: #ffffff;
+    --c1: #1fb5f0; --c2: #0b5f95; --c3: #7c5cff; --c4: #ff8a3d;
+    --s1: #1fb5f0; --s2: #0b5f95; --s3: #7c5cff; --s4: #ff8a3d; --s5: #22a447;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .07);
+    --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1418; --paper: #161c21; --surface: #1f262c; --text: #eaf0f4; --muted: #a3adb5; --faint: #737e87; --line: #2d363e;
+      --blue: #35bff3; --blue-2: #1a9be6; --navy: #8fd2f5; --sky: #13344a; --sky-2: #172b38;
+      --ground: #13241b; --block: #1b3426; --block-lit: #1d5a7a; --road: #2b3741;
+      --c1: #35bff3; --c2: #8fd2f5; --c3: #a08bff; --c4: #ff9d5c;
+      --s1: #35bff3; --s2: #2f8fd0; --s3: #a08bff; --s4: #ff9d5c; --s5: #3cc163;
+      --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1418; --paper: #161c21; --surface: #1f262c; --text: #eaf0f4; --muted: #a3adb5; --faint: #737e87; --line: #2d363e;
+    --blue: #35bff3; --blue-2: #1a9be6; --navy: #8fd2f5; --sky: #13344a; --sky-2: #172b38;
+    --ground: #13241b; --block: #1b3426; --block-lit: #1d5a7a; --road: #2b3741;
+    --c1: #35bff3; --c2: #8fd2f5; --c3: #a08bff; --c4: #ff9d5c;
+    --s1: #35bff3; --s2: #2f8fd0; --s3: #a08bff; --s4: #ff9d5c; --s5: #3cc163;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .wrap { width: min(980px, 100% - 32px); margin: 0 auto; padding: 28px 0 80px; }
+  .sheet { position: relative; background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(18px, 4vw, 40px); scroll-margin-top: 64px; }
+  .sheet + .sheet { margin-top: 24px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- Шапка як у зошиті ---------- */
+  .lesson { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; position: relative; }
+  .lesson-num {
+    background: var(--blue); color: var(--on-blue); border-radius: 10px; padding: 6px 12px 4px; text-align: center;
+    font-family: "Unbounded", sans-serif; line-height: 1;
+  }
+  .lesson-num b { display: block; font-size: 34px; font-weight: 700; }
+  .lesson-num small { font-family: "Inter", sans-serif; font-size: 10px; letter-spacing: .04em; }
+  .lesson-sub { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+  h1 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(20px, 3.4vw, 32px); line-height: 1.15; margin: 2px 0 0; text-wrap: balance; }
+  .sticker {
+    width: 132px; min-height: 64px; border: 2px dashed var(--line); border-radius: 14px; background: transparent;
+    display: grid; place-items: center; color: var(--faint); font-family: "Unbounded", sans-serif; font-size: 12px; line-height: 1.2;
+    padding: 6px; transition: transform .2s, border-color .2s;
+  }
+  .sticker:hover { border-color: var(--blue); transform: rotate(-3deg); }
+  .sticker.has { font-size: 40px; border-style: solid; border-color: var(--sky); }
+  .sticker.has img { width: 96px; height: auto; transform: rotate(-6deg); filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .25)); animation: stick .5s cubic-bezier(.3, 1.6, .5, 1); }
+  @keyframes stick { from { transform: scale(1.6) rotate(-30deg); opacity: 0; } to { transform: rotate(-6deg); opacity: 1; } }
+  .mood-pop {
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 50; background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: var(--shadow); padding: 12px; width: 290px; max-width: calc(100vw - 32px);
+  }
+  .mood-pop[hidden] { display: none; }
+  .mood-pop p { margin: 0 0 8px; font-size: 13px; font-weight: 700; color: var(--muted); }
+  .mood-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .mood-row button { border: 1px solid var(--line); background: var(--paper); border-radius: 12px; padding: 4px; font-size: 26px; line-height: 1; min-width: 44px; min-height: 44px; }
+  .mood-row button:hover { border-color: var(--blue); }
+  .mood-row .st-btn img { width: 84px; height: auto; display: block; transition: transform .2s; filter: drop-shadow(0 3px 4px rgba(0, 0, 0, .2)); }
+  .mood-row .st-btn:hover img { transform: rotate(-5deg) translateY(-2px); }
+  .mood-row .rm-mood { font-size: 13px; font-weight: 600; padding: 8px 10px; color: var(--muted); }
+
+  .intro { margin: 18px 0 0; font-size: 15px; max-width: 760px; }
+  .intro b { color: var(--blue-2); }
+
+  /* ---------- Прогрес і значки ---------- */
+  .prog { margin-top: 18px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center; }
+  .prog-bar { height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .prog-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--blue-2)); border-radius: 99px; transition: width .5s; }
+  .prog-txt { font-size: 13px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .badges { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px; border: 1px dashed var(--line); border-radius: 999px; padding: 4px 10px 4px 6px;
+    font-size: 12px; font-weight: 700; color: var(--faint); background: transparent;
+  }
+  .badge i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--line); font-size: 12px; filter: grayscale(1); }
+  .badge.on { border-style: solid; border-color: var(--blue); color: var(--text); background: var(--sky-2); }
+  .badge.on i { background: var(--blue); filter: none; }
+  .badge.pop { animation: pop .6s; }
+  @keyframes pop { 40% { transform: scale(1.18) rotate(-4deg); } }
+
+  /* ---------- Навігація ---------- */
+  .secnav {
+    position: sticky; top: 0; z-index: 40; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    margin: 16px -4px 16px; padding: 10px 4px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px);
+  }
+  .secnav::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) { .secnav { flex-wrap: wrap; justify-content: center; } }
+  .secnav a {
+    flex: none; text-decoration: none; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px 13px; font-size: 13px; font-weight: 700; white-space: nowrap; transition: background .2s, color .2s;
+  }
+  .secnav a:hover { border-color: var(--blue); color: var(--text); }
+  .secnav a.done::after { content: " ✓"; color: var(--ok); }
+  .secnav a.on { background: var(--blue); border-color: var(--blue); color: var(--on-blue); }
+  .secnav a.on.done::after { color: #fff; }
+
+  /* ---------- Розділ ---------- */
+  .sec-head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin-bottom: 6px; }
+  .sec-num {
+    width: 46px; height: 46px; border-radius: 12px; background: var(--blue); color: var(--on-blue); display: grid; place-items: center;
+    font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 20px;
+  }
+  .sec-num.hw { background: var(--navy); color: var(--paper); font-size: 15px; }
+  h2 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(17px, 2.6vw, 22px); line-height: 1.2; margin: 2px 0 0; text-wrap: balance; }
+  h3 { font-size: 16px; font-weight: 800; margin: 26px 0 4px; }
+  .sec-tools { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .q { font-weight: 800; font-size: 16px; margin: 22px 0 2px; }
+  .hint { color: var(--muted); font-size: 14px; margin: 0 0 12px; max-width: 760px; }
+  .btn {
+    border: 0; border-radius: 12px; background: var(--blue); color: var(--on-blue); font-weight: 800; padding: 11px 18px;
+    white-space: nowrap; transition: background .2s, transform .15s;
+  }
+  .btn:hover { background: var(--blue-2); transform: translateY(-1px); }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+  .btn-ghost:hover { background: var(--sky-2); }
+  .btn-sm { padding: 8px 12px; font-size: 13px; border-radius: 10px; }
+  .tip { background: var(--sky); border-radius: 12px; padding: 12px 14px; font-size: 14px; margin: 14px 0 0; }
+  .tip b { color: var(--navy); }
+  textarea.area, input.field, select.field {
+    width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; font-size: 15px;
+  }
+  textarea.area { resize: vertical; min-height: 78px; line-height: 1.45; }
+  textarea.area:focus, input.field:focus, select.field:focus { outline: 2px solid var(--blue); outline-offset: 0; border-color: transparent; }
+  ::placeholder { color: var(--faint); }
+  .lab { display: block; font-size: 13px; font-weight: 700; color: var(--muted); margin: 12px 0 5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600;
+    transition: border-color .2s, background .2s, color .2s;
+  }
+  .chip:hover { border-color: var(--blue); }
+  .chip.on { background: var(--blue); border-color: var(--blue); color: var(--on-blue); }
+  .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; transition: border-color .3s, box-shadow .3s; }
+  .card.ok { border-color: var(--blue); box-shadow: 0 0 0 3px var(--sky); }
+
+  /* Наліпка-нагорода, що «приклеюється» на куток розділу */
+  .reward {
+    position: absolute; top: -18px; right: -10px; width: 92px; height: auto; z-index: 5; pointer-events: auto;
+    transform: rotate(9deg); filter: drop-shadow(0 8px 10px rgba(0, 0, 0, .25)); transition: transform .25s;
+  }
+  .reward:hover { transform: rotate(2deg) translateY(-4px) scale(1.05); }
+  .reward.fly { animation: fly .9s cubic-bezier(.25, 1.4, .5, 1) both; }
+  @keyframes fly {
+    0% { transform: translate(-40vw, 30vh) rotate(-60deg) scale(2.2); opacity: 0; }
+    60% { opacity: 1; }
+    100% { transform: rotate(9deg) scale(1); opacity: 1; }
+  }
+
+  /* Текстові наліпки */
+  .tst {
+    display: inline-flex; flex-direction: column; align-items: flex-start; background: #fff; color: #1f1f22; border-radius: 12px; padding: 8px 10px 9px;
+    transform: rotate(-4deg); box-shadow: 0 6px 16px rgba(0, 0, 0, .14); font-weight: 800; font-size: 14px; line-height: 1.15; flex: none;
+  }
+  .tst span { margin-top: 4px; background: var(--blue); color: #fff; border-radius: 6px; padding: 2px 8px; }
+  .tst.r { transform: rotate(5deg); }
+
+  /* ---------- 1. Карта змін ---------- */
+  .map {
+    position: relative; aspect-ratio: 2 / 1; border-radius: 16px; overflow: hidden; background: var(--ground); margin-top: 14px;
+    border: 1px solid var(--line);
+  }
+  .map svg.bgmap { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map .blk { fill: var(--block); transition: fill .6s; }
+  .map .blk.lit { fill: var(--block-lit); }
+  .map .rd { fill: var(--road); }
+  .map .mark { stroke: var(--line); stroke-width: 2; stroke-dasharray: 10 10; fill: none; vector-effect: non-scaling-stroke; }
+  .car { position: absolute; top: calc(50% - 7px); left: -40px; width: 26px; height: 13px; border-radius: 5px 7px 3px 3px; background: var(--warm); animation: drive 14s linear infinite; }
+  .car::after { content: ""; position: absolute; right: 3px; top: 2px; width: 7px; height: 5px; border-radius: 2px; background: rgba(255, 255, 255, .8); }
+  .car.b { top: calc(50% - 1px); background: var(--blue); animation-duration: 19s; animation-direction: reverse; animation-delay: -6s; }
+  @keyframes drive { from { left: -40px; } to { left: 100%; } }
+  .place {
+    position: absolute; transform: translate(-50%, -50%); border: 0; background: transparent; padding: 0; display: grid; justify-items: center; gap: 2px; width: 92px;
+  }
+  .place .ico {
+    position: relative; width: 60px; height: 60px; border-radius: 50%; background: var(--surface); display: grid; place-items: center;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .12); border: 2px solid transparent; transition: transform .2s, border-color .2s, box-shadow .3s;
+  }
+  .place .ico svg { width: 38px; height: 38px; }
+  .place:hover .ico { transform: translateY(-3px) scale(1.06); }
+  .place .nm { font-size: 12px; font-weight: 800; background: var(--surface); border-radius: 99px; padding: 1px 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, .08); white-space: nowrap; }
+  .place.sel .ico { border-color: var(--blue); box-shadow: 0 0 0 5px color-mix(in srgb, var(--blue) 30%, transparent); }
+  .place .bd { position: absolute; top: -4px; right: -6px; min-width: 20px; height: 20px; border-radius: 99px; display: none; place-items: center; font-size: 12px; font-weight: 800; color: #fff; padding: 0 4px; }
+  .place.has-p .bd { display: grid; background: var(--warm); }
+  .place.has-i .bd { display: grid; background: var(--ok); }
+  .place.has-i .ico { animation: glow 2.6s ease-in-out infinite; }
+  @keyframes glow { 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--ok) 25%, transparent), 0 6px 14px rgba(0, 0, 0, .12); } }
+  .map-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--muted); margin-top: 8px; align-items: center; }
+  .map-legend b { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 9px; color: #fff; font-size: 11px; margin-right: 4px; }
+  .map-count { margin-left: auto; font-weight: 800; color: var(--blue-2); }
+  .panel { margin-top: 12px; background: var(--surface); border: 2px solid var(--blue); border-radius: 16px; padding: 14px 16px; animation: drop .35s both; }
+  .panel-empty { margin-top: 12px; border: 2px dashed var(--line); border-radius: 16px; padding: 16px; text-align: center; color: var(--muted); font-size: 14px; }
+  .panel-head { display: flex; align-items: center; gap: 10px; }
+  .panel-head svg { width: 34px; height: 34px; flex: none; }
+  .panel-head b { font-family: "Unbounded", sans-serif; font-size: 16px; }
+  .panel-head .x { margin-left: auto; border: 0; background: transparent; font-size: 24px; color: var(--faint); line-height: 1; padding: 4px 8px; }
+  .panel .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .panel .chips { margin-bottom: 6px; }
+  .panel .chip.p:hover { border-color: var(--warm); }
+  .panel .chip.p.on { background: var(--warm); border-color: var(--warm); }
+  @keyframes drop { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+  .ideas-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; }
+  .ideas-list li { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: center; font-size: 14px; background: var(--sky-2); border-radius: 10px; padding: 7px 10px; }
+  .ideas-list li svg { width: 24px; height: 24px; }
+  .ideas-list li span { color: var(--muted); }
+  .other { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .other label { display: grid; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+  .other label > b { font-size: 13px; display: flex; gap: 6px; align-items: center; }
+  .other textarea { border: 0; padding: 0; min-height: 52px; resize: vertical; background: transparent; outline: 0; font-size: 14px; }
+
+  /* ---------- 2. Проекти міста ---------- */
+  .pcard .ph { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .pill { flex: none; background: var(--c); color: #fff; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 800; }
+  .pcard .ph input { flex: 1; min-width: 0; border: 0; border-bottom: 1.5px dashed var(--line); background: transparent; font-weight: 700; font-size: 15px; padding: 6px 2px; outline: 0; }
+  .pcard .ph input:focus { border-bottom-color: var(--blue); border-bottom-style: solid; }
+  .ba { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .ba .area { min-height: 60px; font-size: 14px; }
+  .ba .arr { text-align: center; color: var(--blue); font-weight: 800; font-size: 12px; letter-spacing: .06em; padding: 3px 0; }
+  .ppl { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+  .ppl input { width: 120px; }
+  .ppl .chip { padding: 5px 9px; font-size: 12px; }
+
+  /* ---------- 3. Вартість ---------- */
+  .kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .kind { border-radius: 14px; padding: 12px 14px; font-size: 14px; }
+  .kind b { display: block; font-family: "Unbounded", sans-serif; font-size: 14px; margin-bottom: 4px; }
+  .kind.cap { background: var(--sky); }
+  .kind.op { background: color-mix(in srgb, var(--warm) 18%, var(--surface)); }
+  .quiz { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; margin-top: 12px; }
+  .qi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: grid; gap: 8px; transition: border-color .2s, background .2s; }
+  .qi b { font-size: 14px; }
+  .qi .qb { display: flex; gap: 6px; }
+  .qi .qb button { flex: 1; border: 1px solid var(--line); background: var(--paper); border-radius: 9px; padding: 6px; font-size: 12px; font-weight: 700; }
+  .qi .qb button:hover { border-color: var(--blue); }
+  .qi.right { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 10%, var(--surface)); }
+  .qi.right .qb button.pick { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .qi.wrong .qb button.pick { background: var(--no); border-color: var(--no); color: #fff; }
+  .qi small { font-size: 12px; color: var(--muted); }
+  .qi.shake { animation: shake .4s; }
+  @keyframes shake { 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+  .quiz-score { margin-top: 8px; font-size: 14px; font-weight: 700; color: var(--blue-2); }
+
+  .costs { display: grid; grid-template-columns: 150px repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+  .ccol { display: grid; grid-template-rows: 46px 52px 52px 44px 44px 44px; gap: 6px; min-width: 0; }
+  .ccol > * { min-width: 0; }
+  .rlab { display: flex; align-items: center; font-size: 13px; font-weight: 600; color: var(--muted); line-height: 1.2; }
+  .chead { background: var(--c); color: #fff; border-radius: 10px; display: grid; place-items: center; text-align: center; font-size: 13px; font-weight: 800; padding: 4px 8px; overflow: hidden; line-height: 1.15; }
+  .chead span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .cin { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; display: flex; align-items: center; }
+  .cin input { width: 100%; min-width: 0; border: 0; background: transparent; padding: 8px 34px 8px 10px; font-weight: 700; font-size: 15px; outline: 0; -moz-appearance: textfield; }
+  .cin input::-webkit-outer-spin-button, .cin input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .cin:focus-within { outline: 2px solid var(--blue); border-color: transparent; }
+  .cin em { position: absolute; right: 8px; font-style: normal; font-size: 11px; color: var(--faint); pointer-events: none; }
+  .cout { display: flex; align-items: center; justify-content: center; background: var(--sky-2); border-radius: 10px; font-weight: 800; font-size: 14px; color: var(--navy); text-align: center; padding: 0 6px; }
+  .cout.pp { background: transparent; border: 1px dashed var(--line); color: var(--text); font-weight: 700; font-size: 13px; }
+  .cpre { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 0 8px; font-size: 12.5px; height: 100%; }
+  .mlab { display: none; }
+
+  .bubble-wrap { margin-top: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+  .bubble-wrap svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .bubble-wrap .ax { stroke: var(--line); stroke-width: 1; }
+  .bubble-wrap .tk { fill: var(--muted); font-size: 11px; font-family: inherit; }
+  .bubble-wrap .axl { fill: var(--muted); font-size: 12px; font-weight: 700; }
+  .bubble-wrap .quad { font-size: 12px; font-weight: 800; }
+  .bub { transition: transform .7s cubic-bezier(.3, 1.3, .5, 1), opacity .4s; }
+  .bub circle { transition: r .6s; fill-opacity: .82; stroke: var(--surface); stroke-width: 2; }
+  .bub text { fill: #fff; font-weight: 800; font-size: 13px; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .rank { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; font-size: 13.5px; }
+  .rank li { display: grid; grid-template-columns: 14px 1fr auto; gap: 8px; align-items: center; }
+  .rank li i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); }
+  .rank li span { color: var(--muted); text-align: right; }
+  .rank li.best b::after { content: "  🏆 найвигідніше"; font-size: 12px; color: var(--ok); }
+
+  .whos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+  .whos .card h4 { margin: 0 0 6px; font-size: 14px; display: flex; gap: 8px; align-items: center; }
+  .whos .card h4 i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); flex: none; }
+  .whos .lab { margin-top: 8px; font-size: 12px; }
+  .whos .chip { font-size: 12px; padding: 4px 9px; }
+  .whos input.field { margin-top: 8px; font-size: 14px; padding: 8px 10px; }
+  .who-sum { margin-top: 12px; font-size: 14px; }
+
+  /* ---------- 4. Мій соціальний проект ---------- */
+  .seg { display: inline-flex; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px; gap: 4px; }
+  .seg button { border: 0; background: transparent; border-radius: 9px; padding: 8px 14px; font-weight: 700; font-size: 14px; color: var(--muted); }
+  .seg button.on { background: var(--blue); color: var(--on-blue); }
+  .row-name { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: end; }
+  .from-map { margin-top: 8px; }
+  .from-map .chip { font-size: 12px; }
+
+  .chain { display: grid; grid-template-columns: 1fr 54px 1fr 54px 1fr; align-items: stretch; margin-top: 14px; }
+  .cnode { background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 10px 12px; display: grid; grid-template-rows: auto auto 1fr; gap: 4px; transition: border-color .3s, transform .3s; }
+  .cnode.on { border-color: var(--blue); }
+  .cnode .cs { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--blue-2); }
+  .cnode label { font-size: 13px; font-weight: 700; }
+  .cnode textarea { border: 0; padding: 0; background: transparent; outline: 0; resize: vertical; min-height: 70px; font-size: 14px; line-height: 1.4; }
+  .carrow { position: relative; display: grid; place-items: center; }
+  .carrow svg { width: 54px; height: 26px; overflow: visible; }
+  .carrow .tr { stroke: var(--line); stroke-width: 4; fill: none; stroke-linecap: round; }
+  .carrow .fl { stroke: var(--blue); stroke-width: 4; fill: none; stroke-linecap: round; stroke-dasharray: 44; stroke-dashoffset: 44; transition: stroke-dashoffset .7s ease; }
+  .carrow .hd { fill: none; stroke: var(--line); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; transition: stroke .3s .5s; }
+  .carrow.on .fl { stroke-dashoffset: 0; }
+  .carrow.on .hd { stroke: var(--blue); }
+  .chain.all .carrow::after {
+    content: ""; position: absolute; left: 4px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%;
+    background: var(--gold); box-shadow: 0 0 10px var(--gold); animation: pulse 1.6s ease-in-out infinite;
+  }
+  .chain.all .carrow:nth-of-type(4)::after { animation-delay: .8s; }
+  @keyframes pulse { from { transform: translateX(0); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } to { transform: translateX(36px); opacity: 0; } }
+  .chain-done { display: none; align-items: center; gap: 14px; margin-top: 12px; background: var(--sky); border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .chain.all + .chain-done { display: flex; animation: drop .4s both; }
+
+  .budget { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; margin-top: 12px; align-items: start; }
+  .lines { display: grid; gap: 6px; }
+  .line { display: grid; grid-template-columns: minmax(0, 1fr) 102px 120px 30px; gap: 6px; align-items: center; animation: drop .3s both; }
+  .line input { width: 100%; min-width: 0; border: 1px solid var(--line); background: var(--surface); border-radius: 9px; padding: 8px 10px; font-size: 14px; }
+  .line input:focus { outline: 2px solid var(--blue); border-color: transparent; }
+  .line .tt { border: 0; border-radius: 9px; padding: 8px 6px; font-size: 12px; font-weight: 800; background: var(--sky); color: var(--navy); }
+  .line .tt.op { background: color-mix(in srgb, var(--warm) 22%, var(--surface)); color: var(--text); }
+  .line .rm { border: 0; background: transparent; color: var(--faint); font-size: 18px; padding: 2px; }
+  .line .rm:hover { color: var(--no); }
+  .quick-add { margin-top: 8px; }
+  .quick-add .chip { font-size: 12px; padding: 4px 10px; }
+  .months { margin-top: 14px; }
+  .months label { font-size: 13px; font-weight: 700; color: var(--muted); display: flex; justify-content: space-between; }
+  input[type="range"] { width: 100%; accent-color: var(--blue); }
+  .totals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+  .totals div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; font-size: 12px; color: var(--muted); }
+  .totals b { display: block; font-family: "Unbounded", sans-serif; font-size: 15px; color: var(--text); margin-top: 2px; }
+  .totals .goal { background: var(--blue); border-color: var(--blue); color: rgba(255, 255, 255, .9); }
+  .totals .goal b { color: #fff; }
+
+  .thermo { display: grid; grid-template-columns: 116px 1fr; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+  .thermo svg { width: 116px; height: auto; }
+  .thermo .tube { fill: var(--sky-2); stroke: var(--line); stroke-width: 2; }
+  .thermo .seg-r { transition: y .7s ease, height .7s ease; }
+  .thermo .tick { stroke: var(--faint); stroke-width: 1.5; }
+  .thermo .tkt { fill: var(--muted); font-size: 11px; font-weight: 700; }
+  .thermo .pct { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 30px; line-height: 1; color: var(--blue-2); }
+  .thermo .msg { font-size: 13px; color: var(--muted); margin: 4px 0 8px; min-height: 2.6em; }
+  .srcs { display: grid; gap: 6px; }
+  .src { display: grid; gap: 0; }
+  .src label { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; font-weight: 700; }
+  .src label i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--c); margin-right: 6px; vertical-align: -1px; }
+  .src label span { color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .src input { accent-color: var(--c); }
+
+  /* ---------- 5. Через 100 років ---------- */
+  .legacy { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; margin-top: 10px; }
+  .previews { display: grid; gap: 16px; justify-items: center; }
+  .plaque {
+    width: 100%; max-width: 380px; border-radius: 10px; padding: 18px 20px; text-align: center; color: #f3dfa8;
+    background: linear-gradient(145deg, #3b4148, #23282d 60%, #30363c); box-shadow: inset 0 0 0 3px #50575f, inset 0 0 0 6px #23282d, 0 10px 24px rgba(0, 0, 0, .25);
+    font-family: Georgia, "Times New Roman", serif; position: relative;
+  }
+  .plaque small { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .8; font-family: "Inter", sans-serif; }
+  .plaque b { display: block; font-size: 22px; margin: 6px 0; letter-spacing: .02em; }
+  .plaque p { margin: 0; font-size: 14px; line-height: 1.4; font-style: italic; }
+  .plaque::before, .plaque::after { content: ""; position: absolute; top: 10px; width: 8px; height: 8px; border-radius: 50%; background: #8a8f95; }
+  .plaque::before { left: 10px; } .plaque::after { right: 10px; }
+  .stamp {
+    width: 230px; background: #fff; color: #1f1f22; padding: 10px; outline: 7px dotted var(--paper); outline-offset: -3px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .18); transform: rotate(3deg); transition: transform .3s;
+  }
+  .stamp:hover { transform: rotate(0); }
+  .stamp-in { border: 2px solid #1fb5f0; padding: 10px; display: grid; gap: 6px; background: linear-gradient(180deg, #dff3fd, #fff6cc); }
+  .stamp-top { display: flex; justify-content: space-between; font-family: "Unbounded", sans-serif; font-size: 11px; font-weight: 700; color: #0b5f95; }
+  .stamp b { font-family: "Unbounded", sans-serif; font-size: 15px; line-height: 1.2; }
+  .stamp p { margin: 0; font-size: 12px; line-height: 1.35; }
+  .stamp-face { width: 54px; height: 54px; border-radius: 50%; background: #1fb5f0; color: #fff; display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 18px; justify-self: center; border: 3px solid #ffd43b; }
+  .scale-note { font-size: 12px; color: var(--muted); text-align: center; margin: -8px 0 0; }
+
+  /* ---------- 6. Домашнє завдання: енциклопедія ---------- */
+  .wiki { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 18px; align-items: start; margin-top: 10px; }
+  .wform .field, .wform .area { font-size: 14px; }
+  .wform .area { min-height: 64px; }
+  .wpage {
+    background: #fff; color: #202122; border: 1px solid #c8ccd1; border-radius: 6px; padding: 16px 18px; font-size: 14px; line-height: 1.55;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .1); position: relative; overflow: hidden;
+  }
+  .wpage h4 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: 26px; margin: 0; border-bottom: 1px solid #a2a9b1; padding-bottom: 4px; line-height: 1.2; }
+  .wpage .from { font-size: 12px; color: #54595d; margin: 4px 0 10px; }
+  .wpage h5 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: 18px; margin: 14px 0 4px; border-bottom: 1px solid #c8ccd1; clear: left; }
+  .wpage p { margin: 0 0 8px; }
+  .wpage .ph { color: #8a8f95; font-style: italic; }
+  .wbox { float: right; width: 168px; margin: 0 0 10px 12px; border: 1px solid #a2a9b1; background: #f8f9fa; font-size: 12px; padding: 6px; }
+  .wbox .av { width: 70px; height: 70px; border-radius: 50%; margin: 4px auto 6px; display: grid; place-items: center; background: linear-gradient(135deg, #1fb5f0, #0b5f95); color: #fff; font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 22px; }
+  .wbox .cap { text-align: center; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .wbox dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 6px; }
+  .wbox dt { font-weight: 700; }
+  .wbox dd { margin: 0; overflow-wrap: anywhere; }
+  .wpage .stamp-2126 { position: absolute; right: -34px; bottom: 16px; transform: rotate(-35deg); background: var(--blue-2); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 40px; letter-spacing: .08em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 30px); opacity: 0; pointer-events: none;
+    background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; transition: .3s; z-index: 90; max-width: calc(100vw - 32px);
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .confetti { position: fixed; z-index: 95; width: 9px; height: 13px; border-radius: 2px; pointer-events: none; animation: conf 1.3s ease-out forwards; }
+  @keyframes conf { to { transform: translate(var(--dx), var(--dy)) rotate(var(--r)); opacity: 0; } }
+
+  footer { text-align: center; color: var(--faint); font-size: 13px; margin-top: 28px; }
+  footer a { color: var(--blue-2); font-weight: 700; text-decoration: none; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 860px) {
+    .costs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .costs .labels { display: none; }
+    .ccol { grid-template-rows: auto; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 8px; }
+    .ccol > * { min-height: 40px; }
+    .mlab { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin: 0 0 -4px; min-height: 0 !important; }
+    .cout, .cout.pp { padding: 6px; }
+    .cpre { height: 40px; }
+    .budget, .legacy, .wiki { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .lesson { grid-template-columns: auto 1fr; }
+    .sticker { grid-column: 1 / -1; width: 100%; min-height: 48px; }
+    .sticker.has img { width: 80px; }
+    .mood-pop { left: 0; right: auto; }
+    .grid2, .whos, .other, .kinds, .panel .two { grid-template-columns: 1fr; }
+    .sec-head { grid-template-columns: auto 1fr; }
+    .sec-tools { grid-column: 1 / -1; justify-content: flex-start; }
+    .map { aspect-ratio: 1 / 1.05; }
+    .place { width: 80px; }
+    .place .ico { width: 50px; height: 50px; }
+    .place .ico svg { width: 32px; height: 32px; }
+    .place .nm { font-size: 10.5px; padding: 1px 6px; }
+    .chain { grid-template-columns: 1fr; }
+    .carrow { height: 40px; }
+    .carrow svg { transform: rotate(90deg); }
+    .chain.all .carrow::after { left: 50%; top: 2px; margin: 0 0 0 -5px; animation-name: pulse-v; }
+    @keyframes pulse-v { from { transform: translateY(0); opacity: 0; } 20%, 80% { opacity: 1; } to { transform: translateY(30px); opacity: 0; } }
+    .row-name { grid-template-columns: 1fr; }
+    .line { grid-template-columns: minmax(0, 1fr) 92px 30px; }
+    .line .nm-in { grid-column: 1 / -1; }
+    .totals { grid-template-columns: 1fr 1fr; }
+    .totals .goal { grid-column: 1 / -1; }
+    .reward { width: 72px; top: -14px; right: -6px; }
+  }
+  @media (max-width: 420px) {
+    .costs { grid-template-columns: 1fr; }
+    .thermo { grid-template-columns: 92px 1fr; }
+    .thermo svg { width: 92px; }
+    .wbox { float: none; width: auto; margin: 0 0 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .car { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== Шапка ===== -->
+  <header class="sheet" id="top">
+    <div class="lesson">
+      <div class="lesson-num"><b>06</b><small>заняття</small></div>
+      <div>
+        <div class="lesson-sub">Як запустити свій проект</div>
+        <h1>Соціальні проекти і їх значення</h1>
+      </div>
+      <button class="sticker" id="sticker" type="button" aria-haspopup="true" aria-expanded="false" title="Обери наліпку настрою">наліпка<br>настрою</button>
+      <div class="mood-pop" id="moodPop" hidden>
+        <p>Який у тебе сьогодні настрій?</p>
+        <div class="mood-row">
+          <button type="button" class="st-btn" data-mood="shevchenko"><img data-st="shevchenko" src="data:image/webp;base64,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" alt="Наліпка: Тарас Шевченко «Твори сміливо»" width="264" height="250"></button>
+          <button type="button" class="st-btn" data-mood="lesya"><img data-st="lesya" src="data:image/webp;base64,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" alt="Наліпка: Леся Українка «Мрій без меж»" width="234" height="297"></button>
+        </div>
+        <div class="mood-row" style="margin-top:8px">
+          <button type="button" data-mood="🚀" aria-label="Ракета">🚀</button>
+          <button type="button" data-mood="🤩" aria-label="Захват">🤩</button>
+          <button type="button" data-mood="🙂" aria-label="Спокій">🙂</button>
+          <button type="button" data-mood="🤔" aria-label="Роздуми">🤔</button>
+          <button type="button" data-mood="😴" aria-label="Втома">😴</button>
+          <button type="button" class="rm-mood" data-mood="">прибрати</button>
+        </div>
+      </div>
+    </div>
+    <p class="intro"><b>Соціальний проект</b> — це коли ти помічаєш проблему поруч і робиш те, що змінює життя людей на краще. Сьогодні подивишся на своє місто очима змінювача, порахуєш, скільки коштують зміни, і задумаєш власний проект.</p>
+    <div class="prog">
+      <div class="prog-bar" role="progressbar" aria-label="Заповнення сторінки" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progBar"></i></div>
+      <div class="prog-txt" id="progTxt">0%</div>
+      <div class="badges" id="badges" aria-label="Значки за розділи"></div>
+    </div>
+  </header>
+
+  <nav class="secnav" id="secnav" aria-label="Розділи заняття">
+    <a href="#s1">1 · Карта змін</a>
+    <a href="#s2">2 · Що змінилось</a>
+    <a href="#s3">3 · Вартість</a>
+    <a href="#s4">4 · Мій проект</a>
+    <a href="#s5">5 · Через 100 років</a>
+    <a href="#s6">Домашнє</a>
+  </nav>
+
+  <!-- ===== 1. Що хочеш бачити у своєму місті ===== -->
+  <section class="sheet" id="s1" data-sec="0">
+    <div class="sec-head">
+      <span class="sec-num">1</span>
+      <div><div class="lesson-sub">Карта змін</div><h2>Що тобі хочеться бачити у своєму місті?</h2></div>
+      <div class="sec-tools"><button class="btn btn-sm" type="button" data-ex="0">Приклад</button><button class="btn btn-ghost btn-sm" type="button" data-clr="0">Очистити</button></div>
+    </div>
+    <p class="hint">Це карта твого міста чи громади. Тапни на місце, познач проблему, яку там бачиш, і придумай ідею проекту. Місця з ідеями засвітяться.</p>
+
+    <div class="map" id="map">
+      <svg class="bgmap" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true">
+        <g id="blocks"></g>
+        <rect class="rd" x="0" y="230" width="1000" height="40"/>
+        <rect class="rd" x="236" y="0" width="28" height="500"/>
+        <rect class="rd" x="486" y="0" width="28" height="500"/>
+        <rect class="rd" x="736" y="0" width="28" height="500"/>
+        <line class="mark" x1="0" y1="250" x2="1000" y2="250"/>
+      </svg>
+      <span class="car" aria-hidden="true"></span><span class="car b" aria-hidden="true"></span>
+      <div id="places"></div>
+    </div>
+    <div class="map-legend">
+      <span><b style="background:var(--warm)">!</b>є проблема</span>
+      <span><b style="background:var(--ok)">✦</b>є ідея проекту</span>
+      <span class="map-count" id="mapCount">Ідей для міста: 0 з 8</span>
+    </div>
+    <div id="panel"></div>
+    <ul class="ideas-list" id="ideasList"></ul>
+
+    <label class="q" for="wish" style="display:block">Що ще хочеш бачити у своєму місті?</label>
+    <textarea class="area" id="wish" data-k="wish" placeholder="Наприклад: більше місць, де підлітки можуть зібратися без грошей…"></textarea>
+
+    <p class="q">Що ти бачив(-ла) в інших містах і що тобі сподобалось?</p>
+    <p class="hint">Інфраструктура, транспорт, послуги, взаємодія між людьми — що з цього варто «перенести» до себе?</p>
+    <div class="other">
+      <label><b>🏗️ Інфраструктура</b><textarea data-k="other.infra" placeholder="Велодоріжки, сквери, укриття…"></textarea></label>
+      <label><b>🚌 Транспорт</b><textarea data-k="other.transport" placeholder="Е-квиток, табло, нічні маршрути…"></textarea></label>
+      <label><b>🧾 Послуги</b><textarea data-k="other.services" placeholder="ЦНАП, онлайн-запис, бібліотеки…"></textarea></label>
+      <label><b>🤝 Взаємодія між людьми</b><textarea data-k="other.people" placeholder="Толоки, фестивалі вулиць…"></textarea></label>
+    </div>
+  </section>
+
+  <!-- ===== 2. Проекти, що вже змінили місто ===== -->
+  <section class="sheet" id="s2" data-sec="1">
+    <div class="sec-head">
+      <span class="sec-num">2</span>
+      <div><div class="lesson-sub">Що вже змінилось</div><h2>Які проекти недавно були реалізовані у твоєму місті?</h2></div>
+      <div class="sec-tools"><button class="btn btn-sm" type="button" data-ex="1">Приклад</button><button class="btn btn-ghost btn-sm" type="button" data-clr="1">Очистити</button></div>
+    </div>
+    <p class="hint">Згадай 4 проекти: що нового з'явилося і що змінилось для людей. Ці проекти далі підуть у таблицю вартості.</p>
+    <div class="grid2" id="projCards"></div>
+  </section>
+
+  <!-- ===== 3. Вартість реалізації ===== -->
+  <section class="sheet" id="s3" data-sec="2">
+    <div class="sec-head">
+      <span class="sec-num">3</span>
+      <div><div class="lesson-sub">Гроші за змінами</div><h2>Порахуй вартість реалізації проектів</h2></div>
+      <div class="sec-tools"><button class="btn btn-sm" type="button" data-ex="2">Приклад</button><button class="btn btn-ghost btn-sm" type="button" data-clr="2">Очистити</button></div>
+    </div>
+    <div class="kinds">
+      <div class="kind cap"><b>Капітальні витрати</b>Разові гроші, щоб <u>створити</u>: будівництво, ремонт, обладнання, меблі.</div>
+      <div class="kind op"><b>Операційні витрати</b>Гроші <u>щомісяця</u>, щоб проект працював: зарплати, світло, інтернет, прибирання.</div>
+    </div>
+
+    <h3>Розминка: разово чи щомісяця?</h3>
+    <p class="hint">Розклади витрати — так легше рахувати свої проекти.</p>
+    <div class="quiz" id="quiz"></div>
+    <div class="quiz-score" id="quizScore"></div>
+
+    <h3>Таблиця вартості</h3>
+    <p class="hint">Не знаєш точних цифр — пошукай у новинах або обери «Схоже на…», щоб отримати орієнтир.</p>
+    <div class="costs" id="costs"></div>
+
+    <div class="bubble-wrap">
+      <b style="font-size:14px">Вплив і вартість: де більше користі за ті самі гроші?</b>
+      <div style="font-size:12px;color:var(--muted)">Праворуч — дорожче, вище — більше людей. Розмір кульки — операційні витрати за рік.</div>
+      <svg id="bubble" viewBox="0 0 640 360" role="img" aria-label="Бульбашкова діаграма: вартість і кількість людей для кожного проекту"></svg>
+      <ul class="rank" id="rank"></ul>
+    </div>
+
+    <p class="q">Хто реалізував ці проекти і за яке фінансування?</p>
+    <div class="whos" id="whos"></div>
+    <div class="who-sum" id="whoSum"></div>
+  </section>
+
+  <!-- ===== 4. Мій соціальний проект ===== -->
+  <section class="sheet" id="s4" data-sec="3">
+    <div class="sec-head">
+      <span class="sec-num">4</span>
+      <div><div class="lesson-sub">Твій хід</div><h2>Які соціальні проекти ти хочеш реалізувати у своєму місті чи в Україні?</h2></div>
+      <div class="sec-tools"><button class="btn btn-sm" type="button" data-ex="3">Приклад</button><button class="btn btn-ghost btn-sm" type="button" data-clr="3">Очистити</button></div>
+    </div>
+
+    <div class="row-name">
+      <div>
+        <label class="lab" for="myName">Назва проекту</label>
+        <input class="field" id="myName" data-k="my.name" placeholder="Наприклад: Сусідський хаб «Поруч»">
+      </div>
+      <div class="seg" role="group" aria-label="Масштаб проекту" id="scaleSeg">
+        <button type="button" data-scale="city">🏙️ Моє місто</button>
+        <button type="button" data-scale="ua">🇺🇦 Україна</button>
+      </div>
+    </div>
+    <div class="from-map" id="fromMap"></div>
+
+    <h3>Ланцюжок впливу</h3>
+    <p class="hint">Добрий соціальний проект — це не лише «зробити», а й змінити щось у житті людей.</p>
+    <div class="chain" id="chain">
+      <div class="cnode" data-n="0"><span class="cs">1 · Дія</span><label for="cAct">Що ти зробиш?</label><textarea id="cAct" data-k="my.act" placeholder="Облаштуємо, запустимо, навчимо…"></textarea></div>
+      <div class="carrow" aria-hidden="true"><svg viewBox="0 0 54 26"><path class="tr" d="M4 13h44"/><path class="fl" d="M4 13h44"/><path class="hd" d="M40 5l8 8-8 8"/></svg></div>
+      <div class="cnode" data-n="1"><span class="cs">2 · Результат</span><label for="cRes">Що з'явиться?</label><textarea id="cRes" data-k="my.res" placeholder="Місце, послуга, подія…"></textarea></div>
+      <div class="carrow" aria-hidden="true"><svg viewBox="0 0 54 26"><path class="tr" d="M4 13h44"/><path class="fl" d="M4 13h44"/><path class="hd" d="M40 5l8 8-8 8"/></svg></div>
+      <div class="cnode" data-n="2"><span class="cs">3 · Зміна</span><label for="cChg">Що зміниться в житті людей?</label><textarea id="cChg" data-k="my.chg" placeholder="Людям стане безпечніше, легше, веселіше…"></textarea></div>
+    </div>
+    <div class="chain-done"><span class="tst"><b>з'єднай</b><span>точки</span></span><div>Ланцюжок зібрано! Тепер ти можеш пояснити свій проект за 10 секунд: <b id="chainLine"></b></div></div>
+
+    <div class="ppl" style="margin-top:14px">
+      <label class="lab" for="myPpl" style="margin:0">Скільки людей відчують зміну?</label>
+      <input class="field" id="myPpl" type="number" min="0" inputmode="numeric" data-k="my.ppl" placeholder="0" style="width:130px">
+    </div>
+
+    <h3>Калькулятор і термометр збору коштів</h3>
+    <p class="hint">Додай статті витрат: що купиш разово і за що платитимеш щомісяця. Потім подивись, звідки можуть прийти гроші.</p>
+    <div class="budget">
+      <div>
+        <div class="lines" id="lines"></div>
+        <div class="quick-add chips" id="quickAdd"></div>
+        <div class="months">
+          <label for="months"><span>Скільки місяців роботи закладаєш у бюджет</span><b id="monthsVal">12</b></label>
+          <input type="range" id="months" min="1" max="24" step="1" data-k="my.months">
+        </div>
+        <div class="totals">
+          <div>Капітальні<b id="tCap">0</b></div>
+          <div>Операційні × міс.<b id="tOp">0</b></div>
+          <div class="goal">Мета збору<b id="tGoal">0 грн</b></div>
+        </div>
+      </div>
+      <div class="thermo">
+        <svg id="thermo" viewBox="0 0 116 330" aria-hidden="true"></svg>
+        <div>
+          <div class="pct" id="tPct">0%</div>
+          <div class="msg" id="tMsg">Спершу додай витрати — і з'явиться мета.</div>
+          <div class="srcs" id="srcs"></div>
+        </div>
+      </div>
+    </div>
+
+    <label class="q" for="myMore" style="display:block">Ще ідеї соціальних проектів</label>
+    <textarea class="area" id="myMore" data-k="my.more" placeholder="Для міста, громади чи всієї України…"></textarea>
+  </section>
+
+  <!-- ===== 5. Через 100 років ===== -->
+  <section class="sheet" id="s5" data-sec="4">
+    <div class="sec-head">
+      <span class="sec-num">5</span>
+      <div><div class="lesson-sub">Твій слід</div><h2>Що про тебе мають знати через 100 років?</h2></div>
+      <div class="sec-tools"><button class="btn btn-sm" type="button" data-ex="4">Приклад</button><button class="btn btn-ghost btn-sm" type="button" data-clr="4">Очистити</button></div>
+    </div>
+    <div class="legacy">
+      <div>
+        <label class="lab" for="legName">Твоє ім'я та прізвище</label>
+        <input class="field" id="legName" data-k="leg.name" placeholder="Ім'я Прізвище">
+        <label class="lab" for="legCity">Що про тебе мають знати у твоєму місті?</label>
+        <textarea class="area" id="legCity" data-k="leg.city" placeholder="Що ти створив(-ла) для свого міста…"></textarea>
+        <label class="lab" for="legUa">А в Україні?</label>
+        <textarea class="area" id="legUa" data-k="leg.ua" placeholder="Яку зміну відчула вся країна…"></textarea>
+        <div style="margin-top:16px"><span class="tst r"><b>сьогодні —</b><span>той самий день</span></span></div>
+      </div>
+      <div class="previews">
+        <div class="plaque" id="plaque"></div>
+        <p class="scale-note">Меморіальна дошка у твоєму місті</p>
+        <div class="stamp" id="stamp"></div>
+        <p class="scale-note" style="margin-top:4px">Поштова марка України, 2126 рік</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Домашнє завдання ===== -->
+  <section class="sheet" id="s6" data-sec="5">
+    <div class="sec-head">
+      <span class="sec-num hw">ДЗ</span>
+      <div><div class="lesson-sub">Заняття 6 · Домашнє завдання</div><h2>Що б ти хотів(-ла), щоб про тебе написали у Вікіпедії через 100 років?</h2></div>
+      <div class="sec-tools"><button class="btn btn-sm" type="button" data-ex="5">Приклад</button><button class="btn btn-ghost btn-sm" type="button" data-clr="5">Очистити</button></div>
+    </div>
+    <p class="hint">Напиши статтю про себе з майбутнього — праворуч вона одразу збирається. Кнопка нижче підтягне відповіді з цього заняття.</p>
+    <div class="wiki">
+      <div class="wform">
+        <label class="lab" for="wName">Ім'я та прізвище</label>
+        <input class="field" id="wName" data-k="leg.name" placeholder="Ім'я Прізвище">
+        <div class="grid2" style="gap:8px">
+          <div><label class="lab" for="wBorn">Рік народження</label><input class="field" id="wBorn" data-k="wiki.born" inputmode="numeric" placeholder="2011"></div>
+          <div><label class="lab" for="wTown">Рідне місто</label><input class="field" id="wTown" data-k="wiki.town" placeholder="Місто"></div>
+        </div>
+        <label class="lab" for="wWho">Хто ти (одним рядком)</label>
+        <input class="field" id="wWho" data-k="wiki.who" placeholder="українська соціальна підприємиця, засновниця…">
+        <label class="lab" for="wKnown">Чим ти відомий(-а)</label>
+        <textarea class="area" id="wKnown" data-k="wiki.known" placeholder="тим, що…"></textarea>
+        <label class="lab" for="wWorks">Діяльність і проекти</label>
+        <textarea class="area" id="wWorks" data-k="wiki.works" placeholder="2027 — перший проект…; 2035 — …"></textarea>
+        <label class="lab" for="wHer">Спадщина</label>
+        <textarea class="area" id="wHer" data-k="wiki.heritage" placeholder="Що лишилося після тебе…"></textarea>
+        <div class="actions"><button class="btn btn-ghost btn-sm" type="button" id="pullWiki">↺ Підтягнути з моїх відповідей</button></div>
+      </div>
+      <article class="wpage" id="wpage" aria-live="polite"></article>
+    </div>
+  </section>
+
+  <footer>
+    <a href="index.html">← Усі зошити</a>
+    <div>Робочий зошит Campus 13 · Як запустити свій проект · заняття 06</div>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const num = v => { const n = parseFloat(String(v ?? '').replace(/\s/g, '').replace(',', '.')); return isFinite(n) && n > 0 ? n : 0; };
+  const fmt = n => Math.round(n).toLocaleString('uk-UA');
+  const short = n => n >= 1e6 ? (n / 1e6).toLocaleString('uk-UA', { maximumFractionDigits: 1 }) + ' млн' : n >= 1e3 ? (n / 1e3).toLocaleString('uk-UA', { maximumFractionDigits: 1 }) + ' тис' : fmt(n);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Дані ---------- */
+  const KEY = 'spe-sotsialni-v1';
+  const blankProj = () => ({ name: '', now: '', chg: '', ppl: '', cap: '', op: '', who: [], fund: [], note: '' });
+  const fresh = () => ({
+    mood: '',
+    map: {}, wish: '', other: { infra: '', transport: '', services: '', people: '' },
+    pr: [blankProj(), blankProj(), blankProj(), blankProj()],
+    quiz: {},
+    my: { scale: 'city', name: '', act: '', res: '', chg: '', ppl: '', lines: [], months: 12, src: { own: 0, grant: 0, crowd: 0, biz: 0, city: 0 }, more: '' },
+    leg: { name: '', city: '', ua: '' },
+    wiki: { born: '', town: '', who: '', known: '', works: '', heritage: '' },
+    done: []
+  });
+  // Глибоке злиття збереженого з шаблоном (щоб нові поля не ламали старі збереження)
+  const merge = (base, raw) => {
+    if (Array.isArray(base)) {
+      if (!Array.isArray(raw)) return base;
+      if (base.length && base[0] && typeof base[0] === 'object') return base.map((b, i) => merge(b, raw[i]));
+      return raw;
+    }
+    if (base && typeof base === 'object') {
+      if (!raw || typeof raw !== 'object') return base;
+      const o = { ...base };
+      for (const k in raw) o[k] = k in base ? merge(base[k], raw[k]) : raw[k];
+      return o;
+    }
+    return raw === undefined || raw === null ? base : raw;
+  };
+  let S = fresh();
+  try { const raw = JSON.parse(localStorage.getItem(KEY) || 'null'); if (raw) S = merge(fresh(), raw); } catch (e) {}
+  let saveT;
+  const save = () => { clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 200); };
+  const getP = p => p.split('.').reduce((o, k) => (o == null ? undefined : o[k]), S);
+  const setP = (p, v) => {
+    const ks = p.split('.'); let o = S;
+    ks.slice(0, -1).forEach(k => { if (o[k] == null || typeof o[k] !== 'object') o[k] = {}; o = o[k]; });
+    o[ks[ks.length - 1]] = v;
+  };
+
+  const toastEl = $('#toast'); let toastT;
+  const toast = msg => { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 2400); };
+
+  /* ---------- Іконки місць (inline SVG) ---------- */
+  const ICON = {
+    school: '<rect x="10" y="20" width="28" height="18" fill="#f6a35b"/><path d="M7 21 24 10l17 11z" fill="#e85d4a"/><rect x="21" y="29" width="6" height="9" fill="#6b4b3a"/><rect x="13" y="24" width="5" height="4" fill="#fff"/><rect x="30" y="24" width="5" height="4" fill="#fff"/><path d="M24 10V3" stroke="#444" stroke-width="1.6"/><path d="M24 3l7 2-7 2z" fill="#1fb5f0"/>',
+    park: '<rect x="6" y="36" width="36" height="4" rx="2" fill="#9fd8a8"/><rect x="16" y="26" width="3" height="11" fill="#8a5a3b"/><rect x="30" y="24" width="3" height="13" fill="#8a5a3b"/><circle cx="17.5" cy="20" r="9" fill="#4cc46a"/><circle cx="31.5" cy="17" r="10" fill="#2fa357"/>',
+    hospital: '<rect x="9" y="12" width="30" height="26" rx="4" fill="#fff" stroke="#e5484d" stroke-width="2.5"/><rect x="21" y="16" width="6" height="18" rx="1" fill="#e5484d"/><rect x="15" y="22" width="18" height="6" rx="1" fill="#e5484d"/>',
+    library: '<path d="M6 13q9-4 18 2v23q-9-5-18-1z" fill="#7c5cff"/><path d="M42 13q-9-4-18 2v23q9-5 18-1z" fill="#a78bfa"/><path d="M10 19q5-2 10 1M10 24q5-2 10 1M28 20q5-3 10-1M28 25q5-3 10-1" stroke="#fff" stroke-width="1.6" fill="none"/>',
+    yard: '<rect x="7" y="24" width="14" height="13" fill="#ffd166"/><path d="M5 25l9-9 9 9z" fill="#e85d4a"/><rect x="25" y="19" width="16" height="18" fill="#8ecae6"/><path d="M23 20l10-9 10 9z" fill="#0b5f95"/><rect x="12" y="30" width="4" height="7" fill="#6b4b3a"/><rect x="29" y="24" width="4" height="4" fill="#fff"/><rect x="35" y="24" width="4" height="4" fill="#fff"/><rect x="5" y="39" width="38" height="2.5" rx="1" fill="#9fd8a8"/>',
+    bus: '<rect x="8" y="10" width="32" height="25" rx="6" fill="#1fb5f0"/><rect x="12" y="14" width="11" height="9" rx="2" fill="#fff"/><rect x="25" y="14" width="11" height="9" rx="2" fill="#fff"/><rect x="12" y="27" width="5" height="3" rx="1" fill="#ffd166"/><rect x="31" y="27" width="5" height="3" rx="1" fill="#ffd166"/><circle cx="16" cy="37" r="4" fill="#333"/><circle cx="32" cy="37" r="4" fill="#333"/>',
+    sport: '<circle cx="24" cy="24" r="14" fill="#fff" stroke="#333" stroke-width="2.2"/><path d="M24 16l7 5-2.7 8h-8.6L17 21z" fill="#333"/><path d="M24 16v-6M31 21l6-3M28.3 29l4 5M19.7 29l-4 5M17 21l-6-3" stroke="#333" stroke-width="1.6"/>',
+    shelter: '<path d="M24 6l15 5v11c0 10-6.5 16-15 20-8.5-4-15-10-15-20V11z" fill="#0b5f95"/><path d="M17 24l5 5 9-10" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
+  };
+  const svgI = id => `<svg viewBox="0 0 48 48" aria-hidden="true">${ICON[id]}</svg>`;
+
+  /* ---------- 1. Карта змін ---------- */
+  const PLACES = [
+    { id: 'school', nm: 'Школа', x: 12.5, y: 22, probs: ['Нудне подвір\'я', 'Немає де бути після уроків', 'Старий спортзал'], ideas: ['Простір для гуртків після уроків', 'Шкільний город і теплиця', 'Кіноклуб на подвір\'ї'] },
+    { id: 'park', nm: 'Парк', x: 37.5, y: 22, probs: ['Темно ввечері', 'Немає лавок і смітників', 'Ніде вигулювати собак'], ideas: ['Ліхтарі на сонячних батареях', 'Майданчик для собак', 'Літня сцена для місцевих гуртів'] },
+    { id: 'hospital', nm: 'Лікарня', x: 62.5, y: 22, probs: ['Довгі черги', 'Дітям нудно чекати', 'Важко знайти кабінет'], ideas: ['Онлайн-черга і табло', 'Дитячий куточок із книжками', 'Волонтери-провідники'] },
+    { id: 'library', nm: 'Бібліотека', x: 87.5, y: 22, probs: ['Мало молоді', 'Старі комп\'ютери', 'Немає тихого місця для навчання'], ideas: ['Коворкінг для школярів', 'Клуб настільних ігор', 'Цифрова грамотність для старших'] },
+    { id: 'yard', nm: 'Двір', x: 12.5, y: 74, probs: ['Машини на газонах', 'Немає де посидіти', 'Сусіди не знайомі'], ideas: ['Сусідське свято щомісяця', 'Клумби й лавки від мешканців', 'Полиця обміну книжками'] },
+    { id: 'bus', nm: 'Зупинка', x: 37.5, y: 74, probs: ['Немає даху від дощу', 'Незрозумілий розклад', 'Незручно з візочком'], ideas: ['Зупинка з дахом і табло', 'Пандус і тактильна плитка', 'Карта маршрутів з QR-кодом'] },
+    { id: 'sport', nm: 'Майданчик', x: 62.5, y: 74, probs: ['Зламані тренажери', 'Немає покриття', 'Ніхто не організовує ігри'], ideas: ['Вуличний воркаут-парк', 'Безкоштовні тренування щосуботи', 'Турнір дворів'] },
+    { id: 'shelter', nm: 'Укриття', x: 87.5, y: 74, probs: ['Зачинене під час тривоги', 'Немає води і світла', 'Немає зв\'язку'], ideas: ['Укриття з Wi‑Fi і генератором', 'Ігровий куточок для дітей', 'Чергування сусідів з ключами'] }
+  ];
+  const PL = Object.fromEntries(PLACES.map(p => [p.id, p]));
+  let curPlace = null;
+
+  // Квартали на фоні карти: світяться, коли в місці є ідея
+  $('#blocks').innerHTML = PLACES.map((p, i) => {
+    const col = i % 4, row = i < 4 ? 0 : 1;
+    return `<rect class="blk" id="b-${p.id}" x="${col * 250 + 14}" y="${row * 270 + 14}" width="${250 - 28 - (col < 3 ? 14 : 0)}" height="${216}" rx="18"/>`;
+  }).join('');
+  $('#places').innerHTML = PLACES.map(p => `
+    <button type="button" class="place" data-place="${p.id}" style="left:${p.x}%;top:${p.y}%" aria-label="${p.nm}: обрати проблему та ідею">
+      <span class="ico">${svgI(p.id)}<span class="bd"></span></span><span class="nm">${p.nm}</span>
+    </button>`).join('');
+
+  const hasIdea = id => S.map[id] && String(S.map[id].i || '').trim();
+  const hasProb = id => S.map[id] && String(S.map[id].p || '').trim();
+
+  function renderMap() {
+    let n = 0;
+    PLACES.forEach(p => {
+      const b = $(`[data-place="${p.id}"]`), i = hasIdea(p.id), pr = hasProb(p.id);
+      if (i) n++;
+      b.classList.toggle('has-i', !!i);
+      b.classList.toggle('has-p', !i && !!pr);
+      b.classList.toggle('sel', curPlace === p.id);
+      $('.bd', b).textContent = i ? '✦' : pr ? '!' : '';
+      $('#b-' + p.id).classList.toggle('lit', !!i);
+    });
+    $('#mapCount').textContent = `Ідей для міста: ${n} з 8`;
+    const items = PLACES.filter(p => hasIdea(p.id));
+    $('#ideasList').innerHTML = items.map(p => `<li>${svgI(p.id)}<div><b>${esc(S.map[p.id].i)}</b>${hasProb(p.id) ? ` <span>— бо ${esc(S.map[p.id].p.toLowerCase())}</span>` : ''}</div></li>`).join('');
+  }
+
+  function renderPanel() {
+    const box = $('#panel');
+    if (!curPlace) { box.innerHTML = '<div class="panel-empty">👆 Обери місце на карті, щоб додати проблему та ідею</div>'; return; }
+    const p = PL[curPlace], v = S.map[curPlace] || {};
+    box.innerHTML = `
+      <div class="panel" role="region" aria-label="${p.nm}">
+        <div class="panel-head">${svgI(p.id)}<b>${p.nm}</b><button type="button" class="x" id="panelClose" aria-label="Закрити">×</button></div>
+        <div class="two">
+          <div>
+            <label class="lab" for="pp">Яка тут проблема?</label>
+            <div class="chips">${p.probs.map(t => `<button type="button" class="chip p${v.p === t ? ' on' : ''}" data-pick="p">${esc(t)}</button>`).join('')}</div>
+            <input class="field" id="pp" data-k="map.${p.id}.p" value="${esc(v.p || '')}" placeholder="Або напиши свою">
+          </div>
+          <div>
+            <label class="lab" for="pi">Ідея проекту</label>
+            <div class="chips">${p.ideas.map(t => `<button type="button" class="chip${v.i === t ? ' on' : ''}" data-pick="i">${esc(t)}</button>`).join('')}</div>
+            <input class="field" id="pi" data-k="map.${p.id}.i" value="${esc(v.i || '')}" placeholder="Або придумай свою">
+          </div>
+        </div>
+        <div class="actions"><button type="button" class="btn btn-sm" id="panelOk">Готово</button><button type="button" class="btn btn-ghost btn-sm" id="panelDel">Прибрати з карти</button></div>
+      </div>`;
+  }
+  $('#places').addEventListener('click', e => {
+    const b = e.target.closest('[data-place]'); if (!b) return;
+    curPlace = curPlace === b.dataset.place ? null : b.dataset.place;
+    renderPanel(); renderMap();
+    if (curPlace) $('#pp').focus({ preventScroll: true });
+  });
+  $('#panel').addEventListener('click', e => {
+    const pick = e.target.closest('[data-pick]');
+    if (pick) {
+      const k = pick.dataset.pick, path = `map.${curPlace}.${k}`;
+      setP(path, pick.textContent);
+      $(`[data-k="${path}"]`).value = pick.textContent;
+      $$(`[data-pick="${k}"]`, $('#panel')).forEach(c => c.classList.toggle('on', c === pick));
+      if (k === 'i') toast('✦ Ідея на карті!');
+      changed(); return;
+    }
+    if (e.target.id === 'panelClose' || e.target.id === 'panelOk') { const id = curPlace; curPlace = null; renderPanel(); renderMap(); $(`[data-place="${id}"]`).focus({ preventScroll: true }); }
+    if (e.target.id === 'panelDel') { delete S.map[curPlace]; curPlace = null; renderPanel(); changed(); }
+  });
+
+  /* ---------- 2. Картки проектів ---------- */
+  const PC = ['var(--c1)', 'var(--c2)', 'var(--c3)', 'var(--c4)'];
+  const PPL = [100, 1000, 10000, 100000];
+  $('#projCards').innerHTML = [0, 1, 2, 3].map(i => `
+    <div class="card pcard" data-pc="${i}">
+      <div class="ph"><span class="pill" style="--c:${PC[i]}">Проект ${i + 1}</span><input data-k="pr.${i}.name" aria-label="Назва проекту ${i + 1}" placeholder="Назва проекту"></div>
+      <div class="ba">
+        <label class="lab" for="pn${i}">Що нового з'явилося?</label>
+        <textarea class="area" id="pn${i}" data-k="pr.${i}.now" placeholder="Сквер, укриття, велодоріжка…"></textarea>
+        <div class="arr" aria-hidden="true">↓ і тому</div>
+        <label class="sr" for="pg${i}">Що змінилось?</label>
+        <textarea class="area" id="pg${i}" data-k="pr.${i}.chg" placeholder="Що змінилось для людей?"></textarea>
+      </div>
+      <div class="ppl">
+        <label class="lab" for="pp${i}" style="margin:0;width:100%">Скільки людей відчули зміну?</label>
+        <input class="field" id="pp${i}" type="number" min="0" inputmode="numeric" data-k="pr.${i}.ppl" placeholder="≈ людей">
+        ${PPL.map(n => `<button type="button" class="chip" data-ppl="${i}:${n}">${short(n)}</button>`).join('')}
+      </div>
+    </div>`).join('');
+  $('#projCards').addEventListener('click', e => {
+    const b = e.target.closest('[data-ppl]'); if (!b) return;
+    const [i, n] = b.dataset.ppl.split(':');
+    setP(`pr.${i}.ppl`, n); syncInputs(); changed();
+  });
+
+  /* ---------- 3. Квіз «разово чи щомісяця» ---------- */
+  const QUIZ = [
+    ['q1', 'Будівництво спортмайданчика', 'cap', 'Платиш один раз — і майданчик є.'],
+    ['q2', 'Зарплата тренера', 'op', 'Платиш щомісяця, поки йдуть тренування.'],
+    ['q3', 'Ноутбуки для бібліотеки', 'cap', 'Обладнання купують разово.'],
+    ['q4', 'Оплата інтернету', 'op', 'Рахунок приходить щомісяця.'],
+    ['q5', 'Лавки й ліхтарі для скверу', 'cap', 'Встановили — і вони стоять роками.'],
+    ['q6', 'Електроенергія для ліхтарів', 'op', 'Світло споживають щодня.'],
+    ['q7', 'Прибирання території', 'op', 'Чисто лише тоді, коли прибирають регулярно.'],
+    ['q8', 'Генератор для укриття', 'cap', 'Генератор — разова покупка (а от пальне — щомісяця).']
+  ];
+  $('#quiz').innerHTML = QUIZ.map(([id, t]) => `
+    <div class="qi" data-q="${id}"><b>${t}</b>
+      <div class="qb"><button type="button" data-a="cap">Разово</button><button type="button" data-a="op">Щомісяця</button></div>
+      <small></small></div>`).join('');
+  function renderQuiz() {
+    let right = 0;
+    QUIZ.forEach(([id, , ans, why]) => {
+      const el = $(`[data-q="${id}"]`), a = S.quiz[id];
+      el.classList.toggle('right', a === ans); el.classList.toggle('wrong', !!a && a !== ans);
+      $$('button', el).forEach(b => b.classList.toggle('pick', b.dataset.a === a));
+      $('small', el).textContent = !a ? '' : a === ans ? '✓ ' + why : 'Подумай ще: ' + (ans === 'cap' ? 'це разова покупка.' : 'це регулярна оплата.');
+      if (a === ans) right++;
+    });
+    const n = Object.keys(S.quiz).length;
+    $('#quizScore').textContent = n ? `Правильно: ${right} з ${QUIZ.length}${right === QUIZ.length ? ' — ти вже кошторисник! 🎯' : ''}` : '';
+  }
+  $('#quiz').addEventListener('click', e => {
+    const b = e.target.closest('[data-a]'); if (!b) return;
+    const el = b.closest('.qi'), id = el.dataset.q, ans = QUIZ.find(q => q[0] === id)[2];
+    S.quiz[id] = b.dataset.a;
+    if (b.dataset.a !== ans) { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+    changed();
+  });
+
+  /* ---------- 3. Таблиця вартості ---------- */
+  // Орієнтовні цифри для оцінки (грн, дуже приблизно)
+  const PRESETS = [
+    ['Сквер / парк', 1800000, 25000], ['Спортмайданчик', 900000, 8000], ['Укриття в школі', 3500000, 15000],
+    ['Велодоріжка, 1 км', 1500000, 4000], ['Молодіжний простір', 500000, 40000], ['Інклюзивний центр', 2500000, 120000],
+    ['Зупинка з табло', 250000, 2000], ['Електробус', 12000000, 90000]
+  ];
+  const ROWS = ['', 'Капітальні витрати', 'Операційні витрати щомісяця', 'Разом за перший рік', 'Ціна на 1 людину', 'Не знаєш? Оціни'];
+  $('#costs').innerHTML = `<div class="ccol labels">${ROWS.map(r => `<div class="rlab">${r}</div>`).join('')}</div>` + [0, 1, 2, 3].map(i => `
+    <div class="ccol" style="--c:${PC[i]}">
+      <div class="chead"><span data-name="${i}">Проект ${i + 1}</span></div>
+      <span class="mlab">${ROWS[1]}</span>
+      <label class="cin"><span class="sr">Капітальні витрати, проект ${i + 1}</span><input type="number" min="0" step="1000" inputmode="numeric" data-k="pr.${i}.cap" placeholder="0"><em>грн</em></label>
+      <span class="mlab">${ROWS[2]}</span>
+      <label class="cin"><span class="sr">Операційні витрати щомісяця, проект ${i + 1}</span><input type="number" min="0" step="500" inputmode="numeric" data-k="pr.${i}.op" placeholder="0"><em>грн</em></label>
+      <span class="mlab">${ROWS[3]}</span>
+      <div class="cout" data-yr="${i}">—</div>
+      <span class="mlab">${ROWS[4]}</span>
+      <div class="cout pp" data-pp="${i}">—</div>
+      <label class="sr" for="pre${i}">Оцінити вартість проекту ${i + 1}</label>
+      <select class="cpre" id="pre${i}" data-pre="${i}"><option value="">Схоже на…</option>${PRESETS.map((p, k) => `<option value="${k}">${p[0]}</option>`).join('')}</select>
+    </div>`).join('');
+  $('#costs').addEventListener('change', e => {
+    const s = e.target.closest('[data-pre]'); if (!s || s.value === '') return;
+    const i = +s.dataset.pre, p = PRESETS[+s.value];
+    S.pr[i].cap = String(p[1]); S.pr[i].op = String(p[2]);
+    if (!S.pr[i].name.trim()) S.pr[i].name = p[0];
+    s.value = ''; syncInputs(); changed(); toast('Підставили орієнтир — уточни, якщо знаєш точніше');
+  });
+  const yearCost = p => num(p.cap) + 12 * num(p.op);
+
+  function renderCosts() {
+    S.pr.forEach((p, i) => {
+      const nm = p.name.trim() || `Проект ${i + 1}`;
+      $$(`[data-name="${i}"]`).forEach(el => { el.textContent = nm; });
+      const y = yearCost(p), ppl = num(p.ppl);
+      $(`[data-yr="${i}"]`).textContent = y ? short(y) + ' грн' : '—';
+      $(`[data-pp="${i}"]`).textContent = y && ppl ? fmt(y / ppl) + ' грн' : y ? 'вкажи людей у п. 2' : '—';
+    });
+    renderBubble();
+  }
+
+  /* Бульбашкова діаграма: x — вартість за рік (лог), y — люди (лог), r — операційні за рік */
+  const B = { l: 58, r: 620, t: 16, b: 312 };
+  const X0 = 4, X1 = 8, Y0 = 1, Y1 = 6; // 10 тис…100 млн грн; 10…1 млн людей
+  const sx = v => B.l + (Math.min(X1, Math.max(X0, Math.log10(v))) - X0) / (X1 - X0) * (B.r - B.l);
+  const sy = v => B.b - (Math.min(Y1, Math.max(Y0, Math.log10(v))) - Y0) / (Y1 - Y0) * (B.b - B.t);
+  (function buildBubble() {
+    let h = `<rect x="${B.l}" y="${B.t}" width="${(B.r - B.l) / 2}" height="${(B.b - B.t) / 2}" fill="var(--ok)" opacity=".08"/>`;
+    h += `<rect x="${(B.l + B.r) / 2}" y="${(B.t + B.b) / 2}" width="${(B.r - B.l) / 2}" height="${(B.b - B.t) / 2}" fill="var(--no)" opacity=".06"/>`;
+    h += `<text class="quad" x="${B.l + 8}" y="${B.t + 18}" fill="var(--ok)">дешево і масово 👍</text>`;
+    h += `<text class="quad" x="${B.r - 8}" y="${B.b - 10}" fill="var(--no)" text-anchor="end">дорого і локально</text>`;
+    for (let k = X0; k <= X1; k++) {
+      const x = sx(10 ** k);
+      h += `<line class="ax" x1="${x}" y1="${B.t}" x2="${x}" y2="${B.b}"/><text class="tk" x="${x}" y="${B.b + 16}" text-anchor="middle">${short(10 ** k)}</text>`;
+    }
+    for (let k = Y0; k <= Y1; k++) {
+      const y = sy(10 ** k);
+      h += `<line class="ax" x1="${B.l}" y1="${y}" x2="${B.r}" y2="${y}"/><text class="tk" x="${B.l - 6}" y="${y + 4}" text-anchor="end">${short(10 ** k)}</text>`;
+    }
+    h += `<text class="axl" x="${(B.l + B.r) / 2}" y="${B.b + 38}" text-anchor="middle">вартість за перший рік, грн →</text>`;
+    h += `<text class="axl" transform="translate(14 ${(B.t + B.b) / 2}) rotate(-90)" text-anchor="middle">людей відчули зміну →</text>`;
+    h += [0, 1, 2, 3].map(i => `<g class="bub" data-b="${i}" style="opacity:0"><circle r="14" fill="${PC[i]}"/><text>${i + 1}</text><title></title></g>`).join('');
+    h += `<g class="bub" data-b="my" style="opacity:0"><circle r="16" fill="var(--gold)"/><text style="fill:#1f1f22">★</text><title></title></g>`;
+    $('#bubble').innerHTML = h;
+  })();
+  function renderBubble() {
+    const rows = S.pr.map((p, i) => ({ i, nm: p.name.trim() || `Проект ${i + 1}`, y: yearCost(p), ppl: num(p.ppl), op: num(p.op) * 12, c: PC[i] }));
+    const my = { i: 'my', nm: (S.my.name.trim() || 'Мій проект') + ' (твій)', y: myGoal().cap + 12 * myGoal().op, ppl: num(S.my.ppl), op: myGoal().op * 12, c: 'var(--gold)' };
+    const all = rows.concat([my]);
+    const maxOp = Math.max(1, ...all.map(r => r.op));
+    all.forEach(r => {
+      const g = $(`[data-b="${r.i}"]`), ok = r.y > 0 && r.ppl > 0;
+      g.style.opacity = ok ? 1 : 0;
+      if (!ok) return;
+      g.style.transform = `translate(${sx(r.y)}px, ${sy(r.ppl)}px)`;
+      $('circle', g).setAttribute('r', (11 + 22 * Math.sqrt(r.op / maxOp)).toFixed(1));
+      $('title', g).textContent = `${r.nm}: ${fmt(r.y)} грн за рік, ${fmt(r.ppl)} людей`;
+    });
+    const ok = all.filter(r => r.y > 0 && r.ppl > 0).sort((a, b) => a.y / a.ppl - b.y / b.ppl);
+    $('#rank').innerHTML = ok.length ? ok.map((r, k) => `<li class="${k === 0 && ok.length > 1 ? 'best' : ''}" style="--c:${r.c}"><i></i><b>${esc(r.nm)}</b><span>${fmt(r.y / r.ppl)} грн на людину</span></li>`).join('')
+      : '<li style="grid-template-columns:1fr;color:var(--muted)">Заповни вартість тут і кількість людей у розділі 2 — і кульки з\'являться на діаграмі.</li>';
+  }
+
+  /* ---------- 3. Хто і за які гроші ---------- */
+  const WHO = ['Міська рада', 'Громадська організація', 'Бізнес', 'Мешканці / ОСББ', 'Волонтери', 'Міжнародний донор'];
+  const FUND = ['Міський бюджет', 'Громадський бюджет', 'Державна програма', 'Грант', 'Краудфандинг', 'Спонсор / бізнес'];
+  $('#whos').innerHTML = [0, 1, 2, 3].map(i => `
+    <div class="card" style="--c:${PC[i]}">
+      <h4><i></i><span data-name="${i}">Проект ${i + 1}</span></h4>
+      <div class="lab">Хто реалізував</div>
+      <div class="chips">${WHO.map(w => `<button type="button" class="chip" data-tg="pr.${i}.who" aria-pressed="false">${w}</button>`).join('')}</div>
+      <div class="lab">За яке фінансування</div>
+      <div class="chips">${FUND.map(w => `<button type="button" class="chip" data-tg="pr.${i}.fund" aria-pressed="false">${w}</button>`).join('')}</div>
+      <label class="sr" for="pnote${i}">Деталі про фінансування, проект ${i + 1}</label>
+      <input class="field" id="pnote${i}" data-k="pr.${i}.note" placeholder="Деталі: хто саме, скільки грошей…">
+    </div>`).join('');
+  $('#whos').addEventListener('click', e => {
+    const b = e.target.closest('[data-tg]'); if (!b) return;
+    const arr = getP(b.dataset.tg) || [], t = b.textContent, k = arr.indexOf(t);
+    if (k >= 0) arr.splice(k, 1); else arr.push(t);
+    setP(b.dataset.tg, arr); changed();
+  });
+  function renderWhos() {
+    $$('[data-tg]').forEach(b => { const on = (getP(b.dataset.tg) || []).includes(b.textContent); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+    const top = key => { const c = {}; S.pr.forEach(p => p[key].forEach(t => { c[t] = (c[t] || 0) + 1; })); const e = Object.entries(c).sort((a, b) => b[1] - a[1]); return e[0]; };
+    const w = top('who'), f = top('fund');
+    $('#whoSum').innerHTML = w || f ? `<div class="tip">Найчастіше місто змінюють: <b>${esc(w ? w[0] : '—')}</b>${w && w[1] > 1 ? ' ×' + w[1] : ''} · гроші приходять із: <b>${esc(f ? f[0] : '—')}</b>${f && f[1] > 1 ? ' ×' + f[1] : ''}. Подумай — хто з них міг би підтримати й твій проект?</div>` : '';
+  }
+
+  /* ---------- 4. Мій проект ---------- */
+  $('#scaleSeg').addEventListener('click', e => { const b = e.target.closest('[data-scale]'); if (!b) return; S.my.scale = b.dataset.scale; changed(); });
+  $('#fromMap').addEventListener('click', e => {
+    const b = e.target.closest('[data-idea]'); if (!b) return;
+    S.my.name = b.dataset.idea; if (!S.my.act.trim()) S.my.act = b.dataset.idea;
+    syncInputs(); changed();
+  });
+  const QUICK = [['Ремонт приміщення', 'cap'], ['Обладнання', 'cap'], ['Меблі', 'cap'], ['Зарплата координатора', 'op'], ['Комуналка й інтернет', 'op'], ['Матеріали', 'op'], ['Реклама', 'op']];
+  $('#quickAdd').innerHTML = '<button type="button" class="chip" data-add="">+ Свій рядок</button>' + QUICK.map(([n, t]) => `<button type="button" class="chip" data-add="${n}" data-t="${t}">+ ${n}</button>`).join('');
+  function renderLines() {
+    $('#lines').innerHTML = S.my.lines.length ? S.my.lines.map((l, i) => `
+      <div class="line">
+        <input class="nm-in" data-k="my.lines.${i}.n" value="${esc(l.n)}" aria-label="Стаття витрат ${i + 1}" placeholder="Що саме?">
+        <button type="button" class="tt ${l.t}" data-tt="${i}" aria-label="Тип витрати: ${l.t === 'cap' ? 'разово' : 'щомісяця'}">${l.t === 'cap' ? 'разово' : 'щомісяця'}</button>
+        <input type="number" min="0" step="500" inputmode="numeric" data-k="my.lines.${i}.v" value="${esc(l.v)}" aria-label="Сума, грн" placeholder="грн">
+        <button type="button" class="rm" data-rm="${i}" aria-label="Видалити рядок">×</button>
+      </div>`).join('') : '<div class="panel-empty" style="margin:0">Додай першу статтю витрат ↓</div>';
+  }
+  $('#quickAdd').addEventListener('click', e => {
+    const b = e.target.closest('[data-add]'); if (!b) return;
+    S.my.lines.push({ n: b.dataset.add, t: b.dataset.t || 'cap', v: '' });
+    renderLines(); changed();
+    const ins = $$('#lines .line'); const last = ins[ins.length - 1];
+    if (last) (b.dataset.add ? $('input[type="number"]', last) : $('.nm-in', last)).focus();
+  });
+  $('#lines').addEventListener('click', e => {
+    const t = e.target.closest('[data-tt]'), r = e.target.closest('[data-rm]');
+    if (t) { const l = S.my.lines[+t.dataset.tt]; l.t = l.t === 'cap' ? 'op' : 'cap'; renderLines(); changed(); }
+    if (r) { S.my.lines.splice(+r.dataset.rm, 1); renderLines(); changed(); }
+  });
+  function myGoal() {
+    let cap = 0, op = 0;
+    S.my.lines.forEach(l => { if (l.t === 'op') op += num(l.v); else cap += num(l.v); });
+    const m = Math.max(1, Math.min(24, +S.my.months || 12));
+    return { cap, op, m, goal: cap + op * m };
+  }
+  const SRC = [['own', 'Власні гроші й команда', 'var(--s1)'], ['grant', 'Грант', 'var(--s2)'], ['crowd', 'Краудфандинг', 'var(--s3)'], ['biz', 'Спонсори / бізнес', 'var(--s4)'], ['city', 'Громадський бюджет', 'var(--s5)']];
+  $('#srcs').innerHTML = SRC.map(([k, nm, c]) => `
+    <div class="src" style="--c:${c}"><label for="src-${k}"><span style="color:var(--text);font-weight:700"><i></i>${nm}</span><span data-sv="${k}">0 грн</span></label>
+    <input type="range" id="src-${k}" min="0" max="100" step="1" value="0" data-src="${k}"></div>`).join('');
+  // Термометр: трубка + колба, сегменти за джерелами
+  const TT = 20, TB = 262, TH = TB - TT;
+  $('#thermo').innerHTML = `
+    <defs><clipPath id="tclip"><rect x="40" y="${TT}" width="30" height="${TH + 20}" rx="15"/><circle cx="55" cy="290" r="27"/></clipPath></defs>
+    <rect class="tube" x="40" y="${TT}" width="30" height="${TH + 20}" rx="15"/><circle class="tube" cx="55" cy="290" r="27"/>
+    <g clip-path="url(#tclip)"><circle id="tBulb" cx="55" cy="290" r="27" fill="var(--line)"/>${SRC.map(([k, , c]) => `<rect class="seg-r" data-seg="${k}" x="38" y="${TB}" width="34" height="0" fill="${c}"/>`).join('')}</g>
+    ${[0, 25, 50, 75, 100].map(p => { const y = TB - TH * p / 100; return `<line class="tick" x1="72" y1="${y}" x2="80" y2="${y}"/><text class="tkt" x="83" y="${y + 4}">${p}%</text>`; }).join('')}`;
+  $('#srcs').addEventListener('input', e => {
+    const r = e.target.closest('[data-src]'); if (!r) return;
+    S.my.src[r.dataset.src] = +r.value; changed();
+  });
+  let wasFull = null;
+  function renderMy() {
+    $$('#scaleSeg button').forEach(b => { b.classList.toggle('on', b.dataset.scale === S.my.scale); b.setAttribute('aria-pressed', b.dataset.scale === S.my.scale); });
+    const ideas = PLACES.filter(p => hasIdea(p.id)).map(p => S.map[p.id].i);
+    $('#fromMap').innerHTML = ideas.length ? `<span style="font-size:12px;color:var(--muted);margin-right:6px">Взяти ідею з карти:</span>` + ideas.map(t => `<button type="button" class="chip" data-idea="${esc(t)}">✦ ${esc(t)}</button>`).join(' ') : '';
+    // ланцюжок впливу
+    const f = [S.my.act, S.my.res, S.my.chg].map(v => !!String(v).trim());
+    $$('#chain .cnode').forEach((n, i) => n.classList.toggle('on', f[i]));
+    $$('#chain .carrow').forEach((a, i) => a.classList.toggle('on', f[i] && f[i + 1]));
+    $('#chain').classList.toggle('all', f.every(Boolean));
+    const cut = s => { s = String(s).trim().split(/[.!?\n]/)[0]; return s.length > 48 ? s.slice(0, 46) + '…' : s; };
+    $('#chainLine').textContent = f.every(Boolean) ? `${cut(S.my.act)} → ${cut(S.my.res)} → ${cut(S.my.chg)}` : '';
+    // бюджет
+    const g = myGoal();
+    $('#monthsVal').textContent = g.m + ' міс.';
+    $('#tCap').textContent = short(g.cap); $('#tOp').textContent = short(g.op * g.m);
+    $('#tGoal').textContent = g.goal ? fmt(g.goal) + ' грн' : '0 грн';
+    // джерела: повзунки від 0 до мети
+    const step = g.goal > 0 ? Math.max(100, 10 ** Math.floor(Math.log10(g.goal / 100))) : 1;
+    let sum = 0;
+    SRC.forEach(([k]) => {
+      const r = $(`[data-src="${k}"]`);
+      if (g.goal > 0 && S.my.src[k] > g.goal) S.my.src[k] = g.goal;
+      r.max = g.goal || 100; r.step = step; r.disabled = !g.goal;
+      if (document.activeElement !== r) r.value = S.my.src[k] || 0;
+      $(`[data-sv="${k}"]`).textContent = short(S.my.src[k] || 0) + ' грн';
+      sum += S.my.src[k] || 0;
+    });
+    let y = TB;
+    SRC.forEach(([k]) => {
+      const h = g.goal ? Math.min(TH * (S.my.src[k] || 0) / g.goal, Math.max(0, y - TT + 20)) : 0;
+      const seg = $(`[data-seg="${k}"]`);
+      y -= h; seg.style.y = y + 'px'; seg.style.height = (h + (h ? 1 : 0)) + 'px';
+    });
+    const first = SRC.find(([k]) => S.my.src[k] > 0);
+    $('#tBulb').setAttribute('fill', first ? first[2] : 'var(--line)');
+    const pct = g.goal ? Math.round(sum / g.goal * 100) : 0;
+    $('#tPct').textContent = pct + '%';
+    $('#tMsg').textContent = !g.goal ? 'Спершу додай витрати — і з\'явиться мета.'
+      : pct >= 100 ? `Мету зібрано! ${sum > g.goal ? 'Ще й з запасом ' + short(sum - g.goal) + ' грн.' : 'Можна стартувати.'}`
+      : pct >= 75 ? `Майже! Лишилось ${short(g.goal - sum)} грн.`
+      : pct >= 50 ? `Половина є. Ще ${short(g.goal - sum)} грн — шукай партнерів.`
+      : pct > 0 ? `Початок є! Треба ще ${short(g.goal - sum)} грн.`
+      : 'Посунь повзунки: звідки прийдуть гроші?';
+    const full = g.goal > 0 && pct >= 100;
+    if (wasFull === false && full) { confetti($('#thermo')); toast('🎉 Мету збору досягнуто!'); }
+    wasFull = full;
+  }
+
+  /* ---------- 5. Дошка і марка ---------- */
+  const initials = n => (String(n).trim().split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('')) || '?';
+  function renderLegacy() {
+    const nm = S.leg.name.trim();
+    $('#plaque').innerHTML = `<small>У цьому місті жив(-ла) і творив(-ла)</small><b>${esc(nm || 'Твоє ім\'я')}</b><p>${S.leg.city.trim() ? esc(S.leg.city.trim()) : '<span style="opacity:.6">Тут з\'явиться те, що про тебе знатимуть у місті</span>'}</p>`;
+    const ua = S.leg.ua.trim();
+    $('#stamp').innerHTML = `<div class="stamp-in"><div class="stamp-top"><span>УКРАЇНА</span><span>2126</span></div><div class="stamp-face">${esc(initials(nm))}</div><b>${esc(nm || 'Твоє ім\'я')}</b><p>${ua ? esc(ua.length > 140 ? ua.slice(0, 138) + '…' : ua) : '<span style="opacity:.6">Що знатиме про тебе вся Україна?</span>'}</p></div>`;
+  }
+
+  /* ---------- 6. Стаття в енциклопедії ---------- */
+  function renderWiki() {
+    const w = S.wiki, nm = S.leg.name.trim(), ph = t => `<span class="ph">${t}</span>`;
+    const para = s => esc(s).replace(/\n+/g, '<br>');
+    const works = w.works.trim(), her = w.heritage.trim();
+    $('#wpage').innerHTML = `
+      <h4>${esc(nm) || ph('Твоє ім\'я')}</h4>
+      <div class="from">Матеріал з Енциклопедії майбутнього · 2126</div>
+      <aside class="wbox"><div class="av">${esc(initials(nm))}</div><div class="cap">${esc(nm) || '—'}</div>
+        <dl><dt>Народження</dt><dd>${esc(w.born) || '—'}${w.town.trim() ? ', ' + esc(w.town) : ''}</dd>
+        <dt>Відомий(-а)</dt><dd>${esc(w.who) || '—'}</dd>
+        ${S.my.name.trim() ? `<dt>Проект</dt><dd>${esc(S.my.name)}</dd>` : ''}</dl></aside>
+      <p><b>${esc(nm) || 'Ім\'я Прізвище'}</b> (нар. ${esc(w.born) || '20__'}${w.town.trim() ? ', ' + esc(w.town) : ''}) — ${esc(w.who) || ph('хто ти одним рядком')}.
+      ${w.known.trim() ? ' Відомий(-а) передусім ' + para(w.known.trim().replace(/[.]$/, '')) + '.' : ' ' + ph('Чим ти відомий(-а)?')}</p>
+      <h5>Діяльність</h5><p>${works ? para(works) : ph('Які проекти ти запустиш?')}</p>
+      <h5>Спадщина</h5><p>${her ? para(her) : ph('Що залишиться після тебе?')}</p>
+      <span class="stamp-2126" aria-hidden="true">2126</span>`;
+  }
+  $('#pullWiki').addEventListener('click', () => {
+    const w = S.wiki; let n = 0;
+    const put = (k, v) => { if (!String(w[k]).trim() && String(v).trim()) { w[k] = v; n++; } };
+    if (S.my.name.trim()) put('works', `${S.my.name.trim()}${S.my.chg.trim() ? ' — ' + S.my.chg.trim() : ''}`);
+    put('heritage', [S.leg.city.trim(), S.leg.ua.trim()].filter(Boolean).join(' '));
+    if (S.my.act.trim()) put('known', 'тим, що ' + S.my.act.trim().replace(/^./, c => c.toLowerCase()));
+    syncInputs(); changed();
+    toast(n ? `Підтягнуто полів: ${n}` : 'Нема що підтягнути — заповни розділи 4–5 або поля вже заповнені');
+  });
+
+  /* ---------- Прогрес, значки, нагороди ---------- */
+  const filled = v => !!String(v ?? '').trim();
+  const BADGES = [['🏙️', 'Урбаніст'], ['🔍', 'Спостерігач'], ['🧮', 'Кошторисник'], ['🚀', 'Ініціатор'], ['🕰️', 'Спадщина'], ['📖', 'Енциклопедист']];
+  const REWARD = { 0: 'lesya', 3: 'shevchenko', 5: 'lesya' }; // наліпки «вилітають» на ці розділи
+  $('#badges').innerHTML = BADGES.map(([i, n]) => `<span class="badge"><i>${i}</i>${n}</span>`).join('');
+  function checks() {
+    const ideas = PLACES.filter(p => hasIdea(p.id)).length;
+    const oth = Object.values(S.other).filter(filled).length;
+    const named = S.pr.filter(p => filled(p.name)).length;
+    const told = S.pr.filter(p => filled(p.now) || filled(p.chg)).length;
+    const ppl = S.pr.filter(p => num(p.ppl)).length;
+    const cost = S.pr.filter(p => num(p.cap) || num(p.op)).length;
+    const who = S.pr.filter(p => p.who.length || p.fund.length || filled(p.note)).length;
+    const quizOk = QUIZ.every(([id, , a]) => S.quiz[id] === a);
+    const g = myGoal(), raised = Object.values(S.my.src).some(v => v > 0);
+    return [
+      [ideas >= 1, ideas >= 2, ideas >= 3, filled(S.wish), oth >= 1, oth >= 2],
+      [named >= 1, named >= 2, named >= 3, told >= 2, ppl >= 2],
+      [cost >= 1, cost >= 2, cost >= 3, who >= 2, quizOk],
+      [filled(S.my.name), filled(S.my.act), filled(S.my.res), filled(S.my.chg), num(S.my.ppl) > 0, S.my.lines.filter(l => num(l.v)).length >= 2 && g.goal > 0, raised],
+      [filled(S.leg.name), filled(S.leg.city), filled(S.leg.ua)],
+      [filled(S.wiki.who), filled(S.wiki.known), filled(S.wiki.works) || filled(S.wiki.heritage)]
+    ];
+  }
+  const stImg = name => $(`img[data-st="${name}"]`);
+  function stickReward(i, animate) {
+    const sec = $(`[data-sec="${i}"]`);
+    if ($('.reward', sec) || !REWARD[i]) return;
+    const src = stImg(REWARD[i]); if (!src) return;
+    const img = document.createElement('img');
+    img.src = src.src; img.alt = src.alt; img.className = 'reward' + (animate && !reduce ? ' fly' : '');
+    img.width = 92; img.height = Math.round(92 * src.height / src.width);
+    sec.appendChild(img);
+  }
+  function renderProgress(first) {
+    const c = checks();
+    const tot = c.flat().length, ok = c.flat().filter(Boolean).length, pct = Math.round(ok / tot * 100);
+    $('#progBar').style.width = pct + '%';
+    $('.prog-bar').setAttribute('aria-valuenow', pct);
+    const nDone = c.filter(a => a.every(Boolean)).length;
+    $('#progTxt').textContent = `${pct}% · розділів ${nDone}/6`;
+    const links = $$('#secnav a'), badges = $$('#badges .badge');
+    c.forEach((a, i) => {
+      const done = a.every(Boolean), was = S.done.includes(i);
+      links[i].classList.toggle('done', done);
+      badges[i].classList.toggle('on', done);
+      $$(`[data-sec="${i}"] .card`);
+      if (done && !was) {
+        S.done.push(i);
+        if (!first) { badges[i].classList.remove('pop'); void badges[i].offsetWidth; badges[i].classList.add('pop'); toast(`${BADGES[i][0]} Значок «${BADGES[i][1]}»!`); }
+        stickReward(i, !first);
+      } else if (done) stickReward(i, false);
+      if (!done && was) { S.done = S.done.filter(x => x !== i); const r = $(`[data-sec="${i}"] .reward`); if (r) r.remove(); }
+    });
+    // підсвітка заповнених карток проектів
+    S.pr.forEach((p, i) => { const el = $(`[data-pc="${i}"]`); if (el) el.classList.toggle('ok', filled(p.name) && (filled(p.now) || filled(p.chg))); });
+  }
+
+  /* ---------- Конфеті ---------- */
+  function confetti(anchor) {
+    if (reduce) return;
+    const r = anchor.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 3;
+    const cols = ['#1fb5f0', '#0b5f95', '#ffd43b', '#ff8a3d', '#22a447', '#7c5cff'];
+    for (let k = 0; k < 28; k++) {
+      const s = document.createElement('i');
+      s.className = 'confetti';
+      s.style.cssText = `left:${cx}px;top:${cy}px;background:${cols[k % cols.length]};--dx:${(Math.random() - .5) * 320}px;--dy:${(Math.random() - .2) * 260}px;--r:${Math.random() * 720}deg`;
+      document.body.appendChild(s); setTimeout(() => s.remove(), 1400);
+    }
+  }
+
+  /* ---------- Прив'язка полів ---------- */
+  function syncInputs() {
+    $$('[data-k]').forEach(el => {
+      if (el === document.activeElement) return;
+      const v = getP(el.dataset.k);
+      el.value = v == null ? '' : v;
+    });
+  }
+  document.addEventListener('input', e => {
+    const el = e.target.closest('[data-k]'); if (!el) return;
+    const k = el.dataset.k;
+    setP(k, el.type === 'range' ? +el.value : el.value);
+    $$(`[data-k="${k}"]`).forEach(o => { if (o !== el) o.value = el.value; });
+    if (k.startsWith('map.')) $$('.chip', $('#panel')).forEach(c => c.classList.toggle('on', c.textContent === el.value && c.dataset.pick === k.split('.')[2]));
+    changed();
+  });
+  function changed() {
+    save(); renderMap(); renderQuiz(); renderCosts(); renderWhos(); renderMy(); renderLegacy(); renderWiki(); renderProgress(false);
+  }
+
+  /* ---------- Приклади та очищення ---------- */
+  const EX = [
+    () => {
+      S.map = {
+        school: { p: 'Немає де бути після уроків', i: 'Простір для гуртків після уроків' },
+        park: { p: 'Темно ввечері', i: 'Ліхтарі на сонячних батареях' },
+        bus: { p: 'Немає даху від дощу', i: 'Зупинка з дахом і табло' },
+        shelter: { p: 'Немає зв\'язку', i: 'Укриття з Wi‑Fi і генератором' }
+      };
+      S.wish = 'Більше місць, де підлітки можуть зібратися без грошей: майданчики, коворкінги, сцени для виступів.';
+      S.other = {
+        infra: 'Велодоріжки, відгороджені від машин, і питні фонтанчики в парках.',
+        transport: 'Е-квиток і табло з часом прибуття на кожній зупинці.',
+        services: 'ЦНАП, де все роблять за 15 хвилин і можна записатися онлайн.',
+        people: 'Толоки й фестивалі вулиць, де сусіди знайомляться.'
+      };
+    },
+    () => {
+      const d = [
+        ['Оновлений сквер біля ліцею', 'Лавки, ліхтарі, доріжки й маленька сцена', 'Ввечері там гуляють родини, після уроків збираються школярі', '3000'],
+        ['Укриття в школі №5', 'Укриття з вентиляцією, світлом і Wi‑Fi', 'Уроки не зриваються під час тривог', '900'],
+        ['Велодоріжка вздовж набережної', '2 км окремої доріжки', 'Більше людей їздять на роботу велосипедом', '8000'],
+        ['Молодіжний простір у бібліотеці', 'Коворкінг, настолки, кіноклуб', 'Підліткам є де бути безкоштовно', '1200']
+      ];
+      d.forEach(([name, now, chg, ppl], i) => Object.assign(S.pr[i], { name, now, chg, ppl }));
+    },
+    () => {
+      const d = [
+        ['1800000', '25000', ['Громадська організація', 'Міська рада'], ['Громадський бюджет'], 'Ідею подала ГО мешканців, перемогла в голосуванні'],
+        ['3200000', '12000', ['Міська рада'], ['Міський бюджет', 'Державна програма'], 'Співфінансування міста і держави'],
+        ['4500000', '6000', ['Міська рада'], ['Міжнародний донор'], 'Програма підтримки сталої мобільності'],
+        ['450000', '35000', ['Громадська організація', 'Волонтери'], ['Грант', 'Спонсор / бізнес'], 'Грант + меблі від місцевого бізнесу']
+      ];
+      d.forEach(([cap, op, who, fund, note], i) => { Object.assign(S.pr[i], { cap, op, who: [...who], fund: [...fund], note }); if (!S.pr[i].name.trim()) S.pr[i].name = ['Сквер', 'Укриття', 'Велодоріжка', 'Молодіжний простір'][i]; });
+    },
+    () => {
+      Object.assign(S.my, {
+        scale: 'city', name: 'Сусідський хаб «Поруч»',
+        act: 'Облаштуємо порожнє приміщення в будинку під простір з Wi‑Fi, настолками і полицею обміну',
+        res: 'Місце, де щотижня проходять зустрічі, майстер-класи й толоки',
+        chg: 'Сусіди знайомі між собою, підліткам є куди піти, старшим — до кого звернутися',
+        ppl: '600', months: 12,
+        lines: [{ n: 'Ремонт приміщення', t: 'cap', v: '120000' }, { n: 'Меблі й настолки', t: 'cap', v: '45000' }, { n: 'Роутер і проєктор', t: 'cap', v: '25000' }, { n: 'Комуналка й інтернет', t: 'op', v: '3500' }, { n: 'Матеріали для майстер-класів', t: 'op', v: '2500' }],
+        src: { own: 20000, grant: 100000, crowd: 60000, biz: 30000, city: 0 },
+        more: 'Карта доступності міста для людей на візках; волонтерський клуб «Старші онлайн».'
+      });
+    },
+    () => {
+      S.leg = { name: 'Олена Коваль', city: 'Вона відкрила перший сусідський хаб і навчила сусідів домовлятися й діяти разом.', ua: 'Її мережа хабів «Поруч» з\'явилась у 100 громадах і зробила дворів без самотності більше.' };
+    },
+    () => {
+      if (!S.leg.name.trim()) S.leg.name = 'Олена Коваль';
+      S.wiki = {
+        born: '2011', town: 'Вінниця', who: 'українська соціальна підприємиця, засновниця мережі сусідських просторів «Поруч»',
+        known: 'тим, що перетворила порожні приміщення на місця зустрічей для тисяч людей',
+        works: '2026 — перший хаб у власному дворі.\n2032 — мережа у 20 містах.\n2040 — фонд для молодіжних ініціатив.',
+        heritage: 'Її іменем названо премію для шкільних соціальних проектів.'
+      };
+    }
+  ];
+  const CLR = [
+    () => { const f = fresh(); S.map = {}; S.wish = ''; S.other = f.other; curPlace = null; renderPanel(); },
+    () => S.pr.forEach(p => Object.assign(p, { name: '', now: '', chg: '', ppl: '' })),
+    () => { S.pr.forEach(p => Object.assign(p, { cap: '', op: '', who: [], fund: [], note: '' })); S.quiz = {}; },
+    () => { S.my = fresh().my; },
+    () => { S.leg = fresh().leg; },
+    () => { S.wiki = fresh().wiki; }
+  ];
+  document.addEventListener('click', e => {
+    const ex = e.target.closest('[data-ex]'), cl = e.target.closest('[data-clr]');
+    if (ex) { EX[+ex.dataset.ex](); renderLines(); syncInputs(); changed(); toast('Заповнено прикладом — зміни під себе'); }
+    if (cl) {
+      if (!confirm('Очистити цей розділ?')) return;
+      CLR[+cl.dataset.clr](); renderLines(); syncInputs(); changed(); toast('Розділ очищено');
+    }
+  });
+
+  /* ---------- Наліпка настрою ---------- */
+  const stEl = $('#sticker'), pop = $('#moodPop');
+  function paintMood() {
+    const m = S.mood;
+    stEl.classList.toggle('has', !!m);
+    if (!m) { stEl.innerHTML = 'наліпка<br>настрою'; return; }
+    if (stImg(m)) { const src = stImg(m); stEl.innerHTML = ''; const im = document.createElement('img'); im.src = src.src; im.alt = src.alt; im.width = src.width; im.height = src.height; stEl.appendChild(im); }
+    else stEl.textContent = m;
+  }
+  const closePop = () => { pop.hidden = true; stEl.setAttribute('aria-expanded', 'false'); };
+  stEl.addEventListener('click', e => { e.stopPropagation(); pop.hidden = !pop.hidden; stEl.setAttribute('aria-expanded', String(!pop.hidden)); });
+  pop.addEventListener('click', e => {
+    const b = e.target.closest('[data-mood]'); if (!b) return;
+    S.mood = b.dataset.mood; save(); paintMood(); closePop(); stEl.focus();
+  });
+  document.addEventListener('click', e => { if (!pop.hidden && !pop.contains(e.target) && e.target !== stEl) closePop(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden) { closePop(); stEl.focus(); } });
+
+  /* ---------- Активний розділ у навігації ---------- */
+  const navLinks = $$('#secnav a');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(en => {
+      if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id));
+    }), { rootMargin: '-40% 0px -55% 0px' });
+    $$('section.sheet').forEach(s => io.observe(s));
+  }
+
+  /* ---------- Старт ---------- */
+  paintMood(); renderPanel(); renderLines(); syncInputs();
+  renderMap(); renderQuiz(); renderCosts(); renderWhos(); renderMy(); renderLegacy(); renderWiki(); renderProgress(true);
+})();
+</script>
+</body>
+</html>
