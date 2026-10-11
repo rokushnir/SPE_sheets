@@ -150,6 +150,7 @@
   .tri { display: inline-flex; border: 2px solid var(--line); border-radius: 10px; overflow: hidden; flex: none; }
   .tri button { border: 0; background: var(--panel); padding: 6px 10px; font-weight: 800; font-size: 13px; }
   .tri button + button { border-left: 2px solid var(--line); }
+  .tri button.on { background: var(--acc); color: #fff; }
   .tri button.on[data-v="так"] { background: var(--ok); color: #fff; }
   .tri button.on[data-v="частково"] { background: var(--gold); color: #fff; }
   .tri button.on[data-v="ні"] { background: var(--bad); color: #fff; }
@@ -181,7 +182,8 @@
   .out h4 { margin: 0 0 8px; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--acc); }
   .out p { margin: 6px 0; }
   .big { font-family: "Unbounded", sans-serif; font-size: clamp(26px, 4vw, 38px); font-weight: 800; line-height: 1.1; color: var(--acc); }
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+  @media (max-width: 520px) { .stats { grid-template-columns: 1fr 1fr; } }
   .stat { background: var(--panel); border-radius: 14px; padding: 12px 14px; border: 1px solid var(--line); }
   .stat b { display: block; font-family: "Unbounded", sans-serif; font-size: 20px; line-height: 1.2; }
   .stat span { font-size: 12px; color: var(--muted); font-weight: 600; }
@@ -804,7 +806,7 @@ const App = (() => {
     const pr = store.get(PR_KEY, {});
     const me = CATALOG.find(p => p.f === PAGE + '.html');
     const same = CATALOG.filter(p => !me || p.c === me.c);
-    el.innerHTML = same.map(p => `<a href="${p.f}" class="${p.f === PAGE + '.html' ? 'here' : ''}"><span>${p.e}</span>${esc(p.t)}${pr[p.f.replace('.html', '')]?.p ? `<em>${pr[p.f.replace('.html', '')].p}%</em>` : ''}</a>`).join('');
+    el.innerHTML = same.map(p => `<a href="${p.f}" class="${p.f === PAGE + '.html' ? 'here' : ''}"><span>${p.e}</span>${esc(p.t)}${pr[p.f.replace('.html', '')]?.p ? `<em>${pr[p.f.replace('.html', '')].p}%</em>` : ''}</a>`).join('') + '<a href="shtab.html"><span>🛰️</span>Штаб: увесь прогрес</a>';
   }
 
   app.start = () => {
