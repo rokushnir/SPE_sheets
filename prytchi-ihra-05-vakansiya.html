@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Вакансія Лисиці</title>
+<meta name="description" content="Аркада «Музичні стільці» за притчею «Лісова демократія».">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=Commissioner:wght@400;500;600;700&display=swap">
+<style>/* Макет: ігрова консоль — вузька шапка, сцена 16:9 по центру, під нею підказка керування.
+   Сторінка має світлу і темну тему; інтерфейс поверх сцени — завжди темне «скло», бо лежить на ігровому світі. */
+:root {
+  --bg: #eef1f6;
+  --surface: #ffffff;
+  --ink: #141a26;
+  --muted: #586174;
+  --line: #d5dbe5;
+  --accent: #2f5bd3;
+  --glass: rgba(14, 18, 30, 0.86);
+  --glass-ink: #f3f5fb;
+  --glass-muted: #b7bfd2;
+  --glass-line: rgba(255, 255, 255, 0.16);
+  --gold: #f2c14e;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-ui: "Commissioner", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Literata", Georgia, serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1018; --surface: #161b27; --ink: #e8ecf5; --muted: #9aa3b8; --line: #283043; --accent: #8fb0ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1018; --surface: #161b27; --ink: #e8ecf5; --muted: #9aa3b8; --line: #283043; --accent: #8fb0ff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-ui); padding-inline: 16px;
+  -webkit-tap-highlight-color: transparent; }
+button { font: inherit; }
+.page { max-width: 1180px; margin-inline: auto; padding-block: 10px 24px; display: grid; gap: 10px; }
+
+.top { display: flex; align-items: center; gap: 12px; min-height: 40px; }
+.top .back { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 0.9rem; white-space: nowrap; }
+.top .back:hover { text-decoration: underline; }
+.top .ttl { flex: 1; min-width: 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top .ttl .n { color: var(--muted); font-weight: 500; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.icon { background: var(--surface); border: 1px solid var(--line); color: var(--ink); border-radius: 10px;
+  min-width: 40px; height: 40px; cursor: pointer; font-size: 1.05rem; }
+.icon:focus-visible, .btn:focus-visible, .opt:focus-visible, .back:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.stage { position: relative; width: min(100%, calc((100svh - 130px) * 16 / 9)); aspect-ratio: 16 / 9; margin-inline: auto;
+  border-radius: 14px; overflow: hidden; background: #0b0e16; container-type: inline-size; user-select: none;
+  box-shadow: 0 10px 40px rgba(10, 16, 30, 0.25); touch-action: none; }
+#cv { display: block; width: 100%; height: 100%; }
+
+.hud { position: absolute; left: 10px; top: 10px; display: flex; flex-wrap: wrap; gap: 6px; max-width: 75%; pointer-events: none; }
+.hud span { background: var(--glass); color: var(--glass-ink); border-radius: 999px; padding: 4px 11px;
+  font-size: clamp(11px, 1.45cqw, 15px); font-weight: 500; white-space: nowrap; }
+.hud b { color: var(--gold); font-weight: 700; margin-left: 4px; font-variant-numeric: tabular-nums; }
+
+.banner { position: absolute; left: 50%; top: 12%; transform: translateX(-50%); background: var(--glass); color: var(--glass-ink);
+  border: 1px solid var(--glass-line); border-radius: 14px; padding: 10px 18px; font-family: var(--f-display);
+  font-size: clamp(13px, 2cqw, 22px); text-align: center; max-width: 80%; pointer-events: none; animation: pop .25s ease-out; }
+@keyframes pop { from { transform: translateX(-50%) scale(.92); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+
+.dlg { position: absolute; left: 3%; right: 3%; bottom: 4%; background: var(--glass); color: var(--glass-ink);
+  border: 1px solid var(--glass-line); border-radius: 16px; padding: 14px 18px 12px; display: grid; gap: 8px;
+  font-size: clamp(14px, 1.9cqw, 19px); line-height: 1.45; max-height: 70%; overflow: auto; z-index: 5; }
+.dlg.top { bottom: auto; top: 12%; }
+.dlg .who { font-family: var(--f-display); font-size: 0.8em; color: var(--gold); letter-spacing: .02em; }
+.dlg .who:empty { display: none; }
+.dlg .txt { font-family: var(--f-body); }
+.dlg .opts { display: grid; gap: 6px; }
+.dlg .opts:empty { display: none; }
+.opt { text-align: left; background: rgba(255,255,255,0.07); color: var(--glass-ink); border: 1px solid var(--glass-line);
+  border-radius: 10px; padding: 8px 12px; cursor: pointer; display: flex; gap: 10px; align-items: baseline; }
+.opt .k { color: var(--gold); font-family: var(--f-display); font-size: 0.8em; min-width: 1.2em; }
+.opt:hover, .opt.sel { background: rgba(242, 193, 78, 0.18); border-color: var(--gold); }
+.dlg .more { justify-self: end; font-size: 0.75em; color: var(--glass-muted); }
+
+.screen { position: absolute; inset: 0; background: rgba(9, 12, 20, 0.9); color: var(--glass-ink); overflow: auto; z-index: 8;
+  display: grid; place-items: center; padding: 4% 5%; }
+.screen[hidden] { display: none; }
+.card { width: min(100%, 680px); display: grid; gap: 12px; }
+.card .eyebrow { font-size: clamp(11px, 1.4cqw, 13px); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.card h1, .card h2 { font-family: var(--f-display); margin: 0; text-wrap: balance; line-height: 1.1; }
+.card h1 { font-size: clamp(22px, 4.6cqw, 46px); }
+.card h2 { font-size: clamp(18px, 3cqw, 30px); }
+.card p { margin: 0; line-height: 1.5; font-size: clamp(13px, 1.75cqw, 17px); }
+.card .story { font-family: var(--f-body); font-style: italic; color: #dfe4f0; border-left: 3px solid var(--gold); padding-left: 12px; }
+.card ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: clamp(13px, 1.7cqw, 16px); line-height: 1.45; }
+.card .moral { font-family: var(--f-body); font-size: clamp(14px, 2cqw, 19px); }
+.card .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.btn { background: var(--gold); color: #1a1405; border: 0; border-radius: 12px; padding: 10px 18px; font-weight: 700;
+  cursor: pointer; text-decoration: none; font-size: clamp(13px, 1.7cqw, 16px); display: inline-block; }
+.btn.ghost { background: transparent; color: var(--glass-ink); border: 1px solid var(--glass-line); }
+.ends { display: flex; flex-wrap: wrap; gap: 6px; }
+.ends span { border: 1px solid var(--glass-line); border-radius: 999px; padding: 4px 10px; font-size: clamp(11px, 1.45cqw, 14px); color: var(--glass-muted); }
+.ends span.got { border-color: var(--gold); color: var(--glass-ink); }
+.ends span.now { background: var(--gold); color: #1a1405; border-color: var(--gold); }
+.letter { display: inline-grid; place-items: center; width: 2.2em; height: 2.2em; border-radius: 50%; background: var(--gold); color: #1a1405;
+  font-family: var(--f-display); font-weight: 700; margin-right: 10px; vertical-align: middle; }
+
+.help { margin: 0; text-align: center; color: var(--muted); font-size: 0.875rem; }
+.help kbd { font-family: var(--f-ui); background: var(--surface); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px;
+  padding: 1px 6px; font-size: 0.8rem; color: var(--ink); }
+
+.pad { display: none; justify-content: space-between; align-items: center; gap: 16px; padding: 4px 6px; touch-action: none; user-select: none; }
+.pad.on { display: flex; }
+.stick { width: 120px; height: 120px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); position: relative; flex: none; }
+.knob { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: var(--accent); opacity: .85; }
+.pbtns { display: flex; gap: 12px; }
+.pbtns button { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  font-weight: 700; font-size: 0.68rem; line-height: 1.1; padding: 6px; touch-action: none; overflow-wrap: anywhere; hyphens: auto; }
+.pbtns button[data-k="act"] { background: var(--gold); color: #1a1405; border-color: var(--gold); }
+.pbtns button.down { transform: scale(.94); filter: brightness(.9); }
+.pbtns button[hidden] { display: none; }
+
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px) {
+  .page { padding-block: 4px; gap: 4px; }
+  .help { display: none; }
+  .stage { width: min(100%, calc((100svh - 56px) * 16 / 9)); }
+  .pad.on { position: fixed; left: 0; right: 0; bottom: 8px; padding-inline: 16px; pointer-events: none; z-index: 20; }
+  .pad.on .stick, .pad.on .pbtns button { pointer-events: auto; opacity: .75; }
+}
+@media (max-width: 700px) {
+  .dlg { position: fixed; left: 8px; right: 8px; bottom: 8px; max-height: 55svh; font-size: 15px; z-index: 30; }
+  .screen { position: fixed; z-index: 40; padding: 20px 16px; place-items: start center; }
+  .card h1 { font-size: 26px; } .card h2 { font-size: 20px; } .card p, .card ul { font-size: 15px; } .card .moral { font-size: 16px; }
+  .btn { font-size: 15px; }
+  .hud span { font-size: 11px; padding: 3px 8px; }
+  .banner { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .banner { animation: none; } }
+
+/* Головна сторінка ігор */
+.hub { display: grid; gap: 28px; padding-block: 16px 40px; max-width: 1080px; margin-inline: auto; }
+.hub header { display: grid; gap: 12px; }
+.hub .eyebrow { color: var(--accent); font-size: 0.8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.hub h1 { font-family: var(--f-display); font-size: clamp(2rem, 7vw, 3.6rem); margin: 0; line-height: 1.05; text-wrap: balance; }
+.hub .lede { font-family: var(--f-body); font-size: 1.1rem; line-height: 1.55; max-width: 44rem; margin: 0; }
+.hub h2 { font-size: 0.8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.tile { display: grid; grid-template-columns: 64px 1fr; gap: 4px 14px; padding: 14px; border-radius: 16px; background: var(--surface);
+  border: 1px solid var(--line); color: var(--ink); text-decoration: none; min-width: 0; transition: transform .15s, border-color .15s; }
+.tile:hover { transform: translateY(-2px); border-color: var(--accent); }
+.tile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.tile .art { grid-row: span 4; width: 64px; height: 64px; border-radius: 14px; display: grid; place-items: center; font-size: 34px; }
+.tile .num { font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tile h3 { margin: 0; font-family: var(--f-display); font-size: 1.05rem; font-weight: 600; line-height: 1.2; }
+.tile .genre { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+.tile .par { font-family: var(--f-body); font-style: italic; font-size: 0.9rem; color: var(--muted); }
+.tile .got { grid-column: 2; font-size: 0.8rem; color: var(--muted); }
+.tile .got b { color: var(--ink); }
+.hub .concl { font-family: var(--f-body); font-size: 1.05rem; line-height: 1.6; max-width: 44rem; display: grid; gap: 10px; }
+.hub .concl p { margin: 0; }
+.hub .foot { color: var(--muted); font-size: 0.85rem; }
+@media (prefers-reduced-motion: reduce) { .tile { transition: none; } .tile:hover { transform: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+<header class="top"><a class="back" href="prytchi-ihry.html">← Усі ігри</a>
+<div class="ttl"><span class="n">05</span>Вакансія Лисиці</div>
+<button id="mute" class="icon" type="button" aria-label="Вимкнути звук">🔊</button></header>
+<div id="stage" class="stage">
+<canvas id="cv" aria-label="Ігрове поле: Вакансія Лисиці"></canvas>
+<div id="hud" class="hud" aria-live="polite"></div>
+<div id="banner" class="banner" hidden aria-live="polite"></div>
+<div id="dlg" class="dlg" hidden role="dialog" aria-live="polite"><div class="who"></div><div class="txt"></div><div class="opts"></div><div class="more">Далі ▸ Enter</div></div>
+<div id="screen" class="screen" hidden></div>
+</div>
+<div id="pad" class="pad" aria-hidden="true"><div class="stick"><div class="knob"></div></div><div class="pbtns"><button type="button" data-k="alt" hidden>Б</button><button type="button" data-k="act">Дія</button></div></div>
+<p class="help" id="help"></p>
+</div>
+<script>window.PG_META = {"num": "05", "hub": "prytchi-ihry.html", "next": "prytchi-ihra-06-ne-tsvirinkay.html"};</script>
+<script>/* Рушій ігор «Притчі в русі»: цикл гри, керування (клавіатура, миша, сенсор),
+   діалоги з вибором, банери, HUD, фінали з підрахунком знайдених, простий звук. */
+(function () {
+  "use strict";
+  const W = 960, H = 540;
+  const META = window.PG_META || {};
+  const $ = (s) => document.querySelector(s);
+  const stage = $("#stage"), cv = $("#cv"), ctx = cv.getContext("2d");
+  const hudEl = $("#hud"), bannerEl = $("#banner"), dlg = $("#dlg"), screenEl = $("#screen"), pad = $("#pad");
+  const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+
+  // ---------- сховище
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* без сховища гра працює далі */ } },
+  };
+
+  // ---------- полотно
+  let scale = 1;
+  function resize() {
+    const r = stage.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.max(1, Math.round(r.width * dpr));
+    cv.height = Math.max(1, Math.round(r.height * dpr));
+    scale = cv.width / W;
+  }
+  window.addEventListener("resize", resize);
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(stage);
+  resize();
+
+  // ---------- звук
+  let actx = null, muted = store.get("pg:muted", false);
+  const muteBtn = $("#mute");
+  function syncMute() { if (muteBtn) { muteBtn.textContent = muted ? "🔇" : "🔊"; muteBtn.setAttribute("aria-label", muted ? "Увімкнути звук" : "Вимкнути звук"); } }
+  syncMute();
+  if (muteBtn) muteBtn.addEventListener("click", () => { muted = !muted; store.set("pg:muted", muted); syncMute(); muteBtn.blur(); });
+  function ensureAudio() {
+    if (actx || muted) return;
+    try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { actx = null; }
+  }
+  function tone(freq, dur, type, vol, slide) {
+    if (muted || !actx) return;
+    const t0 = actx.currentTime;
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || "sine"; o.frequency.setValueAtTime(freq, t0);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(40, freq * slide), t0 + dur);
+    g.gain.setValueAtTime(vol || 0.12, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(actx.destination); o.start(t0); o.stop(t0 + dur + 0.02);
+  }
+  const SFX = {
+    pick: () => { tone(660, 0.09, "triangle", 0.1); setTimeout(() => tone(990, 0.1, "triangle", 0.08), 60); },
+    good: () => { tone(523, 0.12, "triangle"); setTimeout(() => tone(659, 0.12, "triangle"), 90); setTimeout(() => tone(784, 0.2, "triangle"), 180); },
+    bad: () => tone(220, 0.25, "sawtooth", 0.07, 0.6),
+    step: () => tone(140 + Math.random() * 40, 0.04, "square", 0.03),
+    bell: () => { tone(880, 0.6, "sine", 0.1); tone(1320, 0.5, "sine", 0.04); },
+    blip: () => tone(520, 0.05, "square", 0.04),
+    whoosh: () => tone(300, 0.35, "sine", 0.08, 2.5),
+    end: () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.25, "triangle", 0.09), i * 110)); },
+  };
+  function sfx(name, freq) { ensureAudio(); if (name === "note") tone(freq || 440, 0.22, "triangle", 0.12); else if (SFX[name]) SFX[name](); }
+
+  // ---------- введення
+  const keys = new Set();
+  const input = { x: 0, y: 0, act: false, actHeld: false, alt: false, altHeld: false, click: null, pointer: { x: -1, y: -1, down: false }, any: false };
+  const pressedQ = new Set();
+  const touchAxis = { x: 0, y: 0 }, touchBtn = { act: false, alt: false };
+  const CODE = {
+    ArrowLeft: "left", KeyA: "left", ArrowRight: "right", KeyD: "right", ArrowUp: "up", KeyW: "up", ArrowDown: "down", KeyS: "down",
+    Space: "act", Enter: "act", KeyE: "act", NumpadEnter: "act", KeyQ: "alt", ShiftLeft: "alt", ShiftRight: "alt",
+  };
+  window.addEventListener("keydown", (e) => {
+    ensureAudio();
+    if (dlgState.open) { dlgKey(e); return; }
+    if (screenState.open) { if (e.code === "Enter" || e.code === "Space") { const b = screenEl.querySelector("[data-primary]"); if (b && document.activeElement === document.body) { e.preventDefault(); b.click(); } } return; }
+    const k = CODE[e.code];
+    if (k) {
+      e.preventDefault();
+      if (!keys.has(k)) pressedQ.add(k);
+      keys.add(k);
+    }
+    if (/^Digit[1-9]$/.test(e.code)) pressedQ.add("n" + e.code.slice(5));
+  });
+  window.addEventListener("keyup", (e) => { const k = CODE[e.code]; if (k) keys.delete(k); });
+  window.addEventListener("blur", () => keys.clear());
+
+  function toGame(ev) {
+    const r = cv.getBoundingClientRect();
+    return { x: ((ev.clientX - r.left) / r.width) * W, y: ((ev.clientY - r.top) / r.height) * H };
+  }
+  cv.addEventListener("pointerdown", (ev) => { ensureAudio(); const p = toGame(ev); input.pointer = { x: p.x, y: p.y, down: true }; input._click = p; });
+  cv.addEventListener("pointermove", (ev) => { const p = toGame(ev); input.pointer.x = p.x; input.pointer.y = p.y; });
+  window.addEventListener("pointerup", () => { input.pointer.down = false; });
+
+  // сенсорний джойстик
+  const coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  function showPad() { if (pad && !pad.classList.contains("on")) pad.classList.add("on"); }
+  if (coarse) showPad();
+  window.addEventListener("touchstart", showPad, { passive: true, once: true });
+  if (pad) {
+    const stick = pad.querySelector(".stick"), knob = pad.querySelector(".knob");
+    let sid = null;
+    const setStick = (ev) => {
+      const r = stick.getBoundingClientRect();
+      let dx = ev.clientX - (r.left + r.width / 2), dy = ev.clientY - (r.top + r.height / 2);
+      const m = r.width / 2, d = Math.hypot(dx, dy);
+      if (d > m) { dx = (dx / d) * m; dy = (dy / d) * m; }
+      knob.style.transform = `translate(${dx}px, ${dy}px)`;
+      const nx = dx / m, ny = dy / m;
+      touchAxis.x = Math.abs(nx) < 0.22 ? 0 : nx; touchAxis.y = Math.abs(ny) < 0.22 ? 0 : ny;
+    };
+    stick.addEventListener("pointerdown", (ev) => { ensureAudio(); sid = ev.pointerId; stick.setPointerCapture(sid); setStick(ev); });
+    stick.addEventListener("pointermove", (ev) => { if (ev.pointerId === sid) setStick(ev); });
+    const rel = () => { sid = null; touchAxis.x = touchAxis.y = 0; knob.style.transform = ""; };
+    stick.addEventListener("pointerup", rel); stick.addEventListener("pointercancel", rel);
+    pad.querySelectorAll("button[data-k]").forEach((b) => {
+      const k = b.dataset.k;
+      b.addEventListener("pointerdown", (ev) => {
+        ev.preventDefault(); ensureAudio(); b.classList.add("down");
+        if (dlgState.open) { dlgAdvance(); return; }
+        if (screenState.open) { const p = screenEl.querySelector("[data-primary]"); if (p) p.click(); return; }
+        touchBtn[k] = true; pressedQ.add(k);
+      });
+      const up = () => { b.classList.remove("down"); touchBtn[k] = false; };
+      b.addEventListener("pointerup", up); b.addEventListener("pointercancel", up); b.addEventListener("pointerleave", up);
+    });
+  }
+
+  function pollInput() {
+    let x = (keys.has("right") ? 1 : 0) - (keys.has("left") ? 1 : 0);
+    let y = (keys.has("down") ? 1 : 0) - (keys.has("up") ? 1 : 0);
+    if (!x && !y) { x = touchAxis.x; y = touchAxis.y; }
+    const m = Math.hypot(x, y); if (m > 1) { x /= m; y /= m; }
+    input.x = x; input.y = y;
+    input.act = pressedQ.has("act"); input.alt = pressedQ.has("alt");
+    input.actHeld = keys.has("act") || touchBtn.act; input.altHeld = keys.has("alt") || touchBtn.alt;
+    input.num = 0; for (let i = 1; i <= 9; i++) if (pressedQ.has("n" + i)) input.num = i;
+    input.click = input._click || null; input._click = null;
+    input.any = pressedQ.size > 0 || !!input.click;
+    input.up = pressedQ.has("up"); input.down = pressedQ.has("down"); input.left = pressedQ.has("left"); input.right = pressedQ.has("right");
+    pressedQ.clear();
+  }
+  function clearInput() { keys.clear(); pressedQ.clear(); input._click = null; touchBtn.act = touchBtn.alt = false; }
+
+  // ---------- HUD і банер
+  let hudCache = "";
+  function hud(items) {
+    const html = (items || []).filter(Boolean).map(([k, v]) => `<span>${esc(k)}${v === undefined || v === "" ? "" : `<b>${esc(String(v))}</b>`}</span>`).join("");
+    if (html !== hudCache) { hudEl.innerHTML = html; hudCache = html; }
+  }
+  let bannerT = 0;
+  function banner(text, ms) {
+    bannerEl.textContent = text; bannerEl.hidden = false;
+    bannerEl.style.animation = "none"; void bannerEl.offsetWidth; bannerEl.style.animation = "";
+    clearTimeout(bannerT); bannerT = setTimeout(() => { bannerEl.hidden = true; }, ms || 2400);
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+  // ---------- діалоги
+  const dlgState = { open: false, queue: [], resolve: null, options: null, sel: 0, mode: "say" };
+  const dWho = dlg.querySelector(".who"), dTxt = dlg.querySelector(".txt"), dOpts = dlg.querySelector(".opts"), dMore = dlg.querySelector(".more");
+  function renderLine(who, text) { dWho.textContent = who || ""; dTxt.textContent = text; }
+  function say(lines, who) {
+    if (typeof lines === "string") lines = [[who || "", lines]];
+    lines = lines.map((l) => (typeof l === "string" ? [who || "", l] : l));
+    return new Promise((res) => {
+      clearInput();
+      dlgState.open = true; dlgState.mode = "say"; dlgState.queue = lines.slice(1); dlgState.resolve = res;
+      renderLine(lines[0][0], lines[0][1]); dOpts.innerHTML = ""; dMore.hidden = false; dlg.hidden = false;
+      sfx("blip");
+    });
+  }
+  function choose(text, options, who) {
+    return new Promise((res) => {
+      clearInput();
+      dlgState.open = true; dlgState.mode = "choose"; dlgState.resolve = res; dlgState.options = options; dlgState.sel = 0;
+      renderLine(who || "", text); dMore.hidden = true; dlg.hidden = false;
+      dOpts.innerHTML = "";
+      options.forEach((o, i) => {
+        const b = document.createElement("button");
+        b.className = "opt"; b.type = "button";
+        b.innerHTML = `<span class="k">${i + 1}</span><span>${esc(o)}</span>`;
+        b.addEventListener("click", (ev) => { ev.stopPropagation(); pickOpt(i); });
+        dOpts.appendChild(b);
+      });
+      markSel(); sfx("blip");
+    });
+  }
+  function markSel() { [...dOpts.children].forEach((b, i) => b.classList.toggle("sel", i === dlgState.sel)); }
+  function pickOpt(i) { closeDlg(); sfx("pick"); const r = dlgState.resolve; dlgState.resolve = null; r && r(i); }
+  function closeDlg() { dlgState.open = false; dlg.hidden = true; clearInput(); }
+  function dlgAdvance() {
+    if (dlgState.mode === "choose") { pickOpt(dlgState.sel); return; }
+    if (dlgState.queue.length) { const [w, t] = dlgState.queue.shift(); renderLine(w, t); sfx("blip"); return; }
+    closeDlg(); const r = dlgState.resolve; dlgState.resolve = null; r && r();
+  }
+  function dlgKey(e) {
+    if (dlgState.mode === "choose") {
+      const n = /^(Digit|Numpad)([1-9])$/.exec(e.code);
+      if (n) { const i = +n[2] - 1; if (i < dlgState.options.length) { e.preventDefault(); pickOpt(i); } return; }
+      if (e.code === "ArrowDown" || e.code === "KeyS") { e.preventDefault(); dlgState.sel = (dlgState.sel + 1) % dlgState.options.length; markSel(); return; }
+      if (e.code === "ArrowUp" || e.code === "KeyW") { e.preventDefault(); dlgState.sel = (dlgState.sel - 1 + dlgState.options.length) % dlgState.options.length; markSel(); return; }
+    }
+    if (e.code === "Enter" || e.code === "Space" || e.code === "KeyE" || e.code === "NumpadEnter") { e.preventDefault(); if (!e.repeat) dlgAdvance(); }
+  }
+  dlg.addEventListener("click", () => { if (dlgState.mode === "say") dlgAdvance(); });
+
+  // ---------- екрани
+  const screenState = { open: false };
+  function showScreen(html, onBind) {
+    screenEl.innerHTML = `<div class="card">${html}</div>`; screenEl.hidden = false; screenState.open = true; screenEl.scrollTop = 0;
+    clearInput();
+    if (onBind) onBind(screenEl);
+    const p = screenEl.querySelector("[data-primary]"); if (p) setTimeout(() => p.focus({ preventScroll: true }), 30);
+  }
+  function hideScreen() { screenEl.hidden = true; screenState.open = false; screenEl.innerHTML = ""; }
+
+  // ---------- малювання
+  const D = {
+    emoji(ch, x, y, size, o) {
+      o = o || {};
+      ctx.save(); ctx.translate(x, y);
+      if (o.rot) ctx.rotate(o.rot);
+      if (o.flip) ctx.scale(-1, 1);
+      if (o.sy) ctx.scale(1, o.sy);
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      ctx.font = `${Math.round(size)}px ${EMOJI_FONT}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillStyle = "#000"; // кольорові гліфи множаться на альфу заливки
+      ctx.fillText(ch, 0, size * 0.06);
+      ctx.restore();
+    },
+    text(str, x, y, o) {
+      o = o || {};
+      const size = o.size || 18;
+      ctx.save();
+      ctx.font = `${o.weight || 600} ${size}px ${o.display ? '"Unbounded","Arial Black",sans-serif' : '"Commissioner","Segoe UI",sans-serif'}`;
+      ctx.textAlign = o.align || "center"; ctx.textBaseline = o.baseline || "middle";
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      if (o.stroke) { ctx.lineWidth = o.strokeW || 4; ctx.strokeStyle = o.stroke; ctx.lineJoin = "round"; ctx.strokeText(str, x, y); }
+      ctx.fillStyle = o.color || "#fff"; ctx.fillText(str, x, y);
+      ctx.restore();
+    },
+    rr(x, y, w, h, r, fill, stroke, lw) {
+      ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h);
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = lw || 2; ctx.strokeStyle = stroke; ctx.stroke(); }
+    },
+    circle(x, y, r, fill, stroke, lw) {
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = lw || 2; ctx.strokeStyle = stroke; ctx.stroke(); }
+    },
+    shadow(x, y, w, a) { ctx.save(); ctx.globalAlpha = a == null ? 0.25 : a; ctx.fillStyle = "#000"; ctx.beginPath(); ctx.ellipse(x, y, w, w * 0.32, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore(); },
+    bubble(str, x, y, o) {
+      o = o || {};
+      ctx.save();
+      const size = o.size || 15;
+      ctx.font = `600 ${size}px "Commissioner","Segoe UI",sans-serif`;
+      const w = Math.min(ctx.measureText(str).width + 20, 360), h = size + 14;
+      let bx = Math.max(6, Math.min(W - w - 6, x - w / 2)), by = y - h - 10;
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      D.rr(bx, by, w, h, 10, o.bg || "rgba(255,255,255,0.95)");
+      ctx.beginPath(); ctx.moveTo(x - 6, by + h); ctx.lineTo(x + 6, by + h); ctx.lineTo(x, by + h + 8); ctx.fillStyle = o.bg || "rgba(255,255,255,0.95)"; ctx.fill();
+      ctx.fillStyle = o.color || "#1b2030"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(str, bx + w / 2, by + h / 2 + 1, w - 14);
+      ctx.restore();
+    },
+    bar(x, y, w, h, frac, fill, back) {
+      D.rr(x, y, w, h, h / 2, back || "rgba(0,0,0,0.35)");
+      D.rr(x, y, Math.max(h, w * Math.max(0, Math.min(1, frac))), h, h / 2, fill || "#f2c14e");
+    },
+  };
+
+  // актори
+  function actor(o) { return Object.assign({ x: 0, y: 0, vx: 0, vy: 0, size: 44, emoji: "🙂", flip: false, moving: false, phase: 0, speed: 180 }, o); }
+  function moveActor(a, dt, bounds, speedMul) {
+    const sp = a.speed * (speedMul == null ? 1 : speedMul);
+    const dx = input.x * sp * dt, dy = input.y * sp * dt;
+    a.moving = !!(input.x || input.y);
+    if (a.moving) { a.phase += dt * 10; if (input.x) a.flip = input.x > 0; }
+    let nx = a.x + dx, ny = a.y + dy;
+    if (bounds) { nx = clamp(nx, bounds.x0, bounds.x1); ny = clamp(ny, bounds.y0, bounds.y1); }
+    if (a.blocked && a.blocked(nx, a.y)) nx = a.x;
+    if (a.blocked && a.blocked(a.x, ny)) ny = a.y;
+    a.x = nx; a.y = ny;
+    if (a.moving && Math.floor(a.phase / 3.14) !== a._lastStep) { a._lastStep = Math.floor(a.phase / 3.14); if (a.stepSound !== false) sfx("step"); }
+  }
+  function drawActor(a, o) {
+    o = o || {};
+    const bob = a.moving ? Math.abs(Math.sin(a.phase)) * 4 : Math.sin(api.t * 2 + (a.x % 7)) * 1.2;
+    D.shadow(a.x, a.y + a.size * 0.42, a.size * 0.36);
+    D.emoji(a.emoji, a.x, a.y - bob, a.size, { flip: o.flip != null ? o.flip : a.flip, alpha: a.alpha, rot: a.rot });
+    if (a.label) D.text(a.label, a.x, a.y - a.size * 0.75 - bob, { size: 13, color: "#fff", stroke: "rgba(0,0,0,0.6)", strokeW: 4 });
+  }
+
+  // частинки
+  const parts = [];
+  function burst(x, y, what, n, o) {
+    o = o || {};
+    for (let i = 0; i < (n || 10); i++) {
+      const a = Math.random() * Math.PI * 2, s = (o.speed || 120) * (0.4 + Math.random());
+      parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - (o.up || 40), life: o.life || 0.9, t: 0, what, size: o.size || 16, g: o.g == null ? 200 : o.g });
+    }
+  }
+  function updParts(dt) {
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const p = parts[i]; p.t += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += p.g * dt;
+      if (p.t > p.life) parts.splice(i, 1);
+    }
+  }
+  function drawParts() {
+    for (const p of parts) {
+      const a = 1 - p.t / p.life;
+      if (p.what.length <= 2 || /\p{Extended_Pictographic}/u.test(p.what)) D.emoji(p.what, p.x, p.y, p.size, { alpha: a });
+      else D.circle(p.x, p.y, p.size / 4, p.what);
+    }
+  }
+
+  let shakeT = 0, shakeA = 0;
+  function shake(a, t) { shakeA = a || 6; shakeT = t || 0.3; }
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const wait = (s) => new Promise((r) => setTimeout(r, s * 1000));
+
+  // ---------- гра
+  let G = null, state = "intro", ended = false;
+  const api = {
+    W, H, ctx, input, D, t: 0, dt: 0,
+    say, choose, banner, hud, sfx, shake, burst, actor, moveActor, drawActor, wait,
+    clamp, dist, rand, pick, store,
+    get busy() { return dlgState.open || screenState.open || api.locked; },
+    locked: false,
+    end, restart,
+  };
+
+  function endingKey() { return "pg:end:" + (G && G.id); }
+  function found() { return store.get(endingKey(), []); }
+
+  function intro() {
+    state = "intro";
+    const controls = (G.controls || []).map((c) => `<li>${c}</li>`).join("");
+    showScreen(
+      `<span class="eyebrow">Гра ${esc(META.num || G.id)} · за притчею «${esc(G.parable)}»</span>
+       <h1>${esc(G.title)}</h1>
+       <p class="story">${esc(G.story)}</p>
+       ${G.goal ? `<p>${esc(G.goal)}</p>` : ""}
+       ${controls ? `<ul>${controls}</ul>` : ""}
+       <p class="muted">Фіналів у грі: ${Object.keys(G.endings).length}. Знайдено: ${found().length}.</p>
+       <div class="row"><button class="btn" data-primary type="button">Почати гру</button></div>`,
+      (el) => el.querySelector("[data-primary]").addEventListener("click", () => { ensureAudio(); hideScreen(); begin(); })
+    );
+  }
+  function begin() {
+    state = "play"; ended = false; api.locked = false; parts.length = 0; hud([]); bannerEl.hidden = true;
+    api.t = 0; G.init(api);
+    if (G.start) Promise.resolve(G.start(api)).catch(console.error);
+  }
+  function restart() { hideScreen(); closeDlgSilent(); begin(); }
+  function closeDlgSilent() { dlgState.open = false; dlg.hidden = true; dlgState.resolve = null; }
+
+  function end(letter) {
+    if (ended) return; ended = true; state = "end";
+    const e = G.endings[letter];
+    const got = new Set(found()); got.add(letter); store.set(endingKey(), [...got]);
+    const total = Object.keys(G.endings);
+    sfx("end");
+    const chips = total.map((k) => `<span class="${k === letter ? "now" : got.has(k) ? "got" : ""}">${k === letter || got.has(k) ? esc(k + ". " + G.endings[k].title) : esc(k + ". ???")}</span>`).join("");
+    const qs = (G.questions || []).map((q) => `<li>${esc(q)}</li>`).join("");
+    const next = META.next ? `<a class="btn ghost" href="${esc(META.next)}">Наступна гра →</a>` : "";
+    setTimeout(() => showScreen(
+      `<span class="eyebrow">Фінал ${esc(letter)} з ${total.length}</span>
+       <h1><span class="letter">${esc(letter)}</span>${esc(e.title)}</h1>
+       <p>${esc(e.text)}</p>
+       <h2>Висновок</h2>
+       <p class="moral">${esc(G.moral)}</p>
+       ${qs ? `<ul>${qs}</ul>` : ""}
+       <span class="eyebrow">Знайдені фінали: ${got.size} з ${total.length}</span>
+       <div class="ends">${chips}</div>
+       <div class="row"><button class="btn" data-primary type="button">Грати знову</button>${next}<a class="btn ghost" href="${esc(META.hub || "#")}">Усі ігри</a></div>`,
+      (el) => el.querySelector("[data-primary]").addEventListener("click", restart)
+    ), 500);
+  }
+
+  // ---------- цикл
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    pollInput();
+    if (G) {
+      if (state === "play" && !api.busy) { api.t += dt; api.dt = dt; G.update(dt, api); }
+      updParts(dt);
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      if (shakeT > 0) { shakeT -= dt; ctx.translate(rand(-shakeA, shakeA), rand(-shakeA, shakeA)); }
+      ctx.clearRect(-20, -20, W + 40, H + 40);
+      G.draw(ctx, api);
+      drawParts();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  window.PG = {
+    start(game) {
+      G = game; window.PG.game = game;
+      if (game.dlgTop) dlg.classList.add("top");
+      document.title = game.title;
+      if (pad) {
+        const a = pad.querySelector('[data-k="act"]'), b = pad.querySelector('[data-k="alt"]');
+        a.textContent = game.actLabel || "Дія";
+        if (game.altLabel) { b.textContent = game.altLabel; b.hidden = false; } else b.hidden = true;
+        if (game.noMove) pad.querySelector(".stick").style.visibility = "hidden";
+      }
+      const help = $("#help");
+      if (help && game.help) help.innerHTML = game.help;
+      G.init(api);
+      intro();
+      requestAnimationFrame(frame);
+    },
+    api,
+  };
+})();
+</script>
+<script>/* Гра 05 «Вакансія Лисиці» — аркада «музичні стільці» за притчею «Лісова демократія». */
+(function () {
+  const C = { x: 480, y: 300 }, CHAIR_R = 140, RING_R = 225;
+  const JOBS = [
+    { n: "Лисиця", e: "🦊" }, { n: "Заєць", e: "🐰" }, { n: "Вовк", e: "🐺" }, { n: "Сова", e: "🦉" },
+    { n: "Білка", e: "🐿️" }, { n: "Ведмідь", e: "🐻" }, { n: "Їжак", e: "🦔" }, { n: "Борсук", e: "🦡" },
+  ];
+  const DESKS = [{ x: 200, y: 150, n: "Прийомна" }, { x: 740, y: 170, n: "Відділ кадрів" }, { x: 460, y: 420, n: "Канцелярія Лева" }];
+  let S;
+
+  const game = {
+    id: "05", title: "Вакансія Лисиці", parable: "Лісова демократія",
+    story: "Лисиця пішла у відпустку, а коли повернулася, її посаду вже зайняли. Вільною була лише посада Зайця. «Якщо я тепер Заєць, то ким працюєш ти?» — «Я тепер працюю Лисицею». Так буває, коли посаду Лева займає Віслюк.",
+    goal: "Ти — Лисиця. Поки грає музика, звірі ходять по колу. Музика стихає, і кожен біжить до вільного стільця. Хто де сів, ту посаду й отримав. Хто не встиг, іде в канцелярію по три печатки.",
+    controls: ["Стрілки або WASD — бігти", "Поки грає музика, тримайся зовнішнього кола", "Музика стихла — торкнися вільного стільця, щоб сісти", "У канцелярії: підійди до столу і натисни Пробіл, щоб подати заяву"],
+    help: "<kbd>←↑→↓</kbd> бігти · <kbd>Пробіл</kbd> подати заяву в канцелярії",
+    actLabel: "Заява",
+    endings: {
+      "А": { title: "Кожен на своєму місці", text: "Ти домовився з тим, хто займав твою посаду, і повернувся до своєї справи. Ліс знову працює злагоджено." },
+      "Б": { title: "Ліс у хаосі", text: "Ти лишився на чужій посаді, як і всі. Заєць ловить, Лисиця гризе моркву, Сова працює вдень. Ніхто не робить свого, і ніщо не працює." },
+      "В": { title: "Вибори", text: "Звірі проголосували ногами, і корона повернулася до Лева. Новий Лев роздав посади за покликанням, а не за швидкістю бігу до стільців." },
+      "Г": { title: "Віслюк віддав корону", text: "Ти лишився на своєму місці й показав приклад. Віслюк зняв корону сам: «Це не моя роль». У лісі таке трапляється найрідше." },
+    },
+    moral: "Кожен колектив — проєкція дому. Система ламається, коли шестерня стоїть на місці муфти. Будь-яку проблему можна вирішити, якщо взяти свою власну роль замість чужої маски.",
+    questions: ["Чию роль ви граєте вдома? А на роботі?", "Хто у вашому «лісі» зараз працює Лисицею?", "Що потрібно, щоб повернутися на своє місце?"],
+
+    _s() { return S; },
+    init(api) {
+      const animals = JOBS.map((j, i) => ({ e: j.e, own: i, job: i, ang: (i / 8) * Math.PI * 2 + 0.2, x: 0, y: 0, react: 0, target: -1, seated: -1, npc: i !== 0, flip: false, phase: 0, moving: false, size: 40, speed: 195 }));
+      for (const a of animals) { a.x = C.x + Math.cos(a.ang) * RING_R; a.y = C.y + Math.sin(a.ang) * RING_R * 0.8; }
+      S = {
+        a: animals, me: animals[0], chairs: JOBS.map((j, i) => ({ job: i, ang: (i / 8) * Math.PI * 2, closed: false, by: null })),
+        phase: "idle", t: 0, round: 0, musicLen: 6, scene: "forest", office: null, king: "🦁", notes: [], decree: "",
+      };
+      for (const ch of S.chairs) { ch.x = C.x + Math.cos(ch.ang) * CHAIR_R; ch.y = C.y + Math.sin(ch.ang) * CHAIR_R * 0.8; }
+    },
+    async start(api) {
+      await api.say([["Лев", "Лисице, вигляд у тебе втомлений. Може, у відпустку?"]]);
+      const c = await api.choose("Відпустка означає три печатки в канцелярії і чуже місце після повернення.", ["Так, піду у відпустку", "Ні, працюватиму"], "Лисиця");
+      if (c === 0) { S.vacation = true; enterOffice(api, "vacation"); }
+      else nextRound(api);
+    },
+
+    update(dt, api) {
+      S.t += dt;
+      if (S.scene === "office") return officeUpdate(dt, api);
+      const me = S.me;
+      // гравець
+      if (S.phase === "music" || S.phase === "stop") {
+        if (me.seated < 0) api.moveActor(me, dt, { x0: 30, x1: 930, y0: 50, y1: 520 });
+        if (S.phase === "music") {
+          const d = Math.hypot(me.x - C.x, (me.y - C.y) / 0.8);
+          if (d < RING_R - 40) { const k = (RING_R - 40) / d; me.x = C.x + (me.x - C.x) * k; me.y = C.y + (me.y - C.y) * k; }
+        }
+      }
+      // npc
+      for (const a of S.a) {
+        if (!a.npc || a.away) continue;
+        if (S.phase === "music") { a.ang += dt * (0.55 + (a.own % 3) * 0.05); a.tx = C.x + Math.cos(a.ang) * RING_R; a.ty = C.y + Math.sin(a.ang) * RING_R * 0.8; }
+        else if (S.phase === "stop" && a.seated < 0) {
+          a.react -= dt;
+          if (a.react <= 0) {
+            if (a.target < 0 || S.chairs[a.target].by || S.chairs[a.target].closed) a.target = nearestFree(a);
+            if (a.target >= 0) { a.tx = S.chairs[a.target].x; a.ty = S.chairs[a.target].y; }
+          }
+        }
+        if (a.tx != null) {
+          const dx = a.tx - a.x, dy = a.ty - a.y, d = Math.hypot(dx, dy), sp = S.phase === "stop" ? 150 : 110;
+          a.moving = d > 3; if (a.moving) { const s = Math.min(d, sp * dt); a.x += dx / d * s; a.y += dy / d * s; a.flip = dx > 0; a.phase += dt * 9; }
+        }
+      }
+      if (S.phase === "music") {
+        if (Math.random() < dt * 3) S.notes.push({ x: api.rand(380, 580), y: 300, t: 0 });
+        if (S.t > S.musicLen) stopMusic(api);
+      }
+      for (const n of S.notes) { n.t += dt; n.y -= 40 * dt; }
+      S.notes = S.notes.filter((n) => n.t < 1.6);
+      if (S.phase === "stop") {
+        // хто торкнувся вільного стільця, той сів
+        for (const a of S.a) {
+          if (a.away || a.seated >= 0) continue;
+          for (const ch of S.chairs) if (!ch.closed && !ch.by && Math.hypot(a.x - ch.x, a.y - ch.y) < 24) { ch.by = a; a.seated = ch.job; a.x = ch.x; a.y = ch.y; a.moving = false; if (!a.npc) api.sfx("good"); break; }
+        }
+        const free = S.chairs.filter((c) => !c.closed && !c.by).length;
+        if (free === 0 || S.t > 6) settle(api);
+      }
+      api.hud([["Раунд", Math.max(1, S.round) + " з 3"], ["Твоя посада", JOBS[me.job].n], ["Король", S.king === "🦁" ? "Лев" : "Віслюк"]]);
+    },
+
+    draw(ctx, api) {
+      if (S.scene === "office") return officeDraw(ctx, api);
+      ctx.fillStyle = "#4f7d3a"; ctx.fillRect(0, 0, 960, 540);
+      ctx.fillStyle = "#5c8c44"; for (let i = 0; i < 50; i++) ctx.fillRect((i * 131) % 960, (i * 71) % 540, 10, 10);
+      for (let i = 0; i < 9; i++) api.D.emoji("🌲", 40 + i * 110, 30 + (i % 2) * 10, 48);
+      ctx.fillStyle = "#8c7a52"; ctx.beginPath(); ctx.ellipse(C.x, C.y, RING_R + 30, (RING_R + 30) * 0.8, 0, 0, 7); ctx.fill();
+      ctx.fillStyle = "#6a8f45"; ctx.beginPath(); ctx.ellipse(C.x, C.y, RING_R - 40, (RING_R - 40) * 0.8, 0, 0, 7); ctx.fill();
+      // трон
+      api.D.emoji("🪑", C.x, C.y + 10, 50); api.D.emoji(S.king, C.x, C.y - 18, 48); api.D.emoji("👑", C.x, C.y - 50, 26);
+      for (const ch of S.chairs) {
+        api.D.rr(ch.x - 26, ch.y - 22, 52, 44, 8, ch.closed ? "rgba(60,60,60,0.6)" : "#c9a26b", "#7a5a32");
+        api.D.emoji(JOBS[ch.job].e, ch.x, ch.y - 4, 20, { alpha: ch.closed ? 0.35 : 0.9 });
+        api.D.text(JOBS[ch.job].n, ch.x, ch.y + 30, { size: 11, color: "#fff", stroke: "rgba(0,0,0,.55)", strokeW: 3 });
+        if (ch.closed) api.D.text("закрито", ch.x, ch.y - 30, { size: 11, color: "#ffd1c8" });
+      }
+      for (const n of S.notes) api.D.emoji("🎵", n.x, n.y, 22, { alpha: 1 - n.t / 1.6 });
+      for (const a of S.a) {
+        if (a.away) continue;
+        api.D.shadow(a.x, a.y + 16, 14);
+        const bob = a.moving ? Math.abs(Math.sin(a.phase)) * 4 : 0;
+        api.D.emoji(a.e, a.x, a.y - 8 - bob, a === S.me ? 46 : 38, { flip: a.flip });
+        if (a.job !== a.own) api.D.text("працює: " + JOBS[a.job].n, a.x, a.y + 26, { size: 11, color: "#ffe9a8", stroke: "rgba(0,0,0,.6)", strokeW: 3 });
+        if (a === S.me) api.D.text("ТИ", a.x, a.y - 44, { size: 12, color: "#fff", stroke: "rgba(0,0,0,.6)" });
+      }
+      if (S.phase === "music") api.D.text("Музика грає… тримайся зовнішнього кола", 480, 520, { size: 16, color: "#fff", stroke: "rgba(0,0,0,.6)" });
+      if (S.phase === "stop") api.D.text("СТОП! До вільного стільця!", 480, 520, { size: 20, color: "#ffe066", stroke: "rgba(0,0,0,.7)", display: true });
+      if (S.decree) api.D.bubble(S.decree, C.x, C.y - 66, { size: 14, bg: "rgba(255,240,200,0.97)" });
+    },
+  };
+
+  function nearestFree(a) {
+    let best = -1, bd = 1e9;
+    for (const ch of S.chairs) { if (ch.closed || ch.by) continue; const d = Math.hypot(a.x - ch.x, a.y - ch.y); if (d < bd) { bd = d; best = ch.job; } }
+    return best;
+  }
+
+  function nextRound(api) {
+    S.round++; S.phase = "music"; S.t = 0; api.sfx("bell");
+    S.musicLen = S.king === "🦁" ? api.rand(5, 8) : api.pick([2.2, 9, 3]);
+    for (const ch of S.chairs) { ch.by = null; ch.closed = false; }
+    for (const a of S.a) { a.seated = -1; a.target = -1; a.away = false; if (a.npc) { a.ang = Math.atan2((a.y - C.y) / 0.8, a.x - C.x); } }
+    if (S.me.x == null || Math.hypot(S.me.x - C.x, S.me.y - C.y) < RING_R - 40) { S.me.x = C.x; S.me.y = C.y + RING_R * 0.8; }
+    api.banner("Раунд " + S.round + ". Музика!");
+  }
+
+  function stopMusic(api) {
+    S.phase = "stop"; S.t = 0; api.sfx("bad");
+    const open = S.chairs.filter((c) => !c.closed);
+    const close = api.pick(open); close.closed = true; S.closedJob = close.job;
+    for (const a of S.a) { a.react = api.rand(0.25, 0.75); a.target = -1; }
+    if (S.vacation && S.round === 1 && !S.vacDone) { /* Лисиця у відпустці: без неї */ }
+  }
+
+  async function settle(api) {
+    if (S.phase !== "stop") return;
+    S.phase = "result";
+    const losers = S.a.filter((a) => !a.away && a.seated < 0);
+    for (const a of S.a) if (a.seated >= 0) a.job = a.seated;
+    const vacancy = S.closedJob;
+    for (const l of losers) if (l.npc) { l.job = vacancy; }
+    if (losers.includes(S.me)) {
+      await api.say([["Лев", "Не встигла? Тоді у відпустку. Збери три печатки, а потім отримаєш, що лишиться."]]);
+      return enterOffice(api, "lost");
+    }
+    api.banner("Твоя посада тепер: " + JOBS[S.me.job].n);
+    await api.wait(1.4);
+    betweenRounds(api);
+  }
+
+  async function betweenRounds(api) {
+    if (S.round === 1) {
+      const me = S.me;
+      await api.say([["Лев", "Ревізія! Чия це посада?"], ["Лев", me.job === me.own ? "Лисиця на місці Лисиці. Добре." : `Лисиця працює ${JOBS[me.job].n === "Заєць" ? "Зайцем" : "як " + JOBS[me.job].n}. Ну, що ж, працюй.`]]);
+      nextRound(api);
+    } else if (S.round === 2) {
+      S.king = "🫏";
+      await api.say([["", "Указ! Лев іде на полювання, і корону тимчасово отримує Віслюк."], ["Віслюк", "Відтепер музика гратиме, скільки я скажу. І-а!"]]);
+      S.decree = "Ведмідь віднині літає. І-а!";
+      setTimeout(() => (S.decree = ""), 5000);
+      nextRound(api);
+    } else finale(api);
+  }
+
+  function enterOffice(api, why) {
+    S.scene = "office"; S.why = why;
+    S.office = {
+      p: api.actor({ x: 80, y: 470, emoji: "🦊", size: 42, speed: 190 }), step: 0, wait: 0,
+      snails: [{ x: 100, y: 290, v: 70, e: "🐌" }, { x: 700, y: 330, v: -60, e: "🐌" }, { x: 400, y: 250, v: 90, e: "🐢" }],
+      msg: "", msgT: 0,
+    };
+    api.banner("Канцелярія. Збери печатки у трьох кабінетах по черзі.", 2800);
+  }
+
+  function officeUpdate(dt, api) {
+    const o = S.office, p = o.p;
+    api.moveActor(p, dt, { x0: 30, x1: 930, y0: 70, y1: 510 });
+    o.msgT -= dt;
+    for (const s of o.snails) {
+      s.x += s.v * dt; if (s.x < 60 || s.x > 900) s.v *= -1;
+      if (Math.hypot(p.x - s.x, p.y - s.y) < 34) { p.x -= Math.sign(s.x - p.x) * 40; api.sfx("bad"); o.msg = "Зачекайте, у нас обідня перерва!"; o.msgT = 2; }
+    }
+    if (o.step < 3) {
+      const d = DESKS[o.step];
+      if (Math.hypot(p.x - d.x, p.y - d.y) < 60) {
+        if (api.input.act || o.wait > 0) { o.wait += dt; if (o.wait > 1.6) { o.step++; o.wait = 0; api.sfx("good"); api.burst(d.x, d.y - 20, "📄", 6, { size: 16 }); if (o.step === 3) api.banner("Усі печатки є. Вихід — праворуч унизу"); } }
+      } else o.wait = 0;
+      for (let i = 0; i < 3; i++) if (i !== o.step && Math.hypot(p.x - DESKS[i].x, p.y - DESKS[i].y) < 60 && o.msgT <= 0) { o.msg = i < o.step ? "Тут ви вже були. Далі!" : "Спершу печатка з попереднього кабінету"; o.msgT = 2; }
+    } else if (Math.hypot(p.x - 890, p.y - 470) < 50) leaveOffice(api);
+    api.hud([["Канцелярія", ""], ["Печатки", o.step + " з 3"]]);
+  }
+
+  async function leaveOffice(api) {
+    if (S.scene !== "office") return;
+    S.scene = "forest";
+    const me = S.me;
+    if (S.why === "vacation") {
+      // поки Лисиці не було, Заєць зайняв її місце
+      const hare = S.a[1]; hare.job = 0; me.job = 1;
+      await api.say([["Лев", "З поверненням! Але посада Лисиці вже зайнята. Вільна лише посада Зайця."], ["Заєць", "Я тепер працюю Лисицею. А ти будеш Зайцем."]]);
+      S.vacDone = true;
+      nextRound(api);
+    } else {
+      me.job = S.closedJob;
+      await api.say([["Лев", "Вільна лише посада: " + JOBS[me.job].n + ". Бери, що дають."]]);
+      betweenRounds(api);
+    }
+  }
+
+  function officeDraw(ctx, api) {
+    const o = S.office;
+    ctx.fillStyle = "#cfc6b4"; ctx.fillRect(0, 0, 960, 540);
+    ctx.fillStyle = "#bdb39f"; for (let x = 0; x < 960; x += 60) for (let y = 60; y < 540; y += 60) if ((x + y) % 120 === 0) ctx.fillRect(x, y, 60, 60);
+    ctx.fillStyle = "#8f8471"; ctx.fillRect(0, 0, 960, 56);
+    api.D.text("КАНЦЕЛЯРІЯ ЛЕВА · Прийом заяв щодня з 13:00 до 13:05", 480, 30, { size: 16, color: "#fff", display: true });
+    DESKS.forEach((d, i) => {
+      api.D.rr(d.x - 60, d.y - 20, 120, 46, 8, i < o.step ? "#9cc58a" : i === o.step ? "#f0d58c" : "#a99b80", "#6b5f4a");
+      api.D.emoji("🗂️", d.x - 30, d.y, 26); api.D.emoji(i < o.step ? "✅" : "🦉", d.x + 30, d.y - 2, 26);
+      api.D.text((i + 1) + ". " + d.n, d.x, d.y + 42, { size: 13, color: "#3b3326" });
+      if (i === o.step && o.wait > 0) api.D.bar(d.x - 50, d.y - 38, 100, 8, o.wait / 1.6, "#3a7bd5");
+    });
+    api.D.emoji("🚪", 890, 470, 56); api.D.text("Вихід", 890, 510, { size: 13, color: "#3b3326" });
+    for (const s of o.snails) api.D.emoji(s.e, s.x, s.y, 36, { flip: s.v > 0 });
+    api.drawActor(o.p);
+    if (o.msgT > 0) api.D.bubble(o.msg, o.p.x, o.p.y - 26, { size: 13 });
+    const d = DESKS[Math.min(2, o.step)];
+    if (o.step < 3 && Math.hypot(o.p.x - d.x, o.p.y - d.y) < 60 && o.wait === 0) api.D.text("Пробіл — подати заяву", d.x, d.y - 46, { size: 13, color: "#1b2030" });
+  }
+
+  async function finale(api) {
+    api.locked = true;
+    const me = S.me, own = me.job === me.own;
+    await api.say([["Віслюк", "Ліс працює погано. Заєць ловить, Сова спить уночі. Хто винен? І-а!"]]);
+    let c;
+    if (own) {
+      c = await api.choose("Ти на своєму місці. Що робитимеш?", ["Показати приклад і попросити Віслюка віддати корону", "Вимагати чесних виборів Лева", "Хай усе буде, як є"], "Лисиця");
+      api.locked = false;
+      return api.end(["Г", "В", "Б"][c]);
+    }
+    c = await api.choose(`Ти працюєш як ${JOBS[me.job].n}. Що робитимеш?`, ["Домовитися і повернутися на свою посаду", "Вимагати чесних виборів Лева", "Лишитися на чужій посаді"], "Лисиця");
+    if (c === 0) { for (const a of S.a) a.job = a.own; S.king = "🦁"; }
+    if (c === 1) S.king = "🦁";
+    api.locked = false;
+    api.end(["А", "В", "Б"][c]);
+  }
+
+  PG.start(game);
+})();
+</script>
+</body>
+</html>
