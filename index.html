@@ -58,6 +58,8 @@
   .brand-sub { font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 600; text-transform: uppercase; }
   .menu { display: flex; align-items: center; gap: 32px; font-weight: 500; }
   .menu a:hover { color: var(--green); }
+  .menu a { white-space: nowrap; }
+  @media (max-width: 1440px) { .menu { gap: 18px; } }
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     background: var(--green); color: #fff; font-weight: 800; letter-spacing: .03em;
@@ -237,12 +239,14 @@
   .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
 
   /* ---------- Responsive ---------- */
-  @media (max-width: 1000px) {
+  @media (max-width: 1270px) {
     .menu { display: none; position: absolute; top: 84px; left: 0; right: 0; background: #fff; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 16px 20px; border-bottom: 1px solid var(--line); }
     .menu.open { display: flex; }
     .menu a { padding: 14px 0; border-bottom: 1px solid var(--line); }
     .menu .btn { margin-top: 12px; }
     .burger { display: block; }
+  }
+  @media (max-width: 1000px) {
     .about-grid, .calc, .contact { grid-template-columns: 1fr; }
     .grid-3 { grid-template-columns: 1fr 1fr; }
     .steps { grid-template-columns: 1fr 1fr; }
@@ -277,6 +281,7 @@
       <a href="#conditions">Умови єОселя</a>
       <a href="#benefits">Переваги</a>
       <a href="#faq">Часті питання</a>
+      <a href="goals.html">🎯 Сходи до мети</a>
       <a href="#contact" class="btn">КОНСУЛЬТАЦІЯ</a>
     </nav>
   </div>
