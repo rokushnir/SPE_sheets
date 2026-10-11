@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><title>Майстер продажів</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>@page { size: A4; margin: 0; }
+:root {
+  --ink: #1d1d1f;
+  --muted: #6b6b70;
+  --line: #c4c4c8;
+  --rule: #d2d2d6;
+  --accent: #2f5d8a;
+  --tint: #eef3f8;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #e9e9ec; }
+body {
+  font-family: "Inter", "DejaVu Sans", sans-serif;
+  color: var(--ink);
+  font-size: 9.6pt;
+  line-height: 1.38;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  width: 210mm; height: 297mm;
+  margin: 8mm auto;
+  padding: 11mm 13mm 8mm;
+  background: #fff;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  break-after: page;
+  box-shadow: 0 1px 6px rgba(0,0,0,.12);
+}
+@media print {
+  html, body { background: #fff; }
+  .page { margin: 0; box-shadow: none; }
+}
+
+/* ---- шапка й підвал ---- */
+.head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 7.6pt; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1.2pt solid var(--accent); padding-bottom: 1.6mm; margin-bottom: 3.2mm;
+}
+.head .sec { display: flex; align-items: center; gap: 2mm; font-weight: 600; color: var(--accent); }
+.head .sec i, .secs i, .tocsec h3 i {
+  width: 2.6mm; height: 2.6mm; border-radius: 50%; background: var(--accent); display: inline-block;
+}
+.head .num { font-weight: 700; color: var(--ink); }
+h1 { font-size: 19pt; line-height: 1.12; margin: 0 0 2.4mm; font-weight: 700; letter-spacing: -.01em; }
+.goal {
+  background: var(--tint); border-left: 1.4mm solid var(--accent);
+  padding: 1.8mm 3mm; margin-bottom: 2.4mm; border-radius: 0 1.5mm 1.5mm 0;
+}
+.intro { margin-bottom: 2mm; color: #333; }
+.steps { margin: 0 0 2.6mm; padding-left: 5.2mm; }
+.steps li { margin-bottom: .7mm; }
+.steps li::marker { color: var(--accent); font-weight: 700; }
+.work { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2.6mm; }
+.foot {
+  display: flex; justify-content: space-between; gap: 4mm;
+  font-size: 6.8pt; color: var(--muted); border-top: .5pt solid var(--line);
+  padding-top: 1.4mm; margin-top: 2.4mm;
+}
+
+/* ---- блоки ---- */
+.blk { min-width: 0; }
+.grow { flex: 1 1 0; min-height: 0; }
+.col { display: flex; flex-direction: column; }
+.row { display: flex; gap: 4mm; }
+.row > .cell { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.4mm; }
+.center { display: flex; flex-direction: column; align-items: center; }
+.blabel {
+  font-weight: 700; font-size: 9pt; margin-bottom: 1.2mm; color: var(--accent);
+}
+.ruled {
+  background-image: linear-gradient(to bottom, transparent calc(100% - .5pt), var(--rule) calc(100% - .5pt));
+  background-size: 100% 8mm;
+  background-repeat: repeat-y;
+  min-height: 8mm;
+}
+.frame { border: .6pt solid var(--line); border-radius: 1.5mm; min-height: 10mm; }
+.frame.dots {
+  background-image: radial-gradient(circle, #bdbdc2 .5pt, transparent .6pt);
+  background-size: 5mm 5mm;
+}
+.txt { color: #333; }
+.txt.small { font-size: 8.4pt; }
+.example {
+  background: #f6f6f7; border: .5pt dashed #b9b9be; border-radius: 1.5mm;
+  padding: 2mm 3mm; font-size: 8.4pt; color: #3a3a3d;
+}
+.example .extitle { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 7pt; color: var(--muted); margin-bottom: .6mm; }
+.example ol, .example ul { margin: .5mm 0 0; padding-left: 4.5mm; }
+.example p { margin: .6mm 0; }
+.note {
+  font-size: 8.6pt; border: .6pt solid var(--accent); border-radius: 1.5mm; padding: 1.6mm 3mm; color: #2a2a2d;
+}
+.q { font-weight: 600; margin-top: 1mm; }
+.qgrid { display: flex; flex-direction: column; gap: 1.8mm; }
+.qcell { flex: 1 1 0; display: flex; flex-direction: column; min-height: 0; }
+.qcell .ruled { flex: 1; }
+
+/* таблиці */
+.tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.tblwrap { display: flex; }
+.tblwrap .tbl { height: 100%; }
+.tbl th {
+  background: var(--tint); font-size: 8pt; font-weight: 700; text-align: left;
+  padding: 1.2mm 1.6mm; border: .6pt solid var(--line); line-height: 1.2; vertical-align: bottom;
+}
+.tbl td { border: .6pt solid var(--line); padding: .8mm 1.6mm; vertical-align: top; font-size: 8.4pt; line-height: 1.25; }
+.tbl td:first-child { color: #333; }
+.tbl.small td, .tbl.small th { font-size: 7.6pt; }
+.tbl.scale th.n, .tbl.scale td.n { text-align: center; padding: .6mm 0; }
+.tbl.scale td.it { font-size: 8.3pt; vertical-align: middle; }
+.tbl td.glass { text-align: center; color: #9a9aa0; font-size: 10pt; vertical-align: middle; padding: 0; }
+.barcell { vertical-align: middle !important; }
+.bar { height: 4.5mm; border: .6pt solid var(--line); border-radius: 1mm; position: relative; }
+.bar span { position: absolute; left: 50%; top: -1mm; bottom: -1mm; border-left: .6pt dashed #999; }
+
+/* нумеровані рядки */
+.numgrid { display: flex; gap: 6mm; }
+.numcol { flex: 1; display: flex; flex-direction: column; }
+.numrow { flex: 1 1 0; border-bottom: .6pt solid var(--rule); display: flex; align-items: flex-end; min-height: 5mm; }
+.numrow span { font-size: 7.6pt; color: var(--muted); width: 6mm; padding-bottom: .5mm; font-weight: 600; }
+
+/* чекліст */
+.check { list-style: none; margin: 0; padding: 0; column-gap: 6mm; }
+.check li { display: flex; gap: 2mm; align-items: flex-start; margin-bottom: 1.3mm; break-inside: avoid; }
+.check.small li { font-size: 8.3pt; margin-bottom: .9mm; }
+.cb { flex: none; width: 3.2mm; height: 3.2mm; border: .7pt solid #8d8d92; border-radius: .6mm; margin-top: .6mm; }
+
+/* svg */
+.svg { display: block; max-width: 100%; }
+.svg .ring { fill: none; stroke: #dcdce0; stroke-width: .35; }
+.svg .ring.major { stroke: #b4b4ba; stroke-width: .5; }
+.svg .spoke { stroke: #8f8f95; stroke-width: .5; }
+.svg .spoke.thin { stroke-width: .35; }
+.svg .spoke.dash { stroke-dasharray: 2 2; stroke: #b0b0b5; }
+.svg .axis { stroke: #555; stroke-width: .7; }
+.svg .tick { font-size: 4.4px; fill: #8a8a90; font-family: Inter, sans-serif; }
+.svg .wlab { font-size: 6px; fill: #2a2a2d; font-family: Inter, sans-serif; }
+.svg .wlab.b { font-weight: 700; }
+.svg .axl { font-size: 5px; fill: #555; font-family: Inter, sans-serif; font-style: italic; }
+.svg .dot { fill: var(--accent); }
+.svg .node { fill: #fff; stroke: #9c9ca2; stroke-width: .5; }
+.svg .arcp { fill: none; stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 2; }
+.svg .arrow { fill: var(--accent); }
+.svg .squig { fill: none; stroke: #222; stroke-width: 2.2; stroke-linecap: round; }
+
+/* матриця */
+.matrix { display: grid; grid-template-columns: 6mm 1fr; grid-template-rows: 1fr 6mm; }
+.matrix .ylab { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; font-weight: 700; font-size: 8.4pt; color: var(--accent); }
+.matrix .xlab { grid-column: 2; text-align: right; font-weight: 700; font-size: 8.4pt; color: var(--accent); padding-top: 1mm; }
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border-left: 1.2pt solid #555; border-bottom: 1.2pt solid #555; }
+.mq { border: .6pt solid var(--line); padding: 1.6mm 2mm; }
+.mql { font-weight: 700; font-size: 8.6pt; color: #333; background: var(--tint); display: inline-block; padding: .4mm 1.6mm; border-radius: 1mm; }
+
+/* квадранти-сфери */
+.quad { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border: .6pt solid var(--line); border-radius: 50% / 50%; overflow: hidden; }
+.qd { border: .3pt dashed #b9b9be; display: flex; padding: 2.5mm 3mm; }
+.qd:nth-child(1) { align-items: flex-end; justify-content: flex-end; }
+.qd:nth-child(2) { align-items: flex-end; justify-content: flex-start; }
+.qd:nth-child(3) { align-items: flex-start; justify-content: flex-end; }
+.qd:nth-child(4) { align-items: flex-start; justify-content: flex-start; }
+.qdl { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; font-size: 8pt; }
+
+/* дуги причина-наслідок */
+.arcs { gap: 3mm; }
+.arc { flex: 1 1 0; display: flex; align-items: stretch; gap: 1.5mm; min-height: 0; }
+.af { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.afl { font-weight: 700; font-size: 8.4pt; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 1mm; text-align: center; }
+.arw { align-self: center; font-size: 16pt; color: var(--accent); padding-top: 4mm; }
+
+/* кривульки */
+.sqgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3mm; }
+.sq { border: .6pt solid var(--line); border-radius: 1.5mm; display: flex; flex-direction: column; padding: 2mm; }
+.sq .svg { flex: 1; min-height: 0; width: 100%; }
+.sqcap { font-size: 8pt; color: var(--muted); }
+
+/* знаки */
+.glyphs { gap: 0; }
+.grow-row { flex: 1 1 0; display: flex; align-items: stretch; border-bottom: .6pt solid var(--line); }
+.glyph { width: 16mm; font-size: 26pt; display: flex; align-items: center; justify-content: center; }
+.glyph.ar { font-family: "DejaVu Sans", "FreeSerif", sans-serif; }
+.glyph.jp { font-family: "IPAGothic", "WenQuanYi Zen Hei Mono", sans-serif; }
+.gname { width: 20mm; font-size: 8pt; color: var(--muted); display: flex; align-items: center; }
+.gcell { flex: 1; border-left: .4pt dashed #c9c9cd; background:
+  linear-gradient(to bottom, transparent 49.5%, #ececef 49.5%, #ececef 50.5%, transparent 50.5%); }
+
+/* відповідь догори дриґом */
+.answer {
+  margin-top: 2mm; transform: rotate(180deg); font-size: 7.6pt; color: #555;
+  border-top: .5pt dashed #b9b9be; padding-top: 1.4mm;
+}
+.answer span { font-weight: 700; }
+
+/* ---- обкладинка ---- */
+.cover { padding: 22mm 20mm 16mm; }
+.cover .kicker { font-size: 9pt; letter-spacing: .14em; text-transform: uppercase; color: #2f5d8a; font-weight: 700; }
+.ctitle { font-size: 38pt; line-height: 1.02; margin: 6mm 0 6mm; letter-spacing: -.02em; }
+.csub { font-size: 11.5pt; color: #3a3a3d; max-width: 150mm; margin: 0 0 12mm; }
+.secs { list-style: none; padding: 0; margin: 0 0 auto; border-top: .6pt solid var(--line); }
+.secs li { display: grid; grid-template-columns: 5mm 1fr auto; grid-template-rows: auto auto; column-gap: 2mm; padding: 3mm 0; border-bottom: .6pt solid var(--line); align-items: center; }
+.secs li i { grid-row: 1 / 3; }
+.secs li b { font-size: 12pt; }
+.secs li span { font-weight: 700; color: var(--accent); font-size: 10pt; }
+.secs li em { grid-column: 2 / 4; font-size: 8.6pt; color: var(--muted); font-style: normal; }
+.howto { margin-top: 8mm; background: #f4f6f9; border-radius: 2mm; padding: 4mm 5mm; font-size: 9.4pt; }
+.howto ol { margin: 1.5mm 0 0; padding-left: 5mm; }
+
+/* ---- зміст ---- */
+.toc { padding: 12mm 13mm 10mm; }
+.toc h2 { font-size: 18pt; margin: 0 0 4mm; }
+.toccols { column-count: 2; column-gap: 8mm; column-fill: balance; font-size: 8.4pt; line-height: 1.3; }
+.tocsec { break-inside: auto; margin-bottom: 2.4mm; }
+.tocsec h3 { font-size: 9.6pt; margin: 0 0 1mm; color: var(--accent); display: flex; gap: 1.6mm; align-items: center; break-after: avoid; }
+.tocsec ol { list-style: none; margin: 0; padding: 0; }
+.tocsec li { display: flex; gap: 1.6mm; break-inside: avoid; margin-bottom: .2mm; }
+.tocsec li span { flex: none; width: 7mm; text-align: right; color: var(--muted); font-weight: 600; }
+
+/* творчі задачі */
+.puzzle { font-size: 11.5pt; line-height: 1.5; background: var(--tint); border-radius: 2mm; padding: 4mm 5mm; color: #222; }
+</style></head><body>
+<section class="page ex" id="ex18" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 18</span></header>
+  <h1>Аудит 10 правил майстра продажів</h1>
+  <div class="goal"><b>Мета.</b> Оцінити, наскільки ваш підхід до продажів відповідає принципам «продажів з любовʼю».</div><ol class="steps"><li>Оцініть кожне твердження від 1 до 10 — обведіть число.</li><li>Для трьох найслабших пунктів запишіть конкретну дію на цей тиждень.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl scale"><colgroup><col style="width:46%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col></colgroup><thead><tr><th>Твердження</th><th class="n">1</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">5</th><th class="n">6</th><th class="n">7</th><th class="n">8</th><th class="n">9</th><th class="n">10</th><th>Що зроблю, щоб додати +1</th></tr></thead><tbody><tr><td class="it"><b>1.</b> Докладаю зусиль до того, що продаю, — і тому продаю це добре</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>2.</b> Даю клієнтові вибір, але роблю його простим і передбачуваним</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>3.</b> Моє ставлення до клієнта — міцний «розчин» між «цеглинами» бізнесу</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>4.</b> Зваблюю клієнта, а не тисну; люблю тих, у кого беру гроші</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>5.</b> Мене мотивує можливість допомогти іншим, а не лише гроші</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>6.</b> Сприймаю продаж як співпрацю: людина купує, бо їй це потрібно</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>7.</b> Знаю свою унікальність і цінність; мій бізнес — це служіння</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>8.</b> Пропоную більшу цінність і намагаюся зіграти більшу роль у житті клієнта</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>9.</b> Попереджаю відмови клієнта замість того, щоб із ними боротися</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>10.</b> Змінююся й пробую нове, а не роблю «як завжди»</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>18 / 167</span></footer>
+</section>
+<section class="page ex" id="ex19" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 19</span></header>
+  <h1>Персональний план продажів на місяць</h1>
+  <div class="goal"><b>Мета.</b> Почати місяць із чіткого плану — знати, чого ви хочете, і планувати результат.</div><div class="intro">Важко навіть уявити, скільки продавців починають місяць без чіткого плану продажів. Будьте серед тих, хто ставить цілі й неухильно йде до них.</div><ol class="steps"><li>Впишіть продукти чи послуги і план у штуках та гривнях.</li><li>Щотижня оновлюйте факт; наприкінці місяця порахуйте відсоток виконання.</li><li>Якщо ви керівник — заповніть і план для відділу.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><colgroup><col style="width:22%"><col style="width:9%"><col style="width:11%"><col style="width:9%"><col style="width:9%"><col style="width:9%"><col style="width:9%"><col style="width:13%"><col style="width:9%"></colgroup><thead><tr><th>Продукт / послуга</th><th>План, шт</th><th>План, грн</th><th>Тиж. 1</th><th>Тиж. 2</th><th>Тиж. 3</th><th>Тиж. 4</th><th>Факт, грн</th><th>%</th></tr></thead><tbody><tr><td>Продукт №1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Продукт №2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Продукт №3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Продукт №4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Продукт №5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td><b>Разом</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><colgroup><col style="width:22%"><col style="width:13%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:15%"><col style="width:10%"></colgroup><thead><tr><th>План для відділу</th><th>План, грн</th><th>Тиж. 1</th><th>Тиж. 2</th><th>Тиж. 3</th><th>Тиж. 4</th><th>Факт, грн</th><th>%</th></tr></thead><tbody><tr><td>Працівник 1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Працівник 2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Працівник 3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Працівник 4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Працівник 5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td><b>Разом</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>19 / 167</span></footer>
+</section>
+<section class="page ex" id="ex20" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 20</span></header>
+  <h1>Колесо продавця</h1>
+  <div class="goal"><b>Мета.</b> Знайти найслабшу ланку — бо успіх усієї системи залежить від неї.</div><ol class="steps"><li>Оцініть від 1 до 10, наскільки ви задоволені кожною складовою своєї роботи з продажів.</li><li>Позначте точки на спицях і зʼєднайте їх — побачите форму свого «колеса».</li><li>Оберіть найслабшу сторону й запишіть, як почнете її вдосконалювати.</li><li>Через місяць повторіть оцінку іншим кольором.</li></ol>
+  <div class="work"><div class="blk center"><svg viewBox="-58 -4 316 208" class="svg" style="height:118mm"><circle cx="100" cy="100" r="6.2" class="ring"/><circle cx="100" cy="100" r="12.4" class="ring"/><circle cx="100" cy="100" r="18.6" class="ring"/><circle cx="100" cy="100" r="24.8" class="ring"/><circle cx="100" cy="100" r="31.0" class="ring major"/><circle cx="100" cy="100" r="37.2" class="ring"/><circle cx="100" cy="100" r="43.4" class="ring"/><circle cx="100" cy="100" r="49.6" class="ring"/><circle cx="100" cy="100" r="55.8" class="ring"/><circle cx="100" cy="100" r="62.0" class="ring major"/><line x1="100" y1="100" x2="100.0" y2="38.0" class="spoke"/><text x="102.0" y="68.0" class="tick">5</text><text x="102.0" y="37.0" class="tick">10</text><text x="100.0" y="30.0" text-anchor="middle" class="wlab"><tspan x="100.0" dy="-5.2">Віра</tspan><tspan x="100.0" dy="6.4">у себе</tspan></text><line x1="100" y1="100" x2="143.8" y2="56.2" class="spoke"/><text x="123.9" y="77.1" class="tick">5</text><text x="145.8" y="55.2" class="tick">10</text><text x="149.5" y="50.5" text-anchor="start" class="wlab"><tspan x="149.5" dy="-5.2">Любов</tspan><tspan x="149.5" dy="6.4">до клієнта</tspan></text><line x1="100" y1="100" x2="162.0" y2="100.0" class="spoke"/><text x="133.0" y="99.0" class="tick">5</text><text x="164.0" y="99.0" class="tick">10</text><text x="170.0" y="100.0" text-anchor="start" class="wlab"><tspan x="170.0" dy="-3.2">Віра</tspan><tspan x="170.0" dy="6.4">у компанію</tspan></text><line x1="100" y1="100" x2="143.8" y2="143.8" class="spoke"/><text x="123.9" y="120.9" class="tick">5</text><text x="145.8" y="142.8" class="tick">10</text><text x="149.5" y="149.5" text-anchor="start" class="wlab"><tspan x="149.5" dy="-1.2">Віра</tspan><tspan x="149.5" dy="6.4">у товар</tspan></text><line x1="100" y1="100" x2="100.0" y2="162.0" class="spoke"/><text x="102.0" y="130.0" class="tick">5</text><text x="102.0" y="161.0" class="tick">10</text><text x="100.0" y="170.0" text-anchor="middle" class="wlab"><tspan x="100.0" dy="-1.2">Місія</tspan><tspan x="100.0" dy="6.4">і цінності</tspan></text><line x1="100" y1="100" x2="56.2" y2="143.8" class="spoke"/><text x="80.1" y="120.9" class="tick">5</text><text x="58.2" y="142.8" class="tick">10</text><text x="50.5" y="149.5" text-anchor="end" class="wlab"><tspan x="50.5" dy="-1.2">Технологія поширення</tspan><tspan x="50.5" dy="6.4">інформації</tspan></text><line x1="100" y1="100" x2="38.0" y2="100.0" class="spoke"/><text x="71.0" y="99.0" class="tick">5</text><text x="40.0" y="99.0" class="tick">10</text><text x="30.0" y="100.0" text-anchor="end" class="wlab"><tspan x="30.0" dy="-3.2">Вміння спілкуватися</tspan><tspan x="30.0" dy="6.4">з клієнтом</tspan></text><line x1="100" y1="100" x2="56.2" y2="56.2" class="spoke"/><text x="80.1" y="77.1" class="tick">5</text><text x="58.2" y="55.2" class="tick">10</text><text x="50.5" y="50.5" text-anchor="end" class="wlab"><tspan x="50.5" dy="-5.2">Система</tspan><tspan x="50.5" dy="6.4">продажів</tspan></text></svg></div><div class="blk grow col"><div class="blabel">Моя найслабша ланка і що я зроблю, щоб її посилити:</div><div class="ruled grow"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>20 / 167</span></footer>
+</section>
+<section class="page ex" id="ex21" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 21</span></header>
+  <h1>Щоденний звіт продавця</h1>
+  <div class="goal"><b>Мета.</b> Щодня бачити цифри, які справді рухають продажі, і зосередитися на найприбутковіших діях.</div><ol class="steps"><li>Зранку запишіть цілі дня і дії, які згенерують найбільше доходу.</li><li>Увечері заповніть показники: нові контакти, поновлені контакти, сума оплат.</li></ol>
+  <div class="work"><div class="blk row"><div class="cell"><div class="blk"><table class="tbl"><thead><tr><th>Цілі дня</th></tr></thead><tbody><tr style="height:7mm"><td>1.</td></tr><tr style="height:7mm"><td>2.</td></tr><tr style="height:7mm"><td>3.</td></tr><tr style="height:7mm"><td>4.</td></tr><tr style="height:7mm"><td>5.</td></tr></tbody></table></div></div><div class="cell"><div class="blk"><table class="tbl"><colgroup><col style="width:70%"><col style="width:30%"></colgroup><thead><tr><th>Показник</th><th>Значення</th></tr></thead><tbody><tr style="height:11.7mm"><td>Скільки контактів з новими клієнтами зробили?</td><td></td></tr><tr style="height:11.7mm"><td>Скільки контактів зі старими клієнтами поновили?</td><td></td></tr><tr style="height:11.7mm"><td>На яку суму прийняли оплат?</td><td></td></tr></tbody></table></div></div></div><div class="blk"><div class="blabel">Які дії згенерують для вас найбільше доходу сьогодні?</div><div class="ruled" style="height:16mm"></div></div><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Найважливіші справи дня</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr><tr><td>4.</td></tr><tr><td>5.</td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Найважливіші зустрічі</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr><tr><td>4.</td></tr><tr><td>5.</td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Найважливіші дзвінки й e-mail</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr><tr><td>4.</td></tr><tr><td>5.</td></tr></tbody></table></div></div></div></div><div class="blk"><div class="blabel">Що спрацювало сьогодні найкраще? Що зроблю інакше завтра?</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>21 / 167</span></footer>
+</section>
+<section class="page ex" id="ex22" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 22</span></header>
+  <h1>Аналіз клієнтів за правилом 20/80</h1>
+  <div class="goal"><b>Мета.</b> Позбутися клієнтів, які забирають сили, і сконцентруватися на тих, хто дає результат.</div><ol class="steps"><li>Випишіть 20% клієнтів, які створюють 80% ваших проблем. Вирішіть відмовитися від них. Крапка.</li><li>Випишіть 20% клієнтів, які створюють 80% ваших результатів.</li><li>Подумайте, як знайти більше клієнтів, схожих на другий список.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:62%"><col style="width:38%"></colgroup><thead><tr><th>А) Клієнти, що створюють 80% проблем</th><th>Рішення</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:58%"><col style="width:42%"></colgroup><thead><tr><th>Б) Клієнти, що створюють 80% результатів</th><th>Чим вони цінні</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div></div><div class="blk"><div class="blabel">Що спільного в найкращих клієнтів? Де шукати таких ще?</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>22 / 167</span></footer>
+</section>
+<section class="page ex" id="ex23" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 23</span></header>
+  <h1>ABC-аналіз клієнтів за чеками</h1>
+  <div class="goal"><b>Мета.</b> Побачити, хто з клієнтів приносить найбільші суми, і розподілити увагу відповідно.</div><ol class="steps"><li>Проаналізуйте клієнтів за минулий місяць і розподіліть за розміром чека.</li><li>А — найбільші чеки, Б — середні, С — найменші.</li><li>Подумайте, як «підняти» частину клієнтів з категорії С у Б і з Б в А.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:68%"><col style="width:32%"></colgroup><thead><tr><th>Категорія А</th><th>Чек</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:68%"><col style="width:32%"></colgroup><thead><tr><th>Категорія Б</th><th>Чек</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:68%"><col style="width:32%"></colgroup><thead><tr><th>Категорія С</th><th>Чек</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div></div><div class="blk"><div class="blabel">Кого і як я можу перевести на вищу категорію?</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>23 / 167</span></footer>
+</section>
+<section class="page ex" id="ex24" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 24</span></header>
+  <h1>Пʼятдесят омріяних клієнтів</h1>
+  <div class="goal"><b>Мета.</b> Чітко назвати клієнтів, з якими ви точно хочете працювати, і сконцентруватися саме на них.</div><ol class="steps"><li>Випишіть 50 компаній чи імен клієнтів, з якими вам точно хотілося б мати справу.</li><li>Це ті, хто платить вчасно, з ким престижно, приємно й цікаво працювати. Можливо, з деякими ви вже працюєте.</li><li>Позначте ✓ тих, з ким уже є контакт, і плануйте щотижня кілька кроків до решти.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="numgrid grow"><div class="numcol"><div class="numrow"><span>1</span></div><div class="numrow"><span>2</span></div><div class="numrow"><span>3</span></div><div class="numrow"><span>4</span></div><div class="numrow"><span>5</span></div><div class="numrow"><span>6</span></div><div class="numrow"><span>7</span></div><div class="numrow"><span>8</span></div><div class="numrow"><span>9</span></div><div class="numrow"><span>10</span></div><div class="numrow"><span>11</span></div><div class="numrow"><span>12</span></div><div class="numrow"><span>13</span></div><div class="numrow"><span>14</span></div><div class="numrow"><span>15</span></div><div class="numrow"><span>16</span></div><div class="numrow"><span>17</span></div><div class="numrow"><span>18</span></div><div class="numrow"><span>19</span></div><div class="numrow"><span>20</span></div><div class="numrow"><span>21</span></div><div class="numrow"><span>22</span></div><div class="numrow"><span>23</span></div><div class="numrow"><span>24</span></div><div class="numrow"><span>25</span></div></div><div class="numcol"><div class="numrow"><span>26</span></div><div class="numrow"><span>27</span></div><div class="numrow"><span>28</span></div><div class="numrow"><span>29</span></div><div class="numrow"><span>30</span></div><div class="numrow"><span>31</span></div><div class="numrow"><span>32</span></div><div class="numrow"><span>33</span></div><div class="numrow"><span>34</span></div><div class="numrow"><span>35</span></div><div class="numrow"><span>36</span></div><div class="numrow"><span>37</span></div><div class="numrow"><span>38</span></div><div class="numrow"><span>39</span></div><div class="numrow"><span>40</span></div><div class="numrow"><span>41</span></div><div class="numrow"><span>42</span></div><div class="numrow"><span>43</span></div><div class="numrow"><span>44</span></div><div class="numrow"><span>45</span></div><div class="numrow"><span>46</span></div><div class="numrow"><span>47</span></div><div class="numrow"><span>48</span></div><div class="numrow"><span>49</span></div><div class="numrow"><span>50</span></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>24 / 167</span></footer>
+</section>
+<section class="page ex" id="ex25" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 25</span></header>
+  <h1>Життєва цінність клієнта</h1>
+  <div class="goal"><b>Мета.</b> Побачити, скільки насправді приносить клієнт за весь час співпраці.</div><div class="intro">Надто часто ми не враховуємо, що дрібними вкладами здобуваються великі статки!</div><ol class="steps"><li>Оберіть 8 клієнтів і випишіть усі їхні покупки за весь час співпраці.</li><li>Порахуйте суму — це і є життєва цінність клієнта.</li><li>Знайдіть середнє значення і подумайте, скільки варто вкладати в утримання одного клієнта.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:18%"><col style="width:62%"><col style="width:20%"></colgroup><thead><tr><th>Клієнт</th><th>Покупки за весь час (сума + сума + …)</th><th>= Разом</th></tr></thead><tbody><tr><td>Клієнт 1</td><td></td><td></td></tr><tr><td>Клієнт 2</td><td></td><td></td></tr><tr><td>Клієнт 3</td><td></td><td></td></tr><tr><td>Клієнт 4</td><td></td><td></td></tr><tr><td>Клієнт 5</td><td></td><td></td></tr><tr><td>Клієнт 6</td><td></td><td></td></tr><tr><td>Клієнт 7</td><td></td><td></td></tr><tr><td>Клієнт 8</td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Середня життєва цінність клієнта: ________ грн. Що я робитиму, щоб клієнти залишалися довше?</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>25 / 167</span></footer>
+</section>
+<section class="page ex" id="ex26" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 26</span></header>
+  <h1>Класифікація клієнтів: проблеми × можливості</h1>
+  <div class="goal"><b>Мета.</b> Розподілити клієнтів за рівнем проблем і можливостей та визначити стратегію для кожної групи.</div><ol class="steps"><li>Впишіть клієнтів у відповідні квадрати.</li><li>Для кожної групи вирішіть: розвивати, обслуговувати, перевиховувати чи відпускати.</li></ol>
+  <div class="work"><div class="blk col grow"><div class="matrix grow"><div class="ylab">Рівень проблем →</div><div class="mgrid"><div class="mq"><div class="mql">2. Проблемні з високими можливостями</div></div><div class="mq"><div class="mql">4. Непроблемні з високими можливостями</div></div><div class="mq"><div class="mql">1. Проблемні з низькими можливостями</div></div><div class="mq"><div class="mql">3. Непроблемні з низькими можливостями</div></div></div><div class="xlab">Рівень можливостей →</div></div></div><div class="blk"><div class="blabel">Моя стратегія для кожної групи:</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>26 / 167</span></footer>
+</section>
+<section class="page ex" id="ex27" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 27</span></header>
+  <h1>Процес створення клієнта</h1>
+  <div class="goal"><b>Мета.</b> Розписати весь ланцюжок, яким людина стає вашим клієнтом, і знайти «прогнилу дошку» на цьому містку.</div><div class="intro">Уявіть місток між двома скелями: одна — Ринок, інша — Компанія. Якщо в містку одна погана дошка, багато клієнтів до вас не дійдуть. Де тонко — там і рветься!</div>
+  <div class="work"><div class="blk example"><div class="extitle">Приклад</div>1) інформація на флаєр → 2) макет → 3) друк → 4) роздача → 5) клієнт отримав флаєр → 6) приніс додому → 7) зайшов на сайт → 8) знайшов потрібне → 9) знайшов форму купона → 10) заповнив → 11) чекає дзвінка → 12) дзвінок працівника → 13) уточнення → 14) запрошення в магазин → 15) знайшов магазин → 16) увійшов → 17) вибір товару → 18) примірка → 19) розмова з продавцем → 20) гарантія → 21) оплата → 22) картка лояльності → 23) дзвінок після покупки → 24) каталог через місяць → 25) привітання з днем народження → 26) SMS-запрошення на сайт → 27) і все повторюється з пункту 7.</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><colgroup><col style="width:6%"><col style="width:50%"><col style="width:16%"><col style="width:28%"></colgroup><thead><tr><th>№</th><th>Крок на шляху клієнта</th><th>Наскільки міцна «дошка» (1–5)</th><th>Як посилити</th></tr></thead><tbody><tr><td>1</td><td></td><td></td><td></td></tr><tr><td>2</td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td></tr><tr><td>4</td><td></td><td></td><td></td></tr><tr><td>5</td><td></td><td></td><td></td></tr><tr><td>6</td><td></td><td></td><td></td></tr><tr><td>7</td><td></td><td></td><td></td></tr><tr><td>8</td><td></td><td></td><td></td></tr><tr><td>9</td><td></td><td></td><td></td></tr><tr><td>10</td><td></td><td></td><td></td></tr><tr><td>11</td><td></td><td></td><td></td></tr><tr><td>12</td><td></td><td></td><td></td></tr><tr><td>13</td><td></td><td></td><td></td></tr><tr><td>14</td><td></td><td></td><td></td></tr><tr><td>15</td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>27 / 167</span></footer>
+</section>
+<section class="page ex" id="ex28" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 28</span></header>
+  <h1>Справжні відмови клієнтів</h1>
+  <div class="goal"><b>Мета.</b> Розгадати, що насправді стоїть за словами «дорого», «я подумаю», «не зараз», — і попереджати відмови.</div><div class="intro">Попередьте відмову клієнта замість того, щоб із нею боротися.</div><ol class="steps"><li>Випишіть відмови, які ви чуєте найчастіше, дослівно.</li><li>Подумайте, яка справжня причина за кожною: страх, недовіра, брак грошей, не та людина приймає рішення…</li><li>Запишіть, що можна сказати чи зробити ще до того, як клієнт її озвучить.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:28%"><col style="width:34%"><col style="width:38%"></colgroup><thead><tr><th>Що каже клієнт</th><th>Що насправді за цим стоїть</th><th>Як попередити цю відмову</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>28 / 167</span></footer>
+</section>
+<section class="page ex" id="ex29" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 29</span></header>
+  <h1>Як про вас дізнаються клієнти</h1>
+  <div class="goal"><b>Мета.</b> Систематизувати способи, якими ви поширюєте інформацію про себе, і посилити найдієвіші.</div><ol class="steps"><li>Випишіть усі канали, через які про вас дізнаються: рекомендації, соцмережі, сайт, дзвінки, події…</li><li>Оцініть охоплення, витрати й результат кожного.</li><li>Тест на 30 хвилин: скільки людей ви здатні повідомити про свою новинку за пів години? Спробуйте!</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:28%"><col style="width:16%"><col style="width:18%"><col style="width:16%"><col style="width:22%"></colgroup><thead><tr><th>Канал</th><th>Охоплення (людей)</th><th>Витрати (час/гроші)</th><th>Клієнтів за місяць</th><th>Посилити / прибрати</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Тест на 30 хвилин: я повідомив(-ла) ____ людей. Як зробити це швидше й ширше?</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>29 / 167</span></footer>
+</section>
+<section class="page ex" id="ex30" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 30</span></header>
+  <h1>Що я насправді продаю?</h1>
+  <div class="goal"><b>Мета.</b> Зрозуміти, яку глибинну потребу клієнта задовольняє ваш продукт, — тоді клієнт повертатиметься знову і знову.</div><div class="intro">Що насправді потрібно вашим клієнтам? Яка внутрішня пустка підштовхує їх до вас? Лише коли ви пропонуєте загальнолюдські цінності, клієнт повертається.</div><ol class="steps"><li>Для кожного продукту пройдіть «драбиною» від товару до цінності.</li><li>Запитуйте себе щоразу: «А навіщо це клієнтові?» — доки не дійдете до глибинної цінності.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Продукт</th><th>Функція (що робить)</th><th>Вигода (що дає)</th><th>Емоція (що відчуває клієнт)</th><th>Цінність (що для нього важливе)</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="q">Чому клієнти приходять саме до вас?</div><div class="ruled" style="height:16mm"></div><div class="q">На якому рівні ви задовольняєте їхні потреби?</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>30 / 167</span></footer>
+</section>
+<section class="page ex" id="ex31" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 31</span></header>
+  <h1>Партнерство з клієнтом</h1>
+  <div class="goal"><b>Мета.</b> Перетворити клієнта на партнера: дати йому більше, ніж берете, і стати важливою частиною його життя.</div><ol class="steps"><li>Оберіть ключових клієнтів і подумайте, чого вони прагнуть у своєму житті чи бізнесі.</li><li>Запишіть, як ви можете допомогти і як клієнт може заробити на співпраці з вами.</li><li>Чесно дайте відповідь: чи готові ви дати більше, ніж взяти?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:16%"><col style="width:26%"><col style="width:29%"><col style="width:29%"></colgroup><thead><tr><th>Клієнт</th><th>Його цілі й потреби</th><th>Яку участь у його житті я готовий(-а) взяти</th><th>Як він може заробити на співпраці зі мною</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Яку цінність сьогодні я внесу в життя свого клієнта?</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>31 / 167</span></footer>
+</section>
+<section class="page ex" id="ex32" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 32</span></header>
+  <h1>Вузькі місця системи продажів</h1>
+  <div class="goal"><b>Мета.</b> Побудувати систему, в якій немає «лійок», а процеси звільняють ваш час.</div><div class="intro">Продає не окремий продавець, а налагоджена система. Можливо, замість того щоб збільшувати план, варто вдосконалити бізнес-процес.</div><ol class="steps"><li>Випишіть усі процеси вашої щоденної роботи з клієнтами.</li><li>Оцініть, скільки часу забирає кожен і де «губляться» клієнти чи гроші.</li><li>Для кожного вузького місця визначте: спростити, автоматизувати, делегувати чи прибрати зайве.</li><li>Перевірте: чи працюватиме ваша система, якщо клієнтів стане в сто разів більше?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:26%"><col style="width:12%"><col style="width:24%"><col style="width:26%"><col style="width:12%"></colgroup><thead><tr><th>Процес</th><th>Час на тиждень</th><th>Вузьке місце («лійка»)</th><th>Рішення</th><th>Звільнений час</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>32 / 167</span></footer>
+</section>
+<section class="page ex" id="ex33" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 33</span></header>
+  <h1>Віра в себе, компанію і товар</h1>
+  <div class="goal"><b>Мета.</b> Зміцнити три опори успішного продавця: без них «світять» лише вигорання і втома.</div><ol class="steps"><li>У кожній колонці запишіть сумніви, які підточують вашу віру.</li><li>Поруч запишіть факти й докази на користь: результати, відгуки, досягнення.</li><li>Оберіть по одній дії на сьогодні, яка зміцнить кожну з трьох опор.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Віра в себе: сумніви</th></tr></thead><tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody></table></div></div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Факти на мою користь</th></tr></thead><tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Віра в компанію: сумніви</th></tr></thead><tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody></table></div></div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Факти на її користь</th></tr></thead><tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Віра в товар: сумніви</th></tr></thead><tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody></table></div></div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Факти на його користь</th></tr></thead><tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody></table></div></div></div></div><div class="blk"><table class="tbl"><colgroup><col style="width:20%"><col style="width:80%"></colgroup><thead><tr><th>Опора</th><th>Що я сьогодні зроблю, щоб повірити</th></tr></thead><tbody><tr style="height:8mm"><td>У себе</td><td></td></tr><tr style="height:8mm"><td>У компанію</td><td></td></tr><tr style="height:8mm"><td>У товар</td><td></td></tr></tbody></table></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>33 / 167</span></footer>
+</section>
+<section class="page ex" id="ex34" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 34</span></header>
+  <h1>Ритм продуктивного дня</h1>
+  <div class="goal"><b>Мета.</b> Знайти свій режим сну й активності, за якого ви цілий день працюєте на високому рівні.</div><ol class="steps"><li>Тиждень записуйте, коли лягаєте і прокидаєтеся, та оцінюйте енергію вранці, вдень і ввечері (1–10).</li><li>Позначайте кількість продуктивних годин і результат дня.</li><li>Наприкінці тижня знайдіть закономірність: який режим дав найкращий день?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><colgroup><col style="width:8%"><col style="width:9%"><col style="width:9%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:12%"><col style="width:29%"></colgroup><thead><tr><th>День</th><th>Ліг</th><th>Встав</th><th>Енергія вранці</th><th>Енергія вдень</th><th>Енергія ввечері</th><th>Продуктивних годин</th><th>Результат дня</th></tr></thead><tbody><tr><td>Пн</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Вт</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Ср</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Чт</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Пт</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Сб</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Нд</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Мій оптимальний режим: лягати о ____, вставати о ____. Найпродуктивніші години: ____</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>34 / 167</span></footer>
+</section>
+<section class="page ex" id="ex35" style="--accent:#b4532a;--tint:#fbefe8">
+  <header class="head"><span class="sec"><i></i>Майстер продажів</span><span class="num">Вправа 35</span></header>
+  <h1>Питання дня для продавця</h1>
+  <div class="goal"><b>Мета.</b> Щодня зазирати глибше за техніки продажів — до власних цінностей, ставлень і мотивів.</div><ol class="steps"><li>Щодня обирайте одне запитання і відповідайте письмово.</li><li>Позначайте ✓ ті, на які вже відповіли.</li></ol>
+  <div class="work"><div class="blk"><ul class="check small" style="column-count:1"><li><span class="cb"></span>Чому деякі продавці так часто втомлюються і вигорають?</li><li><span class="cb"></span>Про що ви думаєте, коли продаєте?</li><li><span class="cb"></span>Які звички і навики ви щоденно розвиваєте у собі?</li><li><span class="cb"></span>Яка середня кількість контактів потрібна вам, щоб продати товар чи послугу?</li><li><span class="cb"></span>Чи достатньо ви вірите в себе? Якщо ні — що ви сьогодні зробили, щоб повірити?</li><li><span class="cb"></span>Наскільки добрі ваші взаємини з рідними? Чи не втікаєте ви в роботу від особистих проблем?</li><li><span class="cb"></span>Яке ваше справжнє глибинне ставлення до продажів?</li><li><span class="cb"></span>Чи знаєте ви свої цінності? Чи достатньо ви містка особистість?</li><li><span class="cb"></span>Які варіанти партнерства ви пропонуєте клієнтові? Як він може заробити на вашому бізнесі?</li><li><span class="cb"></span>Як ви тренуєте власну самооцінку?</li><li><span class="cb"></span>Чи намагаєтеся зрозуміти емоції й мотиви людини, яка платить вам гроші?</li><li><span class="cb"></span>Якби ви втратили все, що маєте, — чи були б готові почати спочатку?</li><li><span class="cb"></span>Що ви зробили, щоб повірити у свою компанію?</li><li><span class="cb"></span>Справжній продавець продає постійно. Що ви продасте цього вечора?</li><li><span class="cb"></span>Чи міркуєте над кожним процесом своєї роботи — як його оптимізувати й звільнити час?</li><li><span class="cb"></span>Може, замість збільшення плану варто вдосконалити бізнес-процес?</li><li><span class="cb"></span>Що ви сьогодні зробили для спільної цілі команди? Чи дбаєте про колег?</li><li><span class="cb"></span>Кого ви передусім бачите в клієнтові — особистість чи гаманець?</li><li><span class="cb"></span>Чи думаєте ви про систему, в якій було б комфортно працювати зі в сто разів більшою кількістю клієнтів?</li><li><span class="cb"></span>Якими способами ви поширюєте інформацію про себе?</li><li><span class="cb"></span>Чи готові ви дати клієнтові більше, ніж взяти?</li><li><span class="cb"></span>Скільки людей ви здатні повідомити про свою новинку протягом пів години?</li><li><span class="cb"></span>Кому ви присвячуєте свої здобутки?</li><li><span class="cb"></span>Що ви насправді продаєте клієнтові? На якому рівні задовольняєте його потреби?</li><li><span class="cb"></span>Як ставилися до роботи ваші батьки? Чи не повторюєте ви їхню модель?</li><li><span class="cb"></span>Яку участь у житті свого клієнта ви готові взяти?</li><li><span class="cb"></span>На які цінності ви спираєтеся в житті? Що для вас насправді важливе?</li><li><span class="cb"></span>Коли вам треба прокидатися і засинати, щоб цілий день бути продуктивним?</li><li><span class="cb"></span>Чому клієнти приходять саме до вас?</li><li><span class="cb"></span>Яку цінність сьогодні ви внесете в життя свого клієнта?</li><li><span class="cb"></span>За яку суму ви були б готові ошукати клієнта — і чи є взагалі така сума?</li></ul></div><div class="blk grow col"><div class="blabel">Запитання дня: № ___ . Моя відповідь:</div><div class="ruled grow"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник майстра продаж» · Роман Кушнір, SPE школа розвитку</span><span>35 / 167</span></footer>
+</section></body></html>
