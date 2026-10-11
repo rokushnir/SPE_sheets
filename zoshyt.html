@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Робочий зошит</title>
-<meta name="description" content="Онлайн-робочий зошит Campus13 «Публічні виступи»: вписуй завдання, виконуй квести, збирай XP і досягнення.">
+<meta name="description" content="Робочий зошит Campus13, заняття 3 «Техніки привернення і утримання уваги»: приклади фраз, запис голосу, історії, анекдоти й притчі, XP і досягнення.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
     --green: #3fd49f;
     --green-deep: #14a874;
     --green-soft: #e3f8ef;
-    --green-glow: rgba(63, 212, 159, .35);
+    --green-glow: rgba(63, 212, 159, .3);
     --ink: #1d2433;
     --muted: #6b7280;
     --faint: #a3a9b3;
@@ -22,10 +22,14 @@
     --line: #e4e6ea;
     --gold: #f5b82e;
     --gold-soft: #fff4d6;
+    --rec: #ef4b5f;
+    --rec-soft: #ffe7ea;
+    --violet: #8b6cf0;
+    --violet-soft: #efeafe;
     --shadow: 0 10px 30px rgba(29, 36, 51, .07);
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 90px; }
   body {
     margin: 0;
     font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -36,263 +40,226 @@
   }
   button, input, textarea { font: inherit; color: inherit; }
   button { cursor: pointer; }
-  .wrap { width: min(820px, 100% - 32px); margin-inline: auto; }
-  .display { font-family: "Unbounded", sans-serif; }
+  .wrap { width: min(860px, 100% - 32px); margin-inline: auto; }
 
   /* ---------- HUD ---------- */
   .hud {
     position: sticky; top: 0; z-index: 40;
-    background: rgba(255, 255, 255, .92);
+    background: rgba(255, 255, 255, .93);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
-  .hud-in { display: flex; align-items: center; gap: 14px; min-height: 70px; padding: 8px 0; }
-  .lvl-ring { position: relative; width: 50px; height: 50px; flex: none; }
+  .hud-in { display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 8px 0; }
+  .lvl-ring { position: relative; width: 48px; height: 48px; flex: none; }
   .lvl-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
   .lvl-ring circle { fill: none; stroke-width: 5; }
   .lvl-ring .bg { stroke: var(--green-soft); }
   .lvl-ring .fg { stroke: var(--green); stroke-linecap: round; transition: stroke-dashoffset .6s cubic-bezier(.2, .9, .3, 1.2); }
-  .lvl-ring b {
-    position: absolute; inset: 0; display: grid; place-items: center;
-    font-family: "Unbounded"; font-weight: 800; font-size: 17px;
-  }
+  .lvl-ring b { position: absolute; inset: 0; display: grid; place-items: center; font-family: "Unbounded"; font-weight: 800; font-size: 16px; }
   .hud-main { flex: 1; min-width: 0; }
   .hud-title { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
   .hud-title strong { font-family: "Unbounded"; font-size: 14px; }
   .hud-title span { font-size: 12px; color: var(--muted); }
   .xpbar { height: 8px; border-radius: 99px; background: var(--green-soft); margin-top: 6px; overflow: hidden; }
-  .xpbar i {
-    display: block; height: 100%; width: 0; border-radius: inherit;
-    background: linear-gradient(90deg, var(--green), #7ee8c2);
-    transition: width .6s cubic-bezier(.2, .9, .3, 1.2);
-  }
-  .chips { display: flex; gap: 8px; flex: none; }
-  .chip {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 6px 11px; border-radius: 99px; background: var(--page);
-    font-weight: 800; font-size: 13px; white-space: nowrap;
-  }
+  .xpbar i { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, var(--green), #7ee8c2); transition: width .6s cubic-bezier(.2, .9, .3, 1.2); }
+  .chips { display: flex; gap: 6px; flex: none; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px; border-radius: 99px; background: var(--page); font-weight: 800; font-size: 13px; white-space: nowrap; }
   .chip.xp { background: var(--gold-soft); }
   .chip.bump { animation: bump .5s; }
   @keyframes bump { 40% { transform: scale(1.25); } }
 
-  /* ---------- шапка заняття ---------- */
-  .sheet {
-    background: var(--panel); border-radius: 20px; box-shadow: var(--shadow);
-    padding: 28px; margin-top: 24px;
-  }
+  /* ---------- аркуші ---------- */
+  .sheet { background: var(--panel); border-radius: 20px; box-shadow: var(--shadow); padding: 30px; margin-top: 22px; }
   .head { display: flex; gap: 14px; align-items: flex-start; }
   .badge {
-    flex: none; width: 72px; height: 72px; border-radius: 12px;
-    background: var(--green); color: #fff;
+    flex: none; width: 72px; height: 72px; border-radius: 12px; background: var(--green); color: #fff;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: "Unbounded"; font-weight: 800; font-size: 30px; line-height: 1;
   }
-  .badge input {
-    width: 100%; border: 0; background: none; text-align: center; color: #fff;
-    font-family: "Unbounded"; font-weight: 800; font-size: 30px; line-height: 1; padding: 0;
-  }
-  .badge small { font-size: 9px; font-weight: 700; letter-spacing: .4px; opacity: .9; }
+  .badge small { font-family: "Manrope"; font-size: 9px; font-weight: 700; letter-spacing: .4px; opacity: .9; margin-top: 4px; }
   .head-text { flex: 1; min-width: 0; }
-  .kicker {
-    width: 100%; border: 0; background: none; padding: 0;
-    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--faint);
-  }
-  .title {
-    width: 100%; border: 0; background: none; padding: 0; resize: none; overflow: hidden;
-    font-family: "Unbounded"; font-weight: 700; font-size: clamp(20px, 3.4vw, 26px); line-height: 1.25;
-  }
+  .kicker { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
+  h1 { font-family: "Unbounded"; font-weight: 700; font-size: clamp(20px, 3.4vw, 26px); line-height: 1.25; margin: 2px 0 0; }
+  .mood-wrap { position: relative; }
   .mood {
-    flex: none; width: 128px; min-height: 72px; border-radius: 14px;
-    border: 1.5px dashed #cfd3d8; background: none; color: #c4c9cf;
-    font-family: "Unbounded"; font-weight: 500; font-size: 13px; line-height: 1.15;
-    position: relative; transition: border-color .2s, transform .2s;
+    width: 128px; min-height: 72px; border-radius: 14px; border: 1.5px dashed #cfd3d8; background: none; color: #c4c9cf;
+    font-family: "Unbounded"; font-weight: 500; font-size: 13px; line-height: 1.15; transition: border-color .2s, transform .2s;
   }
   .mood:hover { border-color: var(--green); transform: rotate(-2deg); }
-  .mood .emo { font-size: 38px; line-height: 1; display: block; }
+  .mood .emo { font-size: 36px; line-height: 1; display: block; }
   .mood .cap { font-family: "Manrope"; font-size: 11px; font-weight: 700; color: var(--muted); }
   .mood.set { border-style: solid; border-color: var(--green); background: var(--green-soft); }
   .mood-pop {
-    position: absolute; right: 0; top: calc(100% + 8px); z-index: 30;
-    background: #fff; border-radius: 14px; box-shadow: 0 16px 40px rgba(29, 36, 51, .18);
-    padding: 8px; display: none; grid-template-columns: repeat(4, 1fr); gap: 4px; width: 240px;
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; background: #fff; border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(29, 36, 51, .18); padding: 8px; display: none; grid-template-columns: repeat(4, 1fr); gap: 4px; width: 250px;
   }
   .mood-pop.open { display: grid; }
-  .mood-pop button {
-    border: 0; background: none; border-radius: 10px; padding: 6px 2px;
-    display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: 700; color: var(--muted);
-  }
+  .mood-pop button { border: 0; background: none; border-radius: 10px; padding: 6px 2px; display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: 700; color: var(--muted); }
   .mood-pop button span { font-size: 26px; }
   .mood-pop button:hover { background: var(--green-soft); }
-  .mood-wrap { position: relative; }
 
-  .h2 { font-family: "Unbounded"; font-weight: 700; font-size: 20px; margin: 34px 0 6px; }
-  .lead { margin: 0; color: var(--muted); font-size: 14px; }
-  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .legend span { font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 99px; background: var(--page); }
-  .legend b { color: var(--green-deep); }
+  .intro { margin: 18px 0 0; color: var(--muted); font-size: 14px; }
+  .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+  .how div { background: var(--page); border-radius: 12px; padding: 12px; font-size: 12.5px; font-weight: 600; }
+  .how b { display: block; font-size: 20px; line-height: 1.2; }
+  .how em { font-style: normal; color: var(--green-deep); font-weight: 800; }
+  .nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .nav a {
+    text-decoration: none; color: var(--ink); font-size: 13px; font-weight: 800; padding: 7px 13px; border-radius: 99px;
+    border: 1.5px solid var(--line); transition: border-color .2s, background .2s;
+  }
+  .nav a:hover { border-color: var(--green); background: var(--green-soft); }
+  .nav a span { color: var(--green-deep); margin-left: 4px; }
 
-  /* ---------- квести ---------- */
-  .tasks { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 26px; margin-top: 30px; }
-  .task { position: relative; padding-top: 20px; animation: rise .35s both; }
-  @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+  .sec-head { display: flex; align-items: center; gap: 12px; }
+  .sec-num { flex: none; width: 46px; height: 46px; border-radius: 10px; background: var(--green); color: #fff; display: grid; place-items: center; font-family: "Unbounded"; font-weight: 800; font-size: 18px; }
+  h2 { font-family: "Unbounded"; font-weight: 700; font-size: 20px; margin: 0; line-height: 1.25; }
+  .sec-sub { margin: 4px 0 0; font-size: 13.5px; color: var(--muted); }
+  .sec-prog { margin-left: auto; flex: none; font-size: 12px; font-weight: 800; color: var(--green-deep); background: var(--green-soft); padding: 5px 10px; border-radius: 99px; }
+  h3.group { font-size: 15px; font-weight: 800; margin: 28px 0 4px; display: flex; align-items: center; gap: 8px; }
+  h3.group small { font-weight: 600; color: var(--muted); font-size: 13px; }
+
+  /* ---------- картки технік ---------- */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 22px; margin-top: 26px; }
+  .grid.one { grid-template-columns: 1fr; }
+  .tech { position: relative; padding-top: 18px; }
   .num {
-    position: absolute; top: 0; left: -10px; z-index: 2;
-    width: 46px; height: 46px; border-radius: 50%;
-    background: var(--green); color: #fff; border: 4px solid var(--panel);
-    display: grid; place-items: center;
-    font-family: "Unbounded"; font-weight: 700; font-size: 15px;
-    transition: transform .3s;
+    position: absolute; top: 0; left: -10px; z-index: 2; width: 44px; height: 44px; border-radius: 50%;
+    background: var(--green); color: #fff; border: 4px solid var(--panel); display: grid; place-items: center;
+    font-family: "Unbounded"; font-weight: 700; font-size: 14px; transition: background .3s, transform .4s;
   }
-  .card {
-    border: 1.5px dashed var(--green); border-radius: 6px;
-    padding: 30px 16px 14px 18px; height: 100%;
-    display: flex; flex-direction: column; gap: 6px;
-    transition: background .3s, border-color .3s, box-shadow .3s;
-  }
-  .task:hover .card { box-shadow: 0 8px 24px var(--green-glow); }
-  .t-title {
-    border: 0; background: none; padding: 0; width: 100%;
-    font-weight: 800; font-size: 15px;
-  }
-  .t-text {
-    border: 0; background: none; padding: 0; width: 100%; resize: none; overflow: hidden;
-    font-style: italic; font-size: 13px; color: var(--muted); min-height: 20px;
-  }
-  .t-answer {
-    width: 100%; resize: none; overflow: hidden; min-height: 72px;
-    border: 0; border-radius: 6px; padding: 0 10px 4px; font-size: 14px;
-    background: repeating-linear-gradient(to bottom, transparent 0 25px, var(--line) 25px 26px) var(--page);
-    background-attachment: local;
-    line-height: 26px; margin-top: 4px;
-  }
-  .t-answer:focus, .t-title:focus, .t-text:focus, .title:focus, .kicker:focus, .badge input:focus,
-  .ck input:focus, .notes:focus { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 4px; }
-  .t-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
-  .stars { display: flex; gap: 1px; }
-  .stars button { border: 0; background: none; padding: 0 1px; font-size: 18px; line-height: 1; color: #d6d9de; transition: transform .15s; }
-  .stars button.on { color: var(--gold); }
-  .stars button:hover { transform: scale(1.25); }
-  .done-btn {
-    border: 0; border-radius: 99px; padding: 8px 14px;
-    background: var(--ink); color: #fff; font-weight: 800; font-size: 12px;
-    transition: transform .15s, background .2s;
-  }
-  .done-btn:hover { transform: translateY(-1px); }
-  .done-btn em { font-style: normal; color: var(--green); }
-  .del {
-    position: absolute; top: 24px; right: 6px; border: 0; background: none;
-    color: var(--faint); font-size: 18px; width: 28px; height: 28px; border-radius: 50%;
-    opacity: 0; transition: opacity .2s;
-  }
-  .task:hover .del, .del:focus { opacity: 1; }
-  .del:hover { background: #fde8e8; color: #c0392b; }
-  @media (hover: none) { .del { opacity: .6; } }
+  .tech.full .num { background: var(--green-deep); transform: rotate(360deg); }
+  .card { border: 1.5px dashed var(--green); border-radius: 6px; padding: 28px 14px 12px 16px; height: 100%; transition: background .3s, border-color .3s, box-shadow .3s; }
+  .tech:hover .card { box-shadow: 0 8px 24px var(--green-glow); }
+  .tech.full .card { border-style: solid; background: #f6fdfa; }
+  .card h4 { margin: 0; font-size: 15px; font-weight: 800; line-height: 1.3; }
+  .card .why { margin: 4px 0 8px; font-size: 12.5px; font-style: italic; color: var(--muted); }
+  .link-lib { display: inline-block; margin-top: 6px; font-size: 12.5px; font-weight: 800; color: var(--violet); text-decoration: none; }
+  .link-lib:hover { text-decoration: underline; }
 
-  .task.done .card { border-style: solid; background: var(--green-soft); }
-  .task.done .num { transform: rotate(360deg); background: var(--green-deep); }
-  .task.done .done-btn { background: var(--green); color: var(--ink); }
-
-  .add {
-    min-height: 200px; margin-top: 20px; border-radius: 6px;
-    border: 1.5px dashed #cfd3d8; background: none; color: var(--muted);
-    font-weight: 800; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-    transition: border-color .2s, color .2s, background .2s;
+  .ex { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
+  .ex:first-of-type { border-top: 0; }
+  .tick {
+    flex: none; width: 24px; height: 24px; margin-top: 1px; border-radius: 50%; border: 2px solid var(--green); background: none;
+    display: grid; place-items: center; color: transparent; font-weight: 900; font-size: 13px; transition: background .2s, transform .2s;
   }
-  .add b { font-size: 34px; line-height: 1; font-family: "Unbounded"; }
-  .add:hover { border-color: var(--green); color: var(--green-deep); background: var(--green-soft); }
+  .tick:hover { transform: scale(1.12); }
+  .on > .tick, .tick.on { background: var(--green); color: #fff; }
+  .ex q { flex: 1; quotes: "«" "»"; font-size: 13.5px; font-weight: 600; line-height: 1.45; }
+  .ex q i { font-style: italic; font-weight: 500; color: var(--muted); }
+  .ex.on q { color: var(--muted); }
+  .own { display: flex; align-items: center; gap: 10px; padding: 8px 0 2px; border-top: 1px dashed var(--line); }
+  .own input { flex: 1; min-width: 0; border: 0; border-radius: 8px; background: var(--page); padding: 8px 10px; font-size: 13.5px; font-weight: 600; }
+  .own input:focus, .ck input:focus, .notes:focus { outline: 2px solid var(--green); outline-offset: 1px; }
+  .own .tag { flex: none; font-size: 11px; font-weight: 800; color: var(--faint); }
 
-  /* ---------- чекліст і нотатки ---------- */
-  .q { font-weight: 800; font-size: 15px; margin: 34px 0 10px; }
-  .panel { background: var(--page); border-radius: 10px; padding: 6px 16px; }
+  /* ---------- диктофон ---------- */
+  .rec { flex: none; display: inline-flex; align-items: center; gap: 4px; }
+  .rb {
+    width: 32px; height: 32px; border-radius: 50%; border: 0; display: grid; place-items: center;
+    background: var(--rec-soft); color: var(--rec); font-size: 14px; transition: transform .15s, background .2s;
+  }
+  .rb:hover { transform: scale(1.08); }
+  .rb svg { width: 15px; height: 15px; fill: currentColor; }
+  .rb.play { background: var(--ink); color: #fff; }
+  .rb.again { width: 26px; height: 26px; background: var(--page); color: var(--muted); }
+  .rb.again svg { width: 12px; height: 12px; }
+  .rec .t { font-size: 11px; font-weight: 800; color: var(--muted); min-width: 30px; font-variant-numeric: tabular-nums; }
+  .rec.live .rb { background: var(--rec); color: #fff; animation: pulse 1.2s infinite; }
+  .rec.live .t { color: var(--rec); }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 75, 95, .5); } 70% { box-shadow: 0 0 0 10px rgba(239, 75, 95, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 75, 95, 0); } }
+  .rec .bar { width: 46px; height: 4px; border-radius: 99px; background: var(--rec-soft); overflow: hidden; }
+  .rec .bar i { display: block; height: 100%; width: 0; background: var(--rec); }
+
+  /* ---------- візуальні прийоми ---------- */
+  .vis { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; margin-top: 12px; }
+  .vis button {
+    display: flex; align-items: flex-start; gap: 10px; text-align: left; border: 1.5px dashed var(--green); border-radius: 10px;
+    background: none; padding: 10px 12px; transition: background .2s;
+  }
+  .vis button b { display: block; font-size: 13.5px; }
+  .vis button small { display: block; font-size: 12px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
+  .vis button.on { background: var(--green-soft); border-style: solid; }
+  .vis .tick { pointer-events: none; }
+
+  /* ---------- бібліотека ---------- */
+  .lib { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+  .story { border-radius: 14px; background: var(--page); padding: 16px; display: flex; flex-direction: column; gap: 8px; transition: box-shadow .3s; }
+  .story.on { box-shadow: inset 0 0 0 1.5px var(--green); background: #f6fdfa; }
+  .pill { align-self: flex-start; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 99px; letter-spacing: .3px; }
+  .pill.st { background: var(--green-soft); color: var(--green-deep); }
+  .pill.an { background: var(--gold-soft); color: #9a6a00; }
+  .pill.pr { background: var(--violet-soft); color: var(--violet); }
+  .story h4 { margin: 0; font-size: 16px; font-weight: 800; }
+  .story .txt { font-size: 13.5px; line-height: 1.6; }
+  .story .txt p { margin: 0 0 8px; }
+  .story .txt.clip { max-height: 7.2em; overflow: hidden; -webkit-mask-image: linear-gradient(#000 55%, transparent); mask-image: linear-gradient(#000 55%, transparent); }
+  .more { align-self: flex-start; border: 0; background: none; padding: 0; font-weight: 800; font-size: 13px; color: var(--green-deep); }
+  .use { font-size: 12.5px; color: var(--muted); border-left: 3px solid var(--green); padding-left: 10px; }
+  .use b { color: var(--ink); }
+  .story-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 6px; }
+  .told { display: inline-flex; align-items: center; gap: 8px; border: 0; background: none; padding: 0; font-size: 13px; font-weight: 800; }
+  .rec-cap { font-size: 11px; color: var(--faint); font-weight: 700; margin-right: 4px; }
+
+  /* ---------- домашнє завдання ---------- */
+  .q { font-weight: 800; font-size: 15px; margin: 26px 0 10px; }
+  .panel { background: var(--page); border-radius: 10px; padding: 4px 16px; }
   .ck { display: flex; align-items: center; gap: 10px; min-height: 48px; border-bottom: 1px solid var(--line); }
   .ck:last-child { border-bottom: 0; }
   .ck > span { font-weight: 800; font-size: 13px; width: 18px; color: var(--muted); }
-  .ck input { flex: 1; border: 0; background: none; padding: 6px 0; font-size: 14px; font-weight: 600; min-width: 0; }
-  .ck-btn {
-    flex: none; width: 26px; height: 26px; border-radius: 50%;
-    border: 2px solid var(--green); background: none; display: grid; place-items: center;
-    color: transparent; font-weight: 900; font-size: 14px; transition: background .2s, transform .2s;
-  }
-  .ck-btn:hover { transform: scale(1.1); }
-  .ck.on .ck-btn { background: var(--green); color: #fff; }
+  .ck input { flex: 1; border: 0; background: none; padding: 6px 0; font-size: 14px; font-weight: 600; min-width: 0; border-radius: 4px; }
   .ck.on input { text-decoration: line-through; color: var(--muted); }
-  .notes {
-    width: 100%; min-height: 180px; resize: vertical; border: 0; border-radius: 10px;
-    background: var(--page); padding: 14px 16px; font-size: 14px;
-  }
+  .notes { width: 100%; min-height: 160px; resize: vertical; border: 0; border-radius: 10px; background: var(--page); padding: 14px 16px; font-size: 14px; }
   .hint { font-size: 12px; color: var(--faint); margin-top: 6px; }
 
   /* ---------- досягнення ---------- */
-  .ach { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
-  .a {
-    border-radius: 14px; padding: 14px 12px; text-align: center; background: var(--page);
-    transition: transform .2s;
-  }
-  .a .ico { font-size: 32px; line-height: 1.1; filter: grayscale(1); opacity: .35; display: block; }
+  .ach { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 12px; margin-top: 16px; }
+  .a { border-radius: 14px; padding: 14px 10px; text-align: center; background: var(--page); transition: transform .2s; }
+  .a .ico { font-size: 30px; line-height: 1.1; filter: grayscale(1); opacity: .35; display: block; }
   .a b { display: block; font-size: 13px; margin-top: 6px; }
   .a small { display: block; font-size: 11px; color: var(--muted); line-height: 1.35; margin-top: 2px; }
   .a.on { background: var(--gold-soft); box-shadow: inset 0 0 0 1.5px var(--gold); }
   .a.on .ico { filter: none; opacity: 1; }
   .a.on:hover { transform: translateY(-3px) rotate(-1deg); }
 
-  /* ---------- нижня панель ---------- */
-  .foot { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 26px 0 60px; }
+  .foot { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 24px 0 60px; }
   .saved { font-size: 12px; color: var(--muted); }
   .saved b { color: var(--green-deep); }
   .tools { display: flex; flex-wrap: wrap; gap: 8px; }
-  .tool {
-    border: 1.5px solid var(--line); background: var(--panel); border-radius: 99px;
-    padding: 8px 14px; font-weight: 700; font-size: 13px;
-  }
+  .tool { border: 1.5px solid var(--line); background: var(--panel); border-radius: 99px; padding: 8px 14px; font-weight: 700; font-size: 13px; }
   .tool:hover { border-color: var(--green); }
   .tool.danger.armed { background: #c0392b; border-color: #c0392b; color: #fff; }
 
-  /* ---------- тост і конфеті ---------- */
   .toasts { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 60; display: grid; gap: 8px; justify-items: center; pointer-events: none; }
-  .toast {
-    background: var(--ink); color: #fff; border-radius: 14px; padding: 12px 18px;
-    font-weight: 700; font-size: 14px; box-shadow: 0 14px 40px rgba(0, 0, 0, .25);
-    display: flex; align-items: center; gap: 10px; animation: toast 3.4s both;
-    max-width: calc(100vw - 32px);
-  }
+  .toast { background: var(--ink); color: #fff; border-radius: 14px; padding: 12px 18px; font-weight: 700; font-size: 14px; box-shadow: 0 14px 40px rgba(0, 0, 0, .25); display: flex; align-items: center; gap: 10px; animation: toast 3.4s both; max-width: calc(100vw - 32px); }
   .toast .big { font-size: 26px; }
   .toast small { display: block; font-weight: 500; opacity: .75; font-size: 12px; }
   .toast.lvl { background: linear-gradient(135deg, var(--green-deep), var(--green)); }
-  @keyframes toast {
-    0% { opacity: 0; transform: translateY(20px) scale(.9); }
-    10%, 85% { opacity: 1; transform: none; }
-    100% { opacity: 0; transform: translateY(10px); }
-  }
+  @keyframes toast { 0% { opacity: 0; transform: translateY(20px) scale(.9); } 10%, 85% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(10px); } }
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 70; }
-  .floatxp {
-    position: fixed; z-index: 65; pointer-events: none;
-    font-family: "Unbounded"; font-weight: 800; font-size: 16px; color: var(--green-deep);
-    animation: floatxp 1.1s ease-out both;
-  }
-  @keyframes floatxp { to { transform: translateY(-50px); opacity: 0; } }
+  .floatxp { position: fixed; z-index: 65; pointer-events: none; font-family: "Unbounded"; font-weight: 800; font-size: 15px; color: var(--green-deep); animation: floatxp 1.1s ease-out both; }
+  @keyframes floatxp { to { transform: translateY(-46px); opacity: 0; } }
 
-  .page-num { text-align: right; font-size: 12px; color: var(--faint); margin-top: 26px; }
-
-  @media (max-width: 640px) {
+  @media (max-width: 680px) {
     .sheet { padding: 22px 16px; border-radius: 16px; }
-    .tasks { grid-template-columns: 1fr; }
+    .grid, .lib { grid-template-columns: 1fr; }
+    .how { grid-template-columns: 1fr; }
     .head { flex-wrap: wrap; }
     .mood-wrap { width: 100%; }
-    .mood { width: 100%; min-height: 56px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    .mood .emo { font-size: 28px; }
+    .mood { width: 100%; min-height: 54px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .mood .emo { font-size: 26px; }
     .mood-pop { left: 0; right: auto; }
-    .chip .lbl { display: none; }
-    .hud-title span { display: none; }
-    .add { min-height: 110px; }
+    .chip .lbl, .hud-title span { display: none; }
+    .sec-head { flex-wrap: wrap; }
+    .sec-prog { margin-left: 58px; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
-  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
   @media print {
     body { background: #fff; }
-    .hud, .foot, .add, .del, .done-btn, .ach-section, .toasts, #confetti, .legend { display: none !important; }
-    .sheet { box-shadow: none; padding: 0; margin: 0; }
-    .task { break-inside: avoid; }
+    .hud, .foot, .rec, .nav, .ach-section, .toasts, #confetti, .more { display: none !important; }
+    .sheet { box-shadow: none; padding: 0; margin: 0 0 24px; }
+    .story .txt.clip { max-height: none; -webkit-mask-image: none; mask-image: none; }
+    .tech, .story { break-inside: avoid; }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
@@ -314,8 +281,8 @@
     </div>
     <div class="chips">
       <span class="chip xp" id="xpChip" title="Досвід">⭐ <span id="xpVal">0</span><span class="lbl">&nbsp;XP</span></span>
-      <span class="chip" id="streakChip" title="Днів поспіль">🔥 <span id="streakVal">0</span><span class="lbl">&nbsp;дн.</span></span>
-      <span class="chip" title="Виконані квести">✅ <span id="doneVal">0/0</span></span>
+      <span class="chip" title="Записів голосу">🎙 <span id="recVal">0</span></span>
+      <span class="chip" title="Днів поспіль">🔥 <span id="streakVal">0</span><span class="lbl">&nbsp;дн.</span></span>
     </div>
   </div>
 </header>
@@ -323,45 +290,91 @@
 <main class="wrap">
   <section class="sheet">
     <div class="head">
-      <label class="badge">
-        <input id="lessonNum" maxlength="3" aria-label="Номер заняття">
-        <small>заняття</small>
-      </label>
+      <div class="badge">03<small>заняття</small></div>
       <div class="head-text">
-        <input class="kicker" id="kicker" aria-label="Тема курсу" placeholder="ТЕМА КУРСУ">
-        <textarea class="title" id="title" rows="1" aria-label="Назва заняття" placeholder="Назва заняття"></textarea>
+        <div class="kicker">Публічні виступи</div>
+        <h1>Техніки привернення і утримання уваги</h1>
       </div>
       <div class="mood-wrap">
         <button class="mood" id="moodBtn" aria-haspopup="true" aria-expanded="false"></button>
         <div class="mood-pop" id="moodPop" role="menu"></div>
       </div>
     </div>
-
-    <h2 class="h2">Мої квести</h2>
-    <p class="lead">Впиши завдання і свою відповідь, а потім натисни «Виконано». Кожен крок дає XP і наближає до нового рівня.</p>
-    <div class="legend">
-      <span>✍️ відповідь <b>+10 XP</b></span>
-      <span>✅ виконано <b>+25 XP</b></span>
-      <span>⭐ самооцінка <b>+5 XP</b></span>
-      <span>🏅 досягнення <b>+15 XP</b></span>
+    <p class="intro">Прочитай приклад уголос, запиши себе на диктофон (до 30 секунд) і одразу прослухай, як це звучить. Вдалося — став галочку. Кожна спроба дає XP.</p>
+    <div class="how">
+      <div><b>✅</b>Сказав(-ла) приклад уголос <em>+5 XP</em></div>
+      <div><b>🎙</b>Записав(-ла) і прослухав(-ла) <em>+10 XP</em></div>
+      <div><b>✍️</b>Придумав(-ла) свій варіант <em>+5 XP</em></div>
     </div>
-
-    <div class="tasks" id="tasks"></div>
-
-    <div class="q">Що я відпрацюю цього тижня</div>
-    <div class="panel" id="checklist"></div>
-    <div class="hint">Впиши пункт і постав позначку, коли зробиш. +10 XP за кожен.</div>
-
-    <div class="q">Нотатки та інсайти</div>
-    <textarea class="notes" id="notes" placeholder="Що спрацювало? Що здивувало? Що спробую наступного разу?"></textarea>
-    <div class="hint" id="notesHint"></div>
-
-    <div class="page-num">Робочий зошит · Campus13</div>
+    <nav class="nav" aria-label="Розділи">
+      <a href="#s1">1. Привернути увагу<span id="p1"></span></a>
+      <a href="#s2">2. Утримати увагу<span id="p2"></span></a>
+      <a href="#s3">3. Історії, анекдоти, притчі<span id="p3"></span></a>
+      <a href="#s4">4. Домашнє завдання</a>
+      <a href="#s5">🏅 Досягнення<span id="p5"></span></a>
+    </nav>
   </section>
 
-  <section class="sheet ach-section">
-    <h2 class="h2" style="margin-top:0">Досягнення</h2>
-    <p class="lead" id="achLead"></p>
+  <section class="sheet" id="s1">
+    <div class="sec-head">
+      <div class="sec-num">1</div>
+      <div>
+        <h2>Типи привернення уваги</h2>
+        <p class="sec-sub">Вербальні, голосові та візуальні прийоми, які за секунду повертають зал до тебе.</p>
+      </div>
+      <span class="sec-prog" id="prog1"></span>
+    </div>
+    <h3 class="group">🗣️ Вербальні <small>що саме сказати</small></h3>
+    <div class="grid" id="verbal"></div>
+    <h3 class="group">🎚️ Голосові <small>як це сказати</small></h3>
+    <div class="grid" id="voice"></div>
+    <h3 class="group">🙌 Візуальні <small>натискай, коли спробуєш на практиці</small></h3>
+    <div class="vis" id="visual"></div>
+  </section>
+
+  <section class="sheet" id="s2">
+    <div class="sec-head">
+      <div class="sec-num">2</div>
+      <div>
+        <h2>Техніки утримання уваги</h2>
+        <p class="sec-sub">11 технік. У кожній — готові фрази для тренування і місце для твоєї власної.</p>
+      </div>
+      <span class="sec-prog" id="prog2"></span>
+    </div>
+    <div class="grid" id="hold"></div>
+  </section>
+
+  <section class="sheet" id="s3">
+    <div class="sec-head">
+      <div class="sec-num">3</div>
+      <div>
+        <h2>Історії, анекдоти, притчі</h2>
+        <p class="sec-sub">Прочитай, а потім перекажи своїми словами за 30 секунд — і запиши себе. Так історія стає твоєю.</p>
+      </div>
+      <span class="sec-prog" id="prog3"></span>
+    </div>
+    <div class="lib" id="lib"></div>
+  </section>
+
+  <section class="sheet" id="s4">
+    <div class="sec-head">
+      <div class="sec-num">4</div>
+      <div>
+        <h2>Домашнє завдання</h2>
+        <p class="sec-sub">Обери, що відпрацюєш цього тижня, і відмічай, коли зробиш.</p>
+      </div>
+    </div>
+    <div class="q">Які жести відпрацюю цього тижня</div>
+    <div class="panel" id="checklist"></div>
+    <div class="hint">Впиши пункт і постав галочку, коли зробиш. +10 XP за кожен.</div>
+    <div class="q">Як тренуватиму свій голос цього тижня?</div>
+    <textarea class="notes" id="notes" placeholder="Наприклад: щоранку 5 хвилин скоромовок, у вівторок — запис 1-хвилинної історії з двома паузами…"></textarea>
+    <div class="hint" id="notesHint"></div>
+  </section>
+
+  <section class="sheet ach-section" id="s5">
+    <h2>🏅 Досягнення</h2>
+    <p class="sec-sub" id="achLead"></p>
     <div class="ach" id="ach"></div>
   </section>
 
@@ -382,70 +395,192 @@
 
 <script>
 (() => {
-  const KEY = "campus13-zoshyt-v1";
+  // ===================== ЗМІСТ =====================
+  const VERBAL = [
+    { id: "v1", title: "Називання на ім'я", why: "Своє ім'я людина почує навіть у гаморі.", ex: [
+      "Олено, у мене для вас питання на мільйон.",
+      "Андрію, ви ж точно з цим стикалися?",
+    ] },
+    { id: "v2", title: "Слова-магніти: цікаво, увага, вперше, новий", why: "Ці слова мозок сприймає як сигнал «зараз буде щось важливе».", ex: [
+      "Увага: зараз буде найважливіше за сьогодні.",
+      "Вперше розповідаю це публічно.",
+      "А тепер найцікавіше…",
+    ] },
+    { id: "v3", title: "Зв'язка «ми з вами»", why: "Зал перестає бути глядачем і стає командою.", ex: [
+      "Ми з вами точно знаємо, як це — хвилюватися перед виступом.",
+      "Давайте разом подумаємо, що тут пішло не так.",
+    ] },
+    { id: "v4", title: "Комплімент", why: "Щирий комплімент знімає напругу і відкриває слухача.", ex: [
+      "У вас дуже уважна аудиторія — це відчувається з першої хвилини.",
+      "Чудове запитання, дякую — саме до нього я й веду.",
+    ] },
+    { id: "v5", title: "Історія «коли я йшов/ла до вас…»", why: "Свіжа історія «щойно зі мною» — найкращий місток до теми.", ex: [
+      "Коли я йшов до вас, трамвай поїхав просто перед моїм носом. І я подумав: скільки можливостей ми ось так проводжаємо поглядом?",
+      "Коли я йшла сюди, побачила на дверях табличку «Тягніть на себе». І зрозуміла, що це найкраща порада для сьогоднішньої теми.",
+    ] },
+    { id: "v6", title: "Говорити про те, що об'єднує", why: "Спільний досвід миттєво робить тебе «своїм».", ex: [
+      "Усі ми колись уперше виходили до дошки і не знали, куди подіти руки.",
+      "Кожен із нас хоч раз запізнювався через затор. Пам'ятаєте це відчуття?",
+    ] },
+  ];
+
+  const VOICE = [
+    { id: "g1", title: "Пауза", why: "Тиша кричить голосніше за слова.", ex: [
+      "А тепер… <i>(пауза 3 секунди)</i> …найголовніше.",
+      "Знаєте, що я зрозумів того дня? <i>(пауза)</i> Що боятися — нормально.",
+    ] },
+    { id: "g2", title: "Різке підвищення / стишення голосу", why: "Зміна гучності змушує прислухатися.", ex: [
+      "Я працював над цим проєктом ТРИ РОКИ! <i>(тихо)</i> …і ніхто про це не знав.",
+      "<i>(пошепки)</i> Зараз скажу секрет, тільки нікому.",
+    ] },
+    { id: "g3", title: "Зміна ритму: швидко — повільно", why: "Монотонність присипляє, ритм будить.", ex: [
+      "Ми бігли, поспішали, метушилися, не встигали… <i>(повільно)</i> А потім. Все. Зупинилося.",
+    ] },
+    { id: "g4", title: "Зміна тембру: високо — низько", why: "Різні голоси оживляють діалог в історії.", ex: [
+      "Вона сказала <i>(високо)</i>: «Я впораюся!» А він відповів <i>(низько)</i>: «Ну-ну, подивимось».",
+    ] },
+  ];
+
+  const VISUAL = [
+    { id: "w1", title: "Різкий рух", how: "Зроби швидкий крок уперед перед ключовою думкою." },
+    { id: "w2", title: "Вказівний палець", how: "Підніми палець: «Запам'ятайте одне…»" },
+    { id: "w3", title: "Зміна дистанції", how: "Підійди ближче до слухачів, коли розповідаєш особисте." },
+    { id: "w4", title: "Широкі рухи", how: "Розведи руки, показуючи масштаб: «Отакенна проблема»." },
+    { id: "w5", title: "Дотики", how: "Легкий дотик до плеча співрозмовника (якщо доречно)." },
+    { id: "w6", title: "Передача предмета", how: "Дай комусь у руки ручку, книгу чи аркуш і попроси подержати." },
+    { id: "w7", title: "Зоровий контакт", how: "Одна думка — одна людина: 3–5 секунд погляду." },
+    { id: "w8", title: "Зміна міміки, завмирання", how: "Завмри посеред фрази на 2 секунди з виразним обличчям." },
+  ];
+
+  const HOLD = [
+    { id: "h1", title: "«Допоможіть мені…»", why: "Люди люблять допомагати, якщо коректно попросити.", ex: [
+      "Допоможіть мені, будь ласка: хто знає, як увімкнути цей проєктор?",
+      "Мені потрібен доброволець, який відкриє вікно, — дякую!",
+      "Допоможіть мені порахувати: підніміть руку, хто сьогодні вже пив каву.",
+    ] },
+    { id: "h2", title: "«Давайте згадаємо, що було…»", why: "Повернення до сказаного включає пам'ять і увагу.", ex: [
+      "Давайте згадаємо, з чого ми сьогодні почали.",
+      "Хто пам'ятає три правила з минулого заняття? Назвіть хоча б одне.",
+    ] },
+    { id: "h3", title: "«Як вас звати? Розкажіть про…»", why: "Особисте звернення будить і людину, і весь зал.", ex: [
+      "Як вас звати? Олено, розкажіть, як у вас із цим на роботі?",
+      "Як вас звати? Тарасе, а що ви думаєте з цього приводу?",
+    ] },
+    { id: "h4", title: "Голосування", why: "Дія руками = включення голови.", ex: [
+      "Підніміть руку, хто хоч раз забував текст на сцені.",
+      "Хто за варіант А — плесніть один раз, хто за Б — двічі.",
+    ] },
+    { id: "h5", title: "Залучення через вправи", why: "Рух повертає енергію в зал.", ex: [
+      "Встаньте, будь ласка, і потягніться — рівно 10 секунд.",
+      "Поверніться до сусіда і за 30 секунд розкажіть, що вас сьогодні здивувало.",
+    ] },
+    { id: "h6", title: "Анекдоти", why: "Сміх — найшвидше перезавантаження уваги.", lib: "an", ex: [
+      "До речі, згадав анекдот на цю тему…",
+    ] },
+    { id: "h7", title: "Бувальщина, байка, притча", why: "Мораль у сюжеті запам'ятовується краще, ніж у тезі.", lib: "pr", ex: [
+      "Є одна стара притча, яка якраз про це…",
+    ] },
+    { id: "h8", title: "Історія, яка трапилась з оратором", why: "Особиста історія робить тебе живою людиною, а не лектором.", lib: "st", ex: [
+      "Розповім, що сталося зі мною на першому виступі…",
+    ] },
+    { id: "h9", title: "Приєднання до того, що відбувається зараз", why: "Реакція на «тут і зараз» доводить, що ти в контакті.", ex: [
+      "Чуєте дощ за вікном? Ось так звучать наші сумніви — постійно і монотонно.",
+      "Бачу, ви вже трохи втомилися — тож зараз буде найкоротша і найцікавіша частина.",
+    ] },
+    { id: "h10", title: "Пошук аналогії", why: "Складне стає зрозумілим через знайоме.", ex: [
+      "Виступ — як поїздка на велосипеді: страшно лише перші метри.",
+      "Пауза в мові — як розділові знаки в тексті: без неї все зливається.",
+    ] },
+    { id: "h11", title: "Провокація", why: "Сміливе твердження змушує зал внутрішньо сперечатися — і слухати.", ex: [
+      "Більшість виступів — марнування часу. Включно з моїм… якщо ви не зробите одну річ.",
+      "Готовий посперечатися: половина з вас уже забула мій перший слайд.",
+    ] },
+  ];
+
+  const LIB = [
+    { id: "st1", type: "st", title: "Пауза, яку я не планував", text: [
+      "Мій перший виступ на конференції. Сто людей у залі, я на сцені, і раптом — порожнеча в голові. Я забув наступне речення. Повністю.",
+      "Я стояв і мовчав секунд п'ять. Мені здавалося — вічність. Потім згадав, видихнув і продовжив.",
+      "Після виступу до мене підійшла жінка з першого ряду: «Яка у вас сильна пауза! Я аж мурашки відчула». Тоді я зрозумів: те, що для мене було провалом, для залу стало найсильнішим моментом.",
+    ], use: "Коли говориш про страх сцени або силу паузи." },
+    { id: "st2", type: "st", title: "Мікрофон, що замовк", text: [
+      "Я виступав на корпоративі, і посеред промови мікрофон просто вимкнувся. Технік розвів руками.",
+      "Я поклав мікрофон на стіл, спустився зі сцени просто до людей і продовжив — голосніше, ближче, дивлячись кожному в очі.",
+      "Пізніше мені сказали, що це була найживіша частина вечора. Проблема зруйнувала стіну між мною і залом.",
+    ], use: "Коли говориш про непередбачувані ситуації і контакт з аудиторією." },
+    { id: "an1", type: "an", title: "«Ви приспали — ви й будіть»", text: [
+      "Лектор помічає, що в задньому ряду хтось солодко спить. Він звертається до сусіда сплячого:",
+      "— Розбудіть, будь ласка, вашого товариша!",
+      "— Ні вже, — відповідає той. — Ви приспали — ви й будіть.",
+    ], use: "Для розрядки на початку теми про утримання уваги." },
+    { id: "an2", type: "an", title: "Три тижні на імпровізацію", text: [
+      "Кажуть, Марка Твена якось запитали, як йому вдаються такі блискучі експромти.",
+      "— О, це просто, — відповів він. — На підготовку гарної імпровізації в мене йде не менше трьох тижнів.",
+    ], use: "Коли говориш про підготовку до виступу і репетиції." },
+    { id: "pr1", type: "pr", title: "Три сита Сократа", text: [
+      "До Сократа прибіг знайомий: «Послухай, що я дізнався про твого друга!»",
+      "— Зачекай, — зупинив його Сократ. — Спершу просій свою новину крізь три сита. Перше — сито правди: ти впевнений, що це правда? — Ну… я чув від людей. — Друге — сито добра: це щось добре? — Навпаки… — Третє — сито користі: мені це потрібно знати? — Та не дуже.",
+      "— Якщо це не правда, не добро і не користь, — усміхнувся Сократ, — навіщо мені це слухати?",
+    ], use: "Перед виступом: просій кожну тезу — чи вона правдива, добра і корисна для залу." },
+    { id: "pr2", type: "pr", title: "Хлопчик і морські зірки", text: [
+      "Після шторму берег був усіяний тисячами морських зірок. Хлопчик піднімав їх одну за одною і кидав назад у море.",
+      "— Навіщо? — засміявся перехожий. — Їх тут тисячі, ти нічого не зміниш!",
+      "Хлопчик підняв ще одну зірку, кинув її у хвилі й відповів: — Для цієї — змінив.",
+    ], use: "Коли здається, що твій виступ нічого не змінить: навіть одна людина в залі — це вже багато." },
+  ];
+  const LIB_TYPE = { st: ["Історія", "st"], an: ["Анекдот", "an"], pr: ["Притча", "pr"] };
 
   const MOODS = [
     ["😎", "Впевнено"], ["🔥", "Драйв"], ["😌", "Спокій"], ["🤩", "Натхнення"],
     ["😬", "Хвилююсь"], ["🤯", "Перевантаження"], ["😴", "Втома"], ["🥳", "Свято"],
   ];
-
   const LEVELS = [
-    [0, "Новачок"], [40, "Слухач"], [100, "Промовець"],
-    [180, "Спікер"], [280, "Оратор"], [400, "Легенда сцени"],
+    [0, "Новачок"], [60, "Слухач"], [160, "Промовець"],
+    [300, "Спікер"], [480, "Оратор"], [700, "Легенда сцени"],
   ];
+  const MAX_REC = 30;
 
-  const DEFAULT_TASKS = [
-    ["Гачок на старті", "Запиши 3 варіанти першої фрази виступу: питання, несподіваний факт, коротка історія."],
-    ["Жест тижня", "Обери один жест і свідомо використай його у 3 розмовах. Що змінилося?"],
-    ["Голосова розминка", "5 хвилин щодня: дихання, артикуляція, скоромовка. Яка далася найважче?"],
-    ["Сила паузи", "Запиши 30-секундне відео з двома свідомими паузами. Що відчув(-ла)?"],
-    ["Техніка уваги", "Обери одну з 11 технік утримання уваги і спробуй її на друзях або родині."],
-    ["Мікровиступ", "Виступ на 1 хвилину «Що мене надихає». Оціни себе: погляд, голос, жести."],
-  ];
+  // список усіх прикладів-фраз (для XP і прогресу)
+  const exId = (t, i) => `${t.id}.${i}`;
+  const allEx = list => list.flatMap(t => t.ex.map((_, i) => exId(t, i)));
+  const EX_VERBAL = allEx(VERBAL), EX_VOICE = allEx(VOICE), EX_HOLD = allEx(HOLD);
 
-  const uid = () => Math.random().toString(36).slice(2, 9);
+  // ===================== СТАН =====================
+  const KEY = "campus13-zoshyt-03-v2";
   const today = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   };
-
   const fresh = () => ({
-    lesson: { num: "04", kicker: "Публічні виступи", title: "Тренування уваги, жестів і голосу" },
-    mood: null,
-    tasks: DEFAULT_TASKS.map(([title, text]) => ({ id: uid(), title, text, answer: "", done: false, rating: 0 })),
+    tried: {}, own: {}, recs: {}, told: {}, mood: null,
     checklist: Array.from({ length: 5 }, () => ({ text: "", done: false })),
-    notes: "",
-    days: [],
-    badges: [],
-    level: 1,
+    notes: "", days: [], badges: [], level: 1,
   });
-
-  // ---------- збереження ----------
-  let state;
-  function load() {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) return normalize(JSON.parse(raw));
-    } catch (e) { /* приватний режим тощо */ }
-    return fresh();
-  }
   function normalize(s) {
     const f = fresh();
     if (!s || typeof s !== "object") return f;
+    const obj = v => (v && typeof v === "object" && !Array.isArray(v) ? v : {});
     return {
-      lesson: { ...f.lesson, ...(s.lesson || {}) },
+      tried: obj(s.tried), own: obj(s.own), recs: obj(s.recs), told: obj(s.told),
       mood: typeof s.mood === "number" ? s.mood : null,
-      tasks: Array.isArray(s.tasks) ? s.tasks.map(t => ({
-        id: t.id || uid(), title: String(t.title || ""), text: String(t.text || ""),
-        answer: String(t.answer || ""), done: !!t.done, rating: Math.max(0, Math.min(5, +t.rating || 0)),
-      })) : f.tasks,
-      checklist: Array.isArray(s.checklist) ? s.checklist.map(c => ({ text: String(c.text || ""), done: !!c.done })) : f.checklist,
+      checklist: Array.isArray(s.checklist) ? s.checklist.slice(0, 10).map(c => ({ text: String(c.text || ""), done: !!c.done })) : f.checklist,
       notes: String(s.notes || ""),
       days: Array.isArray(s.days) ? s.days.filter(d => typeof d === "string") : [],
       badges: Array.isArray(s.badges) ? s.badges : [],
       level: +s.level || 1,
     };
   }
+  function load() {
+    try { const raw = localStorage.getItem(KEY); if (raw) return normalize(JSON.parse(raw)); } catch (e) { /* приватний режим */ }
+    return fresh();
+  }
+  let state = load();
+
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const pad = n => String(n).padStart(2, "0");
+  const fmt = s => `0:${pad(Math.min(MAX_REC, Math.round(s)))}`;
+
   let saveTimer;
   function save(activity = true) {
     if (activity && !state.days.includes(today())) state.days.push(today());
@@ -462,136 +597,374 @@
     refresh();
   }
 
-  const $ = s => document.querySelector(s);
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const pad = n => String(n).padStart(2, "0");
-  const grow = el => { el.style.height = "auto"; el.style.height = el.scrollHeight + "px"; };
+  // ===================== АУДІО-СХОВИЩЕ (IndexedDB) =====================
+  const memAudio = new Map();          // запасний варіант, якщо IndexedDB недоступна
+  let dbP = null;
+  function db() {
+    if (!dbP) dbP = new Promise((res, rej) => {
+      try {
+        const r = indexedDB.open("campus13-zoshyt-audio", 1);
+        r.onupgradeneeded = () => r.result.createObjectStore("recs");
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => rej(r.error);
+      } catch (e) { rej(e); }
+    });
+    return dbP;
+  }
+  async function idb(mode, fn) {
+    const d = await db();
+    return new Promise((res, rej) => {
+      const tx = d.transaction("recs", mode);
+      const req = fn(tx.objectStore("recs"));
+      tx.oncomplete = () => res(req && req.result);
+      tx.onerror = () => rej(tx.error);
+    });
+  }
+  const putAudio = async (id, blob) => { memAudio.set(id, blob); try { await idb("readwrite", s => s.put(blob, id)); } catch (e) { /* лишаємо в пам'яті */ } };
+  const getAudio = async id => { if (memAudio.has(id)) return memAudio.get(id); try { const b = await idb("readonly", s => s.get(id)); if (b) memAudio.set(id, b); return b; } catch (e) { return null; } };
+  const clearAudio = async () => { memAudio.clear(); try { await idb("readwrite", s => s.clear()); } catch (e) { /* ignore */ } };
 
-  // ---------- досягнення та XP ----------
-  const answered = t => t.answer.trim().length >= 15;
+  // ===================== ДИКТОФОН =====================
+  const ICON = {
+    mic: '<svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2z"/></svg>',
+    stop: '<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+    play: '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg>',
+    again: '<svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>',
+  };
+  function recHTML(id) {
+    const d = state.recs[id];
+    if (!d) return `<span class="rec" data-rec="${id}"><button class="rb" data-act="rec" title="Записати себе (до ${MAX_REC} с)" aria-label="Записати">${ICON.mic}</button></span>`;
+    return `<span class="rec" data-rec="${id}">
+      <button class="rb play" data-act="play" title="Прослухати" aria-label="Прослухати">${ICON.play}</button>
+      <span class="t">${fmt(d)}</span>
+      <button class="rb again" data-act="rec" title="Перезаписати" aria-label="Перезаписати">${ICON.again}</button>
+    </span>`;
+  }
+  const recEl = id => document.querySelector(`.rec[data-rec="${CSS.escape(id)}"]`);
+  const redrawRec = id => { const el = recEl(id); if (el) el.outerHTML = recHTML(id); };
+
+  let live = null;      // { id, mr, stream, start, timer, chunks }
+  let player = null;    // { id, audio }
+
+  function stopPlayer() {
+    if (!player) return;
+    player.audio.pause();
+    const el = recEl(player.id);
+    if (el) el.querySelector('[data-act="play"]').innerHTML = ICON.play;
+    player = null;
+  }
+
+  async function startRec(id) {
+    stopPlayer();
+    if (live) { stopRec(); return; }
+    if (!navigator.mediaDevices || !window.MediaRecorder) {
+      toast("🎙", "Запис голосу тут недоступний", "Відкрий сторінку в Chrome, Safari чи Firefox за https-посиланням");
+      return;
+    }
+    let stream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (e) {
+      toast("🎙", "Немає доступу до мікрофона", "Дозволь браузеру використовувати мікрофон і спробуй ще раз");
+      return;
+    }
+    const type = ["audio/webm;codecs=opus", "audio/mp4", "audio/webm", "audio/ogg"].find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t));
+    const mr = new MediaRecorder(stream, type ? { mimeType: type } : undefined);
+    const chunks = [];
+    mr.ondataavailable = e => e.data.size && chunks.push(e.data);
+    live = { id, mr, stream, start: Date.now(), chunks };
+    mr.onstop = async () => {
+      const cur = live; live = null;
+      clearInterval(cur.timer);
+      cur.stream.getTracks().forEach(t => t.stop());
+      const dur = Math.max(1, Math.min(MAX_REC, (Date.now() - cur.start) / 1000));
+      const blob = new Blob(cur.chunks, { type: mr.mimeType || type || "audio/webm" });
+      const first = !state.recs[id];
+      state.recs[id] = Math.round(dur * 10) / 10;
+      await putAudio(id, blob);
+      redrawRec(id);
+      const el = recEl(id);
+      if (first && el) floatXP(el, 10);
+      save();
+      if (el) togglePlay(id);            // одразу відтворюємо, щоб почути себе
+    };
+    mr.start(250);
+    const el = recEl(id);
+    el.classList.add("live");
+    el.innerHTML = `<button class="rb" data-act="stop" title="Зупинити" aria-label="Зупинити запис">${ICON.stop}</button>
+      <span class="bar"><i></i></span><span class="t">0:00</span>`;
+    live.timer = setInterval(() => {
+      const s = (Date.now() - live.start) / 1000;
+      const e = recEl(id);
+      if (e) {
+        e.querySelector(".t").textContent = `${fmt(s)} / ${fmt(MAX_REC)}`;
+        e.querySelector(".bar i").style.width = Math.min(100, s / MAX_REC * 100) + "%";
+      }
+      if (s >= MAX_REC) stopRec();
+    }, 200);
+  }
+  function stopRec() { if (live && live.mr.state !== "inactive") live.mr.stop(); }
+
+  const urls = new Map();
+  async function togglePlay(id) {
+    if (player && player.id === id) { stopPlayer(); return; }
+    stopPlayer();
+    const blob = await getAudio(id);
+    if (!blob) { toast("🎙", "Запис не знайдено", "Можливо, дані браузера було очищено — запиши ще раз"); return; }
+    if (!urls.has(id)) urls.set(id, URL.createObjectURL(blob));
+    const audio = new Audio(urls.get(id));
+    player = { id, audio };
+    const el = recEl(id);
+    if (el) el.querySelector('[data-act="play"]').innerHTML = ICON.pause;
+    audio.onended = () => { if (player && player.audio === audio) stopPlayer(); };
+    audio.play().catch(() => stopPlayer());
+  }
+
+  document.addEventListener("click", e => {
+    const b = e.target.closest(".rec [data-act]");
+    if (!b) return;
+    e.stopPropagation();
+    const id = b.closest(".rec").dataset.rec;
+    const act = b.dataset.act;
+    if (act === "rec") {
+      if (urls.has(id)) { URL.revokeObjectURL(urls.get(id)); urls.delete(id); }
+      startRec(id);
+    } else if (act === "stop") stopRec();
+    else if (act === "play") togglePlay(id);
+  });
+
+  // ===================== РЕНДЕР =====================
+  function exRow(t, i) {
+    const id = exId(t, i);
+    return `<div class="ex ${state.tried[id] ? "on" : ""}" data-ex="${id}">
+      <button class="tick" data-tick="${id}" aria-label="Сказав(-ла) уголос">✓</button>
+      <q>${t.ex[i]}</q>
+      ${recHTML(id)}
+    </div>`;
+  }
+  function techCard(t, n) {
+    const lib = t.lib ? `<a class="link-lib" href="#lib-${t.lib}">📖 ${t.lib === "an" ? "Два анекдоти" : t.lib === "pr" ? "Дві притчі" : "Дві історії"} для тренування ↓</a>` : "";
+    return `<div class="tech" data-tech="${t.id}">
+      <div class="num">${pad(n)}</div>
+      <div class="card">
+        <h4>${t.title}</h4>
+        <p class="why">${t.why}</p>
+        ${t.ex.map((_, i) => exRow(t, i)).join("")}
+        <div class="own">
+          <input data-own="${t.id}" value="${esc(state.own[t.id] || "")}" placeholder="Мій варіант фрази…" aria-label="Мій варіант: ${esc(t.title)}">
+          ${recHTML(t.id + ".own")}
+        </div>
+        ${lib}
+      </div>
+    </div>`;
+  }
+  function renderTechs() {
+    $("#verbal").innerHTML = VERBAL.map((t, i) => techCard(t, i + 1)).join("");
+    $("#voice").innerHTML = VOICE.map((t, i) => techCard(t, i + 1)).join("");
+    $("#hold").innerHTML = HOLD.map((t, i) => techCard(t, i + 1)).join("");
+    $("#visual").innerHTML = VISUAL.map(v => `
+      <button class="${state.tried[v.id] ? "on" : ""}" data-tick="${v.id}">
+        <span class="tick ${state.tried[v.id] ? "on" : ""}">✓</span>
+        <span><b>${v.title}</b><small>${v.how}</small></span>
+      </button>`).join("");
+  }
+  function renderLib() {
+    const firstOf = {};
+    $("#lib").innerHTML = LIB.map(s => {
+      const [label, cls] = LIB_TYPE[s.type];
+      const anchor = firstOf[s.type] ? "" : (firstOf[s.type] = 1, `id="lib-${s.type}"`);
+      const long = s.text.join(" ").length > 260;
+      return `<article class="story ${state.told[s.id] ? "on" : ""}" data-story="${s.id}" ${anchor}>
+        <span class="pill ${cls}">${label}</span>
+        <h4>${s.title}</h4>
+        <div class="txt ${long ? "clip" : ""}">${s.text.map(p => `<p>${p}</p>`).join("")}</div>
+        ${long ? `<button class="more" data-more>Читати повністю ↓</button>` : ""}
+        <div class="use"><b>Коли використати:</b> ${s.use}</div>
+        <div class="story-foot">
+          <button class="told" data-told="${s.id}"><span class="tick ${state.told[s.id] ? "on" : ""}">✓</span>Розповів(-ла) вголос</button>
+          <span style="display:inline-flex;align-items:center"><span class="rec-cap">Перекажи за 30 с</span>${recHTML(s.id)}</span>
+        </div>
+      </article>`;
+    }).join("");
+  }
+  function renderChecklist() {
+    const ph = ["Наприклад: вказівний палець на ключовій думці", "Наприклад: крок до залу перед головним", "Наприклад: зоровий контакт 3–5 секунд", "", ""];
+    $("#checklist").innerHTML = state.checklist.map((c, i) => `
+      <div class="ck ${c.done ? "on" : ""}" data-i="${i}">
+        <span>${i + 1}.</span>
+        <input value="${esc(c.text)}" placeholder="${ph[i] || "Ще один жест…"}" aria-label="Жест ${i + 1}">
+        <button class="tick ${c.done ? "on" : ""}" data-ck aria-label="Позначити як зроблене">✓</button>
+      </div>`).join("");
+  }
+  function renderMood() {
+    const btn = $("#moodBtn");
+    if (state.mood === null) { btn.classList.remove("set"); btn.innerHTML = "наліпка<br>настрою"; }
+    else { const [emo, cap] = MOODS[state.mood]; btn.classList.add("set"); btn.innerHTML = `<span class="emo">${emo}</span><span class="cap">${cap}</span>`; }
+  }
+  function renderAll() {
+    renderMood(); renderTechs(); renderLib(); renderChecklist();
+    $("#notes").value = state.notes;
+    refresh();
+  }
+
+  // ===================== XP, РІВНІ, ДОСЯГНЕННЯ =====================
+  const cnt = ids => ids.filter(id => state.tried[id]).length;
+  const recCount = () => Object.keys(state.recs).length;
+  const ownCount = () => Object.values(state.own).filter(v => String(v).trim().length >= 10).length;
+  const toldCount = () => LIB.filter(s => state.told[s.id]).length;
+  const techHit = list => list.filter(t => t.ex.some((_, i) => state.tried[exId(t, i)]) || state.recs[t.id + ".own"] || (state.own[t.id] || "").trim().length >= 10).length;
   const streak = () => {
-    const set = new Set(state.days);
-    const d = new Date();
+    const set = new Set(state.days), d = new Date();
     if (!set.has(today())) d.setDate(d.getDate() - 1);
     let n = 0;
     for (;;) {
-      const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      const k = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
       if (!set.has(k)) break;
       n++; d.setDate(d.getDate() - 1);
     }
     return n;
   };
-
   const BADGES = [
-    { id: "start", ico: "🚀", name: "Старт", desc: "Перша відповідь", test: s => s.tasks.some(answered) },
-    { id: "first", ico: "🎯", name: "Влучно", desc: "Перший виконаний квест", test: s => s.tasks.some(t => t.done) },
-    { id: "warm", ico: "💪", name: "Розігрів", desc: "3 квести виконано", test: s => s.tasks.filter(t => t.done).length >= 3 },
-    { id: "all", ico: "🏆", name: "Усі квести", desc: "Виконано все до одного", test: s => s.tasks.length > 0 && s.tasks.every(t => t.done) },
-    { id: "honest", ico: "⭐", name: "Чесна оцінка", desc: "Оціни 3 квести", test: s => s.tasks.filter(t => t.rating).length >= 3 },
-    { id: "plan", ico: "🗓️", name: "Планувальник", desc: "3 пункти тижня зроблено", test: s => s.checklist.filter(c => c.done && c.text.trim()).length >= 3 },
-    { id: "insight", ico: "💡", name: "Рефлексія", desc: "Нотатки від 100 символів", test: s => s.notes.trim().length >= 100 },
-    { id: "mood", ico: "🎭", name: "Настрій є", desc: "Обери наліпку настрою", test: s => s.mood !== null },
+    { id: "mic", ico: "🎙️", name: "Перший запис", desc: "Запиши себе вперше", test: () => recCount() >= 1 },
+    { id: "voice10", ico: "🗣️", name: "Сміливий голос", desc: "10 записів голосу", test: () => recCount() >= 10 },
+    { id: "try10", ico: "✅", name: "Практик", desc: "Скажи вголос 10 прикладів", test: () => cnt([...EX_VERBAL, ...EX_VOICE, ...EX_HOLD]) >= 10 },
+    { id: "magnet", ico: "🧲", name: "Магніт уваги", desc: "Усі вербальні приклади", test: () => cnt(EX_VERBAL) === EX_VERBAL.length },
+    { id: "tune", ico: "🎚️", name: "Голос-інструмент", desc: "Усі голосові приклади", test: () => cnt(EX_VOICE) === EX_VOICE.length },
+    { id: "body", ico: "🙌", name: "Тіло говорить", desc: "Усі 8 візуальних прийомів", test: () => cnt(VISUAL.map(v => v.id)) === VISUAL.length },
+    { id: "eleven", ico: "🏆", name: "11 з 11", desc: "Спробуй кожну техніку утримання", test: () => techHit(HOLD) === HOLD.length },
+    { id: "author", ico: "✍️", name: "Автор", desc: "5 власних фраз", test: () => ownCount() >= 5 },
+    { id: "teller", ico: "📚", name: "Оповідач", desc: "Розкажи всі 6 історій", test: () => toldCount() === LIB.length },
+    { id: "mood", ico: "🎭", name: "Настрій є", desc: "Обери наліпку настрою", test: () => state.mood !== null },
+    { id: "insight", ico: "💡", name: "План на голос", desc: "Опиши тренування голосу (100+ символів)", test: () => state.notes.trim().length >= 100 },
     { id: "streak", ico: "🔥", name: "Серія", desc: "3 дні поспіль у зошиті", test: () => streak() >= 3 },
   ];
-
   function computeXP() {
     let xp = 0;
-    for (const t of state.tasks) {
-      if (answered(t)) xp += 10;
-      if (t.done) xp += 25;
-      if (t.rating) xp += 5;
-    }
-    for (const c of state.checklist) if (c.done && c.text.trim()) xp += 10;
+    xp += Object.keys(state.tried).filter(k => state.tried[k]).length * 5;
+    xp += recCount() * 10;
+    xp += ownCount() * 5;
+    xp += toldCount() * 10;
+    xp += state.checklist.filter(c => c.done && c.text.trim()).length * 10;
     if (state.mood !== null) xp += 5;
-    xp += BADGES.filter(b => b.test(state)).length * 15;
+    xp += BADGES.filter(b => b.test()).length * 15;
     return xp;
   }
-  function levelOf(xp) {
-    let i = 0;
-    while (i + 1 < LEVELS.length && xp >= LEVELS[i + 1][0]) i++;
-    return i;
-  }
+  const levelOf = xp => { let i = 0; while (i + 1 < LEVELS.length && xp >= LEVELS[i + 1][0]) i++; return i; };
 
   let lastXP = null;
   function refresh() {
-    const xp = computeXP();
-    const li = levelOf(xp);
-    const [from, name] = LEVELS[li];
-    const next = LEVELS[li + 1];
+    const xp = computeXP(), li = levelOf(xp), [from, name] = LEVELS[li], next = LEVELS[li + 1];
     const pct = next ? (xp - from) / (next[0] - from) : 1;
-
     $("#lvlNum").textContent = li + 1;
     $("#lvlName").textContent = name;
     $("#lvlNext").textContent = next ? `ще ${next[0] - xp} XP до «${next[1]}»` : "максимальний рівень!";
     $("#xpFill").style.width = (pct * 100).toFixed(1) + "%";
     $("#ring").style.strokeDashoffset = (131.95 * (1 - pct)).toFixed(2);
     $("#xpVal").textContent = xp;
+    $("#recVal").textContent = recCount();
     $("#streakVal").textContent = streak();
-    const done = state.tasks.filter(t => t.done).length;
-    $("#doneVal").textContent = `${done}/${state.tasks.length}`;
     if (lastXP !== null && xp > lastXP) bump("#xpChip");
     lastXP = xp;
 
-    // досягнення
-    const unlocked = BADGES.filter(b => b.test(state)).map(b => b.id);
+    // прогрес розділів
+    const s1 = cnt(EX_VERBAL) + cnt(EX_VOICE) + cnt(VISUAL.map(v => v.id)), s1t = EX_VERBAL.length + EX_VOICE.length + VISUAL.length;
+    const s2 = techHit(HOLD), s3 = toldCount();
+    $("#prog1").textContent = `${s1}/${s1t}`; $("#p1").textContent = `${s1}/${s1t}`;
+    $("#prog2").textContent = `${s2}/11 технік`; $("#p2").textContent = `${s2}/11`;
+    $("#prog3").textContent = `${s3}/${LIB.length}`; $("#p3").textContent = `${s3}/${LIB.length}`;
+    document.querySelectorAll(".tech").forEach(el => {
+      const t = [...VERBAL, ...VOICE, ...HOLD].find(x => x.id === el.dataset.tech);
+      el.classList.toggle("full", t.ex.every((_, i) => state.tried[exId(t, i)]));
+    });
+
+    const unlocked = BADGES.filter(b => b.test()).map(b => b.id);
     const newly = unlocked.filter(id => !state.badges.includes(id));
     state.badges = unlocked;
     newly.forEach((id, i) => {
       const b = BADGES.find(x => x.id === id);
       setTimeout(() => toast(b.ico, `Досягнення: ${b.name}`, `${b.desc} · +15 XP`), 250 + i * 600);
     });
-    renderAch();
+    $("#achLead").textContent = `Відкрито ${unlocked.length} з ${BADGES.length}. Кожне досягнення дає +15 XP.`;
+    $("#p5").textContent = `${unlocked.length}/${BADGES.length}`;
+    $("#ach").innerHTML = BADGES.map(b => {
+      const u = unlocked.includes(b.id);
+      return `<div class="a ${u ? "on" : ""}"><span class="ico">${b.ico}</span><b>${u ? "" : "🔒 "}${b.name}</b><small>${b.desc}</small></div>`;
+    }).join("");
 
     const lvl = li + 1;
-    if (lvl > state.level) {
-      setTimeout(() => {
-        toast("🎉", `Новий рівень: ${name}!`, `Рівень ${lvl} · так тримати`, "lvl");
-        confetti(innerWidth / 2, innerHeight / 3, 160);
-      }, 150);
-    }
+    if (lvl > state.level) setTimeout(() => {
+      toast("🎉", `Новий рівень: ${name}!`, `Рівень ${lvl} · так тримати`, "lvl");
+      confetti(innerWidth / 2, innerHeight / 3, 160);
+    }, 150);
     state.level = lvl;
 
     const n = state.notes.trim().length;
-    $("#notesHint").textContent = n >= 100 ? "💡 Досягнення «Рефлексія» відкрито!" : `Ще ${100 - n} символів до досягнення «Рефлексія» 💡`;
+    $("#notesHint").textContent = n >= 100 ? "💡 Досягнення «План на голос» відкрито!" : `Ще ${100 - n} символів до досягнення «План на голос» 💡`;
   }
 
-  function renderAch() {
-    const on = state.badges.length;
-    $("#achLead").textContent = `Відкрито ${on} з ${BADGES.length}. Кожне досягнення дає +15 XP.`;
-    $("#ach").innerHTML = BADGES.map(b => {
-      const u = state.badges.includes(b.id);
-      return `<div class="a ${u ? "on" : ""}"><span class="ico">${b.ico}</span><b>${u ? "" : "🔒 "}${b.name}</b><small>${b.desc}</small></div>`;
-    }).join("");
-  }
-
-  // ---------- шапка ----------
-  function renderHead() {
-    $("#lessonNum").value = state.lesson.num;
-    $("#kicker").value = state.lesson.kicker;
-    $("#title").value = state.lesson.title;
-    requestAnimationFrame(() => grow($("#title")));
-    renderMood();
-  }
-  $("#lessonNum").addEventListener("input", e => { state.lesson.num = e.target.value; save(); });
-  $("#kicker").addEventListener("input", e => { state.lesson.kicker = e.target.value; save(); });
-  $("#title").addEventListener("input", e => { state.lesson.title = e.target.value; grow(e.target); save(); });
-
-  function renderMood() {
-    const btn = $("#moodBtn");
-    if (state.mood === null) {
-      btn.classList.remove("set");
-      btn.innerHTML = "наліпка<br>настрою";
-    } else {
-      const [emo, cap] = MOODS[state.mood];
-      btn.classList.add("set");
-      btn.innerHTML = `<span class="emo">${emo}</span><span class="cap">${cap}</span>`;
+  // ===================== ПОДІЇ =====================
+  document.addEventListener("click", e => {
+    const t = e.target.closest("[data-tick]");
+    if (t) {
+      const id = t.dataset.tick;
+      state.tried[id] = !state.tried[id];
+      if (!state.tried[id]) delete state.tried[id];
+      const on = !!state.tried[id];
+      const row = t.closest(".ex");
+      if (row) row.classList.toggle("on", on);
+      else { t.classList.toggle("on", on); t.querySelector(".tick").classList.toggle("on", on); }
+      if (on) { const r = t.getBoundingClientRect(); confetti(r.left + 12, r.top + 12, 24); floatXP(t, 5); }
+      save();
+      return;
     }
-  }
+    const told = e.target.closest("[data-told]");
+    if (told) {
+      const id = told.dataset.told;
+      state.told[id] = !state.told[id];
+      if (!state.told[id]) delete state.told[id];
+      const on = !!state.told[id];
+      told.querySelector(".tick").classList.toggle("on", on);
+      told.closest(".story").classList.toggle("on", on);
+      if (on) { const r = told.getBoundingClientRect(); confetti(r.left + 12, r.top, 50); floatXP(told, 10); }
+      save();
+      return;
+    }
+    const more = e.target.closest("[data-more]");
+    if (more) {
+      const txt = more.previousElementSibling;
+      const open = txt.classList.toggle("clip");
+      more.textContent = open ? "Читати повністю ↓" : "Згорнути ↑";
+      return;
+    }
+    const ck = e.target.closest("[data-ck]");
+    if (ck) {
+      const row = ck.closest(".ck"), c = state.checklist[+row.dataset.i];
+      if (!c.text.trim() && !c.done) { row.querySelector("input").focus(); toast("✍️", "Спочатку впиши, який жест відпрацюєш"); return; }
+      c.done = !c.done;
+      row.classList.toggle("on", c.done); ck.classList.toggle("on", c.done);
+      if (c.done) { const r = ck.getBoundingClientRect(); confetti(r.left + 12, r.top + 12, 30); floatXP(ck, 10); }
+      save();
+    }
+  });
+  document.addEventListener("input", e => {
+    const own = e.target.dataset.own;
+    if (own) {
+      const was = (state.own[own] || "").trim().length >= 10;
+      state.own[own] = e.target.value;
+      if (!was && e.target.value.trim().length >= 10) floatXP(e.target, 5);
+      save();
+      return;
+    }
+    const row = e.target.closest(".ck");
+    if (row) { state.checklist[+row.dataset.i].text = e.target.value; save(); return; }
+    if (e.target.id === "notes") { state.notes = e.target.value; save(); }
+  });
+
   $("#moodPop").innerHTML = MOODS.map(([e, c], i) => `<button role="menuitem" data-m="${i}"><span>${e}</span>${c}</button>`).join("");
   $("#moodBtn").addEventListener("click", e => {
     e.stopPropagation();
-    const open = $("#moodPop").classList.toggle("open");
-    $("#moodBtn").setAttribute("aria-expanded", open);
+    $("#moodBtn").setAttribute("aria-expanded", $("#moodPop").classList.toggle("open"));
   });
   $("#moodPop").addEventListener("click", e => {
     const b = e.target.closest("[data-m]");
@@ -603,158 +976,31 @@
     confetti(r.left + r.width / 2, r.top + r.height / 2, 30);
     save();
   });
-  document.addEventListener("click", e => {
-    if (!e.target.closest(".mood-wrap")) $("#moodPop").classList.remove("open");
-  });
+  document.addEventListener("click", e => { if (!e.target.closest(".mood-wrap")) $("#moodPop").classList.remove("open"); });
 
-  // ---------- квести ----------
-  function taskHTML(t, i) {
-    const stars = [1, 2, 3, 4, 5].map(n =>
-      `<button data-star="${n}" class="${n <= t.rating ? "on" : ""}" aria-label="Оцінка ${n} з 5">★</button>`).join("");
-    return `
-      <div class="task ${t.done ? "done" : ""}" data-id="${t.id}">
-        <div class="num">${t.done ? "✓" : pad(i + 1)}</div>
-        <button class="del" data-del aria-label="Видалити квест" title="Видалити">×</button>
-        <div class="card">
-          <input class="t-title" data-f="title" value="${esc(t.title)}" placeholder="Назва завдання" aria-label="Назва завдання">
-          <textarea class="t-text" data-f="text" rows="1" placeholder="Що треба зробити…" aria-label="Опис завдання">${esc(t.text)}</textarea>
-          <textarea class="t-answer" data-f="answer" rows="2" placeholder="Моя відповідь…" aria-label="Моя відповідь">${esc(t.answer)}</textarea>
-          <div class="t-foot">
-            <div class="stars" title="Наскільки вдалося">${stars}</div>
-            <button class="done-btn" data-done>${t.done ? "Виконано ✓" : "Виконано <em>+25 XP</em>"}</button>
-          </div>
-        </div>
-      </div>`;
-  }
-  function renderTasks() {
-    $("#tasks").innerHTML = state.tasks.map(taskHTML).join("") +
-      `<button class="add" id="addTask"><b>+</b>Додати квест</button>`;
-    document.querySelectorAll("#tasks textarea").forEach(grow);
-  }
-  const taskOf = el => state.tasks.find(t => t.id === el.closest(".task").dataset.id);
-
-  $("#tasks").addEventListener("input", e => {
-    const f = e.target.dataset.f;
-    if (!f) return;
-    const t = taskOf(e.target);
-    const was = answered(t);
-    t[f] = e.target.value;
-    if (e.target.tagName === "TEXTAREA") grow(e.target);
-    if (f === "answer" && !was && answered(t)) floatXP(e.target, 10);
-    save();
-  });
-  $("#tasks").addEventListener("click", e => {
-    if (e.target.closest("#addTask")) {
-      state.tasks.push({ id: uid(), title: "", text: "", answer: "", done: false, rating: 0 });
-      renderTasks();
-      save();
-      const last = document.querySelectorAll(".task");
-      last[last.length - 1].querySelector(".t-title").focus();
-      return;
-    }
-    const task = e.target.closest(".task");
-    if (!task) return;
-    const t = taskOf(task);
-
-    const star = e.target.closest("[data-star]");
-    if (star) {
-      const n = +star.dataset.star;
-      const first = !t.rating;
-      t.rating = t.rating === n ? 0 : n;
-      task.querySelectorAll("[data-star]").forEach(s => s.classList.toggle("on", +s.dataset.star <= t.rating));
-      if (first && t.rating) floatXP(star, 5);
-      save();
-      return;
-    }
-    if (e.target.closest("[data-done]")) {
-      t.done = !t.done;
-      const idx = state.tasks.indexOf(t);
-      task.classList.toggle("done", t.done);
-      task.querySelector(".num").textContent = t.done ? "✓" : pad(idx + 1);
-      const btn = task.querySelector("[data-done]");
-      btn.innerHTML = t.done ? "Виконано ✓" : "Виконано <em>+25 XP</em>";
-      if (t.done) {
-        const r = btn.getBoundingClientRect();
-        confetti(r.left + r.width / 2, r.top, 70);
-        floatXP(btn, 25);
-      }
-      save();
-      return;
-    }
-    if (e.target.closest("[data-del]")) {
-      const hasContent = t.answer.trim() || t.done;
-      if (hasContent && !task.dataset.armed) {
-        task.dataset.armed = "1";
-        const d = task.querySelector("[data-del]");
-        d.textContent = "?";
-        d.title = "Натисни ще раз, щоб видалити";
-        d.style.opacity = 1;
-        toast("🗑️", "Натисни × ще раз, щоб видалити квест", "У ньому вже є відповідь");
-        setTimeout(() => { if (task.isConnected) { delete task.dataset.armed; d.textContent = "×"; d.style.opacity = ""; } }, 3000);
-        return;
-      }
-      state.tasks = state.tasks.filter(x => x !== t);
-      renderTasks();
-      save();
-    }
-  });
-
-  // ---------- чекліст ----------
-  function renderChecklist() {
-    $("#checklist").innerHTML = state.checklist.map((c, i) => `
-      <div class="ck ${c.done ? "on" : ""}" data-i="${i}">
-        <span>${i + 1}.</span>
-        <input value="${esc(c.text)}" placeholder="Наприклад: жест «відкриті долоні» на нараді" aria-label="Пункт ${i + 1}">
-        <button class="ck-btn" aria-label="Позначити як зроблене">✓</button>
-      </div>`).join("");
-  }
-  $("#checklist").addEventListener("input", e => {
-    const row = e.target.closest(".ck");
-    state.checklist[+row.dataset.i].text = e.target.value;
-    save();
-  });
-  $("#checklist").addEventListener("click", e => {
-    const b = e.target.closest(".ck-btn");
-    if (!b) return;
-    const row = b.closest(".ck");
-    const c = state.checklist[+row.dataset.i];
-    if (!c.text.trim() && !c.done) {
-      row.querySelector("input").focus();
-      toast("✍️", "Спочатку впиши, що саме відпрацюєш");
-      return;
-    }
-    c.done = !c.done;
-    row.classList.toggle("on", c.done);
-    if (c.done) {
-      const r = b.getBoundingClientRect();
-      confetti(r.left + r.width / 2, r.top + r.height / 2, 30);
-      floatXP(b, 10);
-    }
-    save();
-  });
-
-  // ---------- нотатки ----------
-  $("#notes").addEventListener("input", e => { state.notes = e.target.value; save(); });
-
-  // ---------- інструменти ----------
+  // ===================== ІНСТРУМЕНТИ =====================
   $("#printBtn").addEventListener("click", () => print());
   $("#exportBtn").addEventListener("click", () => {
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `zoshyt-${today()}.json`;
+    a.download = `zoshyt-03-${today()}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-    toast("💾", "Файл зошита збережено", "Відкрий його на іншому пристрої кнопкою «Відкрити файл»");
+    toast("💾", "Файл зошита збережено", "Галочки й тексти перенесуться, а записи голосу залишаються на цьому пристрої");
   });
   $("#importBtn").addEventListener("click", () => $("#importFile").click());
   $("#importFile").addEventListener("change", async e => {
     const file = e.target.files[0];
     if (!file) return;
     try {
-      state = normalize(JSON.parse(await file.text()));
-      renderAll();
-      save(false);
+      const next = normalize(JSON.parse(await file.text()));
+      // записи голосу з іншого пристрою не переносяться — лишаємо тільки ті, що є тут
+      const here = {};
+      for (const id of Object.keys(next.recs)) if (await getAudio(id)) here[id] = next.recs[id];
+      next.recs = { ...state.recs, ...here };
+      state = next;
+      renderAll(); save(false);
       toast("📂", "Зошит відкрито з файлу");
     } catch (err) {
       toast("⚠️", "Не вдалося прочитати файл", "Потрібен файл, збережений цим зошитом");
@@ -762,62 +1008,52 @@
     e.target.value = "";
   });
   let resetTimer;
-  $("#resetBtn").addEventListener("click", e => {
+  $("#resetBtn").addEventListener("click", async e => {
     const b = e.currentTarget;
     if (!b.classList.contains("armed")) {
-      b.classList.add("armed");
-      b.textContent = "Точно? Натисни ще раз";
+      b.classList.add("armed"); b.textContent = "Точно? Натисни ще раз";
       resetTimer = setTimeout(() => { b.classList.remove("armed"); b.textContent = "↺ Почати заново"; }, 3500);
       return;
     }
     clearTimeout(resetTimer);
-    b.classList.remove("armed");
-    b.textContent = "↺ Почати заново";
-    state = fresh();
-    lastXP = null;
-    renderAll();
-    save(false);
+    b.classList.remove("armed"); b.textContent = "↺ Почати заново";
+    stopPlayer(); stopRec();
+    urls.forEach(u => URL.revokeObjectURL(u)); urls.clear();
+    await clearAudio();
+    state = fresh(); lastXP = null;
+    renderAll(); save(false);
     toast("🌱", "Чистий аркуш. Вперед!");
   });
 
-  // ---------- ефекти ----------
+  // ===================== ЕФЕКТИ =====================
   function toast(big, text, sub = "", cls = "") {
     const el = document.createElement("div");
     el.className = "toast " + cls;
     el.innerHTML = `<span class="big">${big}</span><span>${esc(text)}${sub ? `<small>${esc(sub)}</small>` : ""}</span>`;
     $("#toasts").appendChild(el);
+    while ($("#toasts").children.length > 3) $("#toasts").firstChild.remove();
     setTimeout(() => el.remove(), 3500);
   }
-  function bump(sel) {
-    const el = $(sel);
-    el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump");
-  }
+  function bump(sel) { const el = $(sel); el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
   function floatXP(anchor, n) {
     const r = anchor.getBoundingClientRect();
     const el = document.createElement("div");
     el.className = "floatxp";
     el.textContent = `+${n} XP`;
-    el.style.left = (r.left + r.width / 2 - 30) + "px";
-    el.style.top = (r.top - 10) + "px";
+    el.style.left = (r.left + r.width / 2 - 28) + "px";
+    el.style.top = (r.top - 8) + "px";
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 1200);
   }
-
-  const cv = $("#confetti");
-  const ctx = cv.getContext("2d");
+  const cv = $("#confetti"), ctx = cv.getContext("2d");
   let parts = [], raf = 0;
-  const COLORS = ["#3fd49f", "#14a874", "#f5b82e", "#7ee8c2", "#1d2433", "#ff8a65"];
+  const COLORS = ["#3fd49f", "#14a874", "#f5b82e", "#7ee8c2", "#1d2433", "#8b6cf0"];
   function confetti(x, y, n) {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    cv.width = innerWidth * devicePixelRatio;
-    cv.height = innerHeight * devicePixelRatio;
+    cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
     for (let i = 0; i < n; i++) {
       const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
-      parts.push({
-        x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 5,
-        s: 4 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .4,
-        c: COLORS[i % COLORS.length], life: 70 + Math.random() * 40,
-      });
+      parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 5, s: 4 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .4, c: COLORS[i % COLORS.length], life: 70 + Math.random() * 40 });
     }
     if (!raf) raf = requestAnimationFrame(tick);
   }
@@ -827,29 +1063,15 @@
     parts = parts.filter(p => p.life-- > 0);
     for (const p of parts) {
       p.vy += .25; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr;
-      ctx.save();
-      ctx.globalAlpha = Math.min(1, p.life / 30);
+      ctx.save(); ctx.globalAlpha = Math.min(1, p.life / 30);
       ctx.translate(p.x * d, p.y * d); ctx.rotate(p.r);
-      ctx.fillStyle = p.c;
-      ctx.fillRect(-p.s * d / 2, -p.s * d / 4, p.s * d, p.s * d / 2);
+      ctx.fillStyle = p.c; ctx.fillRect(-p.s * d / 2, -p.s * d / 4, p.s * d, p.s * d / 2);
       ctx.restore();
     }
     raf = parts.length ? requestAnimationFrame(tick) : (ctx.clearRect(0, 0, cv.width, cv.height), 0);
   }
 
-  // ---------- старт ----------
-  function renderAll() {
-    renderHead();
-    renderTasks();
-    renderChecklist();
-    $("#notes").value = state.notes;
-    refresh();
-  }
-  const regrow = () => document.querySelectorAll("textarea:not(.notes)").forEach(grow);
-  if (document.fonts) document.fonts.ready.then(regrow);
-  addEventListener("resize", regrow);
-
-  state = load();
+  // ===================== СТАРТ =====================
   const initialLevel = state.level;
   renderAll();
   state.level = Math.max(initialLevel, state.level);
