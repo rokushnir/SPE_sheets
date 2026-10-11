@@ -70,6 +70,7 @@ button { font: inherit; }
 .dlg { position: absolute; left: 3%; right: 3%; bottom: 4%; background: var(--glass); color: var(--glass-ink);
   border: 1px solid var(--glass-line); border-radius: 16px; padding: 14px 18px 12px; display: grid; gap: 8px;
   font-size: clamp(14px, 1.9cqw, 19px); line-height: 1.45; max-height: 70%; overflow: auto; z-index: 5; }
+.dlg.top { bottom: auto; top: 12%; }
 .dlg .who { font-family: var(--f-display); font-size: 0.8em; color: var(--gold); letter-spacing: .02em; }
 .dlg .who:empty { display: none; }
 .dlg .txt { font-family: var(--f-body); }

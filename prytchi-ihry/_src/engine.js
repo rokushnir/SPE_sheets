@@ -402,6 +402,7 @@
   window.PG = {
     start(game) {
       G = game; window.PG.game = game;
+      if (game.dlgTop) dlg.classList.add("top");
       document.title = game.title;
       if (pad) {
         const a = pad.querySelector('[data-k="act"]'), b = pad.querySelector('[data-k="alt"]');
