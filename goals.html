@@ -388,6 +388,49 @@
   .observe-wrap textarea { min-height: 120px; padding-right: 90px; }
   .clock { position: absolute; right: 14px; bottom: 14px; font-size: 54px; line-height: 1; pointer-events: none; opacity: .9; }
 
+  /* Заняття 02: матриця Ейзенхауера і план 1–3–5 */
+  .lesson2 { margin-top: 40px; }
+  .eis-add { display: grid; grid-template-columns: 1fr auto auto auto; gap: 8px; margin-top: 14px; }
+  .tgl { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 12px; font-weight: 700; font-size: 13px; white-space: nowrap; color: var(--muted); }
+  .tgl[aria-pressed="true"] { background: var(--orange); border-color: var(--orange); color: var(--on-orange); }
+  .eis-axis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 4px; font-size: 12px; font-weight: 800; color: var(--muted); text-align: center; letter-spacing: .04em; text-transform: uppercase; }
+  .eis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .quad { border-radius: 14px; padding: 12px; min-height: 150px; background: color-mix(in srgb, var(--qc) 11%, var(--paper)); border: 1.5px solid color-mix(in srgb, var(--qc) 45%, transparent); }
+  .quad h3 { margin: 0; font-size: 15px; color: var(--qc); display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+  .quad h3 small { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .quad p { margin: 2px 0 8px; font-size: 12.5px; color: var(--muted); }
+  .quad ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .quad li { display: flex; align-items: center; gap: 6px; background: var(--surface); border-radius: 9px; padding: 6px 8px; font-size: 14px; }
+  .quad li.done .qt { text-decoration: line-through; color: var(--muted); }
+  .quad li.done .mcheck { background: var(--ok); border-color: var(--ok); }
+  .quad li.done .mcheck svg { opacity: 1; }
+  .qt { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .qbtn { border: 0; background: transparent; font-size: 13px; padding: 2px 4px; border-radius: 6px; opacity: .35; }
+  .qbtn[aria-pressed="true"] { opacity: 1; }
+  .qbtn:hover { background: var(--peach-soft); opacity: 1; }
+  .quad .empty { font-size: 13px; color: var(--faint); font-style: italic; }
+  .p135 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; align-items: start; }
+  .pcol.big { grid-column: 1 / -1; grid-template-columns: auto 1fr; align-items: center; column-gap: 16px; }
+  .pcol { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: grid; gap: 8px; }
+  .pcol h3 { margin: 0; font-size: 15px; display: flex; gap: 8px; align-items: center; }
+  .pcol h3 b { font-family: "Unbounded", sans-serif; font-size: 22px; color: var(--orange-2); }
+  .pcol h3 small { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .pitem { display: flex; gap: 8px; align-items: center; }
+  .pitem .field { padding: 8px 10px; font-size: 14px; }
+  .pitem.done .field { text-decoration: line-through; color: var(--muted); }
+  .pitem.done .mcheck { background: var(--ok); border-color: var(--ok); }
+  .pitem.done .mcheck svg { opacity: 1; }
+  .pcol.big .field { font-weight: 700; font-size: 15px; padding: 12px; }
+
+  @media (max-width: 760px) {
+    .eis-add { grid-template-columns: 1fr 1fr; }
+    .eis-add input { grid-column: 1 / -1; }
+    .eis-add .btn { grid-column: 1 / -1; }
+    .eis, .eis-axis { grid-template-columns: 1fr; }
+    .eis-axis { display: none; }
+    .p135 { grid-template-columns: 1fr; }
+    .pcol.big { grid-template-columns: 1fr; }
+  }
   @media (max-width: 760px) {
     .sec-head { grid-template-columns: auto 1fr; }
     .sec-tools { grid-column: 1 / -1; justify-content: flex-start; }
@@ -455,6 +498,8 @@
     <a href="#s5">5 · Хронофаги</a>
     <a href="#s6">6 · Як почати день</a>
     <a href="#s7">7 · Звички (ДЗ)</a>
+    <a href="#s8">8 · Матриця</a>
+    <a href="#s9">9 · План 1–3–5</a>
   </nav>
   <section class="sheet" id="top">
     <div class="lesson">
@@ -629,6 +674,55 @@
       <textarea class="area" data-k="observe" placeholder="Напр.: Коли не хочу щось робити, відкриваю телефон «на хвилинку» і гортаю 20–30 хв. Потім берусь за дрібні легкі справи, щоб відчувати себе зайнятим."></textarea>
       <span class="clock" aria-hidden="true">⏰</span>
     </div>
+  </section>
+
+  <!-- ===== Заняття 02 · Техніки планування ===== -->
+  <section class="sheet lesson2" id="l2">
+    <div class="lesson">
+      <div class="lesson-num"><b>02</b><small>заняття</small></div>
+      <div>
+        <div class="lesson-sub">Тайм-менеджмент</div>
+        <h1>Техніки планування</h1>
+      </div>
+      <button class="sticker no-print" id="sticker2" type="button" title="Натисни, щоб обрати настрій">наліпка<br>настрою</button>
+    </div>
+  </section>
+
+  <section class="sheet" id="s8">
+    <div class="sec-head">
+      <span class="sec-num">8</span>
+      <div><div class="lesson-sub">Важливе чи термінове?</div><h2>Матриця Ейзенхауера</h2></div>
+      <div class="sec-tools no-print">
+        <button class="btn btn-ghost btn-sm" type="button" id="eisFromGoal">↧ Крок з моїх сходів</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-example="eis">💡 Приклад</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-clear="eis">↺ Очистити</button>
+      </div>
+    </div>
+    <p class="hint">Впиши всі справи, що крутяться в голові, і для кожної дай чесну відповідь: чи вона важлива (наближає до цілей) і чи термінова (горить сьогодні). Справа сама стане у свій квадрат.</p>
+    <form class="eis-add no-print" id="eisForm" autocomplete="off">
+      <input class="field" id="eisText" maxlength="120" placeholder="Напр.: Підготуватися до контрольної в пʼятницю" aria-label="Нова справа">
+      <button class="tgl" type="button" id="eisImp" aria-pressed="false">⭐ Важливо</button>
+      <button class="tgl" type="button" id="eisUrg" aria-pressed="false">🔥 Терміново</button>
+      <button class="btn btn-sm" type="submit">Додати</button>
+    </form>
+    <div class="eis-axis"><span>🔥 Терміново</span><span>⏳ Не терміново</span></div>
+    <div class="eis" id="eis"></div>
+    <div class="tip">💡 <b>Головний квадрат — «Заплануй».</b> Тут живуть великі цілі, здоровʼя, навчання й стосунки: вони ніколи не «горять», тому їх легко відкладати все життя. Що більше часу ти віддаєш цьому квадрату, то менше справ стає «пожежами».</div>
+  </section>
+
+  <section class="sheet" id="s9">
+    <div class="sec-head">
+      <span class="sec-num">9</span>
+      <div><div class="lesson-sub">План на день</div><h2>Правило 1–3–5</h2></div>
+      <div class="sec-tools no-print">
+        <button class="btn btn-ghost btn-sm" type="button" id="p135FromEis">↧ Взяти з матриці</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-example="p135">💡 Приклад</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-clear="p135">↺ Очистити</button>
+      </div>
+    </div>
+    <p class="hint">Реалістичний день вміщує 1 велику справу, 3 середні й 5 дрібних. Більше — і план перетворюється на список докорів собі ввечері.</p>
+    <div class="p135" id="p135"></div>
+    <div class="progress"><div class="progress-bar"><i id="p135Bar"></i></div><div class="progress-txt" id="p135Txt"></div></div>
   </section>
 </div>
 
@@ -1464,6 +1558,7 @@
     chMin: {}, chHow: {},
     mText: MORNING.map(() => ''), mDone: MORNING.map(() => false), mDate: today(), mHist: {},
     habits: [['', '', '', ''], ['', '', '', ''], ['', '', '', ''], ['', '', '', '']], observe: '',
+    eis: [], p135: ['', '', '', '', '', '', '', '', ''], p135Done: [false, false, false, false, false, false, false, false, false], mood2: -1,
   });
   let S = fresh();
   try { const raw = JSON.parse(localStorage.getItem(KEY) || 'null'); if (raw) S = Object.assign(fresh(), raw); } catch (e) {}
@@ -1671,6 +1766,103 @@
     ta.value = S.observe; save(); ta.focus();
   });
 
+  /* ---------- 8. Матриця Ейзенхауера ---------- */
+  const QUADS = [
+    { imp: true, urg: true, t: 'Зроби зараз', s: 'важливо · терміново', p: 'Справжні «пожежі». Роби сам(-а) і сьогодні.', c: '#e5484d' },
+    { imp: true, urg: false, t: 'Заплануй', s: 'важливо · не терміново', p: 'Цілі, здоровʼя, навчання. Постав у календар конкретний час.', c: '#22a447' },
+    { imp: false, urg: true, t: 'Делегуй', s: 'не важливо · терміново', p: 'Чужі пріоритети. Попроси когось, скороти або скажи «ні».', c: '#f57c00' },
+    { imp: false, urg: false, t: 'Видали', s: 'не важливо · не терміново', p: 'Хронофаги. Викресли або залиш як нагороду.', c: '#8a8a93' },
+  ];
+  const EIS_EX = [
+    ['Здати реферат до завтра', 1, 1], ['Оплатити інтернет сьогодні', 1, 1],
+    ['Написати розділ книги', 1, 0], ['Тренування', 1, 0], ['Подзвонити бабусі', 1, 0],
+    ['Відповісти в чаті «на хвилинку»', 0, 1], ['Дзвінок з рекламною пропозицією', 0, 1],
+    ['Гортати стрічку', 0, 0], ['Дивитися огляди телефонів', 0, 0],
+  ];
+  let eisImp = false, eisUrg = false;
+  const tglSet = (el, v) => el.setAttribute('aria-pressed', v);
+  $('#eisImp').addEventListener('click', () => tglSet($('#eisImp'), eisImp = !eisImp));
+  $('#eisUrg').addEventListener('click', () => tglSet($('#eisUrg'), eisUrg = !eisUrg));
+  function renderEis() {
+    $('#eis').innerHTML = QUADS.map((q) => {
+      const items = S.eis.map((x, i) => [x, i]).filter(([x]) => !!x.imp === q.imp && !!x.urg === q.urg);
+      return `<div class="quad" style="--qc:${q.c}"><h3>${q.t} <small>${q.s}</small></h3><p>${q.p}</p><ul>${items.length ? items.map(([x, i]) => `<li class="${x.done ? 'done' : ''}" data-e="${i}">
+          <button type="button" class="mcheck" data-ea="done" aria-label="Виконано">${CHECK_SVG}</button>
+          <span class="qt">${esc(x.t)}</span>
+          <button type="button" class="qbtn" data-ea="imp" aria-pressed="${!!x.imp}" title="Важливо">⭐</button>
+          <button type="button" class="qbtn" data-ea="urg" aria-pressed="${!!x.urg}" title="Терміново">🔥</button>
+          <button type="button" class="rm no-print" data-ea="rm" aria-label="Видалити">×</button></li>`).join('') : '<li class="empty">порожньо</li>'}</ul></div>`;
+    }).join('');
+  }
+  $('#eisForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const t = $('#eisText').value.trim(); if (!t) { $('#eisText').focus(); return; }
+    S.eis.push({ t, imp: eisImp, urg: eisUrg, done: false });
+    $('#eisText').value = ''; eisImp = eisUrg = false; tglSet($('#eisImp'), false); tglSet($('#eisUrg'), false);
+    save(); renderEis(); $('#eisText').focus();
+  });
+  $('#eis').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-ea]'); if (!b) return;
+    const i = +b.closest('[data-e]').dataset.e, x = S.eis[i], a = b.dataset.ea;
+    if (a === 'rm') S.eis.splice(i, 1); else x[a] = !x[a];
+    save(); renderEis();
+  });
+  $('#eisFromGoal').addEventListener('click', () => {
+    const steps = window.SPEGoals && window.SPEGoals.steps();
+    const st = steps && steps.find((s) => !s.done && !s.goal);
+    if (!st) { toast('Спершу розбий велику ціль на кроки в розділі 1'); $('#top').scrollIntoView({ behavior: 'smooth' }); return; }
+    if (S.eis.some((x) => x.t === st.text)) { toast('Цей крок уже є в матриці'); return; }
+    S.eis.push({ t: st.text, imp: true, urg: false, done: false }); save(); renderEis();
+    toast('Наступний крок до мети — у квадраті «Заплануй»');
+  });
+
+  /* ---------- 9. План 1–3–5 ---------- */
+  const P135 = [['big', 1, 'Велика справа', 'головне досягнення дня'], ['mid', 3, 'Середні', 'по 30–60 хвилин'], ['small', 5, 'Дрібні', 'до 15 хвилин']];
+  const P135_EX = ['Написати 2 сторінки розділу книги', 'Тренування 40 хв', 'Підготуватися до контрольної', 'Подзвонити бабусі',
+    'Оплатити інтернет', 'Відповісти на листи', 'Купити зошити', 'Полити квіти', 'Записати 3 ідеї для поста'];
+  function renderP135() {
+    let k = 0;
+    $('#p135').innerHTML = P135.map(([cls, n, t, sub]) => {
+      let html = `<div class="pcol ${cls}"><h3><b>${n}</b><span>${t}<br><small>${sub}</small></span></h3>`;
+      for (let j = 0; j < n; j++, k++) {
+        html += `<div class="pitem${S.p135Done[k] ? ' done' : ''}"><button type="button" class="mcheck" data-pd="${k}" aria-label="Виконано">${CHECK_SVG}</button><input class="field" data-pi="${k}" value="${esc(S.p135[k])}" placeholder="${esc(P135_EX[k])}" maxlength="120"></div>`;
+      }
+      return html + '</div>';
+    }).join('');
+    calcP135();
+  }
+  function calcP135() {
+    const filled = S.p135.map((v, i) => [v.trim(), S.p135Done[i]]).filter(([v]) => v);
+    const done = filled.filter(([, d]) => d).length;
+    $('#p135Bar').style.width = (filled.length ? done / filled.length * 100 : 0) + '%';
+    $('#p135Txt').textContent = filled.length ? `Виконано ${done} з ${filled.length}` + (S.p135Done[0] && S.p135[0].trim() ? ' · велику справу зроблено — день уже вдалий 🎉' : '') : 'Впиши справи на сьогодні.';
+  }
+  $('#p135').addEventListener('input', (e) => { const k = e.target.dataset.pi; if (k == null) return; S.p135[+k] = e.target.value; save(); calcP135(); });
+  $('#p135').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-pd]'); if (!b) return;
+    const k = +b.dataset.pd; S.p135Done[k] = !S.p135Done[k];
+    b.parentElement.classList.toggle('done', S.p135Done[k]); save(); calcP135();
+  });
+  $('#p135FromEis').addEventListener('click', () => {
+    const open = S.eis.filter((x) => !x.done);
+    const q1 = open.filter((x) => x.imp && x.urg), q2 = open.filter((x) => x.imp && !x.urg), q3 = open.filter((x) => !x.imp && x.urg);
+    if (!q1.length && !q2.length && !q3.length) { toast('Спершу додай справи в матрицю (розділ 8)'); return; }
+    const bigPick = q2[0] || q1[0];
+    const rest = q1.concat(q2).filter((x) => x !== bigPick);
+    const plan = [bigPick ? bigPick.t : ''].concat(rest.slice(0, 3).map((x) => x.t));
+    while (plan.length < 4) plan.push('');
+    plan.push(...q3.concat(rest.slice(3)).slice(0, 5).map((x) => x.t));
+    while (plan.length < 9) plan.push('');
+    S.p135 = S.p135.map((v, i) => (v.trim() ? v : plan[i]));
+    save(); renderP135(); toast('План складено з матриці: «Видали» в план не потрапляє 😉');
+  });
+
+  /* ---------- Наліпка настрою заняття 02 ---------- */
+  const MOODS2 = ['🔥', '😊', '🚀', '💪', '🤔', '😴', '🥳'];
+  const st2 = $('#sticker2');
+  const paint2 = () => { if (S.mood2 >= 0) { st2.textContent = MOODS2[S.mood2]; st2.classList.add('has'); } else { st2.innerHTML = 'наліпка<br>настрою'; st2.classList.remove('has'); } };
+  st2.addEventListener('click', () => { S.mood2 = S.mood2 + 1 >= MOODS2.length ? -1 : S.mood2 + 1; save(); paint2(); });
+
   /* ---------- Прості текстові поля ---------- */
   document.querySelectorAll('[data-k]').forEach((el) => {
     el.value = S[el.dataset.k] || '';
@@ -1691,6 +1883,8 @@
     },
     chrono: () => { CHRONO.forEach((c) => { if (!num(S.chMin[c.id])) S.chMin[c.id] = String(c.ex); if (!S.chHow[c.id]) S.chHow[c.id] = c.how[0]; }); renderChrono(); },
     morning: () => { const ph = projectHint(); S.mText = fillEmpty(S.mText, MORNING.map((m, i) => (i === 4 && ph ? ph : m.ex))); renderMorning(); },
+    eis: () => { EIS_EX.forEach(([t, imp, urg]) => { if (!S.eis.some((x) => x.t === t)) S.eis.push({ t, imp: !!imp, urg: !!urg, done: false }); }); renderEis(); },
+    p135: () => { S.p135 = fillEmpty(S.p135, P135_EX); renderP135(); },
     habits: () => {
       let k = 0;
       S.habits = S.habits.map((row) => (row.some((v) => v.trim()) ? row : (HAB_EX[k++] || row).slice()));
@@ -1700,6 +1894,8 @@
     },
   };
   const CLEAR = {
+    eis: () => { S.eis = []; renderEis(); },
+    p135: () => { S.p135 = fresh().p135; S.p135Done = fresh().p135Done; renderP135(); },
     prio: () => { S.prio = fresh().prio; renderPrio(); },
     prog: () => { S.prog = fresh().prog; renderProg(); },
     react: () => { S.journal = ''; $('[data-k="journal"]').value = ''; S.pairs = [['', '']]; renderPairs(); $('#flips').querySelectorAll('.flip').forEach((f) => f.classList.remove('on')); },
@@ -1734,7 +1930,7 @@
   links.forEach((a) => { const t = document.querySelector(a.getAttribute('href')); if (t) io.observe(t); });
   io.observe($('#result'));
 
-  renderPrio(); renderProg(); renderFlips(); renderPairs(); renderChrono(); renderMorning(); renderHabits();
+  renderPrio(); renderProg(); renderFlips(); renderPairs(); renderChrono(); renderMorning(); renderHabits(); renderEis(); renderP135(); paint2();
 })();
 </script>
 </body>
