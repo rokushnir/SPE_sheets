@@ -1,0 +1,1322 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Публічні виступи</title>
+<meta name="description" content="Заняття 2.5–2.6 робочого зошита Campus13: структури історій, елевейтор піч, підготовка фінального виступу, вправи на креативність та імпровізацію — з прикладами й картинками.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Стиль як у «Грі «Гроші»»: білі картки, бірюзово-зелений акцент зошита Campus13. */
+  :root {
+    --bg: #f3f5f7;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --text: #1e293b;
+    --muted: #5b6676;
+    --faint: #8a94a3;
+    --line: #e3e8ee;
+    --green: #0f9f74;
+    --green-dark: #0c855f;
+    --green-soft: #e3f6ef;
+    --orange: #e8791c;
+    --navy: #1b3a8a;
+    --ink: #2b313c;
+    --ink-text: #ffffff;
+    --ink-accent: #5b8cff;
+    --quote-bg: #f1edfb;
+    --header-bg: rgba(255, 255, 255, .95);
+    --pic-a: #e3f6ef;
+    --pic-b: #dbe8ff;
+    --radius: 20px;
+    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+      --green: #34d399; --green-dark: #10b981; --green-soft: rgba(52, 211, 153, .14); --orange: #f08a3a; --navy: #a9bdf2;
+      --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #7da3ff; --quote-bg: rgba(139, 92, 246, .14);
+      --header-bg: rgba(22, 30, 43, .95); --pic-a: rgba(52, 211, 153, .16); --pic-b: rgba(91, 140, 255, .16);
+      --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+    --green: #34d399; --green-dark: #10b981; --green-soft: rgba(52, 211, 153, .14); --orange: #f08a3a; --navy: #a9bdf2;
+    --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #7da3ff; --quote-bg: rgba(139, 92, 246, .14);
+    --header-bg: rgba(22, 30, 43, .95); --pic-a: rgba(52, 211, 153, .16); --pic-b: rgba(91, 140, 255, .16);
+    --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before { transition: none !important; animation: none !important; } }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: var(--header-bg); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 76px; }
+  .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .logo {
+    width: 54px; height: 54px; border-radius: 12px; background: var(--green); color: #fff;
+    display: grid; place-content: center; text-align: center; line-height: 1.05; flex-shrink: 0;
+  }
+  .logo b { font-size: 19px; font-weight: 900; }
+  .logo small { font-size: 9px; font-weight: 700; opacity: .9; }
+  .brand-name { font-size: 21px; font-weight: 800; line-height: 1.1; }
+  .brand-sub { font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+  .menu { display: flex; align-items: center; gap: 24px; font-weight: 500; }
+  .menu a:hover { color: var(--green); }
+  .theme-btn {
+    width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--text); cursor: pointer; font-size: 18px; font-family: inherit;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--green); color: #fff; font-weight: 800; letter-spacing: .02em;
+    padding: 14px 24px; border-radius: 12px; border: 0; cursor: pointer; font-size: 16px;
+    transition: background .2s, transform .2s; font-family: inherit;
+  }
+  .btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--green); border: 2px solid var(--green); }
+  .btn-outline:hover { background: var(--green-soft); }
+  .btn-sm { padding: 9px 14px; font-size: 14px; border-radius: 10px; }
+  .btn-ghost { background: var(--surface-2); color: var(--text); border: 1px solid var(--line); }
+  .btn-ghost:hover { background: var(--green-soft); }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 56px 0 40px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--green-soft); color: var(--green); font-weight: 700;
+    padding: 9px 18px; border-radius: 999px; font-size: 14px; letter-spacing: .03em; text-transform: uppercase;
+  }
+  .badge::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+  h1 { font-size: clamp(32px, 5vw, 54px); line-height: 1.1; font-weight: 900; margin: 24px 0 20px; max-width: 980px; text-wrap: balance; }
+  .accent { color: var(--green); }
+  .lead { font-size: clamp(17px, 2vw, 21px); color: var(--muted); max-width: 860px; margin: 0 0 32px; }
+  .toc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .toc a {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: var(--shadow);
+    display: flex; gap: 14px; align-items: center; transition: border-color .2s;
+  }
+  .toc a:hover { border-color: var(--green); }
+  .toc .ic { font-size: 28px; line-height: 1; }
+  .toc b { display: block; font-size: 15px; }
+  .toc small { color: var(--muted); font-size: 13px; }
+
+  .mood { display: flex; flex-wrap: wrap; gap: 20px 40px; margin-top: 28px; }
+  .mood-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .mood-row span { color: var(--muted); font-weight: 600; font-size: 14px; min-width: 150px; }
+  .mood-row button {
+    width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--line); background: var(--surface);
+    font-size: 22px; cursor: pointer; transition: border-color .15s, transform .15s;
+  }
+  .mood-row button:hover { transform: translateY(-2px); }
+  .mood-row button[aria-pressed="true"] { border-color: var(--green); background: var(--green-soft); }
+
+  /* ---------- Sections ---------- */
+  section { padding: 64px 0; scroll-margin-top: 76px; }
+  .section-white { background: var(--surface); }
+  .eyebrow { color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px; }
+  h2 { font-size: clamp(28px, 3.5vw, 40px); line-height: 1.15; margin: 10px 0 14px; font-weight: 900; text-wrap: balance; }
+  .section-lead { color: var(--muted); font-size: 18px; max-width: 760px; margin: 0 0 36px; }
+  .stack { display: grid; gap: 24px; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); min-width: 0; }
+  .section-white .card { background: var(--surface-2); box-shadow: none; }
+  .task-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px; background: var(--green-soft); color: var(--green);
+  }
+  .pill.page { background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
+  .card h3 { margin: 0 0 6px; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.25; text-wrap: balance; }
+  .hint { margin: 0 0 20px; color: var(--muted); }
+
+  label.lbl, .lbl { display: block; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  textarea, .f, select {
+    width: 100%; padding: 12px 14px; border: 2px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px;
+    color: var(--text); background: var(--surface); transition: border-color .15s;
+  }
+  select {
+    appearance: none; -webkit-appearance: none; cursor: pointer; font-weight: 700; padding-right: 42px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--green) 50%), linear-gradient(135deg, var(--green) 50%, transparent 50%);
+    background-position: calc(100% - 22px) 52%, calc(100% - 16px) 52%; background-size: 6px 6px; background-repeat: no-repeat;
+  }
+  textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+  textarea:focus, .f:focus, select:focus { outline: none; border-color: var(--green); }
+  ::placeholder { color: var(--faint); opacity: 1; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .two > *, .split-pic > * { min-width: 0; }
+  .row-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; align-items: center; }
+
+  /* картинка, що змінюється від вибору */
+  .split-pic { display: grid; grid-template-columns: 300px 1fr; gap: 28px; align-items: start; }
+  .pic {
+    position: relative; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden;
+    background: linear-gradient(135deg, var(--pic-a), var(--pic-b));
+    display: grid; place-items: center; border: 1px solid var(--line);
+  }
+  .pic .emo { font-size: clamp(72px, 9vw, 104px); line-height: 1; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .12)); }
+  .pic svg.ill { height: 48%; width: auto; max-width: 62%; margin-bottom: 14%; }
+  .pic img { width: 100%; height: 100%; object-fit: cover; }
+  .pic .cap {
+    position: absolute; left: 12px; bottom: 12px; right: 12px; text-align: center;
+    background: var(--surface); color: var(--text); font-weight: 800; font-size: 14px;
+    padding: 6px 10px; border-radius: 10px; box-shadow: var(--shadow);
+  }
+  .pic.sm { aspect-ratio: 1; border-radius: 16px; }
+  .pic.sm .emo { font-size: clamp(54px, 7vw, 76px); }
+  .pop { animation: pop .35s ease; }
+  @keyframes pop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+
+  .comment {
+    margin-top: 20px; padding: 16px 18px 16px 20px; border-radius: 14px; background: var(--green-soft);
+    border-left: 4px solid var(--green);
+  }
+  .comment-lbl { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+  .comment p { margin: 0; }
+  .comment p + p { margin-top: 8px; }
+
+  /* структури історії */
+  .struct-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 22px; }
+  .struct-grid button {
+    text-align: left; border: 2px solid var(--line); background: var(--surface); border-radius: 14px; padding: 12px 14px;
+    font: inherit; color: var(--text); cursor: pointer; transition: border-color .15s;
+  }
+  .struct-grid button b { display: flex; align-items: center; gap: 8px; font-size: 15px; }
+  .struct-grid button i {
+    font-style: normal; width: 22px; height: 22px; border-radius: 6px; background: var(--green); color: #fff;
+    display: inline-grid; place-content: center; font-size: 12px; font-weight: 800;
+  }
+  .struct-grid button[aria-pressed="true"] { border-color: var(--green); background: var(--green-soft); }
+  .diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 10px; }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .d-line { fill: none; stroke: var(--green); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .d-soft { fill: none; stroke: var(--faint); stroke-width: 1.5; stroke-dasharray: 5 5; }
+  .d-ring { fill: var(--green-soft); stroke: var(--green); stroke-width: 2; }
+  .d-dot { fill: var(--green); }
+  .d-num { fill: #fff; font: 800 12px Inter, sans-serif; text-anchor: middle; dominant-baseline: central; }
+  .d-txt { fill: var(--muted); font: 600 11px Inter, sans-serif; text-anchor: middle; }
+  .d-bad { stroke: var(--orange); stroke-width: 3; stroke-linecap: round; }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; counter-reset: s; }
+  .steps li {
+    display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: start;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px;
+  }
+  .steps li::before {
+    counter-increment: s; content: counter(s);
+    width: 28px; height: 28px; border-radius: 8px; background: var(--green); color: #fff;
+    display: grid; place-content: center; font-weight: 800; font-size: 14px;
+  }
+  .steps b { display: block; font-size: 15px; }
+  .steps span { color: var(--muted); font-size: 15px; font-style: italic; }
+
+  /* таймер */
+  .timer {
+    display: inline-flex; align-items: center; gap: 12px; padding: 8px 10px 8px 16px;
+    border-radius: 12px; background: var(--ink); color: var(--ink-text);
+  }
+  .timer b { font-size: 22px; font-variant-numeric: tabular-nums; min-width: 58px; }
+  .timer.done b { color: var(--orange); }
+  .timer button { border: 0; border-radius: 8px; padding: 7px 12px; font: 700 14px Inter, sans-serif; cursor: pointer; background: var(--green); color: #fff; }
+  .meter { font-size: 14px; color: var(--muted); }
+  .meter b { color: var(--text); }
+
+  /* 20/60/20 */
+  .bar { display: flex; height: 56px; border-radius: 14px; overflow: hidden; gap: 3px; margin: 8px 0 6px; }
+  .bar div { display: grid; place-content: center; text-align: center; color: #fff; font-weight: 800; font-size: 14px; line-height: 1.15; }
+  .bar small { display: block; font-weight: 600; font-size: 12px; opacity: .9; }
+  .b-in { background: #5b8cff; flex: 20; }
+  .b-main { background: var(--green); flex: 60; }
+  .b-out { background: var(--orange); flex: 20; }
+  .plan { display: grid; grid-template-columns: 90px 1fr; gap: 14px 18px; margin-top: 24px; }
+  .plan .pct { font-weight: 900; font-size: 26px; color: var(--green); line-height: 1; padding-top: 30px; }
+  .plan .pct small { display: block; font-size: 13px; color: var(--muted); font-weight: 600; margin-top: 4px; }
+  .plan .fields { display: grid; gap: 12px; }
+  .plan .rule { grid-column: 1 / -1; border-top: 1px dashed var(--line); }
+
+  /* піраміда асоціацій */
+  .assoc {
+    display: grid; grid-template-columns: 1fr 200px 1fr; grid-template-rows: auto auto auto; gap: 14px;
+    align-items: center; position: relative;
+  }
+  .assoc .dir { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+  .assoc .dir .lbl { display: flex; align-items: center; gap: 6px; color: var(--green); font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: .05em; }
+  .a-up { grid-column: 2 / 3; grid-row: 1; }
+  .a-down { grid-column: 2 / 3; grid-row: 3; }
+  .a-left { grid-column: 1; grid-row: 2; }
+  .a-right { grid-column: 3; grid-row: 2; }
+  .a-center { grid-column: 2; grid-row: 2; }
+  .a-up, .a-down { margin-inline: -60px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chips span { font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--green-soft); color: var(--green); }
+  .chips[hidden] { display: none; }
+
+  /* пари */
+  .pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; }
+  .pair .plus { font-size: 30px; font-weight: 900; color: var(--green); text-align: center; }
+  .pair .side { display: grid; gap: 10px; min-width: 0; }
+  .pair .pic.sm { aspect-ratio: 16 / 10; }
+
+  /* абревіатури */
+  .tiles { display: flex; flex-wrap: wrap; gap: 10px; margin: 4px 0 18px; }
+  .tile {
+    width: 64px; height: 72px; border-radius: 14px; background: var(--green-soft); color: var(--green);
+    display: grid; place-content: center; font-weight: 900; font-size: 34px; border: 2px solid transparent; transition: border-color .2s, background .2s;
+  }
+  .tile.ok { background: var(--green); color: #fff; }
+  .letters { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .letters label { display: grid; grid-template-columns: 34px 1fr; align-items: center; gap: 8px; }
+  .letters label b { font-size: 22px; font-weight: 900; color: var(--green); text-align: center; }
+  .letters .f { padding: 10px 12px; }
+  .phrase { margin-top: 16px; font-size: 20px; font-weight: 800; min-height: 30px; }
+  .phrase .dim { color: var(--faint); font-weight: 600; font-size: 16px; }
+
+  /* імпровізація */
+  .checklist { display: grid; gap: 8px; margin-top: 18px; }
+  .checklist label {
+    display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--surface); cursor: pointer; font-weight: 600;
+  }
+  .checklist input { width: 20px; height: 20px; accent-color: var(--green); flex-shrink: 0; }
+  .checklist label.cur { border-color: var(--green); }
+  .progress { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; margin-top: 12px; }
+  .progress div { height: 100%; background: var(--green); transition: width .3s; }
+  .topic-box {
+    margin-top: 16px; padding: 16px 18px; border-radius: 14px; border: 2px dashed var(--green);
+    font-size: 18px; font-weight: 800; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: space-between;
+  }
+
+  .quote {
+    margin-top: 28px; padding: 22px 26px; border-radius: var(--radius); background: var(--quote-bg);
+    display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start;
+  }
+  .quote .qq { font-size: 40px; font-weight: 900; line-height: .9; color: var(--navy); }
+  .quote p { margin: 0; font-size: 18px; font-weight: 600; }
+  .quote cite { display: block; margin-top: 6px; color: var(--muted); font-style: italic; font-size: 14px; }
+  .quote.dark { background: var(--ink); color: var(--ink-text); }
+  .quote.dark .qq { color: var(--ink-accent); }
+  .quote.dark cite { color: #aab3c2; }
+
+  .links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+  .links a, .links div {
+    display: flex; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 14px 16px;
+  }
+  .links .ic { font-size: 24px; }
+  .links b { display: block; font-size: 15px; }
+  .links small { color: var(--muted); font-size: 13px; }
+
+  .page-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: 14px; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+  @media (max-width: 980px) {
+    .menu a:not(.btn) { display: none; }
+    .toc { grid-template-columns: 1fr 1fr; }
+    .split-pic { grid-template-columns: 1fr; }
+    .split-pic .pic { max-width: 360px; }
+  }
+  @media (max-width: 720px) {
+    .nav { min-height: 64px; }
+    .logo { width: 44px; height: 44px; }
+    .logo b { font-size: 16px; }
+    .brand-name { font-size: 17px; }
+    .brand-sub { display: none; }
+    .menu .btn { display: none; }
+    section { padding: 44px 0; }
+    .card { padding: 20px; }
+    .two { grid-template-columns: 1fr; }
+    .toc { grid-template-columns: 1fr; }
+    .links { grid-template-columns: 1fr; }
+    .plan { grid-template-columns: 1fr; gap: 8px; }
+    .plan .pct { padding-top: 10px; display: flex; gap: 10px; align-items: baseline; }
+    .assoc { grid-template-columns: 1fr; }
+    .a-up, .a-down, .a-left, .a-right, .a-center { grid-column: 1; grid-row: auto; margin-inline: 0; }
+    .a-center { order: -1; max-width: 220px; justify-self: center; width: 100%; }
+    .pair { gap: 8px; }
+    .pair .pic.sm { aspect-ratio: 1; }
+    .pair .pic .emo { font-size: 48px; }
+    .pair select { font-size: 14px; padding: 10px 30px 10px 10px; background-position: calc(100% - 16px) 52%, calc(100% - 10px) 52%; }
+    .mood-row span { flex-basis: 100%; }
+    .tile { width: 48px; height: 56px; font-size: 26px; }
+    .quote { padding: 18px; }
+    .quote p { font-size: 16px; }
+  }
+  @media print {
+    header, .page-actions, .row-actions, .theme-btn { display: none !important; }
+    body { background: #fff; }
+    section { padding: 24px 0; }
+    .card { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#top" class="brand" aria-label="Публічні виступи — на початок">
+      <div class="logo"><b>2.5</b><small>заняття</small></div>
+      <div>
+        <div class="brand-name">Публічні виступи</div>
+        <div class="brand-sub">Робочий зошит · Campus13</div>
+      </div>
+    </a>
+    <nav class="menu">
+      <a href="#story">Історія</a>
+      <a href="#final">Виступ</a>
+      <a href="#homework">Домашнє</a>
+      <a href="#creative">Креатив</a>
+      <a href="#improv">Імпровізація</a>
+      <button type="button" class="theme-btn" id="themeBtn" aria-label="Перемкнути тему">🌓</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="container">
+      <span class="badge">Заняття 2.5–2.6 · Публічні виступи</span>
+      <h1>Розкажи історію так, щоб її <span class="accent">запам'ятали</span></h1>
+      <p class="lead">Обирай варіант у списку — картинка, схема і приклад зміняться під твій вибір. Відповіді зберігаються лише в цьому браузері.</p>
+
+      <div class="toc">
+        <a href="#story"><span class="ic">🗺️</span><span><b>Структура історії</b><small>2.5.2 · 6 схем і елевейтор піч</small></span></a>
+        <a href="#final"><span class="ic">🎤</span><span><b>Фінальний виступ</b><small>2.5.3 · формула 20/60/20</small></span></a>
+        <a href="#homework"><span class="ic">📝</span><span><b>Домашнє завдання</b><small>2.5.4 · 3 історії про себе</small></span></a>
+        <a href="#creative"><span class="ic">🧠</span><span><b>Креатив та імпровізація</b><small>2.6.1–2.6.2 · вправи</small></span></a>
+      </div>
+
+      <div class="mood" aria-label="Наліпка настрою">
+        <div class="mood-row" data-mood="start"><span>Настрій на початку</span></div>
+        <div class="mood-row" data-mood="end"><span>Настрій наприкінці</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.5.2 СТРУКТУРА ІСТОРІЇ -->
+  <section id="story" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.5.2</div>
+      <h2>Варіанти структури історії</h2>
+      <p class="section-lead">Одна й та сама подія звучить зовсім по-різному залежно від того, як її побудувати. Обери структуру — подивись схему, приклад і спробуй свою версію.</p>
+
+      <div class="stack">
+        <div class="card">
+          <div class="task-meta"><span class="pill">Завдання 1</span><span class="pill page">с. 45</span></div>
+          <h3>Обери структуру</h3>
+          <p class="hint">Натисни на картку або обери у списку.</p>
+          <div class="struct-grid" id="structGrid"></div>
+
+          <div class="split-pic">
+            <div>
+              <label class="lbl" for="structSel">Структура</label>
+              <select id="structSel"></select>
+              <div class="diagram pop" id="structDiagram" style="margin-top:14px"></div>
+              <div class="comment">
+                <div class="comment-lbl">Коли підходить</div>
+                <p id="structWhen"></p>
+              </div>
+            </div>
+            <div>
+              <p id="structDesc" style="margin:0 0 14px;font-size:17px;font-weight:600"></p>
+              <div class="lbl">Приклад: <span id="structTheme"></span></div>
+              <ol class="steps" id="structSteps"></ol>
+            </div>
+          </div>
+
+          <div style="margin-top:24px">
+            <label class="lbl" for="structText">Моя історія за цією структурою</label>
+            <textarea id="structText" rows="5"></textarea>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="task-meta"><span class="pill">Завдання 2</span><span class="pill page">с. 45</span></div>
+          <h3>Розповідь про себе: елевейтор піч</h3>
+          <p class="hint">Розповідь за 30 секунд — стільки триває поїздка в ліфті. Хто я? Що я можу дати? Що я хочу? Чим я займаюсь? Що мені потрібно? Чому я тут? Що буде далі?</p>
+
+          <div class="split-pic">
+            <div>
+              <label class="lbl" for="pitchSel">Ситуація</label>
+              <select id="pitchSel"></select>
+              <div class="pic pop" id="pitchPic" style="margin-top:14px"></div>
+            </div>
+            <div>
+              <div class="comment" style="margin-top:0">
+                <div class="comment-lbl">Приклад</div>
+                <p id="pitchEx"></p>
+              </div>
+              <div style="margin-top:18px">
+                <label class="lbl" for="pitchText">Мій елевейтор піч</label>
+                <textarea id="pitchText" rows="5" placeholder="Привіт! Я … Я займаюсь … Можу допомогти з … Мені потрібно …"></textarea>
+              </div>
+              <div class="row-actions">
+                <div class="timer" data-sec="30"><b>0:30</b><button type="button">Старт</button></div>
+                <span class="meter" id="pitchMeter"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.5.3 ФІНАЛЬНИЙ ВИСТУП -->
+  <section id="final">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.5.3</div>
+      <h2>Підготовка фінального виступу</h2>
+      <p class="section-lead">Формула 20/60/20: п'ята частина часу — на вступ, три п'ятих — на основну частину, ще п'ята — на завершення.</p>
+
+      <div class="card">
+        <div class="task-meta"><span class="pill">Завдання 3</span><span class="pill page">с. 46</span></div>
+        <div class="split-pic">
+          <div>
+            <label class="lbl" for="topicSel">Тема (приклад)</label>
+            <select id="topicSel"></select>
+            <div class="pic pop" id="topicPic" style="margin-top:14px"></div>
+          </div>
+          <div>
+            <label class="lbl" for="durSel">Тривалість виступу</label>
+            <select id="durSel" style="max-width:240px"></select>
+            <div class="lbl" style="margin-top:18px">Розподіл часу</div>
+            <div class="bar" id="bar"></div>
+            <div class="comment">
+              <div class="comment-lbl">Приклад: основна ідея</div>
+              <p id="topicIdea" style="font-weight:700"></p>
+              <p id="topicHook"></p>
+            </div>
+            <p class="meter" style="margin:12px 0 0">Сірий текст у полях нижче — приклад для обраної теми. Пиши поверх свій варіант.</p>
+          </div>
+        </div>
+
+        <div class="plan">
+          <div class="pct">20%<small id="tIn"></small></div>
+          <div class="fields">
+            <div><label class="lbl" for="f-idea">Основна ідея виступу</label><input class="f" id="f-idea" data-k="idea"></div>
+            <div><label class="lbl" for="f-intro">Вступ — як розпочну виступ і зацікавлю, як представлюсь? Які елементи структури використаю?</label><textarea id="f-intro" data-k="intro" rows="3"></textarea></div>
+          </div>
+          <div class="rule"></div>
+          <div class="pct">60%<small id="tMain"></small></div>
+          <div class="fields">
+            <p class="meter" style="margin:0">Основна частина: 3 (або більше) тези. Історії, приклади, кейси, що підтверджують і розкривають суть. Сюди ж — цитати, жарти, вправи.</p>
+            <div><label class="lbl" for="f-t1">Теза 1</label><textarea id="f-t1" data-k="t1" rows="2"></textarea></div>
+            <div><label class="lbl" for="f-t2">Теза 2</label><textarea id="f-t2" data-k="t2" rows="2"></textarea></div>
+            <div><label class="lbl" for="f-t3">Теза 3</label><textarea id="f-t3" data-k="t3" rows="2"></textarea></div>
+          </div>
+          <div class="rule"></div>
+          <div class="pct">20%<small id="tOut"></small></div>
+          <div class="fields">
+            <div><label class="lbl" for="f-outro">Як завершу виступ? Які слова скажу наостанок? Яким мене запам'ятають? На чому наголошу? З чим вийдуть учасники?</label><textarea id="f-outro" data-k="outro" rows="3"></textarea></div>
+          </div>
+        </div>
+        <div class="row-actions">
+          <button type="button" class="btn btn-sm btn-ghost" id="fillFinal">Підставити приклад у порожні поля</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.5.4 ДОМАШНЄ -->
+  <section id="homework" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.5.4 · Домашнє завдання</div>
+      <h2>Розкажи 3 історії про себе</h2>
+      <p class="section-lead">Обери, чий приклад подивитися, — і напиши свої відповіді поруч.</p>
+
+      <div class="card">
+        <div class="task-meta"><span class="pill">Домашнє</span><span class="pill page">с. 47</span></div>
+        <div class="split-pic">
+          <div>
+            <label class="lbl" for="personaSel">Приклад від</label>
+            <select id="personaSel"></select>
+            <div class="pic pop" id="personaPic" style="margin-top:14px"></div>
+          </div>
+          <div class="stack" id="hwList" style="gap:18px"></div>
+        </div>
+
+        <div class="quote">
+          <div class="qq">99</div>
+          <div>
+            <p>Презентація ідеї — це не про красиві картинки. Це про вашу енергію та внутрішню впевненість у тому, що те, що ви робите, справді важливо для людей.</p>
+            <cite>Дейл Карнегі — один із перших популяризаторів розвитку навичок спілкування і побудови взаємин</cite>
+          </div>
+        </div>
+
+        <div class="links" id="links"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.6.1 КРЕАТИВ -->
+  <section id="creative">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.6.1 · Вправи у вільний час</div>
+      <h2>Тренуємо креативне мислення</h2>
+      <p class="section-lead">Чим більше незвичних зв'язків ти бачиш, тим легше знаходити яскраві приклади й метафори для виступу.</p>
+
+      <div class="stack">
+        <div class="card">
+          <div class="task-meta"><span class="pill">Вправа 1</span><span class="pill page">с. 48</span></div>
+          <h3>Піраміда асоціацій</h3>
+          <p class="hint">Візьми будь-яке слово в центр і розгалуж асоціації у чотирьох напрямках.</p>
+          <div class="two" style="margin-bottom:20px">
+            <div>
+              <label class="lbl" for="wordSel">Слово в центрі</label>
+              <select id="wordSel"></select>
+            </div>
+            <div id="customWrap" hidden>
+              <label class="lbl" for="customWord">Твоє слово</label>
+              <input class="f" id="customWord" placeholder="Наприклад, «Дощ»">
+            </div>
+          </div>
+          <div class="assoc" id="assoc">
+            <div class="dir a-up"><div class="lbl">↑ Узагальнення</div><input class="f" data-d="up" placeholder="Що це за клас речей?"><div class="chips" data-ex="up" hidden></div></div>
+            <div class="dir a-left"><div class="lbl">← Паралельні поняття</div><input class="f" data-d="par" placeholder="Що стоїть поруч?"><div class="chips" data-ex="par" hidden></div></div>
+            <div class="a-center"><div class="pic sm pop" id="wordPic"></div></div>
+            <div class="dir a-right"><div class="lbl">Зовсім не пов'язані →</div><input class="f" data-d="far" placeholder="Що спадає на думку?"><div class="chips" data-ex="far" hidden></div></div>
+            <div class="dir a-down"><div class="lbl">↓ Роздрібнення</div><input class="f" data-d="down" placeholder="З чого складається?"><div class="chips" data-ex="down" hidden></div></div>
+          </div>
+          <div class="row-actions">
+            <button type="button" class="btn btn-sm btn-ghost" id="assocEx">Показати приклад</button>
+            <button type="button" class="btn btn-sm btn-ghost" id="assocRnd">Випадкове слово</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="task-meta"><span class="pill">Вправа 2</span><span class="pill page">с. 48</span></div>
+          <h3>Поєднати непоєднуване — чим схожі?</h3>
+          <p class="hint">Обери два предмети. Знайди щонайменше три спільні риси — чим несподіваніші, тим краще.</p>
+          <div class="pair">
+            <div class="side"><select id="pairA" aria-label="Перший предмет"></select><div class="pic sm pop" id="pairPicA"></div></div>
+            <div class="plus">+</div>
+            <div class="side"><select id="pairB" aria-label="Другий предмет"></select><div class="pic sm pop" id="pairPicB"></div></div>
+          </div>
+          <div class="comment" id="pairEx"></div>
+          <div style="margin-top:18px">
+            <label class="lbl" for="pairText" id="pairLbl">Чим вони схожі?</label>
+            <textarea id="pairText" rows="3"></textarea>
+          </div>
+          <div class="row-actions">
+            <button type="button" class="btn btn-sm btn-ghost" id="pairRnd">Випадкова пара</button>
+            <button type="button" class="btn btn-sm btn-ghost" id="pairNext">Наступна пара з прикладом</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.6.2 ІМПРОВІЗАЦІЯ -->
+  <section id="improv" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.6.2</div>
+      <h2>Імпровізація</h2>
+      <p class="section-lead">Імпровізація — це вміння не губитися, коли щось пішло не за планом. Її можна натренувати, як м'яз.</p>
+
+      <div class="stack">
+        <div class="card">
+          <div class="task-meta"><span class="pill">Вправа 3</span><span class="pill page">с. 49</span></div>
+          <h3>Придумай визначення абревіатурам</h3>
+          <p class="hint">Для кожної літери — слово. Плитка стає зеленою, коли слово починається з потрібної літери.</p>
+          <div class="two">
+            <div>
+              <label class="lbl" for="abbrSel">Абревіатура</label>
+              <select id="abbrSel"></select>
+            </div>
+            <div class="row-actions" style="margin-top:0;align-items:flex-end">
+              <button type="button" class="btn btn-sm btn-ghost" id="abbrRnd">Випадкові літери</button>
+              <button type="button" class="btn btn-sm btn-ghost" id="abbrExBtn">Показати приклад</button>
+            </div>
+          </div>
+          <div class="tiles pop" id="tiles" style="margin-top:18px"></div>
+          <div class="letters" id="letters"></div>
+          <div class="phrase" id="phrase"></div>
+          <div class="comment" id="abbrEx" hidden></div>
+        </div>
+
+        <div class="card">
+          <div class="task-meta"><span class="pill">Вправа 4</span><span class="pill page">с. 49</span></div>
+          <h3>Вправи для відпрацювання імпровізації</h3>
+          <div class="split-pic">
+            <div>
+              <label class="lbl" for="impSel">Вправа</label>
+              <select id="impSel"></select>
+              <div class="pic pop" id="impPic" style="margin-top:14px"></div>
+              <div class="checklist" id="impList"></div>
+              <div class="progress"><div id="impProg"></div></div>
+              <p class="meter" id="impCount" style="margin:6px 0 0"></p>
+            </div>
+            <div>
+              <p id="impHow" style="margin:0;font-size:17px"></p>
+              <div class="comment">
+                <div class="comment-lbl">Приклад</div>
+                <p id="impEx"></p>
+              </div>
+              <div class="comment" style="background:var(--surface);border-left-color:var(--orange)">
+                <div class="comment-lbl" style="color:var(--orange)">Що тренує</div>
+                <p id="impWhy"></p>
+              </div>
+              <div class="topic-box"><span id="impTopic"></span><button type="button" class="btn btn-sm" id="impTopicBtn">Нова тема</button></div>
+              <div class="row-actions">
+                <div class="timer" data-sec="60"><b>1:00</b><button type="button">Старт</button></div>
+              </div>
+              <div style="margin-top:18px">
+                <label class="lbl" for="impNotes">Що вийшло, що було складно</label>
+                <textarea id="impNotes" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote dark">
+            <div class="qq">«</div>
+            <div>
+              <p>Щоб переконати інших, ти сам маєш вірити в те, що говориш.</p>
+              <cite>Вінстон Черчилль — прем'єр-міністр Великої Британії (1940–1945, 1951–1955)</cite>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container page-actions">
+      <button type="button" class="btn" onclick="window.print()">Роздрукувати</button>
+      <button type="button" class="btn btn-outline" id="resetAll">Очистити всі відповіді</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> Заняття 2.5–2.6 · Публічні виступи</div>
+    <div>Робочий зошит Campus13</div>
+  </div>
+</footer>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+
+  // ===================== ДАНІ =====================
+  // Картинка: emoji або svg; можна додати photo: 'img/назва.jpg' — тоді покажеться фото.
+
+  const STRUCTURES = [
+    { id: 'monomyth', name: 'Мономіф', theme: 'перший виступ на сцені',
+      desc: 'Після довгої подорожі герой повертається додому з нагородою чи досвідом, що служитиме на благо.',
+      when: 'Коли розповідаєш, як чогось навчився чи змінився. Слухачі впізнають у герої себе.',
+      steps: [
+        ['Звичний світ', 'Я завжди сидів на задній парті й ніколи не піднімав руку.'],
+        ['Поклик до пригоди', 'Учителька попросила мене вести шкільний концерт — більше не було кому.'],
+        ['Випробування', 'Два тижні я репетирував перед дзеркалом і котом, плутав текст і хотів відмовитися.'],
+        ['Криза', 'На концерті вимкнувся мікрофон, і я стояв перед залом у повній тиші.'],
+        ['Нагорода', 'Я голосно пожартував про «втечу техніки» — і зала засміялася разом зі мною.'],
+        ['Повернення зі змінами', 'Тепер я першим зголошуюсь виступати: помилка — не кінець, а привід для контакту із залом.'],
+      ] },
+    { id: 'mountain', name: 'Гора', theme: 'наш перший хакатон',
+      desc: 'Схоже на мономіф, але без обов\'язкового щасливого кінця: напруга зростає до кульмінації, тоді — висновки.',
+      when: 'Коли хочеш тримати увагу до самого кінця: кожен крок складніший за попередній.',
+      steps: [
+        ['Зав\'язка', 'Ми з друзями вирішили взяти участь у міському хакатоні.'],
+        ['Перша перешкода', 'За добу до старту наш дизайнер захворів.'],
+        ['Ще складніше', 'О третій ночі зламалася база даних, а презентація ще не була готова.'],
+        ['Кульмінація', 'Ми вийшли на сцену з демо, яке працювало через раз, — і чесно про це сказали.'],
+        ['Висновок', 'Ми не перемогли, але журі запам\'ятало нашу чесність і запросило в інкубатор.'],
+      ] },
+    { id: 'nested', name: 'Вкладені цикли', theme: 'бабусина порада',
+      desc: 'Історія в історії: один цикл — твій, інший — про мудрого героя. У центрі — основний урок.',
+      when: 'Коли головну думку краще почути з вуст іншої людини — наставника, героя книжки, рідних.',
+      steps: [
+        ['Починаю свою історію', 'Перед співбесідою в ліцей я страшенно хвилювалася.'],
+        ['Історія наставника', 'Бабуся розповіла, як колись вступала до консерваторії, і в неї тремтіли руки.'],
+        ['Урок у центрі', '«Хвилювання — це енергія. Не ховай її, а грай нею», — сказала їй тоді викладачка.'],
+        ['Завершую історію наставника', 'Бабуся зіграла найемоційніше за всіх і вступила.'],
+        ['Повертаюсь до своєї', 'На співбесіді я згадала це, вдихнула — і говорила із запалом. Мене взяли.'],
+      ] },
+    { id: 'sparklines', name: 'Спарклайни', theme: 'сортування сміття в школі',
+      desc: 'Опис подій на контрасті «було — стало» або паралельні аспекти: там погано, а тут добре.',
+      when: 'Коли треба переконати й закликати до дії: проєкт, ідея, зміни в громаді.',
+      steps: [
+        ['Як є', 'Зараз після перерви всі урни переповнені пластиком.'],
+        ['Як може бути', 'Уяви двір, де пляшки збирають окремо, а за виручені гроші купують нові м\'ячі.'],
+        ['Як є', 'Сьогодні школа платить за вивезення сміття і нічого не отримує.'],
+        ['Як може бути', 'Сусідня школа вже заробила на вторсировині на новий проєктор.'],
+        ['Заклик до дії', 'Поставмо три контейнери цього місяця — організацію я беру на себе.'],
+      ] },
+    { id: 'falsestart', name: 'Фальстарт', theme: 'мрія, що змінила форму',
+      desc: 'Починаєш передбачувану історію, раптово обриваєш її і починаєш заново. Вибиває слухачів із зони комфорту.',
+      when: 'Коли хочеш здивувати на самому початку і показати, що вмієш змінювати план.',
+      steps: [
+        ['Звичний початок', 'Я з дитинства мріяв стати лікарем і вступив у медичний клас…'],
+        ['Несподіваний обрив', '…і на першій же практиці знепритомнів, побачивши кров.'],
+        ['Новий старт', 'Тоді я почав шукати, де ще можна піклуватися про людей.'],
+        ['Що вийшло', 'Тепер я волонтер на лінії підтримки для підлітків.'],
+        ['Урок', 'Мрія може змінити форму, але не суть.'],
+      ] },
+    { id: 'medias', name: 'З середини дії', theme: 'загубився в горах',
+      desc: 'Починаєш з найнапруженішого моменту, а потім повертаєшся назад і пояснюєш, як до цього дійшло.',
+      when: 'Коли маєш мало часу на увагу залу: перші 10 секунд мають «зачепити».',
+      steps: [
+        ['Найгостріший момент', 'Я стою на вершині, довкола туман, телефон сів, а групи ніде немає.'],
+        ['Повернення в минуле', 'А почалося все зранку, коли я вирішив обігнати всіх заради першого фото.'],
+        ['Як усе розвивалося', 'Я звернув на стежку, що здавалася коротшою, і не помітив, як вона зникла.'],
+        ['Розв\'язка', 'Через годину я почув свисток інструктора — сигнал, про який він казав на інструктажі.'],
+        ['Висновок', 'Тепер я слухаю інструктаж до кінця. Швидше — не завжди перше.'],
+      ] },
+  ];
+
+  const PITCHES = [
+    { id: 'lift', emoji: '🛗', name: 'Ліфт з інвестором',
+      text: '«Добрий день! Я Марта, мені 16. Я роблю застосунок, який допомагає школярам знаходити волонтерські проєкти поруч з домом. За пів року ним скористалися 300 учнів. Я вмію програмувати й збирати команду, а зараз шукаю наставника і кошти на запуск ще в трьох містах. Можна я надішлю вам презентацію на одну сторінку?»' },
+    { id: 'job', emoji: '💼', name: 'Співбесіда на першу роботу',
+      text: '«Мене звати Андрій, я вчуся в 11 класі й третій рік веду сторінку шкільного ліцею в соцмережах. Я вмію знімати короткі відео й писати тексти, які читають. Мені цікаво попрацювати в справжній команді маркетингу. Я тут, бо ваша кав\'ярня — улюблене місце моїх однокласників, і я знаю, що їм сподобається.»' },
+    { id: 'camp', emoji: '🏕️', name: 'Знайомство в новому класі чи таборі',
+      text: '«Привіт! Я Софія, переїхала з Харкова. Обожнюю настільні ігри й можу пояснити правила будь-якої за дві хвилини. Шукаю людей, з якими можна зібрати клуб настолок по п\'ятницях. Якщо ти теж любиш вигравати (або гарно програвати) — приєднуйся!»' },
+    { id: 'contest', emoji: '🏆', name: 'Конкурс або хакатон',
+      text: '«Ми — команда «Тихий клас». Щодня в нашій школі шум на перервах сягає рівня відбійного молотка. Ми зробили датчик, який показує рівень шуму кольором — і за місяць у тестовому класі стало на третину тихіше. Нам потрібні 10 датчиків, щоб перевірити ідею на всій школі.»' },
+    { id: 'mentor', emoji: '🤝', name: 'Зустріч з наставником',
+      text: '«Вітаю! Я Ігор, займаюсь легкою атлетикою і мрію стати спортивним журналістом. Я вже взяв три інтерв\'ю в тренерів нашого міста. Мені дуже важливо навчитися ставити запитання так, щоб людина розкривалася. Чи можу я прийти на вашу пресконференцію як слухач?»' },
+  ];
+
+  const TOPICS = [
+    { id: 'hobby', emoji: '🎸', name: 'Моє хобі',
+      idea: 'Хобі вчить того, чого не навчать на уроках.',
+      intro: 'Почну з питання до залу: «Підніміть руку, хто хоч раз кидав нове заняття через тиждень?» Розповім, що я теж — поки не взяв до рук гітару.',
+      t1: 'Терпіння: перший акорд у мене вийшов на 12-й день, і я покажу, як звучав 1-й.',
+      t2: 'Дисципліна: 15 хвилин щодня кращі за три години в неділю — моя таблиця прогресу.',
+      t3: 'Друзі: через гітару я потрапив у шкільний гурт, і ми виступали на міському фестивалі.',
+      outro: 'Зіграю 20 секунд пісні й скажу: «Те, що здається неможливим, — просто ще не почате». Запропоную кожному назвати хобі, яке він відкладав.' },
+    { id: 'community', emoji: '🏘️', name: 'Проєкт для моєї громади',
+      idea: 'Маленька команда підлітків може змінити свій двір.',
+      intro: 'Покажу фото нашого двору «до» і запитаю: «Хто б тут захотів гуляти?»',
+      t1: 'Проблема: занедбаний майданчик, яким ніхто не займався 10 років.',
+      t2: 'Рішення: ми зібрали 12 волонтерів і домовилися з ОСББ про фарбу та лавки.',
+      t3: 'Результат: за два вікенди майданчик ожив — тепер там щовечора грають діти.',
+      outro: 'Покажу фото «після» і закличу: «Озирніться довкола — що можете змінити ви вже цієї суботи?»' },
+    { id: 'reading', emoji: '📚', name: 'Чому варто читати',
+      idea: 'Читання — це тренажер для уяви та мови.',
+      intro: 'Почну з цитати з улюбленої книжки й запитаю, хто впізнав, звідки вона.',
+      t1: 'Словниковий запас: хто читає, той говорить яскравіше — і це помітно на виступах.',
+      t2: 'Емпатія: книжки дають прожити чуже життя і краще розуміти людей.',
+      t3: 'Фокус: 20 сторінок без телефону — найкраще тренування уваги.',
+      outro: 'Подарую залу «челендж 10 сторінок на день» і назву три книжки для старту.' },
+    { id: 'app', emoji: '📱', name: 'Застосунок, що змінив мої звички',
+      idea: 'Телефон може не красти час, а допомагати.',
+      intro: 'Покажу свій екранний час: 7 годин на день — і що я відчув, коли вперше це побачив.',
+      t1: 'Як я поставив ліміти на соцмережі й що замінив ними звільнений час.',
+      t2: 'Трекер звичок: 60 днів поспіль — вода, сон, прогулянка.',
+      t3: 'Помилки: що не спрацювало і чому ліміт без мети не працює.',
+      outro: 'Попрошу всіх зараз відкрити свій екранний час і поставити одну маленьку мету на тиждень.' },
+    { id: 'fail', emoji: '🧗', name: 'Моя найкорисніша помилка',
+      idea: 'Помилка — це інформація, а не вирок.',
+      intro: 'Почну з середини дії: «Я стою біля дошки, і в мене в голові — порожнеча».',
+      t1: 'Що сталося: я провалив олімпіаду, до якої готувався пів року.',
+      t2: 'Що я зрозумів: я вчив відповіді, а не вчився думати.',
+      t3: 'Що змінив: тепер пояснюю тему друзям — і так перевіряю, чи розумію її.',
+      outro: 'Скажу: «Наступного разу, коли помилитеся, запитайте себе: що це мені підказує?» — і покажу свій диплом з наступного року.' },
+  ];
+  const DURATIONS = [1, 2, 3, 5, 7, 10];
+
+  const HW_Q = ['Як ти став/ла таким/ою, яким/ою ти є?', 'Чому те, що ти робиш, важливо?', 'Чого ти хочеш досягнути?'];
+  const PERSONAS = [
+    { id: 'sport', emoji: '🏃‍♀️', name: 'Оля, легкоатлетка', a: [
+      'У 10 років я програла забіг і плакала всю дорогу додому. Тренер сказав: «Ти бігла не для медалі, а щоб стати швидшою за себе вчорашню». Відтоді я записую кожен свій результат.',
+      'Я показую молодшим дівчатам у секції, що спорт — це не про ідеальне тіло, а про силу і характер.',
+      'Пробігти півмарафон до 18 років і відкрити безкоштовну бігову групу в нашому парку.' ] },
+    { id: 'code', emoji: '👨‍💻', name: 'Денис, програміст-початківець', a: [
+      'Я хотів змінити скін у грі, а натомість дізнався, що таке код. Перша програма вітала маму з днем народження — і вона досі її зберігає.',
+      'Я роблю бота, який нагадує бабусі про ліки. Коли технології допомагають рідним — це найкраща мотивація.',
+      'Вступити на комп\'ютерні науки і створити застосунок, яким користуватиметься хоча б 10 000 людей.' ] },
+    { id: 'volunteer', emoji: '🧑‍🤝‍🧑', name: 'Іра, волонтерка', a: [
+      'Восени 2022-го я вперше прийшла плести сітки «на годинку» — і залишилася на два роки. Там я зрозуміла, що можу більше, ніж думала.',
+      'Кожна маленька справа — коробка, лист, плетена сітка — комусь допомагає.',
+      'Створити шкільний волонтерський центр, де кожен знайде справу до душі.' ] },
+    { id: 'artist', emoji: '🎨', name: 'Марко, ілюстратор', a: [
+      'Я малював на полях усіх зошитів, і за це мені знижували оцінки. Поки вчителька не попросила намалювати афішу для шкільного свята.',
+      'Мої малюнки пояснюють складні теми простіше — я роблю комікси-конспекти для однокласників.',
+      'Видати свій комікс про історію рідного міста.' ] },
+  ];
+
+  const LINKS = [
+    { icon: '💬', title: 'Відгук', sub: 'Розкажи, як пройшло заняття', url: '' },
+    { icon: '📁', title: 'Матеріали', sub: 'Додаткові матеріали', url: '' },
+    { icon: '▶️', title: 'Відео', sub: 'Відео до теми', url: '' },
+  ];
+
+  const WORDS = [
+    { id: 'car', emoji: '🚗', name: 'Автомобіль', up: ['Транспорт', 'Техніка', 'Рух'], down: ['Колесо', 'Двигун', 'Кермо', 'Фари'], par: ['Велосипед', 'Потяг', 'Самокат'], far: ['Свобода', 'Тато', 'Дорожній плейлист'] },
+    { id: 'coffee', emoji: '☕', name: 'Кава', up: ['Напій', 'Ранковий ритуал'], down: ['Зерна', 'Пінка', 'Кофеїн'], par: ['Чай', 'Какао', 'Лимонад'], far: ['Розмова', 'Дедлайн', 'Італія'] },
+    { id: 'phone', emoji: '📱', name: 'Смартфон', up: ['Гаджет', 'Засіб зв\'язку'], down: ['Екран', 'Батарея', 'Камера'], par: ['Планшет', 'Ноутбук', 'Рація'], far: ['Самотність', 'Меми', 'Будильник'] },
+    { id: 'book', emoji: '📖', name: 'Книга', up: ['Література', 'Знання'], down: ['Сторінка', 'Обкладинка', 'Розділ'], par: ['Журнал', 'Аудіокнига', 'Фільм'], far: ['Подорож', 'Тиша', 'Бабусина полиця'] },
+    { id: 'sea', emoji: '🌊', name: 'Море', up: ['Водойма', 'Природа'], down: ['Хвиля', 'Пісок', 'Мушля'], par: ['Океан', 'Озеро', 'Річка'], far: ['Спокій', 'Літо', 'Відпустка мрії'] },
+    { id: 'guitar', emoji: '🎸', name: 'Гітара', up: ['Музичний інструмент', 'Музика'], down: ['Струна', 'Гриф', 'Медіатор'], par: ['Укулеле', 'Скрипка', 'Бандура'], far: ['Вогнище', 'Мозолі', 'Перше кохання'] },
+    { id: 'pizza', emoji: '🍕', name: 'Піца', up: ['Їжа', 'Італійська кухня'], down: ['Тісто', 'Сир', 'Соус'], par: ['Бургер', 'Пиріг', 'Хачапурі'], far: ['Вечірка', 'Друзі', 'Неаполь'] },
+    { id: 'custom', emoji: '✍️', name: 'Своє слово…' },
+  ];
+
+  const TABLE_SVG = '<svg class="ill" viewBox="0 0 120 90" aria-hidden="true"><rect x="8" y="22" width="104" height="12" rx="3" fill="#a16207"/><rect x="14" y="10" width="92" height="14" rx="4" fill="#ca8a04"/><rect x="18" y="34" width="9" height="50" rx="2" fill="#854d0e"/><rect x="93" y="34" width="9" height="50" rx="2" fill="#854d0e"/><rect x="40" y="34" width="6" height="36" rx="2" fill="#a16207" opacity=".6"/><rect x="74" y="34" width="6" height="36" rx="2" fill="#a16207" opacity=".6"/></svg>';
+  const OBJECTS = [
+    { id: 'table', name: 'Стіл', svg: TABLE_SVG },
+    { id: 'crow', name: 'Ворона', emoji: '🐦‍⬛' },
+    { id: 'light', name: 'Світло', emoji: '💡' },
+    { id: 'truth', name: 'Правда', emoji: '⚖️' },
+    { id: 'cactus', name: 'Кактус', emoji: '🌵' },
+    { id: 'clock', name: 'Годинник', emoji: '⏰' },
+    { id: 'cat', name: 'Кіт', emoji: '🐈' },
+    { id: 'cloud', name: 'Хмара', emoji: '☁️' },
+    { id: 'key', name: 'Ключ', emoji: '🔑' },
+    { id: 'friendship', name: 'Дружба', emoji: '🤝' },
+    { id: 'bridge', name: 'Міст', emoji: '🌉' },
+    { id: 'music', name: 'Музика', emoji: '🎵' },
+    { id: 'tree', name: 'Дерево', emoji: '🌳' },
+    { id: 'memory', name: 'Пам\'ять', emoji: '🧠' },
+    { id: 'umbrella', name: 'Парасолька', emoji: '☂️' },
+    { id: 'mom', name: 'Мама', emoji: '👩' },
+  ];
+  // Приклади для пар (ключ — id у будь-якому порядку).
+  const PAIRS = [
+    ['table', 'crow', 'В обох є «ніжки», і на обох можна щось залишити: на столі — записку, ворона — спогад про себе о шостій ранку. А ще Капелюшник в «Алісі в Країні Див» загадав схожу загадку — про ворона і письмовий стіл — і відповіді так і не дав. Тож можна вигадати свою.'],
+    ['light', 'truth', 'Світло і правда показують речі такими, як вони є. Обидва можуть засліпити, якщо раптово «увімкнути» їх на повну. І обидва поширюються швидше, ніж хочеться тим, хто ховається в темряві.'],
+    ['cactus', 'clock', 'Обидва вчать терпіння: кактус цвіте раз на кілька років, годинник рахує кожну секунду очікування. І обидва колються, якщо поспішати: кактус — голками, годинник — дедлайнами.'],
+    ['cat', 'cloud', 'Кіт і хмара м\'які, постійно змінюють форму і ніколи не питають дозволу, де їм бути. З обома не домовишся — лише спостерігай.'],
+    ['key', 'friendship', 'Ключ і дружба відчиняють двері, які інакше зачинені. Обидва легко загубити, а дублікат ніколи не буде точно таким, як оригінал.'],
+    ['bridge', 'music', 'Міст і музика з\'єднують тих, хто стоїть на різних берегах. Обидва тримаються на ритмі: міст — на опорах через рівні проміжки, музика — на тактах.'],
+    ['tree', 'memory', 'Дерево і пам\'ять ростуть кільцями — кожен рік додає новий шар. Коріння не видно, але саме воно тримає все, що над землею.'],
+    ['umbrella', 'mom', 'Про обох згадуєш, коли вже змок. Обидві розкриваються над тобою в найгірший момент і ніколи не питають, чи ти на це заслужив.'],
+  ];
+  const PAIR_HINTS = ['Форма і колір', 'Для чого існують', 'Характер, якби це були люди', 'Звук або запах', 'Що буде, якщо їх загубити', 'Як вони змінюються з часом'];
+
+  const ABBRS = [
+    { id: 'ibnpum', text: 'ІБНПУМ', ex: ['Інститут Блискучих Непередбачуваних Промов Українською Мовою', 'Ідеальний Бутерброд На Перерві У Мами'] },
+    { id: 'edrpou', text: 'ЄДРПОУ', real: 'Єдиний державний реєстр підприємств та організацій України', ex: ['Єнот Довго Розповідав Про Ось Усе', 'Єдина Довідка Ректора Про Оцінки Учнів'] },
+    { id: 'khrmzts', text: 'ХРМЗЦ', ex: ['Хто Рано Мріє — Здобуває Ціль', 'Хор Ремонтників Мрій З Цукерками'] },
+    { id: 'tsnap', text: 'ЦНАП', real: 'Центр надання адміністративних послуг', ex: ['Цирк Нескінченних Акробатичних Пірамід', 'Цікаві Новини Азовського Півострова'] },
+    { id: 'nmt', text: 'НМТ', real: 'Національний мультипредметний тест', ex: ['Ніч Мемів і Танців', 'Ну Майже Тиждень (до канікул)'] },
+    { id: 'kpi', text: 'КПІ', real: 'Київський політехнічний інститут', ex: ['Котики Підкорюють Інтернет', 'Краще Пізно, Ізюмчику'] },
+  ];
+  const RND_LETTERS = 'АБВГДЕЖЗІКЛМНОПРСТУФХЦЧШЯ';
+
+  const IMPROV = [
+    { id: 'gibberish', emoji: '👽', name: 'Поговори невідомою мовою',
+      how: 'Розкажи про щось звичне — свій сніданок чи дорогу до школи — вигаданою мовою, без жодного справжнього слова. Партнер «перекладає» тебе вголос.',
+      ex: '«Бру́на шмакі лапато! Тротто фі-фі бурум…» — перекладач: «Сьогодні на сніданок була каша, і вона втекла з тарілки!»',
+      why: 'Передавати зміст інтонацією, жестами і мімікою. Після цієї вправи твоя звичайна мова стає виразнішою.' },
+    { id: 'city', emoji: '🏙️', name: 'Придумай історію походження назви твого міста',
+      how: 'За хвилину вигадай легенду, звідки взялася назва твого міста чи села. Що абсурдніше — то краще, але історія має бути логічною.',
+      ex: '«Кажуть, Полтаву назвали так, бо колись тут жив кухар, який завжди варив пол-тави борщу — половину для себе, половину для сусідів…»',
+      why: 'Швидко будувати сюжет із нуля і тримати логіку навіть у вигадці.' },
+    { id: 'lies', emoji: '🦄', name: 'Говори лише вигадками',
+      how: 'Хвилину відповідай на запитання друзів лише неправдою — але впевнено, без пауз і сміху.',
+      ex: '— Звідки ти? — З Місяця, там найкращі школи футболу. — А чому прийшов сюди? — Бо на Місяці закінчилось повітря для м\'ячів.',
+      why: 'Впевненість у голосі та швидкість реакції. Виявляється, «як» говориш, важить не менше, ніж «що».' },
+    { id: 'facts', emoji: '📊', name: 'Говори лише фактами',
+      how: 'Хвилину розповідай на тему тільки перевіреними фактами — без оцінок, «мені здається» і «напевно».',
+      ex: '«Восьминіг має три серця. Мед майже не псується. Світло від Сонця летить до Землі приблизно 8 хвилин.»',
+      why: 'Відрізняти факти від думок і говорити по суті — так твої аргументи звучать переконливо.' },
+    { id: 'yesand', emoji: '🙌', name: '«Так, і…»',
+      how: 'Удвох будуйте історію: кожна репліка починається з «Так, і…» і додає нову деталь. Заперечувати не можна.',
+      ex: '— Ми знайшли на горищі карту. — Так, і на ній позначена наша школа! — Так, і хрестик стоїть просто під кабінетом директора…',
+      why: 'Приймати ідеї інших і розвивати їх — головне правило імпровізації та командної роботи.' },
+    { id: 'expert', emoji: '🎓', name: 'Експерт з нічого',
+      how: 'Отримай випадкову тему і хвилину виступай як світовий експерт: з «дослідженнями», прикладами і висновками.',
+      ex: '«Як провідний дослідник шкарпеток, заявляю: зникнення лівої шкарпетки — не випадковість. Наші дані показують…»',
+      why: 'Говорити впевнено, навіть коли тема незнайома, і структурувати думки на ходу.' },
+    { id: 'oneword', emoji: '🔗', name: 'Історія по одному слову',
+      how: 'Група складає історію, кожен по черзі додає лише одне слово. Слухайте уважно — сюжет може повернути будь-куди.',
+      ex: '«Одного — ранку — дракон — запізнився — на — урок — фізики, — бо…»',
+      why: 'Уважно слухати і підхоплювати — без цього неможливий живий діалог із залом.' },
+  ];
+  const TOPIC_POOL = ['Чому коти правлять світом', 'Ідеальний понеділок', 'Шкільна їдальня майбутнього', 'Як приручити дедлайн', 'Таємне життя шкарпеток', 'Мій перший телефон', 'Чому небо не зелене', 'Подорож у 2050 рік', 'Найкращий у світі бутерброд', 'Якби в мене була суперсила', 'Секрет ідеального сну', 'Як пояснити бабусі TikTok', 'Місто, де заборонили дощ', 'Робот-учитель: за і проти'];
+
+  // ===================== СТАН =====================
+  const KEY = 'vystupy-2.5-2.6';
+  const DEFAULTS = () => ({
+    mood: { start: null, end: null },
+    story: 'monomyth', storyText: {},
+    pitch: 'lift', pitchText: '',
+    topic: 'hobby', dur: 3, final: { idea: '', intro: '', t1: '', t2: '', t3: '', outro: '' },
+    persona: 'sport', hw: ['', '', ''],
+    word: 'car', customWord: '', assoc: {},
+    pairA: 'table', pairB: 'crow', pairText: {},
+    abbr: 'ibnpum', abbrRnd: '', abbrAns: {},
+    imp: 'gibberish', impDone: {}, impNotes: '',
+  });
+  let S = DEFAULTS();
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && typeof s === 'object') S = Object.assign(DEFAULTS(), s);
+  } catch (e) {}
+  let saveTimer;
+  const save = () => { clearTimeout(saveTimer); saveTimer = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 250); };
+
+  // ===================== ДОПОМІЖНЕ =====================
+  const byId = (arr, id) => arr.find(x => x.id === id) || arr[0];
+  const fillSelect = (sel, arr, cur, label = x => x.name) => {
+    sel.innerHTML = arr.map(x => `<option value="${x.id}">${esc(label(x))}</option>`).join('');
+    sel.value = byId(arr, cur).id;
+  };
+  const animate = el => { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); };
+  // Малює картинку: фото, svg або emoji, з підписом.
+  const setPic = (el, item, cap = item.name) => {
+    const art = item.photo ? `<img src="${esc(item.photo)}" alt="${esc(cap)}">`
+      : item.svg ? item.svg
+      : `<span class="emo" role="img" aria-label="${esc(cap)}">${item.emoji}</span>`;
+    el.innerHTML = art + (cap ? `<span class="cap">${esc(cap)}</span>` : '');
+    animate(el);
+  };
+  const bindText = (el, get, set) => { el.value = get() || ''; el.addEventListener('input', () => { set(el.value); save(); }); };
+
+  // ===================== НАСТРІЙ =====================
+  const MOODS = ['😞', '😕', '😐', '🙂', '😄'];
+  document.querySelectorAll('[data-mood]').forEach(row => {
+    const k = row.dataset.mood;
+    MOODS.forEach((m, i) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = m; b.setAttribute('aria-label', `Настрій ${i + 1} з 5`);
+      b.setAttribute('aria-pressed', S.mood[k] === i);
+      b.onclick = () => {
+        S.mood[k] = S.mood[k] === i ? null : i; save();
+        row.querySelectorAll('button').forEach((x, j) => x.setAttribute('aria-pressed', S.mood[k] === j));
+      };
+      row.appendChild(b);
+    });
+  });
+
+  // ===================== СТРУКТУРИ =====================
+  // Схеми у viewBox 360×200. pts — точки кроків (нумерація як у списку).
+  const DIAGRAMS = {
+    monomyth: () => {
+      const pts = [0, 1, 2, 3, 4, 5].map(i => { const a = -Math.PI / 2 + i * Math.PI / 3; return [180 + 78 * Math.cos(a), 100 + 78 * Math.sin(a)]; });
+      return { pts, art: `<line class="d-soft" x1="70" y1="100" x2="290" y2="100"/><circle class="d-line" cx="180" cy="100" r="78"/>
+        <text class="d-txt" x="320" y="70">звичний</text><text class="d-txt" x="320" y="84">світ</text>
+        <text class="d-txt" x="320" y="122">нове</text><text class="d-txt" x="320" y="136">випробування</text>` };
+    },
+    mountain: () => {
+      const pts = [[30, 175], [100, 135], [170, 110], [255, 32], [330, 120]];
+      return { pts, art: `<polyline class="d-line" points="30,175 100,135 125,148 170,110 200,122 255,32 330,120"/>
+        <line class="d-soft" x1="20" y1="185" x2="345" y2="185"/><text class="d-txt" x="255" y="18">кульмінація</text>` };
+    },
+    nested: () => {
+      const pts = [[60, 100], [115, 100], [180, 100], [245, 100], [300, 100]];
+      return { pts, art: `<ellipse class="d-ring" cx="180" cy="100" rx="150" ry="88" opacity=".55"/><ellipse class="d-ring" cx="180" cy="100" rx="95" ry="58" opacity=".8"/><ellipse class="d-ring" cx="180" cy="100" rx="38" ry="28"/>
+        <text class="d-txt" x="180" y="26">моя історія</text><text class="d-txt" x="180" y="58">історія наставника</text><text class="d-txt" x="180" y="146">урок</text>` };
+    },
+    sparklines: () => {
+      const pts = [[40, 150], [110, 60], [180, 150], [250, 60], [320, 28]];
+      return { pts, art: `<line class="d-soft" x1="20" y1="105" x2="345" y2="105"/><polyline class="d-line" points="40,150 110,60 180,150 250,60 320,28"/>
+        <text class="d-txt" x="40" y="182">як є</text><text class="d-txt" x="180" y="182">як є</text><text class="d-txt" x="110" y="40">як може бути</text><text class="d-txt" x="300" y="68">заклик</text>` };
+    },
+    falsestart: () => {
+      const pts = [[40, 160], [140, 90], [170, 170], [255, 110], [330, 40]];
+      return { pts, art: `<polyline class="d-line" points="40,160 140,90"/><line class="d-bad" x1="132" y1="76" x2="152" y2="96"/><line class="d-bad" x1="152" y1="76" x2="132" y2="96"/>
+        <line class="d-soft" x1="140" y1="90" x2="170" y2="170"/><polyline class="d-line" points="170,170 255,110 330,40"/><text class="d-txt" x="105" y="70">обрив</text>` };
+    },
+    medias: () => {
+      const pts = [[200, 60], [50, 150], [125, 150], [200, 150], [310, 150]];
+      return { pts, art: `<line class="d-soft" x1="30" y1="150" x2="345" y2="150"/><path class="d-line" d="M200 60 C 120 30, 60 80, 50 150"/><polyline class="d-line" points="50,150 310,150"/><line class="d-soft" x1="200" y1="60" x2="200" y2="150"/>
+        <text class="d-txt" x="270" y="56">старт тут!</text><text class="d-txt" x="60" y="182">минуле</text><text class="d-txt" x="310" y="182">кінець</text>` };
+    },
+  };
+  const drawDiagram = id => {
+    const { pts, art } = DIAGRAMS[id]();
+    const dots = pts.map(([x, y], i) => `<circle class="d-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="12"/><text class="d-num" x="${x.toFixed(1)}" y="${y.toFixed(1)}">${i + 1}</text>`).join('');
+    return `<svg viewBox="0 0 360 200" role="img" aria-label="Схема структури">${art}${dots}</svg>`;
+  };
+
+  const structSel = $('structSel'), structGrid = $('structGrid'), structText = $('structText');
+  fillSelect(structSel, STRUCTURES, S.story);
+  structGrid.innerHTML = STRUCTURES.map((s, i) => `<button type="button" data-id="${s.id}"><b><i>${i + 1}</i>${esc(s.name)}</b></button>`).join('');
+  const renderStruct = () => {
+    const s = byId(STRUCTURES, S.story);
+    structSel.value = s.id;
+    structGrid.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === s.id));
+    $('structDiagram').innerHTML = drawDiagram(s.id); animate($('structDiagram'));
+    $('structDesc').textContent = s.desc;
+    $('structWhen').textContent = s.when;
+    $('structTheme').textContent = s.theme;
+    $('structSteps').innerHTML = s.steps.map(([t, e]) => `<li><div><b>${esc(t)}</b><span>${esc(e)}</span></div></li>`).join('');
+    structText.placeholder = s.steps.map(([t], i) => `${i + 1}. ${t}: …`).join('\n');
+    structText.rows = Math.max(5, s.steps.length);
+    structText.value = S.storyText[s.id] || '';
+  };
+  structSel.onchange = () => { S.story = structSel.value; save(); renderStruct(); };
+  structGrid.onclick = e => { const b = e.target.closest('button'); if (!b) return; S.story = b.dataset.id; save(); renderStruct(); };
+  structText.addEventListener('input', () => { S.storyText[S.story] = structText.value; save(); });
+  renderStruct();
+
+  // ===================== ЕЛЕВЕЙТОР ПІЧ =====================
+  const pitchSel = $('pitchSel'), pitchText = $('pitchText');
+  fillSelect(pitchSel, PITCHES, S.pitch, x => `${x.emoji} ${x.name}`);
+  const words = t => (t.trim().match(/[\p{L}\p{N}'’-]+/gu) || []).length;
+  const renderPitchMeter = () => {
+    const w = words(pitchText.value), sec = Math.round(w / 2.3);
+    $('pitchMeter').innerHTML = w ? `<b>${w}</b> слів ≈ <b>${sec} с</b> вголос ${sec > 30 ? '— задовго, скороти' : '— вкладаєшся'}` : 'Нормальний темп — близько 2–2,5 слова за секунду.';
+  };
+  const renderPitch = () => {
+    const p = byId(PITCHES, S.pitch);
+    setPic($('pitchPic'), p);
+    $('pitchEx').textContent = p.text;
+  };
+  pitchSel.onchange = () => { S.pitch = pitchSel.value; save(); renderPitch(); };
+  bindText(pitchText, () => S.pitchText, v => { S.pitchText = v; renderPitchMeter(); });
+  renderPitch(); renderPitchMeter();
+
+  // ===================== ФІНАЛЬНИЙ ВИСТУП =====================
+  const topicSel = $('topicSel'), durSel = $('durSel');
+  fillSelect(topicSel, TOPICS, S.topic, x => `${x.emoji} ${x.name}`);
+  durSel.innerHTML = DURATIONS.map(d => `<option value="${d}">${d} хв</option>`).join('');
+  durSel.value = DURATIONS.includes(+S.dur) ? S.dur : 3;
+  const fmt = s => { s = Math.round(s); const m = Math.floor(s / 60), r = s % 60; return m ? `${m} хв${r ? ' ' + r + ' с' : ''}` : `${r} с`; };
+  const finalFields = [...document.querySelectorAll('#final [data-k]')];
+  const renderFinal = () => {
+    const t = byId(TOPICS, S.topic), total = +durSel.value * 60;
+    setPic($('topicPic'), t);
+    finalFields.forEach(f => { f.placeholder = 'Приклад: ' + t[f.dataset.k]; });
+    $('topicIdea').textContent = t.idea;
+    $('topicHook').textContent = 'Як почати: ' + t.intro;
+    $('bar').innerHTML = `<div class="b-in">Вступ<small>${fmt(total * .2)}</small></div><div class="b-main">Основна частина<small>${fmt(total * .6)}</small></div><div class="b-out">Фінал<small>${fmt(total * .2)}</small></div>`;
+    $('tIn').textContent = fmt(total * .2); $('tMain').textContent = fmt(total * .6); $('tOut').textContent = fmt(total * .2);
+  };
+  finalFields.forEach(f => bindText(f, () => S.final[f.dataset.k], v => { S.final[f.dataset.k] = v; }));
+  topicSel.onchange = () => { S.topic = topicSel.value; save(); renderFinal(); };
+  durSel.onchange = () => { S.dur = +durSel.value; save(); renderFinal(); };
+  $('fillFinal').onclick = () => {
+    const t = byId(TOPICS, S.topic);
+    finalFields.forEach(f => { if (!f.value.trim()) { f.value = t[f.dataset.k]; S.final[f.dataset.k] = f.value; } });
+    save();
+  };
+  renderFinal();
+
+  // ===================== ДОМАШНЄ =====================
+  const personaSel = $('personaSel');
+  fillSelect(personaSel, PERSONAS, S.persona, x => `${x.emoji} ${x.name}`);
+  $('hwList').innerHTML = HW_Q.map((q, i) => `<div><label class="lbl" for="hw${i}" style="font-size:15px;color:var(--text);font-weight:800">${i + 1}. ${esc(q)}</label>
+    <textarea id="hw${i}" rows="3"></textarea>
+    <div class="comment" style="margin-top:10px"><div class="comment-lbl" data-who></div><p data-ans="${i}"></p></div></div>`).join('');
+  HW_Q.forEach((_, i) => bindText($('hw' + i), () => S.hw[i], v => { S.hw[i] = v; }));
+  const renderPersona = () => {
+    const p = byId(PERSONAS, S.persona);
+    setPic($('personaPic'), p);
+    document.querySelectorAll('[data-who]').forEach(el => { el.textContent = 'Приклад: ' + p.name; });
+    document.querySelectorAll('[data-ans]').forEach(el => { el.textContent = p.a[+el.dataset.ans]; });
+  };
+  personaSel.onchange = () => { S.persona = personaSel.value; save(); renderPersona(); };
+  renderPersona();
+
+  $('links').innerHTML = LINKS.map(l => l.url
+    ? `<a href="${esc(l.url)}" target="_blank" rel="noopener"><span class="ic">${l.icon}</span><span><b>${esc(l.title)}</b><small>${esc(l.sub)}</small></span></a>`
+    : `<div><span class="ic">${l.icon}</span><span><b>${esc(l.title)}</b><small>Посилання додасть викладач</small></span></div>`).join('');
+
+  // ===================== ПІРАМІДА АСОЦІАЦІЙ =====================
+  const wordSel = $('wordSel'), customWord = $('customWord');
+  fillSelect(wordSel, WORDS, S.word, x => x.id === 'custom' ? x.name : `${x.emoji} ${x.name}`);
+  const dirInputs = [...document.querySelectorAll('#assoc [data-d]')];
+  const exChips = [...document.querySelectorAll('#assoc [data-ex]')];
+  let assocShown = false;
+  const assocKey = () => S.word === 'custom' ? 'custom:' + (S.customWord.trim().toLowerCase() || '-') : S.word;
+  const renderWord = () => {
+    const w = byId(WORDS, S.word), custom = w.id === 'custom';
+    $('customWrap').hidden = !custom;
+    setPic($('wordPic'), w, custom ? (S.customWord.trim() || 'Твоє слово') : w.name);
+    const ans = S.assoc[assocKey()] || {};
+    dirInputs.forEach(i => { i.value = ans[i.dataset.d] || ''; });
+    assocShown = false;
+    exChips.forEach(c => { c.hidden = true; c.innerHTML = custom ? '' : (w[c.dataset.ex] || []).map(x => `<span>${esc(x)}</span>`).join(''); });
+    $('assocEx').textContent = 'Показати приклад';
+    $('assocEx').disabled = custom;
+  };
+  wordSel.onchange = () => { S.word = wordSel.value; save(); renderWord(); };
+  customWord.value = S.customWord;
+  customWord.addEventListener('input', () => { S.customWord = customWord.value; save(); renderWord(); });
+  dirInputs.forEach(i => i.addEventListener('input', () => {
+    const k = assocKey(); S.assoc[k] = S.assoc[k] || {}; S.assoc[k][i.dataset.d] = i.value; save();
+  }));
+  $('assocEx').onclick = () => {
+    assocShown = !assocShown;
+    exChips.forEach(c => { c.hidden = !assocShown; });
+    $('assocEx').textContent = assocShown ? 'Сховати приклад' : 'Показати приклад';
+  };
+  $('assocRnd').onclick = () => {
+    const opts = WORDS.filter(w => w.id !== 'custom' && w.id !== S.word);
+    S.word = pick(opts).id; wordSel.value = S.word; save(); renderWord();
+  };
+  renderWord();
+
+  // ===================== ПАРИ =====================
+  const pairA = $('pairA'), pairB = $('pairB'), pairText = $('pairText');
+  const objLabel = o => (o.emoji ? o.emoji + ' ' : '') + o.name;
+  fillSelect(pairA, OBJECTS, S.pairA, objLabel);
+  fillSelect(pairB, OBJECTS, S.pairB, objLabel);
+  const pairKey = () => [S.pairA, S.pairB].sort().join('|');
+  const findPair = () => PAIRS.find(([a, b]) => [a, b].sort().join('|') === pairKey());
+  const renderPair = (which) => {
+    const a = byId(OBJECTS, S.pairA), b = byId(OBJECTS, S.pairB);
+    pairA.value = a.id; pairB.value = b.id;
+    if (which !== 'b') setPic($('pairPicA'), a);
+    if (which !== 'a') setPic($('pairPicB'), b);
+    $('pairLbl').textContent = `Чим схожі ${a.name.toLowerCase()} і ${b.name.toLowerCase()}?`;
+    const p = findPair();
+    $('pairEx').innerHTML = a.id === b.id
+      ? '<div class="comment-lbl">Підказка</div><p>Обери два різні предмети — так цікавіше 🙂</p>'
+      : p ? `<div class="comment-lbl">Приклад відповіді</div><p>${esc(p[2])}</p>`
+      : `<div class="comment-lbl">Готового прикладу немає — з чого почати</div><p>${PAIR_HINTS.map(esc).join(' · ')}</p>`;
+    pairText.value = S.pairText[pairKey()] || '';
+  };
+  pairA.onchange = () => { S.pairA = pairA.value; save(); renderPair('a'); };
+  pairB.onchange = () => { S.pairB = pairB.value; save(); renderPair('b'); };
+  pairText.addEventListener('input', () => { S.pairText[pairKey()] = pairText.value; save(); });
+  $('pairRnd').onclick = () => {
+    const a = pick(OBJECTS); let b = pick(OBJECTS);
+    while (b.id === a.id) b = pick(OBJECTS);
+    S.pairA = a.id; S.pairB = b.id; save(); renderPair();
+  };
+  $('pairNext').onclick = () => {
+    const i = PAIRS.findIndex(([a, b]) => [a, b].sort().join('|') === pairKey());
+    const [a, b] = PAIRS[(i + 1) % PAIRS.length];
+    S.pairA = a; S.pairB = b; save(); renderPair();
+  };
+  renderPair();
+
+  // ===================== АБРЕВІАТУРИ =====================
+  const abbrSel = $('abbrSel');
+  const abbrList = () => S.abbrRnd ? [...ABBRS, { id: 'rnd', text: S.abbrRnd }] : ABBRS;
+  const fillAbbr = () => fillSelect(abbrSel, abbrList(), S.abbr, x => x.id === 'rnd' ? `🎲 ${x.text} (випадкова)` : x.text);
+  fillAbbr();
+  const abbrEx = $('abbrEx');
+  const renderAbbr = () => {
+    const a = byId(abbrList(), S.abbr), letters = [...a.text];
+    const ans = S.abbrAns[a.text] || [];
+    $('tiles').innerHTML = letters.map((l, i) => `<div class="tile" data-i="${i}">${l}</div>`).join('');
+    animate($('tiles'));
+    $('letters').innerHTML = letters.map((l, i) => `<label><b>${l}</b><input class="f" data-i="${i}" value="${esc(ans[i] || '')}" placeholder="${l}…" aria-label="Слово на літеру ${l}"></label>`).join('');
+    abbrEx.hidden = true;
+    $('abbrExBtn').textContent = 'Показати приклад';
+    $('abbrExBtn').disabled = !a.ex;
+    updatePhrase();
+  };
+  const updatePhrase = () => {
+    const a = byId(abbrList(), S.abbr), letters = [...a.text];
+    const ans = S.abbrAns[a.text] || [];
+    let ok = 0;
+    letters.forEach((l, i) => {
+      const w = (ans[i] || '').trim(), good = w && w[0].toUpperCase() === l;
+      if (good) ok++;
+      $('tiles').children[i].classList.toggle('ok', !!good);
+    });
+    const filled = ans.filter(w => w && w.trim());
+    $('phrase').innerHTML = filled.length
+      ? esc(letters.map((l, i) => (ans[i] || '').trim() || '…').join(' ')) + (ok === letters.length ? ' 🎉' : '')
+      : `<span class="dim">${letters.length} літер — ${letters.length} слів. Почни з першої!</span>`;
+  };
+  $('letters').addEventListener('input', e => {
+    const i = +e.target.dataset.i, a = byId(abbrList(), S.abbr);
+    S.abbrAns[a.text] = S.abbrAns[a.text] || [];
+    S.abbrAns[a.text][i] = e.target.value; save(); updatePhrase();
+  });
+  abbrSel.onchange = () => { S.abbr = abbrSel.value; save(); renderAbbr(); };
+  $('abbrRnd').onclick = () => {
+    const n = 3 + Math.floor(Math.random() * 3);
+    S.abbrRnd = Array.from({ length: n }, () => pick([...RND_LETTERS])).join('');
+    S.abbr = 'rnd'; save(); fillAbbr(); renderAbbr();
+  };
+  $('abbrExBtn').onclick = () => {
+    const a = byId(abbrList(), S.abbr);
+    if (!a.ex) return;
+    abbrEx.hidden = !abbrEx.hidden;
+    abbrEx.innerHTML = `<div class="comment-lbl">Варіанти розшифровки</div>${a.ex.map(x => `<p>${esc(x)}</p>`).join('')}${a.real ? `<p style="color:var(--muted);font-size:14px">Справжнє значення: ${esc(a.real)}</p>` : ''}`;
+    $('abbrExBtn').textContent = abbrEx.hidden ? 'Показати приклад' : 'Сховати приклад';
+  };
+  renderAbbr();
+
+  // ===================== ІМПРОВІЗАЦІЯ =====================
+  const impSel = $('impSel');
+  fillSelect(impSel, IMPROV, S.imp, x => `${x.emoji} ${x.name}`);
+  $('impList').innerHTML = IMPROV.map(x => `<label data-id="${x.id}"><input type="checkbox" data-id="${x.id}"><span>${esc(x.name)}</span></label>`).join('');
+  const renderImpList = () => {
+    let n = 0;
+    $('impList').querySelectorAll('label').forEach(l => {
+      const d = !!S.impDone[l.dataset.id]; if (d) n++;
+      l.querySelector('input').checked = d;
+      l.classList.toggle('cur', l.dataset.id === S.imp);
+    });
+    $('impProg').style.width = (n / IMPROV.length * 100) + '%';
+    $('impCount').textContent = `Виконано ${n} з ${IMPROV.length}`;
+  };
+  const newTopic = () => {
+    let t; do { t = pick(TOPIC_POOL); } while (t === $('impTopic').dataset.t && TOPIC_POOL.length > 1);
+    $('impTopic').dataset.t = t; $('impTopic').textContent = '🎯 Тема: ' + t;
+  };
+  const renderImp = () => {
+    const x = byId(IMPROV, S.imp);
+    setPic($('impPic'), x);
+    $('impHow').textContent = x.how; $('impEx').textContent = x.ex; $('impWhy').textContent = x.why;
+    renderImpList();
+  };
+  impSel.onchange = () => { S.imp = impSel.value; save(); renderImp(); };
+  $('impList').addEventListener('change', e => { S.impDone[e.target.dataset.id] = e.target.checked; save(); renderImpList(); });
+  $('impTopicBtn').onclick = newTopic;
+  bindText($('impNotes'), () => S.impNotes, v => { S.impNotes = v; });
+  newTopic(); renderImp();
+
+  // ===================== ТАЙМЕРИ =====================
+  document.querySelectorAll('.timer').forEach(t => {
+    const total = +t.dataset.sec, out = t.querySelector('b'), btn = t.querySelector('button');
+    let left = total, iv = null;
+    const show = () => { out.textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`; };
+    btn.onclick = () => {
+      if (iv) { clearInterval(iv); iv = null; btn.textContent = 'Старт'; return; }
+      if (left <= 0) { left = total; t.classList.remove('done'); show(); }
+      btn.textContent = 'Пауза';
+      iv = setInterval(() => {
+        left--; show();
+        if (left <= 0) { clearInterval(iv); iv = null; t.classList.add('done'); btn.textContent = 'Ще раз'; }
+      }, 1000);
+    };
+  });
+
+  // ===================== ТЕМА, СКИДАННЯ =====================
+  $('themeBtn').onclick = () => {
+    const root = document.documentElement;
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem(KEY + ':theme', root.dataset.theme); } catch (e) {}
+  };
+  try { const th = localStorage.getItem(KEY + ':theme'); if (th) document.documentElement.dataset.theme = th; } catch (e) {}
+
+  const resetBtn = $('resetAll');
+  let armed = null;
+  resetBtn.onclick = () => {
+    if (!armed) {
+      resetBtn.textContent = 'Точно очистити? Натисни ще раз';
+      armed = setTimeout(() => { armed = null; resetBtn.textContent = 'Очистити всі відповіді'; }, 4000);
+      return;
+    }
+    clearTimeout(armed); armed = null; clearTimeout(saveTimer);
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  };
+  $('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
