@@ -224,6 +224,7 @@
       if (o.sy) ctx.scale(1, o.sy);
       if (o.alpha != null) ctx.globalAlpha = o.alpha;
       ctx.font = `${Math.round(size)}px ${EMOJI_FONT}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillStyle = "#000"; // кольорові гліфи множаться на альфу заливки
       ctx.fillText(ch, 0, size * 0.06);
       ctx.restore();
     },
