@@ -1,0 +1,1377 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Гра «Гроші»</title>
+<meta name="description" content="Заняття 1 робочого зошита з фінансової грамотності: завдання, коментарі й розрахунки — гра «Гроші», бюджет на місяць і домашнє завдання.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Той самий візуальний стиль, що й у «Часі життя» та калькуляторі іпотеки: білі картки, зелений акцент, темна картка результату. */
+  :root {
+    --bg: #f3f5f7;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --text: #1e293b;
+    --muted: #5b6676;
+    --faint: #8a94a3;
+    --line: #e3e8ee;
+    --green: #16a34a;
+    --green-dark: #128a3e;
+    --green-soft: #e8f7ee;
+    --orange: #e8791c;
+    --yellow: #f6b81a;
+    --navy: #1b3a8a;
+    --ink: #1e293b;
+    --ink-text: #ffffff;
+    --ink-accent: #4ade80;
+    --warn-bg: #fff4e5;
+    --warn-text: #9a4a07;
+    --bad: #c2410c;
+    --quote-bg: #f1edfb;
+    --header-bg: rgba(255, 255, 255, .95);
+    --radius: 20px;
+    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    /* графік: пасивний дохід — зелений, витрати — нейтральна опорна лінія */
+    --c-pd: #16a34a;
+    --c-exp: #5b6676;
+    --c-grid: #e3e8ee;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+      --green: #22c55e; --green-dark: #16a34a; --green-soft: rgba(34, 197, 94, .14); --orange: #f08a3a; --navy: #a9bdf2;
+      --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #4ade80; --warn-bg: rgba(240, 138, 58, .14); --warn-text: #fdba74;
+      --bad: #fb923c; --quote-bg: rgba(139, 92, 246, .14);
+      --header-bg: rgba(22, 30, 43, .95); --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+      --c-pd: #22c55e; --c-exp: #9aa6b6; --c-grid: #273347;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+    --green: #22c55e; --green-dark: #16a34a; --green-soft: rgba(34, 197, 94, .14); --orange: #f08a3a; --navy: #a9bdf2;
+    --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #4ade80; --warn-bg: rgba(240, 138, 58, .14); --warn-text: #fdba74;
+    --bad: #fb923c; --quote-bg: rgba(139, 92, 246, .14);
+    --header-bg: rgba(22, 30, 43, .95); --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    --c-pd: #22c55e; --c-exp: #9aa6b6; --c-grid: #273347;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: var(--header-bg);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 84px; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo {
+    width: 64px; height: 64px; border: 3px solid var(--yellow); border-radius: 6px;
+    display: grid; place-content: center; text-align: center; line-height: 1.05; flex-shrink: 0;
+  }
+  .logo b { color: var(--navy); font-size: 24px; font-weight: 900; }
+  .logo small { color: var(--navy); font-size: 10px; font-weight: 700; }
+  .brand-name { font-size: 24px; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .brand-sub { font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+  .menu { display: flex; align-items: center; gap: 28px; font-weight: 500; }
+  .menu a:hover { color: var(--green); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--green); color: #fff; font-weight: 800; letter-spacing: .03em;
+    padding: 16px 28px; border-radius: 12px; border: 0; cursor: pointer; font-size: 16px;
+    box-shadow: 0 8px 20px rgba(22, 163, 74, .25); transition: background .2s, transform .2s;
+    font-family: inherit;
+  }
+  .btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--green); border: 2px solid var(--green); box-shadow: none; }
+  .btn-outline:hover { background: var(--green-soft); }
+  .btn-sm { padding: 10px 16px; font-size: 14px; border-radius: 10px; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 64px 0 48px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--green-soft); color: var(--green); font-weight: 700;
+    padding: 10px 20px; border-radius: 999px; font-size: 15px; letter-spacing: .03em; text-transform: uppercase;
+  }
+  .badge::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+  h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.1; font-weight: 900; margin: 28px 0 24px; max-width: 980px; text-wrap: balance; }
+  .accent { color: var(--orange); }
+  .lead { font-size: clamp(17px, 2vw, 22px); color: var(--muted); max-width: 900px; margin: 0 0 36px; }
+  .lead strong { color: var(--text); }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+  .divider { border: 0; border-top: 1px solid var(--line); margin: 0 0 32px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 28px; text-align: center; box-shadow: var(--shadow);
+  }
+  .stat .num { font-size: clamp(30px, 4vw, 44px); font-weight: 900; color: var(--green); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat .lbl { color: var(--muted); margin-top: 6px; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 72px 0; scroll-margin-top: 84px; }
+  .section-white { background: var(--surface); }
+  .eyebrow { color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px; }
+  h2 { font-size: clamp(28px, 3.5vw, 42px); line-height: 1.15; margin: 10px 0 16px; font-weight: 900; text-wrap: balance; }
+  .section-lead { color: var(--muted); font-size: 18px; max-width: 760px; margin: 0 0 40px; }
+  .stack { display: grid; gap: 24px; }
+
+  /* ---------- Task cards ---------- */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); min-width: 0; }
+  .section-white .card { background: var(--surface-2); box-shadow: none; }
+  .task { scroll-margin-top: 100px; }
+  .task-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px; background: var(--green-soft); color: var(--green);
+  }
+  .pill.page { background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
+  .section-white .pill.page { background: var(--surface); }
+  .task h3 { margin: 0 0 6px; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.25; text-wrap: balance; }
+  .task .hint { margin: 0 0 20px; color: var(--muted); }
+
+  .comment {
+    margin-top: 22px; padding: 16px 18px 16px 20px; border-radius: 14px; background: var(--green-soft);
+    border-left: 4px solid var(--green);
+  }
+  .comment-lbl { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+  .comment p { margin: 0; }
+  .comment p + p { margin-top: 8px; }
+  .comment.live { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--orange); }
+  .comment.live .comment-lbl { color: var(--orange); }
+  .section-white .comment.live { background: var(--surface); }
+  .warn { margin-top: 16px; padding: 14px 16px; border-radius: 14px; background: var(--warn-bg); color: var(--warn-text); font-weight: 600; }
+
+  label.lbl, .lbl { display: block; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  textarea, .f {
+    width: 100%; padding: 12px 14px; border: 2px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px;
+    color: var(--text); background: var(--surface); transition: border-color .15s;
+  }
+  textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
+  textarea:focus, .f:focus { outline: none; border-color: var(--green); }
+  .f.num { font-variant-numeric: tabular-nums; font-weight: 700; }
+  ::placeholder { color: var(--faint); opacity: 1; }
+  input[type=range] { width: 100%; accent-color: var(--green); height: 6px; cursor: pointer; }
+  .range-scale { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .two > * { min-width: 0; }
+
+  /* настрій */
+  .moods { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .mood-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .mood-row button {
+    font-size: 28px; padding: 10px 0; border-radius: 14px; border: 2px solid var(--line); background: var(--surface); cursor: pointer; line-height: 1;
+  }
+  .mood-row button:hover { border-color: var(--green); }
+  .mood-row button.active { border-color: var(--green); background: var(--green-soft); }
+
+  /* варіанти мрій */
+  .opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .opt { position: relative; cursor: pointer; }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .opt span {
+    display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 16px; border-radius: 16px; border: 2px solid var(--line);
+    background: var(--surface); font-weight: 600; font-size: 15px; line-height: 1.3; transition: border-color .15s, background .15s;
+  }
+  .opt span i { font-style: normal; font-size: 30px; line-height: 1; }
+  .opt:hover span { border-color: var(--green); }
+  .opt input:checked + span { border-color: var(--green); background: var(--green-soft); }
+  .opt input:checked + span::after { content: "✓"; position: absolute; top: 10px; right: 14px; color: var(--green); font-weight: 900; }
+  .opt input:focus-visible + span { outline: 3px solid var(--green); outline-offset: 2px; }
+
+  /* ---------- Гра ---------- */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .cond .tag { display: inline-block; font-weight: 900; font-size: 34px; color: var(--green); }
+  .cond .tag.orange { color: var(--orange); }
+  .cond .tag.navy { color: var(--navy); }
+  .cond h3 { margin: 8px 0 10px; font-size: 20px; }
+  .cond p { color: var(--muted); margin: 0; }
+  .formula { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-top: 14px; font-size: 14px; }
+  .section-white .formula { background: var(--surface); }
+
+  .calc { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: start; margin-top: 32px; }
+  .calc > * { min-width: 0; }
+  .field { margin-bottom: 22px; }
+  .field-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .field-top output { font-weight: 800; font-variant-numeric: tabular-nums; }
+  .money-in { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .money-in .f { font-size: 22px; font-weight: 800; }
+  .money-in span { color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 6px; margin-top: 8px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .node { border-radius: 14px; padding: 12px 8px; text-align: center; background: var(--surface-2); border: 1px solid var(--line); min-width: 0; }
+  .node b { display: block; font-size: 20px; font-weight: 900; color: var(--navy); }
+  .node span { display: block; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .node.pd { background: var(--green-soft); border-color: transparent; }
+  .node.pd b { color: var(--green); }
+  .arr { text-align: center; font-size: 11px; color: var(--muted); font-weight: 600; line-height: 1.3; }
+  .arr b { display: block; color: var(--text); font-size: 14px; }
+  .arr::after { content: "→"; display: block; font-size: 18px; color: var(--faint); }
+  .flow-exp { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .flow-exp b { color: var(--text); font-variant-numeric: tabular-nums; }
+
+  .result { background: var(--ink); color: var(--ink-text); display: flex; flex-direction: column; border-color: var(--ink); }
+  .section-white .result { background: var(--ink); }
+  .result .big-lbl { opacity: .7; }
+  .result .big { font-size: clamp(32px, 4.4vw, 48px); font-weight: 900; color: var(--ink-accent); line-height: 1.1; margin: 6px 0 4px; font-variant-numeric: tabular-nums; }
+  .result .big.neg { color: #fdba74; }
+  .result .big-sub { opacity: .7; margin-bottom: 20px; font-size: 15px; }
+  .result .row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 13px 0; border-top: 1px solid rgba(255,255,255,.12); }
+  .result .row span { opacity: .8; }
+  .result .row b { text-align: right; font-variant-numeric: tabular-nums; }
+  .result .row b small { display: block; font-weight: 500; opacity: .6; font-size: 13px; }
+  .result .note { font-size: 13px; opacity: .6; margin: 18px 0 0; }
+  .result .btn { margin-top: 18px; }
+
+  /* графік */
+  .chart-card { margin-top: 32px; }
+  .chart-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
+  .chart-head h3 { margin: 0; font-size: 20px; }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+  .legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 6px; }
+  .legend .l-exp { border-top-style: dashed; }
+  .chart-wrap { position: relative; }
+  #chart { width: 100%; height: auto; display: block; touch-action: pan-y; }
+  #chart text { font-family: inherit; }
+  .tip {
+    position: absolute; pointer-events: none; background: var(--ink); color: var(--ink-text); border-radius: 10px;
+    padding: 10px 12px; font-size: 13px; line-height: 1.5; white-space: nowrap; opacity: 0; transition: opacity .1s;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .2); z-index: 5;
+  }
+  .tip .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  details.tbl { margin-top: 18px; }
+  details.tbl summary { cursor: pointer; font-weight: 700; color: var(--green); }
+  .table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--line); margin-top: 12px; }
+  table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 15px; }
+  th, td { padding: 11px 16px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  th:first-child, td:first-child { text-align: left; }
+  th { background: var(--surface-2); font-weight: 700; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+  tr:last-child td { border-bottom: 0; }
+  tr.win td { font-weight: 800; background: var(--green-soft); }
+
+  .what-if { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 12px; }
+  .what-if div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px; text-align: center; }
+  .what-if div.cur { border: 2px solid var(--orange); }
+  .what-if b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .what-if small { color: var(--muted); font-size: 13px; }
+
+  /* 5 кроків */
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; counter-reset: st; }
+  .step { position: relative; padding: 24px 20px; }
+  .step .ic { width: 52px; height: 52px; border-radius: 16px; background: var(--green-soft); display: grid; place-content: center; font-size: 24px; margin-bottom: 14px; }
+  .step .n { position: absolute; top: 18px; right: 20px; font-weight: 900; font-size: 28px; color: var(--line); }
+  .step h3 { margin: 0 0 8px; font-size: 18px; }
+  .step p { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
+  .step a { font-weight: 700; color: var(--green); font-size: 14px; }
+
+  /* мільйон */
+  .split { display: flex; height: 18px; border-radius: 9px; overflow: hidden; gap: 2px; margin: 4px 0 6px; background: var(--surface); }
+  .split div { transition: width .15s; min-width: 0; }
+  .split-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+  .split-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .s-spend { background: #8a94a3; }
+  .s-save { background: #2a78d6; }
+  .s-inv { background: var(--green); }
+
+  .quote {
+    margin-top: 32px; padding: 22px 26px; border-radius: var(--radius); background: var(--quote-bg);
+    display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start;
+  }
+  .quote .qq { font-size: 40px; font-weight: 900; line-height: .9; color: var(--navy); }
+  .quote p { margin: 0; font-size: 18px; font-weight: 600; }
+  .quote cite { display: block; margin-top: 6px; color: var(--muted); font-style: italic; font-size: 14px; }
+
+  /* перешкоди */
+  .obst .face { font-size: 40px; line-height: 1; }
+  .obst h3 { margin: 10px 0 6px; font-size: 20px; }
+  .obst p { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+  .obst textarea { min-height: 96px; }
+
+  /* редаговані списки */
+  .list-head, .lrow, .erow, .grow { display: grid; gap: 8px; align-items: center; }
+  .lrow, .list-head.l { grid-template-columns: 1fr 140px 36px; }
+  .erow, .list-head.e { grid-template-columns: 1.8fr 1fr 1fr 1fr 1.1fr 36px; }
+  .grow, .list-head.g { grid-template-columns: 1.3fr 1fr 2fr 1fr 36px; }
+  .list-head { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+  .rows { display: grid; gap: 8px; }
+  .rows .f { padding: 10px 12px; font-size: 15px; border-radius: 10px; }
+  .calc-cell { font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; padding-right: 4px; overflow-wrap: anywhere; }
+  .calc-cell.dim { color: var(--faint); font-weight: 600; }
+  .del {
+    width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+    cursor: pointer; font-size: 18px; line-height: 1; font-family: inherit;
+  }
+  .del:hover { color: var(--bad); border-color: var(--bad); }
+  .list-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .list-foot .tot { font-weight: 800; font-variant-numeric: tabular-nums; }
+  .add { background: none; border: 2px dashed var(--line); color: var(--green); font-weight: 700; padding: 8px 14px; border-radius: 10px; cursor: pointer; font-family: inherit; font-size: 14px; }
+  .add:hover { border-color: var(--green); }
+  .budget { display: grid; grid-template-columns: 1fr 1fr 0.9fr; gap: 24px; align-items: start; }
+  .budget > * { min-width: 0; }
+  .budget h4 { margin: 0 0 14px; font-size: 18px; }
+  .days { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; color: var(--muted); font-size: 14px; }
+  .days .f { width: 80px; padding: 8px 10px; }
+
+  /* посилання з QR */
+  .links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .link-card { display: flex; gap: 14px; align-items: center; padding: 18px 20px; }
+  .link-card .ic { width: 48px; height: 48px; border-radius: 14px; background: var(--green-soft); display: grid; place-content: center; font-size: 22px; flex-shrink: 0; }
+  .link-card b { display: block; }
+  .link-card small { color: var(--muted); }
+  a.link-card:hover { border-color: var(--green); }
+
+  /* малювання */
+  .pad-tools { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .pen { width: 36px; height: 36px; border-radius: 50%; border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--line); cursor: pointer; padding: 0; }
+  .pen.active { box-shadow: 0 0 0 3px var(--green); }
+  .tool { padding: 8px 14px; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); color: var(--text); font-weight: 700; cursor: pointer; font-family: inherit; font-size: 14px; }
+  .tool.active { border-color: var(--green); background: var(--green-soft); }
+  .tool:hover { border-color: var(--green); }
+  .pad-tools .sp { flex: 1; }
+  .pad { position: relative; user-select: none; -webkit-user-select: none; border-radius: 16px; overflow: hidden; border: 2px solid var(--line); background: #fffdf8; }
+  .pad-empty[hidden] { display: none; }
+  #pad { display: block; width: 100%; height: 380px; touch-action: none; cursor: crosshair; }
+  .pad-empty { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: #8a94a3; pointer-events: none; padding: 20px; font-weight: 600; }
+
+  .grid-how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .page-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 32px; }
+
+  footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1100px) {
+    .budget { grid-template-columns: 1fr 1fr; }
+    .budget .result { grid-column: 1 / -1; }
+    .steps { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 1000px) {
+    .menu { display: none; }
+    .calc, .two { grid-template-columns: 1fr; }
+    .grid-3, .grid-how { grid-template-columns: 1fr 1fr; }
+    .opts { grid-template-columns: repeat(2, 1fr); }
+    .links { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .budget, .moods { grid-template-columns: 1fr; }
+    .list-head.e, .list-head.g { display: none; }
+    .erow, .grow {
+      grid-template-columns: 1fr 1fr; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface);
+    }
+    .erow > :first-child, .grow > :first-child, .grow .how { grid-column: 1 / -1; }
+    .erow .calc-cell, .grow .calc-cell { text-align: left; }
+    .erow .calc-cell::before, .grow .calc-cell::before { content: attr(data-label); display: block; font-size: 12px; font-weight: 600; color: var(--muted); }
+    .erow .del, .grow .del { grid-column: 1 / -1; justify-self: end; width: auto; padding: 0 12px; font-size: 14px; }
+    .erow .del::after, .grow .del::after { content: " Видалити"; }
+    .flow { grid-template-columns: 1fr; }
+    .arr::after { content: "↓"; }
+    .what-if { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .stats, .grid-3, .grid-how, .steps { grid-template-columns: 1fr; }
+    .stats { gap: 12px; }
+    .stat { padding: 18px; }
+    .brand-name { font-size: 20px; }
+    .brand-sub { display: none; }
+    .logo { width: 52px; height: 52px; }
+    .card { padding: 22px; }
+    section { padding: 56px 0; }
+    .hero { padding: 40px 0 36px; }
+    .opts { gap: 8px; }
+    .opt span { padding: 12px; font-size: 14px; }
+    .lrow, .list-head.l { grid-template-columns: 1fr 110px 36px; }
+    #pad { height: 300px; }
+    .quote { grid-template-columns: 1fr; gap: 4px; }
+    th, td { padding: 10px 12px; }
+  }
+  @media print {
+    header, .hero-actions, .page-actions, .add, .del, .pad-tools, .result .btn { display: none !important; }
+    body { background: #fff; }
+    section { padding: 24px 0; }
+    .card { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#top" class="brand" aria-label="Гра «Гроші» — на початок">
+      <div class="logo"><b>01</b><small>заняття</small></div>
+      <div>
+        <div class="brand-name">Гра «Гроші»</div>
+        <div class="brand-sub">Робочий зошит · Фінансова грамотність</div>
+      </div>
+    </a>
+    <nav class="menu">
+      <a href="#lesson">Урок</a>
+      <a href="#game">Гра</a>
+      <a href="#budget">Бюджет</a>
+      <a href="#homework">Домашнє</a>
+      <a href="#how">Як рахуємо</a>
+      <a href="#lesson" class="btn">ПОЧАТИ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge">Заняття 1 · Фінансова грамотність</span>
+      <h1>«Гроші» як соціальна гра — <span class="accent">і як її виграти</span></h1>
+      <p class="lead">Цифрова версія двох аркушів робочого зошита. Тут ті самі <strong>завдання</strong>, до кожного є <strong>коментар</strong>, а <strong>розрахунки</strong> — залишок у бюджеті, заробіток за день, шлях до пасивного доходу — сторінка робить сама. Відповіді зберігаються в цьому браузері.</p>
+      <div class="hero-actions">
+        <a href="#lesson" class="btn">Почати урок</a>
+        <a href="#game" class="btn btn-outline">Зіграти в гру «Гроші»</a>
+      </div>
+      <hr class="divider">
+      <div class="stats">
+        <div class="stat"><div class="num">2 аркуші</div><div class="lbl">урок і домашнє завдання</div></div>
+        <div class="stat"><div class="num">12</div><div class="lbl">завдань з коментарями</div></div>
+        <div class="stat"><div class="num">5 кроків</div><div class="lbl">щоб виграти гру «гроші»</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- АРКУШ 1: УРОК -->
+  <section id="lesson" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Аркуш 1 · стор. 04–05</div>
+      <h2>Навіщо тобі гроші?</h2>
+      <p class="section-lead">Перш ніж рахувати, важливо зрозуміти, чого ти хочеш. Гроші — лише інструмент, і грати в гру варто тоді, коли знаєш, заради чого.</p>
+
+      <div class="stack">
+        <div class="card task" id="t1">
+          <div class="task-meta"><span class="pill">Завдання 1</span><span class="pill page">стор. 04 · наліпка настрою</span></div>
+          <h3>Який у тебе настрій?</h3>
+          <p class="hint">Відміть настрій на початку уроку, а наприкінці — ще раз.</p>
+          <div class="moods">
+            <div><span class="lbl">На початку уроку</span><div class="mood-row" data-mood="start"></div></div>
+            <div><span class="lbl">Наприкінці уроку</span><div class="mood-row" data-mood="end"></div></div>
+          </div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="moodNote"></p></div>
+        </div>
+
+        <div class="card task" id="t2">
+          <div class="task-meta"><span class="pill">Завдання 2</span><span class="pill page">стор. 04</span></div>
+          <h3>Що ти створиш, коли матимеш необмежену суму грошей?</h3>
+          <p class="hint">Відміть усе, що відгукується. Можна кілька варіантів.</p>
+          <div class="opts" id="dreams"></div>
+          <div style="margin-top:16px">
+            <label class="lbl" for="dreamOwn">Твій варіант</label>
+            <input class="f" id="dreamOwn" data-bind="dreamOwn" placeholder="Наприклад: відкрив(-ла) б притулок для тварин">
+          </div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="dreamNote"></p></div>
+        </div>
+
+        <div class="card task" id="t3">
+          <div class="task-meta"><span class="pill">Завдання 3</span><span class="pill page">стор. 05</span></div>
+          <h3>Що таке гроші і навіщо вони тобі?</h3>
+          <p class="hint">Своїми словами, без «правильної» відповіді.</p>
+          <textarea data-bind="moneyWhat" placeholder="Для мене гроші — це…"></textarea>
+          <div class="comment">
+            <div class="comment-lbl">Коментар</div>
+            <p>Гроші мають три ролі: це <b>засіб обміну</b> (ти віддаєш гроші — отримуєш річ чи послугу), <b>мірило вартості</b> (можна порівняти ціну уроку й піци) і <b>спосіб зберегти результат праці</b> на майбутнє.</p>
+            <p>«Навіщо» — це вже твоя відповідь із завдання 2. Чим конкретніше «навіщо», тим легше пройти всі 5 кроків нижче.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ГРА «ГРОШІ» -->
+  <section id="game">
+    <div class="container">
+      <div class="eyebrow">Гра «Гроші» · стор. 04</div>
+      <h2>Три гравці: АД, ІК і ПД</h2>
+      <p class="section-lead">Гроші рухаються по колу. Активний дохід частково йде на витрати, частково — у капітал. Капітал, вкладений в інвестиції, приносить пасивний дохід. Ти виграєш, коли пасивний дохід покриває витрати.</p>
+
+      <div class="grid-3">
+        <div class="card cond">
+          <span class="tag navy">АД</span>
+          <h3>Активний дохід</h3>
+          <p>Усе, що ти заробляєш чи отримуєш, докладаючи свій час і зусилля. Перестав працювати — дохід зупинився.</p>
+          <div class="formula">E → T → $ &nbsp;·&nbsp; енергія → час → гроші</div>
+        </div>
+        <div class="card cond">
+          <span class="tag orange">ІК</span>
+          <h3>Інвестиційний капітал</h3>
+          <p>Консолідовані гроші, які ти можеш вкладати в інвестиційні проєкти. Наповнюється з АД через % відкладання.</p>
+          <div class="formula">ІК + АД × % відкладання</div>
+        </div>
+        <div class="card cond">
+          <span class="tag">ПД</span>
+          <h3>Пасивний дохід</h3>
+          <p>Раніше зароблені й зібрані гроші, які працюють на тебе. З'являється з ІК через % інвестування (дохідність).</p>
+          <div class="formula">$$$ → $ &nbsp;·&nbsp; ПД = ІК × % ÷ 12</div>
+        </div>
+      </div>
+
+      <div class="calc task" id="t4">
+        <div class="card">
+          <div class="task-meta"><span class="pill">Завдання 4</span><span class="pill page">гра «Гроші»</span></div>
+          <h3>Зіграй: коли пасивний дохід покриє витрати?</h3>
+          <p class="hint">Пересувай повзунки. Усе, що не відкладаєш, іде на витрати.</p>
+
+          <div class="field">
+            <label class="lbl" for="gAd">АД — активний дохід на місяць</label>
+            <div class="money-in"><input class="f num" type="number" id="gAd" min="0" step="500" inputmode="numeric"><span>грн / міс</span></div>
+            <input type="range" id="gAdR" min="0" max="100000" step="500" aria-label="Активний дохід">
+          </div>
+          <div class="field">
+            <div class="field-top"><label class="lbl" for="gSave">% відкладання (АД → ІК)</label><output id="gSaveO"></output></div>
+            <input type="range" id="gSave" min="0" max="80" step="1">
+            <div class="range-scale"><span>0%</span><span>80%</span></div>
+          </div>
+          <div class="field">
+            <div class="field-top"><label class="lbl" for="gRate">% інвестування — дохідність на рік (ІК → ПД)</label><output id="gRateO"></output></div>
+            <input type="range" id="gRate" min="0" max="30" step="1">
+            <div class="range-scale"><span>0%</span><span>30%</span></div>
+          </div>
+
+          <div class="flow" aria-label="Схема гри">
+            <div class="node"><b>АД</b><span id="fAd"></span></div>
+            <div class="arr">% відкладання<b id="fSave"></b></div>
+            <div class="node"><b>ІК</b><span id="fIk"></span></div>
+            <div class="arr">% інвестування<b id="fRate"></b></div>
+            <div class="node pd"><b>ПД</b><span id="fPd"></span></div>
+          </div>
+          <div class="flow-exp">Решта АД → <b>Витрати: <span id="fExp"></span></b></div>
+        </div>
+
+        <div class="card result">
+          <div class="big-lbl">Ти виграєш гру через</div>
+          <div class="big" id="gWin">—</div>
+          <div class="big-sub" id="gWinSub"></div>
+          <div class="row"><span>Витрати на місяць</span><b id="gExp"></b></div>
+          <div class="row"><span>Відкладаєш у капітал</span><b id="gSv"></b></div>
+          <div class="row"><span>ІК через 5 років</span><b id="gCap5"></b></div>
+          <div class="row"><span>ПД через 10 років</span><b id="gPd10"></b></div>
+          <div class="warn" id="gWarn" hidden></div>
+          <p class="note">Капітал щомісяця поповнюється з АД, а пасивний дохід реінвестується. Інфляцію та податки не враховуємо, дохідність умовна — справжні інвестиції мають ризик.</p>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-head">
+          <h3>Пасивний дохід проти витрат, грн на місяць</h3>
+          <div class="legend"><span><i style="border-color:var(--c-pd)"></i>ПД на місяць</span><span><i class="l-exp" style="border-color:var(--c-exp)"></i>Витрати на місяць</span></div>
+        </div>
+        <div class="chart-wrap" id="chartWrap">
+          <svg id="chart" viewBox="0 0 680 300" role="img" aria-label="Графік: як росте пасивний дохід і коли він перетинає витрати"></svg>
+          <div class="tip" id="tip"></div>
+        </div>
+        <details class="tbl">
+          <summary>Таблиця по роках</summary>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Рік</th><th>ІК</th><th>ПД / міс</th><th>Покриває витрат</th></tr></thead>
+              <tbody id="gTable"></tbody>
+            </table>
+          </div>
+        </details>
+        <div class="comment live">
+          <div class="comment-lbl">Коментар · що як відкладати більше?</div>
+          <p id="whatIfNote"></p>
+          <div class="what-if" id="whatIf"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 КРОКІВ + МІЛЬЙОН -->
+  <section id="steps" class="section-white">
+    <div class="container">
+      <div class="eyebrow">стор. 05</div>
+      <h2>Що потрібно робити, щоб виграти гру під назвою «гроші»</h2>
+      <p class="section-lead">П'ять кроків ідуть один за одним. Пропустиш один — гра пригальмує. Кожен крок має своє завдання на цій сторінці.</p>
+      <div class="steps">
+        <div class="card step"><span class="n">1</span><div class="ic">🎯</div><h3>Захотіти</h3><p>Знати, чого хочеш і скільки це коштує. Без цілі гроші розходяться на дрібниці.</p><a href="#t2">Завдання 2 і цілі →</a></div>
+        <div class="card step"><span class="n">2</span><div class="ic">💼</div><h3>Заробляти</h3><p>Знайти способи обмінювати енергію й час на гроші — це твій АД.</p><a href="#h1">Способи заробітку →</a></div>
+        <div class="card step"><span class="n">3</span><div class="ic">🧮</div><h3>Рахувати</h3><p>Знати свої доходи й витрати. Не рахуєш — не знаєш, скільки можеш відкласти.</p><a href="#t8">Мій бюджет →</a></div>
+        <div class="card step"><span class="n">4</span><div class="ic">🏦</div><h3>Відкладати</h3><p>Частину кожного доходу — одразу в капітал, ще до витрат. Навіть 10% — це вже гра.</p><a href="#t4">% відкладання →</a></div>
+        <div class="card step"><span class="n">5</span><div class="ic">📈</div><h3>Інвестувати</h3><p>Капітал має працювати. Вкладай лише в те, що розумієш.</p><a href="#t4">% інвестування →</a></div>
+      </div>
+
+      <div class="calc task" id="t5">
+        <div class="card">
+          <div class="task-meta"><span class="pill">Завдання 5</span><span class="pill page">стор. 05</span></div>
+          <h3>Ти отримав мільйон — твої дії?</h3>
+          <p class="hint">Розподіли 1 000 000 грн: скільки витратиш, скільки відкладеш на «подушку», скільки інвестуєш.</p>
+          <div class="field">
+            <div class="field-top"><label class="lbl" for="mSpend">Витрачу</label><output id="mSpendO"></output></div>
+            <input type="range" id="mSpend" min="0" max="100" step="5">
+          </div>
+          <div class="field">
+            <div class="field-top"><label class="lbl" for="mSave">Відкладу на «подушку»</label><output id="mSaveO"></output></div>
+            <input type="range" id="mSave" min="0" max="100" step="5">
+          </div>
+          <div class="field">
+            <div class="field-top"><span class="lbl">Інвестую (решта)</span><output id="mInvO"></output></div>
+            <div class="split"><div class="s-spend" id="sSpend"></div><div class="s-save" id="sSave"></div><div class="s-inv" id="sInv"></div></div>
+            <div class="split-legend"><span><i class="s-spend"></i>Витрати</span><span><i class="s-save"></i>Подушка</span><span><i class="s-inv"></i>Інвестиції</span></div>
+          </div>
+          <label class="lbl" for="mPlan">Що саме зробиш?</label>
+          <textarea id="mPlan" data-bind="millionPlan" placeholder="Куплю… / Відкладу… / Вкладу в…"></textarea>
+        </div>
+        <div class="card result">
+          <div class="big-lbl">Мільйон приноситиме щомісяця</div>
+          <div class="big" id="mPd">—</div>
+          <div class="big-sub" id="mPdSub"></div>
+          <div class="row"><span>Витратиш одразу</span><b id="mSpendV"></b></div>
+          <div class="row"><span>«Подушка» безпеки</span><b id="mSaveV"></b></div>
+          <div class="row"><span>Працює на тебе</span><b id="mInvV"></b></div>
+          <div class="comment live" style="margin-top:18px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);border-left-color:var(--orange)">
+            <div class="comment-lbl">Коментар</div><p id="mNote"></p>
+          </div>
+          <p class="note">Зароби → Відклади → Інвестуй. Дохідність і витрати беремо з гри вище (завдання 4).</p>
+        </div>
+      </div>
+
+      <blockquote class="quote"><span class="qq">99</span><div><p>Багатий не той, хто багатий, а той, хто знає, скільки йому потрібно.</p><cite>Луцій Анней Сенека</cite></div></blockquote>
+    </div>
+  </section>
+
+  <!-- АРКУШ 2: БЮДЖЕТ -->
+  <section id="budget">
+    <div class="container">
+      <div class="eyebrow">Аркуш 2 · стор. 05</div>
+      <h2>Скільки ти отримуєш і скільки тобі залишається</h2>
+      <p class="section-lead">Від мрій — до цифр. Спочатку план і перешкоди, потім справжній бюджет на місяць.</p>
+
+      <div class="stack">
+        <div class="card task" id="t6">
+          <div class="task-meta"><span class="pill">Завдання 6</span><span class="pill page">стор. 05</span></div>
+          <h3>Напиши, скільки ти плануєш отримувати і за рахунок яких твоїх дій</h3>
+          <div class="two" style="margin-top:16px">
+            <div>
+              <label class="lbl" for="planIncome">Планую отримувати на місяць</label>
+              <div class="money-in"><input class="f num" type="number" min="0" step="100" id="planIncome" data-bind="planIncome" inputmode="numeric" placeholder="0"><span>грн / міс</span></div>
+            </div>
+            <div>
+              <label class="lbl" for="planHow">За рахунок яких дій</label>
+              <textarea id="planHow" data-bind="planHow" placeholder="Наприклад: 2 уроки англійської на тиждень, продаж своїх малюнків…"></textarea>
+            </div>
+          </div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="planNote"></p></div>
+        </div>
+
+        <div class="task" id="t7">
+          <div class="card" style="margin-bottom:24px">
+            <div class="task-meta"><span class="pill">Завдання 7</span><span class="pill page">стор. 05</span></div>
+            <h3>Що може завадити тобі досягнути твоїх цілей? Як ти з цим справлятимешся?</h3>
+            <p class="hint" style="margin:0">Три головні перешкоди з зошита. Для кожної напиши свій спосіб її обійти.</p>
+          </div>
+          <div class="grid-3">
+            <div class="card obst"><div class="face">😨</div><h3>Страх</h3><p>«А раптом не вийде?», «Що скажуть?». Страх тримає на місці й не дає почати заробляти чи інвестувати.</p><textarea data-bind="obst.fear" aria-label="Як я справлятимусь зі страхом" placeholder="Я впораюсь зі страхом так…"></textarea></div>
+            <div class="card obst"><div class="face">🤑</div><h3>Жадібність</h3><p>Хочеться все й одразу: витратити весь дохід або вкласти в «схему», що обіцяє +100% за місяць.</p><textarea data-bind="obst.greed" aria-label="Як я справлятимусь із жадібністю" placeholder="Мене не зловить жадібність, бо…"></textarea></div>
+            <div class="card obst"><div class="face">🦥</div><h3>Лінь</h3><p>«Почну з понеділка». Лінь з'їдає саме час — а час для АД і є гроші (E → T → $).</p><textarea data-bind="obst.lazy" aria-label="Як я справлятимусь з лінню" placeholder="Щоб не лінуватись, я…"></textarea></div>
+          </div>
+          <div class="card" style="margin-top:24px">
+            <label class="lbl" for="obstOther">Інша перешкода і як її обійти</label>
+            <textarea id="obstOther" data-bind="obst.other" placeholder="Наприклад: мало вільного часу через навчання → …"></textarea>
+            <div class="comment"><div class="comment-lbl">Коментар</div><p>Перешкода, яку ти назвав(-ла), уже наполовину переможена. Добрий спосіб обійти — конкретна дія: не «не боятимусь», а «спитаю трьох сусідів, чи потрібна їм допомога з собакою».</p></div>
+          </div>
+        </div>
+
+        <div class="card task" id="t8">
+          <div class="task-meta"><span class="pill">Завдання 8</span><span class="pill page">стор. 05</span></div>
+          <h3>Склади список своїх доходів і витрат на місяць</h3>
+          <p class="hint">Кишенькові, підробіток, подарунки — у доходи. Їжа поза домом, телефон, підписки, розваги — у витрати.</p>
+          <div class="budget">
+            <div>
+              <h4>Доходи</h4>
+              <div class="list-head l"><span>Назва доходу</span><span>Сума, грн</span><span></span></div>
+              <div class="rows" id="incRows"></div>
+              <div class="list-foot"><button type="button" class="add" data-add="income">+ Додати рядок</button><span class="tot" id="incTot"></span></div>
+            </div>
+            <div>
+              <h4>Витрати</h4>
+              <div class="list-head l"><span>Назва витрати</span><span>Сума, грн</span><span></span></div>
+              <div class="rows" id="expRows"></div>
+              <div class="list-foot"><button type="button" class="add" data-add="expense">+ Додати рядок</button><span class="tot" id="expTot"></span></div>
+            </div>
+            <div class="card result">
+              <div class="big-lbl">Скільки грошей тобі залишається в місяць?</div>
+              <div class="big" id="bRem">0 грн</div>
+              <div class="big-sub" id="bRate"></div>
+              <div class="row"><span>А в рік?</span><b id="bYear"></b></div>
+              <div class="row"><span>Доходи</span><b id="bInc"></b></div>
+              <div class="row"><span>Витрати</span><b id="bExp"></b></div>
+              <button type="button" class="btn btn-sm" id="toGame">Перенести в гру «Гроші»</button>
+            </div>
+          </div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="budgetNote"></p></div>
+        </div>
+
+        <div class="card task" id="t9">
+          <div class="task-meta"><span class="pill">Завдання 9</span><span class="pill page">стор. 05</span></div>
+          <h3>Що ти зробиш сьогодні, щоб отримувати більше?</h3>
+          <textarea data-bind="today" placeholder="Сьогодні я…"></textarea>
+          <div class="comment"><div class="comment-lbl">Коментар</div><p>Одна маленька дія, яку можна зробити до вечора: написати оголошення, спитати батьків про оплачувану роботу вдома, подивитися відео з матеріалів уроку. Великі цілі складаються з таких дій.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ДОМАШНЄ ЗАВДАННЯ -->
+  <section id="homework" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Аркуш 2 · Заняття 1</div>
+      <h2>Домашнє завдання</h2>
+      <p class="section-lead">Три завдання: способи заробітку, фінансові цілі на місяць і карта твого шляху до них. Розрахунки зв'язані: цілі рахуються в днях твого заробітку.</p>
+
+      <div class="links" id="links"></div>
+
+      <div class="stack">
+        <div class="card task" id="h1">
+          <div class="task-meta"><span class="pill">Завдання 10</span><span class="pill page">домашнє</span></div>
+          <h3>Напиши усі способи, якими ти можеш заробляти гроші</h3>
+          <p class="hint">Скільки часу зможеш цим заняттям приділяти щодня і скільки можеш заробити за годину?</p>
+          <div class="list-head e"><span>Спосіб заробітку</span><span>Годин у день</span><span>Грн за годину</span><span style="text-align:right">Грн у день</span><span style="text-align:right">Грн у місяць</span><span></span></div>
+          <div class="rows" id="earnRows"></div>
+          <div class="list-foot">
+            <button type="button" class="add" data-add="earn">+ Додати спосіб</button>
+            <label class="days">Робочих днів у місяці <input class="f num" type="number" min="1" max="31" id="days" data-bind="days" inputmode="numeric"></label>
+            <span class="tot" id="earnTot"></span>
+          </div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="earnNote"></p></div>
+        </div>
+
+        <div class="card task" id="h2">
+          <div class="task-meta"><span class="pill">Завдання 11</span><span class="pill page">домашнє</span></div>
+          <h3>Напиши свої фінансові цілі на місяць</h3>
+          <p class="hint">Назва цілі, сума і що ти зробиш, щоб її досягнути. Скільки днів роботи це займе, порахуємо з попереднього завдання.</p>
+          <div class="list-head g"><span>Назва цілі</span><span>Сума, грн</span><span>Що зробиш, щоб її досягнути?</span><span style="text-align:right">Днів роботи</span><span></span></div>
+          <div class="rows" id="goalRows"></div>
+          <div class="list-foot"><button type="button" class="add" data-add="goals">+ Додати ціль</button><span class="tot" id="goalTot"></span></div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="goalNote"></p></div>
+        </div>
+
+        <div class="card task" id="h3">
+          <div class="task-meta"><span class="pill">Завдання 12</span><span class="pill page">домашнє</span></div>
+          <h3>Намалюй свій шлях до своїх цілей</h3>
+          <p class="hint">Покажи перешкоди на ньому і як ти їх обходиш.</p>
+          <div class="pad-tools" id="padTools">
+            <button type="button" class="pen active" data-c="#1e293b" style="background:#1e293b" aria-label="Темний олівець"></button>
+            <button type="button" class="pen" data-c="#16a34a" style="background:#16a34a" aria-label="Зелений олівець"></button>
+            <button type="button" class="pen" data-c="#e8791c" style="background:#e8791c" aria-label="Помаранчевий олівець"></button>
+            <button type="button" class="pen" data-c="#2a78d6" style="background:#2a78d6" aria-label="Синій олівець"></button>
+            <button type="button" class="pen" data-c="#dc2626" style="background:#dc2626" aria-label="Червоний олівець"></button>
+            <button type="button" class="tool" id="eraser">Гумка</button>
+            <span class="sp"></span>
+            <button type="button" class="tool" id="undo">↶ Назад</button>
+            <button type="button" class="tool" id="clearPad">Очистити</button>
+            <button type="button" class="tool" id="savePad">Зберегти PNG</button>
+          </div>
+          <div class="pad">
+            <canvas id="pad" aria-label="Полотно для малювання шляху до цілей"></canvas>
+            <div class="pad-empty" id="padEmpty">Старт — де ти зараз · Фініш — твоя ціль<br>Між ними — перешкоди і шляхи навколо них</div>
+          </div>
+          <div class="comment"><div class="comment-lbl">Коментар</div><p>Познач <b>старт</b> (де ти зараз), <b>фініш</b> (ціль із завдання 11) і <b>перешкоди</b> — страх, лінь, жадібність чи свої. Обхід кожної перешкоди намалюй іншим кольором: так видно, що план на неї вже є.</p></div>
+        </div>
+      </div>
+
+      <blockquote class="quote"><span class="qq">99</span><div><p>Багатий не той, хто багатий, а той, хто знає, скільки йому потрібно.</p><cite>Луцій Анней Сенека</cite></div></blockquote>
+    </div>
+  </section>
+
+  <!-- ЯК РАХУЄМО -->
+  <section id="how">
+    <div class="container">
+      <div class="eyebrow">Як рахуємо</div>
+      <h2>Усі формули сторінки</h2>
+      <p class="section-lead">Жодної магії — лише множення, ділення і трохи терпіння. Ці самі розрахунки можна зробити в зошиті з калькулятором.</p>
+      <div class="grid-how">
+        <div class="card cond"><span class="tag">−</span><h3>Залишок на місяць</h3><p>Усі доходи мінус усі витрати.</p><div class="formula">10 000 − 7 500 = 2 500 грн</div></div>
+        <div class="card cond"><span class="tag orange">× 12</span><h3>Залишок на рік</h3><p>Місячний залишок, помножений на 12 місяців.</p><div class="formula">2 500 × 12 = 30 000 грн</div></div>
+        <div class="card cond"><span class="tag">%</span><h3>Норма відкладання</h3><p>Яку частку доходу ти не витрачаєш.</p><div class="formula">2 500 ÷ 10 000 = 25%</div></div>
+        <div class="card cond"><span class="tag navy">E→T→$</span><h3>Заробіток за день</h3><p>Години на день × гривні за годину. За місяць — ще × робочі дні.</p><div class="formula">2 год × 150 грн = 300 грн/день</div></div>
+        <div class="card cond"><span class="tag orange">$$$→$</span><h3>Пасивний дохід</h3><p>Капітал × річна дохідність ÷ 12 місяців.</p><div class="formula">1 000 000 × 10% ÷ 12 ≈ 8 333 грн/міс</div></div>
+        <div class="card cond"><span class="tag">🏆</span><h3>Перемога в грі</h3><p>Щомісяця ІК = ІК × (1 + % ÷ 12) + відкладене. Гра виграна, коли ПД ≥ витрат.</p><div class="formula">ПД ≥ АД × (1 − % відкладання)</div></div>
+      </div>
+      <div class="page-actions">
+        <button type="button" class="btn" onclick="window.print()">Роздрукувати відповіді</button>
+        <button type="button" class="btn btn-outline" id="resetAll">Очистити всі відповіді</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> Заняття 1 · «Гроші» як соціальна гра і як її виграти</div>
+    <div>Розрахунки навчальні й не є інвестиційною порадою.</div>
+  </div>
+</footer>
+
+<script>
+  const $ = id => document.getElementById(id);
+
+  // Посилання з QR-кодів зошита. Порожнє посилання показується як «додасть викладач».
+  const LINKS = [
+    { icon: '💬', title: 'Відгук про урок', sub: 'Розкажи, що сподобалось', url: '' },
+    { icon: '📁', title: 'Матеріали', sub: 'Папка з матеріалами уроку', url: '' },
+    { icon: '▶️', title: 'Відео', sub: 'Додаткове відео до теми', url: '' },
+  ];
+
+  const DREAMS = [
+    { icon: '🏡', text: 'Купили б житло своєї мрії', g: 'self' },
+    { icon: '✈️', text: 'Подорожували', g: 'self' },
+    { icon: '🎨', text: 'Творили (книги, картини, хобі)', g: 'create' },
+    { icon: '🤝', text: 'Допомагали батькам', g: 'care' },
+    { icon: '💡', text: 'Втілили в життя свої ідеї', g: 'create' },
+    { icon: '🎁', text: 'Купували рідним те, про що вони мріють', g: 'care' },
+    { icon: '🚀', text: 'Займались новим бізнесом', g: 'create' },
+    { icon: '🪙', text: 'Купили б крипту', g: 'self' },
+  ];
+  const GROUPS = {
+    self:   { name: 'для себе', note: 'Тебе мотивують комфорт і нові враження. Це чесна мета — головне знати її ціну: скільки коштує житло мрії чи подорож, і скільки місяців відкладання це займе.' },
+    care:   { name: 'для близьких', note: 'Для тебе гроші — спосіб піклуватися про рідних. Щоб допомагати довго, спочатку подбай про свій капітал: з порожньої чашки не наллєш.' },
+    create: { name: 'для творення', note: 'Тебе цікавить створювати нове: ідеї, бізнес, творчість. Саме так гроші найчастіше й примножуються — це вже крок «Інвестувати».' },
+  };
+  const MOODS = ['😞', '😕', '😐', '🙂', '😄'];
+
+  const blankRows = (n, make) => Array.from({ length: n }, make);
+  const DEFAULTS = () => ({
+    mood: { start: null, end: null },
+    dreams: [], dreamOwn: '', moneyWhat: '',
+    game: { ad: 15000, save: 20, rate: 10 },
+    million: { spend: 20, save: 20 }, millionPlan: '',
+    planIncome: '', planHow: '',
+    obst: { fear: '', greed: '', lazy: '', other: '' },
+    income: blankRows(5, () => ({ n: '', v: '' })),
+    expense: blankRows(6, () => ({ n: '', v: '' })),
+    today: '',
+    earn: blankRows(5, () => ({ n: '', h: '', r: '' })),
+    days: 20,
+    goals: blankRows(5, () => ({ n: '', v: '', how: '' })),
+    drawing: '',
+  });
+  const KEY = 'spe-lesson1-money-v1';
+
+  // ---------- збереження в браузері ----------
+  function load() {
+    const d = DEFAULTS();
+    try {
+      const s = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (s && typeof s === 'object') {
+        for (const k in d) if (k in s) d[k] = (d[k] && typeof d[k] === 'object' && !Array.isArray(d[k])) ? { ...d[k], ...s[k] } : s[k];
+      }
+    } catch (e) { /* немає доступу до сховища — працюємо без нього */ }
+    return d;
+  }
+  let S = load();
+  let saveTimer;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 250);
+  }
+  const getPath = p => p.split('.').reduce((o, k) => o[k], S);
+  function setPath(p, v) { const ks = p.split('.'), last = ks.pop(); ks.reduce((o, k) => o[k], S)[last] = v; }
+
+  // ---------- форматування ----------
+  function plural(n, forms) {
+    const m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return forms[0];
+    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return forms[1];
+    return forms[2];
+  }
+  const P_YEAR = ['рік', 'роки', 'років'], P_MONTH = ['місяць', 'місяці', 'місяців'], P_DAY = ['день', 'дні', 'днів'];
+  const nf = n => Math.round(n).toLocaleString('uk-UA').replace(/\s/g, ' ');
+  const uah = n => nf(n) + ' грн';
+  const num = v => { const x = parseFloat(String(v).replace(',', '.')); return isFinite(x) && x > 0 ? x : 0; };
+  const pct = x => (Math.round(x * 10) / 10).toString().replace('.', ',') + '%';
+  function compact(n) {
+    if (n >= 1e6) return (Math.round(n / 1e5) / 10).toString().replace('.', ',') + ' млн';
+    if (n >= 1e3) return (Math.round(n / 100) / 10).toString().replace('.', ',') + ' тис';
+    return String(Math.round(n));
+  }
+  function fmtMonths(m) {
+    const y = Math.floor(m / 12), mo = m % 12, parts = [];
+    if (y) parts.push(y + ' ' + plural(y, P_YEAR));
+    if (mo) parts.push(mo + ' ' + plural(mo, P_MONTH));
+    return parts.join(' ') || '0 місяців';
+  }
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+  // ---------- прості текстові поля ----------
+  document.querySelectorAll('[data-bind]').forEach(el => {
+    const v = getPath(el.dataset.bind);
+    el.value = v == null ? '' : v;
+    el.addEventListener('input', () => { setPath(el.dataset.bind, el.value); save(); renderAll(); });
+  });
+
+  // ---------- завдання 1: настрій ----------
+  document.querySelectorAll('.mood-row').forEach(row => {
+    const which = row.dataset.mood;
+    row.innerHTML = MOODS.map((m, i) => `<button type="button" data-i="${i}" aria-label="Настрій ${i + 1} з 5">${m}</button>`).join('');
+    row.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+      S.mood[which] = S.mood[which] === +b.dataset.i ? null : +b.dataset.i;
+      save(); renderMood();
+    }));
+  });
+  function renderMood() {
+    document.querySelectorAll('.mood-row').forEach(row =>
+      row.querySelectorAll('button').forEach(b => b.classList.toggle('active', +b.dataset.i === S.mood[row.dataset.mood])));
+    const { start, end } = S.mood;
+    let t;
+    if (start == null) t = 'Обери, з яким настроєм ти починаєш урок. Наприкінці відміть ще раз — і порівняй.';
+    else if (end == null) t = `Початок: ${MOODS[start]}. Наприкінці уроку відміть настрій ще раз.`;
+    else if (end > start) t = `${MOODS[start]} → ${MOODS[end]} Настрій покращився. Схоже, розмова про гроші надихає — запиши, що саме сподобалось, у відгуку про урок.`;
+    else if (end < start) t = `${MOODS[start]} → ${MOODS[end]} Настрій знизився. Це нормально: тема грошей буває непростою. Напиши у відгуку, що здалося складним, — це допоможе наступному уроку.`;
+    else t = `${MOODS[start]} → ${MOODS[end]} Настрій стабільний. Що з уроку ти забереш із собою? Запиши у завданні 9.`;
+    $('moodNote').textContent = t;
+  }
+
+  // ---------- завдання 2: мрії ----------
+  $('dreams').innerHTML = DREAMS.map((d, i) =>
+    `<label class="opt"><input type="checkbox" data-i="${i}"><span><i aria-hidden="true">${d.icon}</i>${d.text}</span></label>`).join('');
+  $('dreams').querySelectorAll('input').forEach(cb => {
+    cb.checked = S.dreams.includes(+cb.dataset.i);
+    cb.addEventListener('change', () => {
+      S.dreams = [...$('dreams').querySelectorAll('input:checked')].map(c => +c.dataset.i);
+      save(); renderDreams();
+    });
+  });
+  function renderDreams() {
+    const n = S.dreams.length + (S.dreamOwn.trim() ? 1 : 0);
+    if (!n) { $('dreamNote').textContent = 'Відміть варіанти — і тут з\'явиться коментар про те, що тебе найбільше мотивує.'; return; }
+    const cnt = { self: 0, care: 0, create: 0 };
+    S.dreams.forEach(i => cnt[DREAMS[i].g]++);
+    const top = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]);
+    let t = `Ти обрав(-ла) ${n} ${plural(n, ['варіант', 'варіанти', 'варіантів'])}. `;
+    if (cnt[top[0]] === 0) t += 'Твій власний варіант — найкращий, бо він точно твій. ';
+    else if (cnt[top[0]] === cnt[top[1]]) t += `Порівну мрій ${GROUPS[top[0]].name} і ${GROUPS[top[1]].name} — у тебе широкі інтереси. ${GROUPS[top[0]].note}`;
+    else t += `Найбільше мрій ${GROUPS[top[0]].name}. ${GROUPS[top[0]].note}`;
+    if (S.dreams.includes(7)) t += ' Про крипту: це високоризиковий актив — вкладай лише ту суму, яку не шкода втратити, і лише коли розумієш, як він працює.';
+    $('dreamNote').textContent = t;
+  }
+
+  // ---------- завдання 4: гра «Гроші» ----------
+  function simulate(ad, s, r, years) {
+    const sv = ad * s / 100, exp = ad - sv, mr = r / 100 / 12;
+    let cap = 0, win = null;
+    const pts = [{ m: 0, cap: 0, pd: 0 }];
+    for (let m = 1; m <= years * 12; m++) {
+      cap = cap * (1 + mr) + sv;
+      const pd = cap * mr;
+      if (win === null && pd >= exp && ad > 0) win = m;
+      pts.push({ m, cap, pd });
+    }
+    return { sv, exp, pts, win };
+  }
+  const MAXY = 60;
+  const winMonths = (ad, s, r) => simulate(ad, s, r, MAXY).win;
+
+  function bindGame() {
+    const g = S.game;
+    const sync = () => {
+      $('gAd').value = g.ad; $('gAdR').value = Math.min(g.ad, 100000);
+      $('gSave').value = g.save; $('gRate').value = g.rate;
+    };
+    $('gAd').addEventListener('input', () => { g.ad = num($('gAd').value); $('gAdR').value = Math.min(g.ad, 100000); save(); renderGame(); });
+    $('gAdR').addEventListener('input', () => { g.ad = +$('gAdR').value; $('gAd').value = g.ad; save(); renderGame(); });
+    $('gSave').addEventListener('input', () => { g.save = +$('gSave').value; save(); renderGame(); });
+    $('gRate').addEventListener('input', () => { g.rate = +$('gRate').value; save(); renderGame(); });
+    sync();
+    bindGame.sync = sync;
+  }
+
+  let chartState = null;
+  function renderGame() {
+    const { ad, save: s, rate: r } = S.game;
+    $('gSaveO').textContent = s + '%';
+    $('gRateO').textContent = r + '% на рік';
+    const full = simulate(ad, s, r, MAXY);
+    const { sv, exp, win } = full;
+    $('fAd').textContent = uah(ad);
+    $('fSave').textContent = s + '%';
+    $('fIk').textContent = '+' + uah(sv) + ' / міс';
+    $('fRate').textContent = r + '%';
+    $('fPd').textContent = '$$$ → $';
+    $('fExp').textContent = uah(exp) + ' / міс';
+
+    $('gExp').textContent = uah(exp);
+    $('gSv').textContent = uah(sv);
+    $('gCap5').textContent = uah(full.pts[60].cap);
+    $('gPd10').innerHTML = `${uah(full.pts[120].pd)}<small>${exp > 0 ? pct(full.pts[120].pd / exp * 100) + ' витрат' : ''}</small>`;
+
+    let warn = '';
+    if (!ad) warn = 'Почни з АД: без активного доходу немає чого відкладати.';
+    else if (!s) warn = 'При 0% відкладання капітал не з\'являється — гру не виграти. Спробуй хоча б 10%.';
+    else if (!r) warn = 'При 0% інвестування гроші просто лежать: капітал росте, але пасивного доходу немає.';
+    $('gWarn').hidden = !warn; $('gWarn').textContent = warn;
+
+    if (win) {
+      $('gWin').textContent = fmtMonths(win);
+      const p = full.pts[win];
+      $('gWinSub').textContent = `ІК ${uah(p.cap)} → ПД ${uah(p.pd)} / міс`;
+    } else {
+      $('gWin').textContent = ad && s && r ? `понад ${MAXY} років` : '—';
+      $('gWinSub').textContent = ad && s && r ? 'Підніми % відкладання або дохідність' : '';
+    }
+
+    const H = win ? Math.min(MAXY, Math.max(10, Math.ceil(win / 12 * 1.3 / 5) * 5)) : 30;
+    drawChart(full.pts.slice(0, H * 12 + 1), exp, win, H);
+
+    const yrs = [1, 3, 5, 10, 15, 20, 25, 30, 40, 50, 60].filter(y => y <= H);
+    $('gTable').innerHTML = yrs.map(y => {
+      const p = full.pts[y * 12];
+      const cov = exp > 0 ? p.pd / exp * 100 : 0;
+      return `<tr class="${cov >= 100 ? 'win' : ''}"><td>${y}</td><td>${uah(p.cap)}</td><td>${uah(p.pd)}</td><td>${pct(Math.min(cov, 999))}</td></tr>`;
+    }).join('');
+
+    const steps = [10, 20, 30, 40, 50];
+    $('whatIf').innerHTML = steps.map(x => {
+      const w = ad && r ? winMonths(ad, x, r) : null;
+      return `<div class="${x === s ? 'cur' : ''}"><small>відкладати ${x}%</small><b>${w ? Math.round(w / 12) + ' р.' : '—'}</b></div>`;
+    }).join('');
+    const w10 = ad && r ? winMonths(ad, 10, r) : null, w30 = ad && r ? winMonths(ad, 30, r) : null;
+    $('whatIfNote').textContent = w10 && w30
+      ? `% відкладання діє двічі: ти швидше наповнюєш ІК і водночас звикаєш жити на менші витрати — а їх ПД і має покрити. Тому при 10% гра триває ${fmtMonths(w10)}, а при 30% — лише ${fmtMonths(w30)}. Розмір АД тут не важить — важить саме відсоток.`
+      : 'Задай АД і дохідність більше нуля, щоб порівняти, як % відкладання скорочує шлях до перемоги.';
+    renderMillion();
+  }
+
+  // ---------- графік ----------
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  function drawChart(pts, exp, win, H) {
+    const W = 680, Ht = 300, L = 58, R = 92, T = 16, B = 34;
+    const iw = W - L - R, ih = Ht - T - B;
+    const maxV = Math.max(exp * 1.25, ...pts.map(p => p.pd), 1);
+    const step = niceStep(maxV / 4), yMax = Math.ceil(maxV / step) * step;
+    const x = m => L + m / (H * 12) * iw, y = v => T + ih - v / yMax * ih;
+    let s = '';
+    for (let v = 0; v <= yMax + 1e-6; v += step) {
+      s += `<line x1="${L}" x2="${L + iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--c-grid)" stroke-width="1"/>`;
+      s += `<text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="12" fill="var(--muted)">${compact(v)}</text>`;
+    }
+    const xs = H <= 10 ? 1 : H <= 30 ? 5 : 10;
+    for (let yr = 0; yr <= H; yr += xs) s += `<text x="${x(yr * 12)}" y="${Ht - 10}" text-anchor="middle" font-size="12" fill="var(--muted)">${yr}${yr === H ? ' р.' : ''}</text>`;
+    const line = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.m).toFixed(1)} ${y(p.pd).toFixed(1)}`).join(' ');
+    s += `<path d="${line} L${x(pts[pts.length - 1].m)} ${y(0)} L${x(0)} ${y(0)} Z" fill="var(--c-pd)" opacity=".1"/>`;
+    s += `<line x1="${L}" x2="${L + iw}" y1="${y(exp)}" y2="${y(exp)}" stroke="var(--c-exp)" stroke-width="2" stroke-dasharray="6 5"/>`;
+    s += `<path d="${line}" fill="none" stroke="var(--c-pd)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    // прямі підписи на кінцях ліній
+    const last = pts[pts.length - 1];
+    let ly1 = y(last.pd) + 4, ly2 = y(exp) + 4;
+    if (Math.abs(ly1 - ly2) < 16) { if (ly1 < ly2) { ly1 -= 8; ly2 += 8; } else { ly1 += 8; ly2 -= 8; } }
+    s += `<text x="${L + iw + 8}" y="${ly1}" font-size="12" font-weight="700" fill="var(--text)">ПД ${compact(last.pd)}</text>`;
+    s += `<text x="${L + iw + 8}" y="${ly2}" font-size="12" font-weight="600" fill="var(--muted)">Витрати</text>`;
+    if (win && win <= H * 12) {
+      const wx = x(win), wy = y(pts[win].pd);
+      s += `<circle cx="${wx}" cy="${wy}" r="6" fill="var(--c-pd)" stroke="var(--surface)" stroke-width="2"/>`;
+      const anchor = wx > L + iw * .7 ? 'end' : 'start', dx = anchor === 'end' ? -10 : 10;
+      s += `<text x="${wx + dx}" y="${wy - 12}" text-anchor="${anchor}" font-size="13" font-weight="800" fill="var(--text)">🏆 Перемога · ${fmtMonths(win)}</text>`;
+    }
+    s += `<g id="cross" style="display:none"><line id="crossL" y1="${T}" y2="${T + ih}" stroke="var(--muted)" stroke-width="1"/><circle id="crossD" r="5" fill="var(--c-pd)" stroke="var(--surface)" stroke-width="2"/></g>`;
+    s += `<rect x="${L}" y="${T}" width="${iw}" height="${ih}" fill="transparent" id="hit"/>`;
+    $('chart').innerHTML = s;
+    chartState = { pts, exp, x, y, L, iw, H };
+    const hit = $('hit');
+    hit.addEventListener('pointermove', onHover);
+    hit.addEventListener('pointerdown', onHover);
+    hit.addEventListener('pointerleave', () => { $('cross').style.display = 'none'; $('tip').style.opacity = 0; });
+  }
+  function niceStep(raw) {
+    const p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p;
+    return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
+  }
+  function onHover(e) {
+    const { pts, exp, x, y, L, iw, H } = chartState;
+    const svg = $('chart'), box = svg.getBoundingClientRect(), k = 680 / box.width;
+    const sx = (e.clientX - box.left) * k;
+    const m = Math.max(0, Math.min(H * 12, Math.round((sx - L) / iw * H * 12)));
+    const p = pts[m];
+    $('cross').style.display = '';
+    $('crossL').setAttribute('x1', x(m)); $('crossL').setAttribute('x2', x(m));
+    $('crossD').setAttribute('cx', x(m)); $('crossD').setAttribute('cy', y(p.pd));
+    const tip = $('tip');
+    tip.innerHTML = `<b>${fmtMonths(m)}</b><br><span class="sw" style="background:var(--c-pd)"></span>ПД: ${uah(p.pd)} / міс<br>` +
+      `<span class="sw" style="background:var(--c-exp)"></span>Витрати: ${uah(exp)} / міс<br>ІК: ${uah(p.cap)}`;
+    tip.style.opacity = 1;
+    const tw = tip.offsetWidth, px = x(m) / k;
+    let left = px + 12; if (left + tw > box.width) left = px - tw - 12;
+    tip.style.left = Math.max(0, left) + 'px';
+    tip.style.top = Math.max(0, y(p.pd) / k - tip.offsetHeight - 12) + 'px';
+  }
+
+  // ---------- завдання 5: мільйон ----------
+  const MILLION = 1e6;
+  $('mSpend').value = S.million.spend; $('mSave').value = S.million.save;
+  $('mSpend').addEventListener('input', () => {
+    S.million.spend = +$('mSpend').value;
+    if (S.million.spend + S.million.save > 100) { S.million.save = 100 - S.million.spend; $('mSave').value = S.million.save; }
+    save(); renderMillion();
+  });
+  $('mSave').addEventListener('input', () => {
+    S.million.save = +$('mSave').value;
+    if (S.million.spend + S.million.save > 100) { S.million.spend = 100 - S.million.save; $('mSpend').value = S.million.spend; }
+    save(); renderMillion();
+  });
+  function renderMillion() {
+    const { spend, save: sv } = S.million, inv = 100 - spend - sv;
+    const r = S.game.rate, exp = S.game.ad * (1 - S.game.save / 100);
+    const a = MILLION * spend / 100, b = MILLION * sv / 100, c = MILLION * inv / 100, pd = c * r / 100 / 12;
+    $('mSpendO').textContent = `${spend}% · ${uah(a)}`;
+    $('mSaveO').textContent = `${sv}% · ${uah(b)}`;
+    $('mInvO').textContent = `${inv}% · ${uah(c)}`;
+    $('sSpend').style.width = spend + '%'; $('sSave').style.width = sv + '%'; $('sInv').style.width = inv + '%';
+    $('mPd').textContent = uah(pd);
+    $('mPdSub').textContent = `при ${r}% річних — і ${uah(c)} залишаються твоїми`;
+    $('mSpendV').innerHTML = `${uah(a)}<small>гроші зникають</small>`;
+    $('mSaveV').innerHTML = `${uah(b)}<small>${exp > 0 ? 'на ' + fmtMonths(Math.floor(b / exp)) + ' витрат' : ''}</small>`;
+    $('mInvV').innerHTML = `${uah(c)}<small>${exp > 0 ? pct(pd / exp * 100) + ' твоїх витрат щомісяця' : ''}</small>`;
+    let t;
+    if (spend >= 70) t = 'Більшість мільйона піде на витрати. Без плану великі гроші закінчуються швидко — і повертаєшся на старт гри. Спробуй інвестувати хоча б половину.';
+    else if (inv >= 50 && sv >= 10) t = `Сильний план: є «подушка» і капітал, що працює. ${exp > 0 && pd >= exp ? 'Пасивний дохід уже покриває твої витрати — це перемога в грі!' : 'Додавай до капіталу частину АД — і ПД росте далі.'}`;
+    else if (!sv) t = 'Без «подушки» будь-яка несподівана витрата змусить продати інвестиції. Залиш 10–20% на 6+ місяців витрат.';
+    else t = 'Збалансовано. Подумай, чи можна перенести частину витрат в інвестиції: кожні 100 000 грн під ' + r + '% дають ' + uah(100000 * r / 100 / 12) + ' щомісяця.';
+    $('mNote').textContent = t;
+  }
+
+  // ---------- редаговані списки ----------
+  const LISTS = {
+    income:  { box: 'incRows', cls: 'lrow', blank: () => ({ n: '', v: '' }), ph: ['Кишенькові', 'Підробіток', 'Подарунки', 'Продаж речей', 'Стипендія'],
+      cells: (r, i, ph) => `<input class="f" data-f="n" value="${esc(r.n)}" placeholder="${ph}" aria-label="Назва доходу ${i + 1}">` +
+        `<input class="f num" data-f="v" type="number" min="0" inputmode="numeric" value="${esc(r.v)}" placeholder="0" aria-label="Сума доходу ${i + 1}, грн">` },
+    expense: { box: 'expRows', cls: 'lrow', blank: () => ({ n: '', v: '' }), ph: ['Їжа поза домом', 'Мобільний і інтернет', 'Транспорт', 'Підписки', 'Розваги', 'Одяг'],
+      cells: (r, i, ph) => `<input class="f" data-f="n" value="${esc(r.n)}" placeholder="${ph}" aria-label="Назва витрати ${i + 1}">` +
+        `<input class="f num" data-f="v" type="number" min="0" inputmode="numeric" value="${esc(r.v)}" placeholder="0" aria-label="Сума витрати ${i + 1}, грн">` },
+    earn:    { box: 'earnRows', cls: 'erow', blank: () => ({ n: '', h: '', r: '' }), ph: ['Репетиторство', 'Вигул собак', 'Дизайн у Canva', 'Догляд за дітьми', 'Продаж своїх виробів'],
+      cells: (r, i, ph) => `<input class="f" data-f="n" value="${esc(r.n)}" placeholder="${ph}" aria-label="Спосіб заробітку ${i + 1}">` +
+        `<input class="f num" data-f="h" type="number" min="0" max="24" step="0.5" inputmode="decimal" value="${esc(r.h)}" placeholder="год/день" aria-label="Годин у день">` +
+        `<input class="f num" data-f="r" type="number" min="0" inputmode="numeric" value="${esc(r.r)}" placeholder="грн/год" aria-label="Гривень за годину">` +
+        `<span class="calc-cell" data-out="day" data-label="Грн у день"></span><span class="calc-cell" data-out="month" data-label="Грн у місяць"></span>` },
+    goals:   { box: 'goalRows', cls: 'grow', blank: () => ({ n: '', v: '', how: '' }), ph: ['Навушники', 'Подарунок мамі', 'Курс з дизайну', 'Відкласти в капітал', 'Квиток на концерт'],
+      cells: (r, i, ph) => `<input class="f" data-f="n" value="${esc(r.n)}" placeholder="${ph}" aria-label="Назва цілі ${i + 1}">` +
+        `<input class="f num" data-f="v" type="number" min="0" inputmode="numeric" value="${esc(r.v)}" placeholder="0" aria-label="Сума цілі, грн">` +
+        `<input class="f how" data-f="how" value="${esc(r.how)}" placeholder="Що зроблю…" aria-label="Що зробиш, щоб досягнути цілі">` +
+        `<span class="calc-cell" data-out="days" data-label="Днів роботи"></span>` },
+  };
+  function renderList(key) {
+    const L = LISTS[key], rows = S[key];
+    $(L.box).innerHTML = rows.map((r, i) =>
+      `<div class="${L.cls}" data-i="${i}">${L.cells(r, i, L.ph[i % L.ph.length])}<button type="button" class="del" aria-label="Видалити рядок">×</button></div>`).join('');
+    $(L.box).querySelectorAll('[data-i]').forEach(row => {
+      const i = +row.dataset.i;
+      row.querySelectorAll('[data-f]').forEach(inp => inp.addEventListener('input', () => { S[key][i][inp.dataset.f] = inp.value; save(); renderCalcs(); }));
+      row.querySelector('.del').addEventListener('click', () => {
+        S[key].splice(i, 1);
+        if (!S[key].length) S[key].push(L.blank());
+        save(); renderList(key); renderCalcs();
+      });
+    });
+  }
+  document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
+    const key = b.dataset.add;
+    S[key].push(LISTS[key].blank());
+    save(); renderList(key); renderCalcs();
+    const inputs = $(LISTS[key].box).querySelectorAll('[data-f="n"]');
+    inputs[inputs.length - 1].focus();
+  }));
+
+  // ---------- розрахунки бюджету, заробітку й цілей ----------
+  function renderCalcs() {
+    // завдання 8 — бюджет
+    const inc = S.income.reduce((s, r) => s + num(r.v), 0), ex = S.expense.reduce((s, r) => s + num(r.v), 0), rem = inc - ex;
+    $('incTot').textContent = 'Разом: ' + uah(inc);
+    $('expTot').textContent = 'Разом: ' + uah(ex);
+    $('bRem').textContent = (rem < 0 ? '−' : '') + uah(Math.abs(rem));
+    $('bRem').classList.toggle('neg', rem < 0);
+    $('bRate').textContent = inc > 0 ? `${rem >= 0 ? 'відкладаєш' : 'перевитрата'} ${pct(Math.abs(rem) / inc * 100)} доходу` : 'Заповни доходи й витрати';
+    $('bYear').textContent = (rem < 0 ? '−' : '') + uah(Math.abs(rem * 12));
+    $('bInc').textContent = uah(inc);
+    $('bExp').textContent = uah(ex);
+    let bt;
+    if (!inc && !ex) bt = 'Почни з доходів: впиши все, що отримуєш за місяць. Потім — витрати. Залишок і річна сума порахуються самі.';
+    else if (rem < 0) bt = `Ти витрачаєш на ${uah(-rem)} більше, ніж отримуєш. За рік це ${uah(-rem * 12)} боргу. Знайди у витратах те, без чого можна обійтися, або спосіб заробити більше (домашнє завдання).`;
+    else if (rem === 0) bt = 'Ти витрачаєш усе до копійки — у капітал нічого не йде, тож гру «гроші» поки не виграти. Почни з 10%: відклади їх одразу, щойно отримаєш дохід.';
+    else {
+      const rate = rem / inc * 100;
+      const big = S.expense.reduce((m, r) => num(r.v) > num(m.v) ? r : m, { v: 0 });
+      bt = rate < 10 ? `Залишок ${pct(rate)} — це початок. Ціль — хоча б 10% доходу.` : rate < 30 ? `Норма відкладання ${pct(rate)} — добрий результат!` : `Норма відкладання ${pct(rate)} — це рівень сильного гравця!`;
+      bt += ` За рік назбирається ${uah(rem * 12)}.`;
+      if (num(big.v) > 0) bt += ` Найбільша витрата — «${big.n || 'без назви'}» (${uah(num(big.v))}): саме тут найпростіше зекономити.`;
+      bt += ' Натисни «Перенести в гру», щоб побачити, коли ці гроші почнуть працювати на тебе.';
+    }
+    $('budgetNote').textContent = bt;
+
+    // завдання 6 — план проти факту
+    const plan = num(S.planIncome);
+    let pt;
+    if (!plan) pt = 'Впиши суму, яку хочеш отримувати щомісяця. Потім порівняємо її з бюджетом (завдання 8) і з можливим заробітком (завдання 10).';
+    else {
+      pt = `План: ${uah(plan)} на місяць — це ${uah(plan * 12)} на рік.`;
+      if (inc > 0) pt += plan > inc ? ` Зараз у бюджеті ${uah(inc)} доходу — не вистачає ${uah(plan - inc)}.` : ` Бюджет уже показує ${uah(inc)} — план виконано!`;
+      if (!S.planHow.trim()) pt += ' Не забудь написати, за рахунок яких дій ти їх отримаєш: сума без дій — це мрія, а не план.';
+    }
+
+    // завдання 10 — заробіток
+    const days = Math.max(1, Math.min(31, num(S.days) || 20));
+    let perDay = 0, perMonth = 0, best = null;
+    $('earnRows').querySelectorAll('.erow').forEach((row, i) => {
+      const r = S.earn[i], h = num(r.h), rate = num(r.r), d = h * rate;
+      perDay += d; perMonth += d * days;
+      row.querySelector('[data-out="day"]').textContent = d ? uah(d) : '—';
+      row.querySelector('[data-out="month"]').textContent = d ? uah(d * days) : '—';
+      row.querySelectorAll('.calc-cell').forEach(c => c.classList.toggle('dim', !d));
+      if (rate && (!best || rate > num(best.r))) best = r;
+    });
+    const hours = S.earn.reduce((s, r) => s + num(r.h), 0);
+    $('earnTot').textContent = `Разом: ${uah(perDay)} / день · ${uah(perMonth)} / міс`;
+    let et;
+    if (!perDay) et = 'Для кожного способу вкажи години на день і ціну години — заробіток за день і за місяць порахується сам.';
+    else {
+      et = `Разом ${String(hours).replace('.', ',')} год на день дають ${uah(perDay)} щодня і ${uah(perMonth)} за ${days} ${plural(days, P_DAY)}.`;
+      if (best) et += ` Найдорожча година — «${best.n || 'без назви'}» (${uah(num(best.r))}/год): порівнюй способи саме за ціною години, а не за сумою на день.`;
+      if (hours > 6) et += ' Більше 6 годин на день разом із навчанням — забагато: обери 1–2 найкращі способи.';
+      if (plan) et += perMonth >= plan ? ` Цього вистачить на план із завдання 6 (${uah(plan)}).` : ` До плану із завдання 6 бракує ${uah(plan - perMonth)} на місяць.`;
+    }
+    $('earnNote').textContent = et;
+    $('planNote').textContent = pt + (plan && perMonth ? ` Твої способи заробітку (завдання 10) дають ${uah(perMonth)} на місяць.` : '');
+
+    // завдання 11 — цілі
+    let gsum = 0;
+    $('goalRows').querySelectorAll('.grow').forEach((row, i) => {
+      const v = num(S.goals[i].v); gsum += v;
+      const cell = row.querySelector('[data-out="days"]');
+      cell.textContent = v && perDay ? `≈ ${Math.ceil(v / perDay)} ${plural(Math.ceil(v / perDay), P_DAY)}` : '—';
+      cell.classList.toggle('dim', !(v && perDay));
+    });
+    $('goalTot').textContent = 'Разом: ' + uah(gsum);
+    let gt;
+    if (!gsum) gt = 'Впиши ціль і суму. Якщо заповнене завдання 10, тут з\'явиться, скільки днів роботи коштує кожна ціль.';
+    else if (!perDay) gt = `Цілі на місяць — ${uah(gsum)}. Заповни способи заробітку (завдання 10), щоб побачити, скільки днів роботи це займе.`;
+    else {
+      const need = Math.ceil(gsum / perDay);
+      gt = `Усі цілі коштують ${uah(gsum)} — це ≈ ${need} ${plural(need, P_DAY)} роботи за твоїм графіком.`;
+      gt += need <= days ? ` Вкладаєшся в місяць (${days} робочих ${plural(days, P_DAY)}) і ще залишиться ${uah(perMonth - gsum)} — відклади їх у капітал.` : ` Це більше, ніж ${days} робочих ${plural(days, P_DAY)}: не вистачає ${uah(gsum - perMonth)}. Розстав пріоритети або розтягни частину цілей на 2 місяці.`;
+      if (S.goals.some(g => num(g.v) && !g.how.trim())) gt += ' Біля кожної цілі напиши, що ти зробиш, — так ціль перетворюється на план.';
+    }
+    $('goalNote').textContent = gt;
+  }
+
+  $('toGame').addEventListener('click', () => {
+    const inc = S.income.reduce((s, r) => s + num(r.v), 0), ex = S.expense.reduce((s, r) => s + num(r.v), 0);
+    if (!inc) { $('budgetNote').textContent = 'Спочатку впиши доходи — тоді їх можна перенести в гру як АД.'; return; }
+    S.game.ad = Math.round(inc);
+    S.game.save = Math.max(0, Math.min(80, Math.round((inc - ex) / inc * 100)));
+    save(); bindGame.sync(); renderGame();
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    $('t4').scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+  });
+
+  // ---------- посилання ----------
+  $('links').innerHTML = LINKS.map(l => {
+    const inner = `<div class="ic" aria-hidden="true">${l.icon}</div><div><b>${l.title}</b><small>${l.url ? l.sub : 'Посилання додасть викладач'}</small></div>`;
+    return l.url ? `<a class="card link-card" href="${esc(l.url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="card link-card">${inner}</div>`;
+  }).join('');
+
+  // ---------- малювання (завдання 12) ----------
+  const pad = $('pad'), ctx = pad.getContext('2d');
+  let penColor = '#1e293b', erasing = false, drawing = false, undoStack = [], lastPt = null;
+  const PAPER = '#fffdf8';
+  function fitPad() {
+    const dpr = window.devicePixelRatio || 1, w = pad.clientWidth, h = pad.clientHeight;
+    if (!w) return;
+    pad.width = Math.round(w * dpr); pad.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = PAPER; ctx.fillRect(0, 0, w, h);
+    if (S.drawing) {
+      const img = new Image();
+      img.onload = () => ctx.drawImage(img, 0, 0, w, h);
+      img.src = S.drawing;
+    }
+    $('padEmpty').hidden = !!S.drawing;
+  }
+  function pt(e) { const b = pad.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; }
+  pad.addEventListener('pointerdown', e => {
+    drawing = true; pad.setPointerCapture(e.pointerId);
+    undoStack.push(S.drawing); if (undoStack.length > 30) undoStack.shift();
+    lastPt = pt(e);
+    ctx.beginPath(); ctx.arc(lastPt[0], lastPt[1], (erasing ? 14 : 3) / 2, 0, Math.PI * 2);
+    ctx.fillStyle = erasing ? PAPER : penColor; ctx.fill();
+    $('padEmpty').hidden = true;
+  });
+  pad.addEventListener('pointermove', e => {
+    if (!drawing) return;
+    const p = pt(e);
+    ctx.strokeStyle = erasing ? PAPER : penColor; ctx.lineWidth = erasing ? 14 : 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath(); ctx.moveTo(lastPt[0], lastPt[1]); ctx.lineTo(p[0], p[1]); ctx.stroke();
+    lastPt = p;
+  });
+  const endStroke = () => { if (!drawing) return; drawing = false; S.drawing = pad.toDataURL('image/png'); save(); };
+  pad.addEventListener('pointerup', endStroke);
+  pad.addEventListener('pointercancel', endStroke);
+  $('padTools').querySelectorAll('.pen').forEach(b => b.addEventListener('click', () => {
+    penColor = b.dataset.c; erasing = false;
+    $('padTools').querySelectorAll('.pen').forEach(x => x.classList.toggle('active', x === b));
+    $('eraser').classList.remove('active');
+  }));
+  $('eraser').addEventListener('click', () => { erasing = !erasing; $('eraser').classList.toggle('active', erasing); });
+  $('undo').addEventListener('click', () => { if (!undoStack.length) return; S.drawing = undoStack.pop(); save(); fitPad(); });
+  $('clearPad').addEventListener('click', () => { undoStack.push(S.drawing); S.drawing = ''; save(); fitPad(); });
+  $('savePad')?.addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = pad.toDataURL('image/png'); a.download = 'miy-shliakh-do-tsilei.png'; a.click();
+  });
+  let resizeT;
+  window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(fitPad, 150); });
+
+  // ---------- очищення ----------
+  // підтвердження прямо на кнопці: перший клік питає, другий (протягом 4 с) очищає
+  let resetArmed = null;
+  $('resetAll').addEventListener('click', () => {
+    const btn = $('resetAll');
+    if (!resetArmed) {
+      btn.textContent = 'Точно очистити? Натисни ще раз';
+      resetArmed = setTimeout(() => { resetArmed = null; btn.textContent = 'Очистити всі відповіді'; }, 4000);
+      return;
+    }
+    clearTimeout(resetArmed); resetArmed = null;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    S = DEFAULTS(); undoStack = [];
+    document.querySelectorAll('[data-bind]').forEach(el => { const v = getPath(el.dataset.bind); el.value = v == null ? '' : v; });
+    $('dreams').querySelectorAll('input').forEach(cb => { cb.checked = false; });
+    $('mSpend').value = S.million.spend; $('mSave').value = S.million.save;
+    bindGame.sync();
+    Object.keys(LISTS).forEach(renderList);
+    renderMood(); renderAll(); renderGame(); fitPad();
+    btn.textContent = 'Відповіді очищено';
+    setTimeout(() => { btn.textContent = 'Очистити всі відповіді'; }, 2000);
+  });
+
+  function renderAll() { renderDreams(); renderCalcs(); }
+
+  bindGame();
+  Object.keys(LISTS).forEach(renderList);
+  renderMood();
+  renderAll();
+  renderGame();
+  fitPad();
+  $('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

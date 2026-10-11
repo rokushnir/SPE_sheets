@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Час життя</title>
+<meta name="description" content="Опитувальник: скільки часу ви сьогодні присвятили сну, книжкам, соцмережам і фільмам — і скільки років життя це забере за 60 років.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Той самий візуальний стиль, що й у калькуляторі іпотеки: білі картки, зелений акцент, темна картка результату. */
+  :root {
+    --bg: #f3f5f7;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --text: #1e293b;
+    --muted: #5b6676;
+    --faint: #8a94a3;
+    --line: #e3e8ee;
+    --green: #16a34a;
+    --green-dark: #128a3e;
+    --green-soft: #e8f7ee;
+    --orange: #e8791c;
+    --yellow: #f6b81a;
+    --navy: #1b3a8a;
+    --ink: #1e293b;
+    --ink-text: #ffffff;
+    --ink-accent: #4ade80;
+    --warn-bg: #fff4e5;
+    --warn-text: #9a4a07;
+    --header-bg: rgba(255, 255, 255, .95);
+    --radius: 20px;
+    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    /* кольори секторів діаграми */
+    --c-sleep: #2a78d6;
+    --c-read: #eb6834;
+    --c-social: #1baf7a;
+    --c-movies: #eda100;
+    --c-rest: #d3d9e1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+      --green: #22c55e; --green-dark: #16a34a; --green-soft: rgba(34, 197, 94, .14); --orange: #f08a3a; --navy: #a9bdf2;
+      --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #4ade80; --warn-bg: rgba(240, 138, 58, .14); --warn-text: #fdba74;
+      --header-bg: rgba(22, 30, 43, .95); --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+      --c-sleep: #3987e5; --c-read: #d95926; --c-social: #199e70; --c-movies: #c98500; --c-rest: #3a4658;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+    --green: #22c55e; --green-dark: #16a34a; --green-soft: rgba(34, 197, 94, .14); --orange: #f08a3a; --navy: #a9bdf2;
+    --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #4ade80; --warn-bg: rgba(240, 138, 58, .14); --warn-text: #fdba74;
+    --header-bg: rgba(22, 30, 43, .95); --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    --c-sleep: #3987e5; --c-read: #d95926; --c-social: #199e70; --c-movies: #c98500; --c-rest: #3a4658;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: var(--header-bg);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 84px; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo {
+    width: 64px; height: 64px; border: 3px solid var(--yellow); border-radius: 6px;
+    display: grid; place-content: center; text-align: center; line-height: 1.05; flex-shrink: 0;
+  }
+  .logo b { color: var(--navy); font-size: 24px; font-weight: 900; }
+  .logo small { color: var(--navy); font-size: 10px; font-weight: 700; }
+  .brand-name { font-size: 24px; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .brand-sub { font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+  .menu { display: flex; align-items: center; gap: 32px; font-weight: 500; }
+  .menu a:hover { color: var(--green); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--green); color: #fff; font-weight: 800; letter-spacing: .03em;
+    padding: 16px 28px; border-radius: 12px; border: 0; cursor: pointer; font-size: 16px;
+    box-shadow: 0 8px 20px rgba(22, 163, 74, .25); transition: background .2s, transform .2s;
+    font-family: inherit;
+  }
+  .btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+  .btn-outline { background: transparent; color: var(--green); border: 2px solid var(--green); box-shadow: none; }
+  .btn-outline:hover { background: var(--green-soft); }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 64px 0 48px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--green-soft); color: var(--green); font-weight: 700;
+    padding: 10px 20px; border-radius: 999px; font-size: 15px; letter-spacing: .03em; text-transform: uppercase;
+  }
+  .badge::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+  h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.1; font-weight: 900; margin: 28px 0 24px; max-width: 980px; text-wrap: balance; }
+  .accent { color: var(--orange); }
+  .lead { font-size: clamp(17px, 2vw, 22px); color: var(--muted); max-width: 900px; margin: 0 0 36px; }
+  .lead strong { color: var(--text); }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+  .divider { border: 0; border-top: 1px solid var(--line); margin: 0 0 32px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 28px; text-align: center; box-shadow: var(--shadow);
+  }
+  .stat .num { font-size: clamp(30px, 4vw, 44px); font-weight: 900; color: var(--green); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat .lbl { color: var(--muted); margin-top: 6px; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 72px 0; scroll-margin-top: 84px; }
+  .section-white { background: var(--surface); }
+  .eyebrow { color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px; }
+  h2 { font-size: clamp(28px, 3.5vw, 42px); line-height: 1.15; margin: 10px 0 16px; font-weight: 900; text-wrap: balance; }
+  .section-lead { color: var(--muted); font-size: 18px; max-width: 760px; margin: 0 0 40px; }
+
+  /* ---------- Questionnaire ---------- */
+  .calc { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: start; }
+  .calc > * { min-width: 0; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); }
+  .progress { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+  .progress button {
+    height: 8px; border-radius: 4px; border: 0; padding: 0; background: var(--line); cursor: pointer;
+    transition: background .2s;
+  }
+  .progress button.done { background: var(--green); opacity: .45; }
+  .progress button.current { background: var(--green); }
+  .step-count { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 22px; }
+  .q-head { display: flex; gap: 16px; align-items: center; margin-bottom: 24px; }
+  .icon {
+    width: 56px; height: 56px; border-radius: 16px; background: var(--green-soft);
+    display: grid; place-content: center; font-size: 26px; flex-shrink: 0;
+  }
+  .q-head h3 { margin: 0; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.25; text-wrap: balance; }
+  .q-head p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+  .time-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .time-inputs label { display: block; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .time-inputs input {
+    width: 100%; padding: 14px; border: 2px solid var(--line); border-radius: 12px; font: inherit; font-size: 22px; font-weight: 800;
+    color: var(--text); background: var(--surface); font-variant-numeric: tabular-nums;
+  }
+  .time-inputs input:focus { outline: none; border-color: var(--green); }
+  input[type=range] { width: 100%; accent-color: var(--green); height: 6px; cursor: pointer; }
+  .range-scale { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .chips-lbl { font-size: 13px; color: var(--muted); font-weight: 600; margin: 22px 0 8px; }
+  .chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .chips button {
+    padding: 12px 8px; border-radius: 12px; border: 2px solid var(--line); background: var(--surface); cursor: pointer;
+    font-weight: 700; font-size: 15px; color: var(--text); font-family: inherit;
+  }
+  .chips button:hover { border-color: var(--green); }
+  .chips button.active { border-color: var(--green); background: var(--green-soft); }
+  .q-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .q-nav .btn { padding: 14px 24px; }
+  .q-nav .spacer { flex: 1; }
+
+  .result { background: var(--ink); color: var(--ink-text); display: flex; flex-direction: column; border-color: var(--ink); }
+  .result .big-lbl { opacity: .7; }
+  .result .big { font-size: clamp(36px, 5vw, 52px); font-weight: 900; color: var(--ink-accent); line-height: 1.1; margin: 6px 0 4px; font-variant-numeric: tabular-nums; }
+  .result .big-sub { opacity: .7; margin-bottom: 20px; font-size: 15px; }
+  .result .row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 13px 0; border-top: 1px solid rgba(255,255,255,.12); }
+  .result .row.current { background: rgba(255,255,255,.05); margin-inline: -12px; padding-inline: 12px; border-radius: 10px; }
+  .result .row .sw { width: 12px; height: 12px; border-radius: 50%; }
+  .result .row span { opacity: .8; }
+  .result .row b { text-align: right; font-variant-numeric: tabular-nums; }
+  .result .row b small { display: block; font-weight: 500; opacity: .6; font-size: 13px; }
+  .result .note { font-size: 13px; opacity: .6; margin: 18px 0 0; }
+  .warn { margin-top: 16px; padding: 14px 16px; border-radius: 14px; background: var(--warn-bg); color: var(--warn-text); font-weight: 600; }
+
+  /* ---------- Results ---------- */
+  .res-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+  .mode {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    padding: 6px 12px; border-radius: 999px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line);
+  }
+  .mode.user { background: var(--green-soft); color: var(--green); border-color: transparent; }
+  .pie-card { display: grid; grid-template-columns: minmax(240px, 380px) 1fr; gap: 40px; align-items: center; }
+  .pie-card > * { min-width: 0; }
+  .pie-wrap { position: relative; max-width: 380px; width: 100%; margin-inline: auto; }
+  #pie { width: 100%; height: auto; display: block; }
+  #pie path { transition: opacity .15s; cursor: pointer; }
+  #pie text { font-family: inherit; }
+  .tip {
+    position: absolute; pointer-events: none; background: var(--ink); color: var(--ink-text); border-radius: 10px;
+    padding: 10px 12px; font-size: 13px; line-height: 1.5; white-space: nowrap; opacity: 0; transition: opacity .1s;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .2); z-index: 5;
+  }
+  .tip b { font-size: 14px; }
+  .tip .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; background: var(--surface); font-size: 15px; min-width: 460px; }
+  th, td { padding: 12px 16px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  th:first-child, td:first-child { text-align: left; }
+  th { background: var(--surface-2); font-weight: 700; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+  tbody tr { transition: background .15s; }
+  tbody tr.hl { background: var(--surface-2); }
+  tr:last-child td { border-bottom: 0; }
+  tfoot td { font-weight: 800; background: var(--surface-2); }
+  td .sw { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 10px; vertical-align: -1px; }
+  td.yrs { font-weight: 800; }
+
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 32px; }
+  .fact { display: flex; flex-direction: column; }
+  .fact .tag { font-weight: 900; font-size: clamp(26px, 3vw, 34px); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .fact .tag small { display: block; font-size: 15px; font-weight: 600; color: var(--muted); margin-top: 4px; }
+  .fact h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 16px; color: var(--muted); }
+  .fact h3 i { width: 12px; height: 12px; border-radius: 50%; }
+  .fact p { margin: 12px 0 0; color: var(--muted); font-size: 15px; }
+  .verdict { margin-top: 24px; padding: 18px 20px; border-radius: 14px; background: var(--green-soft); font-weight: 600; }
+  .res-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 28px; }
+
+  /* ---------- How ---------- */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .cond .tag { display: inline-block; font-weight: 900; font-size: 34px; color: var(--green); }
+  .cond .tag.orange { color: var(--orange); }
+  .cond h3 { margin: 8px 0 10px; font-size: 20px; }
+  .cond p { color: var(--muted); margin: 0; }
+  .formula { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-top: 14px; font-size: 14px; }
+
+  footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1000px) {
+    .menu { display: none; }
+    .calc, .pie-card { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .stats, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .stats { gap: 12px; }
+    .stat { padding: 18px; }
+    .brand-name { font-size: 20px; }
+    .brand-sub { display: none; }
+    .logo { width: 52px; height: 52px; }
+    .card { padding: 22px; }
+    .chips { grid-template-columns: 1fr 1fr; }
+    section { padding: 56px 0; }
+    .hero { padding: 40px 0 36px; }
+    .q-nav .btn { padding: 14px 16px; }
+    table { min-width: 0; font-size: 14px; }
+    th, td { padding: 10px 12px; white-space: normal; }
+    th:nth-child(3), td:nth-child(3) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#top" class="brand" aria-label="Час життя — на початок">
+      <div class="logo"><b>60</b><small>років</small></div>
+      <div>
+        <div class="brand-name">Час життя</div>
+        <div class="brand-sub">Опитувальник про один звичайний день</div>
+      </div>
+    </a>
+    <nav class="menu" id="menu">
+      <a href="#quiz">Опитувальник</a>
+      <a href="#results">Результат</a>
+      <a href="#how">Як рахуємо</a>
+      <a href="#quiz" class="btn">ПРОЙТИ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge">4 питання · 1 хвилина</span>
+      <h1>Скільки років життя забере <span class="accent">ваш сьогоднішній день</span>?</h1>
+      <p class="lead">Вкажіть, скільки часу ви сьогодні спали, читали книжку, сиділи в соцмережах і дивилися фільми. Ми покажемо, скільки <strong>років життя</strong> пішло б на кожне заняття, якби ви жили так щодня впродовж 60 років.</p>
+      <div class="hero-actions">
+        <a href="#quiz" class="btn">Почати опитування</a>
+        <a href="#results" class="btn btn-outline">Подивитися приклад</a>
+      </div>
+      <hr class="divider">
+      <div class="stats">
+        <div class="stat"><div class="num">60 років</div><div class="lbl">горизонт розрахунку</div></div>
+        <div class="stat"><div class="num">21 900</div><div class="lbl">днів за 60 років</div></div>
+        <div class="stat"><div class="num">525 600</div><div class="lbl">годин, які треба розподілити</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Опитувальник</div>
+      <h2>Як минув ваш сьогоднішній день?</h2>
+      <p class="section-lead">Відповідайте приблизно, з точністю до 15 хвилин. Справа одразу видно, у скільки років життя складається кожна відповідь.</p>
+
+      <div class="calc">
+        <div class="card" id="quizCard">
+          <div class="progress" id="progress" aria-label="Кроки опитування"></div>
+          <div class="step-count" id="stepCount"></div>
+          <div class="q-head">
+            <div class="icon" id="qIcon" aria-hidden="true"></div>
+            <div>
+              <h3 id="qTitle"></h3>
+              <p id="qHint"></p>
+            </div>
+          </div>
+          <div class="time-inputs">
+            <div><label for="hours">Години</label><input type="number" id="hours" min="0" max="24" step="1" inputmode="numeric"></div>
+            <div><label for="minutes">Хвилини</label><input type="number" id="minutes" min="0" max="59" step="5" inputmode="numeric"></div>
+          </div>
+          <input type="range" id="slider" min="0" max="960" step="15" aria-label="Тривалість">
+          <div class="range-scale"><span>0</span><span id="sliderMax"></span></div>
+          <div class="chips-lbl">Швидкий вибір</div>
+          <div class="chips" id="chips"></div>
+          <div class="q-nav">
+            <button type="button" class="btn btn-outline" id="prev">← Назад</button>
+            <span class="spacer"></span>
+            <button type="button" class="btn" id="next">Далі →</button>
+          </div>
+        </div>
+
+        <div class="card result">
+          <div class="big-lbl">Разом на ці чотири заняття за 60 років</div>
+          <div class="big" id="liveTotal">—</div>
+          <div class="big-sub" id="liveTotalSub"></div>
+          <div id="liveRows"></div>
+          <div class="warn" id="warn" hidden></div>
+          <p class="note">Рахуємо так, ніби кожен день упродовж 60 років схожий на сьогоднішній: частка доби × 60 років.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results">
+    <div class="container">
+      <div class="res-head">
+        <div>
+          <div class="eyebrow">Результат</div>
+          <h2 id="resTitle">Як розподіляться 60 років</h2>
+        </div>
+        <span class="mode" id="mode">Приклад</span>
+      </div>
+      <p class="section-lead" id="resLead">Поки що тут приклад відповідей. Пройдіть опитування й натисніть «Розрахувати», щоб побачити свою діаграму.</p>
+
+      <div class="card pie-card">
+        <div class="pie-wrap" id="pieWrap">
+          <svg id="pie" viewBox="0 0 320 320" role="img" aria-label="Кругова діаграма: скільки років із 60 займе кожне заняття"></svg>
+          <div class="tip" id="tip"></div>
+        </div>
+        <div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Заняття</th><th>Сьогодні</th><th>Частка доби</th><th>За 60 років</th></tr></thead>
+              <tbody id="resTable"></tbody>
+              <tfoot id="resFoot"></tfoot>
+            </table>
+          </div>
+          <div class="verdict" id="verdict"></div>
+        </div>
+      </div>
+
+      <div class="grid-4" id="facts"></div>
+
+      <div class="res-actions">
+        <a href="#quiz" class="btn btn-outline" id="restart">Пройти ще раз</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Як рахуємо</div>
+      <h2>Одна доба як модель 60 років</h2>
+      <p class="section-lead">Розрахунок простий: яку частку доби ви віддали заняттю сьогодні, таку ж частку з 60 років воно забере, якщо повторювати день знову і знову.</p>
+      <div class="grid-3">
+        <div class="card cond">
+          <span class="tag">1 440</span>
+          <h3>Хвилин у добі</h3>
+          <p>Кожна відповідь переводиться у хвилини і ділиться на 1 440.</p>
+          <div class="formula">8 год = 480 хв → 480 ÷ 1 440 = ⅓ доби</div>
+        </div>
+        <div class="card cond">
+          <span class="tag orange">× 60</span>
+          <h3>Років життя</h3>
+          <p>Частку доби множимо на 60 років. Так виходить, скільки років пішло б на заняття.</p>
+          <div class="formula">⅓ × 60 = 20 років</div>
+        </div>
+        <div class="card cond">
+          <span class="tag">15 хв</span>
+          <h3>Теж мають вагу</h3>
+          <p>Навіть чверть години щодня за 60 років складається у понад 7 місяців.</p>
+          <div class="formula">15 ÷ 1 440 × 60 ≈ 0,63 року</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> Час життя — опитувальник про один день</div>
+    <div>Розрахунок ілюстративний і не враховує, що звички змінюються з віком.</div>
+  </div>
+</footer>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const DAY = 1440, LIFE = 60;
+
+  const ACTS = [
+    { id: 'sleep',  name: 'Сон',             icon: '😴', q: 'Скільки часу ви сьогодні спали?',                    hint: 'Нічний сон разом з денним.',                     max: 960, presets: [360, 420, 480, 540], value: 480,
+      phrase: y => `Ви проспите <b>${y}</b>.` },
+    { id: 'read',   name: 'Читання книжки',  icon: '📖', q: 'Скільки часу ви сьогодні читали книжку?',            hint: 'Паперові книжки, електронні й аудіокнижки.',      max: 720, presets: [0, 15, 30, 60], value: 30,
+      phrase: y => `На книжки піде <b>${y}</b>.` },
+    { id: 'social', name: 'Соцмережі',       icon: '📱', q: 'Скільки часу ви сьогодні провели в соцмережах?',     hint: 'Стрічки, сторіз, короткі відео, месенджер-канали.', max: 720, presets: [30, 60, 120, 240], value: 150,
+      phrase: y => `У соцмережах мине <b>${y}</b>.` },
+    { id: 'movies', name: 'Фільми',          icon: '🎬', q: 'Скільки часу ви сьогодні дивилися фільми чи серіали?', hint: 'Кіно, серіали, стримінг на будь-якому екрані.',  max: 720, presets: [0, 60, 120, 180], value: 90,
+      phrase: y => `Фільми й серіали заберуть <b>${y}</b>.` },
+  ];
+  const REST = { id: 'rest', name: 'Решта доби' };
+  const EXAMPLE = ACTS.map(a => a.value);
+  let step = 0;
+
+  const color = id => `var(--c-${id})`;
+
+  // ---------- formatting ----------
+  function plural(n, forms) {
+    const m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return forms[0];
+    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return forms[1];
+    return forms[2];
+  }
+  const P_YEAR = ['рік', 'роки', 'років'], P_MONTH = ['місяць', 'місяці', 'місяців'], P_DAY = ['день', 'дні', 'днів'];
+  const nf = n => n.toLocaleString('uk-UA').replace(/\s/g, ' ');
+  const yearsOf = min => min / DAY * LIFE;
+
+  function fmtTime(min) {
+    const h = Math.floor(min / 60), m = Math.round(min % 60);
+    if (!h) return m + ' хв';
+    return m ? `${h} год ${m} хв` : `${h} год`;
+  }
+  function fmtLife(min) {
+    const years = yearsOf(min);
+    let totalMonths = Math.round(years * 12);
+    if (totalMonths >= 1) {
+      const y = Math.floor(totalMonths / 12), m = totalMonths % 12;
+      const parts = [];
+      if (y) parts.push(y + ' ' + plural(y, P_YEAR));
+      if (m) parts.push(m + ' ' + plural(m, P_MONTH));
+      return parts.join(' ');
+    }
+    const d = Math.round(years * 365);
+    return d + ' ' + plural(d, P_DAY);
+  }
+  const fmtYears = min => yearsOf(min).toFixed(1).replace('.', ',');
+  const fmtPct = min => (min / DAY * 100).toFixed(1).replace('.', ',').replace(',0', '') + '%';
+
+  // ---------- questionnaire ----------
+  const total = () => ACTS.reduce((s, a) => s + a.value, 0);
+
+  function renderProgress() {
+    $('progress').innerHTML = ACTS.map((a, i) =>
+      `<button type="button" class="${i === step ? 'current' : i < step ? 'done' : ''}" data-i="${i}" aria-label="Питання ${i + 1}: ${a.name}"></button>`).join('');
+    $('progress').querySelectorAll('button').forEach(b => b.addEventListener('click', () => goTo(+b.dataset.i)));
+  }
+
+  function renderStep() {
+    const a = ACTS[step];
+    renderProgress();
+    $('stepCount').textContent = `Питання ${step + 1} з ${ACTS.length}`;
+    $('qIcon').textContent = a.icon;
+    $('qTitle').textContent = a.q;
+    $('qHint').textContent = a.hint;
+    $('slider').max = a.max;
+    $('sliderMax').textContent = (a.max / 60) + ' год';
+    $('chips').innerHTML = a.presets.map(p => `<button type="button" data-v="${p}">${p ? fmtTime(p) : 'Не було'}</button>`).join('');
+    $('chips').querySelectorAll('button').forEach(b => b.addEventListener('click', () => setValue(+b.dataset.v, true)));
+    $('prev').hidden = step === 0;
+    $('next').textContent = step === ACTS.length - 1 ? 'Розрахувати' : 'Далі →';
+    syncInputs();
+  }
+
+  function syncInputs(skip) {
+    const v = ACTS[step].value;
+    if (skip !== 'num') { $('hours').value = Math.floor(v / 60); $('minutes').value = v % 60; }
+    if (skip !== 'slider') $('slider').value = v;
+    $('chips').querySelectorAll('button').forEach(b => b.classList.toggle('active', +b.dataset.v === v));
+    renderLive();
+  }
+
+  function setValue(v, fromChip) {
+    ACTS[step].value = Math.max(0, Math.min(DAY, Math.round(v)));
+    syncInputs(fromChip ? null : 'num');
+  }
+
+  $('hours').addEventListener('input', () => {
+    const h = Math.max(0, parseInt($('hours').value, 10) || 0), m = Math.max(0, parseInt($('minutes').value, 10) || 0);
+    setValue(h * 60 + m);
+  });
+  $('minutes').addEventListener('input', () => {
+    const h = Math.max(0, parseInt($('hours').value, 10) || 0), m = Math.max(0, parseInt($('minutes').value, 10) || 0);
+    setValue(h * 60 + m);
+  });
+  $('slider').addEventListener('input', () => {
+    ACTS[step].value = +$('slider').value;
+    syncInputs('slider');
+  });
+  ['hours', 'minutes'].forEach(id => $(id).addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('next').click(); } }));
+
+  function goTo(i) { step = Math.max(0, Math.min(ACTS.length - 1, i)); renderStep(); }
+  $('prev').addEventListener('click', () => goTo(step - 1));
+  $('next').addEventListener('click', () => {
+    if (step < ACTS.length - 1) { goTo(step + 1); $('hours').focus({ preventScroll: true }); return; }
+    if (total() > DAY) return;
+    renderResults(ACTS.map(a => a.value), true);
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    $('results').scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+  });
+  $('restart').addEventListener('click', () => goTo(0));
+
+  function renderLive() {
+    const t = total(), over = t > DAY;
+    $('liveTotal').textContent = over ? '—' : fmtLife(t);
+    $('liveTotalSub').textContent = over ? '' : `${fmtTime(t)} на добу · ${fmtPct(t)} часу`;
+    $('liveRows').innerHTML = ACTS.map((a, i) =>
+      `<div class="row${i === step ? ' current' : ''}"><i class="sw" style="background:${color(a.id)}"></i><span>${a.name}</span>` +
+      `<b>${fmtLife(a.value)}<small>${fmtTime(a.value)} сьогодні</small></b></div>`).join('') +
+      `<div class="row"><i class="sw" style="background:${color('rest')}"></i><span>${REST.name}</span>` +
+      `<b>${over ? '—' : fmtLife(DAY - t)}<small>${over ? '' : fmtTime(DAY - t) + ' на інше'}</small></b></div>`;
+    $('warn').hidden = !over;
+    if (over) $('warn').textContent = `⚠ Разом виходить ${fmtTime(t)}, а в добі лише 24 години. Зменште одну з відповідей на ${fmtTime(t - DAY)}.`;
+    $('next').disabled = over && step === ACTS.length - 1;
+  }
+
+  // ---------- results ----------
+  let pieState = null;
+
+  function renderResults(values, isUser) {
+    const t = values.reduce((s, v) => s + v, 0);
+    const items = ACTS.map((a, i) => ({ ...a, value: values[i] })).concat({ ...REST, value: Math.max(DAY - t, 0) });
+
+    $('mode').textContent = isUser ? 'Ваш результат' : 'Приклад';
+    $('mode').classList.toggle('user', isUser);
+    $('resLead').textContent = isUser
+      ? 'Так виглядали б 60 років, якби кожен день був схожий на сьогоднішній. Наведіть на сектор, щоб побачити деталі.'
+      : 'Поки що тут приклад відповідей. Пройдіть опитування й натисніть «Розрахувати», щоб побачити свою діаграму.';
+
+    $('resTable').innerHTML = items.map(d =>
+      `<tr data-id="${d.id}"><td><i class="sw" style="background:${color(d.id)}"></i>${d.name}</td><td>${fmtTime(d.value)}</td><td>${fmtPct(d.value)}</td><td class="yrs">${fmtLife(d.value)}</td></tr>`).join('');
+    $('resFoot').innerHTML = `<tr><td>Разом</td><td>24 год</td><td>100%</td><td>60 років</td></tr>`;
+    $('resTable').querySelectorAll('tr').forEach(tr => {
+      tr.addEventListener('mouseenter', () => highlight(tr.dataset.id));
+      tr.addEventListener('mouseleave', () => highlight(null));
+    });
+
+    const social = items.find(d => d.id === 'social'), read = items.find(d => d.id === 'read');
+    let verdict;
+    if (social.value > read.value && read.value > 0) {
+      const k = social.value / read.value;
+      verdict = `На соцмережі піде в ${k.toFixed(1).replace('.', ',').replace(',0', '')} раза більше життя, ніж на книжки: ${fmtLife(social.value)} проти ${fmtLife(read.value)}.`;
+    } else if (social.value > 0 && read.value === 0) {
+      verdict = `Сьогодні книжок не було. Якщо так буде щодня, соцмережі заберуть ${fmtLife(social.value)}, а на читання не залишиться нічого.`;
+    } else if (read.value >= social.value && read.value > 0) {
+      verdict = `Книжкам ви віддаєте не менше часу, ніж соцмережам: ${fmtLife(read.value)} читання за 60 років.`;
+    } else {
+      verdict = `На решту справ — роботу, навчання, дорогу, людей поруч — залишається ${fmtLife(DAY - t)}.`;
+    }
+    $('verdict').textContent = verdict;
+
+    $('facts').innerHTML = ACTS.map((a, i) =>
+      `<div class="card fact"><h3><i style="background:${color(a.id)}"></i>${a.name}</h3>` +
+      `<div class="tag">${fmtLife(values[i])}<small>${fmtYears(values[i])} з 60 років</small></div>` +
+      `<p>${a.phrase(fmtLife(values[i])).replace(/<\/?b>/g, '')} Сьогодні: ${fmtTime(values[i])}.</p></div>`).join('');
+
+    drawPie(items);
+  }
+
+  // ---------- pie (plain SVG donut) ----------
+  function arcPath(cx, cy, r0, r1, a0, a1) {
+    const p = (r, a) => [cx + r * Math.sin(a), cy - r * Math.cos(a)].map(n => n.toFixed(2)).join(' ');
+    const large = a1 - a0 > Math.PI ? 1 : 0;
+    return `M${p(r1, a0)} A${r1} ${r1} 0 ${large} 1 ${p(r1, a1)} L${p(r0, a1)} A${r0} ${r0} 0 ${large} 0 ${p(r0, a0)} Z`;
+  }
+
+  function drawPie(items) {
+    const cx = 160, cy = 160, r1 = 150, r0 = 94;
+    const slices = items.filter(d => d.value > 0);
+    let a = 0, s = '';
+    slices.forEach(d => {
+      const span = d.value / DAY * Math.PI * 2;
+      d.mid = a + span / 2;
+      if (span >= Math.PI * 2 - 1e-6) {
+        // повне коло: дві половинки
+        s += `<path data-id="${d.id}" d="${arcPath(cx, cy, r0, r1, 0, Math.PI)} ${arcPath(cx, cy, r0, r1, Math.PI, Math.PI * 2)}" fill="${color(d.id)}"/>`;
+      } else {
+        s += `<path data-id="${d.id}" d="${arcPath(cx, cy, r0, r1, a, a + span)}" fill="${color(d.id)}" stroke="var(--surface)" stroke-width="2" stroke-linejoin="round"/>`;
+      }
+      a += span;
+    });
+    s += `<text id="cBig" x="${cx}" y="${cy + 4}" text-anchor="middle" font-size="40" font-weight="900" fill="var(--text)">60</text>`;
+    s += `<text id="cSmall" x="${cx}" y="${cy + 30}" text-anchor="middle" font-size="15" font-weight="600" fill="var(--muted)">років життя</text>`;
+    $('pie').innerHTML = s;
+    pieState = { items, cx, cy, r1 };
+    $('pie').querySelectorAll('path').forEach(p => {
+      p.addEventListener('mouseenter', () => showTip(p.dataset.id));
+      p.addEventListener('touchstart', () => showTip(p.dataset.id), { passive: true });
+      p.addEventListener('mouseleave', hideTip);
+    });
+  }
+
+  function highlight(id) {
+    $('pie').querySelectorAll('path').forEach(p => p.style.opacity = !id || p.dataset.id === id ? 1 : .3);
+    $('resTable').querySelectorAll('tr').forEach(tr => tr.classList.toggle('hl', tr.dataset.id === id));
+    const d = id && pieState.items.find(x => x.id === id);
+    $('cBig').textContent = d ? fmtYears(d.value) : '60';
+    $('cSmall').textContent = d ? 'з 60 років' : 'років життя';
+  }
+
+  function showTip(id) {
+    const { items, cx, cy, r1 } = pieState;
+    const d = items.find(x => x.id === id);
+    highlight(id);
+    const tip = $('tip');
+    tip.innerHTML = `<b><span class="sw" style="background:${color(id)}"></span>${d.name}</b><br>` +
+      `${fmtLife(d.value)} із 60 років<br>${fmtTime(d.value)} на добу · ${fmtPct(d.value)}`;
+    tip.style.opacity = 1;
+    // якір — середина сектора на зовнішньому краю кільця; підказка лягає назовні, не на число в центрі
+    const box = $('pieWrap').getBoundingClientRect(), k = box.width / 320;
+    const ax = (cx + r1 * Math.sin(d.mid)) * k, ay = (cy - r1 * Math.cos(d.mid)) * k;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    let x = Math.sin(d.mid) >= 0 ? ax - tw * .25 : ax - tw * .75;
+    let y = Math.cos(d.mid) >= 0 ? ay - th - 10 : ay + 10;
+    x = Math.min(Math.max(x, 0), box.width - tw);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  }
+  function hideTip() { $('tip').style.opacity = 0; highlight(null); }
+
+  renderStep();
+  renderResults(EXAMPLE, false);
+  $('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
