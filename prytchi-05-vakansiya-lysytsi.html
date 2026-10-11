@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Вакансія Лисиці</title>
+<meta name="description" content="Рухлива гра за притчею «Лісова демократія»: гра на вибування з перестановками («кадрові стільці»).">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Commissioner:wght@400;500;600&display=swap">
+<style>
+/* Макет: аркуш правил настільної гри — одна колонка ~46rem, герой на ігровому полі-сітці,
+   картки лише там, де це окремі об’єкти гри (події, фінали). Колір кожної гри задає --h. */
+:root {
+  --h: 10;
+  --bg: hsl(var(--h) 28% 96%);
+  --surface: hsl(var(--h) 40% 99%);
+  --ink: hsl(var(--h) 35% 12%);
+  --muted: hsl(var(--h) 12% 36%);
+  --line: hsl(var(--h) 20% 85%);
+  --accent: hsl(var(--h) 60% 32%);
+  --accent-soft: hsl(var(--h) 55% 91%);
+  --on-accent: hsl(var(--h) 40% 98%);
+  --warn: hsl(28 80% 34%);
+  --warn-soft: hsl(36 85% 92%);
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-body: "Literata", Georgia, "Times New Roman", serif;
+  --f-ui: "Commissioner", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: hsl(var(--h) 20% 9%);
+    --surface: hsl(var(--h) 18% 13%);
+    --ink: hsl(var(--h) 20% 92%);
+    --muted: hsl(var(--h) 10% 68%);
+    --line: hsl(var(--h) 14% 25%);
+    --accent: hsl(var(--h) 70% 72%);
+    --accent-soft: hsl(var(--h) 30% 19%);
+    --on-accent: hsl(var(--h) 40% 10%);
+    --warn: hsl(36 90% 66%);
+    --warn-soft: hsl(30 30% 17%);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: hsl(var(--h) 20% 9%);
+  --surface: hsl(var(--h) 18% 13%);
+  --ink: hsl(var(--h) 20% 92%);
+  --muted: hsl(var(--h) 10% 68%);
+  --line: hsl(var(--h) 14% 25%);
+  --accent: hsl(var(--h) 70% 72%);
+  --accent-soft: hsl(var(--h) 30% 19%);
+  --on-accent: hsl(var(--h) 40% 10%);
+  --warn: hsl(36 90% 66%);
+  --warn-soft: hsl(30 30% 17%);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding-inline: 16px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 1.0625rem;
+  line-height: 1.62;
+}
+a { color: var(--accent); text-underline-offset: 0.18em; }
+a:focus-visible, .card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 46rem; margin-inline: auto; padding-block: 1.25rem 4rem; display: grid; gap: 2.75rem; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+  font-family: var(--f-ui); font-size: 0.875rem; color: var(--muted); }
+.topbar a { font-weight: 600; text-decoration: none; }
+.topbar a:hover { text-decoration: underline; }
+
+/* Герой — ігрове поле */
+.board {
+  position: relative; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 18px;
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  display: grid; gap: 1rem;
+}
+.board::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(100deg, var(--surface) 35%, transparent 110%);
+}
+.board > * { position: relative; z-index: 1; }
+.board .num {
+  position: absolute; z-index: 1; right: clamp(0.75rem, 3vw, 1.75rem); top: clamp(0.25rem, 1.5vw, 0.75rem);
+  font-family: var(--f-display); font-weight: 700; font-size: clamp(4rem, 16vw, 8.5rem); line-height: 1;
+  color: transparent; -webkit-text-stroke: 2px var(--accent); opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+}
+.token { width: 18px; height: 18px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 5px var(--accent-soft); }
+.eyebrow { font-family: var(--f-ui); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--accent); max-width: min(30rem, calc(100% - 9rem)); }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(2rem, 7vw, 3.25rem); line-height: 1.08;
+  letter-spacing: -0.01em; max-width: 15ch; }
+.format { font-family: var(--f-ui); font-size: 1.125rem; font-weight: 500; color: var(--muted); max-width: 32rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.25rem 0 0; padding: 0; }
+.meta div { border: 1px solid var(--line); background: var(--surface); border-radius: 999px;
+  padding: 0.3rem 0.85rem; font-family: var(--f-ui); font-size: 0.875rem; display: flex; gap: 0.4rem; }
+.meta dt { color: var(--muted); }
+.meta dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.story { margin: 0; padding-left: 1.25rem; border-left: 3px solid var(--accent);
+  font-style: italic; font-size: 1.125rem; max-width: 40rem; display: grid; gap: 0.5rem; }
+.story cite { font-style: normal; font-family: var(--f-ui); font-size: 0.8125rem; color: var(--muted); }
+
+/* Розділи */
+section { display: grid; gap: 1rem; min-width: 0; align-content: start; }
+h2 { font-family: var(--f-ui); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent); display: flex; align-items: center; gap: 0.75rem; }
+h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 2.75rem 2rem; }
+
+.roles { margin: 0; display: grid; gap: 0.75rem; }
+.roles div { display: grid; gap: 0.1rem; }
+.roles dt { font-family: var(--f-ui); font-weight: 600; }
+.roles dd { margin: 0; color: var(--muted); }
+
+.props { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
+.props li { display: grid; grid-template-columns: 0.6rem 1fr; gap: 0.75rem; align-items: baseline; }
+.props li::before { content: ""; width: 0.55rem; height: 0.55rem; background: var(--accent); border-radius: 2px;
+  transform: translateY(-0.1em) rotate(45deg); }
+
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; gap: 1.1rem; }
+.steps li { counter-increment: step; display: grid; grid-template-columns: 2.75rem 1fr; gap: 0.25rem 0.75rem; }
+.steps li::before { content: counter(step); grid-row: span 2; font-family: var(--f-display); font-weight: 700;
+  font-size: 1.05rem; width: 2.25rem; height: 2.25rem; border-radius: 50%; display: grid; place-items: center;
+  border: 2px solid var(--accent); color: var(--accent); font-variant-numeric: tabular-nums; }
+.steps strong { font-family: var(--f-ui); font-weight: 600; }
+
+.events { display: grid; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); gap: 0.75rem; }
+.event { border: 1.5px dashed var(--line); border-radius: 12px; padding: 0.9rem 1rem; display: grid; gap: 0.3rem;
+  align-content: start; background: var(--surface); min-width: 0; }
+.event .tag { font-family: var(--f-ui); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); }
+.event h3 { font-family: var(--f-ui); font-size: 1rem; font-weight: 600; }
+.event p { font-size: 0.975rem; }
+
+.choice { background: var(--accent-soft); border-radius: 18px; padding: clamp(1.25rem, 4vw, 2rem);
+  display: grid; grid-template-columns: auto 1fr; gap: 1rem 1.25rem; align-items: start; }
+.choice svg { width: 3rem; height: 3rem; color: var(--accent); }
+.choice .label { font-family: var(--f-ui); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent); }
+.choice p { font-size: 1.15rem; font-weight: 600; font-family: var(--f-body); }
+.choice > div { display: grid; gap: 0.4rem; min-width: 0; }
+
+.endings { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.9rem; }
+.ending { border: 1px solid var(--line); background: var(--surface); border-radius: 14px; padding: 1.1rem 1.15rem;
+  display: grid; grid-template-columns: 2.4rem 1fr; gap: 0.35rem 0.85rem; align-content: start; min-width: 0; }
+.ending .letter { grid-row: span 2; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--accent);
+  color: var(--on-accent); display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; }
+.ending h3 { font-family: var(--f-ui); font-size: 1.0625rem; font-weight: 600; align-self: center; }
+.ending p { grid-column: 2; font-size: 0.99rem; }
+
+.moral { font-size: clamp(1.2rem, 3.2vw, 1.45rem); line-height: 1.45; font-style: italic; max-width: 38rem; }
+.questions { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.45rem; }
+.questions li::marker { color: var(--accent); }
+
+.note { border-radius: 14px; padding: 1rem 1.15rem; display: grid; gap: 0.3rem; background: var(--accent-soft); }
+.note.safety { background: var(--warn-soft); }
+.note .label { font-family: var(--f-ui); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent); }
+.note.safety .label { color: var(--warn); }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; border-top: 1px solid var(--line); padding-top: 1.25rem; }
+.pager a { display: grid; gap: 0.15rem; text-decoration: none; padding: 0.75rem 0.9rem; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--surface); min-width: 0; }
+.pager a:hover { border-color: var(--accent); }
+.pager .dir { font-family: var(--f-ui); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.pager .name { font-family: var(--f-ui); font-weight: 600; color: var(--ink); }
+.pager .next { text-align: right; grid-column: 2; }
+.foot { font-family: var(--f-ui); font-size: 0.8125rem; color: var(--muted); }
+
+/* Головна сторінка */
+.home h1 { max-width: 12ch; font-size: clamp(2.4rem, 9vw, 4.25rem); }
+.lede { font-size: 1.15rem; max-width: 38rem; }
+.flow { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.75rem; counter-reset: f; }
+.flow li { counter-increment: f; display: grid; align-content: start; gap: 0.2rem; padding-top: 0.75rem; border-top: 2px solid var(--accent); }
+.flow li::before { content: counter(f, decimal-leading-zero); font-family: var(--f-display); font-size: 0.8rem; color: var(--accent); }
+.flow strong { font-family: var(--f-ui); }
+.flow span { font-size: 0.925rem; color: var(--muted); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr)); gap: 0.85rem; }
+.card { --c: hsl(var(--gh) 60% 32%); display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 0.9rem;
+  text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 1rem 1.1rem; min-width: 0; transition: border-color .15s, transform .15s; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card { --c: hsl(var(--gh) 70% 72%); } }
+:root[data-theme="dark"] .card { --c: hsl(var(--gh) 70% 72%); }
+.card:hover { border-color: var(--c); transform: translateY(-2px); }
+.card .n { grid-row: span 3; font-family: var(--f-display); font-weight: 700; font-size: 1.6rem; line-height: 1;
+  color: transparent; -webkit-text-stroke: 1.5px var(--c); font-variant-numeric: tabular-nums; padding-top: 0.15rem; }
+.card h3 { font-family: var(--f-display); font-weight: 500; font-size: 1.05rem; line-height: 1.25; }
+.card .p { font-size: 0.95rem; font-style: italic; color: var(--muted); }
+.card .f { font-family: var(--f-ui); font-size: 0.8125rem; color: var(--c); font-weight: 600; }
+.home .conclusion { display: grid; gap: 0.9rem; max-width: 40rem; }
+.home .conclusion p:first-child { font-size: 1.15rem; }
+
+@media (max-width: 30rem) {
+  .choice { grid-template-columns: 1fr; }
+  .pager { grid-template-columns: 1fr; }
+  .pager .next { grid-column: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+@media print {
+  body { background: #fff; color: #000; }
+  .pager, .topbar { display: none; }
+  .board::after { display: none; }
+  .event, .ending, .choice, .note { break-inside: avoid; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="wrap">
+<nav class="topbar" aria-label="Навігація"><a href="prytchi.html">← Притчі в русі: усі ігри</a><span>Гра 05 з 15</span></nav>
+<header class="board"><span class="num" aria-hidden="true">05</span><span class="token" aria-hidden="true"></span><p class="eyebrow">Робота у колективі · притча «Лісова демократія»</p><h1>Вакансія Лисиці</h1><p class="format">Гра на вибування з перестановками («кадрові стільці»)</p><dl class="meta"><div><dt>Учасники</dt><dd>10–25</dd></div><div><dt>Час</dt><dd>30–40 хв</dd></div><div><dt>Вік</dt><dd>від 10 років</dd></div></dl></header>
+<blockquote class="story"><p>Лисиця пішла у безстрокову відпустку, а коли повернулася, посада Лисиці вже була зайнята. Вільною була лише посада Зайця. Згодом вона зустріла зайця: «Якщо я тепер Заєць, то ким працюєш ти?» — «Я тепер працюю Лисицею». Так завжди буває, коли посаду Лева займає Віслюк.</p><cite>Переказ притчі «Лісова демократія», книга с. 76</cite></blockquote>
+<div class="cols"><section aria-labelledby="h-roles"><h2 id="h-roles">Персонажі</h2><dl class="roles"><div><dt>Звірі</dt><dd>Усі учасники з бейджами посад: Лисиця, Заєць, Вовк, Сова, Білка, Ведмідь, Їжак…</dd></div><div><dt>Лев</dt><dd>Ведучий. Підписує заяви і проводить ревізію.</dd></div><div><dt>Віслюк</dt><dd>Таємна роль. Учасник отримує її в конверті і не відкриває до сигналу.</dd></div><div><dt>Канцелярія</dt><dd>2–3 помічники за столами з печатками.</dd></div></dl></section><section aria-labelledby="h-space"><h2 id="h-space">Простір і реквізит</h2><ul class="props"><li><span>Стільці по колу з табличками посад, на один менше, ніж гравців.</span></li><li><span>«Канцелярія Лева»: три столи з печатками в кутку зали.</span></li><li><span>Бейджі з назвами тварин, запасні бейджі, музика.</span></li></ul></section></div>
+<section aria-labelledby="h-steps"><h2 id="h-steps">Хід гри</h2><ol class="steps"><li><strong>Щоденні турботи</strong><span>Під музику звірі рухаються по колу ходою своєї тварини: Заєць стрибає, Ведмідь перевалюється, Сова «летить».</span></li><li><strong>Стоп</strong><span>Музика стихає, усі сідають. Хто не встиг, іде «у відпустку».</span></li><li><strong>Канцелярія</strong><span>Відпускник обходить три столи і збирає три печатки. Кожен стіл дає дрібне бюрократичне завдання.</span></li><li><strong>Повернення</strong><span>Відпускник займає лише вільний стілець, міняє бейдж і відтепер рухається як ця тварина.</span></li><li><strong>Кілька раундів</strong><span>Стілець прибирають щоразу, коли хтось повертається, тож перестановки тривають.</span></li></ol></section>
+<section aria-labelledby="h-events"><h2 id="h-events">Що відбувається під час руху</h2><div class="events"><article class="event"><span class="tag">Подія</span><h3>Ревізія</h3><p>Лев питає кожного: «Чия це посада?» Хто сидить не на своєму місці, виконує функцію цієї посади: Заєць-«Лисиця» мусить ловити.</p></article><article class="event"><span class="tag">Подія</span><h3>Указ</h3><p>Віслюк відкриває конверт і отримує корону Лева. Тепер правила оголошує він.</p></article><article class="event"><span class="tag">Подія</span><h3>Аврал</h3><p>Лісу треба за хвилину виконати завдання, кожен робить свою функцію.</p></article></div></section>
+<section class="choice" aria-label="Точка вибору"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 44V26"/><path d="M24 26 10 10"/><path d="M24 26 38 10"/><path d="M10 18V10h8"/><path d="M38 18V10h-8"/><circle cx="24" cy="26" r="3" fill="currentColor"/></svg><div><span class="label">Точка вибору</span><p>Кожен звір вирішує: домовлятися про повернення на свою посаду, лишитися на чужій або вимагати зміни Лева.</p></div></section>
+<section aria-labelledby="h-end"><h2 id="h-end">Фінали</h2><div class="endings"><article class="ending"><span class="letter" aria-hidden="true">А</span><h3>Усі повернулися на свої місця</h3><p>Ліс за 30 секунд злагоджено проходить коло. Лев (справжній) повертає собі корону.</p></article><article class="ending"><span class="letter" aria-hidden="true">Б</span><h3>Лишилися на чужих місцях</h3><p>Командне завдання провалюється в хаосі: Заєць ловить, Лисиця тікає.</p></article><article class="ending"><span class="letter" aria-hidden="true">В</span><h3>Вибори</h3><p>Звірі «голосують ногами», стаючи біля свого кандидата на Лева. Новий Лев роздає посади.</p></article><article class="ending"><span class="letter" aria-hidden="true">Г</span><h3>Віслюк сам віддає корону</h3><p>Він визнає, що це не його роль. Ведучий: «Найрідше в лісі трапляється саме це».</p></article></div></section>
+<section aria-labelledby="h-moral"><h2 id="h-moral">Загальний висновок</h2><p class="moral">Кожен колектив — проєкція дому. Система ламається, коли шестерня стоїть на місці муфти. Будь-яку проблему можна вирішити, якщо взяти свою власну роль замість чужої маски.</p><ul class="questions"><li>Чию роль ви граєте вдома? А на роботі?</li><li>Хто у вашому «лісі» зараз працює Лисицею?</li><li>Що потрібно, щоб повернутися на своє місце?</li></ul></section>
+<div style="display:grid;gap:0.75rem"><aside class="note"><span class="label">Розбір після гри</span><p>1) Вийти з ролі: зняти бейдж, назвати своє справжнє ім’я. 2) Відповісти на запитання: «Який фінал був у мене і чому я так обрав?» 3) Ведучий зачитує оригінальну притчу з книги. 4) Учасник відповідає: «Де в моєму житті є ця сама ситуація?»</p></aside></div>
+<nav class="pager" aria-label="Інші ігри"><a href="prytchi-04-dva-odnakovi-svity.html"><span class="dir">← Попередня</span><span class="name">Два однакові світи</span></a><a class="next" href="prytchi-06-ne-tsvirinkay.html"><span class="dir">Наступна →</span><span class="name">Не цвірінькай!</span></a></nav>
+<p class="foot">За книгою: Роман Кушнір. «Історії і притчі для особистісного зростання». Дрогобич: Коло, 2013.</p>
+</div></body>
+</html>
