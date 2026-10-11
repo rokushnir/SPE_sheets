@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><title>Взаємини з коханою людиною</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>@page { size: A4; margin: 0; }
+:root {
+  --ink: #1d1d1f;
+  --muted: #6b6b70;
+  --line: #c4c4c8;
+  --rule: #d2d2d6;
+  --accent: #2f5d8a;
+  --tint: #eef3f8;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #e9e9ec; }
+body {
+  font-family: "Inter", "DejaVu Sans", sans-serif;
+  color: var(--ink);
+  font-size: 9.6pt;
+  line-height: 1.38;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  width: 210mm; height: 297mm;
+  margin: 8mm auto;
+  padding: 11mm 13mm 8mm;
+  background: #fff;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  break-after: page;
+  box-shadow: 0 1px 6px rgba(0,0,0,.12);
+}
+@media print {
+  html, body { background: #fff; }
+  .page { margin: 0; box-shadow: none; }
+}
+
+/* ---- шапка й підвал ---- */
+.head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 7.6pt; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1.2pt solid var(--accent); padding-bottom: 1.6mm; margin-bottom: 3.2mm;
+}
+.head .sec { display: flex; align-items: center; gap: 2mm; font-weight: 600; color: var(--accent); }
+.head .sec i, .secs i, .tocsec h3 i {
+  width: 2.6mm; height: 2.6mm; border-radius: 50%; background: var(--accent); display: inline-block;
+}
+.head .num { font-weight: 700; color: var(--ink); }
+h1 { font-size: 19pt; line-height: 1.12; margin: 0 0 2.4mm; font-weight: 700; letter-spacing: -.01em; }
+.goal {
+  background: var(--tint); border-left: 1.4mm solid var(--accent);
+  padding: 1.8mm 3mm; margin-bottom: 2.4mm; border-radius: 0 1.5mm 1.5mm 0;
+}
+.intro { margin-bottom: 2mm; color: #333; }
+.steps { margin: 0 0 2.6mm; padding-left: 5.2mm; }
+.steps li { margin-bottom: .7mm; }
+.steps li::marker { color: var(--accent); font-weight: 700; }
+.work { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2.6mm; }
+.foot {
+  display: flex; justify-content: space-between; gap: 4mm;
+  font-size: 6.8pt; color: var(--muted); border-top: .5pt solid var(--line);
+  padding-top: 1.4mm; margin-top: 2.4mm;
+}
+
+/* ---- блоки ---- */
+.blk { min-width: 0; }
+.grow { flex: 1 1 0; min-height: 0; }
+.col { display: flex; flex-direction: column; }
+.row { display: flex; gap: 4mm; }
+.row > .cell { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.4mm; }
+.center { display: flex; flex-direction: column; align-items: center; }
+.blabel {
+  font-weight: 700; font-size: 9pt; margin-bottom: 1.2mm; color: var(--accent);
+}
+.ruled {
+  background-image: linear-gradient(to bottom, transparent calc(100% - .5pt), var(--rule) calc(100% - .5pt));
+  background-size: 100% 8mm;
+  background-repeat: repeat-y;
+  min-height: 8mm;
+}
+.frame { border: .6pt solid var(--line); border-radius: 1.5mm; min-height: 10mm; }
+.frame.dots {
+  background-image: radial-gradient(circle, #bdbdc2 .5pt, transparent .6pt);
+  background-size: 5mm 5mm;
+}
+.txt { color: #333; }
+.txt.small { font-size: 8.4pt; }
+.example {
+  background: #f6f6f7; border: .5pt dashed #b9b9be; border-radius: 1.5mm;
+  padding: 2mm 3mm; font-size: 8.4pt; color: #3a3a3d;
+}
+.example .extitle { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 7pt; color: var(--muted); margin-bottom: .6mm; }
+.example ol, .example ul { margin: .5mm 0 0; padding-left: 4.5mm; }
+.example p { margin: .6mm 0; }
+.note {
+  font-size: 8.6pt; border: .6pt solid var(--accent); border-radius: 1.5mm; padding: 1.6mm 3mm; color: #2a2a2d;
+}
+.q { font-weight: 600; margin-top: 1mm; }
+.qgrid { display: flex; flex-direction: column; gap: 1.8mm; }
+.qcell { flex: 1 1 0; display: flex; flex-direction: column; min-height: 0; }
+.qcell .ruled { flex: 1; }
+
+/* таблиці */
+.tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.tblwrap { display: flex; }
+.tblwrap .tbl { height: 100%; }
+.tbl th {
+  background: var(--tint); font-size: 8pt; font-weight: 700; text-align: left;
+  padding: 1.2mm 1.6mm; border: .6pt solid var(--line); line-height: 1.2; vertical-align: bottom;
+}
+.tbl td { border: .6pt solid var(--line); padding: .8mm 1.6mm; vertical-align: top; font-size: 8.4pt; line-height: 1.25; }
+.tbl td:first-child { color: #333; }
+.tbl.small td, .tbl.small th { font-size: 7.6pt; }
+.tbl.scale th.n, .tbl.scale td.n { text-align: center; padding: .6mm 0; }
+.tbl.scale td.it { font-size: 8.3pt; vertical-align: middle; }
+.tbl td.glass { text-align: center; color: #9a9aa0; font-size: 10pt; vertical-align: middle; padding: 0; }
+.barcell { vertical-align: middle !important; }
+.bar { height: 4.5mm; border: .6pt solid var(--line); border-radius: 1mm; position: relative; }
+.bar span { position: absolute; left: 50%; top: -1mm; bottom: -1mm; border-left: .6pt dashed #999; }
+
+/* нумеровані рядки */
+.numgrid { display: flex; gap: 6mm; }
+.numcol { flex: 1; display: flex; flex-direction: column; }
+.numrow { flex: 1 1 0; border-bottom: .6pt solid var(--rule); display: flex; align-items: flex-end; min-height: 5mm; }
+.numrow span { font-size: 7.6pt; color: var(--muted); width: 6mm; padding-bottom: .5mm; font-weight: 600; }
+
+/* чекліст */
+.check { list-style: none; margin: 0; padding: 0; column-gap: 6mm; }
+.check li { display: flex; gap: 2mm; align-items: flex-start; margin-bottom: 1.3mm; break-inside: avoid; }
+.check.small li { font-size: 8.3pt; margin-bottom: .9mm; }
+.cb { flex: none; width: 3.2mm; height: 3.2mm; border: .7pt solid #8d8d92; border-radius: .6mm; margin-top: .6mm; }
+
+/* svg */
+.svg { display: block; max-width: 100%; }
+.svg .ring { fill: none; stroke: #dcdce0; stroke-width: .35; }
+.svg .ring.major { stroke: #b4b4ba; stroke-width: .5; }
+.svg .spoke { stroke: #8f8f95; stroke-width: .5; }
+.svg .spoke.thin { stroke-width: .35; }
+.svg .spoke.dash { stroke-dasharray: 2 2; stroke: #b0b0b5; }
+.svg .axis { stroke: #555; stroke-width: .7; }
+.svg .tick { font-size: 4.4px; fill: #8a8a90; font-family: Inter, sans-serif; }
+.svg .wlab { font-size: 6px; fill: #2a2a2d; font-family: Inter, sans-serif; }
+.svg .wlab.b { font-weight: 700; }
+.svg .axl { font-size: 5px; fill: #555; font-family: Inter, sans-serif; font-style: italic; }
+.svg .dot { fill: var(--accent); }
+.svg .node { fill: #fff; stroke: #9c9ca2; stroke-width: .5; }
+.svg .arcp { fill: none; stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 2; }
+.svg .arrow { fill: var(--accent); }
+.svg .squig { fill: none; stroke: #222; stroke-width: 2.2; stroke-linecap: round; }
+
+/* матриця */
+.matrix { display: grid; grid-template-columns: 6mm 1fr; grid-template-rows: 1fr 6mm; }
+.matrix .ylab { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; font-weight: 700; font-size: 8.4pt; color: var(--accent); }
+.matrix .xlab { grid-column: 2; text-align: right; font-weight: 700; font-size: 8.4pt; color: var(--accent); padding-top: 1mm; }
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border-left: 1.2pt solid #555; border-bottom: 1.2pt solid #555; }
+.mq { border: .6pt solid var(--line); padding: 1.6mm 2mm; }
+.mql { font-weight: 700; font-size: 8.6pt; color: #333; background: var(--tint); display: inline-block; padding: .4mm 1.6mm; border-radius: 1mm; }
+
+/* квадранти-сфери */
+.quad { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border: .6pt solid var(--line); border-radius: 50% / 50%; overflow: hidden; }
+.qd { border: .3pt dashed #b9b9be; display: flex; padding: 2.5mm 3mm; }
+.qd:nth-child(1) { align-items: flex-end; justify-content: flex-end; }
+.qd:nth-child(2) { align-items: flex-end; justify-content: flex-start; }
+.qd:nth-child(3) { align-items: flex-start; justify-content: flex-end; }
+.qd:nth-child(4) { align-items: flex-start; justify-content: flex-start; }
+.qdl { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; font-size: 8pt; }
+
+/* дуги причина-наслідок */
+.arcs { gap: 3mm; }
+.arc { flex: 1 1 0; display: flex; align-items: stretch; gap: 1.5mm; min-height: 0; }
+.af { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.afl { font-weight: 700; font-size: 8.4pt; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 1mm; text-align: center; }
+.arw { align-self: center; font-size: 16pt; color: var(--accent); padding-top: 4mm; }
+
+/* кривульки */
+.sqgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3mm; }
+.sq { border: .6pt solid var(--line); border-radius: 1.5mm; display: flex; flex-direction: column; padding: 2mm; }
+.sq .svg { flex: 1; min-height: 0; width: 100%; }
+.sqcap { font-size: 8pt; color: var(--muted); }
+
+/* знаки */
+.glyphs { gap: 0; }
+.grow-row { flex: 1 1 0; display: flex; align-items: stretch; border-bottom: .6pt solid var(--line); }
+.glyph { width: 16mm; font-size: 26pt; display: flex; align-items: center; justify-content: center; }
+.glyph.ar { font-family: "DejaVu Sans", "FreeSerif", sans-serif; }
+.glyph.jp { font-family: "IPAGothic", "WenQuanYi Zen Hei Mono", sans-serif; }
+.gname { width: 20mm; font-size: 8pt; color: var(--muted); display: flex; align-items: center; }
+.gcell { flex: 1; border-left: .4pt dashed #c9c9cd; background:
+  linear-gradient(to bottom, transparent 49.5%, #ececef 49.5%, #ececef 50.5%, transparent 50.5%); }
+
+/* відповідь догори дриґом */
+.answer {
+  margin-top: 2mm; transform: rotate(180deg); font-size: 7.6pt; color: #555;
+  border-top: .5pt dashed #b9b9be; padding-top: 1.4mm;
+}
+.answer span { font-weight: 700; }
+
+/* ---- обкладинка ---- */
+.cover { padding: 22mm 20mm 16mm; }
+.cover .kicker { font-size: 9pt; letter-spacing: .14em; text-transform: uppercase; color: #2f5d8a; font-weight: 700; }
+.ctitle { font-size: 38pt; line-height: 1.02; margin: 6mm 0 6mm; letter-spacing: -.02em; }
+.csub { font-size: 11.5pt; color: #3a3a3d; max-width: 150mm; margin: 0 0 12mm; }
+.secs { list-style: none; padding: 0; margin: 0 0 auto; border-top: .6pt solid var(--line); }
+.secs li { display: grid; grid-template-columns: 5mm 1fr auto; grid-template-rows: auto auto; column-gap: 2mm; padding: 3mm 0; border-bottom: .6pt solid var(--line); align-items: center; }
+.secs li i { grid-row: 1 / 3; }
+.secs li b { font-size: 12pt; }
+.secs li span { font-weight: 700; color: var(--accent); font-size: 10pt; }
+.secs li em { grid-column: 2 / 4; font-size: 8.6pt; color: var(--muted); font-style: normal; }
+.howto { margin-top: 8mm; background: #f4f6f9; border-radius: 2mm; padding: 4mm 5mm; font-size: 9.4pt; }
+.howto ol { margin: 1.5mm 0 0; padding-left: 5mm; }
+
+/* ---- зміст ---- */
+.toc { padding: 12mm 13mm 10mm; }
+.toc h2 { font-size: 18pt; margin: 0 0 4mm; }
+.toccols { column-count: 2; column-gap: 8mm; column-fill: balance; font-size: 8.4pt; line-height: 1.3; }
+.tocsec { break-inside: auto; margin-bottom: 2.4mm; }
+.tocsec h3 { font-size: 9.6pt; margin: 0 0 1mm; color: var(--accent); display: flex; gap: 1.6mm; align-items: center; break-after: avoid; }
+.tocsec ol { list-style: none; margin: 0; padding: 0; }
+.tocsec li { display: flex; gap: 1.6mm; break-inside: avoid; margin-bottom: .2mm; }
+.tocsec li span { flex: none; width: 7mm; text-align: right; color: var(--muted); font-weight: 600; }
+
+/* творчі задачі */
+.puzzle { font-size: 11.5pt; line-height: 1.5; background: var(--tint); border-radius: 2mm; padding: 4mm 5mm; color: #222; }
+</style></head><body>
+<section class="page ex" id="ex59" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 59</span></header>
+  <h1>Аудит 10 правил взаємин з коханою людиною</h1>
+  <div class="goal"><b>Мета.</b> Оцінити, наскільки ваші стосунки спираються на базові правила здорових взаємин.</div><ol class="steps"><li>Оцініть кожне твердження від 1 до 10 — обведіть число.</li><li>Для трьох найнижчих оцінок запишіть одну дію на цей тиждень.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl scale"><colgroup><col style="width:46%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col></colgroup><thead><tr><th>Твердження</th><th class="n">1</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">5</th><th class="n">6</th><th class="n">7</th><th class="n">8</th><th class="n">9</th><th class="n">10</th><th>Що зроблю, щоб додати +1</th></tr></thead><tbody><tr><td class="it"><b>1.</b> Сприймаю кохану людину як дзеркало себе</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>2.</b> Працюю над собою, а не над зміною «дзеркала»; ніхто мені нічого не винен</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>3.</b> Хочу змінити звичку партнера — спершу змінюю якусь свою</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>4.</b> Не чекаю, що мої думки прочитають, — говорю</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>5.</b> Враховую, що чоловіки й жінки різні, і зважаю на потреби одне одного</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>6.</b> Ми регулярно проводимо час разом</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>7.</b> Плекаю в собі любов, а не лише покладаюся на закоханість</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>8.</b> Враховую батьківські моделі коханої людини</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>9.</b> Поважаю потреби, цінності й цілі партнера так само, як свої</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>10.</b> Сприймаю кохану людину цілісно, а не частинами</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>59 / 167</span></footer>
+</section>
+<section class="page ex" id="ex60" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 60</span></header>
+  <h1>Мої ідеальні взаємини</h1>
+  <div class="goal"><b>Мета.</b> Чітко уявити ідеальні стосунки — частіші роздуми про ідеал наближають до нього.</div><div class="intro">«Той, хто шукає мільйони, рідко їх знаходить, але хто не шукає — не знаходить ніколи» (О. де Бальзак). Так само і з ідеальними взаєминами.</div>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Якими я бачу свої ідеальні взаємини?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Які власні навики я розвиватиму, щоб їх досягти?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Чим я готовий(-а) «заплатити» чи що віддати, щоб їх мати?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що я сьогодні зроблю, щоб відчувати свої взаємини ідеальними?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>60 / 167</span></footer>
+</section>
+<section class="page ex" id="ex61" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 61</span></header>
+  <h1>Емоційний банк</h1>
+  <div class="goal"><b>Мета.</b> Порахувати свою «емоційну банківську історію» і вийти з емоційного боргу.</div><div class="intro">Кожен раз, коли ви похвалили, посміхнулися, поцілували, надихнули, погладили словом чи дотиком, — +1 бал. При інших людях — +3. Хотіли зірватися, але стрималися — +5. Дорікнули, покритикували, нахмурилися, різко відповіли, згадали минулу кривду — −1. При інших — −3. Влаштували істерику — −5.</div><ol class="steps"><li>Тиждень чесно записуйте всі «внески» і «зняття».</li><li>Щовечора підбивайте баланс дня і загальний баланс.</li><li>Ті, хто ретельно рахував, за пʼять днів виявляли борг понад 100 балів, — і потім вирівнювали стосунки.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:8%"><col style="width:34%"><col style="width:34%"><col style="width:12%"><col style="width:12%"></colgroup><thead><tr><th>День</th><th>Компліменти, тепло, підтримка (+)</th><th>Докори, критика, роздратування (−)</th><th>Баланс дня</th><th>Загальний</th></tr></thead><tbody><tr><td>Пн</td><td></td><td></td><td></td><td></td></tr><tr><td>Вт</td><td></td><td></td><td></td><td></td></tr><tr><td>Ср</td><td></td><td></td><td></td><td></td></tr><tr><td>Чт</td><td></td><td></td><td></td><td></td></tr><tr><td>Пт</td><td></td><td></td><td></td><td></td></tr><tr><td>Сб</td><td></td><td></td><td></td><td></td></tr><tr><td>Нд</td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>61 / 167</span></footer>
+</section>
+<section class="page ex" id="ex62" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 62</span></header>
+  <h1>Робота з власним ставленням</h1>
+  <div class="goal"><b>Мета.</b> Щодня тренувати добре ставлення до людей — бо вміння любити не дається від народження, його виробляють.</div><div class="intro">Вдячність — профілактика образ; прохання — профілактика гордощів; прийняття — профілактика зверхності; радість за іншого — профілактика заздрощів; обійми — людина, яку довго не обіймають, спотикається на кожному кроці.</div><ol class="steps"><li>Щодня записуйте, кого ви сьогодні прийняли, кому були вдячні, кого попросили, за кого раділи, кого обійняли…</li><li>Памʼятайте: якщо хочете любити одну людину, маєте любити і весь світ навколо.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><colgroup><col style="width:23%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col style="width:11%"></colgroup><thead><tr><th>Кого / кому сьогодні</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Нд</th></tr></thead><tbody><tr><td>Прийняли</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Відчули вдячність</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Попросили</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Пораділи</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Обійняли</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Побачили позитивний намір</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Поцілували</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>62 / 167</span></footer>
+</section>
+<section class="page ex" id="ex63" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 63</span></header>
+  <h1>Комплексний погляд: ланцюжок подій</h1>
+  <div class="goal"><b>Мета.</b> Навчитися бачити в кожній дії одночасно і причину, і наслідок, — тоді легше «розплутувати» конфлікти.</div><div class="intro">Ми часто розглядаємо проблему так, наче вона виникла сама по собі. Таке обмежене бачення не дає знайти вихід.</div>
+  <div class="work"><div class="blk example"><div class="extitle">Приклад</div>… ← Жінка вчора не похвалила його за відремонтований кран ← Дружина не випрасувала йому сорочку ← <b>Чоловік, не попередивши, пізно прийшов з роботи</b> → Чоловік забув купити яблука, які просила дружина → Чоловік не попередив, що на вихідних їде на рибалку → …</div><div class="blk txt ">Посередині запишіть подію. Ліворуч і праворуч по черзі дописуйте причини й наслідки — якомога далі.</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:36%"><col style="width:28%"><col style="width:36%"></colgroup><thead><tr><th>← Причини</th><th>ПОДІЯ</th><th>Наслідки →</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>63 / 167</span></footer>
+</section>
+<section class="page ex" id="ex64" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 64</span></header>
+  <h1>Риси, які я хотів(-ла) би змінити</h1>
+  <div class="goal"><b>Мета.</b> Зрозуміти, що «погані» риси коханої людини мають спільний корінь із тими, які ви в ній цінуєте.</div><ol class="steps"><li>Ліворуч випишіть риси, які хотіли б змінити: від дрібних побутових (чавкання, розкиданий одяг) до глобальних.</li><li>Праворуч — позитивні риси, які мають із ними спільний корінь (вміння робити багато справ одночасно, імпровізація…).</li><li>Зʼєднайте лініями повʼязані риси. Чесно дайте відповідь: чи готові ви стерти риси з обох колонок одночасно?</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Що хочу змінити</th></tr></thead><tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Позитивна риса з тим самим коренем</th></tr></thead><tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody></table></div></div></div></div><div class="blk"><div class="blabel">Чи готовий(-а) я до такого «обміну»? Що я вирішую?</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>64 / 167</span></footer>
+</section>
+<section class="page ex" id="ex65" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 65</span></header>
+  <h1>Придумайте свій ритуал</h1>
+  <div class="goal"><b>Мета.</b> Створити непорушний ритуал, який у складні часи «витягне» вас з ями непорозуміння.</div><div class="intro">Він цілує її вранці — незалежно від того, як закінчився вечір. Вона гладить його по голові перед сніданком. Ритуалом може бути слово, дотик, подарунок, спільна молитва — будь-що, що не викликає спротиву і виконується за будь-яких обставин.</div><ol class="steps"><li>Запишіть кілька варіантів ритуалів і оберіть один.</li><li>Визначте, коли і як часто він виконуватиметься.</li><li>Відзначайте щодня, чи вдалося дотриматися ритуалу.</li></ol>
+  <div class="work"><div class="blk"><div class="blabel">Можливі ритуали:</div><div class="ruled" style="height:48mm"></div></div><div class="blk"><div class="blabel">Мій ритуал: що, коли, як часто</div><div class="ruled" style="height:24mm"></div></div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:16%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"></colgroup><thead><tr><th>Тиждень</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Нд</th></tr></thead><tbody><tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>65 / 167</span></footer>
+</section>
+<section class="page ex" id="ex66" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 66</span></header>
+  <h1>Найкращі і найгірші риси: баш на баш</h1>
+  <div class="goal"><b>Мета.</b> Прийняти людину цілою, а не частинами: у Всесвіті все чесно — місяць має й другу сторону.</div><ol class="steps"><li>Випишіть 5 найкращих рис коханої людини, якими ви захоплюєтеся.</li><li>Поруч — 5 найгірших, які вас по-справжньому дратують.</li><li>Чесно запитайте себе: чи готові ви «обміняти» пункт 1 з першого списку на пункт 1 з другого? А всі пʼять?</li><li>Якщо не готові — приймайте людину такою, як вона є, і побачите, як вона змінюватиметься сама.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>5 найкращих рис</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr><tr><td>4.</td></tr><tr><td>5.</td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>5 найгірших рис</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr><tr><td>4.</td></tr><tr><td>5.</td></tr></tbody></table></div></div></div></div><div class="blk"><div class="blabel">Моє рішення:</div><div class="ruled" style="height:32mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>66 / 167</span></footer>
+</section>
+<section class="page ex" id="ex67" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 67</span></header>
+  <h1>Успішні дні</h1>
+  <div class="goal"><b>Мета.</b> Поступово збільшувати кількість добрих днів у ваших стосунках.</div><ol class="steps"><li>Порахуйте, скільки «безхмарних» днів поспіль ви зазвичай витримуєте разом. Додайте до цього числа один.</li><li>У ці дні ваша роль — «ангел на землі»: пробачати, приймати, цінувати, дякувати, не вестися на провокації.</li><li>Якщо дуже захочеться, «зʼясовуйте стосунки» в наступний день, а потім знову — серія «ангельських» днів.</li><li>З часом переходьте до 4, 5, 6, 7 днів.</li></ol>
+  <div class="work"><div class="blk txt ">Зараз я витримую ____ добрих днів поспіль. Моя мета на місяць — ____ днів.</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:16%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"></colgroup><thead><tr><th>Тиждень</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Нд</th></tr></thead><tbody><tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk note">Позначайте: ☺ — добрий день, ○ — нейтральний, ✗ — конфлікт. Не розчухуйте те, що болить, — дайте взаєминам час.</div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>67 / 167</span></footer>
+</section>
+<section class="page ex" id="ex68" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 68</span></header>
+  <h1>Риси батьків, які я помітив(-ла) за собою</h1>
+  <div class="goal"><b>Мета.</b> Побачити, як батьківські моделі проявляються у вашій поведінці у стосунках.</div><ol class="steps"><li>Запишіть, що вас не влаштовує в коханій людині.</li><li>Знайдіть схожу рису у собі — часто це риса, успадкована від батьків.</li><li>Запишіть, що ви зробите, щоб змінитися.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Що не влаштовує в коханій людині</th><th>Схоже в мені (від кого з батьків?)</th><th>Що зроблю, щоб змінитися</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>68 / 167</span></footer>
+</section>
+<section class="page ex" id="ex69" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 69</span></header>
+  <h1>Мої визначення</h1>
+  <div class="goal"><b>Мета.</b> Сформулювати власне розуміння ключових понять стосунків — від цього залежить, що ви будуєте.</div><ol class="steps"><li>Не шукайте «правильних» визначень — запишіть своє розуміння.</li><li>За можливості попросіть коханих людей зробити те саме і порівняйте відповіді.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Любов — це…</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Емоційна підтримка — це…</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Порозуміння — це…</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Щастя — це…</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>69 / 167</span></footer>
+</section>
+<section class="page ex" id="ex70" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 70</span></header>
+  <h1>Претензії</h1>
+  <div class="goal"><b>Мета.</b> Порівняти претензії до коханої людини з претензіями до себе — і перетворити їх на план дій.</div><ol class="steps"><li>Випишіть усі претензії до коханої людини — від найдрібніших до суттєвих.</li><li>Випишіть претензії до себе: чого ви не додаєте коханій людині, що робите неякісно чи рідко.</li><li>Біля кожного пункту запишіть, що плануєте робити. Наприклад: «не роблю компліментів» → «щодня 10 компліментів».</li><li>За можливості обміняйтеся списками й обговоріть їх.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Претензії до коханої людини</th><th>Що я робитиму</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Претензії до себе</th><th>Що я робитиму</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>70 / 167</span></footer>
+</section>
+<section class="page ex" id="ex71" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 71</span></header>
+  <h1>Модель батьків коханої людини</h1>
+  <div class="goal"><b>Мета.</b> Зрозуміти, які «незакриті» моделі батьків партнера можуть проявитися у ваших стосунках.</div><div class="intro">Доки діти не закрили моделей батьків, не отримають своїх.</div>
+  <div class="work"><div class="blk example"><div class="extitle">Закономірності</div><ul><li>Мали розійтися, але не розійшлися — це зроблять їхні діти.</li><li>Мали триматися разом, але розійшлися — діти триматимуться за своїх коханих.</li><li>Мали коханців замість берегти сімʼю — діти берегтимуть.</li><li>Мали допомагати одне одному зростати, але не робили цього — діти допомагатимуть своїм коханим.</li><li>Мали більше турбуватися — діти турбуватимуться, навіть якщо друга людина на це не заслуговує.</li></ul></div><div class="blk txt ">Проаналізуйте, що мали б зробити батьки вашої коханої людини (і ваші власні батьки), але не зробили.</div><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="blabel">Батьки коханої людини: що лишилося «незакритим»?</div><div class="ruled grow"></div></div></div><div class="cell"><div class="blk grow col"><div class="blabel">Мої батьки: що лишилося «незакритим»?</div><div class="ruled grow"></div></div></div></div><div class="blk"><div class="blabel">Як це вже проявляється в наших стосунках?</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>71 / 167</span></footer>
+</section>
+<section class="page ex" id="ex72" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 72</span></header>
+  <h1>Пропорція у взаєминах</h1>
+  <div class="goal"><b>Мета.</b> Вирівняти систему: у взаєминах на кожну рису є спільний «казанок», і хтось бере більше, а хтось — менше.</div><ol class="steps"><li>Для кожної риси чи обовʼязку оцініть, яку частку (у %) берете ви, а яку — кохана людина.</li><li>Хочете змінити рису в іншій людині — почніть віддавати зайве з себе або першими брати потрібне.</li></ol>
+  <div class="work"><div class="blk"><table class="tbl"><colgroup><col style="width:34%"><col style="width:17%"><col style="width:22%"><col></colgroup><thead><tr><th>Риса / обовʼязок</th><th>Скільки беру я</th><th>Скільки бере інша людина</th><th>Позначте розподіл: 0% ←→ 100%</th></tr></thead><tbody><tr><td class="it">Ініціатива</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Відповідальність</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Любов до порядку</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Миття посуду</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Догляд за дітьми</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Радість до життя</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Відпочинок</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Чесність</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it"></td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it"></td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr></tbody></table></div><div class="blk grow col"><div class="blabel">Що я віддам або візьму на себе, щоб вирівняти систему?</div><div class="ruled grow"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>72 / 167</span></footer>
+</section>
+<section class="page ex" id="ex73" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 73</span></header>
+  <h1>Три основні риси</h1>
+  <div class="goal"><b>Мета.</b> Усвідомити базові цінності, на яких ви будуєте взаємини: що вам потрібно і що ви готові дати.</div><div class="intro">Більшість людей ніколи не замислювалися, що їм потрібно від стосунків протягом усього життя, — і чим вони готові за це платити.</div><ol class="steps"><li>Напишіть три основні речі (властивості, стани, відчуття), які вам потрібні від чоловіка / дружини.</li><li>Напишіть три, які ви можете дати коханій людині і над якими готові працювати.</li><li>Добре обміркуйте відповіді — або запишіть перше, що спаде на думку: це теж буде чесно.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Мені потрібно від коханої людини</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Я можу дати коханій людині</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr></tbody></table></div></div></div></div><div class="blk"><div class="blabel">Якщо робите разом: що збіглося, а що — ні?</div><div class="ruled" style="height:32mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>73 / 167</span></footer>
+</section>
+<section class="page ex" id="ex74" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 74</span></header>
+  <h1>Щотижневе обговорення</h1>
+  <div class="goal"><b>Мета.</b> Запровадити регулярну «нараду» пари, на якій можна спокійно сказати, що «так», а що «не так».</div><div class="intro">Обговорення має бути: 1) регулярним; 2) у встановлену годину; 3) офіційним — за наперед узгодженим регламентом. Трохи критики у форматі, на відміну від замовчаної правди, будує міцні взаємини.</div><ol class="steps"><li>Домовтеся про день, годину і регламент (наприклад, по 15 хв кожному без перебивань).</li><li>Готуйтеся заздалегідь: занотовуйте протягом тижня, що хочете сказати.</li></ol>
+  <div class="work"><div class="blk txt ">Наш день і час: ______________  Регламент: _______________________________</div><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="blabel">Що мені сподобалося цього тижня</div><div class="ruled grow"></div></div></div><div class="cell"><div class="blk grow col"><div class="blabel">Що мене зачепило і як я це трактую</div><div class="ruled grow"></div></div></div><div class="cell"><div class="blk grow col"><div class="blabel">Мої прохання та поради</div><div class="ruled grow"></div></div></div></div><div class="blk"><div class="blabel">Про що ми домовилися:</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>74 / 167</span></footer>
+</section>
+<section class="page ex" id="ex75" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 75</span></header>
+  <h1>Що мене дратує в поведінці батьків</h1>
+  <div class="goal"><b>Мета.</b> Прийняти моделі батьків, які вас бентежать, як свої власні — тоді ви зможете їх змінювати.</div><div class="intro">Те, що вас найбільше дратує у вчинках батьків, — і є ваше справжнє коріння, з яким ви боретеся. Несправедливість тата до бабусі, ставлення мами до роботи батька, батьківське ставлення до грошей — це ваша модель, навіть якщо на перший погляд так не виглядає.</div><ol class="steps"><li>Випишіть, що вас дратує в поведінці батьків.</li><li>Знайдіть, де ця сама модель проявляється у вашому житті — хоча б у дрібницях.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Що мене дратує в поведінці батьків</th><th>Де це проявляється в мені</th><th>Що я хочу змінити</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>75 / 167</span></footer>
+</section>
+<section class="page ex" id="ex76" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 76</span></header>
+  <h1>Моноліт</h1>
+  <div class="goal"><b>Мета.</b> Перестати «виколупувати цеглинки» з людини: на «хороших» рисах тримаються «погані», і навпаки.</div><div class="intro">Подобається, як людина вишукано їсть, — любіть і її повільність в інших справах. Дратує, що вона виходить на роботу у вихідні, — памʼятайте про ресурси, які вона здобуває для вас. Непунктуальність може бути другою стороною доброти й душевності.</div><ol class="steps"><li>Випишіть негативні риси коханої людини.</li><li>Для кожної знайдіть позитивну рису, яка на ній тримається (або яку вона «тримає»).</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Негативна риса</th><th>Позитивна риса, яка на ній тримається</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>76 / 167</span></footer>
+</section>
+<section class="page ex" id="ex77" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 77</span></header>
+  <h1>Підтримка ініціативи</h1>
+  <div class="goal"><b>Мета.</b> Перестати «вбивати» ініціативу коханої людини в дрібницях — і дати їй прорости.</div><div class="intro">Щоб людина почала робити щось швидко і як належить, спершу потрібно дозволити їй робити це як завгодно, але самій!</div><ol class="steps"><li>Сьогодні стежте за собою: які ідеї та починання коханої людини ви підтримали, а які — розкритикували?</li><li>Ведіть записи тиждень і рахуйте співвідношення.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:8%"><col style="width:34%"><col style="width:26%"><col style="width:32%"></colgroup><thead><tr><th>День</th><th>Ідеї / ініціатива, які я підтримав(-ла)</th><th>Які «витоптав(-ла)»</th><th>Як можна було підтримати</th></tr></thead><tbody><tr><td>Пн</td><td></td><td></td><td></td></tr><tr><td>Вт</td><td></td><td></td><td></td></tr><tr><td>Ср</td><td></td><td></td><td></td></tr><tr><td>Чт</td><td></td><td></td><td></td></tr><tr><td>Пт</td><td></td><td></td><td></td></tr><tr><td>Сб</td><td></td><td></td><td></td></tr><tr><td>Нд</td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>77 / 167</span></footer>
+</section>
+<section class="page ex" id="ex78" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 78</span></header>
+  <h1>Розмова з дзеркалом</h1>
+  <div class="goal"><b>Мета.</b> Підняти рівень емоційної компетентності: спершу сказати все дзеркалу, а вже потім — людині.</div><ol class="steps"><li>Перш ніж висловити близькій людині все, що ви про неї думаєте, скажіть це… своєму відображенню в дзеркалі.</li><li>Покривляйтеся, покажіть невдоволення. Розумно вийшло?</li><li>Те саме — для водіїв, які «підрізали», клієнтів, що підвели, безвідповідальних колег.</li><li>Запишіть, що відчули і чи захотілося після цього щось казати людині.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Ситуація / кому хотів(-ла) висловити</th><th>Що сказав(-ла) дзеркалу</th><th>Що відчув(-ла)</th><th>Що зрештою зробив(-ла)</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>78 / 167</span></footer>
+</section>
+<section class="page ex" id="ex79" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 79</span></header>
+  <h1>Звичні емоції</h1>
+  <div class="goal"><b>Мета.</b> Побачити, крізь яку «призму» минулих відчуттів ви дивитеся на світ.</div><div class="intro">Здатність відчувати певні емоції — це звичка. Як горнятко, у якому довго тримали чай, стає коричневим, так і людина з часом сприймає все крізь домінуючі емоції.</div><ol class="steps"><li>Кілька днів спостерігайте за собою.</li><li>Запишіть, які емоції ви виражаєте найчастіше і в якій пропорції (разом — 100%).</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:30%"><col style="width:16%"><col style="width:54%"></colgroup><thead><tr><th>Емоція</th><th>% часу</th><th>Коли найчастіше</th></tr></thead><tbody><tr><td>Радість</td><td></td><td></td></tr><tr><td>Сум</td><td></td><td></td></tr><tr><td>Гнів</td><td></td><td></td></tr><tr><td>Страх</td><td></td><td></td></tr><tr><td>Інтерес</td><td></td><td></td></tr><tr><td>Образа</td><td></td><td></td></tr><tr><td>Роздратування</td><td></td><td></td></tr><tr><td>Спокій</td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="blabel">Моя «галерея» емоцій: намалюйте кругову діаграму</div><div class="frame grow dots"></div></div></div></div><div class="blk"><div class="blabel">Яка емоція «забарвила» мою «посудину»? Яку я хочу додати?</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>79 / 167</span></footer>
+</section>
+<section class="page ex" id="ex80" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 80</span></header>
+  <h1>Система емоцій сімʼї</h1>
+  <div class="goal"><b>Мета.</b> Побачити, що настрій кожного — це система, яка залежить від емоцій людей поруч.</div><ol class="steps"><li>У колонках впишіть найважливіших людей (особливо тих, з ким маєте спільний побут) і себе.</li><li>Для кожного оцініть, яку частку часу (у %) він відчуває кожну емоцію. Разом у колонці — 100%.</li><li>Порахуйте середнє по кожній емоції. Змініть свої емоції — і зміняться емоції всіх навколо!</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:22%"><col style="width:13%"><col style="width:13%"><col style="width:13%"><col style="width:13%"><col style="width:13%"><col style="width:13%"></colgroup><thead><tr><th>Емоція</th><th>Я</th><th></th><th></th><th></th><th></th><th>Середнє</th></tr></thead><tbody><tr><td>Радість</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Сум</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Гнів</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Роздратування</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Страх</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Інтерес</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Спокій</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td><b>Разом</b></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Висновки:</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>80 / 167</span></footer>
+</section>
+<section class="page ex" id="ex81" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 81</span></header>
+  <h1>Моделі батьків: анкета</h1>
+  <div class="goal"><b>Мета.</b> Добре знати модель стосунків батьків вашого обраника чи обраниці — вона неодмінно дасть про себе знати.</div>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Де і коли зазвичай виникають непорозуміння між ними? На ґрунті чого?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Як довго тривають конфлікти? Де місце єднання після них (кухня, спільна праця, ліжко…)?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Чого бракувало мамі (зокрема, як подарунків)? Чого бракувало батькові у стосунках?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що недоказане витає між ними? Що досі неприємне в їхній поведінці одне до одного?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що їх обʼєднує?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>81 / 167</span></footer>
+</section>
+<section class="page ex" id="ex82" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 82</span></header>
+  <h1>З ким я проводжу свій час</h1>
+  <div class="goal"><b>Мета.</b> Перевірити, чи є кохана людина номером один за часом, який ви їй віддаєте.</div><div class="intro">Ми є тими, з ким проводимо свій час. Якщо кохана людина тривалий час не на першому місці — це майже вірна ознака майбутніх проблем.</div><ol class="steps"><li>Зафіксуйте витрати часу вчора і сьогодні: на людей, домашніх улюбленців, соцмережі, інтернет, телевізор.</li><li>Відсортуйте за спаданням. Хто на першому місці?</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:76%"><col style="width:24%"></colgroup><thead><tr><th>Вчора: з ким / на що</th><th>Хв</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:76%"><col style="width:24%"></colgroup><thead><tr><th>Сьогодні: з ким / на що</th><th>Хв</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div></div><div class="blk"><div class="blabel">Що я зміню, щоб кохана людина була номером один?</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>82 / 167</span></footer>
+</section>
+<section class="page ex" id="ex83" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 83</span></header>
+  <h1>Відпускання: пробачення → прийняття → вдячність</h1>
+  <div class="goal"><b>Мета.</b> Відпустити ситуацію з минулого, яка досі «муляє».</div><div class="intro">Ситуація відпускає нас лише тоді, коли ми ставимося до неї з вдячністю: «Я радію, що це було, — без цього я не був би таким, яким я є». Але спершу потрібно пройти дві стадії.</div><ol class="steps"><li>Оберіть ситуацію з минулого (батьки, колишні стосунки, родичі, друзі).</li><li>Пройдіть три стадії по черзі — можливо, за кілька підходів, доки не відчуєте полегшення.</li></ol>
+  <div class="work"><div class="blk"><div class="blabel">Ситуація:</div><div class="ruled" style="height:16mm"></div></div><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">1. Пробачення: «Я вже не маю крайньої негативної емоції щодо того, що ти зробив(-ла)…»</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">2. Прийняття: «Ти мав(-ла) право повестися так, як повівся(-лася); приймаю тебе таким(-ою), як ти є…»</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">3. Вдячність: «Я радію, що це зі мною було, бо завдяки цьому я…»</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>83 / 167</span></footer>
+</section>
+<section class="page ex" id="ex84" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 84</span></header>
+  <h1>«Погані» слова</h1>
+  <div class="goal"><b>Мета.</b> Говорити добрі слова вчасно — поки вони не «зіпсувалися» і не стали поганими.</div><div class="intro">Поганих слів не існує. Є добрі слова, які не сказали вчасно, — як торт, що згірк, бо його не зʼїли свіжим.</div>
+  <div class="work"><div class="blk example"><div class="extitle">Приклад</div>Чоловік мав прийти о 18:00 і не попередив, що затримується. 18:01 — «Коханий, як я тебе чекаю». 18:10 — «Чому не дзвониш, я хвилююся». 18:35 — «Тобі зовсім до нас діла немає!» 19:00 — «Ти просто егоїст». 19:30 він приходить і чує: «Не хочу тебе бачити, ти безвідповідальний!»</div><div class="blk txt ">Змоделюйте три свої ситуації і запишіть, як «псуються» думки з часом.</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><colgroup><col style="width:16%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"><col style="width:12%"></colgroup><thead><tr><th>Ситуація</th><th>Одразу</th><th>5 хв</th><th>10 хв</th><th>20 хв</th><th>30 хв</th><th>1 год</th><th>2 год</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Що варто було сказати одразу?</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>84 / 167</span></footer>
+</section>
+<section class="page ex" id="ex85" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 85</span></header>
+  <h1>Однакові люди</h1>
+  <div class="goal"><b>Мета.</b> Побачити, що «недолік» коханої людини — це риса, яку вона проявляє не скрізь, а за певних умов.</div><div class="intro">Немає людей відповідальних чи безвідповідальних, пунктуальних чи непунктуальних. Людина виконує все на роботі і не чує прохань удома; сміливо йде на перекур і боїться публічного виступу; запізнюється до друзів і вчасно приходить на перемовини.</div><ol class="steps"><li>Випишіть риси коханої людини, які вас не влаштовують.</li><li>Знайдіть, де, з ким, за яких умов і в який спосіб вона все-таки проявляє протилежну рису.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:28%"><col style="width:42%"><col style="width:30%"></colgroup><thead><tr><th>Риса, яка мене не влаштовує</th><th>Де / з ким / за яких умов людина проявляє протилежне</th><th>Що це мені підказує</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>85 / 167</span></footer>
+</section>
+<section class="page ex" id="ex86" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 86</span></header>
+  <h1>«Про це»</h1>
+  <div class="goal"><b>Мета.</b> Навчитися відкрито говорити про інтимне життя — тема, яку замовчують, нікому не стає кращою.</div><ol class="steps"><li>Чесно для себе дайте відповіді на запитання нижче.</li><li>Оберіть спокійний момент і обговоріть записане з партнером — без звинувачень, з довірою.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Що б ви хотіли реалізувати разом із коханою людиною?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що вас не влаштовує?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що хотіли б робити по-іншому?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Про що ми домовилися після розмови?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>86 / 167</span></footer>
+</section>
+<section class="page ex" id="ex87" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 87</span></header>
+  <h1>Фрази, що «бісять»</h1>
+  <div class="goal"><b>Мета.</b> Підготувати заздалегідь творчі відповіді на фрази, які вмикають у вас «програму самозахисту».</div><ol class="steps"><li>Випишіть одну або кілька фраз коханої людини, які виводять вас із себе (за змістом чи тоном).</li><li>Для кожної згенеруйте якомога більше цікавих і неповторних відповідей — хоча б десять. Будьте різними!</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Фраза 1: __________________</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr><tr><td>4.</td></tr><tr><td>5.</td></tr><tr><td>6.</td></tr><tr><td>7.</td></tr><tr><td>8.</td></tr><tr><td>9.</td></tr><tr><td>10.</td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Фраза 2: __________________</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr><tr><td>4.</td></tr><tr><td>5.</td></tr><tr><td>6.</td></tr><tr><td>7.</td></tr><tr><td>8.</td></tr><tr><td>9.</td></tr><tr><td>10.</td></tr></tbody></table></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>87 / 167</span></footer>
+</section>
+<section class="page ex" id="ex88" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 88</span></header>
+  <h1>Аналіз сказаного</h1>
+  <div class="goal"><b>Мета.</b> Навчитися переписувати критичні фрази — тоді конфлікти легше попереджати.</div><div class="intro">Наговорити дурниць легко, важко потім «відчищати» від них взаємини.</div>
+  <div class="work"><div class="blk example"><div class="extitle">Приклад</div>Сказав(-ла): «Та від тебе нічого не допросишся». Мав(-ла) б сказати: «Коханий(-а), як мені попросити тебе так, щоб ти таки вкрутив лампочку?»</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Що я сказав(-ла) або подумав(-ла)</th><th>Як це мало б прозвучати</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>88 / 167</span></footer>
+</section>
+<section class="page ex" id="ex89" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 89</span></header>
+  <h1>Лист дитині про любов</h1>
+  <div class="goal"><b>Мета.</b> Сформулювати найважливіше, що ви знаєте про любов і стосунки, — так, щоб це зрозуміла дитина.</div><div class="intro">Ми звикли, що твори пишуть діти. Поміняймося ролями: напишіть твір для них на важливу і складну тему «Любов і стосунки».</div><ol class="steps"><li>Напишіть 8–10 речень — найважливіше, що ви хотіли б донести дітям.</li><li>Перечитайте: чи живете ви самі відповідно до написаного?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="blabel">Любий(-а) ________________ !</div><div class="ruled grow"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>89 / 167</span></footer>
+</section>
+<section class="page ex" id="ex90" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 90</span></header>
+  <h1>Дзеркало: десять рис</h1>
+  <div class="goal"><b>Мета.</b> Розгледіти в інших те, чого не хочеться визнавати за собою.</div><ol class="steps"><li>Випишіть десять (саме десять!) рис інших людей, які вас відверто дратують.</li><li>Для кожної чесно запитайте себе: чи не притаманна вона мені? Можливо, в іншій формі.</li><li>Перевірте підміну понять: ви справді «любите порядок» — чи «любите бачити безлад в інших»?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:5%"><col style="width:30%"><col style="width:17%"><col style="width:48%"></colgroup><thead><tr><th>№</th><th>Риса, що дратує</th><th>У кого</th><th>Як вона проявляється в мені</th></tr></thead><tbody><tr><td>1</td><td></td><td></td><td></td></tr><tr><td>2</td><td></td><td></td><td></td></tr><tr><td>3</td><td></td><td></td><td></td></tr><tr><td>4</td><td></td><td></td><td></td></tr><tr><td>5</td><td></td><td></td><td></td></tr><tr><td>6</td><td></td><td></td><td></td></tr><tr><td>7</td><td></td><td></td><td></td></tr><tr><td>8</td><td></td><td></td><td></td></tr><tr><td>9</td><td></td><td></td><td></td></tr><tr><td>10</td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>90 / 167</span></footer>
+</section>
+<section class="page ex" id="ex91" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 91</span></header>
+  <h1>Погладжування</h1>
+  <div class="goal"><b>Мета.</b> Порахувати, скільки тепла ви даєте і отримуєте щодня.</div><div class="intro">Щоб вижити, людині потрібно 4 «погладжування» на день, щоб нормально почуватися — 8, щоб розвиватися — 12. Погладжування — це ніжні дотики, обійми, поцілунки, безумовні вияви захоплення. Людина стає сердитою не тому, що вона така, а тому, що її недолюбили.</div><ol class="steps"><li>Тиждень рахуйте рисочками, скільки погладжувань ви дали коханій людині і скільки отримали.</li><li>Якщо вам бракує підтримки — памʼятайте, що ви завжди можете надихнути й підбадьорити себе самі.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:8%"><col style="width:24%"><col style="width:24%"><col style="width:20%"><col style="width:24%"></colgroup><thead><tr><th>День</th><th>Я дав(-ла)</th><th>Я отримав(-ла)</th><th>Підбадьорив(-ла) себе сам(-а)</th><th>Як почувався(-лася)</th></tr></thead><tbody><tr><td>Пн</td><td></td><td></td><td></td><td></td></tr><tr><td>Вт</td><td></td><td></td><td></td><td></td></tr><tr><td>Ср</td><td></td><td></td><td></td><td></td></tr><tr><td>Чт</td><td></td><td></td><td></td><td></td></tr><tr><td>Пт</td><td></td><td></td><td></td><td></td></tr><tr><td>Сб</td><td></td><td></td><td></td><td></td></tr><tr><td>Нд</td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk note">Мета: 8 — норма, 12 — розвиток.</div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>91 / 167</span></footer>
+</section>
+<section class="page ex" id="ex92" style="--accent:#b23a5a;--tint:#fbecf0">
+  <header class="head"><span class="sec"><i></i>Взаємини з коханою людиною</span><span class="num">Вправа 92</span></header>
+  <h1>Самодостатність: мої цілі на 30 років</h1>
+  <div class="goal"><b>Мета.</b> Відчути велич власної місії — це робить нас самодостатніми і допомагає будувати якісні стосунки.</div><ol class="steps"><li>Випишіть свої цілі на найближчі 30 років: що хочете реалізувати, досягти, мати, створити.</li><li>Важливо, щоб це були саме ваші, а не спільні цілі, — те, що ви бачите як місію свого життя.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:18%"><col style="width:82%"></colgroup><thead><tr><th>Період</th><th>Що я хочу реалізувати, досягти, мати, створити</th></tr></thead><tbody><tr><td>Найближчий рік</td><td></td></tr><tr><td>3 роки</td><td></td></tr><tr><td>5 років</td><td></td></tr><tr><td>10 років</td><td></td></tr><tr><td>20 років</td><td></td></tr><tr><td>30 років</td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Моя місія одним реченням:</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для покращення взаємин з коханою людиною» · Роман Кушнір, SPE школа розвитку</span><span>92 / 167</span></footer>
+</section></body></html>
