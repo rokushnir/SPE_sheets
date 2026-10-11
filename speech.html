@@ -1,0 +1,1274 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Публічні виступи</title>
+<meta name="description" content="Заняття 1 робочого зошита «Публічні виступи» (стор. 32–34): страхи й план Б, колесо оратора, як люди сприймають виступ, ритуал перед виступом і домашнє завдання — три короткі виступи з таймером.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Той самий візуальний стиль, що й у «Грі «Гроші»» та «Часі життя»: білі картки, зелений акцент, темна картка результату. */
+  :root {
+    --bg: #f3f5f7;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --text: #1e293b;
+    --muted: #5b6676;
+    --faint: #8a94a3;
+    --line: #e3e8ee;
+    --green: #16a34a;
+    --green-dark: #128a3e;
+    --green-soft: #e8f7ee;
+    --orange: #e8791c;
+    --yellow: #f6b81a;
+    --navy: #1b3a8a;
+    --ink: #1e293b;
+    --ink-text: #ffffff;
+    --ink-accent: #4ade80;
+    --warn-bg: #fff4e5;
+    --warn-text: #9a4a07;
+    --bad: #c2410c;
+    --quote-bg: #f1edfb;
+    --header-bg: rgba(255, 255, 255, .95);
+    --radius: 20px;
+    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    /* канали враження: тіло — найнасиченіший зелений, слова — найсвітліший (як у зошиті) */
+    --c-body: #16a34a;
+    --c-voice: #6fcf95;
+    --c-words: #bfe9cf;
+    --t-body: #ffffff; --t-voice: #0b2a17; --t-words: #0b2a17;
+    /* колесо оратора: зараз — зелений, ціль — помаранчевий пунктир */
+    --c-now: #16a34a;
+    --c-goal: #e8791c;
+    --c-grid: #e3e8ee;
+    --paper: #fffdf8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+      --green: #22c55e; --green-dark: #16a34a; --green-soft: rgba(34, 197, 94, .14); --orange: #f08a3a; --navy: #a9bdf2;
+      --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #4ade80; --warn-bg: rgba(240, 138, 58, .14); --warn-text: #fdba74;
+      --bad: #fb923c; --quote-bg: rgba(139, 92, 246, .14);
+      --header-bg: rgba(22, 30, 43, .95); --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+      --c-body: #22c55e; --c-voice: #15803d; --c-words: #2d5a42; --c-now: #22c55e; --c-goal: #f08a3a; --c-grid: #273347;
+      --t-body: #0b2a17; --t-voice: #ffffff; --t-words: #ffffff;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+    --green: #22c55e; --green-dark: #16a34a; --green-soft: rgba(34, 197, 94, .14); --orange: #f08a3a; --navy: #a9bdf2;
+    --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #4ade80; --warn-bg: rgba(240, 138, 58, .14); --warn-text: #fdba74;
+    --bad: #fb923c; --quote-bg: rgba(139, 92, 246, .14);
+    --header-bg: rgba(22, 30, 43, .95); --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    --c-body: #22c55e; --c-voice: #15803d; --c-words: #2d5a42; --c-now: #22c55e; --c-goal: #f08a3a; --c-grid: #273347;
+    --t-body: #0b2a17; --t-voice: #ffffff; --t-words: #ffffff;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: var(--header-bg);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 84px; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo {
+    width: 64px; height: 64px; border: 3px solid var(--yellow); border-radius: 6px;
+    display: grid; place-content: center; text-align: center; line-height: 1.05; flex-shrink: 0;
+  }
+  .logo b { color: var(--navy); font-size: 24px; font-weight: 900; }
+  .logo small { color: var(--navy); font-size: 10px; font-weight: 700; }
+  .brand-name { font-size: 24px; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .brand-sub { font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+  .menu { display: flex; align-items: center; gap: 28px; font-weight: 500; }
+  .menu a:hover { color: var(--green); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--green); color: #fff; font-weight: 800; letter-spacing: .03em;
+    padding: 16px 28px; border-radius: 12px; border: 0; cursor: pointer; font-size: 16px;
+    box-shadow: 0 8px 20px rgba(22, 163, 74, .25); transition: background .2s, transform .2s;
+    font-family: inherit;
+  }
+  .btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--green); border: 2px solid var(--green); box-shadow: none; }
+  .btn-outline:hover { background: var(--green-soft); }
+  .btn-sm { padding: 10px 16px; font-size: 14px; border-radius: 10px; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 64px 0 48px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--green-soft); color: var(--green); font-weight: 700;
+    padding: 10px 20px; border-radius: 999px; font-size: 15px; letter-spacing: .03em; text-transform: uppercase;
+  }
+  .badge::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+  h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.1; font-weight: 900; margin: 28px 0 24px; max-width: 980px; text-wrap: balance; }
+  .accent { color: var(--orange); }
+  .lead { font-size: clamp(17px, 2vw, 22px); color: var(--muted); max-width: 900px; margin: 0 0 36px; }
+  .lead strong { color: var(--text); }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+  .divider { border: 0; border-top: 1px solid var(--line); margin: 0 0 32px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 28px; text-align: center; box-shadow: var(--shadow);
+  }
+  .stat .num { font-size: clamp(30px, 4vw, 44px); font-weight: 900; color: var(--green); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat .lbl { color: var(--muted); margin-top: 6px; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 72px 0; scroll-margin-top: 84px; }
+  .section-white { background: var(--surface); }
+  .eyebrow { color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px; }
+  h2 { font-size: clamp(28px, 3.5vw, 42px); line-height: 1.15; margin: 10px 0 16px; font-weight: 900; text-wrap: balance; }
+  .section-lead { color: var(--muted); font-size: 18px; max-width: 760px; margin: 0 0 40px; }
+  .stack { display: grid; gap: 24px; }
+
+  /* ---------- Task cards ---------- */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); min-width: 0; }
+  .section-white .card { background: var(--surface-2); box-shadow: none; }
+  .task { scroll-margin-top: 100px; }
+  .task-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px; background: var(--green-soft); color: var(--green);
+  }
+  .pill.page { background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
+  .task h3 { margin: 0 0 6px; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.25; text-wrap: balance; }
+  .task .hint { margin: 0 0 20px; color: var(--muted); }
+  h4 { margin: 0 0 14px; font-size: 18px; }
+
+  .comment {
+    margin-top: 22px; padding: 16px 18px 16px 20px; border-radius: 14px; background: var(--green-soft);
+    border-left: 4px solid var(--green);
+  }
+  .comment-lbl { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+  .comment p { margin: 0; }
+  .comment p + p { margin-top: 8px; }
+  .comment.live { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--orange); }
+  .comment.live .comment-lbl { color: var(--orange); }
+
+  label.lbl, .lbl { display: block; font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  textarea, .f {
+    width: 100%; padding: 12px 14px; border: 2px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px;
+    color: var(--text); background: var(--surface); transition: border-color .15s;
+  }
+  textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
+  textarea:focus, .f:focus { outline: none; border-color: var(--green); }
+  ::placeholder { color: var(--faint); opacity: 1; }
+  input[type=range] { width: 100%; accent-color: var(--green); height: 6px; cursor: pointer; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .two > * { min-width: 0; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-3 > * { min-width: 0; }
+  .field { margin-bottom: 22px; }
+  .field-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .field-top output { font-weight: 800; font-variant-numeric: tabular-nums; }
+
+  /* настрій */
+  .moods { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .mood-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .mood-row button {
+    font-size: 28px; padding: 10px 0; border-radius: 14px; border: 2px solid var(--line); background: var(--surface); cursor: pointer; line-height: 1;
+  }
+  .mood-row button:hover { border-color: var(--green); }
+  .mood-row button.active { border-color: var(--green); background: var(--green-soft); }
+
+  /* картки-варіанти */
+  .opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .opt { position: relative; cursor: pointer; }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .opt span {
+    display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 16px; border-radius: 16px; border: 2px solid var(--line);
+    background: var(--surface); font-weight: 700; font-size: 15px; line-height: 1.3; transition: border-color .15s, background .15s;
+  }
+  .opt span i { font-style: normal; font-size: 30px; line-height: 1; }
+  .opt span small { font-weight: 500; color: var(--muted); font-size: 13px; }
+  .opt span .ord {
+    position: absolute; top: 10px; right: 12px; width: 26px; height: 26px; border-radius: 50%; background: var(--green); color: #fff;
+    display: none; place-content: center; font-size: 13px; font-weight: 900;
+  }
+  .opt:hover span { border-color: var(--green); }
+  .opt input:checked + span { border-color: var(--green); background: var(--green-soft); }
+  .opt input:checked + span .ord { display: grid; }
+  .opt input:focus-visible + span { outline: 3px solid var(--green); outline-offset: 2px; }
+
+  /* редаговані списки (страх → план Б) */
+  .list-head, .frow { display: grid; gap: 8px; align-items: center; grid-template-columns: 1fr 1.4fr 36px; }
+  .list-head { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+  .rows { display: grid; gap: 8px; }
+  .rows .f { padding: 10px 12px; font-size: 15px; border-radius: 10px; }
+  .del {
+    width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+    cursor: pointer; font-size: 18px; line-height: 1; font-family: inherit;
+  }
+  .del:hover { color: var(--bad); border-color: var(--bad); }
+  .list-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .list-foot .tot { font-weight: 800; font-variant-numeric: tabular-nums; }
+  .add { background: none; border: 2px dashed var(--line); color: var(--green); font-weight: 700; padding: 8px 14px; border-radius: 10px; cursor: pointer; font-family: inherit; font-size: 14px; }
+  .add:hover { border-color: var(--green); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+  .chip {
+    padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--text);
+    font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .chip:hover { border-color: var(--green); color: var(--green); }
+  .chip[disabled] { opacity: .45; cursor: default; border-color: var(--line); color: var(--muted); }
+
+  /* ---------- Результат (темна картка) ---------- */
+  .calc { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: start; }
+  .calc > * { min-width: 0; }
+  .result { background: var(--ink); color: var(--ink-text); display: flex; flex-direction: column; border-color: var(--ink); }
+  .section-white .result { background: var(--ink); }
+  .result .big-lbl { opacity: .7; }
+  .result .big { font-size: clamp(32px, 4.4vw, 48px); font-weight: 900; color: var(--ink-accent); line-height: 1.1; margin: 6px 0 4px; font-variant-numeric: tabular-nums; }
+  .result .big.neg { color: #fdba74; }
+  .result .big-sub { opacity: .7; margin-bottom: 20px; font-size: 15px; }
+  .result .row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 13px 0; border-top: 1px solid rgba(255,255,255,.12); }
+  .result .row span { opacity: .8; }
+  .result .row b { text-align: right; }
+  .result .row b small { display: block; font-weight: 500; opacity: .6; font-size: 13px; }
+  .result .note { font-size: 13px; opacity: .6; margin: 18px 0 0; }
+  .result .comment.live { margin-top: 18px; background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.12); border-left-color: var(--orange); }
+  .result.wide { display: grid; grid-template-columns: 1fr 1.3fr; gap: 32px; margin-top: 24px; }
+  .result.wide > * { min-width: 0; }
+
+  /* ---------- Колесо оратора ---------- */
+  .seg { display: inline-flex; padding: 4px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--line); margin-bottom: 8px; }
+  .seg button {
+    border: 0; background: transparent; padding: 8px 14px; border-radius: 9px; font: inherit; font-weight: 700; font-size: 14px; color: var(--muted); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .seg button.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(15, 23, 42, .1); }
+  .seg i { display: inline-block; width: 16px; height: 0; border-top: 3px solid; }
+  .seg i.goal { border-top-style: dashed; border-top-width: 2px; }
+  .radar-wrap { position: relative; }
+  #radar { width: 100%; height: auto; display: block; touch-action: none; cursor: pointer; user-select: none; -webkit-user-select: none; }
+  #radar text { font-family: inherit; }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .legend i { display: inline-block; width: 18px; height: 0; border-top: 3px solid; vertical-align: middle; margin-right: 6px; }
+  .legend .l-goal { border-top-style: dashed; border-top-width: 2px; }
+  .skills { display: grid; gap: 14px; }
+  .sk .field-top { margin-bottom: 2px; }
+  .sk .field-top .lbl { margin: 0; color: var(--text); font-size: 14px; }
+  .sk output { font-size: 14px; white-space: nowrap; }
+  .sk output .g { color: var(--orange); }
+  .sk input[type=range] { accent-color: var(--c-now); }
+  .skills.goal-mode input[type=range] { accent-color: var(--c-goal); }
+
+  /* ---------- Враження ---------- */
+  .impress { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+  .impress > * { min-width: 0; }
+  #donut { width: 100%; max-width: 360px; height: auto; display: block; margin-inline: auto; }
+  #donut text { font-family: inherit; }
+  #donut path { cursor: default; transition: opacity .15s; }
+  .ch-cards { display: grid; gap: 12px; }
+  .ch {
+    display: grid; grid-template-columns: 6px 1fr; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 14px 16px 14px 0; overflow: hidden; transition: border-color .15s;
+  }
+  .section-white .ch { background: var(--surface); }
+  .ch .bar { border-radius: 0 4px 4px 0; }
+  .ch b { display: block; font-size: 24px; font-weight: 900; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .ch span { color: var(--muted); font-size: 15px; }
+  .ch.hl { border-color: var(--green); }
+  .cmp { display: grid; gap: 14px; }
+  .cmp-row .lbl { margin-bottom: 4px; }
+  .stackbar { display: flex; height: 26px; border-radius: 8px; overflow: hidden; gap: 2px; background: transparent; }
+  .stackbar div { min-width: 0; transition: width .15s; display: grid; place-content: center; font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; }
+  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .split-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; opacity: .8; margin-top: 4px; }
+
+  /* ---------- Дихання ---------- */
+  .pacer { display: grid; grid-template-columns: 220px 1fr; gap: 32px; align-items: center; }
+  .pacer > * { min-width: 0; }
+  .breath {
+    width: 200px; height: 200px; margin-inline: auto; border-radius: 50%; display: grid; place-content: center; text-align: center;
+    background: var(--green-soft); border: 3px solid var(--green); position: relative;
+  }
+  .breath .ball {
+    position: absolute; inset: 0; margin: auto; width: 60%; height: 60%; border-radius: 50%; background: var(--green); opacity: .18;
+    transform: scale(.6); transition: transform 4s linear;
+  }
+  .breath b { position: relative; font-size: 20px; font-weight: 900; }
+  .breath span { position: relative; font-size: 34px; font-weight: 900; color: var(--green); font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .breath small { position: relative; color: var(--muted); font-weight: 600; }
+  .phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0 18px; }
+  .phases div { border: 1px solid var(--line); border-radius: 12px; padding: 10px; text-align: center; background: var(--surface); font-size: 14px; font-weight: 600; }
+  .phases div b { display: block; font-size: 18px; }
+  .phases div.on { border: 2px solid var(--green); background: var(--green-soft); }
+
+  /* ---------- Посилання з QR ---------- */
+  .links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .link-card { display: flex; gap: 14px; align-items: center; padding: 18px 20px; }
+  .link-card .ic { width: 48px; height: 48px; border-radius: 14px; background: var(--green-soft); display: grid; place-content: center; font-size: 22px; flex-shrink: 0; }
+  .link-card b { display: block; }
+  .link-card small { color: var(--muted); }
+  a.link-card:hover { border-color: var(--green); }
+
+  /* ---------- Виступи (домашнє) ---------- */
+  .banner {
+    background: var(--green); color: #fff; font-weight: 800; text-align: center; padding: 14px 20px; border-radius: 14px; margin-bottom: 24px;
+    font-size: 18px; letter-spacing: .01em;
+  }
+  .struct { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; counter-reset: s; }
+  .struct li {
+    counter-increment: s; padding: 6px 12px 6px 6px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .struct li::before {
+    content: counter(s); width: 22px; height: 22px; border-radius: 50%; background: var(--green-soft); color: var(--green); display: grid; place-content: center; font-size: 12px; font-weight: 900;
+  }
+  .speech textarea { min-height: 150px; }
+  .meter { margin-top: 12px; }
+  .meter-bar { position: relative; height: 12px; border-radius: 6px; background: var(--line); overflow: visible; }
+  .meter-fill { height: 100%; border-radius: 6px; background: var(--green); width: 0; transition: width .15s, background .15s; }
+  .meter-fill.over { background: var(--orange); }
+  .meter-lim { position: absolute; top: -5px; bottom: -5px; width: 2px; background: var(--text); border-radius: 1px; }
+  .meter-txt { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 8px; font-size: 14px; color: var(--muted); }
+  .meter-txt b { color: var(--text); font-variant-numeric: tabular-nums; }
+  .rehearse { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .tool { padding: 8px 14px; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); color: var(--text); font-weight: 700; cursor: pointer; font-family: inherit; font-size: 14px; }
+  .tool:hover { border-color: var(--green); }
+  .tool.rec.on { border-color: var(--orange); color: var(--orange); }
+  .clock { font-size: 24px; font-weight: 900; font-variant-numeric: tabular-nums; min-width: 64px; }
+  .clock.over { color: var(--orange); }
+  .last { color: var(--muted); font-size: 14px; }
+
+  .quote {
+    margin-top: 32px; padding: 22px 26px; border-radius: var(--radius); background: var(--quote-bg);
+    display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start;
+  }
+  .quote .qq { font-size: 40px; font-weight: 900; line-height: .9; color: var(--navy); }
+  .quote p { margin: 0; font-size: 18px; font-weight: 600; }
+  .quote cite { display: block; margin-top: 6px; color: var(--muted); font-style: italic; font-size: 14px; }
+
+  .cond .tag { display: inline-block; font-weight: 900; font-size: 34px; color: var(--green); }
+  .cond .tag.orange { color: var(--orange); }
+  .cond .tag.navy { color: var(--navy); }
+  .cond h3 { margin: 8px 0 10px; font-size: 20px; }
+  .cond p { color: var(--muted); margin: 0; }
+  .formula { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-top: 14px; font-size: 14px; }
+  .grid-how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .page-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 32px; }
+
+  footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1000px) {
+    .menu { display: none; }
+    .calc, .two, .impress, .result.wide { grid-template-columns: 1fr; }
+    .grid-3, .grid-how { grid-template-columns: 1fr 1fr; }
+    .opts { grid-template-columns: repeat(2, 1fr); }
+    .links { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .moods { grid-template-columns: 1fr; }
+    .list-head { display: none; }
+    .frow { grid-template-columns: 1fr 36px; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+    .frow .plan { grid-column: 1 / 2; }
+    .frow .del { grid-row: 1; grid-column: 2; }
+    .pacer { grid-template-columns: 1fr; gap: 16px; }
+  }
+  @media (max-width: 640px) {
+    .stats, .grid-3, .grid-how { grid-template-columns: 1fr; }
+    .stats { gap: 12px; }
+    .stat { padding: 18px; }
+    .brand-name { font-size: 20px; }
+    .brand-sub { display: none; }
+    .logo { width: 52px; height: 52px; }
+    .card { padding: 22px; }
+    section { padding: 56px 0; }
+    .hero { padding: 40px 0 36px; }
+    .opts { gap: 8px; }
+    .opt span { padding: 12px; font-size: 14px; }
+    .quote { grid-template-columns: 1fr; gap: 4px; }
+    .phases { grid-template-columns: repeat(2, 1fr); }
+    .banner { font-size: 16px; }
+  }
+  @media print {
+    header, .hero-actions, .page-actions, .add, .del, .chips, .rehearse, .seg, #breathBtn, .result .btn { display: none !important; }
+    body { background: #fff; }
+    section { padding: 24px 0; }
+    .card { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#top" class="brand" aria-label="Публічні виступи — на початок">
+      <div class="logo"><b>01</b><small>заняття</small></div>
+      <div>
+        <div class="brand-name">Публічні виступи</div>
+        <div class="brand-sub">Робочий зошит · Як почати виступати</div>
+      </div>
+    </a>
+    <nav class="menu">
+      <a href="#lesson">Урок</a>
+      <a href="#wheel">Колесо</a>
+      <a href="#impression">Враження</a>
+      <a href="#state">Стан</a>
+      <a href="#homework">Домашнє</a>
+      <a href="#lesson" class="btn">ПОЧАТИ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge">Заняття 1 · Публічні виступи</span>
+      <h1>Як почати <span class="accent">виступати публічно?</span></h1>
+      <p class="lead">Цифрова версія сторінок 32–34 робочого зошита. Тут ті самі <strong>завдання</strong>, до кожного є <strong>коментар</strong>, а <strong>розрахунки</strong> — бал колеса оратора, твій ритуал перед виступом, скільки секунд триватиме твій текст — сторінка робить сама. Відповіді зберігаються в цьому браузері.</p>
+      <div class="hero-actions">
+        <a href="#lesson" class="btn">Почати урок</a>
+        <a href="#wheel" class="btn btn-outline">Заповнити колесо оратора</a>
+      </div>
+      <hr class="divider">
+      <div class="stats">
+        <div class="stat"><div class="num">3 сторінки</div><div class="lbl">урок і домашнє завдання</div></div>
+        <div class="stat"><div class="num">9</div><div class="lbl">завдань з коментарями</div></div>
+        <div class="stat"><div class="num">9 навичок</div><div class="lbl">у колесі оратора</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- СТОР. 32: СТРАХИ -->
+  <section id="lesson" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.1.1 · стор. 32</div>
+      <h2>Почни зі страху — і з плану Б</h2>
+      <p class="section-lead">Хвилюються всі, навіть досвідчені спікери. Різниця в тому, що вони знають, що робитимуть, коли щось піде не так.</p>
+
+      <div class="stack">
+        <div class="card task" id="t1">
+          <div class="task-meta"><span class="pill">Завдання 1</span><span class="pill page">стор. 32 · наліпка настрою</span></div>
+          <h3>Який у тебе настрій?</h3>
+          <p class="hint">Відміть настрій на початку уроку, а наприкінці — ще раз.</p>
+          <div class="moods">
+            <div><span class="lbl">На початку уроку</span><div class="mood-row" data-mood="start"></div></div>
+            <div><span class="lbl">Наприкінці уроку</span><div class="mood-row" data-mood="end"></div></div>
+          </div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="moodNote"></p></div>
+        </div>
+
+        <div class="card task" id="t2">
+          <div class="task-meta"><span class="pill">Завдання 2</span><span class="pill page">стор. 32</span></div>
+          <h3>Що найгірше може статися зі мною під час виступу?</h3>
+          <p class="hint">Не соромся написати. Коли є план Б — виступати набагато легше. Можна взяти страх зі списку або вписати свій.</p>
+          <div class="chips" id="fearChips"></div>
+          <div class="list-head"><span>Найгірше, що може статися</span><span>Мій план Б</span><span></span></div>
+          <div class="rows" id="fearRows"></div>
+          <div class="list-foot"><button type="button" class="add" id="addFear">+ Додати рядок</button><span class="tot" id="fearTot"></span></div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="fearNote"></p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- СТОР. 32: КОЛЕСО ОРАТОРА -->
+  <section id="wheel">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.1.1 · стор. 32</div>
+      <h2>Колесо оратора</h2>
+      <p class="section-lead">Дев'ять навичок, з яких складається виступ. Чесно познач, наскільки ти задоволений(-а) кожною (0–10), а потім — яку оцінку хочеш мати через місяць.</p>
+
+      <div class="calc task" id="t3">
+        <div class="card">
+          <div class="task-meta"><span class="pill">Завдання 3</span><span class="pill page">стор. 32</span></div>
+          <h3>Познач, наскільки ти <span style="white-space:nowrap">задоволений(-а)</span> володінням кожним навиком</h3>
+          <p class="hint">Клікай або тягни по колесу — чи пересувай повзунки праворуч.</p>
+          <div class="seg" role="group" aria-label="Що позначаєш">
+            <button type="button" data-series="now" class="active"><i style="border-color:var(--c-now)"></i>Зараз</button>
+            <button type="button" data-series="goal"><i class="goal" style="border-color:var(--c-goal)"></i>Ціль через місяць</button>
+          </div>
+          <div class="radar-wrap">
+            <svg id="radar" viewBox="0 0 600 500" role="img" aria-label="Колесо оратора: оцінка дев'яти навичок від 0 до 10"></svg>
+          </div>
+          <div class="legend"><span><i style="border-color:var(--c-now)"></i>Зараз</span><span><i class="l-goal" style="border-color:var(--c-goal)"></i>Ціль через місяць</span></div>
+        </div>
+        <div class="card">
+          <h4 id="skHead">Зараз · 0–10</h4>
+          <div class="skills" id="skills"></div>
+        </div>
+      </div>
+
+      <div class="card result wide">
+        <div>
+          <div class="big-lbl">Середній бал оратора</div>
+          <div class="big" id="wAvg">—</div>
+          <div class="big-sub" id="wAvgSub"></div>
+          <div class="comment live"><div class="comment-lbl">Коментар · зона росту</div><p id="wheelNote"></p></div>
+        </div>
+        <div>
+          <div class="row"><span>Найсильніша навичка</span><b id="wTop"></b></div>
+          <div class="row"><span>Найслабша навичка</span><b id="wLow"></b></div>
+          <div class="row"><span>Найбільший розрив до цілі</span><b id="wGap"></b></div>
+          <div class="row"><span>Навичок на 7+ балів</span><b id="wStrong"></b></div>
+          <p class="note">Колесо — не іспит. Це карта: вона показує, яку навичку тренувати першою. Заповни його ще раз наприкінці курсу й порівняй.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- СТОР. 33: ВРАЖЕННЯ -->
+  <section id="impression" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.1.2 · стор. 33</div>
+      <h2>Люди сприймають тебе підсвідомо</h2>
+      <p class="section-lead">Коли ти говориш про почуття і ставлення, зал зчитує не лише слова. Обличчя, погляд, поза й голос «кажуть» раніше за текст — і якщо вони розходяться зі словами, люди вірять саме їм.</p>
+
+      <div class="card">
+        <div class="impress">
+          <svg id="donut" viewBox="0 0 320 320" role="img" aria-label="Із чого складається враження: 58% — вираз обличчя, погляд, поза, жести; 35% — тембр, швидкість голосу, інтонація; 7% — самі слова"></svg>
+          <div>
+            <div class="ch-cards" id="chCards"></div>
+            <div class="comment">
+              <div class="comment-lbl">Коментар</div>
+              <p>Це не означає, що слова не важливі: без змісту немає виступу. Це означає, що <b>голос і тіло мають підтримувати слова</b>. «Я радий бути тут» зі схрещеними руками й поглядом у підлогу зал не почує.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc task" id="t4" style="margin-top:24px">
+        <div class="card">
+          <div class="task-meta"><span class="pill">Завдання 4</span><span class="pill page">стор. 33</span></div>
+          <h3>Як ти зазвичай готуєшся до виступу?</h3>
+          <p class="hint">Розподіли 100% свого часу підготовки: скільки йде на текст, скільки — на голос (читаєш уголос, інтонації), скільки — на тіло (погляд, жести, поза).</p>
+          <div class="field">
+            <div class="field-top"><label class="lbl" for="pWords">Слова — пишу й шліфую текст</label><output id="pWordsO"></output></div>
+            <input type="range" id="pWords" min="0" max="100" step="5">
+          </div>
+          <div class="field">
+            <div class="field-top"><label class="lbl" for="pVoice">Голос — проговорюю вголос</label><output id="pVoiceO"></output></div>
+            <input type="range" id="pVoice" min="0" max="100" step="5">
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <div class="field-top"><span class="lbl">Тіло — репетирую перед дзеркалом чи на відео (решта)</span><output id="pBodyO"></output></div>
+          </div>
+        </div>
+        <div class="card result">
+          <div class="big-lbl">Підготовка збігається з тим, що бачить зал, на</div>
+          <div class="big" id="pMatch">—</div>
+          <div class="big-sub">чим ближче до 100%, тим краще</div>
+          <div class="cmp">
+            <div class="cmp-row"><span class="lbl" style="color:inherit;opacity:.7">Твоя підготовка</span><div class="stackbar" id="barPrep"></div></div>
+            <div class="cmp-row"><span class="lbl" style="color:inherit;opacity:.7">Що формує враження</span><div class="stackbar" id="barImp"></div></div>
+            <div class="split-legend"><span><i class="sw" style="background:var(--c-body)"></i>Тіло</span><span><i class="sw" style="background:var(--c-voice)"></i>Голос</span><span><i class="sw" style="background:var(--c-words)"></i>Слова</span></div>
+          </div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="prepNote"></p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- СТОР. 33: ЕМОЦІЙНИЙ СТАН -->
+  <section id="state">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.1.2 · стор. 33</div>
+      <h2>Що я можу зробити, щоб змінити свій емоційний стан</h2>
+      <p class="section-lead">Хвилювання — це енергія. Її не треба гасити, її треба спрямувати. Склади з технік свій ритуал на останні хвилини перед виходом.</p>
+
+      <div class="stack">
+        <div class="card task" id="t5">
+          <div class="task-meta"><span class="pill">Завдання 5</span><span class="pill page">стор. 33</span></div>
+          <h3>Склади свій ритуал перед виступом</h3>
+          <p class="hint">Обери 2–4 техніки в тому порядку, у якому їх робитимеш. Цифра на картці — крок ритуалу.</p>
+          <div class="opts" id="techs"></div>
+          <div class="comment live"><div class="comment-lbl">Коментар · твій ритуал</div><p id="ritualNote"></p></div>
+        </div>
+
+        <div class="card" id="breathCard">
+          <div class="pacer">
+            <div class="breath" id="breath" aria-live="polite">
+              <div class="ball" id="ball"></div>
+              <b id="bPhase">Готові?</b>
+              <span id="bCount">4·4·4·4</span>
+              <small id="bCycle">4 цикли ≈ 1 хв</small>
+            </div>
+            <div>
+              <div class="task-meta"><span class="pill">Спробуй зараз</span><span class="pill page">глибоке дихання</span></div>
+              <h3 style="margin:0 0 6px;font-size:22px">Дихання «квадрат»</h3>
+              <p style="margin:0;color:var(--muted)">Чотири рівні фази по 4 секунди. Повільний видих і затримки заспокоюють серцебиття — тому ця техніка працює навіть за кулісами, непомітно для всіх.</p>
+              <div class="phases" id="phases">
+                <div><b>Вдих</b>4 с</div><div><b>Затримка</b>4 с</div><div><b>Видих</b>4 с</div><div><b>Затримка</b>4 с</div>
+              </div>
+              <button type="button" class="btn btn-sm" id="breathBtn">Почати дихання</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card task" id="t6">
+          <div class="task-meta"><span class="pill">Завдання 6</span><span class="pill page">стор. 33</span></div>
+          <h3>Для чого я виступаю? Яка моя ціль? Чому я це роблю?</h3>
+          <p class="hint">Це відповідь, яку ти згадаєш за хвилину до виходу на сцену.</p>
+          <div class="grid-3">
+            <div><label class="lbl" for="why1">Для чого я виступаю?</label><textarea id="why1" data-bind="why.forWhat" placeholder="Щоб поділитися…"></textarea></div>
+            <div><label class="lbl" for="why2">Яка моя ціль?</label><textarea id="why2" data-bind="why.goal" placeholder="Після мого виступу люди…"></textarea></div>
+            <div><label class="lbl" for="why3">Чому я це роблю?</label><textarea id="why3" data-bind="why.reason" placeholder="Бо для мене важливо…"></textarea></div>
+          </div>
+          <div class="comment live"><div class="comment-lbl">Коментар</div><p id="whyNote"></p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- СТОР. 34: ДОМАШНЄ ЗАВДАННЯ -->
+  <section id="homework" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Заняття 2.1.3 · стор. 34</div>
+      <h2>Домашнє завдання</h2>
+      <p class="section-lead">Три короткі виступи на три питання. Напиши текст — сторінка порахує, скільки секунд він триватиме вголос. Потім прочитай його з таймером: це і є репетиція.</p>
+
+      <div class="links" id="links"></div>
+
+      <div class="banner">Підготуй короткий виступ</div>
+
+      <div class="stack" id="speeches"></div>
+
+      <blockquote class="quote"><span class="qq">99</span><div><p>Усі великі промовці спершу були поганими промовцями.</p><cite>Ральф Волдо Емерсон</cite></div></blockquote>
+    </div>
+  </section>
+
+  <!-- ЯК РАХУЄМО -->
+  <section id="how">
+    <div class="container">
+      <div class="eyebrow">Як рахуємо</div>
+      <h2>Усі розрахунки сторінки</h2>
+      <p class="section-lead">Жодної магії — лише кілька простих правил. Їх можна застосувати до будь-якого свого виступу.</p>
+      <div class="grid-how">
+        <div class="card cond"><span class="tag">⏱</span><h3>Тривалість виступу</h3><p>Спокійна публічна мова — близько 130 слів на хвилину.</p><div class="formula">слова ÷ 130 × 60 = секунди</div></div>
+        <div class="card cond"><span class="tag orange">30 с</span><h3>Ліміти слів</h3><p>Скільки слів вміщається в задану тривалість.</p><div class="formula">30 с ≈ 65 · 1 хв ≈ 130 · 2 хв ≈ 260 слів</div></div>
+        <div class="card cond"><span class="tag navy">Ø</span><h3>Середній бал колеса</h3><p>Сума оцінок усіх навичок, поділена на їх кількість.</p><div class="formula">(6 + 4 + 7 + … ) ÷ 9</div></div>
+        <div class="card cond"><span class="tag">↗</span><h3>Зона росту</h3><p>Навичка, де ціль найдальша від поточної оцінки.</p><div class="formula">розрив = ціль − зараз</div></div>
+        <div class="card cond"><span class="tag orange">58·35·7</span><h3>Збіг підготовки</h3><p>Для кожного каналу беремо менше з двох чисел і додаємо.</p><div class="formula">min(тіло) + min(голос) + min(слова)</div></div>
+        <div class="card cond"><span class="tag navy">4×4</span><h3>Дихання «квадрат»</h3><p>Чотири фази по 4 секунди — один цикл. Чотири цикли — близько хвилини.</p><div class="formula">4 × 4 с = 16 с · 4 цикли = 64 с</div></div>
+      </div>
+      <div class="page-actions">
+        <button type="button" class="btn" onclick="window.print()">Роздрукувати відповіді</button>
+        <button type="button" class="btn btn-outline" id="resetAll">Очистити всі відповіді</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> Заняття 1 · Як почати виступати публічно?</div>
+    <div>Робочий зошит · Публічні виступи · стор. 32–34</div>
+  </div>
+</footer>
+
+<script>
+  const $ = id => document.getElementById(id);
+
+  // Посилання з QR-кодів зошита. Порожнє посилання показується як «додасть викладач».
+  const LINKS = [
+    { icon: '💬', title: 'Відгук про урок', sub: 'Розкажи, що сподобалось', url: '' },
+    { icon: '📁', title: 'Матеріали', sub: 'Папка з матеріалами уроку', url: '' },
+    { icon: '▶️', title: 'Відео', sub: 'Додаткове відео до теми', url: '' },
+  ];
+  const MOODS = ['😞', '😕', '😐', '🙂', '😄'];
+
+  // Типові страхи й підказки до плану Б (завдання 2)
+  const FEARS = [
+    { f: 'Забуду текст', tip: 'тримай картку з 3–5 ключовими словами. Забув — пауза, ковток води, і продовжуй з наступного пункту. Зал не знає твого плану.' },
+    { f: 'Тремтітиме голос', tip: 'зроби довгий видих перед стартом, перші фрази кажи повільніше й трохи нижче — голос вирівнюється за 20–30 секунд.' },
+    { f: 'З мене сміятимуться', tip: 'якщо смішно — усміхнись разом із залом. Сміх часто означає симпатію, а не насмішку.' },
+    { f: 'Не знатиму відповіді на питання', tip: 'скажи: «Гарне питання, я уточню й відповім після виступу». Це чесно і по-дорослому.' },
+    { f: 'Ніхто не слухатиме', tip: 'знайди 2–3 зацікавлені обличчя й говори до них. Постав залу питання — і увага повернеться.' },
+    { f: 'Технічний збій', tip: 'знай три головні думки напам\'ять і май роздруківку. Виступ має жити й без слайдів.' },
+    { f: 'Тремтітимуть руки, почервонію', tip: 'займи руки (картки, клікер). Почервоніння зал помічає значно менше, ніж тобі здається.' },
+  ];
+
+  // Колесо оратора: порядок за годинниковою стрілкою від верху, як у зошиті
+  const SKILLS = [
+    { n: 'Невербальна комунікація', l: ['Невербальна', 'комунікація'], tip: 'Запиши себе на відео й переглянь без звуку: що каже твоє тіло — поза, жести, рух?' },
+    { n: 'Погляд', l: ['Погляд'], tip: 'Одна думка — одна людина: дивись на когось 3–5 секунд, потім переводь погляд на іншого.' },
+    { n: 'Міміка', l: ['Міміка'], tip: 'Репетируй перед дзеркалом: обличчя має «звучати» так само, як слова.' },
+    { n: 'Голос', l: ['Голос'], tip: 'Щодня читай уголос хвилину тексту з різною гучністю й темпом. Навчись тримати паузу.' },
+    { n: 'Словесна імпровізація', l: ['Словесна', 'імпровізація'], tip: 'Гра «хвилина на випадкову тему»: попроси когось дати тему — і говори 60 секунд без зупинки.' },
+    { n: 'Розуміння себе', l: ['Розуміння', 'себе'], tip: 'Після кожного виступу запиши: що мене хвилювало, що вийшло, що зроблю інакше.' },
+    { n: 'Розуміння слухачів', l: ['Розуміння', 'слухачів'], tip: 'Перед виступом дай три відповіді: хто ці люди, що їм важливо, що вони вже знають.' },
+    { n: 'Привертання уваги', l: ['Привертання', 'уваги'], tip: 'Почни не з «Привіт, мене звати…», а з питання, дивного факту чи короткої історії.' },
+    { n: 'Утримання уваги', l: ['Утримання', 'уваги'], tip: 'Кожні 2–3 хвилини міняй щось: темп, приклад, питання до залу, історію.' },
+  ];
+
+  // Канали враження (стор. 33)
+  const CHANNELS = [
+    { k: 'body', v: 58, t: 'Вираз обличчя, погляд, поза, жести' },
+    { k: 'voice', v: 35, t: 'Тембр, швидкість голосу, інтонація' },
+    { k: 'words', v: 7, t: 'Самі слова' },
+  ];
+
+  // Техніки зміни емоційного стану (стор. 33), хвилини — орієнтовні
+  const TECHS = [
+    { icon: '🌬️', n: 'Глибоке дихання', how: '«Квадрат» 4·4·4·4', min: 1 },
+    { icon: '🧘', n: 'Медитація', how: 'Заплющ очі, рахуй вдихи до 10', min: 3 },
+    { icon: '📞', n: 'Спілкування з близькою людиною', how: 'Коротке повідомлення чи дзвінок', min: 3 },
+    { icon: '🤝', n: 'Знайомство з кимось із учасників', how: 'У залі з\'явиться знайоме обличчя', min: 3 },
+    { icon: '✊', n: 'Емоційний жест', how: 'Поза сили чи свій «жест перемоги»', min: 1 },
+    { icon: '🏃', n: 'Фізична активність', how: '20 присідань або струсни руки', min: 2 },
+    { icon: '😊', n: 'Посмішка', how: 'Посміхнись собі в дзеркало', min: 1 },
+    { icon: '🎯', n: 'Згадати про кінцеву ціль', how: 'Перечитай відповідь із завдання 6', min: 1 },
+  ];
+
+  // Домашнє завдання: три виступи
+  const WPM = 130;
+  const SPEECHES = [
+    { k: 'share', n: 7, title: 'Чим ти дуже хочеш поділитися зі світом?', limit: 120, limitTxt: 'до 2 хвилин',
+      hint: 'Ідея, досвід, захоплення, відкриття — те, про що можеш говорити годинами. Вклади в 2 хвилини.',
+      struct: ['Історія чи приклад', 'Головна думка', 'Що робити слухачам'], ph: 'Колись я…' },
+    { k: 'ship', n: 8, title: 'Якби за будь-яку ціну треба було потрапити на космічний корабель — що б ти сказав(-ла)?', limit: 60, limitTxt: 'до 1 хвилини',
+      hint: 'Місць мало, тебе слухає капітан. Переконай, чому без тебе не можна.',
+      struct: ['Хто я', 'Що я вмію й даю команді', 'Чому без мене не можна', 'Фраза, яку запам\'ятають'], ph: 'Капітане, я…' },
+    { k: 'stadium', n: 9, title: 'У тебе 30 секунд на виступ перед найбільшим стадіоном світу. Що скажеш?', limit: 30, limitTxt: '30 секунд',
+      hint: 'Сто тисяч людей і пів хвилини. Тут вміщується лише одна думка — яка вона?',
+      struct: ['Звернення', 'Одна головна думка', 'Заклик'], ph: 'Друзі!…' },
+  ];
+
+  const DEFAULTS = () => ({
+    mood: { start: null, end: null },
+    fears: Array.from({ length: 3 }, () => ({ f: '', p: '' })),
+    wheel: { now: Array(9).fill(5), goal: Array(9).fill(null), touched: false },
+    prep: { words: 70, voice: 20 },
+    techs: [],
+    why: { forWhat: '', goal: '', reason: '' },
+    speech: { share: '', ship: '', stadium: '' },
+    rehearse: { share: null, ship: null, stadium: null },
+  });
+  const KEY = 'spe-speech-lesson1-v1';
+
+  // ---------- збереження в браузері ----------
+  function load() {
+    const d = DEFAULTS();
+    try {
+      const s = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (s && typeof s === 'object') {
+        for (const k in d) if (k in s) d[k] = (d[k] && typeof d[k] === 'object' && !Array.isArray(d[k])) ? { ...d[k], ...s[k] } : s[k];
+      }
+    } catch (e) { /* немає доступу до сховища — працюємо без нього */ }
+    return d;
+  }
+  let S = load();
+  let saveTimer;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 250);
+  }
+  const getPath = p => p.split('.').reduce((o, k) => o[k], S);
+  function setPath(p, v) { const ks = p.split('.'), last = ks.pop(); ks.reduce((o, k) => o[k], S)[last] = v; }
+
+  // ---------- форматування ----------
+  function plural(n, forms) {
+    const m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return forms[0];
+    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return forms[1];
+    return forms[2];
+  }
+  const P_WORD = ['слово', 'слова', 'слів'], P_SEC = ['секунда', 'секунди', 'секунд'], P_MIN = ['хвилина', 'хвилини', 'хвилин'];
+  const dec = x => (Math.round(x * 10) / 10).toString().replace('.', ',');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  function fmtSec(s) {
+    s = Math.round(s);
+    if (s < 60) return `${s} с`;
+    return s % 60 ? `${Math.floor(s / 60)} хв ${s % 60} с` : `${s / 60} хв`;
+  }
+  const countWords = t => (t.trim().match(/[\p{L}\p{N}][\p{L}\p{N}'’ʼ-]*/gu) || []).length;
+
+  // ---------- прості текстові поля ----------
+  document.querySelectorAll('[data-bind]').forEach(el => {
+    const v = getPath(el.dataset.bind);
+    el.value = v == null ? '' : v;
+    el.addEventListener('input', () => { setPath(el.dataset.bind, el.value); save(); renderWhy(); });
+  });
+
+  // ---------- завдання 1: настрій ----------
+  document.querySelectorAll('.mood-row').forEach(row => {
+    const which = row.dataset.mood;
+    row.innerHTML = MOODS.map((m, i) => `<button type="button" data-i="${i}" aria-label="Настрій ${i + 1} з 5">${m}</button>`).join('');
+    row.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+      S.mood[which] = S.mood[which] === +b.dataset.i ? null : +b.dataset.i;
+      save(); renderMood();
+    }));
+  });
+  function renderMood() {
+    document.querySelectorAll('.mood-row').forEach(row =>
+      row.querySelectorAll('button').forEach(b => b.classList.toggle('active', +b.dataset.i === S.mood[row.dataset.mood])));
+    const { start, end } = S.mood;
+    let t;
+    if (start == null) t = 'Обери, з яким настроєм ти починаєш урок. Наприкінці відміть ще раз — і порівняй.';
+    else if (end == null) t = start <= 1
+      ? `Початок: ${MOODS[start]}. Якщо від самої думки про виступ стає не по собі — це нормально. Спробуй дихання «квадрат» у розділі про емоційний стан, а наприкінці уроку відміть настрій ще раз.`
+      : `Початок: ${MOODS[start]}. Наприкінці уроку відміть настрій ще раз.`;
+    else if (end > start) t = `${MOODS[start]} → ${MOODS[end]} Настрій покращився. Виступати вже не так страшно — запиши у відгуку, що саме допомогло.`;
+    else if (end < start) t = `${MOODS[start]} → ${MOODS[end]} Настрій знизився. Це нормально: тема виступів зачіпає страхи. Напиши у відгуку, що здалося складним, — і повернись до свого плану Б.`;
+    else t = `${MOODS[start]} → ${MOODS[end]} Настрій стабільний. Що з уроку ти забереш у свій перший виступ? Запиши в завданні 6.`;
+    $('moodNote').textContent = t;
+  }
+
+  // ---------- завдання 2: страхи і план Б ----------
+  const norm = s => s.trim().toLowerCase();
+  function renderFearChips() {
+    const used = new Set(S.fears.map(r => norm(r.f)));
+    $('fearChips').innerHTML = FEARS.map((x, i) =>
+      `<button type="button" class="chip" data-i="${i}" ${used.has(norm(x.f)) ? 'disabled' : ''}>+ ${x.f}</button>`).join('');
+    $('fearChips').querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
+      const f = FEARS[+b.dataset.i].f;
+      const empty = S.fears.findIndex(r => !r.f.trim() && !r.p.trim());
+      if (empty >= 0) S.fears[empty].f = f; else S.fears.push({ f, p: '' });
+      save(); renderFears();
+      const idx = S.fears.findIndex(r => r.f === f);
+      $('fearRows').querySelectorAll('.plan')[idx]?.focus();
+    }));
+  }
+  function renderFears() {
+    $('fearRows').innerHTML = S.fears.map((r, i) =>
+      `<div class="frow" data-i="${i}">` +
+      `<input class="f" data-f="f" value="${esc(r.f)}" placeholder="${i ? 'Ще один страх' : 'Наприклад: забуду, що хотів(-ла) сказати'}" aria-label="Страх ${i + 1}">` +
+      `<input class="f plan" data-f="p" value="${esc(r.p)}" placeholder="Якщо це станеться, я…" aria-label="План Б для страху ${i + 1}">` +
+      `<button type="button" class="del" aria-label="Видалити рядок">×</button></div>`).join('');
+    $('fearRows').querySelectorAll('.frow').forEach(row => {
+      const i = +row.dataset.i;
+      row.querySelectorAll('[data-f]').forEach(inp => inp.addEventListener('input', () => {
+        S.fears[i][inp.dataset.f] = inp.value; save(); renderFearNote();
+        if (inp.dataset.f === 'f') renderFearChips();
+      }));
+      row.querySelector('.del').addEventListener('click', () => {
+        S.fears.splice(i, 1);
+        if (!S.fears.length) S.fears.push({ f: '', p: '' });
+        save(); renderFears();
+      });
+    });
+    renderFearChips(); renderFearNote();
+  }
+  $('addFear').addEventListener('click', () => {
+    S.fears.push({ f: '', p: '' }); save(); renderFears();
+    const inputs = $('fearRows').querySelectorAll('[data-f="f"]');
+    inputs[inputs.length - 1].focus();
+  });
+  function renderFearNote() {
+    const named = S.fears.filter(r => r.f.trim()), planned = named.filter(r => r.p.trim());
+    $('fearTot').textContent = named.length ? `План Б: ${planned.length} з ${named.length}` : '';
+    let t;
+    if (!named.length) t = 'Назви хоча б один страх. Те, що названо й записано, лякає значно менше, ніж розмите «а раптом щось піде не так».';
+    else {
+      const miss = named.find(r => !r.p.trim());
+      if (!miss) t = `${named.length} ${plural(named.length, ['страх', 'страхи', 'страхів'])} — і на кожен є план Б. Найгірше вже не страшне: воно передбачене. Перечитай ці рядки перед своїм першим виступом.`;
+      else {
+        const known = FEARS.find(x => norm(x.f) === norm(miss.f));
+        t = `Для «${miss.f.trim()}» ще немає плану Б. `;
+        t += known ? `Підказка: ${known.tip}` : 'Спитай себе: «Що я зроблю в першу секунду, якщо це станеться?» Відповідь і є план Б.';
+        if (planned.length) t += ` Уже готово: ${planned.length} з ${named.length}.`;
+      }
+    }
+    $('fearNote').textContent = t;
+  }
+
+  // ---------- завдання 3: колесо оратора ----------
+  const RX = 300, RY = 250, N = SKILLS.length;
+  // на вузькому екрані колесо менше, а підписи більші — щоб їх можна було прочитати
+  let RR = 165, LF = 15, LH = 17;
+  function radarLayout() {
+    const narrow = $('radar').clientWidth < 480;
+    RR = narrow ? 120 : 165; LF = narrow ? 24 : 15; LH = narrow ? 26 : 17;
+  }
+  let series = 'now';
+  const ang = i => (-90 + i * 360 / N) * Math.PI / 180;
+  const pt = (i, v) => [RX + Math.cos(ang(i)) * RR * v / 10, RY + Math.sin(ang(i)) * RR * v / 10];
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  function goalOf(i) { const g = S.wheel.goal[i]; return g == null ? S.wheel.now[i] : g; }
+  function drawRadar() {
+    radarLayout();
+    let s = '';
+    for (let v = 2; v <= 10; v += 2) {
+      const ring = SKILLS.map((_, i) => pt(i, v).map(n => n.toFixed(1)).join(',')).join(' ');
+      s += `<polygon points="${ring}" fill="none" stroke="var(--c-grid)" stroke-width="1"/>`;
+    }
+    SKILLS.forEach((sk, i) => {
+      const [x, y] = pt(i, 10);
+      s += `<line x1="${RX}" y1="${RY}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--c-grid)" stroke-width="1.5"/>`;
+      const c = Math.cos(ang(i)), sn = Math.sin(ang(i));
+      const lx = RX + c * (RR + 22), ly = RY + sn * (RR + 22);
+      const anchor = c > .3 ? 'start' : c < -.3 ? 'end' : 'middle';
+      const lines = sk.l, h = LH;
+      const y0 = ly + (sn < -.3 ? -(lines.length - 1) * h : sn > .3 ? LF * .8 : LF * .33 - (lines.length - 1) * h / 2);
+      s += `<text text-anchor="${anchor}" font-size="${LF}" font-weight="700" fill="var(--text)">` +
+        lines.map((t, k) => `<tspan x="${lx.toFixed(1)}" y="${(y0 + k * h).toFixed(1)}">${t}</tspan>`).join('') + '</text>';
+    });
+    for (let v = 2; v <= 8; v += 2) s += `<text x="${RX + 5}" y="${(RY - RR * v / 10 + 4).toFixed(1)}" font-size="11" fill="var(--faint)">${v}</text>`;
+    const poly = f => SKILLS.map((_, i) => pt(i, f(i)).map(n => n.toFixed(1)).join(',')).join(' ');
+    const hasGoal = S.wheel.goal.some(g => g != null);
+    s += `<polygon points="${poly(i => S.wheel.now[i])}" fill="var(--c-now)" fill-opacity=".16" stroke="var(--c-now)" stroke-width="2" stroke-linejoin="round"/>`;
+    if (hasGoal) s += `<polygon points="${poly(goalOf)}" fill="none" stroke="var(--c-goal)" stroke-width="2" stroke-dasharray="6 5" stroke-linejoin="round"/>`;
+    // маркери активної серії з числом
+    const act = series === 'now' ? (i => S.wheel.now[i]) : goalOf, col = series === 'now' ? 'var(--c-now)' : 'var(--c-goal)';
+    SKILLS.forEach((_, i) => {
+      const [x, y] = pt(i, act(i));
+      s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="11" fill="${col}" stroke="var(--surface)" stroke-width="2"/>` +
+        `<text x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">${act(i)}</text>`;
+    });
+    s += `<circle cx="${RX}" cy="${RY}" r="5" fill="var(--surface)" stroke="var(--green)" stroke-width="2"/>`;
+    $('radar').innerHTML = s;
+  }
+  // клік і перетягування по колесу
+  let dragAxis = null;
+  function radarPick(e, lock) {
+    const svg = $('radar'), b = svg.getBoundingClientRect(), k = 600 / b.width;
+    const x = (e.clientX - b.left) * k - RX, y = (e.clientY - b.top) * k - RY;
+    let i = dragAxis;
+    if (!lock) {
+      let a = Math.atan2(y, x) * 180 / Math.PI + 90; if (a < 0) a += 360;
+      i = Math.round(a / (360 / N)) % N;
+    }
+    const proj = x * Math.cos(ang(i)) + y * Math.sin(ang(i));
+    const v = Math.max(0, Math.min(10, Math.round(proj / RR * 10)));
+    return { i, v };
+  }
+  function setSkill(i, v) {
+    if (series === 'now') S.wheel.now[i] = v;
+    else { if (S.wheel.goal.every(g => g == null)) S.wheel.goal = S.wheel.now.slice(); S.wheel.goal[i] = v; }
+    S.wheel.touched = true; save(); renderWheel();
+  }
+  $('radar').addEventListener('pointerdown', e => {
+    const { i, v } = radarPick(e, false);
+    dragAxis = i; $('radar').setPointerCapture(e.pointerId); setSkill(i, v);
+  });
+  $('radar').addEventListener('pointermove', e => { if (dragAxis == null) return; const { i, v } = radarPick(e, true); setSkill(i, v); });
+  const endDrag = () => { dragAxis = null; };
+  $('radar').addEventListener('pointerup', endDrag);
+  $('radar').addEventListener('pointercancel', endDrag);
+
+  $('skills').innerHTML = SKILLS.map((sk, i) =>
+    `<div class="sk"><div class="field-top"><label class="lbl" for="sk${i}">${sk.n}</label><output id="sko${i}"></output></div>` +
+    `<input type="range" id="sk${i}" min="0" max="10" step="1" data-i="${i}"></div>`).join('');
+  $('skills').querySelectorAll('input').forEach(r => r.addEventListener('input', () => setSkill(+r.dataset.i, +r.value)));
+  document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+    series = b.dataset.series;
+    if (series === 'goal' && S.wheel.goal.every(g => g == null)) { S.wheel.goal = S.wheel.now.slice(); save(); }
+    renderWheel();
+  }));
+
+  function renderWheel() {
+    document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('active', b.dataset.series === series));
+    $('skills').classList.toggle('goal-mode', series === 'goal');
+    $('skHead').textContent = series === 'now' ? 'Зараз · 0–10' : 'Ціль через місяць · 0–10';
+    const hasGoal = S.wheel.goal.some(g => g != null);
+    SKILLS.forEach((_, i) => {
+      $('sk' + i).value = series === 'now' ? S.wheel.now[i] : goalOf(i);
+      $('sko' + i).innerHTML = hasGoal && goalOf(i) !== S.wheel.now[i]
+        ? `${S.wheel.now[i]} → <span class="g">${goalOf(i)}</span>` : String(S.wheel.now[i]);
+    });
+    drawRadar();
+
+    const now = S.wheel.now, avg = now.reduce((a, b) => a + b, 0) / N;
+    const maxV = Math.max(...now), minV = Math.min(...now);
+    const tops = SKILLS.filter((_, i) => now[i] === maxV).map(s => s.n), lows = SKILLS.filter((_, i) => now[i] === minV).map(s => s.n);
+    $('wAvg').textContent = S.wheel.touched ? `${dec(avg)} / 10` : '—';
+    let gapI = -1, gap = 0;
+    if (hasGoal) SKILLS.forEach((_, i) => { const d = goalOf(i) - now[i]; if (d > gap) { gap = d; gapI = i; } });
+    const gAvg = hasGoal ? SKILLS.reduce((a, _, i) => a + goalOf(i), 0) / N : null;
+    $('wAvgSub').textContent = !S.wheel.touched ? 'Познач свої навички на колесі' : hasGoal && gAvg > avg ? `ціль через місяць — ${dec(gAvg)} / 10` : 'познач ціль через місяць, щоб побачити зону росту';
+    const lst = a => a.length > 2 ? `${a.slice(0, 2).join(', ')} та ще ${a.length - 2}` : a.join(', ');
+    $('wTop').innerHTML = S.wheel.touched ? `${esc(lst(tops))}<small>${maxV} ${plural(maxV, ['бал', 'бали', 'балів'])}</small>` : '—';
+    $('wLow').innerHTML = S.wheel.touched ? `${esc(lst(lows))}<small>${minV} ${plural(minV, ['бал', 'бали', 'балів'])}</small>` : '—';
+    $('wGap').innerHTML = gapI >= 0 ? `${SKILLS[gapI].n}<small>+${gap} ${plural(gap, ['бал', 'бали', 'балів'])}</small>` : '—';
+    const strong = now.filter(v => v >= 7).length;
+    $('wStrong').textContent = S.wheel.touched ? `${strong} з ${N}` : '—';
+
+    let t;
+    if (!S.wheel.touched) t = 'Почни з першої навички: наскільки ти задоволений(-а) своєю невербальною комунікацією — позою, жестами, рухом? Тут немає правильних відповідей.';
+    else {
+      const focus = gapI >= 0 ? gapI : now.indexOf(minV);
+      t = gapI >= 0 ? `Найбільше хочеш вирости в навичці «${SKILLS[focus].n}» (${now[focus]} → ${goalOf(focus)}). ` : `Найнижча оцінка — «${SKILLS[focus].n}» (${minV}). `;
+      t += `Вправа на місяць: ${SKILLS[focus].tip}`;
+      if (maxV - minV >= 5) t += ` Колесо нерівне (від ${minV} до ${maxV}): виступ «кульгає» на найслабшій навичці, тож почни саме з неї.`;
+      else if (avg >= 7) t += ' Сильне колесо — тепер головне виступати частіше: навички тримаються практикою.';
+      if (!hasGoal) t += ' Перемкнись на «Ціль через місяць» і познач, куди хочеш дійти.';
+    }
+    $('wheelNote').textContent = t;
+  }
+
+  // ---------- стор. 33: діаграма враження ----------
+  function drawDonut() {
+    const cx = 160, cy = 160, R = 140, r = 88, GAP = 2;
+    let a0 = -90, s = '';
+    const P = (a, rad) => [cx + Math.cos(a * Math.PI / 180) * rad, cy + Math.sin(a * Math.PI / 180) * rad];
+    // за годинниковою стрілкою від верху: 58% тіло, 35% голос, 7% слова — як у зошиті
+    CHANNELS.forEach(c => {
+      const a1 = a0 + c.v * 3.6;
+      const [x0, y0] = P(a0, R), [x1, y1] = P(a1, R), [x2, y2] = P(a1, r), [x3, y3] = P(a0, r);
+      const big = c.v > 50 ? 1 : 0;
+      s += `<path data-k="${c.k}" d="M${x0} ${y0} A${R} ${R} 0 ${big} 1 ${x1} ${y1} L${x2} ${y2} A${r} ${r} 0 ${big} 0 ${x3} ${y3} Z" fill="var(--c-${c.k})" stroke="var(--surface)" stroke-width="${GAP * 2}" stroke-linejoin="round"><title>${c.v}% — ${c.t}</title></path>`;
+      const [lx, ly] = P((a0 + a1) / 2, (R + r) / 2);
+      s += `<text x="${lx}" y="${ly + 5}" text-anchor="middle" font-size="${c.v < 10 ? 13 : 16}" font-weight="900" fill="var(--t-${c.k})" pointer-events="none">${c.v}%</text>`;
+      a0 = a1;
+    });
+    s += `<text x="${cx}" y="${cy + 4}" text-anchor="middle" font-size="34" font-weight="900" fill="var(--text)">100%</text>`;
+    s += `<text x="${cx}" y="${cy + 28}" text-anchor="middle" font-size="14" fill="var(--muted)">враження</text>`;
+    $('donut').innerHTML = s;
+    $('chCards').innerHTML = CHANNELS.map(c =>
+      `<div class="ch" data-k="${c.k}"><div class="bar" style="background:var(--c-${c.k})"></div><div><b>${c.v}%</b><span>${c.t}</span></div></div>`).join('');
+    // наведення: підсвічуємо сегмент і картку
+    const hl = k => {
+      $('donut').querySelectorAll('path').forEach(p => p.style.opacity = !k || p.dataset.k === k ? 1 : .35);
+      $('chCards').querySelectorAll('.ch').forEach(c => c.classList.toggle('hl', c.dataset.k === k));
+    };
+    document.querySelectorAll('#donut path, #chCards .ch').forEach(el => {
+      el.addEventListener('pointerenter', () => hl(el.dataset.k));
+      el.addEventListener('pointerleave', () => hl(null));
+    });
+  }
+
+  // ---------- завдання 4: підготовка проти враження ----------
+  $('pWords').value = S.prep.words; $('pVoice').value = S.prep.voice;
+  $('pWords').addEventListener('input', () => {
+    S.prep.words = +$('pWords').value;
+    if (S.prep.words + S.prep.voice > 100) { S.prep.voice = 100 - S.prep.words; $('pVoice').value = S.prep.voice; }
+    save(); renderPrep();
+  });
+  $('pVoice').addEventListener('input', () => {
+    S.prep.voice = +$('pVoice').value;
+    if (S.prep.words + S.prep.voice > 100) { S.prep.words = 100 - S.prep.voice; $('pWords').value = S.prep.words; }
+    save(); renderPrep();
+  });
+  function renderPrep() {
+    const w = S.prep.words, v = S.prep.voice, b = 100 - w - v;
+    $('pWordsO').textContent = w + '%'; $('pVoiceO').textContent = v + '%'; $('pBodyO').textContent = b + '%';
+    const seg = (k, x) => `<div style="width:${x}%;background:var(--c-${k});color:var(--t-${k})">${x >= 9 ? x + '%' : ''}</div>`;
+    $('barPrep').innerHTML = [['body', b], ['voice', v], ['words', w]].filter(p => p[1] > 0).map(p => seg(...p)).join('');
+    $('barImp').innerHTML = seg('body', 58) + seg('voice', 35) + seg('words', 7);
+    const match = Math.min(b, 58) + Math.min(v, 35) + Math.min(w, 7);
+    $('pMatch').textContent = match + '%';
+    let t;
+    if (w >= 50) t = `${w}% часу йде на текст, який дає лише 7% враження. Не викидай підготовку тексту — просто після нього прочитай виступ уголос (голос) і запиши себе на відео (тіло).`;
+    else if (b < 20) t = `На тіло — лише ${b}% підготовки, а воно формує 58% враження. Простий старт: один прогін виступу перед дзеркалом або на камеру телефона.`;
+    else if (v < 15) t = `Голос — 35% враження, а на нього лише ${v}%. Прочитай текст уголос хоча б тричі: почуєш, де потрібні паузи й наголоси.`;
+    else if (match >= 85) t = 'Твоя підготовка добре збалансована: ти тренуєш те, що зал справді зчитує. Залишилось головне — більше живих виступів.';
+    else t = 'Непоганий баланс. Перевір, чи репетируєш ти вголос і на ногах, а не лише «в голові» — саме так тренуються голос і тіло.';
+    $('prepNote').textContent = t;
+  }
+
+  // ---------- завдання 5: ритуал ----------
+  $('techs').innerHTML = TECHS.map((x, i) =>
+    `<label class="opt"><input type="checkbox" data-i="${i}"><span><em class="ord" aria-hidden="true"></em><i aria-hidden="true">${x.icon}</i>${x.n}<small>${x.how}</small></span></label>`).join('');
+  $('techs').querySelectorAll('input').forEach(cb => cb.addEventListener('change', () => {
+    const i = +cb.dataset.i;
+    S.techs = cb.checked ? [...S.techs.filter(x => x !== i), i] : S.techs.filter(x => x !== i);
+    save(); renderRitual();
+  }));
+  function renderRitual() {
+    $('techs').querySelectorAll('input').forEach(cb => {
+      const pos = S.techs.indexOf(+cb.dataset.i);
+      cb.checked = pos >= 0;
+      cb.nextElementSibling.querySelector('.ord').textContent = pos >= 0 ? pos + 1 : '';
+    });
+    const n = S.techs.length, mins = S.techs.reduce((a, i) => a + TECHS[i].min, 0);
+    let t;
+    if (!n) t = 'Обери техніки в тому порядку, у якому робитимеш їх перед виходом. Гарний ритуал — 2–4 кроки на 5–7 хвилин.';
+    else {
+      t = `Твій ритуал: ${S.techs.map((i, k) => `${k + 1}) ${TECHS[i].n.toLowerCase()}`).join(', ')}. Це ≈ ${mins} ${plural(mins, P_MIN)} — почни за ${mins + 5} ${plural(mins + 5, P_MIN)} до виходу. `;
+      if (n === 1) t += 'Додай ще одну-дві техніки: тіло + думка працюють краще, ніж щось одне.';
+      else if (n > 4) t += 'Кроків забагато — перед виступом важко все пам\'ятати. Залиш 3–4 найдієвіші.';
+      else if (!S.techs.includes(7)) t += 'Порада: завершуй ритуал кроком «Згадати про кінцеву ціль» — це твоя відповідь із завдання 6.';
+      else if (S.techs[S.techs.length - 1] === 7) t += 'Чудово, що ритуал закінчується метою: на сцену ти виходиш з думкою «навіщо», а не «а раптом».';
+      else t += 'Спробуй поставити «Згадати про кінцеву ціль» останнім кроком — з цією думкою й виходь на сцену.';
+    }
+    $('ritualNote').textContent = t;
+  }
+
+  // ---------- дихання «квадрат» ----------
+  const PHASES = ['Вдих', 'Затримка', 'Видих', 'Затримка'];
+  const CYCLES = 4;
+  let breathT = null;
+  const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function stopBreath(done) {
+    clearInterval(breathT); breathT = null;
+    $('breathBtn').textContent = done ? 'Ще раз' : 'Почати дихання';
+    $('bPhase').textContent = done ? 'Готово' : 'Готові?';
+    $('bCount').textContent = done ? '✓' : '4·4·4·4';
+    $('bCycle').textContent = done ? 'Як почуваєшся?' : `${CYCLES} цикли ≈ 1 хв`;
+    $('ball').style.transform = 'scale(.6)';
+    $('phases').querySelectorAll('div').forEach(d => d.classList.remove('on'));
+  }
+  $('breathBtn').addEventListener('click', () => {
+    if (breathT) { stopBreath(false); return; }
+    $('breathBtn').textContent = 'Зупинити';
+    let step = 0; // секунди від початку
+    const tick = () => {
+      const cyc = Math.floor(step / 16), ph = Math.floor((step % 16) / 4), sec = 4 - (step % 4);
+      if (cyc >= CYCLES) { stopBreath(true); return; }
+      $('bPhase').textContent = PHASES[ph];
+      $('bCount').textContent = sec;
+      $('bCycle').textContent = `цикл ${cyc + 1} з ${CYCLES}`;
+      if (step % 4 === 0) $('ball').style.transform = reduce() ? 'scale(.8)' : `scale(${ph < 2 ? 1.55 : .6})`;
+      $('phases').querySelectorAll('div').forEach((d, k) => d.classList.toggle('on', k === ph));
+      step++;
+    };
+    tick(); breathT = setInterval(tick, 1000);
+  });
+
+  // ---------- завдання 6: для чого ----------
+  function renderWhy() {
+    const { forWhat, goal, reason } = S.why, filled = [forWhat, goal, reason].filter(x => x.trim()).length;
+    let t;
+    if (!filled) t = 'Коли знаєш, навіщо виходиш на сцену, страх стає другорядним. Почни з будь-якого з трьох питань.';
+    else if (filled < 3) t = `Заповнено ${filled} з 3. Друге питання найважливіше: що мають знати, відчути чи зробити люди після твого виступу?`;
+    else {
+      t = 'Це твоя опора. ';
+      t += goal.trim().length < 25 ? 'Спробуй зробити ціль конкретнішою: не «щоб сподобалось», а «щоб троє людей підійшли й спитали, як долучитися».' : 'Згадай її за хвилину до виходу — це останній крок ритуалу «Згадати про кінцеву ціль».';
+    }
+    $('whyNote').textContent = t;
+  }
+
+  // ---------- домашнє завдання: виступи ----------
+  $('speeches').innerHTML = SPEECHES.map(sp => `
+    <div class="card task speech" id="h-${sp.k}">
+      <div class="task-meta"><span class="pill">Завдання ${sp.n}</span><span class="pill page">домашнє · ${sp.limitTxt}</span></div>
+      <h3>${sp.title}</h3>
+      <p class="hint">${sp.hint}</p>
+      <ol class="struct">${sp.struct.map(x => `<li>${x}</li>`).join('')}</ol>
+      <textarea data-sp="${sp.k}" aria-label="${esc(sp.title)}" placeholder="${sp.ph}"></textarea>
+      <div class="meter">
+        <div class="meter-bar"><div class="meter-fill" data-o="fill"></div><i class="meter-lim" style="left:${(100 / 1.5).toFixed(2)}%" title="Ліміт: ${sp.limitTxt}"></i></div>
+        <div class="meter-txt"><span data-o="words"></span><span data-o="lim"></span></div>
+      </div>
+      <div class="rehearse">
+        <button type="button" class="tool rec" data-o="rec">▶ Репетиція вголос</button>
+        <span class="clock" data-o="clock">0:00</span>
+        <span class="last" data-o="last"></span>
+      </div>
+      <div class="comment live"><div class="comment-lbl">Коментар</div><p data-o="note"></p></div>
+    </div>`).join('');
+  const spCard = k => $('h-' + k), spOut = (k, o) => spCard(k).querySelector(`[data-o="${o}"]`);
+  SPEECHES.forEach(sp => {
+    const ta = spCard(sp.k).querySelector('textarea');
+    ta.value = S.speech[sp.k] || '';
+    ta.addEventListener('input', () => { S.speech[sp.k] = ta.value; save(); renderSpeech(sp); });
+    spOut(sp.k, 'rec').addEventListener('click', () => toggleRec(sp));
+  });
+
+  let rec = null; // { k, t0, timer }
+  function toggleRec(sp) {
+    if (rec) {
+      const was = rec.k, secs = (performance.now() - rec.t0) / 1000;
+      clearInterval(rec.timer); rec = null;
+      spOut(was, 'rec').textContent = '▶ Репетиція вголос'; spOut(was, 'rec').classList.remove('on');
+      if (secs >= 2) { S.rehearse[was] = Math.round(secs); save(); }
+      renderSpeech(SPEECHES.find(x => x.k === was));
+      if (was === sp.k) return;
+    }
+    rec = { k: sp.k, t0: performance.now() };
+    const btn = spOut(sp.k, 'rec'); btn.textContent = '■ Стоп'; btn.classList.add('on');
+    const upd = () => {
+      const s = (performance.now() - rec.t0) / 1000;
+      spOut(sp.k, 'clock').textContent = clock(s);
+      spOut(sp.k, 'clock').classList.toggle('over', s > sp.limit);
+    };
+    upd(); rec.timer = setInterval(upd, 250);
+  }
+
+  function renderSpeech(sp) {
+    const k = sp.k, text = S.speech[k] || '', w = countWords(text), est = w / WPM * 60, maxW = Math.floor(sp.limit / 60 * WPM);
+    const fill = spOut(k, 'fill');
+    fill.style.width = Math.min(100, est / (sp.limit * 1.5) * 100) + '%';
+    fill.classList.toggle('over', est > sp.limit);
+    spOut(k, 'words').innerHTML = `<b>${w}</b> ${plural(w, P_WORD)} · вголос ≈ <b>${fmtSec(est)}</b>`;
+    spOut(k, 'lim').innerHTML = `ліміт: <b>${sp.limitTxt}</b> ≈ ${maxW} ${plural(maxW, P_WORD)}`;
+    const last = S.rehearse[k];
+    if (!rec || rec.k !== k) {
+      spOut(k, 'clock').textContent = last ? clock(last) : '0:00';
+      spOut(k, 'clock').classList.toggle('over', !!last && last > sp.limit);
+    }
+    spOut(k, 'last').textContent = last
+      ? (last > sp.limit ? `Остання репетиція — на ${fmtSec(last - sp.limit)} довше за ліміт` : `Остання репетиція вклалась у ліміт ✓`)
+      : 'Натисни, прочитай текст уголос і зупини таймер';
+
+    let t;
+    if (!w) t = k === 'stadium'
+      ? 'Почни з однієї думки, яку хочеш, щоб почули сто тисяч людей. Решту — прибери.'
+      : `Спершу запиши думки як є, без редагування. Структура над полем — лише підказка, з якої почати.`;
+    else if (est > sp.limit) {
+      const cut = w - maxW;
+      t = `Текст звучатиме ≈ ${fmtSec(est)} — довше за ліміт на ${fmtSec(est - sp.limit)}. Прибери ≈ ${cut} ${plural(cut, P_WORD)}: найперше — вступ і повтори. `;
+      t += k === 'stadium' ? 'На стадіоні вміщується одна думка — залиш найсильнішу.' : 'Сильний виступ — це не все, що ти знаєш, а найважливіше з цього.';
+    } else if (est < sp.limit * .4) {
+      t = `Поки ≈ ${fmtSec(est)} із ${sp.limitTxt}. `;
+      t += k === 'ship' ? 'Капітан ще не почув, чому без тебе не можна. Додай конкретику: що саме ти вмієш і як це врятує команду?'
+        : k === 'share' ? 'Додай історію або приклад — саме їх слухачі запам\'ятовують найкраще.'
+        : 'Коротко — це добре. Перевір, чи є в тексті заклик: що мають зробити люди після твоїх слів?';
+    } else {
+      t = `Вкладаєшся: ≈ ${fmtSec(est)} із ${sp.limitTxt}. `;
+      t += !last ? 'Тепер найважливіше — прочитай уголос із таймером. Наживо текст зазвичай звучить довше, ніж на папері.'
+        : last > sp.limit ? `Але наживо вийшло ${fmtSec(last)}. Говори впевнено, не поспішай — краще скороти текст, ніж прискорюватись.`
+        : `І наживо вклався(-лась) у ${fmtSec(last)}. Тепер повтори перед дзеркалом: погляд, поза, жести — це 58% враження.`;
+    }
+    spOut(k, 'note').textContent = t;
+  }
+
+  // ---------- посилання ----------
+  $('links').innerHTML = LINKS.map(l => {
+    const inner = `<div class="ic" aria-hidden="true">${l.icon}</div><div><b>${l.title}</b><small>${l.url ? l.sub : 'Посилання додасть викладач'}</small></div>`;
+    return l.url ? `<a class="card link-card" href="${esc(l.url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="card link-card">${inner}</div>`;
+  }).join('');
+
+  // ---------- очищення ----------
+  // підтвердження прямо на кнопці: перший клік питає, другий (протягом 4 с) очищає
+  let resetArmed = null;
+  $('resetAll').addEventListener('click', () => {
+    const btn = $('resetAll');
+    if (!resetArmed) {
+      btn.textContent = 'Точно очистити? Натисни ще раз';
+      resetArmed = setTimeout(() => { resetArmed = null; btn.textContent = 'Очистити всі відповіді'; }, 4000);
+      return;
+    }
+    clearTimeout(resetArmed); resetArmed = null;
+    if (rec) toggleRec(SPEECHES.find(x => x.k === rec.k));
+    if (breathT) stopBreath(false);
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    S = DEFAULTS(); series = 'now';
+    document.querySelectorAll('[data-bind]').forEach(el => { const v = getPath(el.dataset.bind); el.value = v == null ? '' : v; });
+    SPEECHES.forEach(sp => { spCard(sp.k).querySelector('textarea').value = ''; });
+    $('pWords').value = S.prep.words; $('pVoice').value = S.prep.voice;
+    renderEverything();
+    btn.textContent = 'Відповіді очищено';
+    setTimeout(() => { btn.textContent = 'Очистити всі відповіді'; }, 2000);
+  });
+
+  function renderEverything() {
+    renderMood(); renderFears(); renderWheel(); renderPrep(); renderRitual(); renderWhy();
+    SPEECHES.forEach(renderSpeech);
+  }
+  let radarT;
+  window.addEventListener('resize', () => { clearTimeout(radarT); radarT = setTimeout(drawRadar, 150); });
+  drawDonut();
+  renderEverything();
+  $('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
