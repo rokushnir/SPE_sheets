@@ -16,3 +16,33 @@
 ## Робочі зошити
 
 - [Робочий зошит «Публічні виступи», заняття 3](https://rokushnir.github.io/SPE_sheets/zoshyt.html) — `zoshyt.html`: техніки привернення і утримання уваги з готовими прикладами фраз. Галочка «сказав(-ла) вголос», запис голосу до 30 с з прослуховуванням, 2 історії, 2 анекдоти, 2 притчі, XP, рівні й досягнення. Прогрес зберігається в браузері.
+
+### Робочий зошит Campus 13 — решта занять
+
+Інтерактивні сторінки для занять, яких ще не було на сайті. У кожній є слот «наліпка настрою» (2 справжні наліпки Campus 13 + емодзі), наліпки-нагороди за виконані розділи, кнопки «Приклад», прогрес. Усе зберігається в браузері.
+
+**Фінансова грамотність**
+- [Заняття 02 — Капітал і рівні капіталу](https://rokushnir.github.io/SPE_sheets/kapital.html) — `kapital.html`: будинок із 5 рівнів капіталу, активи і пасиви, перетворювач пасивів на активи.
+- [Заняття 03 — Особистий фінансовий і інвестиційний план](https://rokushnir.github.io/SPE_sheets/finplan.html) — `finplan.html`: план на 5 років, SMART-ціль, магія складних відсотків, інвестиційний план на 10 років.
+
+**Тайм-менеджмент**
+- [Заняття 02 — Техніки планування і структуризація часу](https://rokushnir.github.io/SPE_sheets/planuvannia.html) — `planuvannia.html`: список справ, калькулятор 10 000 годин, блок-схема ЕКГ, кумири, 12 питань, тиждень, пропорція справ.
+
+**Мистецтво перемовин**
+- [Заняття 01 — Лідерство у спілкуванні](https://rokushnir.github.io/SPE_sheets/liderstvo.html) — `liderstvo.html`: ефективна розмова, лідер, принципи, активне слухання, структура розмови.
+- [Заняття 02 — Невербальна комунікація](https://rokushnir.github.io/SPE_sheets/neverbalna.html) — `neverbalna.html`: шість каналів мови тіла, тест на дистанцію, «вгадай сигнал», мої жести.
+- [Заняття 03 — Перемовини і вміння домовлятись](https://rokushnir.github.io/SPE_sheets/peremovyny.html) — `peremovyny.html`: айсберг особистості з рівнем води, компліменти, психологічне айкідо, практика.
+
+**Як запустити свій проект**
+- [01 — Ідеї і їх кастинг](https://rokushnir.github.io/SPE_sheets/idei.html) — `idei.html`: маршрут курсу, кастинг ідей, концепція Ікіґай, галерея натхнення.
+- [02 — Продукт: що це і яким буває](https://rokushnir.github.io/SPE_sheets/produkt.html) — `produkt.html`: що таке продукт, ракета бренду, види продуктів, враження.
+- [03 — MVP продукту](https://rokushnir.github.io/SPE_sheets/mvp.html) — `mvp.html`: коло гіпотез «створив → оцінив → навчився», карта перевірок, функції MVP.
+- [04 — Фінансова модель проекту](https://rokushnir.github.io/SPE_sheets/finmodel.html) — `finmodel.html`: CAPEX, OPEX, точка беззбитковості, рентабельність і окупність.
+- [05 — Ринок і ніша. Місткість ринку](https://rokushnir.github.io/SPE_sheets/rynok.html) — `rynok.html`: біль клієнта, рішення, TAM/SAM/SOM, конкуренти, ніша.
+- [06 — Соціальні проекти і їх значення](https://rokushnir.github.io/SPE_sheets/sotsialni.html) — `sotsialni.html`: карта змін міста, вартість проектів, мій проект.
+- [07 — Як почати продавати?](https://rokushnir.github.io/SPE_sheets/prodazhi.html) — `prodazhi.html`: росток від ідеї до грошей, продаж одним реченням, сумніви клієнта, воронка.
+- [08 — Цільова аудиторія. Бізнес-модель](https://rokushnir.github.io/SPE_sheets/auditoriia.html) — `auditoriia.html`: цифри чи логіка, аватар клієнта, B2B/B2C, повторні продажі.
+- [09 — Команда твого проекту](https://rokushnir.github.io/SPE_sheets/komanda.html) — `komanda.html`: послідовність запуску, команда мрії, люди поруч, оргструктура.
+- [10 — Де шукати інвестиції?](https://rokushnir.github.io/SPE_sheets/investytsii.html) — `investytsii.html`: хто що купує в інвестора, драбина раундів, калькулятор частки.
+- [11 — Pitch deck, який «продає»](https://rokushnir.github.io/SPE_sheets/pitch.html) — `pitch.html`: 12 слайдів, конструктор пітч-деку з превʼю, 10 питань інвестора, репетиція з таймером.
+- [12 — Обговорення проектів](https://rokushnir.github.io/SPE_sheets/obhovorennia.html) — `obhovorennia.html`: журі з радар-діаграмою, грант на старт, «Українське — у світі», полотно для малювання, фінал курсу.
