@@ -99,7 +99,7 @@
 - [🚀 5. Формули і моделі ефективності](https://rokushnir.github.io/SPE_sheets/formuly-5-efektyvnist.html) — `formuly-5-efektyvnist.html`: докладені зусилля з важелями, формула досягнень (1 000 і 10 000 годин), вибір дії («печенько» проти «гречки», біль × бажання), ціна дії, інерція кроків (місяць звички), вплив доходу оточення і середнє 7 людей, вміння вчитися, вартість часу, напрямок змін.
 - [👥 6. Деякі моделі соціальної поведінки](https://rokushnir.github.io/SPE_sheets/formuly-6-sotsium.html) — `formuly-6-sotsium.html`: соціальне залучення (сходинки і лавина в натовпі), запас = борг (посудини з кульками), закон економії у змінах (ангели і демони), розподіл Гауса і Парето вглиб, емоції як регулятор рівняння обміну (карта «халявщик — альтруїст — вискочка — відстав»).
 
-## Притчі в русі
+## Притчі в русі: сценарії для ведучого
 
 15 рухливих ігор за притчами з книги Романа Кушніра «Історії і притчі для особистісного зростання» (Коло, 2013). У кожній грі учасники стають персонажами, рухаються простором, під час руху спрацьовують події, а наприкінці від їхнього вибору залежить один із 3–4 фіналів. Текст усіх ігор — у `prytchi-igry/_src/data.py`, сторінки генерує `prytchi-igry/_src/build.py`; Markdown-версії — у [`prytchi-igry/`](prytchi-igry/README.md).
 
@@ -119,3 +119,24 @@
 - [13. «Базар»](https://rokushnir.github.io/SPE_sheets/prytchi-13-bazar.html) — `prytchi-13-bazar.html`: притча «Ініціатива», економічна симуляція.
 - [14. «Слоняча мотузка»](https://rokushnir.github.io/SPE_sheets/prytchi-14-slonyacha-motuzka.html) — `prytchi-14-slonyacha-motuzka.html`: притча «Про мотузку, яка втримує слона», смуга перешкод із невидимими межами.
 - [15. «Верблюд на мурі»](https://rokushnir.github.io/SPE_sheets/prytchi-15-verblyud-na-muri.html) — `prytchi-15-verblyud-na-muri.html`: притча «Спокуса очевидним», інженерний командний виклик.
+
+## Притчі в русі: ігри
+
+15 браузерних ігор за притчами з книги Романа Кушніра «Історії і притчі для особистісного зростання». Гравець керує персонажем притчі, під час руху відбуваються події, а наприкінці його вибір веде до одного з чотирьох фіналів; після фіналу гра пояснює, чого вчить притча. Працює з клавіатури і на телефоні (екранний джойстик). Код ігор — у `prytchi-ihry/_src/` (спільний рушій `engine.js` і по файлу на гру в `games/`); HTML-сторінки збирає `python3 prytchi-ihry/_src/build.py`.
+
+- [🎮 Усі ігри](https://rokushnir.github.io/SPE_sheets/prytchi-ihry.html) — `prytchi-ihry.html`: плитки 15 ігор із лічильником знайдених фіналів і загальний висновок циклу.
+- [01. «Гілка над проваллям»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-01-hilka.html) — `prytchi-ihra-01-hilka.html`: пригода в темряві за притчею «Атеїст».
+- [02. «Подвір’я»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-02-podvirya.html) — `prytchi-ihra-02-podvirya.html`: симулятор виживання на прив’язі за притчею «Орел, який став куркою».
+- [03. «Переправа»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-03-pereprava.html) — `prytchi-ihra-03-pereprava.html`: платформер із вантажем за притчею «Жінка і ченці».
+- [04. «Два світи»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-04-dva-svity.html) — `prytchi-ihra-04-dva-svity.html`: головоломка «знайди відмінності» за притчею «Рай і пекло».
+- [05. «Вакансія Лисиці»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-05-vakansiya.html) — `prytchi-ihra-05-vakansiya.html`: аркада «музичні стільці» за притчею «Лісова демократія».
+- [06. «Не цвірінькай!»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-06-ne-tsvirinkay.html) — `prytchi-ihra-06-ne-tsvirinkay.html`: стелс за притчею «Історія одного горобчика».
+- [07. «Двері султана»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-07-dveri-sultana.html) — `prytchi-ihra-07-dveri-sultana.html`: квест-кімната за притчею «Важкі двері».
+- [08. «Перехрестя на Багдад»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-08-bahdad.html) — `prytchi-ihra-08-bahdad.html`: словесна головоломка з подорожжю за притчею «Запитання».
+- [09. «Шлях до озера»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-09-ozero.html) — `prytchi-ihra-09-ozero.html`: настільна гра з кубиком за притчею «Про лицаря і дракона».
+- [10. «Вічна мелодія»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-10-melodiya.html) — `prytchi-ihra-10-melodiya.html`: ритм-гра за притчею «Притча про скрипаля».
+- [11. «98 перлин»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-11-perlyny.html) — `prytchi-ihra-11-perlyny.html`: детектив за притчею «Намисто».
+- [12. «Тісна хата»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-12-khata.html) — `prytchi-ihra-12-khata.html`: пазл «сокобан» за притчею «Коза».
+- [13. «Базар»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-13-bazar.html) — `prytchi-ihra-13-bazar.html`: торговий симулятор за притчею «Ініціатива».
+- [14. «Слоняча мотузка»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-14-slon.html) — `prytchi-ihra-14-slon.html`: експеримент-платформер за притчею «Про мотузку, яка втримує слона».
+- [15. «Верблюд на мурі»](https://rokushnir.github.io/SPE_sheets/prytchi-ihra-15-verblyud.html) — `prytchi-ihra-15-verblyud.html`: будівельна головоломка за притчею «Спокуса очевидним».

@@ -106,8 +106,8 @@ button { font: inherit; }
 .stick { width: 120px; height: 120px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); position: relative; flex: none; }
 .knob { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: var(--accent); opacity: .85; }
 .pbtns { display: flex; gap: 12px; }
-.pbtns button { width: 76px; height: 76px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
-  font-weight: 700; font-size: 0.8rem; line-height: 1.1; padding: 4px; touch-action: none; }
+.pbtns button { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  font-weight: 700; font-size: 0.68rem; line-height: 1.1; padding: 6px; touch-action: none; overflow-wrap: anywhere; hyphens: auto; }
 .pbtns button[data-k="act"] { background: var(--gold); color: #1a1405; border-color: var(--gold); }
 .pbtns button.down { transform: scale(.94); filter: brightness(.9); }
 .pbtns button[hidden] { display: none; }

@@ -130,7 +130,7 @@ def hub_page(links, as_fragment):
 <header><span class="eyebrow">Ігри з навчанням</span><h1>{e(COLLECTION)}</h1><p class="lede">{e(INTRO)}</p></header>
 <section><h2>Ігри</h2><div class="grid">{''.join(tiles)}</div></section>
 <section><h2>Що спільного в усіх фіналах</h2><div class="concl">{concl}</div></section>
-<p class="foot">За книгою: Роман Кушнір. «Історії і притчі для особистісного зростання». Дрогобич: Коло, 2013. Прогрес зберігається лише у вашому браузері.</p>
+<p class="foot">За книгою: Роман Кушнір. «Історії і притчі для особистісного зростання». Дрогобич: Коло, 2013. Прогрес зберігається лише у вашому браузері. Ті самі притчі як живі ігри для групи: <a href="{PAGES}/prytchi.html">сценарії для ведучого</a>.</p>
 </main>
 <script>
 (function () {{
