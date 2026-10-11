@@ -46,12 +46,15 @@ GAMES = [
     ("13-bazar", "Базар", "Ініціатива", "Торговий симулятор", "🪙", "#5e5414"),
     ("14-slon", "Слоняча мотузка", "Про мотузку, яка втримує слона", "Експеримент-платформер", "🐘", "#2c3f6b"),
     ("15-verblyud", "Верблюд на мурі", "Спокуса очевидним", "Будівельна головоломка", "🐫", "#7a4318"),
+    # ділова гра без притчі
+    ("16-uhoda", "Земельна угода", None, "Ділова гра: від ринку землі до банку", "📜", "#3f6b3a"),
 ]
 
 INTRO = (
     "П’ятнадцять браузерних ігор за притчами з книги Романа Кушніра «Історії і притчі для особистісного зростання». "
     "Ви керуєте персонажем притчі, під час руху з ним щось відбувається, а наприкінці ваш вибір веде до одного з кількох фіналів. "
-    "Після кожного фіналу гра пояснює, чого вчить притча. Пройдіть гру кілька разів, щоб знайти всі фінали."
+    "Після кожного фіналу гра пояснює, чого вчить притча. Пройдіть гру кілька разів, щоб знайти всі фінали. "
+    "А ще тут є ділова гра «Земельна угода»: проведіть угоду від ринку землі до банку."
 )
 CONCLUSION = [
     "У всіх п’ятнадцяти іграх найкращий фінал майже ніколи не залежить від спритності. Він залежить від одного внутрішнього вибору: відпустити, побачити або просто діяти.",
@@ -86,7 +89,7 @@ def game_page(i, links, as_fragment):
     }
     head = (
         f"<title>{e(title)}</title>\n"
-        f'<meta name="description" content="{e(genre)} за притчею «{e(parable)}».">\n'
+        f'<meta name="description" content="{e(genre)}{(" за притчею «" + e(parable) + "»") if parable else ""}.">\n'
         f"{FONTS}\n<style>{css}</style>\n"
     )
     body = f"""<div class="page">
@@ -122,13 +125,14 @@ def hub_page(links, as_fragment):
             f'<a class="tile" href="{e(links[slug])}" data-id="{i + 1:02d}">'
             f'<span class="art" style="background:{color}" aria-hidden="true">{art}</span>'
             f'<span class="num">Гра {i + 1:02d}</span><h3>{e(title)}</h3>'
-            f'<span class="genre">{e(genre)}</span><span class="par">притча «{e(parable)}»</span>'
+            f'<span class="genre">{e(genre)}</span><span class="par">{("притча «" + e(parable) + "»") if parable else "8 етапів, випадкові перешкоди, лічильник днів"}</span>'
             f'<span class="got" data-got></span></a>'
         )
     concl = "".join(f"<p>{e(p)}</p>" for p in CONCLUSION)
     body = f"""<main class="hub">
 <header><span class="eyebrow">Ігри з навчанням</span><h1>{e(COLLECTION)}</h1><p class="lede">{e(INTRO)}</p></header>
-<section><h2>Ігри</h2><div class="grid">{''.join(tiles)}</div></section>
+<section><h2>Ігри за притчами</h2><div class="grid">{''.join(tiles[:15])}</div></section>
+<section><h2>Ділова гра</h2><div class="grid">{''.join(tiles[15:])}</div></section>
 <section><h2>Що спільного в усіх фіналах</h2><div class="concl">{concl}</div></section>
 <p class="foot">За книгою: Роман Кушнір. «Історії і притчі для особистісного зростання». Дрогобич: Коло, 2013. Прогрес зберігається лише у вашому браузері. Ті самі притчі як живі ігри для групи: <a href="{PAGES}/prytchi.html">сценарії для ведучого</a>.</p>
 </main>
@@ -146,7 +150,7 @@ def hub_page(links, as_fragment):
     return wrap(head, body, as_fragment)
 
 
-ENDING_COUNTS = [4] * 15
+ENDING_COUNTS = [4] * 16
 
 
 def wrap(head, body, as_fragment):

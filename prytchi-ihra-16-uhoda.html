@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Земельна угода</title>
+<meta name="description" content="Ділова гра: від ринку землі до банку.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=Commissioner:wght@400;500;600;700&display=swap">
+<style>/* Макет: ігрова консоль — вузька шапка, сцена 16:9 по центру, під нею підказка керування.
+   Сторінка має світлу і темну тему; інтерфейс поверх сцени — завжди темне «скло», бо лежить на ігровому світі. */
+:root {
+  --bg: #eef1f6;
+  --surface: #ffffff;
+  --ink: #141a26;
+  --muted: #586174;
+  --line: #d5dbe5;
+  --accent: #2f5bd3;
+  --glass: rgba(14, 18, 30, 0.86);
+  --glass-ink: #f3f5fb;
+  --glass-muted: #b7bfd2;
+  --glass-line: rgba(255, 255, 255, 0.16);
+  --gold: #f2c14e;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-ui: "Commissioner", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Literata", Georgia, serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1018; --surface: #161b27; --ink: #e8ecf5; --muted: #9aa3b8; --line: #283043; --accent: #8fb0ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1018; --surface: #161b27; --ink: #e8ecf5; --muted: #9aa3b8; --line: #283043; --accent: #8fb0ff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-ui); padding-inline: 16px;
+  -webkit-tap-highlight-color: transparent; }
+button { font: inherit; }
+.page { max-width: 1180px; margin-inline: auto; padding-block: 10px 24px; display: grid; gap: 10px; }
+
+.top { display: flex; align-items: center; gap: 12px; min-height: 40px; }
+.top .back { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 0.9rem; white-space: nowrap; }
+.top .back:hover { text-decoration: underline; }
+.top .ttl { flex: 1; min-width: 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top .ttl .n { color: var(--muted); font-weight: 500; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.icon { background: var(--surface); border: 1px solid var(--line); color: var(--ink); border-radius: 10px;
+  min-width: 40px; height: 40px; cursor: pointer; font-size: 1.05rem; }
+.icon:focus-visible, .btn:focus-visible, .opt:focus-visible, .back:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.stage { position: relative; width: min(100%, calc((100svh - 130px) * 16 / 9)); aspect-ratio: 16 / 9; margin-inline: auto;
+  border-radius: 14px; overflow: hidden; background: #0b0e16; container-type: inline-size; user-select: none;
+  box-shadow: 0 10px 40px rgba(10, 16, 30, 0.25); touch-action: none; }
+#cv { display: block; width: 100%; height: 100%; }
+
+.hud { position: absolute; left: 10px; top: 10px; display: flex; flex-wrap: wrap; gap: 6px; max-width: 75%; pointer-events: none; }
+.hud span { background: var(--glass); color: var(--glass-ink); border-radius: 999px; padding: 4px 11px;
+  font-size: clamp(11px, 1.45cqw, 15px); font-weight: 500; white-space: nowrap; }
+.hud b { color: var(--gold); font-weight: 700; margin-left: 4px; font-variant-numeric: tabular-nums; }
+
+.banner { position: absolute; left: 50%; top: 12%; transform: translateX(-50%); background: var(--glass); color: var(--glass-ink);
+  border: 1px solid var(--glass-line); border-radius: 14px; padding: 10px 18px; font-family: var(--f-display);
+  font-size: clamp(13px, 2cqw, 22px); text-align: center; max-width: 80%; pointer-events: none; animation: pop .25s ease-out; }
+@keyframes pop { from { transform: translateX(-50%) scale(.92); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+
+.dlg { position: absolute; left: 3%; right: 3%; bottom: 4%; background: var(--glass); color: var(--glass-ink);
+  border: 1px solid var(--glass-line); border-radius: 16px; padding: 14px 18px 12px; display: grid; gap: 8px;
+  font-size: clamp(14px, 1.9cqw, 19px); line-height: 1.45; max-height: 70%; overflow: auto; z-index: 5; }
+.dlg.top { bottom: auto; top: 12%; }
+.dlg .who { font-family: var(--f-display); font-size: 0.8em; color: var(--gold); letter-spacing: .02em; }
+.dlg .who:empty { display: none; }
+.dlg .txt { font-family: var(--f-body); }
+.dlg .opts { display: grid; gap: 6px; }
+.dlg .opts:empty { display: none; }
+.opt { text-align: left; background: rgba(255,255,255,0.07); color: var(--glass-ink); border: 1px solid var(--glass-line);
+  border-radius: 10px; padding: 8px 12px; cursor: pointer; display: flex; gap: 10px; align-items: baseline; }
+.opt .k { color: var(--gold); font-family: var(--f-display); font-size: 0.8em; min-width: 1.2em; }
+.opt:hover, .opt.sel { background: rgba(242, 193, 78, 0.18); border-color: var(--gold); }
+.dlg .more { justify-self: end; font-size: 0.75em; color: var(--glass-muted); }
+
+.screen { position: absolute; inset: 0; background: rgba(9, 12, 20, 0.9); color: var(--glass-ink); overflow: auto; z-index: 8;
+  display: grid; place-items: center; padding: 4% 5%; }
+.screen[hidden] { display: none; }
+.card { width: min(100%, 680px); display: grid; gap: 12px; }
+.card .eyebrow { font-size: clamp(11px, 1.4cqw, 13px); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.card h1, .card h2 { font-family: var(--f-display); margin: 0; text-wrap: balance; line-height: 1.1; }
+.card h1 { font-size: clamp(22px, 4.6cqw, 46px); }
+.card h2 { font-size: clamp(18px, 3cqw, 30px); }
+.card p { margin: 0; line-height: 1.5; font-size: clamp(13px, 1.75cqw, 17px); }
+.card .story { font-family: var(--f-body); font-style: italic; color: #dfe4f0; border-left: 3px solid var(--gold); padding-left: 12px; }
+.card ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: clamp(13px, 1.7cqw, 16px); line-height: 1.45; }
+.card .moral { font-family: var(--f-body); font-size: clamp(14px, 2cqw, 19px); }
+.card .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.btn { background: var(--gold); color: #1a1405; border: 0; border-radius: 12px; padding: 10px 18px; font-weight: 700;
+  cursor: pointer; text-decoration: none; font-size: clamp(13px, 1.7cqw, 16px); display: inline-block; }
+.btn.ghost { background: transparent; color: var(--glass-ink); border: 1px solid var(--glass-line); }
+.ends { display: flex; flex-wrap: wrap; gap: 6px; }
+.ends span { border: 1px solid var(--glass-line); border-radius: 999px; padding: 4px 10px; font-size: clamp(11px, 1.45cqw, 14px); color: var(--glass-muted); }
+.ends span.got { border-color: var(--gold); color: var(--glass-ink); }
+.ends span.now { background: var(--gold); color: #1a1405; border-color: var(--gold); }
+.letter { display: inline-grid; place-items: center; width: 2.2em; height: 2.2em; border-radius: 50%; background: var(--gold); color: #1a1405;
+  font-family: var(--f-display); font-weight: 700; margin-right: 10px; vertical-align: middle; }
+
+.help { margin: 0; text-align: center; color: var(--muted); font-size: 0.875rem; }
+.help kbd { font-family: var(--f-ui); background: var(--surface); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px;
+  padding: 1px 6px; font-size: 0.8rem; color: var(--ink); }
+
+.pad { display: none; justify-content: space-between; align-items: center; gap: 16px; padding: 4px 6px; touch-action: none; user-select: none; }
+.pad.on { display: flex; }
+.stick { width: 120px; height: 120px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); position: relative; flex: none; }
+.knob { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: var(--accent); opacity: .85; }
+.pbtns { display: flex; gap: 12px; }
+.pbtns button { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  font-weight: 700; font-size: 0.68rem; line-height: 1.1; padding: 6px; touch-action: none; overflow-wrap: anywhere; hyphens: auto; }
+.pbtns button[data-k="act"] { background: var(--gold); color: #1a1405; border-color: var(--gold); }
+.pbtns button.down { transform: scale(.94); filter: brightness(.9); }
+.pbtns button[hidden] { display: none; }
+
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px) {
+  .page { padding-block: 4px; gap: 4px; }
+  .help { display: none; }
+  .stage { width: min(100%, calc((100svh - 56px) * 16 / 9)); }
+  .pad.on { position: fixed; left: 0; right: 0; bottom: 8px; padding-inline: 16px; pointer-events: none; z-index: 20; }
+  .pad.on .stick, .pad.on .pbtns button { pointer-events: auto; opacity: .75; }
+}
+@media (max-width: 700px) {
+  .dlg { position: fixed; left: 8px; right: 8px; bottom: 8px; max-height: 55svh; font-size: 15px; z-index: 30; }
+  .screen { position: fixed; z-index: 40; padding: 20px 16px; place-items: start center; }
+  .card h1 { font-size: 26px; } .card h2 { font-size: 20px; } .card p, .card ul { font-size: 15px; } .card .moral { font-size: 16px; }
+  .btn { font-size: 15px; }
+  .hud span { font-size: 11px; padding: 3px 8px; }
+  .banner { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .banner { animation: none; } }
+
+/* Головна сторінка ігор */
+.hub { display: grid; gap: 28px; padding-block: 16px 40px; max-width: 1080px; margin-inline: auto; }
+.hub header { display: grid; gap: 12px; }
+.hub .eyebrow { color: var(--accent); font-size: 0.8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.hub h1 { font-family: var(--f-display); font-size: clamp(2rem, 7vw, 3.6rem); margin: 0; line-height: 1.05; text-wrap: balance; }
+.hub .lede { font-family: var(--f-body); font-size: 1.1rem; line-height: 1.55; max-width: 44rem; margin: 0; }
+.hub h2 { font-size: 0.8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.tile { display: grid; grid-template-columns: 64px 1fr; gap: 4px 14px; padding: 14px; border-radius: 16px; background: var(--surface);
+  border: 1px solid var(--line); color: var(--ink); text-decoration: none; min-width: 0; transition: transform .15s, border-color .15s; }
+.tile:hover { transform: translateY(-2px); border-color: var(--accent); }
+.tile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.tile .art { grid-row: span 4; width: 64px; height: 64px; border-radius: 14px; display: grid; place-items: center; font-size: 34px; }
+.tile .num { font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tile h3 { margin: 0; font-family: var(--f-display); font-size: 1.05rem; font-weight: 600; line-height: 1.2; }
+.tile .genre { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+.tile .par { font-family: var(--f-body); font-style: italic; font-size: 0.9rem; color: var(--muted); }
+.tile .got { grid-column: 2; font-size: 0.8rem; color: var(--muted); }
+.tile .got b { color: var(--ink); }
+.hub .concl { font-family: var(--f-body); font-size: 1.05rem; line-height: 1.6; max-width: 44rem; display: grid; gap: 10px; }
+.hub .concl p { margin: 0; }
+.hub .foot { color: var(--muted); font-size: 0.85rem; }
+@media (prefers-reduced-motion: reduce) { .tile { transition: none; } .tile:hover { transform: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+<header class="top"><a class="back" href="prytchi-ihry.html">← Усі ігри</a>
+<div class="ttl"><span class="n">16</span>Земельна угода</div>
+<button id="mute" class="icon" type="button" aria-label="Вимкнути звук">🔊</button></header>
+<div id="stage" class="stage">
+<canvas id="cv" aria-label="Ігрове поле: Земельна угода"></canvas>
+<div id="hud" class="hud" aria-live="polite"></div>
+<div id="banner" class="banner" hidden aria-live="polite"></div>
+<div id="dlg" class="dlg" hidden role="dialog" aria-live="polite"><div class="who"></div><div class="txt"></div><div class="opts"></div><div class="more">Далі ▸ Enter</div></div>
+<div id="screen" class="screen" hidden></div>
+</div>
+<div id="pad" class="pad" aria-hidden="true"><div class="stick"><div class="knob"></div></div><div class="pbtns"><button type="button" data-k="alt" hidden>Б</button><button type="button" data-k="act">Дія</button></div></div>
+<p class="help" id="help"></p>
+</div>
+<script>window.PG_META = {"num": "16", "hub": "prytchi-ihry.html", "next": ""};</script>
+<script>/* Рушій ігор «Притчі в русі»: цикл гри, керування (клавіатура, миша, сенсор),
+   діалоги з вибором, банери, HUD, фінали з підрахунком знайдених, простий звук. */
+(function () {
+  "use strict";
+  const W = 960, H = 540;
+  const META = window.PG_META || {};
+  const $ = (s) => document.querySelector(s);
+  const stage = $("#stage"), cv = $("#cv"), ctx = cv.getContext("2d");
+  const hudEl = $("#hud"), bannerEl = $("#banner"), dlg = $("#dlg"), screenEl = $("#screen"), pad = $("#pad");
+  const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+
+  // ---------- сховище
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* без сховища гра працює далі */ } },
+  };
+
+  // ---------- полотно
+  let scale = 1;
+  function resize() {
+    const r = stage.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.max(1, Math.round(r.width * dpr));
+    cv.height = Math.max(1, Math.round(r.height * dpr));
+    scale = cv.width / W;
+  }
+  window.addEventListener("resize", resize);
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(stage);
+  resize();
+
+  // ---------- звук
+  let actx = null, muted = store.get("pg:muted", false);
+  const muteBtn = $("#mute");
+  function syncMute() { if (muteBtn) { muteBtn.textContent = muted ? "🔇" : "🔊"; muteBtn.setAttribute("aria-label", muted ? "Увімкнути звук" : "Вимкнути звук"); } }
+  syncMute();
+  if (muteBtn) muteBtn.addEventListener("click", () => { muted = !muted; store.set("pg:muted", muted); syncMute(); muteBtn.blur(); });
+  function ensureAudio() {
+    if (actx || muted) return;
+    try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { actx = null; }
+  }
+  function tone(freq, dur, type, vol, slide) {
+    if (muted || !actx) return;
+    const t0 = actx.currentTime;
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || "sine"; o.frequency.setValueAtTime(freq, t0);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(40, freq * slide), t0 + dur);
+    g.gain.setValueAtTime(vol || 0.12, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(actx.destination); o.start(t0); o.stop(t0 + dur + 0.02);
+  }
+  const SFX = {
+    pick: () => { tone(660, 0.09, "triangle", 0.1); setTimeout(() => tone(990, 0.1, "triangle", 0.08), 60); },
+    good: () => { tone(523, 0.12, "triangle"); setTimeout(() => tone(659, 0.12, "triangle"), 90); setTimeout(() => tone(784, 0.2, "triangle"), 180); },
+    bad: () => tone(220, 0.25, "sawtooth", 0.07, 0.6),
+    step: () => tone(140 + Math.random() * 40, 0.04, "square", 0.03),
+    bell: () => { tone(880, 0.6, "sine", 0.1); tone(1320, 0.5, "sine", 0.04); },
+    blip: () => tone(520, 0.05, "square", 0.04),
+    whoosh: () => tone(300, 0.35, "sine", 0.08, 2.5),
+    end: () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.25, "triangle", 0.09), i * 110)); },
+  };
+  function sfx(name, freq) { ensureAudio(); if (name === "note") tone(freq || 440, 0.22, "triangle", 0.12); else if (SFX[name]) SFX[name](); }
+
+  // ---------- введення
+  const keys = new Set();
+  const input = { x: 0, y: 0, act: false, actHeld: false, alt: false, altHeld: false, click: null, pointer: { x: -1, y: -1, down: false }, any: false };
+  const pressedQ = new Set();
+  const touchAxis = { x: 0, y: 0 }, touchBtn = { act: false, alt: false };
+  const CODE = {
+    ArrowLeft: "left", KeyA: "left", ArrowRight: "right", KeyD: "right", ArrowUp: "up", KeyW: "up", ArrowDown: "down", KeyS: "down",
+    Space: "act", Enter: "act", KeyE: "act", NumpadEnter: "act", KeyQ: "alt", ShiftLeft: "alt", ShiftRight: "alt",
+  };
+  window.addEventListener("keydown", (e) => {
+    ensureAudio();
+    if (dlgState.open) { dlgKey(e); return; }
+    if (screenState.open) { if (e.code === "Enter" || e.code === "Space") { const b = screenEl.querySelector("[data-primary]"); if (b && document.activeElement === document.body) { e.preventDefault(); b.click(); } } return; }
+    const k = CODE[e.code];
+    if (k) {
+      e.preventDefault();
+      if (!keys.has(k)) pressedQ.add(k);
+      keys.add(k);
+    }
+    if (/^Digit[1-9]$/.test(e.code)) pressedQ.add("n" + e.code.slice(5));
+  });
+  window.addEventListener("keyup", (e) => { const k = CODE[e.code]; if (k) keys.delete(k); });
+  window.addEventListener("blur", () => keys.clear());
+
+  function toGame(ev) {
+    const r = cv.getBoundingClientRect();
+    return { x: ((ev.clientX - r.left) / r.width) * W, y: ((ev.clientY - r.top) / r.height) * H };
+  }
+  cv.addEventListener("pointerdown", (ev) => { ensureAudio(); const p = toGame(ev); input.pointer = { x: p.x, y: p.y, down: true }; input._click = p; });
+  cv.addEventListener("pointermove", (ev) => { const p = toGame(ev); input.pointer.x = p.x; input.pointer.y = p.y; });
+  window.addEventListener("pointerup", () => { input.pointer.down = false; });
+
+  // сенсорний джойстик
+  const coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  function showPad() { if (pad && !pad.classList.contains("on")) pad.classList.add("on"); }
+  if (coarse) showPad();
+  window.addEventListener("touchstart", showPad, { passive: true, once: true });
+  if (pad) {
+    const stick = pad.querySelector(".stick"), knob = pad.querySelector(".knob");
+    let sid = null;
+    const setStick = (ev) => {
+      const r = stick.getBoundingClientRect();
+      let dx = ev.clientX - (r.left + r.width / 2), dy = ev.clientY - (r.top + r.height / 2);
+      const m = r.width / 2, d = Math.hypot(dx, dy);
+      if (d > m) { dx = (dx / d) * m; dy = (dy / d) * m; }
+      knob.style.transform = `translate(${dx}px, ${dy}px)`;
+      const nx = dx / m, ny = dy / m;
+      touchAxis.x = Math.abs(nx) < 0.22 ? 0 : nx; touchAxis.y = Math.abs(ny) < 0.22 ? 0 : ny;
+    };
+    stick.addEventListener("pointerdown", (ev) => { ensureAudio(); sid = ev.pointerId; stick.setPointerCapture(sid); setStick(ev); });
+    stick.addEventListener("pointermove", (ev) => { if (ev.pointerId === sid) setStick(ev); });
+    const rel = () => { sid = null; touchAxis.x = touchAxis.y = 0; knob.style.transform = ""; };
+    stick.addEventListener("pointerup", rel); stick.addEventListener("pointercancel", rel);
+    pad.querySelectorAll("button[data-k]").forEach((b) => {
+      const k = b.dataset.k;
+      b.addEventListener("pointerdown", (ev) => {
+        ev.preventDefault(); ensureAudio(); b.classList.add("down");
+        if (dlgState.open) { dlgAdvance(); return; }
+        if (screenState.open) { const p = screenEl.querySelector("[data-primary]"); if (p) p.click(); return; }
+        touchBtn[k] = true; pressedQ.add(k);
+      });
+      const up = () => { b.classList.remove("down"); touchBtn[k] = false; };
+      b.addEventListener("pointerup", up); b.addEventListener("pointercancel", up); b.addEventListener("pointerleave", up);
+    });
+  }
+
+  function pollInput() {
+    let x = (keys.has("right") ? 1 : 0) - (keys.has("left") ? 1 : 0);
+    let y = (keys.has("down") ? 1 : 0) - (keys.has("up") ? 1 : 0);
+    if (!x && !y) { x = touchAxis.x; y = touchAxis.y; }
+    const m = Math.hypot(x, y); if (m > 1) { x /= m; y /= m; }
+    input.x = x; input.y = y;
+    input.act = pressedQ.has("act"); input.alt = pressedQ.has("alt");
+    input.actHeld = keys.has("act") || touchBtn.act; input.altHeld = keys.has("alt") || touchBtn.alt;
+    input.num = 0; for (let i = 1; i <= 9; i++) if (pressedQ.has("n" + i)) input.num = i;
+    input.click = input._click || null; input._click = null;
+    input.any = pressedQ.size > 0 || !!input.click;
+    input.up = pressedQ.has("up"); input.down = pressedQ.has("down"); input.left = pressedQ.has("left"); input.right = pressedQ.has("right");
+    pressedQ.clear();
+  }
+  function clearInput() { keys.clear(); pressedQ.clear(); input._click = null; touchBtn.act = touchBtn.alt = false; }
+
+  // ---------- HUD і банер
+  let hudCache = "";
+  function hud(items) {
+    const html = (items || []).filter(Boolean).map(([k, v]) => `<span>${esc(k)}${v === undefined || v === "" ? "" : `<b>${esc(String(v))}</b>`}</span>`).join("");
+    if (html !== hudCache) { hudEl.innerHTML = html; hudCache = html; }
+  }
+  let bannerT = 0;
+  function banner(text, ms) {
+    bannerEl.textContent = text; bannerEl.hidden = false;
+    bannerEl.style.animation = "none"; void bannerEl.offsetWidth; bannerEl.style.animation = "";
+    clearTimeout(bannerT); bannerT = setTimeout(() => { bannerEl.hidden = true; }, ms || 2400);
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+  // ---------- діалоги
+  const dlgState = { open: false, queue: [], resolve: null, options: null, sel: 0, mode: "say" };
+  const dWho = dlg.querySelector(".who"), dTxt = dlg.querySelector(".txt"), dOpts = dlg.querySelector(".opts"), dMore = dlg.querySelector(".more");
+  function renderLine(who, text) { dWho.textContent = who || ""; dTxt.textContent = text; }
+  function say(lines, who) {
+    if (typeof lines === "string") lines = [[who || "", lines]];
+    lines = lines.map((l) => (typeof l === "string" ? [who || "", l] : l));
+    return new Promise((res) => {
+      clearInput();
+      dlgState.open = true; dlgState.mode = "say"; dlgState.queue = lines.slice(1); dlgState.resolve = res;
+      renderLine(lines[0][0], lines[0][1]); dOpts.innerHTML = ""; dMore.hidden = false; dlg.hidden = false;
+      sfx("blip");
+    });
+  }
+  function choose(text, options, who) {
+    return new Promise((res) => {
+      clearInput();
+      dlgState.open = true; dlgState.mode = "choose"; dlgState.resolve = res; dlgState.options = options; dlgState.sel = 0;
+      renderLine(who || "", text); dMore.hidden = true; dlg.hidden = false;
+      dOpts.innerHTML = "";
+      options.forEach((o, i) => {
+        const b = document.createElement("button");
+        b.className = "opt"; b.type = "button";
+        b.innerHTML = `<span class="k">${i + 1}</span><span>${esc(o)}</span>`;
+        b.addEventListener("click", (ev) => { ev.stopPropagation(); pickOpt(i); });
+        dOpts.appendChild(b);
+      });
+      markSel(); sfx("blip");
+    });
+  }
+  function markSel() { [...dOpts.children].forEach((b, i) => b.classList.toggle("sel", i === dlgState.sel)); }
+  function pickOpt(i) { closeDlg(); sfx("pick"); const r = dlgState.resolve; dlgState.resolve = null; r && r(i); }
+  function closeDlg() { dlgState.open = false; dlg.hidden = true; clearInput(); }
+  function dlgAdvance() {
+    if (dlgState.mode === "choose") { pickOpt(dlgState.sel); return; }
+    if (dlgState.queue.length) { const [w, t] = dlgState.queue.shift(); renderLine(w, t); sfx("blip"); return; }
+    closeDlg(); const r = dlgState.resolve; dlgState.resolve = null; r && r();
+  }
+  function dlgKey(e) {
+    if (dlgState.mode === "choose") {
+      const n = /^(Digit|Numpad)([1-9])$/.exec(e.code);
+      if (n) { const i = +n[2] - 1; if (i < dlgState.options.length) { e.preventDefault(); pickOpt(i); } return; }
+      if (e.code === "ArrowDown" || e.code === "KeyS") { e.preventDefault(); dlgState.sel = (dlgState.sel + 1) % dlgState.options.length; markSel(); return; }
+      if (e.code === "ArrowUp" || e.code === "KeyW") { e.preventDefault(); dlgState.sel = (dlgState.sel - 1 + dlgState.options.length) % dlgState.options.length; markSel(); return; }
+    }
+    if (e.code === "Enter" || e.code === "Space" || e.code === "KeyE" || e.code === "NumpadEnter") { e.preventDefault(); if (!e.repeat) dlgAdvance(); }
+  }
+  dlg.addEventListener("click", () => { if (dlgState.mode === "say") dlgAdvance(); });
+
+  // ---------- екрани
+  const screenState = { open: false };
+  function showScreen(html, onBind) {
+    screenEl.innerHTML = `<div class="card">${html}</div>`; screenEl.hidden = false; screenState.open = true; screenEl.scrollTop = 0;
+    clearInput();
+    if (onBind) onBind(screenEl);
+    const p = screenEl.querySelector("[data-primary]"); if (p) setTimeout(() => p.focus({ preventScroll: true }), 30);
+  }
+  function hideScreen() { screenEl.hidden = true; screenState.open = false; screenEl.innerHTML = ""; }
+
+  // ---------- малювання
+  const D = {
+    emoji(ch, x, y, size, o) {
+      o = o || {};
+      ctx.save(); ctx.translate(x, y);
+      if (o.rot) ctx.rotate(o.rot);
+      if (o.flip) ctx.scale(-1, 1);
+      if (o.sy) ctx.scale(1, o.sy);
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      ctx.font = `${Math.round(size)}px ${EMOJI_FONT}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillStyle = "#000"; // кольорові гліфи множаться на альфу заливки
+      ctx.fillText(ch, 0, size * 0.06);
+      ctx.restore();
+    },
+    text(str, x, y, o) {
+      o = o || {};
+      const size = o.size || 18;
+      ctx.save();
+      ctx.font = `${o.weight || 600} ${size}px ${o.display ? '"Unbounded","Arial Black",sans-serif' : '"Commissioner","Segoe UI",sans-serif'}`;
+      ctx.textAlign = o.align || "center"; ctx.textBaseline = o.baseline || "middle";
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      if (o.stroke) { ctx.lineWidth = o.strokeW || 4; ctx.strokeStyle = o.stroke; ctx.lineJoin = "round"; ctx.strokeText(str, x, y); }
+      ctx.fillStyle = o.color || "#fff"; ctx.fillText(str, x, y);
+      ctx.restore();
+    },
+    rr(x, y, w, h, r, fill, stroke, lw) {
+      ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h);
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = lw || 2; ctx.strokeStyle = stroke; ctx.stroke(); }
+    },
+    circle(x, y, r, fill, stroke, lw) {
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = lw || 2; ctx.strokeStyle = stroke; ctx.stroke(); }
+    },
+    shadow(x, y, w, a) { ctx.save(); ctx.globalAlpha = a == null ? 0.25 : a; ctx.fillStyle = "#000"; ctx.beginPath(); ctx.ellipse(x, y, w, w * 0.32, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore(); },
+    bubble(str, x, y, o) {
+      o = o || {};
+      ctx.save();
+      const size = o.size || 15;
+      ctx.font = `600 ${size}px "Commissioner","Segoe UI",sans-serif`;
+      const w = Math.min(ctx.measureText(str).width + 20, 360), h = size + 14;
+      let bx = Math.max(6, Math.min(W - w - 6, x - w / 2)), by = y - h - 10;
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      D.rr(bx, by, w, h, 10, o.bg || "rgba(255,255,255,0.95)");
+      ctx.beginPath(); ctx.moveTo(x - 6, by + h); ctx.lineTo(x + 6, by + h); ctx.lineTo(x, by + h + 8); ctx.fillStyle = o.bg || "rgba(255,255,255,0.95)"; ctx.fill();
+      ctx.fillStyle = o.color || "#1b2030"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(str, bx + w / 2, by + h / 2 + 1, w - 14);
+      ctx.restore();
+    },
+    bar(x, y, w, h, frac, fill, back) {
+      D.rr(x, y, w, h, h / 2, back || "rgba(0,0,0,0.35)");
+      D.rr(x, y, Math.max(h, w * Math.max(0, Math.min(1, frac))), h, h / 2, fill || "#f2c14e");
+    },
+  };
+
+  // актори
+  function actor(o) { return Object.assign({ x: 0, y: 0, vx: 0, vy: 0, size: 44, emoji: "🙂", flip: false, moving: false, phase: 0, speed: 180 }, o); }
+  function moveActor(a, dt, bounds, speedMul) {
+    const sp = a.speed * (speedMul == null ? 1 : speedMul);
+    const dx = input.x * sp * dt, dy = input.y * sp * dt;
+    a.moving = !!(input.x || input.y);
+    if (a.moving) { a.phase += dt * 10; if (input.x) a.flip = input.x > 0; }
+    let nx = a.x + dx, ny = a.y + dy;
+    if (bounds) { nx = clamp(nx, bounds.x0, bounds.x1); ny = clamp(ny, bounds.y0, bounds.y1); }
+    if (a.blocked && a.blocked(nx, a.y)) nx = a.x;
+    if (a.blocked && a.blocked(a.x, ny)) ny = a.y;
+    a.x = nx; a.y = ny;
+    if (a.moving && Math.floor(a.phase / 3.14) !== a._lastStep) { a._lastStep = Math.floor(a.phase / 3.14); if (a.stepSound !== false) sfx("step"); }
+  }
+  function drawActor(a, o) {
+    o = o || {};
+    const bob = a.moving ? Math.abs(Math.sin(a.phase)) * 4 : Math.sin(api.t * 2 + (a.x % 7)) * 1.2;
+    D.shadow(a.x, a.y + a.size * 0.42, a.size * 0.36);
+    D.emoji(a.emoji, a.x, a.y - bob, a.size, { flip: o.flip != null ? o.flip : a.flip, alpha: a.alpha, rot: a.rot });
+    if (a.label) D.text(a.label, a.x, a.y - a.size * 0.75 - bob, { size: 13, color: "#fff", stroke: "rgba(0,0,0,0.6)", strokeW: 4 });
+  }
+
+  // частинки
+  const parts = [];
+  function burst(x, y, what, n, o) {
+    o = o || {};
+    for (let i = 0; i < (n || 10); i++) {
+      const a = Math.random() * Math.PI * 2, s = (o.speed || 120) * (0.4 + Math.random());
+      parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - (o.up || 40), life: o.life || 0.9, t: 0, what, size: o.size || 16, g: o.g == null ? 200 : o.g });
+    }
+  }
+  function updParts(dt) {
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const p = parts[i]; p.t += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += p.g * dt;
+      if (p.t > p.life) parts.splice(i, 1);
+    }
+  }
+  function drawParts() {
+    for (const p of parts) {
+      const a = 1 - p.t / p.life;
+      if (p.what.length <= 2 || /\p{Extended_Pictographic}/u.test(p.what)) D.emoji(p.what, p.x, p.y, p.size, { alpha: a });
+      else D.circle(p.x, p.y, p.size / 4, p.what);
+    }
+  }
+
+  let shakeT = 0, shakeA = 0;
+  function shake(a, t) { shakeA = a || 6; shakeT = t || 0.3; }
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const wait = (s) => new Promise((r) => setTimeout(r, s * 1000));
+
+  // ---------- гра
+  let G = null, state = "intro", ended = false;
+  const api = {
+    W, H, ctx, input, D, t: 0, dt: 0,
+    say, choose, banner, hud, sfx, shake, burst, actor, moveActor, drawActor, wait,
+    clamp, dist, rand, pick, store,
+    get busy() { return dlgState.open || screenState.open || api.locked; },
+    locked: false,
+    end, restart,
+  };
+
+  function endingKey() { return "pg:end:" + (G && G.id); }
+  function found() { return store.get(endingKey(), []); }
+
+  function intro() {
+    state = "intro";
+    const controls = (G.controls || []).map((c) => `<li>${c}</li>`).join("");
+    showScreen(
+      `<span class="eyebrow">Гра ${esc(META.num || G.id)} · ${G.eyebrow ? esc(G.eyebrow) : `за притчею «${esc(G.parable)}»`}</span>
+       <h1>${esc(G.title)}</h1>
+       <p class="story">${esc(G.story)}</p>
+       ${G.goal ? `<p>${esc(G.goal)}</p>` : ""}
+       ${controls ? `<ul>${controls}</ul>` : ""}
+       <p class="muted">Фіналів у грі: ${Object.keys(G.endings).length}. Знайдено: ${found().length}.</p>
+       <div class="row"><button class="btn" data-primary type="button">Почати гру</button></div>`,
+      (el) => el.querySelector("[data-primary]").addEventListener("click", () => { ensureAudio(); hideScreen(); begin(); })
+    );
+  }
+  function begin() {
+    state = "play"; ended = false; api.locked = false; parts.length = 0; hud([]); bannerEl.hidden = true;
+    api.t = 0; G.init(api);
+    if (G.start) Promise.resolve(G.start(api)).catch(console.error);
+  }
+  function restart() { hideScreen(); closeDlgSilent(); begin(); }
+  function closeDlgSilent() { dlgState.open = false; dlg.hidden = true; dlgState.resolve = null; }
+
+  function end(letter) {
+    if (ended) return; ended = true; state = "end";
+    const e = G.endings[letter];
+    const got = new Set(found()); got.add(letter); store.set(endingKey(), [...got]);
+    const total = Object.keys(G.endings);
+    sfx("end");
+    const chips = total.map((k) => `<span class="${k === letter ? "now" : got.has(k) ? "got" : ""}">${k === letter || got.has(k) ? esc(k + ". " + G.endings[k].title) : esc(k + ". ???")}</span>`).join("");
+    const qs = (G.questions || []).map((q) => `<li>${esc(q)}</li>`).join("");
+    const next = META.next ? `<a class="btn ghost" href="${esc(META.next)}">Наступна гра →</a>` : "";
+    setTimeout(() => showScreen(
+      `<span class="eyebrow">Фінал ${esc(letter)} з ${total.length}</span>
+       <h1><span class="letter">${esc(letter)}</span>${esc(e.title)}</h1>
+       <p>${esc(e.text)}</p>
+       <h2>Висновок</h2>
+       <p class="moral">${esc(G.moral)}</p>
+       ${qs ? `<ul>${qs}</ul>` : ""}
+       <span class="eyebrow">Знайдені фінали: ${got.size} з ${total.length}</span>
+       <div class="ends">${chips}</div>
+       <div class="row"><button class="btn" data-primary type="button">Грати знову</button>${next}<a class="btn ghost" href="${esc(META.hub || "#")}">Усі ігри</a></div>`,
+      (el) => el.querySelector("[data-primary]").addEventListener("click", restart)
+    ), 500);
+  }
+
+  // ---------- цикл
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    pollInput();
+    if (G) {
+      if (state === "play" && !api.busy) { api.t += dt; api.dt = dt; G.update(dt, api); }
+      updParts(dt);
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      if (shakeT > 0) { shakeT -= dt; ctx.translate(rand(-shakeA, shakeA), rand(-shakeA, shakeA)); }
+      ctx.clearRect(-20, -20, W + 40, H + 40);
+      G.draw(ctx, api);
+      drawParts();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  window.PG = {
+    start(game) {
+      G = game; window.PG.game = game;
+      if (game.dlgTop) dlg.classList.add("top");
+      document.title = game.title;
+      if (pad) {
+        const a = pad.querySelector('[data-k="act"]'), b = pad.querySelector('[data-k="alt"]');
+        a.textContent = game.actLabel || "Дія";
+        if (game.altLabel) { b.textContent = game.altLabel; b.hidden = false; } else b.hidden = true;
+        if (game.noMove) pad.querySelector(".stick").style.visibility = "hidden";
+      }
+      const help = $("#help");
+      if (help && game.help) help.innerHTML = game.help;
+      G.init(api);
+      intro();
+      requestAnimationFrame(frame);
+    },
+    api,
+  };
+})();
+</script>
+<script>/* Гра 16 «Земельна угода» — ділова гра: провести угоду купівлі ділянки від ринку до банку. */
+(function () {
+  const OBL = ["Черкаська", "Вінницька", "Полтавська", "Хмельницька", "Київська", "Кропивницька"];
+  const NAMES = ["Петро", "Ганна", "Микола", "Віра", "Степан", "Олена", "Іван", "Надія", "Василь", "Тамара", "Григорій", "Люба", "Федір", "Ніна", "Богдан", "Зіна"];
+  const FACES = ["👨‍🌾", "👩‍🌾", "👴", "👵", "🧔", "👩", "👨", "🧓"];
+  const REPS = [
+    { n: "Ярослав", e: "👨‍💼", speed: 3, calm: 1, exp: 2, note: "їздить швидко, але запальний" },
+    { n: "Олександр", e: "🧔", speed: 2, calm: 3, exp: 3, note: "досвідчений і спокійний" },
+    { n: "Ольга", e: "👩‍💼", speed: 2, calm: 3, exp: 2, note: "уміє заспокоїти будь-кого" },
+    { n: "Марія", e: "👩", speed: 1, calm: 3, exp: 3, note: "повільна, зате знає всі документи" },
+    { n: "Вікторія", e: "👱‍♀️", speed: 3, calm: 2, exp: 1, note: "енергійна новенька" },
+  ];
+  const STAGES = ["Ринок", "Перевірка", "Нотаріус", "Дорога", "Намір", "Очікування", "Угода", "Банк"];
+  const LIMIT = 365;
+  let S;
+
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const ri = (a, b) => Math.floor(rnd(a, b + 1));
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+  const chance = (p) => Math.random() < p;
+
+  const game = {
+    id: "16", title: "Земельна угода", eyebrow: "ділова гра",
+    story: "Ринок землі живе швидко. Продавців багато, і кожного можуть перекупити, поки ти думаєш. Хтось зникає, хтось кричить «Та ви шахраї!», у когось раптом виконавче провадження. А попереду ще перевірка документів, нотаріус, дорога, місяці очікування і банк.",
+    goal: "Проведи угоду якнайшвидше: знайди продавця, домовся про ціну (80–140 тис.), перевір документи, знайди нотаріуса, вибери, хто поїде на угоду, дочекайся строку і забери гроші в банку. Лічильник днів не зупиняється. Якщо продавця втрачено, повертаєшся на ринок.",
+    controls: ["Стрілки або WASD — ходити, у дорозі — кермувати", "Пробіл або E — говорити, торгуватися, заходити", "Цифри 1–4 або клік — обрати відповідь"],
+    help: "<kbd>←↑→↓</kbd> рух · <kbd>Пробіл</kbd> говорити · <kbd>1–4</kbd> відповідь",
+    actLabel: "Дія",
+    endings: {
+      "А": { title: "Блискавична угода", text: "Від ринку до банку менш ніж за сто днів. Ти не зволікав на ринку, не сперечався з продавцем і не панікував, коли вимикали світло." },
+      "Б": { title: "Угода відбулася", text: "Гроші отримано, ділянку оформлено. Було всяке: і перекуплені продавці, і зайняті нотаріуси. Але ти дійшов до банку." },
+      "В": { title: "Угода коштом нервів", text: "Угода відбулася, але забрала більше пів року. Кожен зрив повертав тебе на ринок, а дні тим часом ішли." },
+      "Г": { title: "Ринок переміг", text: "Минув рік, а угоди так і немає. Продавців перекупили, нотаріуси пішли у відпустки, орендарі вставили палиці в колеса." },
+    },
+    moral: "На ринку виграє не той, хто ніколи не стикається з перешкодами, а той, хто швидко ухвалює рішення, тримає продавця поруч, готує документи заздалегідь і не втрачає спокою, коли все йде не за планом.",
+    questions: ["На якому етапі ти втратив найбільше днів?", "Які перешкоди можна було передбачити і підготуватися до них?", "Кого з представників ти обрав би наступного разу і чому?"],
+
+    _s() { return S; },
+    init(api) {
+      S = { scene: "market", stage: 0, days: 0, price: 0, seller: null, trust: 60, rep: null, lost: 0, msg: "", msgT: 0, scn: {} , done: false, lease: null };
+      enterMarket(api, true);
+    },
+    async start(api) {
+      await api.say([["", "Земельний ринок. Довкола продавці з шести областей, і кожен називає свою ціну. Конкуренти вже ходять між ними."], ["", "Підійди до продавця і натисни Пробіл, щоб почати торг. Поспішай: продавців перекуповують."]]);
+    },
+
+    update(dt, api) {
+      if (S.done) return;
+      S.msgT -= dt;
+      const fn = UPD[S.scene]; if (fn) fn(dt, api);
+      if (S.days >= LIMIT && !S.done) { S.done = true; api.locked = true; api.say([["", "Минув рік. Угоди немає."]]).then(() => { api.locked = false; api.end("Г"); }); }
+      api.hud([["Етап", (S.stage + 1) + ". " + STAGES[S.stage]], ["Днів", Math.floor(S.days)], S.price ? ["Ціна", S.price + " тис."] : null, S.seller && S.stage >= 1 ? ["Довіра", Math.round(S.trust)] : null, S.lost ? ["Зривів", S.lost] : null]);
+    },
+    draw(ctx, api) { const fn = DRAW[S.scene]; if (fn) fn(ctx, api); if (S.msgT > 0 && S.msgPos) api.D.bubble(S.msg, S.msgPos.x, S.msgPos.y, { size: 13 }); },
+  };
+
+  function daysWord(n) { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? "день" : a >= 2 && a <= 4 && (b < 12 || b > 14) ? "дні" : "днів"; }
+  function msg(t, pos) { S.msg = t; S.msgT = 2.8; S.msgPos = pos || (S.scn.p ? { x: S.scn.p.x, y: S.scn.p.y - 28 } : { x: 480, y: 120 }); }
+  function addDays(n) { S.days += n; }
+
+  // ---------------------------------------------------------------- 1. Ринок
+  const SLOTS = [];
+  for (const y of [215, 345, 470]) for (const x of [170, 480, 790]) SLOTS.push({ x, y });
+  function newSeller(slot) {
+    const h = SLOTS[slot];
+    const s = { name: pick(NAMES), face: pick(FACES), obl: pick(OBL), price: ri(80, 140), x: h.x, y: h.y, slot, st: "free", t: 0, alpha: 1,
+      exec: chance(0.15), abroad: chance(0.12), mood: rnd(0.3, 1), tx: h.x, ty: h.y, wt: 0 };
+    return s;
+  }
+  function enterMarket(api, first) {
+    S.scene = "market"; S.stage = 0; S.seller = null; S.price = 0; S.trust = 60; S.lease = null;
+    const p = api.actor({ x: 480, y: 300, emoji: "🧑‍💼", size: 38, speed: 210 });
+    S.scn = { p, sellers: SLOTS.map((_, i) => newSeller(i)), comps: Array.from({ length: 3 }, (_, i) => ({ x: 60 + i * 400, y: 520, e: ["🕴️", "🤵", "🧑‍💼"][i], target: null, t: 0, speed: rnd(70, 95) })), evT: 2.5 };
+    if (!first) api.banner("Знову на ринку. Шукай нового продавця.", 2600);
+  }
+  UPD_market = (dt, api) => {
+    const M = S.scn, p = M.p;
+    addDays(dt * 0.5);
+    api.moveActor(p, dt, { x0: 30, x1: 930, y0: 110, y1: 515 });
+    for (const s of M.sellers) {
+      if (s.st === "leaving") { s.alpha -= dt * 1.2; s.y -= dt * 30; continue; }
+      if (s.st === "ghost") { s.t -= dt; if (s.t <= 0) { if (chance(0.7)) { s.st = "free"; msg(s.name + " знову на зв'язку", { x: s.x, y: s.y - 30 }); } else leave(s, "Більше не відповідає"); } continue; }
+      if (s.st === "free") { s.wt -= dt; if (s.wt <= 0) { s.wt = rnd(2, 5); s.tx = SLOTS[s.slot].x + rnd(-40, 40); s.ty = SLOTS[s.slot].y + rnd(-12, 12); } s.x += (s.tx - s.x) * dt * 1.2; s.y += (s.ty - s.y) * dt * 1.2; }
+    }
+    M.sellers = M.sellers.filter((s) => s.alpha > 0);
+    for (let k = 0; k < SLOTS.length; k++) if (!M.sellers.some((s) => s.slot === k && s.st !== "leaving")) { const n = newSeller(k); n.x = n.x < 480 ? -20 : 980; M.sellers.push(n); }
+    // конкуренти
+    for (const c of M.comps) {
+      if (!c.target || c.target.st === "leaving" || (c.target.st !== "free" && c.target.st !== "comp")) {
+        if (c.target && c.target.st === "comp" && c.target.by === c) c.target.st = "free";
+        const free = M.sellers.filter((s) => s.st === "free"); c.target = free.length ? pick(free) : null; c.t = 0;
+      }
+      if (!c.target) continue;
+      const s = c.target, dx = s.x - c.x, dy = s.y - c.y, d = Math.hypot(dx, dy);
+      if (d > 34) { c.x += dx / d * c.speed * dt; c.y += dy / d * c.speed * dt; c.flip = dx > 0; }
+      else {
+        if (s.st === "free") { s.st = "comp"; s.by = c; c.t = 0; c.need = rnd(4, 7); }
+        if (s.st === "comp" && s.by === c) {
+          c.t += dt;
+          if (c.t >= c.need) {
+            if (chance(0.6)) { leave(s, "Перекупили!"); if (api.dist(p, s) < 220) api.banner(s.name + " (" + s.obl + ") продав ділянку конкуренту", 2400); }
+            else { s.st = "free"; msg("Не зійшлися в ціні", { x: s.x, y: s.y - 30 }); }
+            c.target = null;
+          }
+        }
+      }
+    }
+    // випадкові події продавців
+    M.evT -= dt;
+    if (M.evT <= 0) {
+      M.evT = rnd(2, 3.5);
+      const free = M.sellers.filter((s) => s.st === "free"); if (free.length) {
+        const s = pick(free), r = Math.random();
+        if (r < 0.35) { s.st = "ghost"; s.t = rnd(4, 9); msg("📵 Не виходить на зв'язок", { x: s.x, y: s.y - 30 }); }
+        else if (r < 0.55) leave(s, "Передумав продавати");
+        else if (r < 0.72) leave(s, "Та ви шахраї!");
+        else if (r < 0.88) { s.exec = true; s.execSeen = true; msg("⚖️ З'явилося виконавче провадження", { x: s.x, y: s.y - 30 }); }
+        else { s.price = api.clamp(s.price + ri(-6, 8), 80, 140); msg("Тепер хоче " + s.price + " тис.", { x: s.x, y: s.y - 30 }); }
+      }
+    }
+    if (api.input.act) {
+      let best = null, bd = 60;
+      for (const s of M.sellers) { const d = api.dist(p, s); if (d < bd && (s.st === "free" || s.st === "comp")) { bd = d; best = s; } }
+      if (best) haggle(api, best);
+      else { const g = M.sellers.find((s) => s.st === "ghost" && api.dist(p, s) < 60); if (g) msg("Не бере слухавку…"); }
+    }
+  };
+  function leave(s, why) { s.st = "leaving"; s.why = why; s.alpha = 1; S.scn.leaveMsg = { t: why, x: s.x, y: s.y, T: 2.2 }; }
+
+  async function haggle(api, s) {
+    const M = S.scn, wasComp = s.st === "comp";
+    s.st = "talk";
+    let ask = s.price;
+    const floor = Math.max(80, Math.round(s.price * rnd(0.84, 0.93)));
+    for (let round = 0; round < 3; round++) {
+      const o1 = Math.max(80, ask - 12), o2 = Math.max(80, ask - 6);
+      const head = `${s.name}, ${s.obl} обл. ${round ? "Тепер" : "Просить"} ${ask} тис.` + (s.execSeen ? " (чути, що є виконавче…)" : "") + (wasComp && !round ? " Поруч уже торгується конкурент!" : "");
+      const c = await api.choose(head, [`Запропонувати ${o1} тис.`, `Запропонувати ${o2} тис.`, `Погодитися на ${ask} тис.`, "Піти"], s.face + " Продавець");
+      if (c === 3) { s.st = "free"; return; }
+      const offer = [o1, o2, ask][c];
+      // конкурент втручається
+      const near = M.comps.find((k) => Math.hypot(k.x - s.x, k.y - s.y) < 170);
+      if ((near || wasComp) && chance(0.45)) {
+        const plus = ri(3, 8);
+        const b = await api.choose(`Конкурент: «Даю ${offer + plus} тис., і гроші одразу!»`, [`Перебити: ${offer + plus + 2} тис.`, "Не перебивати"], "🕴️ Конкурент");
+        if (b === 1) { leave(s, "Пішов до конкурента"); api.sfx("bad"); return; }
+        return agreed(api, s, offer + plus + 2);
+      }
+      if (offer >= ask || (offer >= floor && chance(0.55 + s.mood * 0.3))) return agreed(api, s, offer);
+      if (offer < floor - 6 && chance(0.35)) { leave(s, "Та ви шахраї!"); api.sfx("bad"); await api.say([[s.face + " Продавець", "Та ви шахраї! За такі гроші — і не соромно?"]]); return; }
+      ask = Math.max(offer + 1, Math.round((ask + offer) / 2) + ri(0, 3));
+      if (chance(0.15)) { s.st = "ghost"; s.t = rnd(5, 10); await api.say([["", s.name + " каже «я подумаю» і кладе слухавку."]]); return; }
+    }
+    s.st = "free"; await api.say([[s.face + " Продавець", "Ні, так не піде. Шукайте когось іншого."]]);
+  }
+
+  async function agreed(api, s, price) {
+    api.sfx("good");
+    S.seller = s; S.price = api.clamp(price, 80, 140);
+    s.st = "yours";
+    await api.say([[s.face + " " + s.name, `Добре, ${S.price} тис. По руках!`], ["", "Тепер перевіряємо документи на ділянку. Продавця треба втримати, поки все не оформлено."]]);
+    enterCheck(api);
+  }
+
+  async function lose(api, why) {
+    S.lost++; api.sfx("bad"); api.shake(6, 0.3);
+    api.locked = true;
+    await api.say([["", why + " Продавця втрачено. Назад на ринок."]]);
+    api.locked = false;
+    enterMarket(api, false);
+  }
+
+  // ---------------------------------------------------------------- 2. Перевірка документів
+  const LEASE = [
+    { t: "Оренда на 49 років. Довгий термін, орендар має переважне право.", risk: 3 },
+    { t: "Оренди немає. Ділянка вільна.", risk: 0 },
+    { t: "«Сіра» оренда: обробляють без договору.", risk: 2 },
+    { t: "Оренда на 7 років, договір прозорий.", risk: 1 },
+    { t: "Межі в натурі не винесені, але кадастровий номер є.", risk: 1 },
+  ];
+  function enterCheck(api) {
+    S.scene = "check"; S.stage = 1;
+    S.scn = { prog: 0, evAt: [rnd(0.2, 0.45), rnd(0.55, 0.85)].slice(0, ri(0, 2)), busy: false, paper: 0 };
+    if (S.seller.exec && !S.scn.evAt.length) S.scn.evAt.push(0.5);
+  }
+  UPD_check = (dt, api) => {
+    const C = S.scn; if (C.busy) return;
+    C.prog = Math.min(1, C.prog + dt / 7); addDays(dt * 1.2); C.paper += dt;
+    if (C.evAt.length && C.prog >= C.evAt[0]) { C.evAt.shift(); C.busy = true; checkEvent(api).then(() => (C.busy = false)); return; }
+    if (C.prog >= 1) { C.busy = true; checkResult(api); }
+  };
+  async function checkEvent(api) {
+    const s = S.seller;
+    const pool = ["lessee", "abroad", "ghost", "comp"];
+    if (s.exec) pool.push("exec", "exec");
+    const e = pick(pool);
+    if (e === "exec") {
+      s.exec = false;
+      const c = await api.choose("У реєстрі знайшлося виконавче провадження на продавця. Ділянка під арештом.", ["Чекати зняття обтяження (+30 днів)", "Відмовитися від угоди"], "Реєстр");
+      if (c === 1) return lose(api, "Ти відмовився через арешт.");
+      addDays(30); if (chance(0.5)) return lose(api, "Обтяження так і не зняли.");
+      await api.say([["", "Борг погашено, арешт знято. Працюємо далі."]]);
+    } else if (e === "lessee") {
+      if (chance(0.35)) return lose(api, "Орендар дізнався про продаж і перекупив ділянку.");
+      await api.say([["", "Орендар цікавився ділянкою, але продавець тримає слово."]]); S.trust += 5;
+    } else if (e === "abroad") {
+      const c = await api.choose("Виявилося, що продавець за кордоном і на угоду приїхати не може.", ["Оформити довіреність (+20 днів)", "Відмовитися"], "Продавець");
+      if (c === 1) return lose(api, "Без продавця угоди не буде.");
+      addDays(20);
+    } else if (e === "ghost") {
+      await api.say([["", "Продавець перестав брати слухавку…"]]);
+      addDays(ri(3, 10));
+      if (chance(0.35)) return lose(api, "Продавець так і не вийшов на зв'язок.");
+      await api.say([[s.face + " " + s.name, "Вибачте, телефон сів. Я тут!"]]);
+    } else {
+      const c = await api.choose("Інший покупець пропонує продавцю на 10 тис. більше.", ["Доплатити 10 тис.", "Переконати, що ми надійніші", "Відпустити"], s.face + " Продавець");
+      if (c === 2) return lose(api, "Продавець пішов до іншого покупця.");
+      if (c === 0) { S.price = Math.min(140, S.price + 10); S.trust += 10; }
+      else if (chance(0.5)) return lose(api, "Не переконав. Продавець пішов до того, хто платить більше.");
+      else S.trust += 5;
+    }
+  }
+  async function checkResult(api) {
+    const L = pick(LEASE); S.lease = L;
+    const c = await api.choose("Результат перевірки: " + L.t, ["Працювати далі", "Відмовитися і шукати іншу ділянку"], "Перевірка документів");
+    if (c === 1) { S.lost++; enterMarket(api, false); return; }
+    enterNotary(api);
+  }
+
+  // ---------------------------------------------------------------- 3. Нотаріус
+  const NOT_NAMES = ["Петренко", "Коваль", "Шевчук", "Мельник"];
+  function enterNotary(api) {
+    S.scene = "notary"; S.stage = 2;
+    const states = ["ok", pick(["busy", "noanswer", "vacation", "nointent", "nasty"]), pick(["busy", "noanswer", "vacation", "nointent"]), pick(["ok", "nasty", "busy"])].sort(() => Math.random() - 0.5);
+    S.scn = { p: api.actor({ x: 80, y: 420, emoji: "🧑‍💼", size: 36, speed: 200 }), sel: { x: 50, y: 440 },
+      offices: NOT_NAMES.map((n, i) => ({ n, x: 170 + i * 210, y: 220, st: states[i], tried: false, back: 0 })) };
+    api.banner("Знайди нотаріуса, який візьметься за угоду", 2600);
+  }
+  UPD_notary = (dt, api) => {
+    const N = S.scn, p = N.p;
+    addDays(dt * 0.4);
+    api.moveActor(p, dt, { x0: 30, x1: 930, y0: 280, y1: 510 });
+    N.sel.x += (p.x - 40 - N.sel.x) * dt * 2; N.sel.y += (p.y + 16 - N.sel.y) * dt * 2;
+    for (const o of N.offices) if (o.back > 0) { o.back -= dt; if (o.back <= 0) { o.st = "ok"; msg("Нотаріус " + o.n + " повернувся з відпустки", { x: o.x, y: o.y - 60 }); } }
+    if (chance(dt * 0.03)) { api.sfx("bad"); S.trust -= 5; msg(S.seller.name + ": «Скільки ще ходити?»", { x: N.sel.x, y: N.sel.y - 30 }); }
+    if (api.input.act) { const o = N.offices.find((o) => Math.abs(p.x - o.x) < 70 && p.y < 360); if (o) visit(api, o); }
+  };
+  async function visit(api, o) {
+    addDays(2);
+    const say = (t) => api.say([["Нотаріус " + o.n, t]]);
+    if (o.st === "busy") { const c = await api.choose("Нотаріус " + o.n + " зайнятий. Найближче вікно — за тиждень.", ["Записатися (+7 днів)", "Шукати іншого"], "Приймальня"); if (c === 0) { addDays(7); o.st = "ok"; return visit(api, o); } return; }
+    if (o.st === "noanswer") { await api.say([["", "Двері зачинені, телефон не відповідає."]]); if (chance(0.4)) { o.st = "ok"; msg("Наступного разу, може, відповість", { x: o.x, y: o.y - 60 }); } return; }
+    if (o.st === "vacation") { await say("Я у відпустці. Повернуся за два тижні."); o.st = "away"; o.back = 12; return; }
+    if (o.st === "away") { await api.say([["", "На дверях табличка: «У відпустці»."]]); return; }
+    if (o.st === "nointent") { await say("Наміри й попередні договори я не посвідчую. Ідіть до іншого."); return; }
+    if (o.st === "nasty") { await say("Ну… Добре, візьмуся. Але документи принесете ще раз, і в черзі посидите."); S.trust -= 10; S.nasty = true; }
+    else await say("Візьмуся. Записую вас на найближчий день.");
+    await chooseRep(api, "Хто повезе продавця до нотаріуса?");
+    enterDrive(api, "deal");
+  }
+
+  // ---------------------------------------------------------------- 4. Вибір представника і дорога
+  async function chooseRep(api, q) {
+    const st = (n) => "★".repeat(n) + "☆".repeat(3 - n);
+    const c = await api.choose(q, REPS.map((r) => `${r.n}: швидкість ${st(r.speed)}, спокій ${st(r.calm)}, досвід ${st(r.exp)} — ${r.note}`), "Команда");
+    S.rep = REPS[c];
+  }
+  function enterDrive(api, next) {
+    S.scene = "drive"; S.stage = next === "deal" ? 3 : 6;
+    S.scn = { next, x: 480, dist: 0, need: next === "deal" ? 1 : 0.7, obs: [], spawn: 0, scroll: 0, hits: 0 };
+    api.banner(S.rep.n + " за кермом. Об'їжджай ями й перешкоди!", 2400);
+  }
+  UPD_drive = (dt, api) => {
+    const D = S.scn, sp = 0.055 + S.rep.speed * 0.012;
+    D.x = api.clamp(D.x + api.input.x * 360 * dt, 320, 640);
+    D.dist += dt * sp; D.scroll += dt * 360;
+    D.spawn -= dt;
+    if (D.spawn <= 0) { D.spawn = rnd(0.45, 0.9); D.obs.push({ x: pick([360, 430, 480, 530, 600]), y: -40, e: pick(["🕳️", "🚧", "🚜", "🐄", "🚛", "🕳️"]) }); }
+    for (const o of D.obs) o.y += 330 * dt;
+    for (const o of D.obs) if (!o.hit && Math.abs(o.y - 440) < 34 && Math.abs(o.x - D.x) < 40) { o.hit = true; D.hits++; D.dist = Math.max(0, D.dist - 0.06); S.trust -= 3; api.sfx("bad"); api.shake(8, 0.25); }
+    D.obs = D.obs.filter((o) => o.y < 600);
+    if (D.dist >= D.need) { addDays(1); if (D.next === "deal") enterDeal(api); else enterDeal2(api); }
+  };
+
+  // ---------------------------------------------------------------- 5. Намір у нотаріуса
+  const DEAL_EVENTS = [
+    { q: "Сварка: продавець не згоден із формулюванням у договорі.", a: [["Спокійно пояснити пункт", "calm", 8], ["Попросити нотаріуса розтлумачити (+1 день)", 1, 5], ["«Ви ж погодились!»", null, -15]] },
+    { q: "Конфлікт: приїхав син продавця і кричить, що землю продавати не можна.", a: [["Вислухати й показати ціну та умови", "calm", 10], ["Запропонувати подумати до завтра (+1 день)", 1, 0], ["Сперечатися з сином", null, -20]] },
+    { q: "Непорозуміння: продавець думав, що отримає всю суму готівкою сьогодні.", a: [["Пояснити порядок розрахунку на папері", "exp", 8], ["Пообіцяти «якось вирішимо»", null, -5], ["Відмовити різко", null, -15]] },
+    { q: "Продавець хоче піти в банк і перевірити, чи гроші справжні.", a: [["Поїхати разом у банк (+1 день)", 1, 10], ["Показати банківську виписку", "exp", 4], ["«Нам немає коли»", null, -12]] },
+    { q: "Відключення світла. Реєстр не працює.", a: [["Чекати генератор, пригостити кавою з термоса", "calm", 6], ["Перенести на завтра (+1 день)", 1, -3], ["Нервувати вголос", null, -10]] },
+    { q: "Договір не готовий: у нотаріуса бракує витягу.", a: [["Швидко замовити витяг онлайн", "exp", 5], ["Чекати (+2 дні)", 2, -2], ["Звинуватити нотаріуса", null, -12]] },
+    { q: "Дуже довго чекати в черзі. Продавець нервує.", a: [["Розповісти, що буде далі, по кроках", "calm", 6], ["Переписатися на інший день (+2 дні)", 2, -4], ["Сидіти мовчки", null, -6]] },
+    { q: "«Чого ви не підготувались? Ви шахраї, ви неорганізовані!»", a: [["Вибачитися і показати всі документи", "exp", 10], ["Зробити перерву на 10 хвилин", "calm", 4], ["Образитися і сперечатися", null, -18]] },
+  ];
+  function enterDeal(api) {
+    S.scene = "deal"; S.stage = 4;
+    S.scn = { evs: DEAL_EVENTS.slice().sort(() => Math.random() - 0.5).slice(0, ri(1, S.nasty ? 4 : 3)), i: 0, busy: false, prog: 0 };
+  }
+  async function dealEvent(api, e) {
+    const c = await api.choose(e.q, e.a.map((x) => x[0]), S.rep.e + " " + S.rep.n + " і продавець");
+    const [, kind, val] = e.a[c];
+    let d = val;
+    if (kind === "calm" || kind === "exp") d = S.rep[kind] >= 2 ? val : -Math.abs(val) / 2;
+    if (typeof kind === "number") addDays(kind);
+    S.trust = api.clamp(S.trust + d, 0, 100);
+    msg((d >= 0 ? "Довіра +" : "Довіра ") + Math.round(d), { x: 480, y: 150 });
+    api.sfx(d >= 0 ? "pick" : "bad");
+  }
+  UPD_deal = (dt, api) => {
+    const D = S.scn; if (D.busy) return;
+    D.prog += dt; addDays(dt * 0.2);
+    if (D.prog < 1.2) return;
+    if (S.trust <= 0) { D.busy = true; lose(api, "Продавець встав з-за столу: «Не буду я з вами нічого підписувати!»"); return; }
+    if (D.i < D.evs.length) { D.busy = true; dealEvent(api, D.evs[D.i++]).then(() => { D.busy = false; D.prog = 0; }); return; }
+    D.busy = true;
+    api.say([["", "Намір підписано, завдаток передано. Тепер треба дочекатися строку угоди."]]).then(() => enterWait(api));
+  };
+
+  // ---------------------------------------------------------------- 6. Очікування
+  const WAIT_EVENTS = [
+    { q: "Орендар хоче сам викупити ділянку: у нього переважне право.", a: [["Домовитися з орендарем про компенсацію (+5 тис. до ціни)", "pay"], ["Чекати, що він не встигне зібрати гроші", "risk"], ["Попросити продавця поговорити з орендарем", "calm"]] },
+    { q: "Орендар не за місцем реєстрації. Лист-повідомлення нікому вручити.", a: [["Відправити повторно на іншу адресу (+14 днів)", 14], ["Знайти через сільраду (+7 днів)", 7]] },
+    { q: "Орендар не забирає лист на пошті.", a: [["Чекати повернення листа (+30 днів)", 30], ["Вручити через нотаріуса (+10 днів)", 10]] },
+    { q: "Лист не доставлено: пошта загубила відправлення.", a: [["Повторна відправка з описом вкладення (+14 днів)", 14], ["Телеграма (+5 днів)", 5]] },
+  ];
+  function enterWait(api) {
+    S.scene = "wait"; S.stage = 5;
+    const months = pick([1, 1.5, 2, 3]);
+    S.scn = { total: Math.round(months * 30), passed: 0, evs: WAIT_EVENTS.slice().sort(() => Math.random() - 0.5).slice(0, ri(0, 2) + (S.lease && S.lease.risk >= 2 ? 1 : 0)), busy: false, months };
+    S.scn.evAt = S.scn.evs.map((_, i) => (i + 1) / (S.scn.evs.length + 1));
+    api.banner("Очікування строку угоди: " + (months === 1.5 ? "півтора місяця" : months + " " + (months === 1 ? "місяць" : "місяці")), 2800);
+  }
+  UPD_wait = (dt, api) => {
+    const W = S.scn; if (W.busy) return;
+    const step = dt * 9; W.passed += step; addDays(step);
+    if (W.evs.length && W.passed / W.total >= W.evAt[0]) { W.evAt.shift(); W.busy = true; waitEvent(api, W.evs.shift()).then((ok) => { if (ok !== false) W.busy = false; }); return; }
+    if (W.passed >= W.total) { W.busy = true; api.say([["", "Строк минув. Час їхати на основну угоду."]]).then(async () => { await chooseRep(api, "Хто поїде з тобою на угоду цього разу?"); enterDrive(api, "deal2"); }); }
+  };
+  async function waitEvent(api, e) {
+    const c = await api.choose(e.q, e.a.map((x) => x[0]), "Поки триває очікування");
+    const k = e.a[c][1];
+    if (typeof k === "number") { addDays(k); return true; }
+    if (k === "pay") { S.price = Math.min(140, S.price + 5); return true; }
+    if (k === "risk") { if (chance(0.4)) { await lose(api, "Орендар таки зібрав гроші і скористався переважним правом."); return false; } return true; }
+    if (k === "calm") { if (chance(0.25)) { await lose(api, "Розмова продавця з орендарем закінчилася тим, що він продав ділянку орендарю."); return false; } S.trust += 5; return true; }
+    return true;
+  }
+
+  // ---------------------------------------------------------------- 7. Друга поїздка, основна угода
+  const DEAL2_EVENTS = [
+    { q: "На рахунку немає потрібної суми: переказ ще не надійшов.", a: [["Зачекати переказ (+3 дні)", 3, 0], ["Попросити продавця почекати годину", "calm", 4], ["Показати платіжку і тиснути", null, -12]] },
+    { q: "Продавець отримав виконавче провадження. Реєстр показує арешт.", a: [["Погасити борг із суми угоди через нотаріуса", "exp", 6], ["Чекати зняття арешту (+20 днів)", 20, 0], ["Відмовитися", "quit", 0]] },
+    { q: "Продавець передумав: «Сусід каже, що земля подорожчає».", a: [["Додати 5 тис. до ціни", "pay", 15], ["Пояснити, що ціна вже ринкова", "exp", 6], ["«Тоді шукайте іншого покупця»", null, -25]] },
+    { q: "Орендар вставляє палиці в колеса: надіслав нотаріусу заперечення.", a: [["Залучити юриста (+7 днів)", 7, 0], ["Домовитися з орендарем про врожай цього року", "calm", 5], ["Ігнорувати", null, -10]] },
+  ];
+  function enterDeal2(api) {
+    S.scene = "deal2"; S.stage = 6;
+    S.scn = { evs: DEAL2_EVENTS.slice().sort(() => Math.random() - 0.5).slice(0, ri(0, 2)), i: 0, busy: false, prog: 0 };
+  }
+  UPD_deal2 = (dt, api) => {
+    const D = S.scn; if (D.busy) return;
+    D.prog += dt; addDays(dt * 0.2);
+    if (D.prog < 1.2) return;
+    if (S.trust <= 0) { D.busy = true; lose(api, "Продавець відмовився від угоди в останній момент."); return; }
+    if (D.i < D.evs.length) {
+      D.busy = true; const e = D.evs[D.i++];
+      api.choose(e.q, e.a.map((x) => x[0]), S.rep.e + " " + S.rep.n + " і продавець").then((c) => {
+        const [, kind, val] = e.a[c];
+        if (kind === "quit") return lose(api, "Ти відмовився від угоди через арешт.");
+        if (kind === "pay") S.price = Math.min(140, S.price + 5);
+        let d = val; if (kind === "calm" || kind === "exp") d = S.rep[kind] >= 2 ? val : -Math.abs(val) / 2;
+        if (typeof kind === "number") addDays(kind);
+        S.trust = api.clamp(S.trust + d, 0, 100); api.sfx(d >= 0 ? "pick" : "bad");
+        D.busy = false; D.prog = 0;
+      });
+      return;
+    }
+    D.busy = true;
+    api.say([["Нотаріус", "Договір купівлі-продажу посвідчено. Вітаю! Лишилося отримати гроші в банку."]]).then(() => enterBank(api));
+  };
+
+  // ---------------------------------------------------------------- 8. Банк
+  function enterBank(api) {
+    S.scene = "bank"; S.stage = 7;
+    S.scn = { p: api.actor({ x: 120, y: 470, emoji: "🧑‍💼", size: 36, speed: 190 }), queue: Array.from({ length: ri(3, 6) }, (_, i) => ({ x: 560 - i * 50, y: 300, e: pick(["🧓", "👩", "👨", "👵", "🧔"]) })), qt: 0,
+      ev: pick(["none", "closed", "alarm", "finmon", "finmon", "alarm"]), evDone: false, alarm: 0, closed: false };
+    api.banner("Банк. Підійди до віконця каси.", 2400);
+  }
+  UPD_bank = (dt, api) => {
+    const B = S.scn, p = B.p;
+    addDays(dt * 0.2);
+    if (B.alarm > 0) { B.alarm -= dt; if (B.alarm <= 0) { api.banner("Відбій тривоги. Банк знову працює."); } return; }
+    api.moveActor(p, dt, { x0: 30, x1: 930, y0: 200, y1: 515 });
+    B.qt += dt; if (B.qt > 2.2 && B.queue.length) { B.qt = 0; B.queue.shift(); for (const q of B.queue) q.x += 50; }
+    if (!B.evDone && p.x > 300) {
+      B.evDone = true;
+      if (B.ev === "closed") { api.say([["", "На дверях: «Банк зачинено. Технічна перерва»."]]).then(() => { addDays(1); api.banner("Наступного дня…"); p.x = 120; }); return; }
+      if (B.ev === "alarm") { B.alarm = 6; api.sfx("whoosh"); api.banner("Повітряна тривога! Усі в укриття.", 3000); addDays(0.5); return; }
+    }
+    if (api.input.act && p.x > 720 && p.y < 360) window_(api);
+  };
+  async function window_(api) {
+    const B = S.scn;
+    if (B.queue.length) { msg("Спершу черга: ще " + B.queue.length + " осіб"); return; }
+    if (B.ev === "finmon" && !B.fin) {
+      const c = await api.choose("Фінмоніторинг: «Підтвердіть підставу надходження коштів».", ["Договір купівлі-продажу і витяг з реєстру", "Скріншот з месенджера", "Слово честі"], "Каса банку");
+      if (c !== 0) { addDays(2); api.sfx("bad"); await api.say([["Каса банку", "Цього недостатньо. Принесіть документи і приходьте знову."]]); B.fin = true; return; }
+      B.fin = true;
+    }
+    S.done = true; api.locked = true; api.sfx("end");
+    const d = Math.floor(S.days);
+    await api.say([["Каса банку", `Видаємо ${S.price} тис. Угоду завершено.`], ["", `Від ринку до банку: ${d} ${daysWord(d)}, зривів: ${S.lost}.`]]);
+    api.locked = false;
+    api.end(d <= 100 ? "А" : d <= 180 ? "Б" : "В");
+  }
+
+  // ---------------------------------------------------------------- малювання
+  const DRAW = {
+    market(ctx, api) {
+      const M = S.scn;
+      ctx.fillStyle = "#e9dcc0"; ctx.fillRect(0, 0, 960, 540);
+      ctx.fillStyle = "#e0d0b0"; for (let i = 0; i < 80; i++) ctx.fillRect((i * 131) % 960, (i * 77) % 540, 22, 6);
+      ctx.fillStyle = "#3f6b3a"; ctx.fillRect(0, 0, 960, 96);
+      api.D.text("ЗЕМЕЛЬНИЙ РИНОК", 480, 64, { size: 22, color: "#fff", display: true });
+      OBL.forEach((o, i) => api.D.text(o, 80 + i * 160, 86, { size: 11, color: "#cfe3c4" }));
+      for (const s of M.sellers) {
+        const a = s.st === "leaving" ? Math.max(0, s.alpha) : s.st === "ghost" ? 0.45 : 1;
+        api.D.shadow(s.x, s.y + 18, 14, 0.2 * a);
+        api.D.emoji(s.face, s.x, s.y, 38, { alpha: a });
+        api.D.rr(s.x - 46, s.y - 52, 92, 30, 8, s.st === "comp" ? "rgba(255,214,200,0.95)" : "rgba(255,255,255,0.92)");
+        ctx.globalAlpha = a; api.D.text(s.obl, s.x, s.y - 44, { size: 10, color: "#5b4a2a" }); api.D.text(s.price + " тис.", s.x, s.y - 30, { size: 13, color: "#1f2a1a", weight: 700 }); ctx.globalAlpha = 1;
+        if (s.st === "ghost") api.D.emoji("📵", s.x + 22, s.y - 6, 18);
+        if (s.execSeen && s.st !== "leaving") api.D.emoji("⚖️", s.x - 24, s.y - 6, 18);
+        if (s.st === "leaving" && s.why) api.D.text(s.why, s.x, s.y + 30, { size: 12, color: "#9b2c2c", alpha: a });
+      }
+      for (const c of M.comps) {
+        api.D.shadow(c.x, c.y + 16, 12); api.D.emoji(c.e, c.x, c.y, 34, { flip: c.flip });
+        if (c.target && c.target.st === "comp" && c.target.by === c) { ctx.strokeStyle = "#d9534f"; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(c.target.x, c.target.y, 26, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (c.t / c.need)); ctx.stroke(); }
+      }
+      api.drawActor(M.p); api.D.text("ТИ", M.p.x, M.p.y - 30, { size: 11, color: "#1f2a1a" });
+    },
+    check(ctx, api) {
+      const C = S.scn;
+      ctx.fillStyle = "#dfe7ef"; ctx.fillRect(0, 0, 960, 540);
+      api.D.rr(180, 300, 600, 160, 14, "#a0744a");
+      api.D.emoji("🗂️", 300, 270, 60); api.D.emoji("📄", 420 + Math.sin(C.paper * 4) * 6, 270, 46); api.D.emoji("🔍", 540, 270, 46); api.D.emoji("💻", 660, 262, 56);
+      api.D.emoji(S.seller.face, 240, 200, 56); api.D.emoji("🧑‍💼", 720, 200, 56);
+      api.D.text("Перевірка документів на ділянку", 480, 90, { size: 22, color: "#1d2a3a", display: true });
+      api.D.text(`${S.seller.name}, ${S.seller.obl} обл., ${S.price} тис.`, 480, 124, { size: 15, color: "#3b4a5c" });
+      api.D.bar(280, 500, 400, 14, C.prog, "#3a7bd5", "rgba(0,0,0,0.15)");
+      api.D.text("Реєстр, кадастр, оренда, обтяження…", 480, 482, { size: 13, color: "#3b4a5c" });
+    },
+    notary(ctx, api) {
+      const N = S.scn;
+      ctx.fillStyle = "#cfd8c4"; ctx.fillRect(0, 0, 960, 540);
+      ctx.fillStyle = "#9aa58c"; ctx.fillRect(0, 300, 960, 60);
+      for (const o of N.offices) {
+        api.D.rr(o.x - 80, 90, 160, 200, 10, "#e8e2d4", "#8a7f6a", 2);
+        api.D.emoji("🏢", o.x, 160, 70);
+        api.D.text("Нотаріус " + o.n, o.x, 236, { size: 13, color: "#3a3326", display: true });
+        const tag = { ok: "", busy: "", noanswer: "", vacation: "", nointent: "", nasty: "", away: "🏖️ відпустка" }[o.st];
+        if (tag) api.D.text(tag, o.x, 262, { size: 12, color: "#8a3b2b" });
+        api.D.emoji("🚪", o.x, 290, 36);
+      }
+      api.D.shadow(N.sel.x, N.sel.y + 18, 13); api.D.emoji(S.seller.face, N.sel.x, N.sel.y, 34);
+      api.drawActor(N.p);
+      api.D.text("Підійди до дверей і натисни Пробіл", 480, 520, { size: 14, color: "#2d3a22" });
+    },
+    drive(ctx, api) {
+      const D = S.scn;
+      ctx.fillStyle = "#6f9a4a"; ctx.fillRect(0, 0, 960, 540);
+      ctx.fillStyle = "#555b63"; ctx.fillRect(310, 0, 340, 540);
+      ctx.fillStyle = "#e8e8e8"; for (let y = -60 + (D.scroll % 60); y < 540; y += 60) { ctx.fillRect(398, y, 6, 30); ctx.fillRect(478, y, 6, 30); ctx.fillRect(558, y, 6, 30); }
+      for (let i = 0; i < 8; i++) { const y = ((i * 90 + D.scroll * 0.9) % 640) - 60; api.D.emoji(i % 2 ? "🌳" : "🌾", i % 2 ? 230 : 730, y, 44); }
+      for (const o of D.obs) api.D.emoji(o.e, o.x, o.y, 40);
+      api.D.emoji("🚗", D.x, 440, 60, { rot: Math.PI / 2 });
+      api.D.text(S.rep.n + " за кермом · " + (D.next === "deal" ? "до нотаріуса" : "на основну угоду"), 480, 520, { size: 15, color: "#fff", stroke: "rgba(0,0,0,.5)" });
+      api.D.bar(700, 60, 220, 14, D.dist / D.need, "#f2c14e");
+      api.D.text("Шлях", 810, 92, { size: 12, color: "#fff" });
+    },
+    deal(ctx, api) { drawOffice(ctx, api, "Намір і завдаток"); },
+    deal2(ctx, api) { drawOffice(ctx, api, "Основна угода купівлі-продажу"); },
+    wait(ctx, api) {
+      const W = S.scn;
+      ctx.fillStyle = "#eef0f4"; ctx.fillRect(0, 0, 960, 540);
+      api.D.text("Очікування строку угоди", 480, 80, { size: 24, color: "#1d2a3a", display: true });
+      api.D.rr(330, 140, 300, 260, 18, "#fff", "#c3c9d4", 2);
+      api.D.rr(330, 140, 300, 60, 18, "#d9534f");
+      const day = Math.floor(W.passed);
+      api.D.text("Днів очікування з " + W.total, 480, 172, { size: 22, color: "#fff", display: true });
+      api.D.text(String(day), 480, 300, { size: 96, color: "#1d2a3a", display: true });
+      api.D.emoji("✉️", 230, 300, 56); api.D.emoji("🏤", 730, 300, 56);
+      api.D.bar(330, 430, 300, 12, W.passed / W.total, "#3a7bd5", "rgba(0,0,0,0.12)");
+      api.D.text("Повідомлення орендарю, переважне право, строки…", 480, 470, { size: 14, color: "#4a5568" });
+    },
+    bank(ctx, api) {
+      const B = S.scn;
+      ctx.fillStyle = "#e6e9ef"; ctx.fillRect(0, 0, 960, 540);
+      for (let x = 0; x < 960; x += 60) for (let y = 200; y < 540; y += 60) { ctx.fillStyle = (x / 60 + y / 60) % 2 ? "#dde2ea" : "#e6e9ef"; ctx.fillRect(x, y, 60, 60); }
+      ctx.fillStyle = "#2b3a55"; ctx.fillRect(0, 0, 960, 190);
+      api.D.text("БАНК", 480, 70, { size: 34, color: "#f2c14e", display: true });
+      api.D.rr(740, 210, 200, 120, 12, "#c9d2e3", "#2b3a55", 2); api.D.emoji("🏦", 840, 250, 50); api.D.text("Каса", 840, 300, { size: 14, color: "#2b3a55", display: true });
+      for (const q of B.queue) api.D.emoji(q.e, q.x + 120, q.y, 38);
+      api.drawActor(B.p);
+      if (B.alarm > 0) { ctx.fillStyle = "rgba(120,0,0,0.45)"; ctx.fillRect(0, 0, 960, 540); api.D.text("ПОВІТРЯНА ТРИВОГА · " + Math.ceil(B.alarm), 480, 280, { size: 30, color: "#fff", display: true }); }
+      api.D.text("Підійди до каси і натисни Пробіл", 480, 520, { size: 14, color: "#2b3a55" });
+    },
+  };
+  function drawOffice(ctx, api, title) {
+    ctx.fillStyle = "#f1ece2"; ctx.fillRect(0, 0, 960, 540);
+    ctx.fillStyle = "#d8cbb0"; ctx.fillRect(0, 380, 960, 160);
+    api.D.text(title, 480, 70, { size: 22, color: "#3a2e1e", display: true });
+    api.D.rr(260, 300, 440, 90, 12, "#8a5a32");
+    api.D.emoji("🧑‍⚖️", 480, 240, 64); api.D.text("Нотаріус", 480, 285, { size: 12, color: "#3a2e1e" });
+    api.D.emoji(S.seller.face, 300, 260, 60); api.D.text(S.seller.name, 300, 300, { size: 12, color: "#3a2e1e" });
+    api.D.emoji(S.rep.e, 660, 260, 60); api.D.text(S.rep.n, 660, 300, { size: 12, color: "#3a2e1e" });
+    api.D.emoji("📜", 420, 330, 34); api.D.emoji("🖊️", 540, 330, 30); api.D.emoji("💼", 600, 340, 34);
+    api.D.text("Довіра продавця", 480, 430, { size: 14, color: "#3a2e1e" });
+    api.D.bar(330, 446, 300, 14, S.trust / 100, S.trust > 30 ? "#4caf50" : "#e05a4f", "rgba(0,0,0,0.15)");
+  }
+  const UPD = { market: (a, b) => UPD_market(a, b), check: (a, b) => UPD_check(a, b), notary: (a, b) => UPD_notary(a, b), drive: (a, b) => UPD_drive(a, b), deal: (a, b) => UPD_deal(a, b), wait: (a, b) => UPD_wait(a, b), deal2: (a, b) => UPD_deal2(a, b), bank: (a, b) => UPD_bank(a, b) };
+  var UPD_market, UPD_check, UPD_notary, UPD_drive, UPD_deal, UPD_wait, UPD_deal2, UPD_bank;
+
+  PG.start(game);
+})();
+</script>
+</body>
+</html>
