@@ -15,7 +15,7 @@
   --radius: 18px;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #121815;
     --bg-alt: #19211d;
     --ink: #e8eee9;
@@ -27,7 +27,22 @@
     --line: #2b3832;
     --user: #2e8c66;
     --shadow: 0 12px 40px rgba(0, 0, 0, .45);
+    color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #121815;
+  --bg-alt: #19211d;
+  --ink: #e8eee9;
+  --muted: #9fb0a6;
+  --brand: #3fa97f;
+  --brand-dark: #2e8c66;
+  --brand-soft: #1f3129;
+  --card: #1c2520;
+  --line: #2b3832;
+  --user: #2e8c66;
+  --shadow: 0 12px 40px rgba(0, 0, 0, .45);
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -77,7 +92,7 @@ h3 { font-size: 1.1rem; }
 .avatar--xs { width: 30px; height: 30px; font-size: .7rem; border-width: 1.5px; }
 
 /* Шапка */
-.topbar { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .topbar__inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 12px; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--ink); text-decoration: none; white-space: nowrap; }
 .nav { display: flex; align-items: center; gap: 20px; }
@@ -140,7 +155,7 @@ a.task:hover { border-color: var(--brand); transform: translateY(-1px); }
 .footer { padding: 32px 0; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); }
 
 /* Плаваюча кнопка */
-.launcher { position: fixed; right: 20px; bottom: 20px; z-index: 50; display: flex; align-items: flex-end; gap: 12px; }
+.launcher { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 50; display: flex; align-items: flex-end; gap: 12px; }
 .launcher__btn { position: relative; border: 0; padding: 0; background: none; cursor: pointer; border-radius: 50%; box-shadow: var(--shadow); }
 .launcher__btn .avatar { width: 64px; height: 64px; font-size: 1.2rem; border-width: 3px; }
 .launcher__dot { position: absolute; right: 2px; top: 2px; width: 14px; height: 14px; border-radius: 50%; background: #e5484d; border: 2px solid var(--bg); animation: pulse 1.8s infinite; }
@@ -188,7 +203,7 @@ body.chat-open .launcher { display: none; }
   box-shadow: inset 0 0 0 1.5px var(--brand); animation: rise .25s ease-out;
 }
 .choice:hover { background: var(--brand); color: #fff; }
-.chat__input { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); background: var(--card); }
+.chat__input { display: flex; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); background: var(--card); }
 .chat__input input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 999px; padding: .65em 1em; font: inherit; background: var(--bg); color: var(--ink); }
 .chat__input input:focus { outline: 2px solid var(--brand); outline-offset: -1px; }
 .chat__input button { border: 0; width: 42px; height: 42px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 1.05rem; cursor: pointer; }
