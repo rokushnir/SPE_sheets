@@ -1,0 +1,221 @@
+@page { size: A4; margin: 0; }
+:root {
+  --ink: #1d1d1f;
+  --muted: #6b6b70;
+  --line: #c4c4c8;
+  --rule: #d2d2d6;
+  --accent: #2f5d8a;
+  --tint: #eef3f8;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #e9e9ec; }
+body {
+  font-family: "Inter", "DejaVu Sans", sans-serif;
+  color: var(--ink);
+  font-size: 9.6pt;
+  line-height: 1.38;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  width: 210mm; height: 297mm;
+  margin: 8mm auto;
+  padding: 11mm 13mm 8mm;
+  background: #fff;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  break-after: page;
+  box-shadow: 0 1px 6px rgba(0,0,0,.12);
+}
+@media print {
+  html, body { background: #fff; }
+  .page { margin: 0; box-shadow: none; }
+}
+
+/* ---- шапка й підвал ---- */
+.head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 7.6pt; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1.2pt solid var(--accent); padding-bottom: 1.6mm; margin-bottom: 3.2mm;
+}
+.head .sec { display: flex; align-items: center; gap: 2mm; font-weight: 600; color: var(--accent); }
+.head .sec i, .secs i, .tocsec h3 i {
+  width: 2.6mm; height: 2.6mm; border-radius: 50%; background: var(--accent); display: inline-block;
+}
+.head .num { font-weight: 700; color: var(--ink); }
+h1 { font-size: 19pt; line-height: 1.12; margin: 0 0 2.4mm; font-weight: 700; letter-spacing: -.01em; }
+.goal {
+  background: var(--tint); border-left: 1.4mm solid var(--accent);
+  padding: 1.8mm 3mm; margin-bottom: 2.4mm; border-radius: 0 1.5mm 1.5mm 0;
+}
+.intro { margin-bottom: 2mm; color: #333; }
+.steps { margin: 0 0 2.6mm; padding-left: 5.2mm; }
+.steps li { margin-bottom: .7mm; }
+.steps li::marker { color: var(--accent); font-weight: 700; }
+.work { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2.6mm; }
+.foot {
+  display: flex; justify-content: space-between; gap: 4mm;
+  font-size: 6.8pt; color: var(--muted); border-top: .5pt solid var(--line);
+  padding-top: 1.4mm; margin-top: 2.4mm;
+}
+
+/* ---- блоки ---- */
+.blk { min-width: 0; }
+.grow { flex: 1 1 0; min-height: 0; }
+.col { display: flex; flex-direction: column; }
+.row { display: flex; gap: 4mm; }
+.row > .cell { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.4mm; }
+.center { display: flex; flex-direction: column; align-items: center; }
+.blabel {
+  font-weight: 700; font-size: 9pt; margin-bottom: 1.2mm; color: var(--accent);
+}
+.ruled {
+  background-image: linear-gradient(to bottom, transparent calc(100% - .5pt), var(--rule) calc(100% - .5pt));
+  background-size: 100% 8mm;
+  background-repeat: repeat-y;
+  min-height: 8mm;
+}
+.frame { border: .6pt solid var(--line); border-radius: 1.5mm; min-height: 10mm; }
+.frame.dots {
+  background-image: radial-gradient(circle, #bdbdc2 .5pt, transparent .6pt);
+  background-size: 5mm 5mm;
+}
+.txt { color: #333; }
+.txt.small { font-size: 8.4pt; }
+.example {
+  background: #f6f6f7; border: .5pt dashed #b9b9be; border-radius: 1.5mm;
+  padding: 2mm 3mm; font-size: 8.4pt; color: #3a3a3d;
+}
+.example .extitle { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 7pt; color: var(--muted); margin-bottom: .6mm; }
+.example ol, .example ul { margin: .5mm 0 0; padding-left: 4.5mm; }
+.example p { margin: .6mm 0; }
+.note {
+  font-size: 8.6pt; border: .6pt solid var(--accent); border-radius: 1.5mm; padding: 1.6mm 3mm; color: #2a2a2d;
+}
+.q { font-weight: 600; margin-top: 1mm; }
+.qgrid { display: flex; flex-direction: column; gap: 1.8mm; }
+.qcell { flex: 1 1 0; display: flex; flex-direction: column; min-height: 0; }
+.qcell .ruled { flex: 1; }
+
+/* таблиці */
+.tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.tblwrap { display: flex; }
+.tblwrap .tbl { height: 100%; }
+.tbl th {
+  background: var(--tint); font-size: 8pt; font-weight: 700; text-align: left;
+  padding: 1.2mm 1.6mm; border: .6pt solid var(--line); line-height: 1.2; vertical-align: bottom;
+}
+.tbl td { border: .6pt solid var(--line); padding: .8mm 1.6mm; vertical-align: top; font-size: 8.4pt; line-height: 1.25; }
+.tbl td:first-child { color: #333; }
+.tbl.small td, .tbl.small th { font-size: 7.6pt; }
+.tbl.scale th.n, .tbl.scale td.n { text-align: center; padding: .6mm 0; }
+.tbl.scale td.it { font-size: 8.3pt; vertical-align: middle; }
+.tbl td.glass { text-align: center; color: #9a9aa0; font-size: 10pt; vertical-align: middle; padding: 0; }
+.barcell { vertical-align: middle !important; }
+.bar { height: 4.5mm; border: .6pt solid var(--line); border-radius: 1mm; position: relative; }
+.bar span { position: absolute; left: 50%; top: -1mm; bottom: -1mm; border-left: .6pt dashed #999; }
+
+/* нумеровані рядки */
+.numgrid { display: flex; gap: 6mm; }
+.numcol { flex: 1; display: flex; flex-direction: column; }
+.numrow { flex: 1 1 0; border-bottom: .6pt solid var(--rule); display: flex; align-items: flex-end; min-height: 5mm; }
+.numrow span { font-size: 7.6pt; color: var(--muted); width: 6mm; padding-bottom: .5mm; font-weight: 600; }
+
+/* чекліст */
+.check { list-style: none; margin: 0; padding: 0; column-gap: 6mm; }
+.check li { display: flex; gap: 2mm; align-items: flex-start; margin-bottom: 1.3mm; break-inside: avoid; }
+.check.small li { font-size: 8.3pt; margin-bottom: .9mm; }
+.cb { flex: none; width: 3.2mm; height: 3.2mm; border: .7pt solid #8d8d92; border-radius: .6mm; margin-top: .6mm; }
+
+/* svg */
+.svg { display: block; max-width: 100%; }
+.svg .ring { fill: none; stroke: #dcdce0; stroke-width: .35; }
+.svg .ring.major { stroke: #b4b4ba; stroke-width: .5; }
+.svg .spoke { stroke: #8f8f95; stroke-width: .5; }
+.svg .spoke.thin { stroke-width: .35; }
+.svg .spoke.dash { stroke-dasharray: 2 2; stroke: #b0b0b5; }
+.svg .axis { stroke: #555; stroke-width: .7; }
+.svg .tick { font-size: 4.4px; fill: #8a8a90; font-family: Inter, sans-serif; }
+.svg .wlab { font-size: 6px; fill: #2a2a2d; font-family: Inter, sans-serif; }
+.svg .wlab.b { font-weight: 700; }
+.svg .axl { font-size: 5px; fill: #555; font-family: Inter, sans-serif; font-style: italic; }
+.svg .dot { fill: var(--accent); }
+.svg .node { fill: #fff; stroke: #9c9ca2; stroke-width: .5; }
+.svg .arcp { fill: none; stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 2; }
+.svg .arrow { fill: var(--accent); }
+.svg .squig { fill: none; stroke: #222; stroke-width: 2.2; stroke-linecap: round; }
+
+/* матриця */
+.matrix { display: grid; grid-template-columns: 6mm 1fr; grid-template-rows: 1fr 6mm; }
+.matrix .ylab { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; font-weight: 700; font-size: 8.4pt; color: var(--accent); }
+.matrix .xlab { grid-column: 2; text-align: right; font-weight: 700; font-size: 8.4pt; color: var(--accent); padding-top: 1mm; }
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border-left: 1.2pt solid #555; border-bottom: 1.2pt solid #555; }
+.mq { border: .6pt solid var(--line); padding: 1.6mm 2mm; }
+.mql { font-weight: 700; font-size: 8.6pt; color: #333; background: var(--tint); display: inline-block; padding: .4mm 1.6mm; border-radius: 1mm; }
+
+/* квадранти-сфери */
+.quad { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border: .6pt solid var(--line); border-radius: 50% / 50%; overflow: hidden; }
+.qd { border: .3pt dashed #b9b9be; display: flex; padding: 2.5mm 3mm; }
+.qd:nth-child(1) { align-items: flex-end; justify-content: flex-end; }
+.qd:nth-child(2) { align-items: flex-end; justify-content: flex-start; }
+.qd:nth-child(3) { align-items: flex-start; justify-content: flex-end; }
+.qd:nth-child(4) { align-items: flex-start; justify-content: flex-start; }
+.qdl { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; font-size: 8pt; }
+
+/* дуги причина-наслідок */
+.arcs { gap: 3mm; }
+.arc { flex: 1 1 0; display: flex; align-items: stretch; gap: 1.5mm; min-height: 0; }
+.af { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.afl { font-weight: 700; font-size: 8.4pt; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 1mm; text-align: center; }
+.arw { align-self: center; font-size: 16pt; color: var(--accent); padding-top: 4mm; }
+
+/* кривульки */
+.sqgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3mm; }
+.sq { border: .6pt solid var(--line); border-radius: 1.5mm; display: flex; flex-direction: column; padding: 2mm; }
+.sq .svg { flex: 1; min-height: 0; width: 100%; }
+.sqcap { font-size: 8pt; color: var(--muted); }
+
+/* знаки */
+.glyphs { gap: 0; }
+.grow-row { flex: 1 1 0; display: flex; align-items: stretch; border-bottom: .6pt solid var(--line); }
+.glyph { width: 16mm; font-size: 26pt; display: flex; align-items: center; justify-content: center; }
+.glyph.ar { font-family: "DejaVu Sans", "FreeSerif", sans-serif; }
+.glyph.jp { font-family: "IPAGothic", "WenQuanYi Zen Hei Mono", sans-serif; }
+.gname { width: 20mm; font-size: 8pt; color: var(--muted); display: flex; align-items: center; }
+.gcell { flex: 1; border-left: .4pt dashed #c9c9cd; background:
+  linear-gradient(to bottom, transparent 49.5%, #ececef 49.5%, #ececef 50.5%, transparent 50.5%); }
+
+/* відповідь догори дриґом */
+.answer {
+  margin-top: 2mm; transform: rotate(180deg); font-size: 7.6pt; color: #555;
+  border-top: .5pt dashed #b9b9be; padding-top: 1.4mm;
+}
+.answer span { font-weight: 700; }
+
+/* ---- обкладинка ---- */
+.cover { padding: 22mm 20mm 16mm; }
+.cover .kicker { font-size: 9pt; letter-spacing: .14em; text-transform: uppercase; color: #2f5d8a; font-weight: 700; }
+.ctitle { font-size: 38pt; line-height: 1.02; margin: 6mm 0 6mm; letter-spacing: -.02em; }
+.csub { font-size: 11.5pt; color: #3a3a3d; max-width: 150mm; margin: 0 0 12mm; }
+.secs { list-style: none; padding: 0; margin: 0 0 auto; border-top: .6pt solid var(--line); }
+.secs li { display: grid; grid-template-columns: 5mm 1fr auto; grid-template-rows: auto auto; column-gap: 2mm; padding: 3mm 0; border-bottom: .6pt solid var(--line); align-items: center; }
+.secs li i { grid-row: 1 / 3; }
+.secs li b { font-size: 12pt; }
+.secs li span { font-weight: 700; color: var(--accent); font-size: 10pt; }
+.secs li em { grid-column: 2 / 4; font-size: 8.6pt; color: var(--muted); font-style: normal; }
+.howto { margin-top: 8mm; background: #f4f6f9; border-radius: 2mm; padding: 4mm 5mm; font-size: 9.4pt; }
+.howto ol { margin: 1.5mm 0 0; padding-left: 5mm; }
+
+/* ---- зміст ---- */
+.toc { padding: 12mm 13mm 10mm; }
+.toc h2 { font-size: 18pt; margin: 0 0 4mm; }
+.toccols { column-count: 2; column-gap: 8mm; column-fill: balance; font-size: 8.4pt; line-height: 1.3; }
+.tocsec { break-inside: auto; margin-bottom: 2.4mm; }
+.tocsec h3 { font-size: 9.6pt; margin: 0 0 1mm; color: var(--accent); display: flex; gap: 1.6mm; align-items: center; break-after: avoid; }
+.tocsec ol { list-style: none; margin: 0; padding: 0; }
+.tocsec li { display: flex; gap: 1.6mm; break-inside: avoid; margin-bottom: .2mm; }
+.tocsec li span { flex: none; width: 7mm; text-align: right; color: var(--muted); font-weight: 600; }
+
+/* творчі задачі */
+.puzzle { font-size: 11.5pt; line-height: 1.5; background: var(--tint); border-radius: 2mm; padding: 4mm 5mm; color: #222; }

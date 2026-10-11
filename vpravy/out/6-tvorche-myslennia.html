@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><title>Творче мислення</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>@page { size: A4; margin: 0; }
+:root {
+  --ink: #1d1d1f;
+  --muted: #6b6b70;
+  --line: #c4c4c8;
+  --rule: #d2d2d6;
+  --accent: #2f5d8a;
+  --tint: #eef3f8;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #e9e9ec; }
+body {
+  font-family: "Inter", "DejaVu Sans", sans-serif;
+  color: var(--ink);
+  font-size: 9.6pt;
+  line-height: 1.38;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  width: 210mm; height: 297mm;
+  margin: 8mm auto;
+  padding: 11mm 13mm 8mm;
+  background: #fff;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  break-after: page;
+  box-shadow: 0 1px 6px rgba(0,0,0,.12);
+}
+@media print {
+  html, body { background: #fff; }
+  .page { margin: 0; box-shadow: none; }
+}
+
+/* ---- шапка й підвал ---- */
+.head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 7.6pt; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1.2pt solid var(--accent); padding-bottom: 1.6mm; margin-bottom: 3.2mm;
+}
+.head .sec { display: flex; align-items: center; gap: 2mm; font-weight: 600; color: var(--accent); }
+.head .sec i, .secs i, .tocsec h3 i {
+  width: 2.6mm; height: 2.6mm; border-radius: 50%; background: var(--accent); display: inline-block;
+}
+.head .num { font-weight: 700; color: var(--ink); }
+h1 { font-size: 19pt; line-height: 1.12; margin: 0 0 2.4mm; font-weight: 700; letter-spacing: -.01em; }
+.goal {
+  background: var(--tint); border-left: 1.4mm solid var(--accent);
+  padding: 1.8mm 3mm; margin-bottom: 2.4mm; border-radius: 0 1.5mm 1.5mm 0;
+}
+.intro { margin-bottom: 2mm; color: #333; }
+.steps { margin: 0 0 2.6mm; padding-left: 5.2mm; }
+.steps li { margin-bottom: .7mm; }
+.steps li::marker { color: var(--accent); font-weight: 700; }
+.work { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2.6mm; }
+.foot {
+  display: flex; justify-content: space-between; gap: 4mm;
+  font-size: 6.8pt; color: var(--muted); border-top: .5pt solid var(--line);
+  padding-top: 1.4mm; margin-top: 2.4mm;
+}
+
+/* ---- блоки ---- */
+.blk { min-width: 0; }
+.grow { flex: 1 1 0; min-height: 0; }
+.col { display: flex; flex-direction: column; }
+.row { display: flex; gap: 4mm; }
+.row > .cell { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.4mm; }
+.center { display: flex; flex-direction: column; align-items: center; }
+.blabel {
+  font-weight: 700; font-size: 9pt; margin-bottom: 1.2mm; color: var(--accent);
+}
+.ruled {
+  background-image: linear-gradient(to bottom, transparent calc(100% - .5pt), var(--rule) calc(100% - .5pt));
+  background-size: 100% 8mm;
+  background-repeat: repeat-y;
+  min-height: 8mm;
+}
+.frame { border: .6pt solid var(--line); border-radius: 1.5mm; min-height: 10mm; }
+.frame.dots {
+  background-image: radial-gradient(circle, #bdbdc2 .5pt, transparent .6pt);
+  background-size: 5mm 5mm;
+}
+.txt { color: #333; }
+.txt.small { font-size: 8.4pt; }
+.example {
+  background: #f6f6f7; border: .5pt dashed #b9b9be; border-radius: 1.5mm;
+  padding: 2mm 3mm; font-size: 8.4pt; color: #3a3a3d;
+}
+.example .extitle { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 7pt; color: var(--muted); margin-bottom: .6mm; }
+.example ol, .example ul { margin: .5mm 0 0; padding-left: 4.5mm; }
+.example p { margin: .6mm 0; }
+.note {
+  font-size: 8.6pt; border: .6pt solid var(--accent); border-radius: 1.5mm; padding: 1.6mm 3mm; color: #2a2a2d;
+}
+.q { font-weight: 600; margin-top: 1mm; }
+.qgrid { display: flex; flex-direction: column; gap: 1.8mm; }
+.qcell { flex: 1 1 0; display: flex; flex-direction: column; min-height: 0; }
+.qcell .ruled { flex: 1; }
+
+/* таблиці */
+.tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.tblwrap { display: flex; }
+.tblwrap .tbl { height: 100%; }
+.tbl th {
+  background: var(--tint); font-size: 8pt; font-weight: 700; text-align: left;
+  padding: 1.2mm 1.6mm; border: .6pt solid var(--line); line-height: 1.2; vertical-align: bottom;
+}
+.tbl td { border: .6pt solid var(--line); padding: .8mm 1.6mm; vertical-align: top; font-size: 8.4pt; line-height: 1.25; }
+.tbl td:first-child { color: #333; }
+.tbl.small td, .tbl.small th { font-size: 7.6pt; }
+.tbl.scale th.n, .tbl.scale td.n { text-align: center; padding: .6mm 0; }
+.tbl.scale td.it { font-size: 8.3pt; vertical-align: middle; }
+.tbl td.glass { text-align: center; color: #9a9aa0; font-size: 10pt; vertical-align: middle; padding: 0; }
+.barcell { vertical-align: middle !important; }
+.bar { height: 4.5mm; border: .6pt solid var(--line); border-radius: 1mm; position: relative; }
+.bar span { position: absolute; left: 50%; top: -1mm; bottom: -1mm; border-left: .6pt dashed #999; }
+
+/* нумеровані рядки */
+.numgrid { display: flex; gap: 6mm; }
+.numcol { flex: 1; display: flex; flex-direction: column; }
+.numrow { flex: 1 1 0; border-bottom: .6pt solid var(--rule); display: flex; align-items: flex-end; min-height: 5mm; }
+.numrow span { font-size: 7.6pt; color: var(--muted); width: 6mm; padding-bottom: .5mm; font-weight: 600; }
+
+/* чекліст */
+.check { list-style: none; margin: 0; padding: 0; column-gap: 6mm; }
+.check li { display: flex; gap: 2mm; align-items: flex-start; margin-bottom: 1.3mm; break-inside: avoid; }
+.check.small li { font-size: 8.3pt; margin-bottom: .9mm; }
+.cb { flex: none; width: 3.2mm; height: 3.2mm; border: .7pt solid #8d8d92; border-radius: .6mm; margin-top: .6mm; }
+
+/* svg */
+.svg { display: block; max-width: 100%; }
+.svg .ring { fill: none; stroke: #dcdce0; stroke-width: .35; }
+.svg .ring.major { stroke: #b4b4ba; stroke-width: .5; }
+.svg .spoke { stroke: #8f8f95; stroke-width: .5; }
+.svg .spoke.thin { stroke-width: .35; }
+.svg .spoke.dash { stroke-dasharray: 2 2; stroke: #b0b0b5; }
+.svg .axis { stroke: #555; stroke-width: .7; }
+.svg .tick { font-size: 4.4px; fill: #8a8a90; font-family: Inter, sans-serif; }
+.svg .wlab { font-size: 6px; fill: #2a2a2d; font-family: Inter, sans-serif; }
+.svg .wlab.b { font-weight: 700; }
+.svg .axl { font-size: 5px; fill: #555; font-family: Inter, sans-serif; font-style: italic; }
+.svg .dot { fill: var(--accent); }
+.svg .node { fill: #fff; stroke: #9c9ca2; stroke-width: .5; }
+.svg .arcp { fill: none; stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 2; }
+.svg .arrow { fill: var(--accent); }
+.svg .squig { fill: none; stroke: #222; stroke-width: 2.2; stroke-linecap: round; }
+
+/* матриця */
+.matrix { display: grid; grid-template-columns: 6mm 1fr; grid-template-rows: 1fr 6mm; }
+.matrix .ylab { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; font-weight: 700; font-size: 8.4pt; color: var(--accent); }
+.matrix .xlab { grid-column: 2; text-align: right; font-weight: 700; font-size: 8.4pt; color: var(--accent); padding-top: 1mm; }
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border-left: 1.2pt solid #555; border-bottom: 1.2pt solid #555; }
+.mq { border: .6pt solid var(--line); padding: 1.6mm 2mm; }
+.mql { font-weight: 700; font-size: 8.6pt; color: #333; background: var(--tint); display: inline-block; padding: .4mm 1.6mm; border-radius: 1mm; }
+
+/* квадранти-сфери */
+.quad { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border: .6pt solid var(--line); border-radius: 50% / 50%; overflow: hidden; }
+.qd { border: .3pt dashed #b9b9be; display: flex; padding: 2.5mm 3mm; }
+.qd:nth-child(1) { align-items: flex-end; justify-content: flex-end; }
+.qd:nth-child(2) { align-items: flex-end; justify-content: flex-start; }
+.qd:nth-child(3) { align-items: flex-start; justify-content: flex-end; }
+.qd:nth-child(4) { align-items: flex-start; justify-content: flex-start; }
+.qdl { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; font-size: 8pt; }
+
+/* дуги причина-наслідок */
+.arcs { gap: 3mm; }
+.arc { flex: 1 1 0; display: flex; align-items: stretch; gap: 1.5mm; min-height: 0; }
+.af { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.afl { font-weight: 700; font-size: 8.4pt; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 1mm; text-align: center; }
+.arw { align-self: center; font-size: 16pt; color: var(--accent); padding-top: 4mm; }
+
+/* кривульки */
+.sqgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3mm; }
+.sq { border: .6pt solid var(--line); border-radius: 1.5mm; display: flex; flex-direction: column; padding: 2mm; }
+.sq .svg { flex: 1; min-height: 0; width: 100%; }
+.sqcap { font-size: 8pt; color: var(--muted); }
+
+/* знаки */
+.glyphs { gap: 0; }
+.grow-row { flex: 1 1 0; display: flex; align-items: stretch; border-bottom: .6pt solid var(--line); }
+.glyph { width: 16mm; font-size: 26pt; display: flex; align-items: center; justify-content: center; }
+.glyph.ar { font-family: "DejaVu Sans", "FreeSerif", sans-serif; }
+.glyph.jp { font-family: "IPAGothic", "WenQuanYi Zen Hei Mono", sans-serif; }
+.gname { width: 20mm; font-size: 8pt; color: var(--muted); display: flex; align-items: center; }
+.gcell { flex: 1; border-left: .4pt dashed #c9c9cd; background:
+  linear-gradient(to bottom, transparent 49.5%, #ececef 49.5%, #ececef 50.5%, transparent 50.5%); }
+
+/* відповідь догори дриґом */
+.answer {
+  margin-top: 2mm; transform: rotate(180deg); font-size: 7.6pt; color: #555;
+  border-top: .5pt dashed #b9b9be; padding-top: 1.4mm;
+}
+.answer span { font-weight: 700; }
+
+/* ---- обкладинка ---- */
+.cover { padding: 22mm 20mm 16mm; }
+.cover .kicker { font-size: 9pt; letter-spacing: .14em; text-transform: uppercase; color: #2f5d8a; font-weight: 700; }
+.ctitle { font-size: 38pt; line-height: 1.02; margin: 6mm 0 6mm; letter-spacing: -.02em; }
+.csub { font-size: 11.5pt; color: #3a3a3d; max-width: 150mm; margin: 0 0 12mm; }
+.secs { list-style: none; padding: 0; margin: 0 0 auto; border-top: .6pt solid var(--line); }
+.secs li { display: grid; grid-template-columns: 5mm 1fr auto; grid-template-rows: auto auto; column-gap: 2mm; padding: 3mm 0; border-bottom: .6pt solid var(--line); align-items: center; }
+.secs li i { grid-row: 1 / 3; }
+.secs li b { font-size: 12pt; }
+.secs li span { font-weight: 700; color: var(--accent); font-size: 10pt; }
+.secs li em { grid-column: 2 / 4; font-size: 8.6pt; color: var(--muted); font-style: normal; }
+.howto { margin-top: 8mm; background: #f4f6f9; border-radius: 2mm; padding: 4mm 5mm; font-size: 9.4pt; }
+.howto ol { margin: 1.5mm 0 0; padding-left: 5mm; }
+
+/* ---- зміст ---- */
+.toc { padding: 12mm 13mm 10mm; }
+.toc h2 { font-size: 18pt; margin: 0 0 4mm; }
+.toccols { column-count: 2; column-gap: 8mm; column-fill: balance; font-size: 8.4pt; line-height: 1.3; }
+.tocsec { break-inside: auto; margin-bottom: 2.4mm; }
+.tocsec h3 { font-size: 9.6pt; margin: 0 0 1mm; color: var(--accent); display: flex; gap: 1.6mm; align-items: center; break-after: avoid; }
+.tocsec ol { list-style: none; margin: 0; padding: 0; }
+.tocsec li { display: flex; gap: 1.6mm; break-inside: avoid; margin-bottom: .2mm; }
+.tocsec li span { flex: none; width: 7mm; text-align: right; color: var(--muted); font-weight: 600; }
+
+/* творчі задачі */
+.puzzle { font-size: 11.5pt; line-height: 1.5; background: var(--tint); border-radius: 2mm; padding: 4mm 5mm; color: #222; }
+</style></head><body>
+<section class="page ex" id="ex93" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 93</span></header>
+  <h1>Самооцінка: 10 інструментів творчого мислення</h1>
+  <div class="goal"><b>Мета.</b> Зрозуміти, які інструменти творчості вже працюють у вашому житті, а які варто розвивати.</div><ol class="steps"><li>Оцініть кожен інструмент від 1 до 10 — обведіть число.</li><li>Для двох найслабших запишіть, що робитимете цього місяця.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl scale"><colgroup><col style="width:46%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col></colgroup><thead><tr><th>Інструмент</th><th class="n">1</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">5</th><th class="n">6</th><th class="n">7</th><th class="n">8</th><th class="n">9</th><th class="n">10</th><th>Що зроблю, щоб додати +1</th></tr></thead><tbody><tr><td class="it"><b>1.</b> <b>Присутність</b> — творю тут і зараз, так ніби на мене дивляться 100 мільярдів очей</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>2.</b> <b>Конструктивізм</b> — будую ідеї, як архітектор: від «буди» до пентхауса</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>3.</b> <b>Регулярність</b> — щодня рухаюся до майстерності (10 000 годин)</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>4.</b> <b>«Я — Творець»</b> — бачу творчість у бізнесі, кулінарії, виступах, побуті</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>5.</b> <b>Володію увагою</b> — дивлюся то зблизька, то на горизонт, то на ціле</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>6.</b> <b>Сміливість</b> — колекціоную досягнення, а не бажання; критика — лише зворотний звʼязок</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>7.</b> <b>Циклічність</b> — приймаю спади натхнення і вмію свідомо «завмерти»</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>8.</b> <b>Самограйко</b> — вигадую ігри й правила, пробую нові ролі</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>9.</b> <b>Закоханість у справу</b> — плекаю, надихаю, вкладаю час у свою ціль</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>10.</b> <b>Почуття гумору</b> — вмію жартувати з себе й не боюся «безглуздого»</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>93 / 167</span></footer>
+</section>
+<section class="page ex" id="ex94" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 94</span></header>
+  <h1>Банк ідей</h1>
+  <div class="goal"><b>Мета.</b> Зібрати ідеї, які хочеться втілити, і тверезо оцінити, з якої почати.</div><ol class="steps"><li>Запишіть у довільному порядку всі ідеї, які хотіли б втілити. Мрійте! Фантазуйте! Творіть!</li><li>Оцініть для кожної: час і гроші, ризики, наслідки успіху (+) і провалу (−) за 10-бальною шкалою.</li><li>Визначте пріоритет і поставте собі дедлайн.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:30%"><col style="width:15%"><col style="width:18%"><col style="width:15%"><col style="width:10%"><col style="width:12%"></colgroup><thead><tr><th>Назва ідеї</th><th>Час / гроші на втілення</th><th>Ризики</th><th>Успіх + / провал − (1–10)</th><th>Пріоритет</th><th>Дедлайн</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>94 / 167</span></footer>
+</section>
+<section class="page ex" id="ex95" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 95</span></header>
+  <h1>Нові ідеї у чотирьох сферах</h1>
+  <div class="goal"><b>Мета.</b> Генерувати ідеї не лише для роботи, а для всього життя.</div><ol class="steps"><li>Протягом тижня записуйте в кожен сектор нові ідеї для відповідної сфери.</li><li>Мета — щонайменше пʼять ідей у кожній. Наприкінці тижня оберіть по одній і втільте.</li></ol>
+  <div class="work"><div class="blk col grow"><div class="quad grow"><div class="qd"><div class="qdl">Діяльність</div></div><div class="qd"><div class="qdl">Побут</div></div><div class="qd"><div class="qdl">Взаємини</div></div><div class="qd"><div class="qdl">Саморозвиток</div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>95 / 167</span></footer>
+</section>
+<section class="page ex" id="ex96" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 96</span></header>
+  <h1>Кривульки: на що це схоже?</h1>
+  <div class="goal"><b>Мета.</b> Розвинути образне мислення: побачити в довільній лінії щось осмислене.</div><ol class="steps"><li>Домалюйте кожну кривульку так, щоб вийшов предмет, істота чи сцена.</li><li>Підпишіть, на що це схоже. Спробуйте знайти по два-три різні варіанти.</li><li>Попросіть когось намалювати вам нову кривульку — і повторіть.</li></ol>
+  <div class="work"><div class="blk grow sqgrid"><div class="sq"><svg viewBox="0 0 220 180" class="svg"><path d="M30 120 C 60 40, 120 160, 150 70 S 210 90, 190 140" class="squig"/></svg><div class="sqcap">На що це схоже? ____________________</div></div><div class="sq"><svg viewBox="0 0 220 180" class="svg"><path d="M40 60 Q 100 20 120 90 T 200 110" class="squig"/></svg><div class="sqcap">На що це схоже? ____________________</div></div><div class="sq"><svg viewBox="0 0 220 180" class="svg"><path d="M60 150 C 40 80, 160 30, 140 120 C 130 160, 90 150, 100 110" class="squig"/></svg><div class="sqcap">На що це схоже? ____________________</div></div><div class="sq"><svg viewBox="0 0 220 180" class="svg"><path d="M30 100 L 80 60 L 110 120 L 160 50 L 190 130" class="squig"/></svg><div class="sqcap">На що це схоже? ____________________</div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>96 / 167</span></footer>
+</section>
+<section class="page ex" id="ex97" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 97</span></header>
+  <h1>Плюси, мінуси, цікаве</h1>
+  <div class="goal"><b>Мета.</b> Оцінювати будь-яку ситуацію, думку чи ідею з трьох боків, а не лише «подобається / не подобається».</div><ol class="steps"><li>Щодня записуйте одну ситуацію, думку чи ідею.</li><li>Знайдіть її плюси, мінуси і те, чим вона цікава, — по три пункти щонайменше.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:28%"><col style="width:24%"><col style="width:24%"><col style="width:24%"></colgroup><thead><tr><th>Ситуація / думка / ідея дня</th><th>Її плюси</th><th>Її мінуси</th><th>Чим це цікаво</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>97 / 167</span></footer>
+</section>
+<section class="page ex" id="ex98" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 98</span></header>
+  <h1>Подорож до себе-творця</h1>
+  <div class="goal"><b>Мета.</b> Відкрити в собі приховані творчі бажання і сміливість.</div>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Чого б ви ніколи не зробили? Чим це могло б бути цікавим?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що ви мріяли зробити в дитинстві?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що ви зробили таке, чого від себе не очікували?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що нового ви зробите для себе зараз?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Для чого вам уміти бути творчими?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>98 / 167</span></footer>
+</section>
+<section class="page ex" id="ex99" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 99</span></header>
+  <h1>Мої кумири</h1>
+  <div class="goal"><b>Мета.</b> Зрозуміти, які якості вас надихають і за яких умов вони розвиваються.</div><ol class="steps"><li>Пригадайте своїх кумирів: героїв, супергероїв, наставників, учителів.</li><li>Запишіть, якими якостями вони володіли і за яких умов (якої діяльності) такі якості розвиваються.</li><li>Візьміть слова з останньої колонки і обʼєднайте їх за якоюсь ознакою.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:22%"><col style="width:36%"><col style="width:42%"></colgroup><thead><tr><th>Кумир</th><th>Якими якостями володів(-ла)</th><th>За яких умов (якої діяльності) розвиваються такі якості</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Спільна ознака умов з останньої колонки — і як я створю такі умови для себе:</div><div class="ruled" style="height:16mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>99 / 167</span></footer>
+</section>
+<section class="page ex" id="ex100" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 100</span></header>
+  <h1>Ланцюжок асоціацій</h1>
+  <div class="goal"><b>Мета.</b> Розігріти мислення і вийти далеко за межі першого очевидного образу.</div><ol class="steps"><li>У верхній блок запишіть будь-яке слово.</li><li>Запишіть до нього 3 асоціації, далі по 3 асоціації до кожної з них, і ще по 3 — до попередніх.</li><li>Знайдіть найнесподіваніший звʼязок між першим і останнім рівнем.</li></ol>
+  <div class="work"><div class="blk center"><svg viewBox="0 0 270 150" class="svg" style="width:100%;height:110mm"><rect x="105" y="2" width="60" height="14" rx="3" class="node"/><line x1="135" y1="16" x2="45" y2="40" class="spoke"/><rect x="17" y="40" width="56" height="13" rx="3" class="node"/><line x1="45" y1="53" x2="15" y2="78" class="spoke"/><rect x="1" y="78" width="28" height="12" rx="2" class="node"/><line x1="15" y1="90" x2="5" y2="112" class="spoke thin"/><rect x="0.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="15" y1="90" x2="15" y2="112" class="spoke thin"/><rect x="10.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="15" y1="90" x2="25" y2="112" class="spoke thin"/><rect x="20.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="45" y1="53" x2="45" y2="78" class="spoke"/><rect x="31" y="78" width="28" height="12" rx="2" class="node"/><line x1="45" y1="90" x2="35" y2="112" class="spoke thin"/><rect x="30.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="45" y1="90" x2="45" y2="112" class="spoke thin"/><rect x="40.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="45" y1="90" x2="55" y2="112" class="spoke thin"/><rect x="50.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="45" y1="53" x2="75" y2="78" class="spoke"/><rect x="61" y="78" width="28" height="12" rx="2" class="node"/><line x1="75" y1="90" x2="65" y2="112" class="spoke thin"/><rect x="60.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="75" y1="90" x2="75" y2="112" class="spoke thin"/><rect x="70.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="75" y1="90" x2="85" y2="112" class="spoke thin"/><rect x="80.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="135" y1="16" x2="135" y2="40" class="spoke"/><rect x="107" y="40" width="56" height="13" rx="3" class="node"/><line x1="135" y1="53" x2="105" y2="78" class="spoke"/><rect x="91" y="78" width="28" height="12" rx="2" class="node"/><line x1="105" y1="90" x2="95" y2="112" class="spoke thin"/><rect x="90.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="105" y1="90" x2="105" y2="112" class="spoke thin"/><rect x="100.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="105" y1="90" x2="115" y2="112" class="spoke thin"/><rect x="110.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="135" y1="53" x2="135" y2="78" class="spoke"/><rect x="121" y="78" width="28" height="12" rx="2" class="node"/><line x1="135" y1="90" x2="125" y2="112" class="spoke thin"/><rect x="120.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="135" y1="90" x2="135" y2="112" class="spoke thin"/><rect x="130.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="135" y1="90" x2="145" y2="112" class="spoke thin"/><rect x="140.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="135" y1="53" x2="165" y2="78" class="spoke"/><rect x="151" y="78" width="28" height="12" rx="2" class="node"/><line x1="165" y1="90" x2="155" y2="112" class="spoke thin"/><rect x="150.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="165" y1="90" x2="165" y2="112" class="spoke thin"/><rect x="160.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="165" y1="90" x2="175" y2="112" class="spoke thin"/><rect x="170.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="135" y1="16" x2="225" y2="40" class="spoke"/><rect x="197" y="40" width="56" height="13" rx="3" class="node"/><line x1="225" y1="53" x2="195" y2="78" class="spoke"/><rect x="181" y="78" width="28" height="12" rx="2" class="node"/><line x1="195" y1="90" x2="185" y2="112" class="spoke thin"/><rect x="180.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="195" y1="90" x2="195" y2="112" class="spoke thin"/><rect x="190.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="195" y1="90" x2="205" y2="112" class="spoke thin"/><rect x="200.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="225" y1="53" x2="225" y2="78" class="spoke"/><rect x="211" y="78" width="28" height="12" rx="2" class="node"/><line x1="225" y1="90" x2="215" y2="112" class="spoke thin"/><rect x="210.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="225" y1="90" x2="225" y2="112" class="spoke thin"/><rect x="220.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="225" y1="90" x2="235" y2="112" class="spoke thin"/><rect x="230.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="225" y1="53" x2="255" y2="78" class="spoke"/><rect x="241" y="78" width="28" height="12" rx="2" class="node"/><line x1="255" y1="90" x2="245" y2="112" class="spoke thin"/><rect x="240.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="255" y1="90" x2="255" y2="112" class="spoke thin"/><rect x="250.5" y="112" width="9" height="34" rx="1.5" class="node"/><line x1="255" y1="90" x2="265" y2="112" class="spoke thin"/><rect x="260.5" y="112" width="9" height="34" rx="1.5" class="node"/></svg></div><div class="blk grow col"><div class="blabel">Найнесподіваніший звʼязок і що він мені підказує:</div><div class="ruled grow"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>100 / 167</span></footer>
+</section>
+<section class="page ex" id="ex101" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 101</span></header>
+  <h1>Проблеми → завдання</h1>
+  <div class="goal"><b>Мета.</b> Перетворити те, що турбує, на те, що можна робити.</div><div class="intro">Немає проблем, яких не можна перетворити на задачі. Немає задач, які не можна вирішити.</div><ol class="steps"><li>Запишіть 5 проблем, які вас зараз турбують.</li><li>Навпроти перефразуйте кожну як завдання — з дієсловом дії і конкретним результатом.</li></ol>
+  <div class="work"><div class="blk example"><div class="extitle">Приклад</div>«У мене немає часу на спорт» → «Знайти три слоти по 30 хвилин на тиждень для тренувань».</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:5%"><col style="width:45%"><col style="width:50%"></colgroup><thead><tr><th>№</th><th>Проблема</th><th>Завдання</th></tr></thead><tbody><tr><td>1</td><td></td><td></td></tr><tr><td>2</td><td></td><td></td></tr><tr><td>3</td><td></td><td></td></tr><tr><td>4</td><td></td><td></td></tr><tr><td>5</td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>101 / 167</span></footer>
+</section>
+<section class="page ex" id="ex102" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 102</span></header>
+  <h1>Вигадайте нові слова</h1>
+  <div class="goal"><b>Мета.</b> Розвинути мовну гнучкість і вміння стисло називати складні явища.</div><ol class="steps"><li>Вигадайте по три нових слова для опису кожної ситуації.</li><li>Додайте свої ситуації, для яких бракує влучного слова.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:31%"><col style="width:23%"><col style="width:23%"><col style="width:23%"></colgroup><thead><tr><th>Ситуація</th><th>Нове слово 1</th><th>Нове слово 2</th><th>Нове слово 3</th></tr></thead><tbody><tr><td>Слон на вухо наступив</td><td></td><td></td><td></td></tr><tr><td>Компʼютер зʼїв увесь час</td><td></td><td></td><td></td></tr><tr><td>Ноги від вух ростуть</td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>102 / 167</span></footer>
+</section>
+<section class="page ex" id="ex103" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 103</span></header>
+  <h1>Ідеальний кінцевий результат (ІКР)</h1>
+  <div class="goal"><b>Мета.</b> Освоїти поняття ІКР — еталон, з яким порівнюють усі реальні рішення.</div><div class="intro">ІКР — ситуація, коли потрібна дія виконується сама собою: без витрат, ускладнень і небажаних ефектів. Правило формулювання: <b>система сама (за рахунок своїх ресурсів) виконує потрібну дію і не допускає небажаних ефектів.</b> ІКР майже ніколи не досяжний, але показує напрямок.</div>
+  <div class="work"><div class="blk example"><div class="extitle">Приклад</div>Проблема: шину автомобіля може пробити на дорозі. ІКР: те, що пробиває шину, саме стає корком.</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:5%"><col style="width:45%"><col style="width:50%"></colgroup><thead><tr><th>№</th><th>Проблема</th><th>Ідеальний кінцевий результат</th></tr></thead><tbody><tr><td>1</td><td></td><td></td></tr><tr><td>2</td><td></td><td></td></tr><tr><td>3</td><td></td><td></td></tr><tr><td>4</td><td></td><td></td></tr><tr><td>5</td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>103 / 167</span></footer>
+</section>
+<section class="page ex" id="ex104" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 104</span></header>
+  <h1>Пишемо лівою рукою</h1>
+  <div class="goal"><b>Мета.</b> Активувати іншу півкулю мозку і подивитися на звичні справи по-новому.</div><ol class="steps"><li>Напишіть лівою рукою (правші; шульги — правою) про відчуття, які ви плануєте мати цього тижня у справах.</li><li>Не поспішайте, не виправляйте. Зверніть увагу, які думки зʼявляються, коли рука «не слухається».</li></ol>
+  <div class="work"><div class="blk grow col"><div class="ruled grow"></div></div><div class="blk"><div class="blabel">Що я помітив(-ла) (вже звичною рукою):</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>104 / 167</span></footer>
+</section>
+<section class="page ex" id="ex105" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 105</span></header>
+  <h1>Нестандартні рішення</h1>
+  <div class="goal"><b>Мета.</b> Тренувати пошук кількох рішень для однієї задачі.</div><ol class="steps"><li>Запропонуйте якомога більше рішень для кожного завдання — щонайменше пʼять.</li><li>Позначте найнесподіваніше рішення зірочкою.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Як нагодувати дитину кашею?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Мухомори почали маскуватися під грузді й маслюки. Що робити?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Потрібно склеїти розірваний договір. Як?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>105 / 167</span></footer>
+</section>
+<section class="page ex" id="ex106" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 106</span></header>
+  <h1>Завдання в різних умовах</h1>
+  <div class="goal"><b>Мета.</b> Знайти нові рішення, змінивши умови, в яких розвʼязується задача.</div><ol class="steps"><li>Запишіть три свої реальні завдання.</li><li>Уявіть, як би ви їх розвʼязували в кожних умовах. Що з цього можна застосувати насправді?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><thead><tr><th>Завдання</th><th>В Африці</th><th>На Північному полюсі</th><th>На безлюдному острові</th><th>На космічному кораблі</th><th>Без інтернету</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Які ідеї можна застосувати в моїх реальних умовах?</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>106 / 167</span></footer>
+</section>
+<section class="page ex" id="ex107" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 107</span></header>
+  <h1>Що спільного між…</h1>
+  <div class="goal"><b>Мета.</b> Тренувати вміння знаходити звʼязки між далекими поняттями — основу творчих ідей.</div><ol class="steps"><li>Знайдіть якомога більше спільного в кожній парі — хоча б пʼять пунктів.</li><li>Придумайте три власні «неможливі» пари й розвʼяжіть їх.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Читанням книги і присіданням?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Самодостатністю і зніманням шкірки з мандаринки?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Вагітністю та ремонтом велосипеда?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Моя пара: ____________ і ____________?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>107 / 167</span></footer>
+</section>
+<section class="page ex" id="ex108" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 108</span></header>
+  <h1>Історія з пʼяти слів</h1>
+  <div class="goal"><b>Мета.</b> Тренувати швидке творче мислення і вміння звʼязувати непоєднуване.</div><ol class="steps"><li>Складіть логічно повʼязану, закінчену розповідь, у якій є слова:<br><b>ВІКНО, ЗНАННЯ, КОЗЕЛ, ПОКІЙНИК, ГРОШІ.</b></li><li>На виконання — 10 хвилин. Засічіть час!</li></ol>
+  <div class="work"><div class="blk grow col"><div class="ruled grow"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>108 / 167</span></footer>
+</section>
+<section class="page ex" id="ex109" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 109</span></header>
+  <h1>А що було б, якщо…</h1>
+  <div class="goal"><b>Мета.</b> Розвинути вміння прогнозувати наслідки й мислити сценаріями.</div><ol class="steps"><li>Опишіть якомога більше наслідків кожної ситуації — і найближчих, і далеких.</li><li>Знайдіть серед наслідків і позитивні, і негативні.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">…найкращих учнів виключали б зі школи?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">…всі автомобілі були б жовтого кольору?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">…люди знали б дату своєї смерті?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>109 / 167</span></footer>
+</section>
+<section class="page ex" id="ex110" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 110</span></header>
+  <h1>Система — надсистема: пʼять рівнів рішення</h1>
+  <div class="goal"><b>Мета.</b> Освоїти метод, що дозволяє розвʼязати проблему на різних рівнях системи.</div><div class="intro">1 рівень — відпадає потреба в обʼєкті функції. 2 — відпадає потреба в самій функції. 3 — функцію виконує сам обʼєкт. 4 — функцію виконують елементи системи, що залишилися. 5 — функцію виконує система або надсистема.</div>
+  <div class="work"><div class="blk example"><div class="extitle">Приклад</div>Проблема: працівник запізнюється. <b>1:</b> відмовляємося від фіксованого часу приходу. <b>2:</b> відмовляємося від завдань, які він виконує. <b>3:</b> штраф за запізнення — працівник сам контролює свій час. <b>4:</b> працівника звільняємо, роботу розподіляємо між колективом. <b>5:</b> спільний бонус, коли всі приходять вчасно, — колектив сам контролює прихід.</div><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Проблема 1: ______________</th></tr></thead><tbody><tr><td>1 рівень:</td></tr><tr><td>2 рівень:</td></tr><tr><td>3 рівень:</td></tr><tr><td>4 рівень:</td></tr><tr><td>5 рівень:</td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Проблема 2: ______________</th></tr></thead><tbody><tr><td>1 рівень:</td></tr><tr><td>2 рівень:</td></tr><tr><td>3 рівень:</td></tr><tr><td>4 рівень:</td></tr><tr><td>5 рівень:</td></tr></tbody></table></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>110 / 167</span></footer>
+</section>
+<section class="page ex" id="ex111" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 111</span></header>
+  <h1>Каліграфія: арабська вʼязь</h1>
+  <div class="goal"><b>Мета.</b> Задіяти нові нейронні звʼязки, відтворюючи незнайомі знаки.</div><ol class="steps"><li>Уважно роздивіться кожен знак.</li><li>Пропишіть його в клітинках рядка — повільно, намагаючись передати форму якомога точніше.</li></ol>
+  <div class="work"><div class="blk grow col glyphs"><div class="grow-row"><div class="glyph ar">ر</div><div class="gname">ра</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph ar">ص</div><div class="gname">сад</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph ar">ط</div><div class="gname">та</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph ar">ع</div><div class="gname">айн</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph ar">م</div><div class="gname">мім</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph ar">ه</div><div class="gname">ха</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph ar">ي</div><div class="gname">йа</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph ar">ش</div><div class="gname">шин</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>111 / 167</span></footer>
+</section>
+<section class="page ex" id="ex112" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 112</span></header>
+  <h1>Каліграфія: японські ієрогліфи</h1>
+  <div class="goal"><b>Мета.</b> Тренувати зорову памʼять і увагу до деталей через прописування ієрогліфів.</div><ol class="steps"><li>Роздивіться ієрогліф і запамʼятайте його значення.</li><li>Пропишіть його в клітинках рядка. Наприкінці спробуйте записати всі сім з памʼяті.</li></ol>
+  <div class="work"><div class="blk grow col glyphs"><div class="grow-row"><div class="glyph jp">火</div><div class="gname">вогонь</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph jp">木</div><div class="gname">дерево</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph jp">夕</div><div class="gname">вечір</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph jp">父</div><div class="gname">батько</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph jp">左</div><div class="gname">лівий</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph jp">人</div><div class="gname">людина</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div><div class="grow-row"><div class="glyph jp">川</div><div class="gname">річка</div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div><div class="gcell"></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>112 / 167</span></footer>
+</section>
+<section class="page ex" id="ex113" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 113</span></header>
+  <h1>Тиждень нового досвіду</h1>
+  <div class="goal"><b>Мета.</b> Щодня робити щось, чого ви ніколи раніше не робили, — це найкраще паливо для творчості.</div><ol class="steps"><li>Щовечора запланувати: «Що я завтра зроблю такого, чого раніше ніколи не робив(-ла)?»</li><li>Наступного вечора записати, що відчули і що відкрили.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:8%"><col style="width:42%"><col style="width:50%"></colgroup><thead><tr><th>День</th><th>Що нового зроблю</th><th>Що відчув(-ла) і відкрив(-ла)</th></tr></thead><tbody><tr><td>Пн</td><td></td><td></td></tr><tr><td>Вт</td><td></td><td></td></tr><tr><td>Ср</td><td></td><td></td></tr><tr><td>Чт</td><td></td><td></td></tr><tr><td>Пт</td><td></td><td></td></tr><tr><td>Сб</td><td></td><td></td></tr><tr><td>Нд</td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>113 / 167</span></footer>
+</section>
+<section class="page ex" id="ex114" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 114</span></header>
+  <h1>Переверніть проблему з ніг на голову</h1>
+  <div class="goal"><b>Мета.</b> Знайти нові рішення, подивившись на проблему з протилежного боку.</div><ol class="steps"><li>Сформулюйте проблему навиворіт різними способами: що, якщо це перевага? Що, якщо зробити ще гірше? Що, якщо проблема розвʼяже сама себе?</li><li>З кожного перевернутого формулювання виведіть ідею.</li></ol>
+  <div class="work"><div class="blk txt "><b>Проблема:</b> повітря на вулицях великих міст отруйне для дихання їхніх мешканців.</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Перевернуте формулювання</th><th>Яка ідея з цього випливає</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div><div class="blk txt "><b>Моя проблема:</b> ________________________________________________</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Перевернуте формулювання</th><th>Яка ідея з цього випливає</th></tr></thead><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>114 / 167</span></footer>
+</section>
+<section class="page ex" id="ex115" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 115</span></header>
+  <h1>Неможливе</h1>
+  <div class="goal"><b>Мета.</b> Зняти внутрішні обмеження і дозволити собі фантазувати без меж.</div><ol class="steps"><li>Вигадайте і опишіть якомога нереалістичніший, фантастичніший, неможливий варіант кожного.</li><li>Можна малювати.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Памʼятник…</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Олівець…</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Вчинок…</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>115 / 167</span></footer>
+</section>
+<section class="page ex" id="ex116" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 116</span></header>
+  <h1>Мої винаходи за 5 років</h1>
+  <div class="goal"><b>Мета.</b> Побачити себе творцем: зафіксувати все, що ви вигадали й реалізували.</div><ol class="steps"><li>Згадайте все, що ви вигадали і втілили за останні 5 років: у роботі, вдома, у стосунках, хобі.</li><li>Навіть дрібниці рахуються — колекціонуйте досягнення, а не бажання.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:10%"><col style="width:55%"><col style="width:35%"></colgroup><thead><tr><th>Рік</th><th>Що вигадав(-ла) і реалізував(-ла)</th><th>Що це мені дало</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>116 / 167</span></footer>
+</section>
+<section class="page ex" id="ex117" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 117</span></header>
+  <h1>Три якості одночасно</h1>
+  <div class="goal"><b>Мета.</b> Тренувати гнучкість мислення: шукати обʼєкти, що відповідають кільком умовам.</div><ol class="steps"><li>Напишіть якомога більше різних предметів, які мають одразу три якості. Мета — по 10 у кожному списку.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="blabel">1) Чорний, легкий, блискучий</div><div class="ruled grow"></div></div></div><div class="cell"><div class="blk grow col"><div class="blabel">2) Низький, важкий, кольоровий</div><div class="ruled grow"></div></div></div><div class="cell"><div class="blk grow col"><div class="blabel">3) Тонкий, вологий, високий</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>117 / 167</span></footer>
+</section>
+<section class="page ex" id="ex118" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 118</span></header>
+  <h1>Два ключові слова</h1>
+  <div class="goal"><b>Мета.</b> Навчитися виокремлювати суть ситуації.</div><ol class="steps"><li>Для кожної ситуації знайдіть два ключових (найважливіших) слова, які передають її суть.</li><li>Поясніть свій вибір.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:36%"><col style="width:26%"><col style="width:38%"></colgroup><thead><tr><th>Ситуація</th><th>Два ключові слова</th><th>Чому саме вони</th></tr></thead><tbody><tr><td>Цирульник приховує свій вік</td><td></td><td></td></tr><tr><td>Ящірка відрощує хвіст</td><td></td><td></td></tr><tr><td>Хвилювання під час публічного виступу</td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>118 / 167</span></footer>
+</section>
+<section class="page ex" id="ex119" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 119</span></header>
+  <h1>Продовжте історію</h1>
+  <div class="goal"><b>Мета.</b> Розвивати уяву і вміння будувати сюжет.</div><ol class="steps"><li>Вигадайте продовження історії — щонайменше на пів сторінки.</li><li>Спробуйте зробити фінал несподіваним.</li></ol>
+  <div class="work"><div class="blk txt ">«Сутеніло. Йшов дрібний дощ. На трамвайній зупинці під однією парасолькою стояли дві дівчини. Вони про щось тихо розмовляли. Раптом…»</div><div class="blk grow col"><div class="ruled grow"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>119 / 167</span></footer>
+</section>
+<section class="page ex" id="ex120" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 120</span></header>
+  <h1>Сто способів застосування</h1>
+  <div class="goal"><b>Мета.</b> Тренувати швидкість генерації ідей: що більше варіантів, то більше шансів на геніальний.</div><ol class="steps"><li>Придумайте якомога більше способів застосування кожного предмета. Мета — по 15.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="blabel">Круглий шматок паперу</div><div class="ruled grow"></div></div></div><div class="cell"><div class="blk grow col"><div class="blabel">Розбите горнятко</div><div class="ruled grow"></div></div></div><div class="cell"><div class="blk grow col"><div class="blabel">Залізний куб</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>120 / 167</span></footer>
+</section>
+<section class="page ex" id="ex121" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 121</span></header>
+  <h1>Ідея під мікроскопом</h1>
+  <div class="goal"><b>Мета.</b> Всебічно оцінити одну свою ідею перед тим, як її втілювати.</div>
+  <div class="work"><div class="blk"><div class="blabel">Моя ідея:</div><div class="ruled" style="height:16mm"></div></div><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Яких цілей я хочу досягти цією ідеєю?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Які позитивні перспективи в ідеї?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що я відчуваю стосовно цієї ідеї?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Які можливі ризики?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Які креативні сторони має ця ідея?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Які ресурси потрібні для її реалізації?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>121 / 167</span></footer>
+</section>
+<section class="page ex" id="ex122" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 122</span></header>
+  <h1>Обʼєднайте обʼєкти</h1>
+  <div class="goal"><b>Мета.</b> Тренувати синтез: поєднання різного дає нове.</div><div class="intro">Чимало приладів поєднують у собі інші: лінзи + тримачі = окуляри; дерево + завіси = двері.</div><ol class="steps"><li>Пригадайте ще кілька таких приладів.</li><li>Вигадайте, як можна обʼєднати пари обʼєктів нижче. Що вийде? Як воно працюватиме?</li></ol>
+  <div class="work"><div class="blk"><div class="blabel">Прилади, що поєднують інші прилади: ___ + ___ = ___</div><div class="ruled" style="height:24mm"></div></div><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Хобот слона + молоток = ?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Зарядний пристрій + філософія = ?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Материк + дзвіночок = ?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>122 / 167</span></footer>
+</section>
+<section class="page ex" id="ex123" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 123</span></header>
+  <h1>Що робити зі сценарієм фільму?</h1>
+  <div class="goal"><b>Мета.</b> Розвивати підприємницьке мислення: бачити кілька шляхів реалізації однієї ідеї.</div><ol class="steps"><li>Уявіть, що у вас є сценарій цікавого фільму.</li><li>Запишіть пʼять різних способів, що з ним зробити, — від найпростішого до найсміливішого.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:6%"><col style="width:60%"><col style="width:34%"></colgroup><thead><tr><th>№</th><th>Що я зробив(-ла) б</th><th>Перший крок</th></tr></thead><tbody><tr><td>1</td><td></td><td></td></tr><tr><td>2</td><td></td><td></td></tr><tr><td>3</td><td></td><td></td></tr><tr><td>4</td><td></td><td></td></tr><tr><td>5</td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>123 / 167</span></footer>
+</section>
+<section class="page ex" id="ex124" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 124</span></header>
+  <h1>Завдання в різних масштабах</h1>
+  <div class="goal"><b>Мета.</b> Знайти рівень, на якому задачу розвʼязати найлегше.</div><div class="intro">Проблему можна вирішити лише на іншому рівні, ніж той, на якому вона виникла (А. Ейнштейн).</div>
+  <div class="work"><div class="blk example"><div class="extitle">Приклад</div>НАДСИСТЕМА — вовча зграя. СИСТЕМА — вовк. ПІДСИСТЕМА — хвіст вовка.</div><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:18%"><col style="width:41%"><col style="width:41%"></colgroup><thead><tr><th>Рівень</th><th>Моє завдання на цьому рівні</th><th>Можливе рішення</th></tr></thead><tbody><tr><td><b>Надсистема</b></td><td></td><td></td></tr><tr><td><b>Система</b></td><td></td><td></td></tr><tr><td><b>Підсистема</b></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">На якому рівні його можливо вирішити? Чому?</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>124 / 167</span></footer>
+</section>
+<section class="page ex" id="ex125" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 125</span></header>
+  <h1>Сто формулювань одного завдання</h1>
+  <div class="goal"><b>Мета.</b> Тренувати вміння по-різному формулювати задачу — нове формулювання часто підказує нове рішення.</div><ol class="steps"><li>Вигадайте якомога більше схожих формулювань до завдання: <b>«Потрібно запарити чаю»</b>.</li><li>Наприклад: «потрібно отримати гарячий ароматний напій», «потрібно, щоб листя віддало смак воді»…</li><li>Повторіть для свого реального завдання.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="blabel">«Потрібно запарити чаю»</div><div class="ruled grow"></div></div></div><div class="cell"><div class="blk grow col"><div class="blabel">Моє завдання: ________________</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>125 / 167</span></footer>
+</section>
+<section class="page ex" id="ex126" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 126</span></header>
+  <h1>Задачі, які розвʼязуються самі</h1>
+  <div class="goal"><b>Мета.</b> Знайти постійні задачі, для яких варто вибудувати систему, що працює без вас.</div><ol class="steps"><li>Випишіть перманентні (постійні) задачі, які ви хотіли б, щоб вирішувалися самі собою.</li><li>Для кожної подумайте про ІКР: як система може виконувати цю дію сама?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:18%"><col style="width:38%"><col style="width:44%"></colgroup><thead><tr><th>Сфера</th><th>Перманентна задача</th><th>Як зробити, щоб вона вирішувалася сама</th></tr></thead><tbody><tr><td>Професійна</td><td></td><td></td></tr><tr><td>Професійна</td><td></td><td></td></tr><tr><td>Особисті стосунки</td><td></td><td></td></tr><tr><td>Особисті стосунки</td><td></td><td></td></tr><tr><td>Побут</td><td></td><td></td></tr><tr><td>Побут</td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>126 / 167</span></footer>
+</section>
+<section class="page ex" id="ex127" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 127</span></header>
+  <h1>ТРИЗ: пʼять етапів винахідництва</h1>
+  <div class="goal"><b>Мета.</b> Освоїти алгоритм розвʼязання суперечливих задач з теорії розвʼязання винахідницьких задач.</div><div class="intro">1) Поставити задачу. 2) Визначити ІКР. 3) Знайти протиріччя. 4) Знайти причину протиріччя. 5) Знайти умови, за яких протиріччя відсутнє.</div>
+  <div class="work"><div class="blk example"><div class="extitle">Приклад</div>1) Хочу поїхати на море, але поки не маю грошей. 2) Можливість поїхати сама знаходить мене. 3) Їхати хочеться «вже», а грошей «вже» немає. 4) Не хочеться чекати. 5) Море є в місті, де я працюю; їхати без грошей (автостоп, попутники); знайти людину, яка вже їде, і повернути гроші потім.</div><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Моя ситуація 1</th></tr></thead><tbody><tr><td>1. Задача</td></tr><tr><td>2. ІКР</td></tr><tr><td>3. Протиріччя</td></tr><tr><td>4. Причина</td></tr><tr><td>5. Умови без протиріччя</td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Моя ситуація 2</th></tr></thead><tbody><tr><td>1. Задача</td></tr><tr><td>2. ІКР</td></tr><tr><td>3. Протиріччя</td></tr><tr><td>4. Причина</td></tr><tr><td>5. Умови без протиріччя</td></tr></tbody></table></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>127 / 167</span></footer>
+</section>
+<section class="page ex" id="ex128" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 128</span></header>
+  <h1>Режим «дія — антидія»</h1>
+  <div class="goal"><b>Мета.</b> Перевірити, як чергування протилежних дій впливає на енергію і творчість.</div><ol class="steps"><li>Проживіть день у режимі: 45 хв — дія, 15 хв — антидія.</li><li>Наприклад: 45 хв сиділи — 15 хв присідаєте; 45 хв слухали — 15 хв говорите (залежно від вашої діяльності).</li><li>Запишіть результати.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:14%"><col style="width:33%"><col style="width:33%"><col style="width:20%"></colgroup><thead><tr><th>Час</th><th>Дія (45 хв)</th><th>Антидія (15 хв)</th><th>Стан / енергія (1–10)</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Результати і висновки:</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>128 / 167</span></footer>
+</section>
+<section class="page ex" id="ex129" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 129</span></header>
+  <h1>Мої ролі й функції сьогодні</h1>
+  <div class="goal"><b>Мета.</b> Усвідомити, скільки різних функцій ви виконуєте за день, — і де можна діяти творчо.</div><ol class="steps"><li>Запишіть, які функції ви сьогодні виконуватимете (виконували): мама, керівник, водій, кухар, учень…</li><li>Для кожної придумайте, як виконати її сьогодні трохи творчіше, ніж зазвичай.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:30%"><col style="width:15%"><col style="width:55%"></colgroup><thead><tr><th>Функція / роль</th><th>Скільки часу</th><th>Як виконати її творчо</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>129 / 167</span></footer>
+</section>
+<section class="page ex" id="ex130" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 130</span></header>
+  <h1>Властивості курячого яйця</h1>
+  <div class="goal"><b>Мета.</b> Тренувати спостережливість і всебічний аналіз звичайного обʼєкта.</div><ol class="steps"><li>Зʼясуйте, якими властивостями, якостями і характеристиками володіє куряче яйце. Мета — 30 пунктів.</li><li>Підказка: форма, маса, міцність, будова, хімія, кулінарія, символіка, мистецтво, мова…</li></ol>
+  <div class="work"><div class="blk grow col"><div class="numgrid grow"><div class="numcol"><div class="numrow"><span>1</span></div><div class="numrow"><span>2</span></div><div class="numrow"><span>3</span></div><div class="numrow"><span>4</span></div><div class="numrow"><span>5</span></div><div class="numrow"><span>6</span></div><div class="numrow"><span>7</span></div><div class="numrow"><span>8</span></div><div class="numrow"><span>9</span></div><div class="numrow"><span>10</span></div><div class="numrow"><span>11</span></div><div class="numrow"><span>12</span></div><div class="numrow"><span>13</span></div><div class="numrow"><span>14</span></div><div class="numrow"><span>15</span></div></div><div class="numcol"><div class="numrow"><span>16</span></div><div class="numrow"><span>17</span></div><div class="numrow"><span>18</span></div><div class="numrow"><span>19</span></div><div class="numrow"><span>20</span></div><div class="numrow"><span>21</span></div><div class="numrow"><span>22</span></div><div class="numrow"><span>23</span></div><div class="numrow"><span>24</span></div><div class="numrow"><span>25</span></div><div class="numrow"><span>26</span></div><div class="numrow"><span>27</span></div><div class="numrow"><span>28</span></div><div class="numrow"><span>29</span></div><div class="numrow"><span>30</span></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>130 / 167</span></footer>
+</section>
+<section class="page ex" id="ex131" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 131</span></header>
+  <h1>Найбезглуздіші рішення</h1>
+  <div class="goal"><b>Мета.</b> Зняти внутрішнього критика: абсурдні ідеї часто ведуть до справжніх.</div><ol class="steps"><li>Запишіть 5 найнелогічніших, найбезглуздіших рішень для задачі: <b>продавець у магазині дуже неввічливий</b>.</li><li>Потім з кожного абсурдного рішення спробуйте вивести реальне.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:6%"><col style="width:47%"><col style="width:47%"></colgroup><thead><tr><th>№</th><th>Безглузде рішення</th><th>Реальна ідея, що з нього випливає</th></tr></thead><tbody><tr><td>1</td><td></td><td></td></tr><tr><td>2</td><td></td><td></td></tr><tr><td>3</td><td></td><td></td></tr><tr><td>4</td><td></td><td></td></tr><tr><td>5</td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>131 / 167</span></footer>
+</section>
+<section class="page ex" id="ex132" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 132</span></header>
+  <h1>Якби ви були пінгвіном</h1>
+  <div class="goal"><b>Мета.</b> Розвинути емпатію та уяву через перевтілення.</div><ol class="steps"><li>Уявіть себе пінгвіном якомога детальніше.</li><li>Дайте відповіді від його імені.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Що б ви хотіли зробити?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що почути?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що побачити?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що відчути?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що змінити?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що отримати?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>132 / 167</span></footer>
+</section>
+<section class="page ex" id="ex133" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 133</span></header>
+  <h1>Відгадайте слова</h1>
+  <div class="goal"><b>Мета.</b> Тренувати швидкість мислення і словниковий запас.</div><ol class="steps"><li>Впишіть пропущені літери.</li><li>Вигадайте подібні загадки для друзів чи дітей.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:40%"><col style="width:60%"></colgroup><thead><tr><th>Загадка</th><th>Відповідь</th></tr></thead><tbody><tr><td>С _ У _ А</td><td></td></tr><tr><td>А _ Т _ К А</td><td></td></tr><tr><td>Ч _ Д _</td><td></td></tr><tr><td>К _ П _ С _ А</td><td></td></tr><tr><td>_ А _ Ч А _ Н _</td><td></td></tr><tr><td>_ В _ Р _ І _ Т Ь</td><td></td></tr></tbody></table></div></div><div class="blk"><div class="blabel">Мої загадки:</div><div class="ruled" style="height:32mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> ступа, аптека, чудо, капуста, навчання, творчість.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>133 / 167</span></footer>
+</section>
+<section class="page ex" id="ex134" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 134</span></header>
+  <h1>Задача: пошук снігової людини</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">У 1958 році відбулася перша експедиція в незаселені райони Паміру з метою пошуку снігової людини. Вирішили взяти собаку, яка вміє знаходити людей. Собака шукає за запахом, але де взяти запах снігової людини, якої ще не знайшли? Як бути?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> снігова людина — примат. В експедицію взяли герметичну коробочку з волоссям мавпи і давали собаці нюхати його перед пошуком. (Але собака так нічого й не знайшла.)</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>134 / 167</span></footer>
+</section>
+<section class="page ex" id="ex135" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 135</span></header>
+  <h1>Задача: плоскі дахи</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">У сучасних містах багато будинків із плоскими дахами. Земля в межах міста дорога. Як можна було б використовувати дахи? Запропонуйте щонайменше десять ідей.</div></div><div class="blk note">Відкрита задача — правильної відповіді немає. Що більше ідей, то краще.</div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>135 / 167</span></footer>
+</section>
+<section class="page ex" id="ex136" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 136</span></header>
+  <h1>Задача: чотири їжаки і ліхтарик</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Чотири їжаки стоять на одному кінці поля і мають якомога швидше перейти на інший бік. Перший добігає за 1 хвилину, другий — за 2, третій — за 5, а дідусь-їжачок — за 7. Темної ночі через поле за один раз можуть пройти максимум 2 їжаки, і в них є лише 1 ліхтарик. Без ліхтаря йти страшно. За який мінімальний час усі четверо перейдуть поле?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> 14 хвилин. Поле переходять 1-хвилинний і 2-хвилинний (2 хв), 1-хвилинний повертається з ліхтариком (1 хв), переходять 5- і 7-хвилинний (7 хв), 2-хвилинний повертається (2 хв), разом із 1-хвилинним переходять (2 хв).</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>136 / 167</span></footer>
+</section>
+<section class="page ex" id="ex137" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 137</span></header>
+  <h1>Задача: Маріанська западина</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Ви пливете на яхті Тихим океаном. Штурман повідомляє, що ви над найглибшим місцем на Землі — Маріанською западиною. Саме цієї миті незграбний гість упускає за борт гарматне ядро масою 5,5 кг. Через який час ядро досягне дна?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> глибина западини ≈ 11 000 м, швидкість занурення ядра ≈ 3 м/с: 11 000 / 3 ≈ 3 667 с, тобто приблизно годину.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>137 / 167</span></footer>
+</section>
+<section class="page ex" id="ex138" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 138</span></header>
+  <h1>Задача: мурахи і королева</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">У північних лісах навесні ще лежить сніг. Температура в сонячний день трохи вище нуля. За таких умов у мурашника прогрівається лише купол. А мурашиній королеві потрібне тепло, проте вона не вилазить із мурашника. Як мурахи розвʼязують це завдання?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> мурахи самі «переносять» сонце: виповзають на прогрітий купол, гріються і спускаються на нижні поверхи, віддаючи тепло.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>138 / 167</span></footer>
+</section>
+<section class="page ex" id="ex139" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 139</span></header>
+  <h1>Задача: холодний огірок</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Ріс собі зелений огірок. Температура огірка, що росте, зазвичай на 1–2 градуси нижча від температури навколишнього середовища. Як це пояснити?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> завдяки транспірації — випаровуванню води з поверхні листя. Удень вона інтенсивніша, тож рослина холодніша за повітря; вночі й у прохолоду — навпаки. Це властиво всім рослинам, не лише огіркам.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>139 / 167</span></footer>
+</section>
+<section class="page ex" id="ex140" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 140</span></header>
+  <h1>Задача: вузькі вулиці</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">У середньовічних містах вулиці були кривими і такими вузькими, що насилу могли розʼїхатися вершники. Вози й арби розʼїхатися не могли. Що можна зробити, щоб зіткнень посеред вулиці не відбувалося?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> перед вʼїздом кричати; збігати в кінець вулиці й покласти там шапку як знак «зайнято»; зробити найпростіший семафор.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>140 / 167</span></footer>
+</section>
+<section class="page ex" id="ex141" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 141</span></header>
+  <h1>Задача: дерева без кілець</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Усім відомі «річні» кільця на спилах дерев. У джунглях теж пиляють дерева, проте на зрізах стовбурів тропічного лісу таких кілець немає. Чому?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> у джунглях вічне літо, пори року не змінюються, тож деревина наростає рівномірно цілий рік — і річних кілець не утворюється.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>141 / 167</span></footer>
+</section>
+<section class="page ex" id="ex142" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 142</span></header>
+  <h1>Задача: Марічка і Василь</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Марічка та Василь домовилися про побачення. У Василя годинник поспішає на 5 хвилин, але він думає, що відстає на 5 хвилин. У Марічки годинник відстає на 5 хвилин, а вона думає, що він поспішає на 5. Хто прийде на побачення раніше і на скільки?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> Василь. Він прийде на 10 хв раніше призначеного, а Марічка — на 10 хв пізніше; тож Василь чекатиме 20 хвилин.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>142 / 167</span></footer>
+</section>
+<section class="page ex" id="ex143" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 143</span></header>
+  <h1>Задача: свиня і чобіт</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">За сюжетом фільму свиня мала зʼїсти чобіт, але робити цього не хотіла. Що б ви зробили на місці режисера?</div></div><div class="blk note">Відкрита задача — запропонуйте якомога більше рішень.</div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>143 / 167</span></footer>
+</section>
+<section class="page ex" id="ex144" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 144</span></header>
+  <h1>Задача: бджоли в літаку</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Реактивним лайнером перевозять агресивних бразильських бджіл. Коли літак набирав висоту, від вібрації відкрилися вулики. Розсерджений шумом двигунів рій кинувся в салон, де було 214 пасажирів. Що робити?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> вимкнути освітлення — бджоли повернуться у вулики; поступово знизити температуру в салоні.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>144 / 167</span></footer>
+</section>
+<section class="page ex" id="ex145" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 145</span></header>
+  <h1>Задача: пісочний годинник у ліфті</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Чи правильно йтиме пісочний годинник у ліфті, який опускається з постійною швидкістю?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> так: за рівномірного руху сили, що діють на пісок, такі самі, як у нерухомому ліфті.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>145 / 167</span></footer>
+</section>
+<section class="page ex" id="ex146" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 146</span></header>
+  <h1>Задача: жаба-хамелеон</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Квакші — маленькі жаби-хамелеони, що швидко змінюють колір під кору чи листя: від коричневого до зеленого. Під час досліду коричневу квакшу посадили в темряві на звичайне скло, і через деякий час вона стала зеленою. Як це пояснити?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> жаба відчуває шкірою структуру поверхні. Гладка поверхня — сигнал, що треба змінити колір під зелене листя.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>146 / 167</span></footer>
+</section>
+<section class="page ex" id="ex147" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 147</span></header>
+  <h1>Задача: оцінка Фермі</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Як вирахувати кількість людей, що займаються налаштуванням піаніно в місті Х, якщо в ньому 200 000 жителів? Розбийте задачу на запитання, на які можна дати приблизну відповідь.</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> у середньому в сімʼї 4 особи → 50 000 сімей; піаніно має кожна пʼята → 10 000 інструментів; налаштовують раз на 5 років → 2 000 налаштувань на рік; одне триває ~2 год, тобто 4 на день, ~1 000 на рік на майстра → потрібно близько 2 налаштувальників.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>147 / 167</span></footer>
+</section>
+<section class="page ex" id="ex148" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 148</span></header>
+  <h1>Задача: пароплав Філеаса Фогга</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Філеас Фогг і його слуга Паспарту мають вчасно потрапити до Англії, інакше програють парі й багато грошей. Фогг винайняв гарний пароплав із деревʼяними надбудовами. До Англії рукою подати, але на пароплаві скінчилося вугілля і машини зупинилися. Де взяти паливо в морі?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> спалити деревʼяні надбудови пароплава.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>148 / 167</span></footer>
+</section>
+<section class="page ex" id="ex149" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 149</span></header>
+  <h1>Задача: цар і дуби</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Їхав цар подивитися на своє царство і побачив на галявині двадцять дубів, один кращий за інший. «Хочу, щоб ці дуби росли біля мого палацу!» Та хіба столітні дуби пересадиш? Але наказ є наказ. Як виконати веління царя?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> побудувати палац на галявині.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>149 / 167</span></footer>
+</section>
+<section class="page ex" id="ex150" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 150</span></header>
+  <h1>Задача: співучі камені</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Індіанці, що жили на берегах річки Оріноко, були переконані, що вночі в прибережних скелях стогнуть душі померлих. Як би ви пояснили причину звучання каменів?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> у скелях були вузькі глибокі тріщини, вкриті тонкими листочками слюди. Вночі ставало прохолодно, а скелі віддавали накопичене за день тепло: тепле повітря виходило з тріщин, обдувало листочки слюди, і вони звучали (пояснення А. Гумбольдта).</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>150 / 167</span></footer>
+</section>
+<section class="page ex" id="ex151" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 151</span></header>
+  <h1>Задача: острів амазонок</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Чоловік потрапив у полон на острові, де жили дуже самовпевнені амазонки. Вони повідомили, що стратять його, але спершу виконають будь-яке його бажання. Яке бажання він повинен висловити, щоб залишитися живим?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> «Нехай мене вбʼє найнекрасивіша з вас!»</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>151 / 167</span></footer>
+</section>
+<section class="page ex" id="ex152" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 152</span></header>
+  <h1>Задача: три жінки в купальниках</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Три жінки в купальниках стояли поруч. Дві з них були сумні, а одна — щаслива. Але сумні жінки посміхалися, а щаслива плакала. Як це можливо?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> це був конкурс краси. Дівчина, яка посіла перше місце, плакала від щастя.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>152 / 167</span></footer>
+</section>
+<section class="page ex" id="ex153" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 153</span></header>
+  <h1>Задача: три доньки і каструлі</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Батько вирішив видати заміж одну з трьох доньок. Перша хоче заміж, друга не хоче, а третій байдуже. Він дав кожній однакову каструлю з кришкою, налив однаково води і поставив на вогонь. Першою заміж вийде та, у якої вода закипить швидше. Хто з доньок вийде заміж першою?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> третя: їй байдуже, тож вона не заглядатиме під кришку — і вода закипить швидше.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>153 / 167</span></footer>
+</section>
+<section class="page ex" id="ex154" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 154</span></header>
+  <h1>Задача: рибки й циклопи</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">У вас акваріум з рибками, які їдять циклопів. Вам треба поїхати на кілька днів, і попросити нікого не можна. Запустити багато циклопів одразу не можна — рибки їх зʼїдять і потім голодуватимуть. Як вчинити?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> перегородити акваріум склом із невеликими отворами: циклопи проходять крізь них поступово, а рибки на «бік циклопів» не потрапляють.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>154 / 167</span></footer>
+</section>
+<section class="page ex" id="ex155" style="--accent:#c07a12;--tint:#fdf3e2">
+  <header class="head"><span class="sec"><i></i>Творче мислення</span><span class="num">Вправа 155</span></header>
+  <h1>Задача: Роберт Вуд і рагу</h1>
+  <div class="goal"><b>Мета.</b> Потренувати нестандартне мислення: шукати рішення там, де «очевидного» немає.</div>
+  <div class="work"><div class="blk txt "><div class="puzzle">Молодий фізик Роберт Вуд жив в університетському пансіоні. Студенти запідозрили, що господиня додає до ранкового рагу залишки їжі з тарілок за вчорашній день, підмішуючи їх до свіжого мʼяса. Але як це довести? Що зробив Роберт Вуд?</div></div><div class="blk grow col"><div class="blabel">Мої ідеї та міркування (запишіть щонайменше три варіанти, перш ніж дивитися відповідь)</div><div class="frame grow dots"></div></div><div class="blk"><div class="blabel">Моя остаточна відповідь:</div><div class="ruled" style="height:24mm"></div></div></div>
+  <div class="answer"><span>Відповідь:</span> він посипав залишки мʼяса на своїй тарілці хлористим літієм. Наступного ранку спалив трохи рагу в пальнику і в спектроскоп побачив характерну червону лінію літію — підозри підтвердилися.</div>
+  <footer class="foot"><span>Джерело: «Щоденник для розвитку творчого мислення» · Роман Кушнір, SPE школа розвитку</span><span>155 / 167</span></footer>
+</section></body></html>

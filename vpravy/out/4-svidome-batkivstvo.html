@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><title>Свідоме батьківство</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>@page { size: A4; margin: 0; }
+:root {
+  --ink: #1d1d1f;
+  --muted: #6b6b70;
+  --line: #c4c4c8;
+  --rule: #d2d2d6;
+  --accent: #2f5d8a;
+  --tint: #eef3f8;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #e9e9ec; }
+body {
+  font-family: "Inter", "DejaVu Sans", sans-serif;
+  color: var(--ink);
+  font-size: 9.6pt;
+  line-height: 1.38;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page {
+  width: 210mm; height: 297mm;
+  margin: 8mm auto;
+  padding: 11mm 13mm 8mm;
+  background: #fff;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  break-after: page;
+  box-shadow: 0 1px 6px rgba(0,0,0,.12);
+}
+@media print {
+  html, body { background: #fff; }
+  .page { margin: 0; box-shadow: none; }
+}
+
+/* ---- шапка й підвал ---- */
+.head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 7.6pt; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1.2pt solid var(--accent); padding-bottom: 1.6mm; margin-bottom: 3.2mm;
+}
+.head .sec { display: flex; align-items: center; gap: 2mm; font-weight: 600; color: var(--accent); }
+.head .sec i, .secs i, .tocsec h3 i {
+  width: 2.6mm; height: 2.6mm; border-radius: 50%; background: var(--accent); display: inline-block;
+}
+.head .num { font-weight: 700; color: var(--ink); }
+h1 { font-size: 19pt; line-height: 1.12; margin: 0 0 2.4mm; font-weight: 700; letter-spacing: -.01em; }
+.goal {
+  background: var(--tint); border-left: 1.4mm solid var(--accent);
+  padding: 1.8mm 3mm; margin-bottom: 2.4mm; border-radius: 0 1.5mm 1.5mm 0;
+}
+.intro { margin-bottom: 2mm; color: #333; }
+.steps { margin: 0 0 2.6mm; padding-left: 5.2mm; }
+.steps li { margin-bottom: .7mm; }
+.steps li::marker { color: var(--accent); font-weight: 700; }
+.work { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2.6mm; }
+.foot {
+  display: flex; justify-content: space-between; gap: 4mm;
+  font-size: 6.8pt; color: var(--muted); border-top: .5pt solid var(--line);
+  padding-top: 1.4mm; margin-top: 2.4mm;
+}
+
+/* ---- блоки ---- */
+.blk { min-width: 0; }
+.grow { flex: 1 1 0; min-height: 0; }
+.col { display: flex; flex-direction: column; }
+.row { display: flex; gap: 4mm; }
+.row > .cell { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2.4mm; }
+.center { display: flex; flex-direction: column; align-items: center; }
+.blabel {
+  font-weight: 700; font-size: 9pt; margin-bottom: 1.2mm; color: var(--accent);
+}
+.ruled {
+  background-image: linear-gradient(to bottom, transparent calc(100% - .5pt), var(--rule) calc(100% - .5pt));
+  background-size: 100% 8mm;
+  background-repeat: repeat-y;
+  min-height: 8mm;
+}
+.frame { border: .6pt solid var(--line); border-radius: 1.5mm; min-height: 10mm; }
+.frame.dots {
+  background-image: radial-gradient(circle, #bdbdc2 .5pt, transparent .6pt);
+  background-size: 5mm 5mm;
+}
+.txt { color: #333; }
+.txt.small { font-size: 8.4pt; }
+.example {
+  background: #f6f6f7; border: .5pt dashed #b9b9be; border-radius: 1.5mm;
+  padding: 2mm 3mm; font-size: 8.4pt; color: #3a3a3d;
+}
+.example .extitle { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 7pt; color: var(--muted); margin-bottom: .6mm; }
+.example ol, .example ul { margin: .5mm 0 0; padding-left: 4.5mm; }
+.example p { margin: .6mm 0; }
+.note {
+  font-size: 8.6pt; border: .6pt solid var(--accent); border-radius: 1.5mm; padding: 1.6mm 3mm; color: #2a2a2d;
+}
+.q { font-weight: 600; margin-top: 1mm; }
+.qgrid { display: flex; flex-direction: column; gap: 1.8mm; }
+.qcell { flex: 1 1 0; display: flex; flex-direction: column; min-height: 0; }
+.qcell .ruled { flex: 1; }
+
+/* таблиці */
+.tbl { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.tblwrap { display: flex; }
+.tblwrap .tbl { height: 100%; }
+.tbl th {
+  background: var(--tint); font-size: 8pt; font-weight: 700; text-align: left;
+  padding: 1.2mm 1.6mm; border: .6pt solid var(--line); line-height: 1.2; vertical-align: bottom;
+}
+.tbl td { border: .6pt solid var(--line); padding: .8mm 1.6mm; vertical-align: top; font-size: 8.4pt; line-height: 1.25; }
+.tbl td:first-child { color: #333; }
+.tbl.small td, .tbl.small th { font-size: 7.6pt; }
+.tbl.scale th.n, .tbl.scale td.n { text-align: center; padding: .6mm 0; }
+.tbl.scale td.it { font-size: 8.3pt; vertical-align: middle; }
+.tbl td.glass { text-align: center; color: #9a9aa0; font-size: 10pt; vertical-align: middle; padding: 0; }
+.barcell { vertical-align: middle !important; }
+.bar { height: 4.5mm; border: .6pt solid var(--line); border-radius: 1mm; position: relative; }
+.bar span { position: absolute; left: 50%; top: -1mm; bottom: -1mm; border-left: .6pt dashed #999; }
+
+/* нумеровані рядки */
+.numgrid { display: flex; gap: 6mm; }
+.numcol { flex: 1; display: flex; flex-direction: column; }
+.numrow { flex: 1 1 0; border-bottom: .6pt solid var(--rule); display: flex; align-items: flex-end; min-height: 5mm; }
+.numrow span { font-size: 7.6pt; color: var(--muted); width: 6mm; padding-bottom: .5mm; font-weight: 600; }
+
+/* чекліст */
+.check { list-style: none; margin: 0; padding: 0; column-gap: 6mm; }
+.check li { display: flex; gap: 2mm; align-items: flex-start; margin-bottom: 1.3mm; break-inside: avoid; }
+.check.small li { font-size: 8.3pt; margin-bottom: .9mm; }
+.cb { flex: none; width: 3.2mm; height: 3.2mm; border: .7pt solid #8d8d92; border-radius: .6mm; margin-top: .6mm; }
+
+/* svg */
+.svg { display: block; max-width: 100%; }
+.svg .ring { fill: none; stroke: #dcdce0; stroke-width: .35; }
+.svg .ring.major { stroke: #b4b4ba; stroke-width: .5; }
+.svg .spoke { stroke: #8f8f95; stroke-width: .5; }
+.svg .spoke.thin { stroke-width: .35; }
+.svg .spoke.dash { stroke-dasharray: 2 2; stroke: #b0b0b5; }
+.svg .axis { stroke: #555; stroke-width: .7; }
+.svg .tick { font-size: 4.4px; fill: #8a8a90; font-family: Inter, sans-serif; }
+.svg .wlab { font-size: 6px; fill: #2a2a2d; font-family: Inter, sans-serif; }
+.svg .wlab.b { font-weight: 700; }
+.svg .axl { font-size: 5px; fill: #555; font-family: Inter, sans-serif; font-style: italic; }
+.svg .dot { fill: var(--accent); }
+.svg .node { fill: #fff; stroke: #9c9ca2; stroke-width: .5; }
+.svg .arcp { fill: none; stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 3 2; }
+.svg .arrow { fill: var(--accent); }
+.svg .squig { fill: none; stroke: #222; stroke-width: 2.2; stroke-linecap: round; }
+
+/* матриця */
+.matrix { display: grid; grid-template-columns: 6mm 1fr; grid-template-rows: 1fr 6mm; }
+.matrix .ylab { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; font-weight: 700; font-size: 8.4pt; color: var(--accent); }
+.matrix .xlab { grid-column: 2; text-align: right; font-weight: 700; font-size: 8.4pt; color: var(--accent); padding-top: 1mm; }
+.mgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border-left: 1.2pt solid #555; border-bottom: 1.2pt solid #555; }
+.mq { border: .6pt solid var(--line); padding: 1.6mm 2mm; }
+.mql { font-weight: 700; font-size: 8.6pt; color: #333; background: var(--tint); display: inline-block; padding: .4mm 1.6mm; border-radius: 1mm; }
+
+/* квадранти-сфери */
+.quad { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; border: .6pt solid var(--line); border-radius: 50% / 50%; overflow: hidden; }
+.qd { border: .3pt dashed #b9b9be; display: flex; padding: 2.5mm 3mm; }
+.qd:nth-child(1) { align-items: flex-end; justify-content: flex-end; }
+.qd:nth-child(2) { align-items: flex-end; justify-content: flex-start; }
+.qd:nth-child(3) { align-items: flex-start; justify-content: flex-end; }
+.qd:nth-child(4) { align-items: flex-start; justify-content: flex-start; }
+.qdl { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .05em; font-size: 8pt; }
+
+/* дуги причина-наслідок */
+.arcs { gap: 3mm; }
+.arc { flex: 1 1 0; display: flex; align-items: stretch; gap: 1.5mm; min-height: 0; }
+.af { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.afl { font-weight: 700; font-size: 8.4pt; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 1mm; text-align: center; }
+.arw { align-self: center; font-size: 16pt; color: var(--accent); padding-top: 4mm; }
+
+/* кривульки */
+.sqgrid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3mm; }
+.sq { border: .6pt solid var(--line); border-radius: 1.5mm; display: flex; flex-direction: column; padding: 2mm; }
+.sq .svg { flex: 1; min-height: 0; width: 100%; }
+.sqcap { font-size: 8pt; color: var(--muted); }
+
+/* знаки */
+.glyphs { gap: 0; }
+.grow-row { flex: 1 1 0; display: flex; align-items: stretch; border-bottom: .6pt solid var(--line); }
+.glyph { width: 16mm; font-size: 26pt; display: flex; align-items: center; justify-content: center; }
+.glyph.ar { font-family: "DejaVu Sans", "FreeSerif", sans-serif; }
+.glyph.jp { font-family: "IPAGothic", "WenQuanYi Zen Hei Mono", sans-serif; }
+.gname { width: 20mm; font-size: 8pt; color: var(--muted); display: flex; align-items: center; }
+.gcell { flex: 1; border-left: .4pt dashed #c9c9cd; background:
+  linear-gradient(to bottom, transparent 49.5%, #ececef 49.5%, #ececef 50.5%, transparent 50.5%); }
+
+/* відповідь догори дриґом */
+.answer {
+  margin-top: 2mm; transform: rotate(180deg); font-size: 7.6pt; color: #555;
+  border-top: .5pt dashed #b9b9be; padding-top: 1.4mm;
+}
+.answer span { font-weight: 700; }
+
+/* ---- обкладинка ---- */
+.cover { padding: 22mm 20mm 16mm; }
+.cover .kicker { font-size: 9pt; letter-spacing: .14em; text-transform: uppercase; color: #2f5d8a; font-weight: 700; }
+.ctitle { font-size: 38pt; line-height: 1.02; margin: 6mm 0 6mm; letter-spacing: -.02em; }
+.csub { font-size: 11.5pt; color: #3a3a3d; max-width: 150mm; margin: 0 0 12mm; }
+.secs { list-style: none; padding: 0; margin: 0 0 auto; border-top: .6pt solid var(--line); }
+.secs li { display: grid; grid-template-columns: 5mm 1fr auto; grid-template-rows: auto auto; column-gap: 2mm; padding: 3mm 0; border-bottom: .6pt solid var(--line); align-items: center; }
+.secs li i { grid-row: 1 / 3; }
+.secs li b { font-size: 12pt; }
+.secs li span { font-weight: 700; color: var(--accent); font-size: 10pt; }
+.secs li em { grid-column: 2 / 4; font-size: 8.6pt; color: var(--muted); font-style: normal; }
+.howto { margin-top: 8mm; background: #f4f6f9; border-radius: 2mm; padding: 4mm 5mm; font-size: 9.4pt; }
+.howto ol { margin: 1.5mm 0 0; padding-left: 5mm; }
+
+/* ---- зміст ---- */
+.toc { padding: 12mm 13mm 10mm; }
+.toc h2 { font-size: 18pt; margin: 0 0 4mm; }
+.toccols { column-count: 2; column-gap: 8mm; column-fill: balance; font-size: 8.4pt; line-height: 1.3; }
+.tocsec { break-inside: auto; margin-bottom: 2.4mm; }
+.tocsec h3 { font-size: 9.6pt; margin: 0 0 1mm; color: var(--accent); display: flex; gap: 1.6mm; align-items: center; break-after: avoid; }
+.tocsec ol { list-style: none; margin: 0; padding: 0; }
+.tocsec li { display: flex; gap: 1.6mm; break-inside: avoid; margin-bottom: .2mm; }
+.tocsec li span { flex: none; width: 7mm; text-align: right; color: var(--muted); font-weight: 600; }
+
+/* творчі задачі */
+.puzzle { font-size: 11.5pt; line-height: 1.5; background: var(--tint); border-radius: 2mm; padding: 4mm 5mm; color: #222; }
+</style></head><body>
+<section class="page ex" id="ex47" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 47</span></header>
+  <h1>Аудит 10 правил взаємодії з дітьми</h1>
+  <div class="goal"><b>Мета.</b> Оцінити, наскільки ваша щоденна поведінка з дитиною відповідає базовим правилам свідомого батьківства.</div><ol class="steps"><li>Оцініть кожне правило від 1 до 10 — обведіть число.</li><li>Для трьох найнижчих оцінок запишіть конкретну дію на цей тиждень.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl scale"><colgroup><col style="width:46%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col style="width:2.6%"><col></colgroup><thead><tr><th>Твердження</th><th class="n">1</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">5</th><th class="n">6</th><th class="n">7</th><th class="n">8</th><th class="n">9</th><th class="n">10</th><th>Що зроблю, щоб додати +1</th></tr></thead><tbody><tr><td class="it"><b>1.</b> Діти не можуть мені заважати: дитина — мій помічник, який вчить мене</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>2.</b> Люблю дитину безумовно, а не за відповідність моїм очікуванням</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>3.</b> Памʼятаю: взаємини зі мною — мініатюра взаємин дитини зі Всесвітом</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>4.</b> Не роблю з дитиною того, чого не наважився б зробити з дорослим</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>5.</b> Не виховую дитину — виховую себе біля неї</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>6.</b> Домовляюся з дитиною як рівний з рівним</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>7.</b> На кожне «ні» в мене є девʼять «так»</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>8.</b> Не застрягаю в минулому: відпускаю ситуації й живу «тут і зараз»</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>9.</b> Багато розмовляю з дитиною, читаю вголос, пояснюю</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr><tr><td class="it"><b>10.</b> Проводжу достатньо часу з дітьми і коханою людиною</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>47 / 167</span></footer>
+</section>
+<section class="page ex" id="ex48" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 48</span></header>
+  <h1>Якою я хочу бачити свою дитину</h1>
+  <div class="goal"><b>Мета.</b> Усвідомити, що діти виростають схожими на нас, — і почати тренувати потрібні риси в собі.</div><ol class="steps"><li>У лівій колонці продовжте фразу «Я хочу, щоб моя дитина виросла…» — випишіть риси та якості.</li><li>У правій — запишіть, як ви тренуєте кожну з цих рис у собі. Чесно.</li><li>Якщо праворуч порожньо — саме з цієї риси варто почати роботу над собою.</li></ol>
+  <div class="work"><div class="blk row grow"><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>Я хочу, щоб моя дитина виросла…</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr><tr><td>4.</td></tr><tr><td>5.</td></tr><tr><td>6.</td></tr><tr><td>7.</td></tr><tr><td>8.</td></tr><tr><td>9.</td></tr><tr><td>10.</td></tr><tr><td>11.</td></tr><tr><td>12.</td></tr></tbody></table></div></div></div><div class="cell"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><thead><tr><th>У собі я ці риси треную так…</th></tr></thead><tbody><tr><td>1.</td></tr><tr><td>2.</td></tr><tr><td>3.</td></tr><tr><td>4.</td></tr><tr><td>5.</td></tr><tr><td>6.</td></tr><tr><td>7.</td></tr><tr><td>8.</td></tr><tr><td>9.</td></tr><tr><td>10.</td></tr><tr><td>11.</td></tr><tr><td>12.</td></tr></tbody></table></div></div></div></div><div class="blk note">Дитина все одно виросте схожою на вас, тож виховуйте не дітей, а себе біля них.</div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>48 / 167</span></footer>
+</section>
+<section class="page ex" id="ex49" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 49</span></header>
+  <h1>Тиждень уваги до дитини</h1>
+  <div class="goal"><b>Мета.</b> Чесно бачити, скільки часу й уваги ваша дитина отримує від вас насправді.</div><ol class="steps"><li>Щовечора заповнюйте колонку дня.</li><li>Наприкінці тижня підсумуйте: що вийшло добре, що варто змінити?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><colgroup><col style="width:30%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:10%"></colgroup><thead><tr><th>Запитання</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Нд</th></tr></thead><tbody><tr><td>Скільки часу сьогодні був(-ла) разом із дитиною?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>У скількох % випадків дивився(-лася) в очі, коли говорив(-ла)?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Що я сьогодні навчився(-лася) у своєї дитини?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Найцікавіша історія з дитиною сьогодні</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Що сьогодні зробили не так і завтра будете виправляти?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>49 / 167</span></footer>
+</section>
+<section class="page ex" id="ex50" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 50</span></header>
+  <h1>Структура спільного часу</h1>
+  <div class="goal"><b>Мета.</b> Збалансувати, як саме ви проводите час із дитиною.</div><ol class="steps"><li>Щодня записуйте, скільки хвилин провели з дитиною в кожному з чотирьох форматів.</li><li>Наприкінці тижня заштрихуйте сектори кола пропорційно часу.</li><li>Якого формату бракує? Заплануйте його на наступний тиждень.</li></ol>
+  <div class="work"><div class="blk row"><div class="cell" style="flex:1"><div class="blk col"><div class="quad" style="height:78mm"><div class="qd"><div class="qdl">Спільні розваги</div></div><div class="qd"><div class="qdl">Спільне навчання</div></div><div class="qd"><div class="qdl">Прогулянки</div></div><div class="qd"><div class="qdl">Проведений усією сімʼєю</div></div></div></div></div><div class="cell" style="flex:1.15"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><thead><tr><th>День</th><th>Розваги</th><th>Навчання</th><th>Прогулянки</th><th>Усією сімʼєю</th></tr></thead><tbody><tr><td>Пн</td><td></td><td></td><td></td><td></td></tr><tr><td>Вт</td><td></td><td></td><td></td><td></td></tr><tr><td>Ср</td><td></td><td></td><td></td><td></td></tr><tr><td>Чт</td><td></td><td></td><td></td><td></td></tr><tr><td>Пт</td><td></td><td></td><td></td><td></td></tr><tr><td>Сб</td><td></td><td></td><td></td><td></td></tr><tr><td>Нд</td><td></td><td></td><td></td><td></td></tr><tr><td><b>Разом</b></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div></div><div class="blk grow col"><div class="blabel">Висновки тижня і план на наступний:</div><div class="ruled grow"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>50 / 167</span></footer>
+</section>
+<section class="page ex" id="ex51" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 51</span></header>
+  <h1>Моя поведінка з дитиною</h1>
+  <div class="goal"><b>Мета.</b> Помітити, які стани й емоції ви найчастіше проявляєте у ставленні до дитини.</div><ol class="steps"><li>Щовечора поставте позначку біля кожного стану, який ви проявили до дитини сьогодні.</li><li>Через тиждень порахуйте: яких станів більше — тих, що будують довіру, чи тих, що її руйнують?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl small"><colgroup><col style="width:24%"><col style="width:9.5%"><col style="width:9.5%"><col style="width:9.5%"><col style="width:9.5%"><col style="width:9.5%"><col style="width:9.5%"><col style="width:9.5%"><col style="width:9.5%"></colgroup><thead><tr><th>Стан</th><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Нд</th><th>Σ</th></tr></thead><tbody><tr><td>Нетерплячість</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Обурення</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Чесність</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Злість</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Поспіх</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Радість</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Тривожність</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Захопленість</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Гнів</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Страх</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Розуміння</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Повага</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Огида</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Невдоволення</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Образа</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Довіра</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Паніка</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Жаль</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Сум</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Терплячість</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Пробачення</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Прийняття</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Прискіпливість</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Недовіра</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>51 / 167</span></footer>
+</section>
+<section class="page ex" id="ex52" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 52</span></header>
+  <h1>Подія — причина — наслідок</h1>
+  <div class="goal"><b>Мета.</b> Бачити в кожному вчинку дитини причину і наслідок — тоді легше «розплутувати» ситуації без покарань.</div><ol class="steps"><li>Посередині опишіть подію (наприклад: дитина розбила тарілку).</li><li>Ліворуч — що до цього призвело (зокрема, що зробили ви). Праворуч — до чого це призвело чи призведе.</li><li>Запитайте себе: чи міг(-ла) би я зробити ситуацію такою, щоб дитина так не вчинила?</li></ol>
+  <div class="work"><div class="blk grow col arcs"><div class="arc"><div class="af"><div class="afl">Причина</div><div class="frame grow"></div></div><div class="arw">→</div><div class="af"><div class="afl">Подія</div><div class="frame grow"></div></div><div class="arw">→</div><div class="af"><div class="afl">Наслідок</div><div class="frame grow"></div></div></div><div class="arc"><div class="af"><div class="afl">Причина</div><div class="frame grow"></div></div><div class="arw">→</div><div class="af"><div class="afl">Подія</div><div class="frame grow"></div></div><div class="arw">→</div><div class="af"><div class="afl">Наслідок</div><div class="frame grow"></div></div></div><div class="arc"><div class="af"><div class="afl">Причина</div><div class="frame grow"></div></div><div class="arw">→</div><div class="af"><div class="afl">Подія</div><div class="frame grow"></div></div><div class="arw">→</div><div class="af"><div class="afl">Наслідок</div><div class="frame grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>52 / 167</span></footer>
+</section>
+<section class="page ex" id="ex53" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 53</span></header>
+  <h1>Пропорції рис у парі «я — дитина»</h1>
+  <div class="goal"><b>Мета.</b> Побачити, як ваші риси «врівноважуються» дитиною: якщо ви берете забагато, дитині дістається решта.</div><div class="intro">На кожну рису в сімʼї наче видається спільний «казанок». Якщо хтось бере забагато, інший недобирає. Хочете змінити рису в дитині — почніть віддавати зайве з себе або першими брати потрібне.</div><ol class="steps"><li>Для кожної пари оцініть, яку частку (у %) берете ви, а яку — дитина.</li><li>Позначте розподіл на смужці. Подумайте, що змінити у своїй поведінці.</li></ol>
+  <div class="work"><div class="blk"><table class="tbl"><colgroup><col style="width:34%"><col style="width:17%"><col style="width:22%"><col></colgroup><thead><tr><th>Пара рис</th><th>Скільки беру я</th><th>Скільки бере інша людина</th><th>Позначте розподіл: 0% ←→ 100%</th></tr></thead><tbody><tr><td class="it">Чесність / вдячність</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Ініціатива / відповідальність</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Пунктуальність / агресивність</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Любов до порядку / впертість</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Терплячість / поспіх</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr><tr><td class="it">Турбота / самостійність</td><td>Я: ____ %</td><td>Інша людина: ____ %</td><td class="barcell"><div class="bar"><span></span></div></td></tr></tbody></table></div><div class="blk grow col"><div class="blabel">Що я віддам або візьму на себе, щоб вирівняти систему?</div><div class="ruled grow"></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>53 / 167</span></footer>
+</section>
+<section class="page ex" id="ex54" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 54</span></header>
+  <h1>Що я насправді треную у своєї дитини?</h1>
+  <div class="goal"><b>Мета.</b> Усвідомити, яких навичок ви навчаєте дитину своєю поведінкою, — часто це не те, що ви кажете словами.</div><ol class="steps"><li>Запишіть ситуації за день, коли ви реагували на дитину.</li><li>Чесно визначте, що ви цим натренували: наприклад, крик — «звичку не реагувати на спокійне прохання».</li><li>Запишіть, як відреагувати наступного разу, щоб натренувати потрібне.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:24%"><col style="width:22%"><col style="width:27%"><col style="width:27%"></colgroup><thead><tr><th>Подія</th><th>Моя реакція</th><th>Що я цим натренував(-ла)</th><th>Що хочу натренувати і як</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody></table></div></div><div class="blk note">Безглуздо карати дитину за прорахунки — це ж ви її так навчили!</div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>54 / 167</span></footer>
+</section>
+<section class="page ex" id="ex55" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 55</span></header>
+  <h1>Важливі розмови з дитиною</h1>
+  <div class="goal"><b>Мета.</b> Підготуватися до розмов, від яких залежить світогляд дитини, — щоб не імпровізувати в останню мить.</div><ol class="steps"><li>Для кожної теми запишіть головні думки, які хочете передати, — простими словами, на рівні віку дитини.</li><li>Подумайте, яким власним прикладом підкріпите слова: слова без віри в них не діють.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="qgrid grow"><div class="qcell"><div class="q">Що я скажу дитині про найважливіше в житті?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що я скажу дитині про гроші?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що я скажу дитині про любов?</div><div class="ruled grow"></div></div><div class="qcell"><div class="q">Що я скажу дитині про секс?</div><div class="ruled grow"></div></div></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>55 / 167</span></footer>
+</section>
+<section class="page ex" id="ex56" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 56</span></header>
+  <h1>Скарбничка дитячих історій</h1>
+  <div class="goal"><b>Мета.</b> Чути дитину і вчитися в неї: дитячі фрази часто показують, як вона насправді бачить світ і вас.</div><div class="intro">— Мамо, чому ти спочатку вчила мене ходити й говорити, а тепер хочеш, щоб я сиділа і мовчала?!</div><ol class="steps"><li>Записуйте цікаві слова, запитання і вчинки дитини.</li><li>Поруч занотовуйте, що ця історія говорить про її світ, — і що вона говорить про вас.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:10%"><col style="width:50%"><col style="width:40%"></colgroup><thead><tr><th>Дата</th><th>Що сталося / що сказала дитина</th><th>Що я з цього зрозумів(-ла)</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>56 / 167</span></footer>
+</section>
+<section class="page ex" id="ex57" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 57</span></header>
+  <h1>Девʼять «так» на одне «ні»</h1>
+  <div class="goal"><b>Мета.</b> Зробити так, щоб ваше «ні» справді спрацьовувало: для цього до нього має бути девʼять «так».</div><div class="intro">Надмір заборон призводить до вседозволеності й непослуху. Цінуйте найменшу ініціативу дитини — частіше кажіть їй «так». Дитина має знати: Всесвіт відкритий до її ідей.</div><ol class="steps"><li>Тиждень рахуйте рисочками, скільки разів сказали дитині «так» і скільки — «ні».</li><li>Порахуйте співвідношення. Мета — щонайменше 9 : 1.</li><li>Перегляньте свої «ні»: які з них можна замінити на «так, але…» чи «давай домовимося»?</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:8%"><col style="width:26%"><col style="width:18%"><col style="width:14%"><col style="width:34%"></colgroup><thead><tr><th>День</th><th>«Так» (рисочки)</th><th>«Ні» (рисочки)</th><th>Співвідношення</th><th>Яке «ні» можна було замінити?</th></tr></thead><tbody><tr><td>Пн</td><td></td><td></td><td></td><td></td></tr><tr><td>Вт</td><td></td><td></td><td></td><td></td></tr><tr><td>Ср</td><td></td><td></td><td></td><td></td></tr><tr><td>Чт</td><td></td><td></td><td></td><td></td></tr><tr><td>Пт</td><td></td><td></td><td></td><td></td></tr><tr><td>Сб</td><td></td><td></td><td></td><td></td></tr><tr><td>Нд</td><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>57 / 167</span></footer>
+</section>
+<section class="page ex" id="ex58" style="--accent:#2e7d5b;--tint:#e9f5ef">
+  <header class="head"><span class="sec"><i></i>Свідоме батьківство</span><span class="num">Вправа 58</span></header>
+  <h1>Чи міг я зробити так, щоб дитина так не вчинила?</h1>
+  <div class="goal"><b>Мета.</b> Перейти від покарань до профілактики: створювати умови, в яких дитина може вчинити правильно.</div><div class="intro">Не карайте, якщо ви заздалегідь не дали дитині можливості вчинити правильно і отримати за це винагороду. Намір у дитини завжди позитивний — вона хоче допомогти вам і зробити добре.</div><ol class="steps"><li>Опишіть ситуацію, коли дитина вчинила «неправильно».</li><li>Знайдіть її позитивний намір.</li><li>Запишіть, що ви могли зробити заздалегідь, щоб так не сталося.</li></ol>
+  <div class="work"><div class="blk grow col"><div class="grow tblwrap"><table class="tbl"><colgroup><col style="width:24%"><col style="width:22%"><col style="width:24%"><col style="width:30%"></colgroup><thead><tr><th>Ситуація</th><th>Як вчинила дитина</th><th>Її позитивний намір</th><th>Що я міг(-ла) зробити заздалегідь</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody></table></div></div></div>
+  
+  <footer class="foot"><span>Джерело: «Щоденник для свідомих і відповідальних батьків» · Роман Кушнір, SPE школа розвитку</span><span>58 / 167</span></footer>
+</section></body></html>
