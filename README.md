@@ -4,15 +4,12 @@
 
 ## Сторінки
 
-Сайт публікується через GitHub Pages з гілки `main`.
-
-| Сторінка | Посилання |
-|---|---|
-| AgroPartners — іпотека єОселя | https://rokushnir.github.io/SPE_sheets/ |
-| Гра «Гроші» | https://rokushnir.github.io/SPE_sheets/money.html |
-| Час життя | https://rokushnir.github.io/SPE_sheets/time.html |
-| Публічні виступи · Заняття 2.1 | https://rokushnir.github.io/SPE_sheets/speech.html |
-| Публічні виступи · Заняття 4 — Робота із запитаннями | https://rokushnir.github.io/SPE_sheets/zapytannia.html |
+- [Калькулятор іпотеки](https://rokushnir.github.io/SPE_sheets/) — `index.html`
+- [Гра «Гроші»](https://rokushnir.github.io/SPE_sheets/money.html) — заняття 1, фінансова грамотність
+- [Час життя](https://rokushnir.github.io/SPE_sheets/time.html) — опитувальник з круговою діаграмою
+- [Публічні виступи, заняття 2.1](https://rokushnir.github.io/SPE_sheets/speech.html) — `speech.html`
+- [Публічні виступи, заняття 2.5–2.6](https://rokushnir.github.io/SPE_sheets/vystupy.html) — структури історії, елевейтор піч, формула 20/60/20, домашнє завдання, вправи на креатив та імпровізацію. Випадні списки змінюють картинки, схеми й приклади.
+- [Публічні виступи, заняття 4 — Робота із запитаннями](https://rokushnir.github.io/SPE_sheets/zapytannia.html) — `zapytannia.html`: структура відповіді, типи запитань, золоті запитання, самоперевірка, домашнє завдання.
 
 ## Робочі зошити
 
