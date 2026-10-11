@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Робота із запитаннями</title>
+<meta name="description" content="Заняття 4 курсу «Публічні виступи»: як реагувати на запитання, типи запитань, золоті запитання та домашнє завдання.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2f2f0;
+    --surface: #ffffff;
+    --surface-2: #f7f7f5;
+    --text: #1d1f1e;
+    --muted: #5f6662;
+    --line: #e2e4e1;
+    --accent: #2bb98a;
+    --accent-strong: #138a63;
+    --accent-soft: #e3f6ee;
+    --on-accent: #ffffff;
+    --quote-bg: #eee8fb;
+    --quote-text: #3b3355;
+    --warn: #e0a43a;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121514;
+      --surface: #1b1f1d;
+      --surface-2: #222724;
+      --text: #ebefed;
+      --muted: #a2aba6;
+      --line: #2f3532;
+      --accent: #36c896;
+      --accent-strong: #5fdcb0;
+      --accent-soft: #183a2e;
+      --on-accent: #0c1a14;
+      --quote-bg: #2a2540;
+      --quote-text: #ddd5f7;
+      --warn: #f0b955;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121514;
+    --surface: #1b1f1d;
+    --surface-2: #222724;
+    --text: #ebefed;
+    --muted: #a2aba6;
+    --line: #2f3532;
+    --accent: #36c896;
+    --accent-strong: #5fdcb0;
+    --accent-soft: #183a2e;
+    --on-accent: #0c1a14;
+    --quote-bg: #2a2540;
+    --quote-text: #ddd5f7;
+    --warn: #f0b955;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 16px/1.55 "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  h1, h2, h3 { font-family: "Unbounded", "Montserrat", sans-serif; line-height: 1.25; margin: 0; }
+  h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; }
+  h3 { font-size: .95rem; font-weight: 600; }
+  p { margin: 0; }
+  ul { margin: 0; padding: 0; list-style: none; }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding: 24px 16px 64px; }
+
+  /* Header */
+  .hero {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .badge {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-radius: 10px;
+    padding: 8px 12px 6px;
+    text-align: center;
+    line-height: 1;
+  }
+  .badge b { display: block; font: 700 2rem/1 "Unbounded", sans-serif; }
+  .badge span { font-size: .62rem; text-transform: lowercase; letter-spacing: .04em; }
+  .eyebrow { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 4px; }
+  .hero h1 { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; }
+
+  .mood {
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    padding: 8px 10px;
+    text-align: center;
+    min-width: 150px;
+  }
+  .mood-label { font-size: .7rem; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
+  .mood-row { display: flex; gap: 2px; justify-content: center; }
+  .mood button {
+    border: 0; background: none; cursor: pointer; font-size: 1.3rem; padding: 2px 3px;
+    border-radius: 8px; filter: grayscale(1); opacity: .55; transition: .15s;
+  }
+  .mood button:hover, .mood button[aria-pressed="true"] { filter: none; opacity: 1; }
+  .mood button[aria-pressed="true"] { background: var(--accent-soft); }
+
+  .theme-toggle {
+    position: fixed; right: 16px; bottom: 16px; z-index: 5;
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--surface); color: var(--text);
+    box-shadow: var(--shadow); cursor: pointer; font-size: 1.1rem;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .lead { font-family: "Unbounded", sans-serif; font-weight: 600; font-size: 1.1rem; margin-bottom: 8px; }
+  .note { color: var(--muted); font-style: italic; }
+  .sub { color: var(--muted); font-size: .92rem; margin: -8px 0 14px; }
+
+  /* Check lists */
+  .checks { columns: 2; column-gap: 24px; }
+  .checks li { position: relative; padding-left: 28px; margin-bottom: 10px; break-inside: avoid; }
+  .checks li::before {
+    content: ""; position: absolute; left: 2px; top: .3em;
+    width: 14px; height: 8px;
+    border-left: 2.5px solid var(--accent); border-bottom: 2.5px solid var(--accent);
+    transform: rotate(-45deg);
+  }
+
+  .resp-grid { display: grid; grid-template-columns: minmax(0, 1fr) 180px; gap: 20px; align-items: center; }
+  .thinker {
+    aspect-ratio: 1; border-radius: 14px; background: var(--accent-soft);
+    display: grid; place-items: center; font-size: 4.5rem;
+  }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; counter-reset: s; }
+  .steps li {
+    background: var(--accent); color: var(--on-accent);
+    border-radius: 10px; padding: 10px 12px;
+    display: flex; gap: 10px; align-items: center; font-weight: 500; font-size: .92rem;
+  }
+  .steps li:nth-child(even) { background: var(--accent-strong); }
+  :root[data-theme="dark"] .steps li:nth-child(even) { color: #0c1a14; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .steps li:nth-child(even) { color: #0c1a14; }
+  }
+  .steps li b { font: 700 1.1rem/1 "Unbounded", sans-serif; }
+
+  /* Attitude */
+  .attitude { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .attitude div {
+    background: var(--accent-soft); border-radius: 12px; padding: 14px;
+    display: flex; gap: 10px; align-items: center; font-weight: 600;
+  }
+  .attitude i {
+    font: 700 2rem/1 "Unbounded", sans-serif; color: var(--accent-strong); font-style: normal;
+  }
+
+  /* Question types */
+  .types { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+  .type {
+    border: 2px solid var(--accent); border-radius: 18px; padding: 16px;
+    background: var(--surface); text-align: center;
+  }
+  .type h3 { color: var(--accent-strong); margin-bottom: 8px; font-size: .9rem; }
+  .type p { color: var(--muted); font-size: .88rem; }
+
+  .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .two .checks { columns: 1; }
+
+  .golden li {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+  }
+  .golden span {
+    flex: 1; background: var(--accent); color: var(--on-accent);
+    border-radius: 8px; padding: 9px 12px; font-weight: 600; font-size: .92rem; text-align: center;
+  }
+  .golden b { color: var(--warn); font: 700 1.6rem/1 "Unbounded", sans-serif; }
+
+  .quote {
+    background: var(--quote-bg); color: var(--quote-text);
+    border-radius: 14px; padding: 20px 22px; display: grid; grid-template-columns: auto 1fr; gap: 14px;
+  }
+  .quote .mark { font: 700 2rem/1 "Unbounded", sans-serif; }
+  .quote blockquote { margin: 0; font-weight: 600; }
+  .quote cite { display: block; margin-top: 8px; font-size: .8rem; font-style: italic; opacity: .85; }
+
+  /* Skills path */
+  .skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .skill {
+    position: relative; display: flex; flex-direction: column; gap: 8px;
+    border-top: 2px solid var(--accent); padding-top: 14px; cursor: pointer;
+  }
+  .skill input { position: absolute; opacity: 0; pointer-events: none; }
+  .skill .num {
+    align-self: flex-start;
+    background: var(--accent); color: var(--on-accent);
+    font: 700 .9rem/1 "Unbounded", sans-serif; padding: 6px 9px; border-radius: 6px;
+  }
+  .skill .txt { font-size: .92rem; }
+  .skill .tick {
+    position: absolute; right: 0; top: 14px;
+    width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--line);
+    display: grid; place-items: center; font-size: .8rem; color: transparent; transition: .15s;
+  }
+  .skill input:checked ~ .tick { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .skill input:checked ~ .txt { color: var(--accent-strong); font-weight: 600; }
+  .skill input:focus-visible ~ .tick { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
+  .progress { margin-top: 16px; font-size: .88rem; color: var(--muted); }
+  .bar { height: 6px; border-radius: 3px; background: var(--line); margin-top: 6px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s; }
+
+  /* Homework */
+  .hw-head { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+  .hw-icon {
+    width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent);
+    display: grid; place-items: center; font-size: 1.4rem; flex: none;
+  }
+  .hw-head small { display: block; color: var(--muted); font-size: .72rem; }
+  .task { font-weight: 600; margin-bottom: 12px; }
+  .q-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .q-picker button {
+    border: 1.5px solid var(--accent); background: transparent; color: var(--text);
+    border-radius: 999px; padding: 6px 14px; font: 500 .88rem "Montserrat", sans-serif; cursor: pointer;
+  }
+  .q-picker button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+  .custom-q {
+    width: 100%; margin-bottom: 14px; padding: 9px 12px; border-radius: 8px;
+    border: 1.5px solid var(--line); background: var(--surface-2); color: var(--text); font: inherit;
+  }
+  .answers {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px;
+    grid-template-rows: repeat(5, auto); grid-auto-flow: column;
+    background: var(--surface-2); padding: 16px; border-radius: 12px;
+  }
+  .answers label { display: flex; align-items: center; gap: 10px; }
+  .answers .n {
+    flex: none; width: 22px; height: 22px; border-radius: 5px; background: var(--accent); color: var(--on-accent);
+    font: 700 .72rem/22px "Unbounded", sans-serif; text-align: center;
+  }
+  .answers input {
+    flex: 1; min-width: 0; border: 0; border-bottom: 1.5px solid var(--line); background: transparent;
+    color: var(--text); font: inherit; padding: 4px 2px;
+  }
+  .answers input:focus { outline: none; border-bottom-color: var(--accent); }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+  .btn {
+    border: 0; border-radius: 8px; padding: 9px 16px; cursor: pointer;
+    font: 600 .88rem "Montserrat", sans-serif; background: var(--accent); color: var(--on-accent);
+  }
+  .btn.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
+  .saved { font-size: .82rem; color: var(--muted); }
+
+  footer { text-align: center; color: var(--muted); font-size: .8rem; margin-top: 28px; }
+
+  @media (max-width: 720px) {
+    .hero { grid-template-columns: auto 1fr; }
+    .mood { grid-column: 1 / -1; }
+    .resp-grid { grid-template-columns: 1fr; }
+    .thinker { display: none; }
+    .steps, .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .attitude, .two, .answers { grid-template-columns: 1fr; }
+    .checks { columns: 1; }
+    .answers { grid-template-rows: none; grid-auto-flow: row; }
+    .card { padding: 18px; }
+  }
+  @media (max-width: 420px) {
+    .steps, .skills { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .theme-toggle, .actions, .q-picker { display: none; }
+    .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" aria-label="Змінити тему">◐</button>
+
+<main class="wrap">
+
+  <header class="hero">
+    <div class="badge"><b>04</b><span>заняття</span></div>
+    <div>
+      <div class="eyebrow">Публічні виступи</div>
+      <h1>Робота із запитаннями</h1>
+    </div>
+    <div class="mood" aria-label="Наліпка настрою">
+      <div class="mood-label">наліпка настрою</div>
+      <div class="mood-row" id="mood">
+        <button type="button" data-v="1" aria-pressed="false" title="Погано">😣</button>
+        <button type="button" data-v="2" aria-pressed="false" title="Так собі">😕</button>
+        <button type="button" data-v="3" aria-pressed="false" title="Нормально">😐</button>
+        <button type="button" data-v="4" aria-pressed="false" title="Добре">🙂</button>
+        <button type="button" data-v="5" aria-pressed="false" title="Чудово">🤩</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2.4.1 -->
+  <section class="card">
+    <p class="lead">Запитання — один із ключових елементів виступу</p>
+    <p class="note">Бути готовим на всі неможливо, однак частину питань можна передбачити, а на решту — тренувати варіанти реакції.</p>
+  </section>
+
+  <section class="card">
+    <h2>Відповідальність за реакцію на запитання</h2>
+    <p class="sub">Відповідаючи на запитання (будь-яке), ти одночасно:</p>
+    <div class="resp-grid">
+      <ul class="checks">
+        <li>погоджуєшся, що людина мала право його задати</li>
+        <li>погоджуєшся з формою запитання</li>
+        <li>погоджуєшся, що його доречно задати тут і зараз</li>
+        <li>погоджуєшся з суттю запитання</li>
+        <li>береш відповідальність за те, як зрозуміють твої слова</li>
+        <li>розумієш, що сказане може бути використано проти тебе</li>
+      </ul>
+      <div class="thinker" aria-hidden="true">🤷</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Структура відповіді</h2>
+    <ol class="steps">
+      <li><b>01</b> Дослухати до кінця</li>
+      <li><b>02</b> Витримати паузу</li>
+      <li><b>03</b> Кивнути і сказати «угу»</li>
+      <li><b>04</b> Подивитись в очі всім присутнім</li>
+      <li><b>05</b> Подякувати та оцінити запитання</li>
+      <li><b>06</b> Дати відповідь і в кінці кивнути тому, хто питав</li>
+    </ol>
+  </section>
+
+  <section class="card two">
+    <div>
+      <h2>Варіанти реакції</h2>
+      <ul class="checks">
+        <li>Прийняти (відповісти)</li>
+        <li>Ігнор (угу, дякую, наступне)</li>
+        <li>Оцінити без відповіді</li>
+        <li>Відтермінувати</li>
+        <li>Відповісти своє</li>
+        <li>Відповісти запитанням на запитання</li>
+      </ul>
+    </div>
+    <div>
+      <h2>На запитання варто відповідати</h2>
+      <ul class="checks">
+        <li>з вдячністю</li>
+        <li>оцінюючи запитання</li>
+        <li>якнайближче до правди, без вигадок</li>
+        <li>спершу подумавши, не поспішаючи</li>
+        <li>пам'ятаючи про ціль виступу</li>
+        <li>одна відповідь на одне запитання</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Ставлення до запитань</h2>
+    <div class="attitude">
+      <div><i>?</i>Запитання — це можливість</div>
+      <div><i>?</i>Задають — значить, цікаво</div>
+      <div><i>?</i>Запитання — це твоє тренування</div>
+    </div>
+  </section>
+
+  <!-- 2.4.2 -->
+  <section class="card">
+    <h2>Типи запитань</h2>
+    <div class="types">
+      <div class="type"><h3>Уточнюючі</h3><p>«чи правильно я розумію…», «хочу з'ясувати деталь…»</p></div>
+      <div class="type"><h3>Доповнення</h3><p>«хотів би додати…», «як щодо контексту…»</p></div>
+      <div class="type"><h3>Перепитування</h3><p>«повторіть, будь ласка…»</p></div>
+      <div class="type"><h3>Провокації</h3><p>«ви ж зовсім не розібрались…»</p></div>
+      <div class="type"><h3>Образи</h3><p>«хто дав вам право…»</p></div>
+      <div class="type"><h3>Банальні</h3><p>«що таке…», «як правильно жити…»</p></div>
+      <div class="type"><h3>Оцінки</h3><p>«мені не сподобався / дуже сподобався ваш виступ…»</p></div>
+    </div>
+  </section>
+
+  <section class="card two">
+    <div>
+      <h2>Правила постановки запитання</h2>
+      <ul class="checks">
+        <li>дочекайся відповіді на попереднє</li>
+        <li>задавай лише одне питання</li>
+        <li>знай, що робитимеш з відповіддю</li>
+        <li>формулюй з готовим варіантом відповіді</li>
+        <li>уникай двозначності</li>
+        <li>питай саме те, що потрібно дізнатись</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Золоті запитання</h2>
+      <ul class="golden">
+        <li><span>«І?» (пауза) «Так, і?»</span><b>?</b></li>
+        <li><span>«Що ти пропонуєш?»</span><b>?</b></li>
+        <li><span>«Саме це хочеш знати чи інше?»</span><b>?</b></li>
+        <li><span>«Повтори, будь ласка»</span><b>?</b></li>
+        <li><span>«Чим я можу допомогти?»</span><b>?</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="quote">
+    <div class="mark">99</div>
+    <div>
+      <blockquote>Ми живемо у світі, де відповіді коштують дешево, бо Google знає все. Найцінніше зараз — це вміння ставити правильні запитання.</blockquote>
+      <cite>Ілон Маск — підприємець, один із найвпливовіших людей у світі технологій та стартапів. Він пов'язаний зі створенням і розвитком компаній Tesla та SpaceX.</cite>
+    </div>
+  </section>
+
+  <!-- 2.4.3 -->
+  <section class="card" style="margin-top:20px">
+    <h2>Ознакою доброго оратора є вміння</h2>
+    <p class="sub">Відмічай те, що вже вмієш.</p>
+    <div class="skills" id="skills">
+      <label class="skill"><input type="checkbox" data-k="1"><span class="num">01</span><span class="txt">перервати «запитання», яке не є запитанням</span><span class="tick">✓</span></label>
+      <label class="skill"><input type="checkbox" data-k="2"><span class="num">02</span><span class="txt">відповісти на те, що потрібно тобі</span><span class="tick">✓</span></label>
+      <label class="skill"><input type="checkbox" data-k="3"><span class="num">03</span><span class="txt">вміти відповісти на закрите запитання розширено</span><span class="tick">✓</span></label>
+      <label class="skill"><input type="checkbox" data-k="4"><span class="num">04</span><span class="txt">відповідати на запитання запитанням</span><span class="tick">✓</span></label>
+      <label class="skill"><input type="checkbox" data-k="5"><span class="num">05</span><span class="txt">на злобу відповідати з любов'ю</span><span class="tick">✓</span></label>
+      <label class="skill"><input type="checkbox" data-k="6"><span class="num">06</span><span class="txt">правильно проігнорувати запитання</span><span class="tick">✓</span></label>
+      <label class="skill"><input type="checkbox" data-k="7"><span class="num">07</span><span class="txt">витримати паузу</span><span class="tick">✓</span></label>
+      <label class="skill"><input type="checkbox" data-k="8"><span class="num">08</span><span class="txt">показати, що запитання — це можливість</span><span class="tick">✓</span></label>
+      <label class="skill"><input type="checkbox" data-k="9"><span class="num">09</span><span class="txt">«Немає запитань? Тоді вони є у мене»</span><span class="tick">✓</span></label>
+    </div>
+    <div class="progress"><span id="skillsCount">0 з 9</span><div class="bar"><i id="skillsBar"></i></div></div>
+  </section>
+
+  <section class="card">
+    <div class="hw-head">
+      <div class="hw-icon" aria-hidden="true">✍️</div>
+      <div><small>Заняття 4</small><h2 style="margin:0">Домашнє завдання</h2></div>
+    </div>
+    <p class="task">Дай 10 різних відповідей на запитання:</p>
+    <div class="q-picker" id="qPicker">
+      <button type="button" data-q="name" aria-pressed="true">«Як тебе звати?»</button>
+      <button type="button" data-q="time" aria-pressed="false">«Котра година?»</button>
+      <button type="button" data-q="music" aria-pressed="false">«Яку музику ти слухаєш?»</button>
+      <button type="button" data-q="custom" aria-pressed="false">Своє запитання</button>
+    </div>
+    <input class="custom-q" id="customQ" type="text" placeholder="Придумай своє запитання…" hidden>
+    <div class="answers" id="answers"></div>
+    <div class="actions">
+      <button type="button" class="btn" onclick="window.print()">Друкувати</button>
+      <button type="button" class="btn ghost" id="clearHw">Очистити</button>
+      <span class="saved" id="savedNote">Відповіді зберігаються лише у твоєму браузері.</span>
+    </div>
+  </section>
+
+  <footer>Публічні виступи · Заняття 4 · Робота із запитаннями</footer>
+</main>
+
+<script>
+(function () {
+  var KEY = 'spe-zapytannia-v1';
+  var state = { mood: null, skills: {}, q: 'name', custom: '', answers: {} };
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) {
+        var s = JSON.parse(raw);
+        for (var k in s) state[k] = s[k];
+      }
+    } catch (e) {}
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  load();
+
+  // Theme
+  var root = document.documentElement;
+  try { var t = localStorage.getItem('spe-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+  document.getElementById('themeToggle').addEventListener('click', function () {
+    var dark = root.dataset.theme
+      ? root.dataset.theme === 'dark'
+      : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('spe-theme', root.dataset.theme); } catch (e) {}
+  });
+
+  // Mood sticker
+  var moodBtns = document.querySelectorAll('#mood button');
+  function renderMood() {
+    moodBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === state.mood)); });
+  }
+  moodBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.mood = state.mood === b.dataset.v ? null : b.dataset.v;
+      renderMood(); save();
+    });
+  });
+  renderMood();
+
+  // Skills self-check
+  var boxes = document.querySelectorAll('#skills input');
+  function renderSkills() {
+    var n = 0;
+    boxes.forEach(function (b) { b.checked = !!state.skills[b.dataset.k]; if (b.checked) n++; });
+    document.getElementById('skillsCount').textContent = n + ' з ' + boxes.length;
+    document.getElementById('skillsBar').style.width = (n / boxes.length * 100) + '%';
+  }
+  boxes.forEach(function (b) {
+    b.addEventListener('change', function () {
+      state.skills[b.dataset.k] = b.checked;
+      renderSkills(); save();
+    });
+  });
+  renderSkills();
+
+  // Homework
+  var picker = document.querySelectorAll('#qPicker button');
+  var customQ = document.getElementById('customQ');
+  var answersEl = document.getElementById('answers');
+
+  function renderHw() {
+    picker.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.q === state.q)); });
+    customQ.hidden = state.q !== 'custom';
+    customQ.value = state.custom || '';
+    var list = state.answers[state.q] || [];
+    answersEl.innerHTML = '';
+    for (var i = 0; i < 10; i++) {
+      var label = document.createElement('label');
+      var n = document.createElement('span');
+      n.className = 'n'; n.textContent = i + 1;
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.value = list[i] || '';
+      input.setAttribute('aria-label', 'Відповідь ' + (i + 1));
+      input.dataset.i = i;
+      input.addEventListener('input', onAnswer);
+      label.appendChild(n); label.appendChild(input);
+      answersEl.appendChild(label);
+    }
+  }
+  function onAnswer(e) {
+    var list = state.answers[state.q] || (state.answers[state.q] = []);
+    list[+e.target.dataset.i] = e.target.value;
+    save();
+  }
+  picker.forEach(function (b) {
+    b.addEventListener('click', function () { state.q = b.dataset.q; renderHw(); save(); });
+  });
+  customQ.addEventListener('input', function () { state.custom = customQ.value; save(); });
+  document.getElementById('clearHw').addEventListener('click', function () {
+    if (!confirm('Очистити відповіді для цього запитання?')) return;
+    state.answers[state.q] = [];
+    if (state.q === 'custom') state.custom = '';
+    renderHw(); save();
+  });
+  renderHw();
+})();
+</script>
+</body>
+</html>
