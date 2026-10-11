@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Роман Кушнір — фінансова грамотність</title>
+  <meta name="description" content="Поставте запитання Роману Кушніру про гроші: бюджет, заощадження, кредити, інвестиції. Отримайте відповідь і практичні завдання під ваш запит.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="#">
+        <span class="avatar avatar--sm" data-avatar></span>
+        <span data-name>Роман Кушнір</span>
+      </a>
+      <nav class="nav">
+        <a href="#how">Як це працює</a>
+        <a href="#tasks">Завдання</a>
+        <button class="btn btn--small" data-open-chat>Запитати</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero__inner">
+        <div class="hero__text">
+          <p class="eyebrow" data-tagline>Фінансова грамотність простими словами</p>
+          <h1>Маєте запитання про гроші? <span class="accent">Запитайте мене.</span></h1>
+          <p class="lead">Я, Роман Кушнір, відповідаю на запитання про бюджет, заощадження, кредити та інвестиції. Розкажіть, що вас цікавить, і я підберу практичні завдання саме для вас.</p>
+          <div class="hero__actions">
+            <button class="btn btn--big" data-open-chat>💬 Почати розмову</button>
+            <a class="btn btn--ghost" href="#tasks">Переглянути завдання</a>
+          </div>
+        </div>
+        <div class="hero__preview" aria-hidden="true">
+          <div class="bubble bubble--bot">Привіт! Я Роман 👋 Як до вас звертатися?</div>
+          <div class="bubble bubble--user">Олена</div>
+          <div class="bubble bubble--bot">Приємно, Олено! Що вас зараз найбільше цікавить?</div>
+          <div class="chips">
+            <span class="chip">💰 Бюджет</span><span class="chip">🐷 Заощадження</span><span class="chip">📈 Інвестиції</span>
+          </div>
+          <div class="bubble bubble--bot">Ось завдання, з якого варто почати 👇</div>
+          <div class="task-mini">📋 Мій бюджет на місяць</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap">
+        <h2>Як це працює</h2>
+        <ol class="steps">
+          <li><span class="steps__n">1</span><h3>Розкажіть про себе</h3><p>Хто ви: школяр, студент, працюєте, батьки чи вчитель. Так я краще підберу матеріали.</p></li>
+          <li><span class="steps__n">2</span><h3>Оберіть тему або спитайте своє</h3><p>Натискайте на готові варіанти або пишіть запитання своїми словами.</p></li>
+          <li><span class="steps__n">3</span><h3>Отримайте відповідь і завдання</h3><p>Коротке пояснення та посилання на практичні завдання, з якими тема стане зрозумілою.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="tasks">
+      <div class="wrap">
+        <h2>Завдання за темами</h2>
+        <p class="muted">Не знаєте, з чого почати? Відкрийте чат, і я підкажу.</p>
+        <div class="task-groups" data-task-groups></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">© <span data-year></span> <span data-name>Роман Кушнір</span>. Відповіді мають освітній характер і не є індивідуальною фінансовою порадою.</div>
+  </footer>
+
+  <!-- Плаваюча кнопка і вітальна підказка -->
+  <div class="launcher">
+    <div class="launcher__teaser" data-teaser hidden>
+      <button class="launcher__close" data-teaser-close aria-label="Закрити">×</button>
+      <span>Привіт! Маєте запитання про гроші? 🙂</span>
+    </div>
+    <button class="launcher__btn" data-open-chat aria-label="Відкрити чат">
+      <span class="avatar" data-avatar></span>
+      <span class="launcher__dot"></span>
+    </button>
+  </div>
+
+  <!-- Вікно чату -->
+  <section class="chat" data-chat hidden aria-label="Чат з Романом">
+    <header class="chat__head">
+      <span class="avatar" data-avatar></span>
+      <div class="chat__who">
+        <strong data-name>Роман Кушнір</strong>
+        <small>Фінансова грамотність · онлайн</small>
+      </div>
+      <button class="chat__icon" data-restart title="Почати спочатку" aria-label="Почати спочатку">↺</button>
+      <button class="chat__icon" data-close-chat title="Згорнути" aria-label="Згорнути чат">✕</button>
+    </header>
+    <div class="chat__log" data-log aria-live="polite"></div>
+    <div class="chat__choices" data-choices></div>
+    <form class="chat__input" data-form autocomplete="off">
+      <input type="text" data-input placeholder="Напишіть повідомлення…" aria-label="Повідомлення">
+      <button type="submit" aria-label="Надіслати">➤</button>
+    </form>
+  </section>
+
+  <script src="data.js"></script>
+  <script src="bot.js"></script>
+</body>
+</html>
