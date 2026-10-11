@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Робочий зошит</title>
+<meta name="description" content="Онлайн-робочий зошит Campus13 «Публічні виступи»: вписуй завдання, виконуй квести, збирай XP і досягнення.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #3fd49f;
+    --green-deep: #14a874;
+    --green-soft: #e3f8ef;
+    --green-glow: rgba(63, 212, 159, .35);
+    --ink: #1d2433;
+    --muted: #6b7280;
+    --faint: #a3a9b3;
+    --page: #f3f3f3;
+    --panel: #ffffff;
+    --line: #e4e6ea;
+    --gold: #f5b82e;
+    --gold-soft: #fff4d6;
+    --shadow: 0 10px 30px rgba(29, 36, 51, .07);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--page);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  button, input, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  .wrap { width: min(820px, 100% - 32px); margin-inline: auto; }
+  .display { font-family: "Unbounded", sans-serif; }
+
+  /* ---------- HUD ---------- */
+  .hud {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .hud-in { display: flex; align-items: center; gap: 14px; min-height: 70px; padding: 8px 0; }
+  .lvl-ring { position: relative; width: 50px; height: 50px; flex: none; }
+  .lvl-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .lvl-ring circle { fill: none; stroke-width: 5; }
+  .lvl-ring .bg { stroke: var(--green-soft); }
+  .lvl-ring .fg { stroke: var(--green); stroke-linecap: round; transition: stroke-dashoffset .6s cubic-bezier(.2, .9, .3, 1.2); }
+  .lvl-ring b {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-family: "Unbounded"; font-weight: 800; font-size: 17px;
+  }
+  .hud-main { flex: 1; min-width: 0; }
+  .hud-title { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .hud-title strong { font-family: "Unbounded"; font-size: 14px; }
+  .hud-title span { font-size: 12px; color: var(--muted); }
+  .xpbar { height: 8px; border-radius: 99px; background: var(--green-soft); margin-top: 6px; overflow: hidden; }
+  .xpbar i {
+    display: block; height: 100%; width: 0; border-radius: inherit;
+    background: linear-gradient(90deg, var(--green), #7ee8c2);
+    transition: width .6s cubic-bezier(.2, .9, .3, 1.2);
+  }
+  .chips { display: flex; gap: 8px; flex: none; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 6px 11px; border-radius: 99px; background: var(--page);
+    font-weight: 800; font-size: 13px; white-space: nowrap;
+  }
+  .chip.xp { background: var(--gold-soft); }
+  .chip.bump { animation: bump .5s; }
+  @keyframes bump { 40% { transform: scale(1.25); } }
+
+  /* ---------- шапка заняття ---------- */
+  .sheet {
+    background: var(--panel); border-radius: 20px; box-shadow: var(--shadow);
+    padding: 28px; margin-top: 24px;
+  }
+  .head { display: flex; gap: 14px; align-items: flex-start; }
+  .badge {
+    flex: none; width: 72px; height: 72px; border-radius: 12px;
+    background: var(--green); color: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .badge input {
+    width: 100%; border: 0; background: none; text-align: center; color: #fff;
+    font-family: "Unbounded"; font-weight: 800; font-size: 30px; line-height: 1; padding: 0;
+  }
+  .badge small { font-size: 9px; font-weight: 700; letter-spacing: .4px; opacity: .9; }
+  .head-text { flex: 1; min-width: 0; }
+  .kicker {
+    width: 100%; border: 0; background: none; padding: 0;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--faint);
+  }
+  .title {
+    width: 100%; border: 0; background: none; padding: 0; resize: none; overflow: hidden;
+    font-family: "Unbounded"; font-weight: 700; font-size: clamp(20px, 3.4vw, 26px); line-height: 1.25;
+  }
+  .mood {
+    flex: none; width: 128px; min-height: 72px; border-radius: 14px;
+    border: 1.5px dashed #cfd3d8; background: none; color: #c4c9cf;
+    font-family: "Unbounded"; font-weight: 500; font-size: 13px; line-height: 1.15;
+    position: relative; transition: border-color .2s, transform .2s;
+  }
+  .mood:hover { border-color: var(--green); transform: rotate(-2deg); }
+  .mood .emo { font-size: 38px; line-height: 1; display: block; }
+  .mood .cap { font-family: "Manrope"; font-size: 11px; font-weight: 700; color: var(--muted); }
+  .mood.set { border-style: solid; border-color: var(--green); background: var(--green-soft); }
+  .mood-pop {
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 30;
+    background: #fff; border-radius: 14px; box-shadow: 0 16px 40px rgba(29, 36, 51, .18);
+    padding: 8px; display: none; grid-template-columns: repeat(4, 1fr); gap: 4px; width: 240px;
+  }
+  .mood-pop.open { display: grid; }
+  .mood-pop button {
+    border: 0; background: none; border-radius: 10px; padding: 6px 2px;
+    display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: 700; color: var(--muted);
+  }
+  .mood-pop button span { font-size: 26px; }
+  .mood-pop button:hover { background: var(--green-soft); }
+  .mood-wrap { position: relative; }
+
+  .h2 { font-family: "Unbounded"; font-weight: 700; font-size: 20px; margin: 34px 0 6px; }
+  .lead { margin: 0; color: var(--muted); font-size: 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .legend span { font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 99px; background: var(--page); }
+  .legend b { color: var(--green-deep); }
+
+  /* ---------- квести ---------- */
+  .tasks { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 26px; margin-top: 30px; }
+  .task { position: relative; padding-top: 20px; animation: rise .35s both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+  .num {
+    position: absolute; top: 0; left: -10px; z-index: 2;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--green); color: #fff; border: 4px solid var(--panel);
+    display: grid; place-items: center;
+    font-family: "Unbounded"; font-weight: 700; font-size: 15px;
+    transition: transform .3s;
+  }
+  .card {
+    border: 1.5px dashed var(--green); border-radius: 6px;
+    padding: 30px 16px 14px 18px; height: 100%;
+    display: flex; flex-direction: column; gap: 6px;
+    transition: background .3s, border-color .3s, box-shadow .3s;
+  }
+  .task:hover .card { box-shadow: 0 8px 24px var(--green-glow); }
+  .t-title {
+    border: 0; background: none; padding: 0; width: 100%;
+    font-weight: 800; font-size: 15px;
+  }
+  .t-text {
+    border: 0; background: none; padding: 0; width: 100%; resize: none; overflow: hidden;
+    font-style: italic; font-size: 13px; color: var(--muted); min-height: 20px;
+  }
+  .t-answer {
+    width: 100%; resize: none; overflow: hidden; min-height: 72px;
+    border: 0; border-radius: 6px; padding: 0 10px 4px; font-size: 14px;
+    background: repeating-linear-gradient(to bottom, transparent 0 25px, var(--line) 25px 26px) var(--page);
+    background-attachment: local;
+    line-height: 26px; margin-top: 4px;
+  }
+  .t-answer:focus, .t-title:focus, .t-text:focus, .title:focus, .kicker:focus, .badge input:focus,
+  .ck input:focus, .notes:focus { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 4px; }
+  .t-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+  .stars { display: flex; gap: 1px; }
+  .stars button { border: 0; background: none; padding: 0 1px; font-size: 18px; line-height: 1; color: #d6d9de; transition: transform .15s; }
+  .stars button.on { color: var(--gold); }
+  .stars button:hover { transform: scale(1.25); }
+  .done-btn {
+    border: 0; border-radius: 99px; padding: 8px 14px;
+    background: var(--ink); color: #fff; font-weight: 800; font-size: 12px;
+    transition: transform .15s, background .2s;
+  }
+  .done-btn:hover { transform: translateY(-1px); }
+  .done-btn em { font-style: normal; color: var(--green); }
+  .del {
+    position: absolute; top: 24px; right: 6px; border: 0; background: none;
+    color: var(--faint); font-size: 18px; width: 28px; height: 28px; border-radius: 50%;
+    opacity: 0; transition: opacity .2s;
+  }
+  .task:hover .del, .del:focus { opacity: 1; }
+  .del:hover { background: #fde8e8; color: #c0392b; }
+  @media (hover: none) { .del { opacity: .6; } }
+
+  .task.done .card { border-style: solid; background: var(--green-soft); }
+  .task.done .num { transform: rotate(360deg); background: var(--green-deep); }
+  .task.done .done-btn { background: var(--green); color: var(--ink); }
+
+  .add {
+    min-height: 200px; margin-top: 20px; border-radius: 6px;
+    border: 1.5px dashed #cfd3d8; background: none; color: var(--muted);
+    font-weight: 800; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .add b { font-size: 34px; line-height: 1; font-family: "Unbounded"; }
+  .add:hover { border-color: var(--green); color: var(--green-deep); background: var(--green-soft); }
+
+  /* ---------- чекліст і нотатки ---------- */
+  .q { font-weight: 800; font-size: 15px; margin: 34px 0 10px; }
+  .panel { background: var(--page); border-radius: 10px; padding: 6px 16px; }
+  .ck { display: flex; align-items: center; gap: 10px; min-height: 48px; border-bottom: 1px solid var(--line); }
+  .ck:last-child { border-bottom: 0; }
+  .ck > span { font-weight: 800; font-size: 13px; width: 18px; color: var(--muted); }
+  .ck input { flex: 1; border: 0; background: none; padding: 6px 0; font-size: 14px; font-weight: 600; min-width: 0; }
+  .ck-btn {
+    flex: none; width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid var(--green); background: none; display: grid; place-items: center;
+    color: transparent; font-weight: 900; font-size: 14px; transition: background .2s, transform .2s;
+  }
+  .ck-btn:hover { transform: scale(1.1); }
+  .ck.on .ck-btn { background: var(--green); color: #fff; }
+  .ck.on input { text-decoration: line-through; color: var(--muted); }
+  .notes {
+    width: 100%; min-height: 180px; resize: vertical; border: 0; border-radius: 10px;
+    background: var(--page); padding: 14px 16px; font-size: 14px;
+  }
+  .hint { font-size: 12px; color: var(--faint); margin-top: 6px; }
+
+  /* ---------- досягнення ---------- */
+  .ach { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
+  .a {
+    border-radius: 14px; padding: 14px 12px; text-align: center; background: var(--page);
+    transition: transform .2s;
+  }
+  .a .ico { font-size: 32px; line-height: 1.1; filter: grayscale(1); opacity: .35; display: block; }
+  .a b { display: block; font-size: 13px; margin-top: 6px; }
+  .a small { display: block; font-size: 11px; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+  .a.on { background: var(--gold-soft); box-shadow: inset 0 0 0 1.5px var(--gold); }
+  .a.on .ico { filter: none; opacity: 1; }
+  .a.on:hover { transform: translateY(-3px) rotate(-1deg); }
+
+  /* ---------- нижня панель ---------- */
+  .foot { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 26px 0 60px; }
+  .saved { font-size: 12px; color: var(--muted); }
+  .saved b { color: var(--green-deep); }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tool {
+    border: 1.5px solid var(--line); background: var(--panel); border-radius: 99px;
+    padding: 8px 14px; font-weight: 700; font-size: 13px;
+  }
+  .tool:hover { border-color: var(--green); }
+  .tool.danger.armed { background: #c0392b; border-color: #c0392b; color: #fff; }
+
+  /* ---------- тост і конфеті ---------- */
+  .toasts { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 60; display: grid; gap: 8px; justify-items: center; pointer-events: none; }
+  .toast {
+    background: var(--ink); color: #fff; border-radius: 14px; padding: 12px 18px;
+    font-weight: 700; font-size: 14px; box-shadow: 0 14px 40px rgba(0, 0, 0, .25);
+    display: flex; align-items: center; gap: 10px; animation: toast 3.4s both;
+    max-width: calc(100vw - 32px);
+  }
+  .toast .big { font-size: 26px; }
+  .toast small { display: block; font-weight: 500; opacity: .75; font-size: 12px; }
+  .toast.lvl { background: linear-gradient(135deg, var(--green-deep), var(--green)); }
+  @keyframes toast {
+    0% { opacity: 0; transform: translateY(20px) scale(.9); }
+    10%, 85% { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: translateY(10px); }
+  }
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 70; }
+  .floatxp {
+    position: fixed; z-index: 65; pointer-events: none;
+    font-family: "Unbounded"; font-weight: 800; font-size: 16px; color: var(--green-deep);
+    animation: floatxp 1.1s ease-out both;
+  }
+  @keyframes floatxp { to { transform: translateY(-50px); opacity: 0; } }
+
+  .page-num { text-align: right; font-size: 12px; color: var(--faint); margin-top: 26px; }
+
+  @media (max-width: 640px) {
+    .sheet { padding: 22px 16px; border-radius: 16px; }
+    .tasks { grid-template-columns: 1fr; }
+    .head { flex-wrap: wrap; }
+    .mood-wrap { width: 100%; }
+    .mood { width: 100%; min-height: 56px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .mood .emo { font-size: 28px; }
+    .mood-pop { left: 0; right: auto; }
+    .chip .lbl { display: none; }
+    .hud-title span { display: none; }
+    .add { min-height: 110px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  @media print {
+    body { background: #fff; }
+    .hud, .foot, .add, .del, .done-btn, .ach-section, .toasts, #confetti, .legend { display: none !important; }
+    .sheet { box-shadow: none; padding: 0; margin: 0; }
+    .task { break-inside: avoid; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hud" aria-label="Прогрес">
+  <div class="wrap hud-in">
+    <div class="lvl-ring" title="Рівень">
+      <svg viewBox="0 0 50 50" aria-hidden="true">
+        <circle class="bg" cx="25" cy="25" r="21"></circle>
+        <circle class="fg" id="ring" cx="25" cy="25" r="21" stroke-dasharray="131.95" stroke-dashoffset="131.95"></circle>
+      </svg>
+      <b id="lvlNum">1</b>
+    </div>
+    <div class="hud-main">
+      <div class="hud-title"><strong id="lvlName">Новачок</strong><span id="lvlNext"></span></div>
+      <div class="xpbar"><i id="xpFill"></i></div>
+    </div>
+    <div class="chips">
+      <span class="chip xp" id="xpChip" title="Досвід">⭐ <span id="xpVal">0</span><span class="lbl">&nbsp;XP</span></span>
+      <span class="chip" id="streakChip" title="Днів поспіль">🔥 <span id="streakVal">0</span><span class="lbl">&nbsp;дн.</span></span>
+      <span class="chip" title="Виконані квести">✅ <span id="doneVal">0/0</span></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="sheet">
+    <div class="head">
+      <label class="badge">
+        <input id="lessonNum" maxlength="3" aria-label="Номер заняття">
+        <small>заняття</small>
+      </label>
+      <div class="head-text">
+        <input class="kicker" id="kicker" aria-label="Тема курсу" placeholder="ТЕМА КУРСУ">
+        <textarea class="title" id="title" rows="1" aria-label="Назва заняття" placeholder="Назва заняття"></textarea>
+      </div>
+      <div class="mood-wrap">
+        <button class="mood" id="moodBtn" aria-haspopup="true" aria-expanded="false"></button>
+        <div class="mood-pop" id="moodPop" role="menu"></div>
+      </div>
+    </div>
+
+    <h2 class="h2">Мої квести</h2>
+    <p class="lead">Впиши завдання і свою відповідь, а потім натисни «Виконано». Кожен крок дає XP і наближає до нового рівня.</p>
+    <div class="legend">
+      <span>✍️ відповідь <b>+10 XP</b></span>
+      <span>✅ виконано <b>+25 XP</b></span>
+      <span>⭐ самооцінка <b>+5 XP</b></span>
+      <span>🏅 досягнення <b>+15 XP</b></span>
+    </div>
+
+    <div class="tasks" id="tasks"></div>
+
+    <div class="q">Що я відпрацюю цього тижня</div>
+    <div class="panel" id="checklist"></div>
+    <div class="hint">Впиши пункт і постав позначку, коли зробиш. +10 XP за кожен.</div>
+
+    <div class="q">Нотатки та інсайти</div>
+    <textarea class="notes" id="notes" placeholder="Що спрацювало? Що здивувало? Що спробую наступного разу?"></textarea>
+    <div class="hint" id="notesHint"></div>
+
+    <div class="page-num">Робочий зошит · Campus13</div>
+  </section>
+
+  <section class="sheet ach-section">
+    <h2 class="h2" style="margin-top:0">Досягнення</h2>
+    <p class="lead" id="achLead"></p>
+    <div class="ach" id="ach"></div>
+  </section>
+
+  <div class="foot">
+    <div class="saved" id="saved">Усе зберігається автоматично в цьому браузері.</div>
+    <div class="tools">
+      <button class="tool" id="printBtn">🖨️ Друк / PDF</button>
+      <button class="tool" id="exportBtn">⬇️ Зберегти файл</button>
+      <button class="tool" id="importBtn">⬆️ Відкрити файл</button>
+      <button class="tool danger" id="resetBtn">↺ Почати заново</button>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+  </div>
+</main>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+(() => {
+  const KEY = "campus13-zoshyt-v1";
+
+  const MOODS = [
+    ["😎", "Впевнено"], ["🔥", "Драйв"], ["😌", "Спокій"], ["🤩", "Натхнення"],
+    ["😬", "Хвилююсь"], ["🤯", "Перевантаження"], ["😴", "Втома"], ["🥳", "Свято"],
+  ];
+
+  const LEVELS = [
+    [0, "Новачок"], [40, "Слухач"], [100, "Промовець"],
+    [180, "Спікер"], [280, "Оратор"], [400, "Легенда сцени"],
+  ];
+
+  const DEFAULT_TASKS = [
+    ["Гачок на старті", "Запиши 3 варіанти першої фрази виступу: питання, несподіваний факт, коротка історія."],
+    ["Жест тижня", "Обери один жест і свідомо використай його у 3 розмовах. Що змінилося?"],
+    ["Голосова розминка", "5 хвилин щодня: дихання, артикуляція, скоромовка. Яка далася найважче?"],
+    ["Сила паузи", "Запиши 30-секундне відео з двома свідомими паузами. Що відчув(-ла)?"],
+    ["Техніка уваги", "Обери одну з 11 технік утримання уваги і спробуй її на друзях або родині."],
+    ["Мікровиступ", "Виступ на 1 хвилину «Що мене надихає». Оціни себе: погляд, голос, жести."],
+  ];
+
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const today = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
+
+  const fresh = () => ({
+    lesson: { num: "04", kicker: "Публічні виступи", title: "Тренування уваги, жестів і голосу" },
+    mood: null,
+    tasks: DEFAULT_TASKS.map(([title, text]) => ({ id: uid(), title, text, answer: "", done: false, rating: 0 })),
+    checklist: Array.from({ length: 5 }, () => ({ text: "", done: false })),
+    notes: "",
+    days: [],
+    badges: [],
+    level: 1,
+  });
+
+  // ---------- збереження ----------
+  let state;
+  function load() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) return normalize(JSON.parse(raw));
+    } catch (e) { /* приватний режим тощо */ }
+    return fresh();
+  }
+  function normalize(s) {
+    const f = fresh();
+    if (!s || typeof s !== "object") return f;
+    return {
+      lesson: { ...f.lesson, ...(s.lesson || {}) },
+      mood: typeof s.mood === "number" ? s.mood : null,
+      tasks: Array.isArray(s.tasks) ? s.tasks.map(t => ({
+        id: t.id || uid(), title: String(t.title || ""), text: String(t.text || ""),
+        answer: String(t.answer || ""), done: !!t.done, rating: Math.max(0, Math.min(5, +t.rating || 0)),
+      })) : f.tasks,
+      checklist: Array.isArray(s.checklist) ? s.checklist.map(c => ({ text: String(c.text || ""), done: !!c.done })) : f.checklist,
+      notes: String(s.notes || ""),
+      days: Array.isArray(s.days) ? s.days.filter(d => typeof d === "string") : [],
+      badges: Array.isArray(s.badges) ? s.badges : [],
+      level: +s.level || 1,
+    };
+  }
+  let saveTimer;
+  function save(activity = true) {
+    if (activity && !state.days.includes(today())) state.days.push(today());
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(state));
+        const t = new Date().toLocaleTimeString("uk-UA", { hour: "2-digit", minute: "2-digit" });
+        $("#saved").innerHTML = `<b>✓ Збережено</b> о ${t} у цьому браузері`;
+      } catch (e) {
+        $("#saved").textContent = "Браузер не дає зберегти дані — скористайся «Зберегти файл».";
+      }
+    }, 300);
+    refresh();
+  }
+
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const pad = n => String(n).padStart(2, "0");
+  const grow = el => { el.style.height = "auto"; el.style.height = el.scrollHeight + "px"; };
+
+  // ---------- досягнення та XP ----------
+  const answered = t => t.answer.trim().length >= 15;
+  const streak = () => {
+    const set = new Set(state.days);
+    const d = new Date();
+    if (!set.has(today())) d.setDate(d.getDate() - 1);
+    let n = 0;
+    for (;;) {
+      const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      if (!set.has(k)) break;
+      n++; d.setDate(d.getDate() - 1);
+    }
+    return n;
+  };
+
+  const BADGES = [
+    { id: "start", ico: "🚀", name: "Старт", desc: "Перша відповідь", test: s => s.tasks.some(answered) },
+    { id: "first", ico: "🎯", name: "Влучно", desc: "Перший виконаний квест", test: s => s.tasks.some(t => t.done) },
+    { id: "warm", ico: "💪", name: "Розігрів", desc: "3 квести виконано", test: s => s.tasks.filter(t => t.done).length >= 3 },
+    { id: "all", ico: "🏆", name: "Усі квести", desc: "Виконано все до одного", test: s => s.tasks.length > 0 && s.tasks.every(t => t.done) },
+    { id: "honest", ico: "⭐", name: "Чесна оцінка", desc: "Оціни 3 квести", test: s => s.tasks.filter(t => t.rating).length >= 3 },
+    { id: "plan", ico: "🗓️", name: "Планувальник", desc: "3 пункти тижня зроблено", test: s => s.checklist.filter(c => c.done && c.text.trim()).length >= 3 },
+    { id: "insight", ico: "💡", name: "Рефлексія", desc: "Нотатки від 100 символів", test: s => s.notes.trim().length >= 100 },
+    { id: "mood", ico: "🎭", name: "Настрій є", desc: "Обери наліпку настрою", test: s => s.mood !== null },
+    { id: "streak", ico: "🔥", name: "Серія", desc: "3 дні поспіль у зошиті", test: () => streak() >= 3 },
+  ];
+
+  function computeXP() {
+    let xp = 0;
+    for (const t of state.tasks) {
+      if (answered(t)) xp += 10;
+      if (t.done) xp += 25;
+      if (t.rating) xp += 5;
+    }
+    for (const c of state.checklist) if (c.done && c.text.trim()) xp += 10;
+    if (state.mood !== null) xp += 5;
+    xp += BADGES.filter(b => b.test(state)).length * 15;
+    return xp;
+  }
+  function levelOf(xp) {
+    let i = 0;
+    while (i + 1 < LEVELS.length && xp >= LEVELS[i + 1][0]) i++;
+    return i;
+  }
+
+  let lastXP = null;
+  function refresh() {
+    const xp = computeXP();
+    const li = levelOf(xp);
+    const [from, name] = LEVELS[li];
+    const next = LEVELS[li + 1];
+    const pct = next ? (xp - from) / (next[0] - from) : 1;
+
+    $("#lvlNum").textContent = li + 1;
+    $("#lvlName").textContent = name;
+    $("#lvlNext").textContent = next ? `ще ${next[0] - xp} XP до «${next[1]}»` : "максимальний рівень!";
+    $("#xpFill").style.width = (pct * 100).toFixed(1) + "%";
+    $("#ring").style.strokeDashoffset = (131.95 * (1 - pct)).toFixed(2);
+    $("#xpVal").textContent = xp;
+    $("#streakVal").textContent = streak();
+    const done = state.tasks.filter(t => t.done).length;
+    $("#doneVal").textContent = `${done}/${state.tasks.length}`;
+    if (lastXP !== null && xp > lastXP) bump("#xpChip");
+    lastXP = xp;
+
+    // досягнення
+    const unlocked = BADGES.filter(b => b.test(state)).map(b => b.id);
+    const newly = unlocked.filter(id => !state.badges.includes(id));
+    state.badges = unlocked;
+    newly.forEach((id, i) => {
+      const b = BADGES.find(x => x.id === id);
+      setTimeout(() => toast(b.ico, `Досягнення: ${b.name}`, `${b.desc} · +15 XP`), 250 + i * 600);
+    });
+    renderAch();
+
+    const lvl = li + 1;
+    if (lvl > state.level) {
+      setTimeout(() => {
+        toast("🎉", `Новий рівень: ${name}!`, `Рівень ${lvl} · так тримати`, "lvl");
+        confetti(innerWidth / 2, innerHeight / 3, 160);
+      }, 150);
+    }
+    state.level = lvl;
+
+    const n = state.notes.trim().length;
+    $("#notesHint").textContent = n >= 100 ? "💡 Досягнення «Рефлексія» відкрито!" : `Ще ${100 - n} символів до досягнення «Рефлексія» 💡`;
+  }
+
+  function renderAch() {
+    const on = state.badges.length;
+    $("#achLead").textContent = `Відкрито ${on} з ${BADGES.length}. Кожне досягнення дає +15 XP.`;
+    $("#ach").innerHTML = BADGES.map(b => {
+      const u = state.badges.includes(b.id);
+      return `<div class="a ${u ? "on" : ""}"><span class="ico">${b.ico}</span><b>${u ? "" : "🔒 "}${b.name}</b><small>${b.desc}</small></div>`;
+    }).join("");
+  }
+
+  // ---------- шапка ----------
+  function renderHead() {
+    $("#lessonNum").value = state.lesson.num;
+    $("#kicker").value = state.lesson.kicker;
+    $("#title").value = state.lesson.title;
+    requestAnimationFrame(() => grow($("#title")));
+    renderMood();
+  }
+  $("#lessonNum").addEventListener("input", e => { state.lesson.num = e.target.value; save(); });
+  $("#kicker").addEventListener("input", e => { state.lesson.kicker = e.target.value; save(); });
+  $("#title").addEventListener("input", e => { state.lesson.title = e.target.value; grow(e.target); save(); });
+
+  function renderMood() {
+    const btn = $("#moodBtn");
+    if (state.mood === null) {
+      btn.classList.remove("set");
+      btn.innerHTML = "наліпка<br>настрою";
+    } else {
+      const [emo, cap] = MOODS[state.mood];
+      btn.classList.add("set");
+      btn.innerHTML = `<span class="emo">${emo}</span><span class="cap">${cap}</span>`;
+    }
+  }
+  $("#moodPop").innerHTML = MOODS.map(([e, c], i) => `<button role="menuitem" data-m="${i}"><span>${e}</span>${c}</button>`).join("");
+  $("#moodBtn").addEventListener("click", e => {
+    e.stopPropagation();
+    const open = $("#moodPop").classList.toggle("open");
+    $("#moodBtn").setAttribute("aria-expanded", open);
+  });
+  $("#moodPop").addEventListener("click", e => {
+    const b = e.target.closest("[data-m]");
+    if (!b) return;
+    state.mood = +b.dataset.m;
+    $("#moodPop").classList.remove("open");
+    renderMood();
+    const r = $("#moodBtn").getBoundingClientRect();
+    confetti(r.left + r.width / 2, r.top + r.height / 2, 30);
+    save();
+  });
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".mood-wrap")) $("#moodPop").classList.remove("open");
+  });
+
+  // ---------- квести ----------
+  function taskHTML(t, i) {
+    const stars = [1, 2, 3, 4, 5].map(n =>
+      `<button data-star="${n}" class="${n <= t.rating ? "on" : ""}" aria-label="Оцінка ${n} з 5">★</button>`).join("");
+    return `
+      <div class="task ${t.done ? "done" : ""}" data-id="${t.id}">
+        <div class="num">${t.done ? "✓" : pad(i + 1)}</div>
+        <button class="del" data-del aria-label="Видалити квест" title="Видалити">×</button>
+        <div class="card">
+          <input class="t-title" data-f="title" value="${esc(t.title)}" placeholder="Назва завдання" aria-label="Назва завдання">
+          <textarea class="t-text" data-f="text" rows="1" placeholder="Що треба зробити…" aria-label="Опис завдання">${esc(t.text)}</textarea>
+          <textarea class="t-answer" data-f="answer" rows="2" placeholder="Моя відповідь…" aria-label="Моя відповідь">${esc(t.answer)}</textarea>
+          <div class="t-foot">
+            <div class="stars" title="Наскільки вдалося">${stars}</div>
+            <button class="done-btn" data-done>${t.done ? "Виконано ✓" : "Виконано <em>+25 XP</em>"}</button>
+          </div>
+        </div>
+      </div>`;
+  }
+  function renderTasks() {
+    $("#tasks").innerHTML = state.tasks.map(taskHTML).join("") +
+      `<button class="add" id="addTask"><b>+</b>Додати квест</button>`;
+    document.querySelectorAll("#tasks textarea").forEach(grow);
+  }
+  const taskOf = el => state.tasks.find(t => t.id === el.closest(".task").dataset.id);
+
+  $("#tasks").addEventListener("input", e => {
+    const f = e.target.dataset.f;
+    if (!f) return;
+    const t = taskOf(e.target);
+    const was = answered(t);
+    t[f] = e.target.value;
+    if (e.target.tagName === "TEXTAREA") grow(e.target);
+    if (f === "answer" && !was && answered(t)) floatXP(e.target, 10);
+    save();
+  });
+  $("#tasks").addEventListener("click", e => {
+    if (e.target.closest("#addTask")) {
+      state.tasks.push({ id: uid(), title: "", text: "", answer: "", done: false, rating: 0 });
+      renderTasks();
+      save();
+      const last = document.querySelectorAll(".task");
+      last[last.length - 1].querySelector(".t-title").focus();
+      return;
+    }
+    const task = e.target.closest(".task");
+    if (!task) return;
+    const t = taskOf(task);
+
+    const star = e.target.closest("[data-star]");
+    if (star) {
+      const n = +star.dataset.star;
+      const first = !t.rating;
+      t.rating = t.rating === n ? 0 : n;
+      task.querySelectorAll("[data-star]").forEach(s => s.classList.toggle("on", +s.dataset.star <= t.rating));
+      if (first && t.rating) floatXP(star, 5);
+      save();
+      return;
+    }
+    if (e.target.closest("[data-done]")) {
+      t.done = !t.done;
+      const idx = state.tasks.indexOf(t);
+      task.classList.toggle("done", t.done);
+      task.querySelector(".num").textContent = t.done ? "✓" : pad(idx + 1);
+      const btn = task.querySelector("[data-done]");
+      btn.innerHTML = t.done ? "Виконано ✓" : "Виконано <em>+25 XP</em>";
+      if (t.done) {
+        const r = btn.getBoundingClientRect();
+        confetti(r.left + r.width / 2, r.top, 70);
+        floatXP(btn, 25);
+      }
+      save();
+      return;
+    }
+    if (e.target.closest("[data-del]")) {
+      const hasContent = t.answer.trim() || t.done;
+      if (hasContent && !task.dataset.armed) {
+        task.dataset.armed = "1";
+        const d = task.querySelector("[data-del]");
+        d.textContent = "?";
+        d.title = "Натисни ще раз, щоб видалити";
+        d.style.opacity = 1;
+        toast("🗑️", "Натисни × ще раз, щоб видалити квест", "У ньому вже є відповідь");
+        setTimeout(() => { if (task.isConnected) { delete task.dataset.armed; d.textContent = "×"; d.style.opacity = ""; } }, 3000);
+        return;
+      }
+      state.tasks = state.tasks.filter(x => x !== t);
+      renderTasks();
+      save();
+    }
+  });
+
+  // ---------- чекліст ----------
+  function renderChecklist() {
+    $("#checklist").innerHTML = state.checklist.map((c, i) => `
+      <div class="ck ${c.done ? "on" : ""}" data-i="${i}">
+        <span>${i + 1}.</span>
+        <input value="${esc(c.text)}" placeholder="Наприклад: жест «відкриті долоні» на нараді" aria-label="Пункт ${i + 1}">
+        <button class="ck-btn" aria-label="Позначити як зроблене">✓</button>
+      </div>`).join("");
+  }
+  $("#checklist").addEventListener("input", e => {
+    const row = e.target.closest(".ck");
+    state.checklist[+row.dataset.i].text = e.target.value;
+    save();
+  });
+  $("#checklist").addEventListener("click", e => {
+    const b = e.target.closest(".ck-btn");
+    if (!b) return;
+    const row = b.closest(".ck");
+    const c = state.checklist[+row.dataset.i];
+    if (!c.text.trim() && !c.done) {
+      row.querySelector("input").focus();
+      toast("✍️", "Спочатку впиши, що саме відпрацюєш");
+      return;
+    }
+    c.done = !c.done;
+    row.classList.toggle("on", c.done);
+    if (c.done) {
+      const r = b.getBoundingClientRect();
+      confetti(r.left + r.width / 2, r.top + r.height / 2, 30);
+      floatXP(b, 10);
+    }
+    save();
+  });
+
+  // ---------- нотатки ----------
+  $("#notes").addEventListener("input", e => { state.notes = e.target.value; save(); });
+
+  // ---------- інструменти ----------
+  $("#printBtn").addEventListener("click", () => print());
+  $("#exportBtn").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `zoshyt-${today()}.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast("💾", "Файл зошита збережено", "Відкрий його на іншому пристрої кнопкою «Відкрити файл»");
+  });
+  $("#importBtn").addEventListener("click", () => $("#importFile").click());
+  $("#importFile").addEventListener("change", async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      state = normalize(JSON.parse(await file.text()));
+      renderAll();
+      save(false);
+      toast("📂", "Зошит відкрито з файлу");
+    } catch (err) {
+      toast("⚠️", "Не вдалося прочитати файл", "Потрібен файл, збережений цим зошитом");
+    }
+    e.target.value = "";
+  });
+  let resetTimer;
+  $("#resetBtn").addEventListener("click", e => {
+    const b = e.currentTarget;
+    if (!b.classList.contains("armed")) {
+      b.classList.add("armed");
+      b.textContent = "Точно? Натисни ще раз";
+      resetTimer = setTimeout(() => { b.classList.remove("armed"); b.textContent = "↺ Почати заново"; }, 3500);
+      return;
+    }
+    clearTimeout(resetTimer);
+    b.classList.remove("armed");
+    b.textContent = "↺ Почати заново";
+    state = fresh();
+    lastXP = null;
+    renderAll();
+    save(false);
+    toast("🌱", "Чистий аркуш. Вперед!");
+  });
+
+  // ---------- ефекти ----------
+  function toast(big, text, sub = "", cls = "") {
+    const el = document.createElement("div");
+    el.className = "toast " + cls;
+    el.innerHTML = `<span class="big">${big}</span><span>${esc(text)}${sub ? `<small>${esc(sub)}</small>` : ""}</span>`;
+    $("#toasts").appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+  function bump(sel) {
+    const el = $(sel);
+    el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump");
+  }
+  function floatXP(anchor, n) {
+    const r = anchor.getBoundingClientRect();
+    const el = document.createElement("div");
+    el.className = "floatxp";
+    el.textContent = `+${n} XP`;
+    el.style.left = (r.left + r.width / 2 - 30) + "px";
+    el.style.top = (r.top - 10) + "px";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1200);
+  }
+
+  const cv = $("#confetti");
+  const ctx = cv.getContext("2d");
+  let parts = [], raf = 0;
+  const COLORS = ["#3fd49f", "#14a874", "#f5b82e", "#7ee8c2", "#1d2433", "#ff8a65"];
+  function confetti(x, y, n) {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    cv.width = innerWidth * devicePixelRatio;
+    cv.height = innerHeight * devicePixelRatio;
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, v = 3 + Math.random() * 7;
+      parts.push({
+        x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 5,
+        s: 4 + Math.random() * 5, r: Math.random() * 6, vr: (Math.random() - .5) * .4,
+        c: COLORS[i % COLORS.length], life: 70 + Math.random() * 40,
+      });
+    }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function tick() {
+    const d = devicePixelRatio;
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    parts = parts.filter(p => p.life-- > 0);
+    for (const p of parts) {
+      p.vy += .25; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      ctx.save();
+      ctx.globalAlpha = Math.min(1, p.life / 30);
+      ctx.translate(p.x * d, p.y * d); ctx.rotate(p.r);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.s * d / 2, -p.s * d / 4, p.s * d, p.s * d / 2);
+      ctx.restore();
+    }
+    raf = parts.length ? requestAnimationFrame(tick) : (ctx.clearRect(0, 0, cv.width, cv.height), 0);
+  }
+
+  // ---------- старт ----------
+  function renderAll() {
+    renderHead();
+    renderTasks();
+    renderChecklist();
+    $("#notes").value = state.notes;
+    refresh();
+  }
+  const regrow = () => document.querySelectorAll("textarea:not(.notes)").forEach(grow);
+  if (document.fonts) document.fonts.ready.then(regrow);
+  addEventListener("resize", regrow);
+
+  state = load();
+  const initialLevel = state.level;
+  renderAll();
+  state.level = Math.max(initialLevel, state.level);
+  lastXP = computeXP();
+})();
+</script>
+</body>
+</html>
