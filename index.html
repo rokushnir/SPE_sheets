@@ -64,12 +64,15 @@
   .drop-btn { background: none; border: 0; padding: 0; font: inherit; font-weight: 500; color: inherit; cursor: pointer; white-space: nowrap; }
   .drop-btn:hover { color: var(--green); }
   .drop {
-    display: none; position: absolute; top: 100%; right: -12px; z-index: 60; min-width: 230px; padding: 8px;
+    display: none; position: absolute; top: 100%; right: -12px; z-index: 60; min-width: 270px; padding: 8px;
     background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); flex-direction: column;
   }
   .menu-drop::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 10px; }
   .drop a { padding: 10px 12px; border-radius: 8px; }
   .drop a:hover { background: var(--green-soft); }
+  .drop { max-height: calc(100vh - 100px); overflow-y: auto; }
+  .drop-group { padding: 12px 12px 4px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+  .drop-group:first-child { padding-top: 4px; }
   .menu-drop:hover .drop, .menu-drop:focus-within .drop, .menu-drop.open .drop { display: flex; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -260,6 +263,9 @@
     .drop { display: flex; position: static; min-width: 0; padding: 0; border: 0; box-shadow: none; background: transparent; }
     .drop a { border-radius: 0; }
     .menu-drop::after { display: none; }
+    .drop { max-height: none; overflow: visible; }
+    .drop-group, .drop-group:first-child { padding: 18px 0 4px; }
+    .menu { max-height: calc(100vh - 84px); overflow-y: auto; }
   }
   @media (max-width: 1000px) {
     .about-grid, .calc, .contact { grid-template-columns: 1fr; }
@@ -299,8 +305,18 @@
       <div class="menu-drop" id="menuDrop">
         <button class="drop-btn" id="dropBtn" type="button" aria-expanded="false" aria-controls="dropList">📚 Зошити <span aria-hidden="true">▾</span></button>
         <div class="drop" id="dropList">
+          <div class="drop-group">Тайм-менеджмент</div>
           <a href="goals.html">🎯 Сходи до мети</a>
           <a href="smart.html">🧪 SMART-лабораторія</a>
+          <a href="time.html">⏳ Час життя</a>
+          <div class="drop-group">Фінансова грамотність</div>
+          <a href="money.html">💰 Гра «Гроші»</a>
+          <div class="drop-group">Публічні виступи</div>
+          <a href="speech.html">🎤 Як почати виступати</a>
+          <a href="structure.html">🧱 Структура виступу</a>
+          <a href="vystupy.html">📖 Історії та елевейтор піч</a>
+          <a href="zoshyt.html">👀 Привернення уваги</a>
+          <a href="zapytannia.html">❓ Робота із запитаннями</a>
         </div>
       </div>
       <a href="#contact" class="btn">КОНСУЛЬТАЦІЯ</a>
