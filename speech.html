@@ -1,0 +1,1552 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Структура виступу</title>
+<meta name="description" content="Заняття 2 робочого зошита з публічних виступів: збери «тіло» виступу, вибудуй композицію 20/60/20 зі сходинок «факт — емоція» і сплануй два виступи тижня.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Той самий візуальний стиль, що й у «Грі «Гроші»» та «Часі життя»: білі картки, зелений акцент, темна картка результату. */
+  :root {
+    --bg: #f3f5f7;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --text: #1e293b;
+    --muted: #5b6676;
+    --faint: #8a94a3;
+    --line: #e3e8ee;
+    --green: #16a34a;
+    --green-dark: #128a3e;
+    --green-soft: #e8f7ee;
+    --orange: #e8791c;
+    --orange-soft: #fff1e4;
+    --yellow: #f6b81a;
+    --navy: #1b3a8a;
+    --red: #e11d48;
+    --ink: #1e293b;
+    --ink-text: #ffffff;
+    --ink-accent: #4ade80;
+    --warn-bg: #fff4e5;
+    --warn-text: #9a4a07;
+    --bad: #c2410c;
+    --quote-bg: #f1edfb;
+    --header-bg: rgba(255, 255, 255, .95);
+    --radius: 20px;
+    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    /* схема тіла */
+    --body-off: #eef2f5;
+    --body-line: #c3ccd6;
+    --skin-on: #d6f3e2;
+    --organ: #5cc79b;
+    /* таблиця із зошита */
+    --sheet-head: #0f6b4b;
+    --sheet-lbl: #34b67f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+      --green: #22c55e; --green-dark: #16a34a; --green-soft: rgba(34, 197, 94, .14); --orange: #f08a3a; --orange-soft: rgba(240, 138, 58, .14);
+      --navy: #a9bdf2; --red: #fb7185;
+      --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #4ade80; --warn-bg: rgba(240, 138, 58, .14); --warn-text: #fdba74;
+      --bad: #fb923c; --quote-bg: rgba(139, 92, 246, .14);
+      --header-bg: rgba(22, 30, 43, .95); --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+      --body-off: #1f2a3a; --body-line: #3d4d64; --skin-on: rgba(34, 197, 94, .2); --organ: #2f9e6f;
+      --sheet-head: #0d5a40; --sheet-lbl: #1f8f5f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e141d; --surface: #161e2b; --surface-2: #1c2635; --text: #e6ebf2; --muted: #9aa6b6; --faint: #7b8798; --line: #273347;
+    --green: #22c55e; --green-dark: #16a34a; --green-soft: rgba(34, 197, 94, .14); --orange: #f08a3a; --orange-soft: rgba(240, 138, 58, .14);
+    --navy: #a9bdf2; --red: #fb7185;
+    --ink: #0a0f17; --ink-text: #e6ebf2; --ink-accent: #4ade80; --warn-bg: rgba(240, 138, 58, .14); --warn-text: #fdba74;
+    --bad: #fb923c; --quote-bg: rgba(139, 92, 246, .14);
+    --header-bg: rgba(22, 30, 43, .95); --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    --body-off: #1f2a3a; --body-line: #3d4d64; --skin-on: rgba(34, 197, 94, .2); --organ: #2f9e6f;
+    --sheet-head: #0d5a40; --sheet-lbl: #1f8f5f;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+  button { font-family: inherit; }
+
+  /* ---------- Header + XP ---------- */
+  header {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: var(--header-bg);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 84px; }
+  .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .logo {
+    width: 64px; height: 64px; border: 3px solid var(--yellow); border-radius: 6px;
+    display: grid; place-content: center; text-align: center; line-height: 1.05; flex-shrink: 0;
+  }
+  .logo b { color: var(--navy); font-size: 24px; font-weight: 900; }
+  .logo small { color: var(--navy); font-size: 10px; font-weight: 700; }
+  .brand-name { font-size: 24px; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .brand-sub { font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+  .menu { display: flex; align-items: center; gap: 24px; font-weight: 500; }
+  .menu a:hover { color: var(--green); }
+
+  .hud {
+    display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 10px; border-radius: 14px;
+    background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); flex-shrink: 0;
+  }
+  .hud-ic { font-size: 26px; line-height: 1; }
+  .hud-txt { display: grid; gap: 5px; min-width: 150px; }
+  .hud-txt b { font-size: 13px; line-height: 1.1; }
+  .hud-bar { height: 7px; border-radius: 4px; background: var(--line); overflow: hidden; }
+  .hud-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--green), var(--yellow)); border-radius: 4px; transition: width .4s; }
+  .hud-xp { font-weight: 900; font-variant-numeric: tabular-nums; color: var(--green); white-space: nowrap; }
+  .hud.bump { animation: bump .45s; }
+  @keyframes bump { 30% { transform: scale(1.07); } }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--green); color: #fff; font-weight: 800; letter-spacing: .03em;
+    padding: 16px 28px; border-radius: 12px; border: 0; cursor: pointer; font-size: 16px;
+    box-shadow: 0 8px 20px rgba(22, 163, 74, .25); transition: background .2s, transform .2s;
+  }
+  .btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--green); border: 2px solid var(--green); box-shadow: none; }
+  .btn-outline:hover { background: var(--green-soft); }
+  .btn-sm { padding: 10px 16px; font-size: 14px; border-radius: 10px; }
+  .btn-link { background: none; border: 0; color: var(--green); font-weight: 700; cursor: pointer; padding: 4px 0; font-size: 14px; }
+  .btn-link:hover { text-decoration: underline; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 56px 0 48px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--green-soft); color: var(--green); font-weight: 700;
+    padding: 10px 20px; border-radius: 999px; font-size: 15px; letter-spacing: .03em; text-transform: uppercase;
+  }
+  .badge::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+  h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.1; font-weight: 900; margin: 28px 0 24px; max-width: 980px; text-wrap: balance; }
+  .accent { color: var(--orange); }
+  .lead { font-size: clamp(17px, 2vw, 21px); color: var(--muted); max-width: 900px; margin: 0 0 32px; }
+  .lead strong { color: var(--text); }
+  .quote {
+    margin: 0 0 32px; padding: 22px 26px; border-radius: var(--radius); background: var(--quote-bg);
+    display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; max-width: 900px;
+  }
+  .quote .qq { font-size: 40px; font-weight: 900; line-height: .9; color: var(--navy); }
+  .quote p { margin: 0; font-size: 18px; font-weight: 600; }
+
+  .hero-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; align-items: stretch; }
+  .hero-grid > * { min-width: 0; }
+  .mood h3, .missions h3, .shelf h3 { margin: 0 0 4px; font-size: 18px; }
+  .mood p, .shelf > p { margin: 0 0 16px; color: var(--muted); font-size: 15px; }
+  .sticker {
+    border: 2px dashed var(--line); border-radius: 18px; min-height: 92px; display: grid; place-content: center; text-align: center;
+    color: var(--faint); font-weight: 700; margin-bottom: 14px; transition: border-color .2s, background .2s;
+  }
+  .sticker.on { border-style: solid; border-color: var(--green); background: var(--green-soft); color: var(--text); }
+  .sticker .big { font-size: 46px; line-height: 1; }
+  .mood-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .mood-row button {
+    font-size: 24px; padding: 8px 0; border-radius: 12px; border: 2px solid var(--line); background: var(--surface); cursor: pointer; line-height: 1;
+  }
+  .mood-row button:hover { border-color: var(--green); }
+  .mood-row button[aria-pressed="true"] { border-color: var(--green); background: var(--green-soft); }
+
+  .mlist { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+  .mcard {
+    display: block; padding: 16px; border-radius: 16px; border: 2px solid var(--line); background: var(--surface-2); transition: border-color .2s;
+  }
+  .mcard:hover { border-color: var(--green); }
+  .mcard .ic { font-size: 28px; line-height: 1; }
+  .mcard small { display: block; margin-top: 10px; color: var(--muted); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .mcard b { display: block; font-size: 16px; line-height: 1.25; margin: 2px 0 12px; }
+  .mbar { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+  .mbar i { display: block; height: 100%; width: 0; background: var(--green); transition: width .4s; }
+  .mpct { margin-top: 6px; font-size: 13px; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .mcard.done { border-color: var(--green); background: var(--green-soft); }
+
+  .shelf { margin-top: 24px; }
+  .badges { display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px; }
+  .bdg {
+    text-align: center; padding: 12px 6px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface);
+    font-size: 12px; font-weight: 700; line-height: 1.25; color: var(--faint); transition: background .3s, border-color .3s;
+  }
+  .bdg i { display: block; font-style: normal; font-size: 28px; line-height: 1; margin-bottom: 6px; filter: grayscale(1); opacity: .35; transition: filter .3s, opacity .3s; }
+  .bdg.on { color: var(--text); border-color: var(--green); background: var(--green-soft); }
+  .bdg.on i { filter: none; opacity: 1; }
+
+  /* ---------- Sections ---------- */
+  section { padding: 72px 0; scroll-margin-top: 84px; }
+  .section-white { background: var(--surface); }
+  .eyebrow { color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px; }
+  h2 { font-size: clamp(28px, 3.5vw, 42px); line-height: 1.15; margin: 10px 0 16px; font-weight: 900; text-wrap: balance; }
+  .section-lead { color: var(--muted); font-size: 18px; max-width: 820px; margin: 0 0 32px; }
+  .section-lead strong { color: var(--text); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); min-width: 0; }
+  .section-white .card { background: var(--surface-2); box-shadow: none; }
+
+  label.lbl, .lbl { display: block; font-size: 14px; color: var(--text); font-weight: 700; margin-bottom: 6px; }
+  .hint { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+  textarea, .f {
+    width: 100%; padding: 12px 14px; border: 2px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px;
+    color: var(--text); background: var(--surface); transition: border-color .15s, background .15s;
+  }
+  textarea { min-height: 84px; resize: vertical; line-height: 1.5; }
+  textarea:focus, .f:focus { outline: none; border-color: var(--orange); }
+  textarea.ok, .f.ok { border-color: var(--green); }
+  select.f { cursor: pointer; }
+  ::placeholder { color: var(--faint); opacity: 1; }
+  :disabled { cursor: not-allowed; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 999px; border: 2px solid var(--line);
+    background: var(--surface); color: var(--text); font-weight: 600; font-size: 14px; cursor: pointer; line-height: 1.2; transition: border-color .15s, background .15s;
+  }
+  .chip:hover { border-color: var(--green); }
+  .chip[aria-pressed="true"] { border-color: var(--green); background: var(--green-soft); }
+  .chip[aria-pressed="true"]::after { content: "✓"; color: var(--green); font-weight: 900; }
+  .chip.add-chip { border-style: dashed; font-size: 13px; padding: 6px 11px; color: var(--muted); }
+  .chip.add-chip:hover { color: var(--green); }
+  .chip.add-chip::before { content: "+"; font-weight: 800; color: var(--green); }
+
+  details.ex { margin-top: 12px; }
+  details.ex summary { cursor: pointer; font-weight: 700; color: var(--green); font-size: 14px; }
+  details.ex p { margin: 8px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--green-soft); font-size: 15px; }
+
+  /* ---------- Місія 1: тіло ---------- */
+  .order { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 28px; }
+  .order .os {
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 8px; border-radius: 999px; background: var(--surface-2);
+    border: 1px solid var(--line); font-weight: 700; font-size: 14px;
+  }
+  .order .os i { font-style: normal; width: 26px; height: 26px; border-radius: 50%; background: var(--line); display: grid; place-content: center; font-size: 13px; color: var(--muted); }
+  .order .os.done { background: var(--green-soft); border-color: transparent; }
+  .order .os.done i { background: var(--green); color: #fff; }
+  .order .arrow { color: var(--faint); font-weight: 700; }
+
+  .body-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 28px; align-items: start; }
+  .body-grid > * { min-width: 0; }
+  .board {
+    position: sticky; top: 100px; display: grid; grid-template-columns: 1fr 150px 1fr; grid-template-areas: "heart fig bones" "organs fig skin";
+    gap: 12px; padding: 20px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--line);
+  }
+  .fig { grid-area: fig; align-self: center; cursor: default; }
+  .fig svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .co {
+    background: var(--surface); border-radius: 14px; padding: 12px 14px; border: 1px solid var(--line); border-left: 4px solid var(--body-line);
+    font-size: 13px; min-height: 120px; cursor: pointer; transition: border-color .25s, box-shadow .25s; min-width: 0;
+  }
+  .co b { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .co .cs { color: var(--faint); font-size: 12px; margin-bottom: 6px; }
+  .co .cv { color: var(--text); font-weight: 600; overflow-wrap: anywhere; }
+  .co .cv:empty { display: none; }
+  .co ol, .co ul { margin: 0; padding-left: 18px; }
+  .co li + li { margin-top: 2px; }
+  .co.heart { grid-area: heart; } .co.bones { grid-area: bones; } .co.organs { grid-area: organs; } .co.skin { grid-area: skin; }
+  .co.on { border-left-color: var(--green); }
+  .co.heart.on { border-left-color: var(--red); }
+  .co.on b { color: var(--green); }
+  .co.heart.on b { color: var(--red); }
+  .board[data-focus="heart"] .co.heart, .board[data-focus="bones"] .co.bones,
+  .board[data-focus="organs"] .co.organs, .board[data-focus="skin"] .co.skin { box-shadow: 0 0 0 3px var(--orange); }
+
+  .fig .p { transition: fill .35s, stroke .35s, opacity .35s; cursor: pointer; }
+  .fig .skin { fill: var(--body-off); stroke: var(--body-line); stroke-width: 2; stroke-dasharray: 5 4; }
+  .fig .organ { fill: var(--body-line); opacity: .45; }
+  .fig .bone { fill: none; stroke: var(--body-line); stroke-width: 4; stroke-linecap: round; }
+  .fig .spine { fill: none; stroke: var(--body-line); stroke-width: 6; stroke-dasharray: 7 3; }
+  .fig .heart-p { fill: var(--body-line); }
+  .fig.s-skin .skin { fill: var(--skin-on); stroke: var(--green); stroke-dasharray: none; }
+  .fig.s-o0 .o0, .fig.s-o1 .o1, .fig.s-o2 .o2 { fill: var(--organ); opacity: 1; }
+  .fig.s-b0 .b0, .fig.s-b1 .b1, .fig.s-b2 .b2, .fig.s-spine .spine { stroke: var(--green-dark); }
+  .fig.s-heart .heart-p { fill: var(--red); animation: beat 1.2s infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes beat { 0%, 60%, 100% { transform: scale(1); } 15% { transform: scale(1.18); } 30% { transform: scale(1.02); } 45% { transform: scale(1.12); } }
+  [data-focus="heart"] .heart-p, [data-focus="bones"] .bone, [data-focus="bones"] .spine,
+  [data-focus="organs"] .organ, [data-focus="skin"] .skin { filter: drop-shadow(0 0 5px var(--orange)); }
+  /* міні-фігура для телефона: видно, що вже зібрано, поки заповнюєш поля */
+  .mini-fig {
+    position: fixed; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 60; width: 74px; padding: 8px 6px 6px;
+    border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(15, 23, 42, .18);
+    cursor: pointer; opacity: 0; transform: translateY(20px); pointer-events: none; transition: opacity .25s, transform .25s;
+  }
+  .fig.mini-fig { width: 74px; }
+  .mini-fig.show { opacity: 1; transform: none; pointer-events: auto; }
+  .mini-fig svg { display: block; width: 100%; height: auto; }
+  .mini-fig .p { cursor: pointer; }
+  .mini-fig small { display: block; text-align: center; font-size: 11px; font-weight: 800; color: var(--muted); margin-top: 2px; }
+  @media (min-width: 1001px) { .mini-fig { display: none; } }
+  .fig-cap { text-align: center; font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 6px; }
+
+  .stages { display: grid; gap: 18px; }
+  .stage { position: relative; scroll-margin-top: 100px; }
+  .stage-head { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 12px; }
+  .stage-ic {
+    width: 48px; height: 48px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line);
+    display: grid; place-content: center; font-size: 24px; flex-shrink: 0; filter: grayscale(.8); transition: filter .3s, background .3s;
+  }
+  .stage.done .stage-ic { filter: none; background: var(--green-soft); border-color: transparent; }
+  .stage-head small { display: block; color: var(--green); font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  .stage-head h3 { margin: 0; font-size: 20px; line-height: 1.25; }
+  .stage-head .st-status { margin-left: auto; flex-shrink: 0; font-size: 12px; font-weight: 800; padding: 5px 10px; border-radius: 999px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); white-space: nowrap; }
+  .stage.done .st-status { background: var(--green); color: #fff; border-color: transparent; }
+  .lock-msg { display: none; margin: 0 0 12px; padding: 12px 14px; border-radius: 12px; background: var(--warn-bg); color: var(--warn-text); font-weight: 700; font-size: 15px; }
+  .stage.locked .lock-msg { display: block; }
+  .stage.locked .stage-body { opacity: .4; pointer-events: none; filter: grayscale(.6); }
+  .stage.locked .stage-ic::after { content: ""; }
+
+  .meter { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 14px; font-weight: 600; }
+  .meter .bar { flex: 1; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; max-width: 180px; }
+  .meter .bar i { display: block; height: 100%; width: 0; border-radius: 4px; transition: width .2s, background .2s; }
+  .meter .m-txt { color: var(--muted); }
+  .meter.good .m-txt { color: var(--green); }
+  .meter.warn .m-txt { color: var(--orange); }
+
+  .theses { display: grid; gap: 10px; }
+  .tin { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: center; }
+  .tin .n { width: 34px; height: 34px; border-radius: 50%; display: grid; place-content: center; font-weight: 900; background: var(--surface-2); border: 2px solid var(--line); color: var(--muted); transition: all .25s; }
+  .tin.ok .n { background: var(--green); border-color: var(--green); color: #fff; }
+
+  .orow { display: grid; grid-template-columns: 140px 150px 1fr 36px; gap: 8px; align-items: center; }
+  .orows { display: grid; gap: 8px; }
+  .orow .f { padding: 10px 12px; font-size: 15px; border-radius: 10px; }
+  .del {
+    width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+    cursor: pointer; font-size: 18px; line-height: 1;
+  }
+  .del:hover { color: var(--bad); border-color: var(--bad); }
+  .add { background: none; border: 2px dashed var(--line); color: var(--green); font-weight: 700; padding: 8px 14px; border-radius: 10px; cursor: pointer; font-size: 14px; margin-top: 10px; }
+  .add:hover { border-color: var(--green); }
+  .cover { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .cover span { font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: var(--warn-bg); color: var(--warn-text); }
+  .cover span.ok { background: var(--green-soft); color: var(--green); }
+
+  .win-banner {
+    display: none; margin-top: 24px; padding: 20px 24px; border-radius: var(--radius); background: var(--ink); color: var(--ink-text);
+    align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .win-banner.show { display: flex; animation: pop .5s; }
+  .win-banner .big { font-size: 40px; line-height: 1; }
+  .win-banner b { display: block; font-size: 18px; color: var(--ink-accent); }
+  .win-banner span { opacity: .8; }
+  .win-banner .btn { margin-left: auto; }
+  @keyframes pop { 0% { transform: scale(.96); opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+  /* ---------- Місія 2: композиція ---------- */
+  .comp-grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 28px; align-items: start; }
+  .comp-grid > * { min-width: 0; }
+  .comp-left { display: grid; gap: 20px; }
+  .tl { display: flex; border-radius: 12px; overflow: hidden; margin-top: 18px; gap: 3px; }
+  .tl div { padding: 10px 12px; color: #fff; min-width: 0; }
+  .tl div b { display: block; font-size: 14px; }
+  .tl div span { font-size: 13px; opacity: .9; font-variant-numeric: tabular-nums; }
+  .tl .t-in { flex: 20; background: var(--green-dark); }
+  .tl .t-main { flex: 60; background: var(--green); }
+  .tl .t-out { flex: 20; background: var(--green-dark); }
+  .part-bar {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: var(--sheet-head); color: #fff; padding: 10px 16px; border-radius: 12px; margin-bottom: 16px;
+  }
+  .part-bar b { font-size: 16px; }
+  .part-bar span { font-size: 13px; font-weight: 700; background: rgba(255,255,255,.18); padding: 3px 10px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+  .tech-in { display: grid; gap: 12px; margin-top: 16px; }
+  .tech-in:empty { display: none; }
+  .tech-in label { font-size: 14px; }
+  .pick-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+  .through { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .step-ctl { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 14px; }
+  .step-ctl button { width: 34px; height: 34px; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); color: var(--text); font-weight: 900; font-size: 18px; cursor: pointer; }
+  .step-ctl button:hover:not(:disabled) { border-color: var(--green); }
+  .step-ctl output { font-weight: 900; color: var(--text); min-width: 18px; text-align: center; font-variant-numeric: tabular-nums; }
+  .stairs-wrap { position: relative; padding-top: 40px; margin-bottom: 6px; }
+  .stairs { position: relative; height: 240px; display: grid; gap: 5px; align-items: end; border-bottom: 2px solid var(--muted); }
+  .st {
+    position: relative; border-radius: 10px 10px 0 0; background: var(--surface); border: 2px dashed var(--body-line); border-bottom: 0;
+    padding: 22px 6px 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; overflow: hidden;
+    transition: background .3s, border-color .3s, height .3s;
+  }
+  .st .num { position: absolute; top: 4px; left: 6px; font-size: 11px; font-weight: 900; color: var(--faint); }
+  .st .tag { font-size: 11px; font-weight: 800; color: #fff; background: var(--green-dark); padding: 2px 7px; border-radius: 6px; white-space: nowrap; }
+  .st.emo .tag { background: var(--orange); }
+  .st .txt { font-size: 11px; line-height: 1.3; color: var(--text); text-align: center; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+  .st.on { border-style: solid; border-color: var(--green); background: var(--green-soft); }
+  .st.emo.on { border-color: var(--orange); background: var(--orange-soft); }
+  .st.focus { box-shadow: 0 0 0 3px var(--orange); }
+  .st .tag .s { display: none; }
+  .through-line { position: absolute; left: 0; right: 0; top: 40px; bottom: 0; width: 100%; height: calc(100% - 40px); pointer-events: none; }
+  .through-line line { stroke: var(--green); stroke-width: 2; stroke-dasharray: 6 5; vector-effect: non-scaling-stroke; }
+  .flag { position: absolute; top: 0; right: 0; font-size: 12px; font-weight: 800; color: var(--muted); display: flex; align-items: center; gap: 4px; transition: color .3s; }
+  .flag i { font-style: normal; font-size: 24px; filter: grayscale(1); opacity: .5; transition: filter .3s, opacity .3s; }
+  .flag.on { color: var(--green); }
+  .flag.on i { filter: none; opacity: 1; }
+  .stair-cap { font-size: 13px; color: var(--muted); margin: 8px 0 16px; }
+  .stair-cap b { color: var(--green); }
+  .step-ins { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .step-ins label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .step-ins label .k { color: var(--green); }
+  .step-ins label .k.emo { color: var(--orange); }
+  .step-ins .f { padding: 10px 12px; font-size: 15px; }
+
+  .result { background: var(--ink); color: var(--ink-text); border-color: var(--ink); }
+  .section-white .result { background: var(--ink); }
+  .result h3 { margin: 0 0 4px; font-size: 20px; }
+  .result .sub { opacity: .7; font-size: 14px; margin: 0 0 16px; }
+  .sticky { position: sticky; top: 100px; max-height: calc(100vh - 120px); overflow: auto; }
+  .scen { display: grid; gap: 14px; font-size: 14px; }
+  .scen .blk { border-top: 1px solid rgba(255,255,255,.12); padding-top: 12px; }
+  .scen .tm { color: var(--ink-accent); font-weight: 800; font-variant-numeric: tabular-nums; font-size: 13px; }
+  .scen .ttl { font-weight: 800; font-size: 15px; margin: 2px 0 4px; }
+  .scen ul { margin: 0; padding-left: 18px; }
+  .scen li { margin: 3px 0; overflow-wrap: anywhere; }
+  .scen .empty { opacity: .45; font-style: italic; }
+  .result .btn { margin-top: 18px; width: 100%; }
+
+  /* ---------- Місія 3: домашнє ---------- */
+  .hw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .hw-grid > * { min-width: 0; }
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+  .tab {
+    text-align: left; padding: 12px 14px; border-radius: 14px; border: 2px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; min-width: 0;
+  }
+  .tab b { display: block; font-size: 15px; }
+  .tab small { display: block; color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tab .mbar { margin-top: 8px; height: 6px; }
+  .tab[aria-selected="true"] { border-color: var(--green); background: var(--green-soft); }
+  .tf { padding: 16px 0; border-top: 1px solid var(--line); scroll-margin-top: 100px; }
+  .tf:first-child { border-top: 0; padding-top: 0; }
+  .tf .lbl { display: flex; align-items: center; gap: 8px; }
+  .tf .rn { width: 24px; height: 24px; border-radius: 50%; display: inline-grid; place-content: center; font-size: 12px; font-weight: 900; background: var(--surface); border: 2px solid var(--line); color: var(--muted); flex-shrink: 0; transition: all .25s; }
+  .tf.ok .rn { background: var(--green); border-color: var(--green); color: #fff; }
+  .tf .hint { margin: 0 0 10px; font-size: 14px; }
+  .tf .chips { margin-bottom: 10px; }
+  .tf .chips.after { margin: 10px 0 0; }
+  .tf textarea { min-height: 70px; }
+  .t-theses { display: grid; gap: 8px; }
+  .t-theses .f { padding: 10px 12px; font-size: 15px; }
+
+  .sheet-card { padding: 0; overflow: hidden; }
+  .sheet-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .sheet-top b { font-size: 15px; }
+  .sheet-top small { color: var(--muted); font-size: 12px; }
+  .sheet-task { background: var(--sheet-head); color: #fff; font-weight: 700; font-size: 13px; padding: 12px 16px; margin: 14px 14px 8px; border-radius: 6px; line-height: 1.4; }
+  .sheet-wrap { padding: 0 14px 14px; }
+  table.sheet { width: 100%; border-collapse: separate; border-spacing: 3px; table-layout: fixed; font-size: 12px; }
+  .sheet th, .sheet td { padding: 7px 8px; border-radius: 3px; vertical-align: top; text-align: left; line-height: 1.3; }
+  .sheet thead th { font-size: 12px; color: var(--muted); font-weight: 800; padding: 4px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sheet thead th.cur { color: var(--green); }
+  .sheet th.rl { background: var(--sheet-lbl); color: #fff; font-weight: 700; width: 36%; }
+  .sheet th.rl::after { content: ""; }
+  .sheet td { background: var(--surface); border: 1px solid var(--line); color: var(--text); cursor: pointer; overflow-wrap: anywhere; transition: background .2s, box-shadow .2s; }
+  .sheet td .cl { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .sheet td.cur { background: var(--surface-2); }
+  .sheet td.filled { background: var(--green-soft); border-color: transparent; }
+  .sheet td.focus { box-shadow: 0 0 0 3px var(--orange); }
+  .sheet td:empty::before { content: " "; }
+  .sheet tr.done th.rl::after { content: " ✓"; }
+
+  .page-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 32px; }
+
+  /* ---------- Toasts / confetti ---------- */
+  .toasts { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 100; display: grid; gap: 8px; width: min(420px, calc(100% - 32px)); pointer-events: none; }
+  .toast {
+    display: flex; align-items: center; gap: 12px; background: var(--ink); color: var(--ink-text); padding: 12px 16px; border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.25); animation: tin .35s;
+  }
+  .toast .ti { font-size: 28px; line-height: 1; }
+  .toast b { display: block; color: var(--ink-accent); font-size: 15px; }
+  .toast span { font-size: 13px; opacity: .85; }
+  .toast.out { opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s; }
+  @keyframes tin { from { opacity: 0; transform: translateY(16px); } }
+  .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 99; overflow: hidden; }
+  .confetti i { position: absolute; top: -12px; width: 9px; height: 14px; border-radius: 2px; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(720deg); } }
+
+  footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1100px) {
+    .badges { grid-template-columns: repeat(5, 1fr); }
+    .menu { gap: 18px; }
+  }
+  @media (max-width: 1000px) {
+    .menu { display: none; }
+    .hero-grid, .body-grid, .comp-grid, .hw-grid { grid-template-columns: 1fr; }
+    .board { position: static; }
+    .sticky { position: static; max-height: none; }
+  }
+  @media (max-width: 640px) {
+    .brand-name { font-size: 19px; }
+    .brand-sub { display: none; }
+    .logo { width: 48px; height: 48px; }
+    .logo b { font-size: 19px; }
+    .logo small { font-size: 8px; }
+    .nav { min-height: 70px; gap: 10px; }
+    .hud { padding: 6px 10px 6px 8px; gap: 8px; }
+    .hud-txt { min-width: 0; width: 70px; }
+    .hud-txt b { display: none; }
+    .hud-ic { font-size: 22px; }
+    .card { padding: 20px; }
+    section { padding: 52px 0; scroll-margin-top: 70px; }
+    .hero { padding: 36px 0 32px; }
+    .quote { grid-template-columns: 1fr; gap: 4px; }
+    .mlist { grid-template-columns: 1fr; }
+    .badges { grid-template-columns: repeat(3, 1fr); }
+    .board { grid-template-columns: 1fr 1fr; grid-template-areas: "fig fig" "heart bones" "organs skin"; padding: 14px; }
+    .fig { width: 150px; justify-self: center; }
+    .toasts { top: 80px; bottom: auto; }
+    .co { min-height: 0; }
+    .orow { grid-template-columns: 1fr 1fr; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+    .orow input { grid-column: 1 / -1; }
+    .orow .del { grid-column: 1 / -1; justify-self: end; width: auto; padding: 0 12px; font-size: 14px; }
+    .orow .del::after { content: " Видалити"; }
+    .step-ins { grid-template-columns: 1fr; }
+    .stairs { height: 190px; gap: 3px; }
+    .st { padding: 18px 2px 4px; }
+    .st .txt { display: none; }
+    .st .tag { padding: 2px 4px; }
+    .st .tag .l { display: none; }
+    .st .tag .s { display: inline; }
+    .stage-head .st-status { display: none; }
+    .through { grid-template-columns: 1fr; }
+    .tl .t-in, .tl .t-out { min-width: 74px; }
+    .tl div { padding: 8px 7px; }
+    .tl div b { font-size: 12px; }
+    .tl div span { font-size: 11px; }
+    .sheet-wrap { padding: 0 8px 10px; }
+    .sheet-task { margin: 10px 8px 6px; }
+    table.sheet { font-size: 11px; }
+  }
+  @media (max-width: 400px) {
+    .board { grid-template-columns: 1fr; grid-template-areas: "fig" "heart" "bones" "organs" "skin"; }
+  }
+  @media print {
+    header, .page-actions, .add, .del, .toasts, .confetti, .btn, .btn-link, .step-ctl button, .tabs, details.ex { display: none !important; }
+    body { background: #fff; }
+    section { padding: 24px 0; }
+    .card { box-shadow: none; break-inside: avoid; }
+    .board, .sticky { position: static; max-height: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#top" class="brand" aria-label="Структура виступу — на початок">
+      <div class="logo"><b>02</b><small>заняття</small></div>
+      <div>
+        <div class="brand-name">Структура виступу</div>
+        <div class="brand-sub">Робочий зошит · Публічні виступи</div>
+      </div>
+    </a>
+    <nav class="menu">
+      <a href="#m1">Тіло виступу</a>
+      <a href="#m2">Композиція</a>
+      <a href="#m3">Домашнє</a>
+    </nav>
+    <div class="hud" id="hud" title="Твій прогрес: XP за кожну заповнену клітинку">
+      <span class="hud-ic" id="lvlIc" aria-hidden="true">🎤</span>
+      <div class="hud-txt">
+        <b id="lvlName">Рівень 1 · Розминка</b>
+        <div class="hud-bar"><i id="lvlBar"></i></div>
+      </div>
+      <span class="hud-xp"><span id="xp">0</span> XP</span>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge">Заняття 2 · Публічні виступи</span>
+      <h1>Структури виступу: <span class="accent">від 30 секунд до 2 годин</span></h1>
+      <p class="lead">Цифрова версія сторінок 35–37 робочого зошита. Пройди <strong>три місії</strong>: збери «тіло» свого виступу, вибудуй композицію зі сходинок «факт — емоція» і сплануй два найважливіші виступи цього тижня. За кожну заповнену клітинку отримуєш <strong>XP</strong>, за зібрані частини — <strong>нагороди</strong>. Відповіді зберігаються лише в цьому браузері.</p>
+      <div class="quote">
+        <div class="qq">“</div>
+        <p>Виступ побудований як людське тіло: без серця він мертвий, без кістяка — розсипається, без шкіри його ніхто не побачить.</p>
+      </div>
+
+      <div class="hero-grid">
+        <div class="card mood">
+          <h3>Наліпка настрою</h3>
+          <p>З яким настроєм починаєш заняття?</p>
+          <div class="sticker" id="sticker">наліпка настрою</div>
+          <div class="mood-row" id="moods"></div>
+        </div>
+        <div class="card missions">
+          <h3>Карта місій</h3>
+          <div class="mlist">
+            <a class="mcard" href="#m1" id="mc1"><span class="ic">🧍</span><small>Місія 1 · с. 35</small><b>Збери тіло виступу</b><div class="mbar"><i></i></div><div class="mpct">0%</div></a>
+            <a class="mcard" href="#m2" id="mc2"><span class="ic">🪜</span><small>Місія 2 · с. 36</small><b>Композиція виступу</b><div class="mbar"><i></i></div><div class="mpct">0%</div></a>
+            <a class="mcard" href="#m3" id="mc3"><span class="ic">🎯</span><small>Місія 3 · с. 37</small><b>Два виступи тижня</b><div class="mbar"><i></i></div><div class="mpct">0%</div></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="shelf">
+        <h3>Полиця нагород</h3>
+        <p>Нагороди відкриваються самі, коли заповнюєш частини виступу.</p>
+        <div class="badges" id="badges"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- МІСІЯ 1 -->
+  <section id="m1" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Місія 1 · Заняття 2.2.1 · с. 35</div>
+      <h2>Збери тіло виступу</h2>
+      <p class="section-lead">Збирай у правильному порядку: спочатку <strong>серце</strong> — одна думка, з якою слухач піде. Потім <strong>кістяк</strong>. Далі <strong>органи</strong>. <strong>Шкіра</strong> — останньою: вона нічого не врятує, якщо всередині порожньо. Усе, що пишеш, одразу з'являється на схемі тіла — натисни на частину тіла, щоб перейти до її поля.</p>
+
+      <div class="order" id="order">
+        <span class="os" data-o="0"><i>1</i>❤️ Серце</span><span class="arrow">→</span>
+        <span class="os" data-o="1"><i>2</i>🦴 Кістяк</span><span class="arrow">→</span>
+        <span class="os" data-o="2"><i>3</i>🫁 Органи</span><span class="arrow">→</span>
+        <span class="os" data-o="3"><i>4</i>✋ Шкіра</span>
+      </div>
+
+      <div class="body-grid">
+        <div class="board" id="board">
+          <div class="co heart" data-go="heart"><b>Серце</b><div class="cs">Головна ідея, яку хочеш донести</div><div class="cv" id="coHeart"></div></div>
+          <div class="co bones" data-go="bones"><b>Кістяк</b><div class="cs">Структура твого виступу</div><div class="cv" id="coBones"></div></div>
+          <div class="fig" id="fig">
+            <svg viewBox="0 0 200 300" role="img" aria-label="Схема тіла виступу: серце, кістяк, внутрішні органи, шкіра">
+              <g data-go="skin">
+                <rect class="p skin" x="70" y="196" width="24" height="94" rx="12"/>
+                <rect class="p skin" x="106" y="196" width="24" height="94" rx="12"/>
+                <rect class="p skin" x="34" y="80" width="17" height="112" rx="8.5" transform="rotate(10 42 84)"/>
+                <rect class="p skin" x="149" y="80" width="17" height="112" rx="8.5" transform="rotate(-10 158 84)"/>
+                <rect class="p skin" x="56" y="74" width="88" height="132" rx="36"/>
+                <rect class="p skin" x="91" y="60" width="18" height="18" rx="4"/>
+                <circle class="p skin" cx="100" cy="42" r="25"/>
+              </g>
+              <g data-go="organs">
+                <ellipse class="p organ o0" cx="81" cy="120" rx="12" ry="22"/>
+                <ellipse class="p organ o1" cx="119" cy="120" rx="12" ry="22"/>
+                <ellipse class="p organ o2" cx="100" cy="170" rx="21" ry="13"/>
+              </g>
+              <g data-go="bones">
+                <path class="p spine" d="M100 82 L100 194"/>
+                <path class="p bone b0" d="M98 100 C88 96 74 98 69 110 M102 100 C112 96 126 98 131 110"/>
+                <path class="p bone b1" d="M98 120 C88 116 74 118 69 130 M102 120 C112 116 126 118 131 130"/>
+                <path class="p bone b2" d="M98 140 C88 136 74 138 70 150 M102 140 C112 136 126 138 130 150"/>
+              </g>
+              <path class="p heart-p" data-go="heart" d="M104 130 L92 118 C86 112 88 102 96 102 C100 102 103 105 104 107 C105 105 108 102 112 102 C120 102 122 112 116 118 Z"/>
+            </svg>
+            <div class="fig-cap" id="figCap">0 / 4 частин</div>
+          </div>
+          <div class="co organs" data-go="organs"><b>Внутрішні органи</b><div class="cs">Історії, притчі, факти, які розповідатимеш</div><div class="cv" id="coOrgans"></div></div>
+          <div class="co skin" data-go="skin"><b>Шкіра</b><div class="cs">Твоя невербаліка і руки</div><div class="cv" id="coSkin"></div></div>
+        </div>
+
+        <div class="stages">
+          <!-- 1. Серце -->
+          <div class="card stage" id="stHeart" data-zone="heart">
+            <div class="stage-head">
+              <div class="stage-ic">❤️</div>
+              <div><small>Крок 1 · Серце</small><h3>Головна ідея, яку хочеш донести</h3></div>
+              <span class="st-status">в роботі</span>
+            </div>
+            <div class="stage-body">
+              <label class="lbl" for="heartIn">Одна думка, з якою слухач піде після мого виступу</label>
+              <p class="hint">Одне речення, яке людина зможе переказати другові. Не тема («про продажі»), а думка («Продає не знижка, а довіра»).</p>
+              <textarea id="heartIn" data-k="heart" placeholder="Напр.: 10 хвилин руху щодня важать більше, ніж година в спортзалі раз на тиждень"></textarea>
+              <div class="meter" id="heartMeter"><div class="bar"><i></i></div><span class="m-txt">Напиши одне речення</span></div>
+              <details class="ex"><summary>Підглянути приклад</summary><p>Тема «Здоров'я на роботі» → серце: «10 хвилин руху щодня важать більше, ніж година в спортзалі раз на тиждень».<br>Тема «Нетворкінг» → серце: «Корисні знайомства починаються з того, що ти даєш, а не просиш».</p></details>
+            </div>
+          </div>
+
+          <!-- 2. Кістяк -->
+          <div class="card stage" id="stBones" data-zone="bones">
+            <div class="stage-head">
+              <div class="stage-ic">🦴</div>
+              <div><small>Крок 2 · Кістяк</small><h3>Три тези кістяка</h3></div>
+              <span class="st-status">в роботі</span>
+            </div>
+            <p class="lock-msg">🔒 Спочатку дай виступу серце — напиши головну думку.</p>
+            <div class="stage-body">
+              <p class="hint">Три опори, які доводять головну думку. Кожна теза — коротке твердження. Прибери будь-яку — і серце має «провиснути».</p>
+              <div class="theses">
+                <div class="tin"><span class="n">1</span><input class="f" id="th0" data-k="theses.0" placeholder="Теза 1 — перший аргумент"></div>
+                <div class="tin"><span class="n">2</span><input class="f" id="th1" data-k="theses.1" placeholder="Теза 2 — другий аргумент"></div>
+                <div class="tin"><span class="n">3</span><input class="f" id="th2" data-k="theses.2" placeholder="Теза 3 — третій аргумент"></div>
+              </div>
+              <details class="ex"><summary>Підглянути приклад</summary><p>Серце: «10 хвилин руху щодня важать більше, ніж година в спортзалі раз на тиждень».<br>1) Рух запускає мозок краще за каву. 2) Короткі заняття легко зробити звичкою. 3) Регулярність перемагає інтенсивність.</p></details>
+            </div>
+          </div>
+
+          <!-- 3. Органи -->
+          <div class="card stage" id="stOrgans" data-zone="organs">
+            <div class="stage-head">
+              <div class="stage-ic">🫁</div>
+              <div><small>Крок 3 · Внутрішні органи</small><h3>Історії, притчі, факти, які розповідатимеш</h3></div>
+              <span class="st-status">в роботі</span>
+            </div>
+            <p class="lock-msg">🔒 Спершу збери кістяк — усі три тези.</p>
+            <div class="stage-body">
+              <p class="hint">Органи дають виступу життя. До кожної тези додай хоча б одну історію, притчу, факт чи цифру: обери тип, тезу, яку цей «орган» живить, і коротко запиши суть.</p>
+              <div class="orows" id="organRows"></div>
+              <button type="button" class="add" id="addOrgan">+ Додати орган</button>
+              <div class="cover" id="cover"></div>
+              <details class="ex"><summary>Підглянути приклад</summary><p>📖 Історія → Теза 1: як замість третьої кави 20 присідань допомогли нарешті дописати звіт.<br>📊 Цифра → Теза 3: 15 хвилин щодня — це 91 година на рік.</p></details>
+            </div>
+          </div>
+
+          <!-- 4. Шкіра -->
+          <div class="card stage" id="stSkin" data-zone="skin">
+            <div class="stage-head">
+              <div class="stage-ic">✋</div>
+              <div><small>Крок 4 · Шкіра</small><h3>Твоя невербаліка і руки</h3></div>
+              <span class="st-status">в роботі</span>
+            </div>
+            <p class="lock-msg">🔒 Шкіра — останньою. Додай хоча б один «орган».</p>
+            <div class="stage-body">
+              <p class="hint">Шкіра — те, що бачать першим: погляд, жести, голос, рух. Обери щонайменше <b>3 прийоми</b>, які свідомо використаєш.</p>
+              <div class="chips" id="skinChips"></div>
+              <label class="lbl" for="anchorIn" style="margin-top:16px">Мій жест-якір для головної думки</label>
+              <input class="f" id="anchorIn" data-k="anchor" placeholder="Напр.: долоня до серця, коли кажу головну думку">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="win-banner" id="win1">
+        <span class="big">🧍</span>
+        <div><b>Тіло виступу зібрано!</b><span>Серце б'ється, кістяк тримає, органи живлять, шкіра світиться.</span></div>
+        <a href="#m2" class="btn btn-sm">До композиції →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- МІСІЯ 2 -->
+  <section id="m2">
+    <div class="container">
+      <div class="eyebrow">Місія 2 · Заняття 2.2.2 · с. 36</div>
+      <h2>Композиція виступу</h2>
+      <p class="section-lead">Будь-який виступ — від 30 секунд до 2 годин — ділиться <strong>20 / 60 / 20</strong>. Обери тривалість, і сторінка порахує час на кожну частину. Основну частину будуй <strong>сходами</strong>: чергуй факт і емоцію, тримаючи наскрізну ідею. А в картці «Твій сценарій» одразу складається таймінг і текст.</p>
+
+      <div class="comp-grid">
+        <div class="comp-left">
+          <div class="card">
+            <label class="lbl">Скільки триватиме виступ?</label>
+            <div class="chips" id="durChips"></div>
+            <div class="tl" aria-hidden="true">
+              <div class="t-in"><b>Вступ</b><span id="tIn">20%</span></div>
+              <div class="t-main"><b>Основна частина</b><span id="tMain">60%</span></div>
+              <div class="t-out"><b>Висновок</b><span id="tOut">20%</span></div>
+            </div>
+          </div>
+
+          <div class="card" data-zone="intro">
+            <div class="part-bar"><b>Вступ</b><span id="pbIn">20%</span></div>
+            <label class="lbl">Обери 1–2 прийоми, з яких почнеш</label>
+            <div class="chips" id="introChips"></div>
+            <div class="tech-in" id="introIns"></div>
+            <p class="pick-note" id="introNote">Натисни на прийом — з'явиться поле, де треба дослівно записати, як почнеш.</p>
+          </div>
+
+          <div class="card" data-zone="main">
+            <div class="part-bar"><b>Основна частина</b><span id="pbMain">60%</span></div>
+            <label class="lbl" for="throughIn">Наскрізна ідея — пунктир, що веде від першої сходинки до висновку</label>
+            <div class="through">
+              <input class="f" id="throughIn" data-k="through" placeholder="Головна думка виступу">
+              <button type="button" class="btn btn-sm btn-outline" id="fromHeart">❤️ Взяти серце з місії 1</button>
+            </div>
+            <div class="step-ctl">
+              Сходинок:
+              <button type="button" id="stepMinus" aria-label="Менше сходинок">−</button>
+              <output id="stepN">6</output>
+              <button type="button" id="stepPlus" aria-label="Більше сходинок">+</button>
+              <span id="stepRec"></span>
+            </div>
+            <div class="stairs-wrap">
+              <div class="flag" id="flag"><i>🏁</i>висновок</div>
+              <svg class="through-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="100" x2="100" y2="0"/></svg>
+              <div class="stairs" id="stairs"></div>
+            </div>
+            <p class="stair-cap">Чергуй <b>факт</b> + <b style="color:var(--orange)">емоцію</b>, тримаючи наскрізну ідею: <span id="throughCap">—</span></p>
+            <div class="step-ins" id="stepIns"></div>
+          </div>
+
+          <div class="card" data-zone="outro">
+            <div class="part-bar"><b>Висновок</b><span id="pbOut">20%</span></div>
+            <label class="lbl">Обери 1–2 прийоми для фіналу</label>
+            <div class="chips" id="outroChips"></div>
+            <div class="tech-in" id="outroIns"></div>
+            <p class="pick-note">Фінал запам'ятовують найкраще — запиши останню фразу дослівно.</p>
+          </div>
+        </div>
+
+        <div class="card result sticky">
+          <h3>🎬 Твій сценарій</h3>
+          <p class="sub" id="scenSub">Обери тривалість — і тут з'явиться таймінг.</p>
+          <div class="scen" id="scen"></div>
+          <button type="button" class="btn btn-sm" id="copyScen">Скопіювати сценарій</button>
+        </div>
+      </div>
+
+      <div class="win-banner" id="win2">
+        <span class="big">🪜</span>
+        <div><b>Композицію побудовано!</b><span>Сильний старт, сходи до вершини і фінал, що запам'ятовують.</span></div>
+        <a href="#m3" class="btn btn-sm">До домашнього →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- МІСІЯ 3 -->
+  <section id="m3" class="section-white">
+    <div class="container">
+      <div class="eyebrow">Місія 3 · Домашнє завдання · Заняття 2.2.3 · с. 37</div>
+      <h2>Два найважливіші виступи цього тижня</h2>
+      <p class="section-lead">Підготуйся до двох найважливіших виступів цього тижня — презентація, знайомство, виступ чи навіть дружня бесіда — за схемою. Заповнюй форму, а в таблиці із зошита одразу видно, яку клітинку ти заповнюєш.</p>
+
+      <div class="hw-grid">
+        <div class="card">
+          <div class="tabs" role="tablist" id="tabs">
+            <button type="button" class="tab" role="tab" data-tab="0"><b>🎤 Виступ 1</b><small>не названо</small><div class="mbar"><i></i></div></button>
+            <button type="button" class="tab" role="tab" data-tab="1"><b>🎤 Виступ 2</b><small>не названо</small><div class="mbar"><i></i></div></button>
+          </div>
+          <div id="talkForm"></div>
+        </div>
+
+        <div class="card sheet-card sticky">
+          <div class="sheet-top"><b>📒 Таблиця із зошита</b><small id="sheetCnt">0 / 30 клітинок</small></div>
+          <div class="sheet-task">Підготуйся до двох найважливіших виступів цього тижня (презентація, знайомство, виступ чи навіть дружня бесіда) за схемою:</div>
+          <div class="sheet-wrap">
+            <table class="sheet" id="sheet">
+              <thead><tr><th></th><th id="sh0">Виступ 1</th><th id="sh1">Виступ 2</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="win-banner" id="win3">
+        <span class="big">🏆</span>
+        <div><b>Сцена чекає!</b><span>Обидва виступи сплановані. Після виступу повернись і відміть, що спрацювало.</span></div>
+      </div>
+
+      <div class="page-actions">
+        <button type="button" class="btn btn-outline" id="printBtn">🖨 Роздрукувати / зберегти PDF</button>
+        <button type="button" class="btn btn-outline" id="resetAll">Очистити всі відповіді</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>© <span id="year"></span> Заняття 2 · Структури виступу: від 30 секунд до 2 годин</div>
+    <div>Відповіді зберігаються лише в цьому браузері.</div>
+  </div>
+</footer>
+
+<div class="fig mini-fig" id="miniFig" title="Схема тіла виступу — натисни, щоб побачити повністю" aria-hidden="true"></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const has = s => typeof s === 'string' && s.trim().length > 0;
+  const trunc = (s, n) => { s = s.trim(); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
+
+  // ---------- довідники ----------
+  const MOODS = [
+    { e: '😴', l: 'Сонливість' }, { e: '😟', l: 'Тривога' }, { e: '😐', l: 'Спокій' },
+    { e: '🙂', l: 'Добрий настрій' }, { e: '😃', l: 'Радість' }, { e: '🔥', l: 'Вогонь!' },
+  ];
+  const DUR = [
+    { id: '30s', l: '30 сек', s: 30 }, { id: '1m', l: '1 хв', s: 60 }, { id: '3m', l: '3 хв', s: 180 },
+    { id: '5m', l: '5 хв', s: 300 }, { id: '10m', l: '10 хв', s: 600 }, { id: '20m', l: '20 хв', s: 1200 },
+    { id: '45m', l: '45 хв', s: 2700 }, { id: '1h', l: '1 год', s: 3600 }, { id: '2h', l: '2 год', s: 7200 },
+  ];
+  // прийоми вступу й висновку (зі сторінки «Композиція виступу»)
+  const TECH = {
+    fact:      { e: '💡', l: 'Цікавий факт',        ph: '«Чи знаєте ви, що…» — факт, який здивує' },
+    numbers:   { e: '📊', l: 'Вражаючі цифри',      ph: 'Одна цифра, яка вражає: «8 секунд — стільки…»' },
+    question:  { e: '❓', l: 'Запитання',            ph: 'Питання до залу: «Підніміть руку, хто…»' },
+    personal:  { e: '🙋', l: 'Особиста історія',     ph: 'Короткий випадок із твого життя: де, що сталося, чим скінчилося' },
+    others:    { e: '👥', l: 'Історії інших людей',  ph: 'Історія клієнта, друга чи відомої людини' },
+    joke:      { e: '😄', l: 'Жарт',                 ph: 'Легкий жарт по темі, без образ' },
+    selfintro: { e: '🪪', l: 'Самопрезентація',      ph: 'Хто ти і чому тебе варто слухати — 1–2 речення' },
+    rules:     { e: '⏱', l: 'Регламент',             ph: 'Скільки триватиме, коли можна ставити питання' },
+    compliment:{ e: '💐', l: 'Комплімент',           ph: 'Щирий комплімент залу' },
+    parable:   { e: '📜', l: 'Притча',               ph: 'Коротка притча чи байка з мораллю' },
+    exercise:  { e: '🤸', l: 'Вправа',               ph: 'Що попросиш зробити зал: встати, записати, порахувати…' },
+    event:     { e: '📰', l: 'Актуальна подія',      ph: 'Новина чи подія, про яку всі чули' },
+    problem:   { e: '⚠️', l: 'Проблема',             ph: 'Біль аудиторії, яку розв\'язує твій виступ' },
+    quote:     { e: '❝', l: 'Цитата',               ph: '«Цитата» — автор' },
+    summary:   { e: '📌', l: 'Основні моменти',      ph: 'Коротко повтори 2–3 головні тези' },
+    cta:       { e: '📣', l: 'Заклик',               ph: 'Що саме зробити просто сьогодні' },
+  };
+  const INTRO = ['fact', 'numbers', 'question', 'personal', 'others', 'joke', 'selfintro', 'rules', 'compliment', 'parable', 'exercise', 'event', 'problem', 'quote'];
+  const OUTRO = ['summary', 'cta', 'fact', 'numbers', 'question', 'personal', 'others', 'joke', 'compliment', 'parable', 'exercise', 'event', 'problem', 'quote'];
+  const ORGAN_TYPES = [
+    { id: 'story', l: '📖 Історія', ph: 'Коротко: хто, що сталося, чим скінчилося' },
+    { id: 'parable', l: '📜 Притча', ph: 'Назва притчі або її суть одним реченням' },
+    { id: 'fact', l: '💡 Факт', ph: 'Факт, який підтверджує тезу' },
+    { id: 'number', l: '📊 Цифра', ph: 'Цифра + джерело: «8 з 10 людей…»' },
+    { id: 'analogy', l: '🔗 Аналогія', ph: '«… — це як …»' },
+    { id: 'quote', l: '❝ Цитата', ph: '«Цитата» — автор' },
+  ];
+  const SKIN = [
+    { id: 'eyes', l: '👀 Зоровий контакт з усім залом' },
+    { id: 'palms', l: '🤲 Відкриті долоні' },
+    { id: 'pause', l: '⏸ Пауза перед головною думкою' },
+    { id: 'smile', l: '🙂 Усмішка на старті' },
+    { id: 'stance', l: '🧍 Стійка на двох ногах' },
+    { id: 'move', l: '🚶 Крок на кожну нову тезу' },
+    { id: 'voice', l: '🔊 Голос гучніше на ключових словах' },
+    { id: 'slow', l: '🐢 Повільний темп у фіналі' },
+  ];
+  const KINDS = [
+    { id: 'pres', e: '📊', l: 'Презентація' }, { id: 'meet', e: '👋', l: 'Знайомство' }, { id: 'speech', e: '🎤', l: 'Виступ' },
+    { id: 'talk', e: '☕', l: 'Дружня бесіда' }, { id: 'meeting', e: '🗂', l: 'Нарада' }, { id: 'interview', e: '💼', l: 'Співбесіда' },
+  ];
+  const GOALS = [
+    { id: 'inform', e: '📢', l: 'Проінформувати' }, { id: 'persuade', e: '🤝', l: 'Переконати' }, { id: 'inspire', e: '✨', l: 'Надихнути' },
+    { id: 'sell', e: '💰', l: 'Продати' }, { id: 'teach', e: '🎓', l: 'Навчити' }, { id: 'meet', e: '👋', l: 'Познайомитися' }, { id: 'fun', e: '🎉', l: 'Розважити' },
+  ];
+  const EMOS = [
+    { id: 'inspire', e: '✨', l: 'Натхнення' }, { id: 'joy', e: '😊', l: 'Радість' }, { id: 'trust', e: '🤝', l: 'Довіра' },
+    { id: 'drive', e: '🔥', l: 'Азарт' }, { id: 'wonder', e: '😮', l: 'Здивування' }, { id: 'calm', e: '🌿', l: 'Спокій' },
+    { id: 'pride', e: '🏅', l: 'Гордість' }, { id: 'care', e: '💛', l: 'Співчуття' }, { id: 'resolve', e: '💪', l: 'Рішучість' },
+  ];
+  const WHO = ['Клієнти', 'Команда', 'Керівник', 'Інвестори', 'Партнери', 'Друзі', 'Родина', 'Студенти', 'Нові знайомі'];
+  const AFTER = ['Купують', 'Записуються', 'Підтримують ідею', 'Розповідають іншим', 'Пробують самі', 'Призначають зустріч', 'Дають зворотний зв\'язок'];
+  const TPL = {
+    compliment: ['Мені приємно бачити тут людей, які …', 'Ви — команда, яка вже …', 'Дякую, що знайшли час серед …'],
+    positive: ['Я вірю, що вже завтра ви …', 'Ви вже зробили найважливіше — …', 'Нехай цей тиждень принесе вам …'],
+    analogy: ['… — це як …, тому що …', 'Уявіть, що … — це …'],
+  };
+  // рядки таблиці домашнього завдання — точно як у зошиті
+  const TROWS = [
+    { k: 'goal', l: 'Ціль виступу' },
+    { k: 'dur', l: 'Орієнтовна тривалість' },
+    { k: 'who', l: 'На кого впливатиму' },
+    { k: 't0', l: 'Ключова теза 1' }, { k: 't1', l: 'Ключова теза 2' }, { k: 't2', l: 'Ключова теза 3' },
+    { k: 't3', l: 'Ключова теза 4' }, { k: 't4', l: 'Ключова теза 5' },
+    { k: 'after', l: 'Що зроблять учасники після виступу' },
+    { k: 'compliment', l: 'Комплімент на початок' },
+    { k: 'positive', l: 'Позитив на завершення' },
+    { k: 'story', l: 'Історію, яку використаю' },
+    { k: 'parable', l: 'Притчі чи байки, які розповім' },
+    { k: 'analogy', l: 'Аналогію, яку використаю' },
+    { k: 'emotion', l: 'Домінуюча емоція виступу' },
+  ];
+  const LEVELS = [
+    { xp: 0, e: '🎤', l: 'Рівень 1 · Розминка' },
+    { xp: 80, e: '🗣', l: 'Рівень 2 · Перший крок на сцену' },
+    { xp: 200, e: '🎙', l: 'Рівень 3 · Впевнений голос' },
+    { xp: 350, e: '🌟', l: 'Рівень 4 · Зал слухає' },
+    { xp: 500, e: '🏆', l: 'Рівень 5 · Овації' },
+  ];
+  const ACH = [
+    { id: 'mood', e: '🎨', l: 'Наліпка настрою', d: 'Настрій зафіксовано' },
+    { id: 'heart', e: '❤️', l: 'Серце б\'ється', d: 'Головна думка є' },
+    { id: 'bones', e: '🦴', l: 'Кістяк зібрано', d: 'Три тези на місці' },
+    { id: 'organs', e: '🫁', l: 'Живий організм', d: 'Кожна теза має свій «орган»' },
+    { id: 'skin', e: '✋', l: 'Шкіра світиться', d: '3+ прийоми невербаліки' },
+    { id: 'start', e: '🚀', l: 'Сильний старт', d: 'Вступ продумано' },
+    { id: 'stairs', e: '🪜', l: 'Сходи до вершини', d: 'Усі сходинки заповнено' },
+    { id: 'finale', e: '🏁', l: 'Фінал, що запам\'ятовують', d: 'Висновок продумано' },
+    { id: 'talk1', e: '🎯', l: 'Перший виступ', d: 'Усі 15 рядків заповнено' },
+    { id: 'talk2', e: '🏆', l: 'Подвійний удар', d: 'Обидва виступи сплановано' },
+  ];
+
+  // ---------- стан ----------
+  const KEY = 'spe-lesson2-speech-v1';
+  const blankTalk = () => ({ kind: '', name: '', goal: '', goalText: '', dur: '', who: '', t0: '', t1: '', t2: '', t3: '', t4: '', after: '', compliment: '', positive: '', story: '', parable: '', analogy: '', emotion: '' });
+  const DEFAULTS = () => ({
+    mood: -1,
+    heart: '', theses: ['', '', ''],
+    organs: [{ type: 'story', thesis: 0, text: '' }, { type: 'fact', thesis: 1, text: '' }, { type: 'parable', thesis: 2, text: '' }],
+    skin: [], anchor: '',
+    dur: '', intro: [], introText: {}, outro: [], outroText: {},
+    through: '', stepN: 6, steps: ['', '', '', '', '', '', '', ''],
+    talks: [blankTalk(), blankTalk()], tab: 0,
+    seen: [], lvl: 0, party: false,
+  });
+  let S = DEFAULTS();
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && typeof s === 'object') {
+      const d = DEFAULTS();
+      S = Object.assign(d, s);
+      S.talks = [0, 1].map(i => Object.assign(blankTalk(), (s.talks || [])[i] || {}));
+      if (!Array.isArray(S.steps) || S.steps.length < 8) S.steps = d.steps.map((v, i) => (s.steps || [])[i] || '');
+      if (!Array.isArray(S.theses) || S.theses.length !== 3) S.theses = d.theses;
+      if (!Array.isArray(S.organs)) S.organs = d.organs;
+    }
+  } catch (e) {}
+  let saveTimer;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 250);
+  }
+  const getPath = p => p.split('.').reduce((o, k) => (o == null ? o : o[k]), S);
+  function setPath(p, v) {
+    const ks = p.split('.'); let o = S;
+    for (let i = 0; i < ks.length - 1; i++) o = o[ks[i]];
+    o[ks[ks.length - 1]] = v;
+  }
+
+  // ---------- форматування часу ----------
+  function fmtDur(sec) {
+    sec = Math.round(sec);
+    if (sec < 60) return sec + ' сек';
+    const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = sec % 60;
+    if (h) return h + ' год' + (m ? ' ' + m + ' хв' : '');
+    return m + ' хв' + (s ? ' ' + s + ' с' : '');
+  }
+  function clock(sec) {
+    sec = Math.round(sec);
+    const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = String(sec % 60).padStart(2, '0');
+    return h ? h + ':' + String(m).padStart(2, '0') + ':' + s : m + ':' + s;
+  }
+  const durSec = id => (DUR.find(d => d.id === id) || {}).s || 0;
+  const recSteps = s => s <= 60 ? 2 : s <= 300 ? 4 : s <= 1200 ? 6 : 8;
+  const isEmo = i => i % 2 === 1;
+
+  // ---------- статичний рендер ----------
+  $('year').textContent = new Date().getFullYear();
+  $('moods').innerHTML = MOODS.map((m, i) => `<button type="button" data-mood="${i}" aria-pressed="false" title="${m.l}" aria-label="${m.l}">${m.e}</button>`).join('');
+  $('badges').innerHTML = ACH.map(a => `<div class="bdg" id="b-${a.id}" title="${esc(a.d)}"><i>${a.e}</i>${esc(a.l)}</div>`).join('');
+  $('skinChips').innerHTML = SKIN.map(o => `<button type="button" class="chip" data-skin="${o.id}" aria-pressed="false">${o.l}</button>`).join('');
+  $('durChips').innerHTML = DUR.map(d => `<button type="button" class="chip" data-dur="${d.id}" aria-pressed="false">⏱ ${d.l}</button>`).join('');
+  const techChips = (list, key) => list.map(id => `<button type="button" class="chip" data-pick="${id}" data-list="${key}" aria-pressed="false">${TECH[id].e} ${TECH[id].l}</button>`).join('');
+  $('introChips').innerHTML = techChips(INTRO, 'intro');
+  $('outroChips').innerHTML = techChips(OUTRO, 'outro');
+
+  // форма домашнього завдання
+  const chipRow = (group, items) => `<div class="chips">${items.map(o => `<button type="button" class="chip" data-tchip="${group}" data-v="${o.id}" aria-pressed="false">${o.e} ${o.l}</button>`).join('')}</div>`;
+  const addRow = (field, items) => `<div class="chips after">${items.map(v => `<button type="button" class="chip add-chip" data-tappend="${field}" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>`;
+  const tplRow = (field, items) => `<div class="chips after">${items.map(v => `<button type="button" class="chip add-chip" data-tins="${field}" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>`;
+  const rowNum = k => TROWS.findIndex(r => r.k === k) + 1;
+  const tf = (k, label, hint, body) => `<div class="tf" data-row="${k}" id="tf-${k}"><label class="lbl"${['dur', 'emotion'].includes(k) ? '' : ` for="tin-${k}"`}>${k === 'name' ? '<span class="rn">★</span>' : `<span class="rn">${rowNum(k)}</span>`}${label}</label><p class="hint">${hint}</p>${body}</div>`;
+  $('talkForm').innerHTML = [
+    tf('name', 'Що це за виступ?', 'Обери формат і коротко назви подію — так його буде видно в шапці таблиці.',
+      chipRow('kind', KINDS) + `<input class="f" id="tin-name" data-t="name" placeholder="Напр.: презентація проєкту в понеділок о 10:00">`),
+    tf('goal', 'Ціль виступу', 'Чого хочеш досягти? Обери головну ціль і допиши конкретику.',
+      chipRow('goal', GOALS) + `<input class="f" id="tin-goal" data-t="goalText" placeholder="Конкретно: щоб керівник погодив бюджет на рекламу">`),
+    tf('dur', 'Орієнтовна тривалість', 'Від цього залежить, скільки тез і історій влізе (пам\'ятай про 20 / 60 / 20).',
+      `<div class="chips">${DUR.map(d => `<button type="button" class="chip" data-tchip="dur" data-v="${d.id}" aria-pressed="false">⏱ ${d.l}</button>`).join('')}</div>`),
+    tf('who', 'На кого впливатиму', 'Хто саме слухатиме і чиє рішення тобі важливе. Натисни варіант, щоб додати, або впиши своє.',
+      `<input class="f" id="tin-who" data-t="who" placeholder="Напр.: керівник відділу та двоє колег">` + addRow('who', WHO)),
+    tf('t0', 'Ключові тези 1–5', 'Короткі твердження, які доводять головну думку. Для короткого виступу вистачить 2–3 — решту можна лишити порожніми.',
+      `<div class="t-theses">${[0, 1, 2, 3, 4].map(i => `<input class="f" id="tin-t${i}" data-t="t${i}" data-rowkey="t${i}" placeholder="Ключова теза ${i + 1}">`).join('')}</div><button type="button" class="btn-link" id="fromBones">🦴 Підставити три тези з кістяка (місія 1)</button>`),
+    tf('after', 'Що зроблять учасники після виступу', 'Конкретна дія слухачів — так ти зрозумієш, чи спрацював виступ.',
+      `<input class="f" id="tin-after" data-t="after" placeholder="Напр.: запишуться на тест-драйв до п'ятниці">` + addRow('after', AFTER)),
+    tf('compliment', 'Комплімент на початок', 'Щира приємна фраза залу чи співрозмовнику в перші 30 секунд. Можна почати з шаблону.',
+      `<textarea id="tin-compliment" data-t="compliment" placeholder="Що щиро цінуєш у цих людях?"></textarea>` + tplRow('compliment', TPL.compliment)),
+    tf('positive', 'Позитив на завершення', 'Остання фраза, з якою люди підуть: побажання, віра в них, світла думка.',
+      `<textarea id="tin-positive" data-t="positive" placeholder="Чим закінчиш на позитивній ноті?"></textarea>` + tplRow('positive', TPL.positive)),
+    tf('story', 'Історію, яку використаю', 'Особиста чи чужа історія: герой → проблема → що зробив → результат.',
+      `<textarea id="tin-story" data-t="story" placeholder="Коротко: хто, що сталося, чим скінчилося"></textarea>`),
+    tf('parable', 'Притчі чи байки, які розповім', 'Коротка притча чи байка з мораллю, яка підсилює тезу.',
+      `<textarea id="tin-parable" data-t="parable" placeholder="Назва або суть притчі в одному-двох реченнях"></textarea>`),
+    tf('analogy', 'Аналогію, яку використаю', 'Порівняння складного з простим і знайомим.',
+      `<input class="f" id="tin-analogy" data-t="analogy" placeholder="Напр.: бюджет без плану — це як подорож без карти">` + tplRow('analogy', TPL.analogy)),
+    tf('emotion', 'Домінуюча емоція виступу', 'Яке одне почуття має переважати у слухачів?',
+      chipRow('emotion', EMOS)),
+  ].join('');
+  // поля тез мають власний рядок у таблиці
+  document.querySelectorAll('[data-rowkey]').forEach(el => { el.dataset.row = el.dataset.rowkey; });
+
+  $('sheet').querySelector('tbody').innerHTML = TROWS.map(r =>
+    `<tr id="sr-${r.k}"><th class="rl" scope="row">${esc(r.l)}</th><td data-cell="0" data-k="${r.k}"></td><td data-cell="1" data-k2="${r.k}"></td></tr>`
+  ).join('');
+  // data-k у таблиці зайве для прив'язки полів — прибираємо, щоб не плутати з полями вводу
+  $('sheet').querySelectorAll('td').forEach(td => { const k = td.dataset.k || td.dataset.k2; td.removeAttribute('data-k'); td.removeAttribute('data-k2'); td.dataset.rk = k; });
+
+  // ---------- динамічні списки ----------
+  function thesisLabel(i) { return 'Теза ' + (i + 1) + (has(S.theses[i]) ? ': ' + trunc(S.theses[i], 22) : ''); }
+  function renderOrgans() {
+    $('organRows').innerHTML = S.organs.map((o, i) => `
+      <div class="orow" data-i="${i}">
+        <select class="f" data-of="type" aria-label="Тип органу">${ORGAN_TYPES.map(t => `<option value="${t.id}"${t.id === o.type ? ' selected' : ''}>${t.l}</option>`).join('')}</select>
+        <select class="f" data-of="thesis" aria-label="Яку тезу живить">${[0, 1, 2].map(t => `<option value="${t}"${t === +o.thesis ? ' selected' : ''}>${esc(thesisLabel(t))}</option>`).join('')}</select>
+        <input class="f" data-of="text" value="${esc(o.text)}" placeholder="${esc((ORGAN_TYPES.find(t => t.id === o.type) || ORGAN_TYPES[0]).ph)}" aria-label="Суть">
+        <button type="button" class="del" data-del="${i}" aria-label="Видалити">×</button>
+      </div>`).join('');
+  }
+  function renderTechInputs(key) {
+    const box = $(key + 'Ins');
+    box.innerHTML = S[key].map(id => `
+      <div><label class="lbl" for="ti-${key}-${id}">${TECH[id].e} ${TECH[id].l} — як саме?</label>
+      <textarea class="f" id="ti-${key}-${id}" data-tech="${id}" data-list="${key}" placeholder="${esc(TECH[id].ph)}" style="min-height:64px">${esc(S[key + 'Text'][id] || '')}</textarea></div>`).join('');
+  }
+  function renderSteps() {
+    const n = S.stepN;
+    $('stairs').style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+    $('stairs').innerHTML = Array.from({ length: n }, (_, i) => `
+      <div class="st${isEmo(i) ? ' emo' : ''}" data-st="${i}" style="height:${Math.round(22 + 78 * (i + 1) / n)}%">
+        <span class="num">${i + 1}</span>
+        <span class="tag"><span class="l">${isEmo(i) ? 'емоція' : 'факт'}</span><span class="s">${isEmo(i) ? 'Е' : 'Ф'}</span></span>
+        <span class="txt"></span>
+      </div>`).join('');
+    $('stepIns').innerHTML = Array.from({ length: n }, (_, i) => `
+      <div><label for="sti-${i}">Сходинка ${i + 1} · <span class="k${isEmo(i) ? ' emo' : ''}">${isEmo(i) ? 'емоція' : 'факт'}</span></label>
+      <input class="f" id="sti-${i}" data-k="steps.${i}" data-step="${i}" value="${esc(S.steps[i] || '')}" placeholder="${isEmo(i) ? 'Історія, образ, жарт, який зачепить' : 'Факт, цифра, аргумент'}"></div>`).join('');
+    $('stepN').textContent = n;
+    $('stepMinus').disabled = n <= 2;
+    $('stepPlus').disabled = n >= 8;
+  }
+  function fillTalkForm() {
+    const t = S.talks[S.tab];
+    document.querySelectorAll('[data-t]').forEach(el => { el.value = t[el.dataset.t] || ''; });
+    document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', String(+b.dataset.tab === S.tab)));
+  }
+
+  // ---------- обчислення ----------
+  const wordsOf = s => (s.trim().match(/\S+/g) || []).length;
+  const organsFilled = () => S.organs.filter(o => has(o.text));
+  const covered = t => S.organs.some(o => +o.thesis === t && has(o.text));
+  const stepsFilled = () => S.steps.slice(0, S.stepN).filter(has).length;
+  const techDone = key => S[key].some(id => has(S[key + 'Text'][id]));
+  function talkVal(t, k) {
+    if (k === 'goal') { const g = GOALS.find(x => x.id === t.goal); return [g ? g.e + ' ' + g.l : '', t.goalText.trim()].filter(Boolean).join(': '); }
+    if (k === 'dur') { const d = DUR.find(x => x.id === t.dur); return d ? d.l : ''; }
+    if (k === 'emotion') { const e = EMOS.find(x => x.id === t.emotion); return e ? e.e + ' ' + e.l : ''; }
+    return (t[k] || '').trim();
+  }
+  const talkFilled = t => TROWS.filter(r => talkVal(t, r.k)).length;
+  const stage = {
+    heart: () => S.heart.trim().length >= 5,
+    bones: () => S.theses.every(has),
+    organs1: () => organsFilled().length >= 1,
+    organs: () => [0, 1, 2].every(covered),
+    skin: () => S.skin.length >= 3,
+  };
+
+  function xpParts() {
+    const m1 = (stage.heart() ? 40 : 0) + S.theses.filter(has).length * 15 + Math.min(organsFilled().length, 5) * 10
+      + [0, 1, 2].filter(covered).length * 10 + Math.min(S.skin.length, 6) * 5 + (has(S.anchor) ? 10 : 0);
+    const m2 = (S.dur ? 10 : 0) + (S.intro.length ? 10 : 0) + (techDone('intro') ? 20 : 0)
+      + Math.round(60 * stepsFilled() / S.stepN) + ((has(S.through) || stage.heart()) ? 10 : 0)
+      + (S.outro.length ? 10 : 0) + (techDone('outro') ? 20 : 0);
+    const m3 = S.talks.reduce((a, t) => a + talkFilled(t) * 6 + ((t.kind || has(t.name)) ? 10 : 0), 0);
+    return { m1, m2, m3, mood: S.mood >= 0 ? 10 : 0 };
+  }
+  const MAX = { m1: 205, m2: 140, m3: 200 };
+  function achieved() {
+    return {
+      mood: S.mood >= 0, heart: stage.heart(), bones: stage.bones(),
+      organs: stage.organs() && organsFilled().length >= 3, skin: stage.skin(),
+      start: S.intro.length > 0 && techDone('intro'), stairs: stepsFilled() === S.stepN,
+      finale: S.outro.length > 0 && techDone('outro'),
+      talk1: S.talks.some(t => talkFilled(t) === TROWS.length), talk2: S.talks.every(t => talkFilled(t) === TROWS.length),
+    };
+  }
+
+  // ---------- оновлення всього, що видно ----------
+  let firstRun = true, lastXp = null;
+  function update() {
+    // місія 1 — схема тіла
+    const bonesOn = S.theses.map(has);
+    const nOrg = organsFilled().length;
+    [$('fig'), $('miniFig')].forEach(fig => {
+      fig.classList.toggle('s-heart', stage.heart());
+      bonesOn.forEach((on, i) => fig.classList.toggle('s-b' + i, on));
+      fig.classList.toggle('s-spine', stage.bones());
+      [0, 1, 2].forEach(i => fig.classList.toggle('s-o' + i, nOrg > i));
+      fig.classList.toggle('s-skin', stage.skin());
+    });
+
+    $('coHeart').textContent = has(S.heart) ? '«' + S.heart.trim() + '»' : '';
+    $('coBones').innerHTML = S.theses.some(has) ? '<ol>' + S.theses.map(t => `<li>${has(t) ? esc(t) : '<span style="color:var(--faint)">…</span>'}</li>`).join('') + '</ol>' : '';
+    $('coOrgans').innerHTML = nOrg ? '<ul>' + organsFilled().map(o => `<li>${esc((ORGAN_TYPES.find(t => t.id === o.type) || ORGAN_TYPES[0]).l.split(' ')[0])} T${+o.thesis + 1}: ${esc(trunc(o.text, 40))}</li>`).join('') + '</ul>' : '';
+    $('coSkin').innerHTML = (S.skin.length || has(S.anchor)) ? '<ul>' + S.skin.map(id => `<li>${esc((SKIN.find(s => s.id === id) || {}).l || '')}</li>`).join('') + (has(S.anchor) ? `<li>Якір: ${esc(S.anchor)}</li>` : '') + '</ul>' : '';
+    const done1 = [stage.heart(), stage.bones(), stage.organs(), stage.skin()];
+    document.querySelector('.co.heart').classList.toggle('on', done1[0]);
+    document.querySelector('.co.bones').classList.toggle('on', done1[1]);
+    document.querySelector('.co.organs').classList.toggle('on', done1[2]);
+    document.querySelector('.co.skin').classList.toggle('on', done1[3]);
+    $('figCap').textContent = done1.filter(Boolean).length + ' / 4 частин';
+    $('miniCap').textContent = done1.filter(Boolean).length + ' / 4';
+    document.querySelectorAll('#order .os').forEach((el, i) => el.classList.toggle('done', done1[i]));
+
+    // замки й статуси кроків
+    const unlocked = [true, stage.heart(), stage.bones(), stage.organs1()];
+    ['stHeart', 'stBones', 'stOrgans', 'stSkin'].forEach((id, i) => {
+      const el = $(id), lock = !unlocked[i];
+      el.classList.toggle('locked', lock);
+      el.classList.toggle('done', done1[i] && !lock);
+      el.querySelectorAll('.stage-body input, .stage-body textarea, .stage-body select, .stage-body button').forEach(c => { c.disabled = lock; });
+      el.querySelector('.st-status').textContent = lock ? '🔒 закрито' : done1[i] ? '✓ зібрано' : 'в роботі';
+    });
+
+    // лічильник слів для серця
+    const w = wordsOf(S.heart), hm = $('heartMeter'), bar = hm.querySelector('i');
+    let txt = 'Напиши одне речення', cls = '', pct = 0, col = 'var(--line)';
+    if (w > 0 && w <= 2) { txt = 'Поки що це тема. Перетвори її на думку'; cls = 'warn'; pct = 20; col = 'var(--orange)'; }
+    else if (w >= 3 && w <= 15) { txt = `✓ ${w} слів — влучно: одна думка, одне речення`; cls = 'good'; pct = 100; col = 'var(--green)'; }
+    else if (w > 15 && w <= 25) { txt = `${w} слів — трохи довго, спробуй скоротити`; cls = 'warn'; pct = 70; col = 'var(--orange)'; }
+    else if (w > 25) { txt = `${w} слів — задовго, слухач не запам'ятає. Залиш до 15`; cls = 'warn'; pct = 40; col = 'var(--bad)'; }
+    hm.className = 'meter ' + cls; hm.querySelector('.m-txt').textContent = txt; bar.style.width = pct + '%'; bar.style.background = col;
+    $('heartIn').classList.toggle('ok', stage.heart());
+    S.theses.forEach((t, i) => { $('th' + i).closest('.tin').classList.toggle('ok', has(t)); });
+
+    // органи: підписи тез і покриття
+    document.querySelectorAll('#organRows select[data-of="thesis"]').forEach(sel => {
+      [...sel.options].forEach((op, t) => { op.textContent = thesisLabel(t); });
+    });
+    $('cover').innerHTML = [0, 1, 2].map(t => `<span class="${covered(t) ? 'ok' : ''}">${covered(t) ? '✓' : '○'} Теза ${t + 1}${covered(t) ? ' жива' : ' — додай орган'}</span>`).join('');
+
+    // шкіра
+    document.querySelectorAll('[data-skin]').forEach(b => b.setAttribute('aria-pressed', String(S.skin.includes(b.dataset.skin))));
+    // настрій
+    document.querySelectorAll('[data-mood]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.mood === S.mood)));
+    const st = $('sticker');
+    st.classList.toggle('on', S.mood >= 0);
+    st.innerHTML = S.mood >= 0 ? `<span class="big">${MOODS[S.mood].e}</span>${esc(MOODS[S.mood].l)}` : 'наліпка настрою';
+
+    $('win1').classList.toggle('show', done1.every(Boolean));
+
+    // місія 2
+    const total = durSec(S.dur);
+    document.querySelectorAll('[data-dur]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.dur === S.dur)));
+    const parts = total ? [total * .2, total * .6, total * .2] : null;
+    $('tIn').textContent = parts ? '20% · ' + fmtDur(parts[0]) : '20%';
+    $('tMain').textContent = parts ? '60% · ' + fmtDur(parts[1]) : '60%';
+    $('tOut').textContent = parts ? '20% · ' + fmtDur(parts[2]) : '20%';
+    $('pbIn').textContent = parts ? '20% · ~' + fmtDur(parts[0]) : '20%';
+    $('pbMain').textContent = parts ? '60% · ~' + fmtDur(parts[1]) : '60%';
+    $('pbOut').textContent = parts ? '20% · ~' + fmtDur(parts[2]) : '20%';
+    $('stepRec').textContent = total ? `· для ${DUR.find(d => d.id === S.dur).l} радимо ${recSteps(total)}` : '· обери тривалість — підкажемо, скільки треба';
+    ['intro', 'outro'].forEach(key => {
+      document.querySelectorAll(`[data-list="${key}"][data-pick]`).forEach(b => b.setAttribute('aria-pressed', String(S[key].includes(b.dataset.pick))));
+    });
+    $('introNote').style.display = S.intro.length ? 'none' : '';
+    const through = has(S.through) ? S.through.trim() : (has(S.heart) ? S.heart.trim() : '');
+    $('throughIn').placeholder = has(S.heart) ? 'Серце з місії 1: ' + trunc(S.heart, 60) : 'Головна думка виступу';
+    $('throughCap').textContent = through ? '«' + through + '»' : '— (впиши вище)';
+    document.querySelectorAll('#stairs .st').forEach((el, i) => {
+      const v = S.steps[i] || '';
+      el.classList.toggle('on', has(v));
+      el.querySelector('.txt').textContent = v.trim();
+      el.title = `Сходинка ${i + 1}: ${has(v) ? v.trim() : 'порожньо'}`;
+    });
+    $('flag').classList.toggle('on', stepsFilled() === S.stepN);
+    renderScenario(parts, through);
+    const a = achieved();
+    $('win2').classList.toggle('show', a.start && a.stairs && a.finale && !!S.dur);
+
+    // місія 3
+    document.querySelectorAll('[data-tchip]').forEach(b => {
+      const t = S.talks[S.tab];
+      b.setAttribute('aria-pressed', String(t[b.dataset.tchip] === b.dataset.v));
+    });
+    const tcur = S.talks[S.tab];
+    TROWS.forEach(r => {
+      const box = r.k.startsWith('t') && /^t\d$/.test(r.k) ? null : $('tf-' + r.k);
+      if (box) box.classList.toggle('ok', !!talkVal(tcur, r.k));
+    });
+    $('tf-t0').classList.toggle('ok', [0, 1, 2].every(i => has(tcur['t' + i])));
+    $('tf-name').classList.toggle('ok', !!(tcur.kind || has(tcur.name)));
+    let cells = 0;
+    S.talks.forEach((t, ti) => {
+      const kind = KINDS.find(k => k.id === t.kind);
+      const head = (kind ? kind.e + ' ' : '') + (has(t.name) ? trunc(t.name, 28) : kind ? kind.l : 'Виступ ' + (ti + 1));
+      $('sh' + ti).textContent = head; $('sh' + ti).title = head;
+      $('sh' + ti).classList.toggle('cur', ti === S.tab);
+      const tab = document.querySelector(`.tab[data-tab="${ti}"]`);
+      tab.querySelector('small').textContent = has(t.name) ? t.name.trim() : kind ? kind.l : 'не названо';
+      const nf = talkFilled(t); cells += nf;
+      tab.querySelector('.mbar i').style.width = Math.round(nf / TROWS.length * 100) + '%';
+    });
+    TROWS.forEach(r => {
+      const tr = $('sr-' + r.k);
+      let allRow = true;
+      tr.querySelectorAll('td').forEach(td => {
+        const ti = +td.dataset.cell, v = talkVal(S.talks[ti], r.k);
+        td.innerHTML = v ? `<span class="cl">${esc(v)}</span>` : '';
+        td.classList.toggle('filled', !!v);
+        td.classList.toggle('cur', ti === S.tab);
+        if (!v) allRow = false;
+      });
+      tr.classList.toggle('done', allRow);
+    });
+    $('sheetCnt').textContent = cells + ' / ' + TROWS.length * 2 + ' клітинок';
+    $('win3').classList.toggle('show', a.talk2);
+
+    // XP, рівні, нагороди
+    const xp = xpParts();
+    const total_xp = xp.m1 + xp.m2 + xp.m3 + xp.mood;
+    $('xp').textContent = total_xp;
+    let lv = 0; LEVELS.forEach((L, i) => { if (total_xp >= L.xp) lv = i; });
+    const next = LEVELS[lv + 1];
+    $('lvlIc').textContent = LEVELS[lv].e;
+    $('lvlName').textContent = LEVELS[lv].l;
+    $('lvlBar').style.width = (next ? Math.round((total_xp - LEVELS[lv].xp) / (next.xp - LEVELS[lv].xp) * 100) : 100) + '%';
+    $('hud').title = next ? `${LEVELS[lv].l}. До наступного рівня: ${next.xp - total_xp} XP` : `${LEVELS[lv].l}. Максимальний рівень!`;
+    if (lastXp !== null && total_xp > lastXp) { const h = $('hud'); h.classList.remove('bump'); void h.offsetWidth; h.classList.add('bump'); }
+    lastXp = total_xp;
+    [['mc1', xp.m1 / MAX.m1], ['mc2', xp.m2 / MAX.m2], ['mc3', xp.m3 / MAX.m3]].forEach(([id, f]) => {
+      const p = Math.min(100, Math.round(f * 100)), el = $(id);
+      el.querySelector('.mbar i').style.width = p + '%';
+      el.querySelector('.mpct').textContent = p === 100 ? '✓ Пройдено' : p + '%';
+      el.classList.toggle('done', p === 100);
+    });
+    ACH.forEach(x => $('b-' + x.id).classList.toggle('on', a[x.id]));
+
+    if (firstRun) {
+      // при завантаженні не вітаємо повторно з тим, що вже було
+      ACH.forEach(x => { if (a[x.id] && !S.seen.includes(x.id)) S.seen.push(x.id); });
+      S.lvl = Math.max(S.lvl, lv);
+      firstRun = false;
+    } else {
+      ACH.forEach(x => {
+        if (a[x.id] && !S.seen.includes(x.id)) { S.seen.push(x.id); toast(x.e, 'Нагорода: ' + x.l, x.d); }
+      });
+      if (lv > S.lvl) { S.lvl = lv; toast(LEVELS[lv].e, 'Новий рівень!', LEVELS[lv].l); }
+      if (ACH.every(x => a[x.id]) && !S.party) { S.party = true; confetti(); toast('🎉', 'Усі нагороди зібрано!', 'Сцена твоя.'); }
+    }
+  }
+
+  function scenarioData(parts, through) {
+    const tl = parts ? [[0, parts[0]], [parts[0], parts[0] + parts[1]], [parts[0] + parts[1], parts[0] + parts[1] + parts[2]]] : null;
+    const tech = key => S[key].map(id => ({ head: TECH[id].e + ' ' + TECH[id].l, text: (S[key + 'Text'][id] || '').trim() }));
+    const steps = S.steps.slice(0, S.stepN).map((v, i) => ({ head: (i + 1) + '. ' + (isEmo(i) ? 'емоція' : 'факт'), text: v.trim() }));
+    return [
+      { name: 'Вступ', tm: tl && tl[0], items: tech('intro'), empty: 'Обери прийом для вступу' },
+      { name: 'Основна частина', tm: tl && tl[1], lead: through ? 'Наскрізна ідея: «' + through + '»' : '', items: steps, empty: '' },
+      { name: 'Висновок', tm: tl && tl[2], items: tech('outro'), empty: 'Обери прийом для фіналу' },
+    ];
+  }
+  function renderScenario(parts, through) {
+    const total = durSec(S.dur);
+    $('scenSub').textContent = total ? 'Загалом ' + DUR.find(d => d.id === S.dur).l + ' · таймінг 20 / 60 / 20' : 'Обери тривалість — і тут з\'явиться таймінг.';
+    $('scen').innerHTML = scenarioData(parts, through).map(b => `
+      <div class="blk">
+        <div class="tm">${b.tm ? clock(b.tm[0]) + ' – ' + clock(b.tm[1]) : '—'}</div>
+        <div class="ttl">${b.name}</div>
+        ${b.lead ? `<div style="opacity:.8;margin-bottom:4px">${esc(b.lead)}</div>` : ''}
+        ${b.items.length ? '<ul>' + b.items.map(it => `<li><b>${esc(it.head)}</b>${it.text ? ': ' + esc(it.text) : ' <span class="empty">— допиши</span>'}</li>`).join('') + '</ul>' : `<div class="empty">${b.empty}</div>`}
+      </div>`).join('');
+  }
+  function scenarioText() {
+    const total = durSec(S.dur);
+    const parts = total ? [total * .2, total * .6, total * .2] : null;
+    const through = has(S.through) ? S.through.trim() : (has(S.heart) ? S.heart.trim() : '');
+    const lines = ['Сценарій виступу' + (total ? ' (' + DUR.find(d => d.id === S.dur).l + ')' : '')];
+    if (has(S.heart)) lines.push('Серце: ' + S.heart.trim());
+    scenarioData(parts, through).forEach(b => {
+      lines.push('', (b.tm ? clock(b.tm[0]) + '–' + clock(b.tm[1]) + ' ' : '') + b.name.toUpperCase());
+      if (b.lead) lines.push(b.lead);
+      b.items.forEach(it => lines.push('• ' + it.head + (it.text ? ': ' + it.text : '')));
+    });
+    return lines.join('\n');
+  }
+
+  // ---------- тости й конфеті ----------
+  function toast(ic, title, sub) {
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.innerHTML = `<span class="ti">${ic}</span><div><b>${esc(title)}</b><span>${esc(sub || '')}</span></div>`;
+    $('toasts').appendChild(el);
+    while ($('toasts').children.length > 3) $('toasts').firstChild.remove();
+    setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 320); }, 3200);
+  }
+  function confetti() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const box = $('confetti'), cols = ['#16a34a', '#f6b81a', '#e8791c', '#e11d48', '#1b3a8a', '#4ade80'];
+    for (let i = 0; i < 90; i++) {
+      const p = document.createElement('i');
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.background = cols[i % cols.length];
+      p.style.animationDuration = (2 + Math.random() * 2) + 's';
+      p.style.animationDelay = Math.random() * .6 + 's';
+      box.appendChild(p);
+    }
+    setTimeout(() => { box.innerHTML = ''; }, 5000);
+  }
+
+  // ---------- події: введення ----------
+  document.addEventListener('input', e => {
+    const el = e.target;
+    if (el.dataset.k) setPath(el.dataset.k, el.value);
+    else if (el.dataset.of) {
+      const i = +el.closest('.orow').dataset.i, f = el.dataset.of;
+      S.organs[i][f] = f === 'thesis' ? +el.value : el.value;
+      if (f === 'type') el.closest('.orow').querySelector('[data-of="text"]').placeholder = ORGAN_TYPES.find(t => t.id === el.value).ph;
+    }
+    else if (el.dataset.tech) S[el.dataset.list + 'Text'][el.dataset.tech] = el.value;
+    else if (el.dataset.t) S.talks[S.tab][el.dataset.t] = el.value;
+    else return;
+    save(); update();
+  });
+
+  // ---------- підсвітка: де саме з'явиться те, що пишеш ----------
+  function clearFocus() {
+    $('board').dataset.focus = ''; $('miniFig').dataset.focus = '';
+    document.querySelectorAll('.st.focus, .sheet td.focus').forEach(x => x.classList.remove('focus'));
+  }
+  document.addEventListener('focusin', e => {
+    clearFocus();
+    const el = e.target;
+    const z = el.closest('[data-zone]');
+    if (z && ['heart', 'bones', 'organs', 'skin'].includes(z.dataset.zone)) $('board').dataset.focus = $('miniFig').dataset.focus = z.dataset.zone;
+    if (el.dataset.step != null) { const s = document.querySelector(`.st[data-st="${el.dataset.step}"]`); if (s) s.classList.add('focus'); }
+    const rowEl = el.closest('#talkForm [data-row]');
+    const k = el.dataset.row || (rowEl && rowEl.dataset.row);
+    if (k && k !== 'name') { const td = document.querySelector(`#sr-${k} td[data-cell="${S.tab}"]`); if (td) td.classList.add('focus'); }
+  });
+  document.addEventListener('focusout', e => { if (!e.relatedTarget) clearFocus(); });
+
+  function focusEl(el) {
+    if (!el) return;
+    el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+    setTimeout(() => el.focus({ preventScroll: true }), 250);
+  }
+  const LOCK_MSG = { bones: 'Спочатку напиши серце — головну думку.', organs: 'Спершу збери кістяк — три тези.', skin: 'Шкіра — останньою. Додай хоча б один орган.' };
+  function goZone(z) {
+    const unlocked = { heart: true, bones: stage.heart(), organs: stage.bones(), skin: stage.organs1() };
+    if (!unlocked[z]) { toast('🔒', 'Ще закрито', LOCK_MSG[z]); return; }
+    if (z === 'heart') focusEl($('heartIn'));
+    if (z === 'bones') focusEl($('th' + Math.max(0, S.theses.findIndex(t => !has(t)))) || $('th0'));
+    if (z === 'organs') focusEl([...document.querySelectorAll('#organRows [data-of="text"]')].find(i => !has(i.value)) || $('addOrgan'));
+    if (z === 'skin') focusEl(document.querySelector('[data-skin]'));
+  }
+
+  // ---------- події: кліки ----------
+  document.addEventListener('click', e => {
+    if (e.target.closest('#miniFig')) { $('board').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+    const t = e.target.closest('button, [data-go], [data-st], td[data-cell]');
+    if (!t) return;
+    if (t.dataset.go) { goZone(t.dataset.go); return; }
+    if (t.dataset.st != null) { focusEl($('sti-' + t.dataset.st)); return; }
+    if (t.matches('td[data-cell]')) {
+      const ti = +t.dataset.cell, k = t.dataset.rk;
+      if (ti !== S.tab) { S.tab = ti; fillTalkForm(); update(); save(); }
+      const target = /^t\d$/.test(k) ? $('tin-' + k) : k === 'goal' ? $('tin-goal') : k === 'dur' || k === 'emotion' ? document.querySelector(`#tf-${k} .chip`) : $('tin-' + k);
+      focusEl(target);
+      return;
+    }
+    if (t.dataset.mood != null) { const m = +t.dataset.mood; S.mood = S.mood === m ? -1 : m; }
+    else if (t.dataset.skin) { const id = t.dataset.skin; S.skin = S.skin.includes(id) ? S.skin.filter(x => x !== id) : [...S.skin, id]; }
+    else if (t.dataset.dur) { S.dur = S.dur === t.dataset.dur ? '' : t.dataset.dur; }
+    else if (t.dataset.pick) {
+      const key = t.dataset.list, id = t.dataset.pick;
+      if (S[key].includes(id)) S[key] = S[key].filter(x => x !== id);
+      else if (S[key].length >= 2) { toast('✋', 'Досить двох прийомів', 'Зніми один, щоб обрати інший.'); return; }
+      else S[key] = [...S[key], id];
+      renderTechInputs(key);
+      if (S[key].includes(id)) setTimeout(() => { const f = $(`ti-${key}-${id}`); if (f) f.focus(); }, 0);
+    }
+    else if (t.dataset.tchip) { const tk = S.talks[S.tab], g = t.dataset.tchip; tk[g] = tk[g] === t.dataset.v ? '' : t.dataset.v; }
+    else if (t.dataset.tappend) {
+      const f = t.dataset.tappend, tk = S.talks[S.tab], cur = (tk[f] || '').trim(), v = t.dataset.v;
+      if (cur.split(/,\s*/).includes(v)) return;
+      tk[f] = cur ? cur + ', ' + v : v;
+      $('tin-' + f).value = tk[f];
+    }
+    else if (t.dataset.tins) {
+      const f = t.dataset.tins, tk = S.talks[S.tab], cur = (tk[f] || '').trim();
+      tk[f] = cur ? cur + ' ' + t.dataset.v : t.dataset.v;
+      const inp = $('tin-' + f); inp.value = tk[f];
+      inp.focus();
+      const pos = tk[f].indexOf('…', tk[f].length - t.dataset.v.length);
+      if (pos >= 0) inp.setSelectionRange(pos, pos + 1);
+    }
+    else if (t.dataset.tab != null) { S.tab = +t.dataset.tab; fillTalkForm(); }
+    else if (t.dataset.del != null) {
+      S.organs.splice(+t.dataset.del, 1);
+      if (!S.organs.length) S.organs.push({ type: 'story', thesis: 0, text: '' });
+      renderOrgans();
+    }
+    else if (t.id === 'addOrgan') {
+      const t0 = [0, 1, 2].find(i => !covered(i));
+      S.organs.push({ type: 'story', thesis: t0 == null ? 0 : t0, text: '' });
+      renderOrgans();
+      setTimeout(() => { const ins = document.querySelectorAll('#organRows [data-of="text"]'); ins[ins.length - 1].focus(); }, 0);
+    }
+    else if (t.id === 'stepMinus' || t.id === 'stepPlus') {
+      S.stepN = Math.min(8, Math.max(2, S.stepN + (t.id === 'stepPlus' ? 1 : -1)));
+      renderSteps();
+    }
+    else if (t.id === 'fromHeart') {
+      if (!has(S.heart)) { toast('❤️', 'Серце ще порожнє', 'Напиши головну думку в місії 1.'); return; }
+      S.through = S.heart.trim(); $('throughIn').value = S.through;
+    }
+    else if (t.id === 'fromBones') {
+      if (!S.theses.some(has)) { toast('🦴', 'Кістяк ще порожній', 'Запиши три тези в місії 1.'); return; }
+      const tk = S.talks[S.tab];
+      [0, 1, 2].forEach(i => { if (!has(tk['t' + i]) && has(S.theses[i])) tk['t' + i] = S.theses[i].trim(); });
+      fillTalkForm();
+    }
+    else if (t.id === 'copyScen') { copy(scenarioText(), t); return; }
+    else if (t.id === 'printBtn') { window.print(); return; }
+    else return;
+    save(); update();
+  });
+
+  function copy(text, btn) {
+    const done = () => { const o = btn.textContent; btn.textContent = '✓ Скопійовано'; setTimeout(() => { btn.textContent = o; }, 1800); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, () => fallback());
+    else fallback();
+    function fallback() {
+      const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) { toast('⚠️', 'Не вдалося скопіювати', 'Виділи текст вручну.'); }
+      ta.remove();
+    }
+  }
+
+  // ---------- очищення ----------
+  // підтвердження прямо на кнопці: перший клік питає, другий (протягом 4 с) очищає
+  let resetArmed = null;
+  $('resetAll').addEventListener('click', () => {
+    const btn = $('resetAll');
+    if (!resetArmed) {
+      btn.textContent = 'Точно очистити? Натисни ще раз';
+      resetArmed = setTimeout(() => { resetArmed = null; btn.textContent = 'Очистити всі відповіді'; }, 4000);
+      return;
+    }
+    clearTimeout(resetArmed); resetArmed = null;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    S = DEFAULTS();
+    firstRun = true; lastXp = null;
+    init();
+    btn.textContent = 'Відповіді очищено';
+    setTimeout(() => { btn.textContent = 'Очистити всі відповіді'; }, 2000);
+  });
+
+  // міні-фігура: копія схеми, видно лише в місії 1, коли велика схема поза екраном
+  $('miniFig').innerHTML = $('fig').querySelector('svg').outerHTML + '<small id="miniCap">0 / 4</small>';
+  $('miniFig').querySelectorAll('[data-go]').forEach(el => el.removeAttribute('data-go'));
+  if ('IntersectionObserver' in window) {
+    let inM1 = false, boardVisible = false;
+    const sync = () => $('miniFig').classList.toggle('show', inM1 && !boardVisible);
+    new IntersectionObserver(es => { inM1 = es[0].isIntersecting; sync(); }).observe($('m1'));
+    new IntersectionObserver(es => { boardVisible = es[0].isIntersecting; sync(); }, { threshold: .25 }).observe($('fig'));
+  }
+
+  function init() {
+    document.querySelectorAll('[data-k]').forEach(el => { if (el.closest('#stepIns')) return; const v = getPath(el.dataset.k); el.value = v == null ? '' : v; });
+    renderOrgans(); renderTechInputs('intro'); renderTechInputs('outro'); renderSteps(); fillTalkForm();
+    update();
+  }
+  init();
+</script>
+</body>
+</html>
