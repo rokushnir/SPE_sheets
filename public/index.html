@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Рада директорів</title>
+<meta name="description" content="Гра для підлітків: принеси бізнес-ідею, і рада директорів з чотирьох персонажів розбере її по кісточках.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <a class="brand" href="#" id="brand" aria-label="Рада директорів, на головну">
+      <span class="brand__mark" aria-hidden="true">
+        <i style="background:var(--cfo)"></i><i style="background:var(--cco)"></i><i style="background:var(--lawyer)"></i><i style="background:var(--coo)"></i>
+      </span>
+      <span class="brand__name">Рада директорів</span>
+    </a>
+    <div class="topbar__right">
+      <div class="level" id="levelBox" hidden>
+        <span class="level__name" id="levelName">Мрійник</span>
+        <span class="level__bar"><span id="levelFill"></span></span>
+        <span class="level__xp mono" id="xpValue">0 XP</span>
+      </div>
+      <button class="provider" id="providerBadge" type="button" aria-describedby="providerNote">Демо-режим</button>
+    </div>
+  </header>
+  <p class="provider-note" id="providerNote" hidden></p>
+
+  <!-- ЕКРАН 1: ЛОБІ -->
+  <main id="lobby" class="screen">
+    <section class="hero">
+      <div class="hero__text">
+        <p class="eyebrow">Бізнес-гра для тих, у кого є ідея, але немає команди</p>
+        <h1>Принеси ідею.<br>Рада скаже правду.</h1>
+        <p class="lead">За столом сидять четверо директорів. Кожен дивиться на твою ідею зі свого боку, ставить незручні питання і сперечається з іншими. Відповідай, відкривай бізнес-карту, набирай досвід і добийся голосу «вкладаюсь».</p>
+      </div>
+      <div class="board-preview" id="boardPreview" aria-label="Члени ради"></div>
+    </section>
+
+    <section class="setup" aria-labelledby="setupTitle">
+      <h2 id="setupTitle">Заявка на засідання</h2>
+      <form id="setupForm" class="setup__form" novalidate>
+        <div class="field field--wide">
+          <label for="idea">Твоя бізнес-ідея</label>
+          <textarea id="idea" name="idea" rows="4" maxlength="1200" placeholder="Наприклад: хочу пекти булочки з корицею і продавати їх біля школи зранку" required></textarea>
+          <div class="chips" id="ideaChips" aria-label="Приклади ідей"></div>
+          <p class="field__error" id="ideaError" hidden>Опиши ідею хоча б одним реченням, щоб раді було що обговорювати.</p>
+        </div>
+
+        <div class="field">
+          <label for="playerName">Як тебе звати</label>
+          <input id="playerName" name="playerName" maxlength="40" autocomplete="given-name" placeholder="Софія">
+        </div>
+        <div class="field">
+          <label for="city">Місто</label>
+          <input id="city" name="city" maxlength="60" placeholder="Львів">
+        </div>
+        <div class="field">
+          <label for="age">Вік</label>
+          <select id="age" name="age">
+            <option value="u14">Молодше 14</option>
+            <option value="teen" selected>14–17</option>
+            <option value="adult">18+</option>
+          </select>
+        </div>
+
+        <fieldset class="field field--wide">
+          <legend>Скільки грошей є на старт</legend>
+          <div class="segmented" id="budgetGroup"></div>
+        </fieldset>
+
+        <fieldset class="field field--wide">
+          <legend>Характер ради</legend>
+          <div class="modes" id="modeGroup"></div>
+        </fieldset>
+
+        <div class="setup__actions field--wide">
+          <button class="btn btn--primary btn--big" type="submit" id="startBtn">Скликати раду</button>
+          <button class="btn btn--ghost" type="button" id="resumeBtn" hidden>Продовжити минуле засідання</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="howto" aria-labelledby="howtoTitle">
+      <h2 id="howtoTitle">Як іде засідання</h2>
+      <ol class="howto__steps">
+        <li><b>Пітч.</b> Ти розповідаєш ідею, директори діляться першими враженнями і сумнівами.</li>
+        <li><b>Шість раундів питань.</b> Відповідай конкретно, з цифрами. Можна звернутися до одного директора або чесно сказати «не знаю».</li>
+        <li><b>Картки подій.</b> Посеред наради трапляються несподіванки, як у справжньому бізнесі.</li>
+        <li><b>Голосування.</b> Кожен директор каже «вкладаюсь», «доопрацювати» або «пас», а ти отримуєш протокол із домашнім завданням.</li>
+      </ol>
+    </section>
+  </main>
+
+  <!-- ЕКРАН 2: НАРАДА -->
+  <main id="meeting" class="screen" hidden>
+    <section class="table" id="seats" aria-label="Директори за столом. Натисни на директора, щоб відповісти саме йому."></section>
+
+    <div class="meeting">
+      <section class="minutes" aria-labelledby="minutesTitle">
+        <header class="minutes__head">
+          <div>
+            <p class="eyebrow" id="minutesTitle">Протокол засідання</p>
+            <p class="minutes__idea" id="ideaLine"></p>
+          </div>
+          <ol class="rounds" id="roundPips" aria-label="Раунди"></ol>
+        </header>
+
+        <div class="feed" id="feed" aria-live="polite"></div>
+
+        <div class="composer" id="composer">
+          <div class="asks" id="asks" hidden></div>
+          <div class="composer__to">
+            <span>Кому:</span>
+            <span class="to-chip" id="toChip">усім</span>
+            <button class="link" type="button" id="toClear" hidden>скинути</button>
+          </div>
+          <label class="visually-hidden" for="answer">Твоя відповідь раді</label>
+          <textarea id="answer" rows="3" maxlength="1200" placeholder="Твоя відповідь. Чим конкретніше і з цифрами, тим більше довіри."></textarea>
+          <div class="composer__row">
+            <button class="btn btn--primary" type="button" id="sendBtn">Відповісти</button>
+            <button class="btn" type="button" id="dontKnowBtn">Не знаю, допоможіть</button>
+            <button class="btn btn--ghost" type="button" id="hintBtn">Підказка <span class="mono">−5 XP</span></button>
+            <span class="spacer"></span>
+            <button class="btn btn--ghost" type="button" id="voteBtn">До голосування</button>
+          </div>
+          <p class="hint" id="hintBox" hidden></p>
+          <p class="error" id="errorBox" hidden><span id="errorText"></span> <button class="link" type="button" id="retryBtn">Спробувати ще раз</button></p>
+        </div>
+      </section>
+
+      <aside class="side">
+        <section class="panel" aria-labelledby="mapTitle">
+          <h3 id="mapTitle">Бізнес-карта <span class="mono" id="mapCount">0/10</span></h3>
+          <ul class="map" id="map"></ul>
+        </section>
+        <section class="panel" aria-labelledby="achTitle">
+          <h3 id="achTitle">Досягнення <span class="mono" id="achCount">0</span></h3>
+          <ul class="ach" id="achList"></ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ЕКРАН 3: ГОЛОСУВАННЯ -->
+  <main id="verdict" class="screen" hidden>
+    <section class="verdict__head">
+      <div>
+        <p class="eyebrow">Рішення ради директорів</p>
+        <h1 id="vTitle">Проєкт</h1>
+        <p class="lead" id="vSummary"></p>
+      </div>
+      <div class="score" aria-label="Оцінка готовності ідеї">
+        <span class="score__num mono" id="vScore">0</span>
+        <span class="score__of">зі 100</span>
+        <span class="score__rank" id="vRank"></span>
+      </div>
+    </section>
+
+    <section class="votes" id="vVotes" aria-label="Голоси директорів"></section>
+
+    <div class="verdict__grid">
+      <section class="panel">
+        <h3>Сильні сторони</h3>
+        <ul class="list list--plus" id="vStrengths"></ul>
+      </section>
+      <section class="panel">
+        <h3>Ризики</h3>
+        <ul class="list list--minus" id="vRisks"></ul>
+      </section>
+      <section class="panel panel--wide">
+        <h3>Домашнє завдання на два тижні</h3>
+        <ul class="todo" id="vHomework"></ul>
+      </section>
+      <section class="panel panel--wide">
+        <h3>Твоя бізнес-карта</h3>
+        <dl class="card-grid" id="vCard"></dl>
+      </section>
+      <section class="panel panel--wide">
+        <h3>Досягнення цього засідання</h3>
+        <ul class="ach ach--big" id="vAch"></ul>
+      </section>
+    </div>
+
+    <div class="verdict__actions">
+      <button class="btn btn--primary btn--big" type="button" id="newBtn">Нова ідея</button>
+      <button class="btn" type="button" id="copyBtn">Скопіювати протокол</button>
+      <span class="copy-note" id="copyNote" role="status"></span>
+    </div>
+    <textarea id="copyFallback" class="copy-fallback" readonly hidden aria-label="Текст протоколу"></textarea>
+  </main>
+
+  <footer class="foot">
+    <p>Директори — вигадані персонажі. Їхні поради навчальні: перед справжнім запуском порадься з дорослими.</p>
+  </footer>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

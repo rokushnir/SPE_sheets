@@ -1,0 +1,18 @@
+{
+  "name": "rada-directoriv",
+  "version": "1.0.0",
+  "description": "Бізнес-гра для підлітків: рада з чотирьох директорів критично обговорює твою бізнес-ідею.",
+  "private": true,
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && for f in public/js/*.js; do node --check \"$f\" || exit 1; done && node scripts/smoke.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0"
+  }
+}
