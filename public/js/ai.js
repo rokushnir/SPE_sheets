@@ -53,11 +53,11 @@ export async function detectProvider() {
     }
     return;
   }
-  const serverOk = await fetch("api/health", { headers: { accept: "application/json" } })
+  const health = await fetch("api/health", { headers: { accept: "application/json" } })
     .then((r) => (r.ok ? r.json() : null))
-    .then((j) => Boolean(j?.ai))
-    .catch(() => false);
-  if (serverOk) setProvider(PROVIDERS.server);
+    .catch(() => null);
+  if (health?.ai) setProvider(PROVIDERS.server);
+  else if (health?.note) setProvider({ ...PROVIDERS.offline, note: health.note, reason: "limit" });
 }
 
 async function viaClaude(prompt, signal) {
@@ -91,6 +91,11 @@ async function viaServer(kind, state, signal) {
     throw new BoardError("Сервер гри не відповідає. Перевір, що він запущений, і спробуй ще раз.");
   }
   const body = await res.json().catch(() => ({}));
+  if (body.fallback) {
+    // Сервер вичерпав ліміт ШІ: засідання продовжується без нього.
+    setProvider({ ...PROVIDERS.offline, note: body.error || PROVIDERS.offline.note, reason: "limit" });
+    throw new BoardError(body.error || "Рада перейшла в демо-режим.", { fallback: true });
+  }
   if (!res.ok) throw new BoardError(body.error || "Сервер гри повернув помилку. Спробуй ще раз.");
   return body.data;
 }

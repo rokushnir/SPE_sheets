@@ -9,6 +9,7 @@ import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import Anthropic from "@anthropic-ai/sdk";
+import { createLimits, clientIp } from "./limits.js";
 import {
   buildTurnPrompt,
   buildVerdictPrompt,
@@ -25,6 +26,16 @@ const PORT = Number(process.env.PORT) || 3000;
 const MODEL = process.env.RADA_MODEL || "claude-opus-5-5";
 const EFFORT = process.env.RADA_EFFORT || "low";
 const MAX_BODY = 200_000;
+const num = (v, d) => (v != null && v !== "" && Number.isFinite(Number(v)) ? Number(v) : d);
+const TRUST_PROXY_HOPS = num(process.env.RADA_TRUST_PROXY, 0);
+
+const limits = createLimits({
+  dailyBudgetUSD: num(process.env.RADA_DAILY_BUDGET_USD, 2),
+  requestsPerIpPerDay: num(process.env.RADA_REQUESTS_PER_IP_PER_DAY, 30),
+  requestsPerIpPer10Min: num(process.env.RADA_REQUESTS_PER_IP_PER_10MIN, 15),
+  timeZone: process.env.RADA_TZ || "Europe/Kyiv",
+  dataDir: process.env.RADA_DATA_DIR || path.join(here, "data"),
+});
 
 const hasKey = Boolean(process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_AUTH_TOKEN);
 const client = hasKey ? new Anthropic() : null;
@@ -38,16 +49,6 @@ const TYPES = {
   ".png": "image/png",
   ".ico": "image/x-icon",
 };
-
-// Простий ліміт: не більше 30 запитів до ради за 10 хвилин з однієї адреси.
-const hits = new Map();
-function rateLimited(ip) {
-  const now = Date.now();
-  const list = (hits.get(ip) || []).filter((t) => now - t < 10 * 60_000);
-  list.push(now);
-  hits.set(ip, list);
-  return list.length > 30;
-}
 
 function sendJSON(res, status, body) {
   res.writeHead(status, { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" });
@@ -65,15 +66,17 @@ async function readBody(req) {
   return JSON.parse(Buffer.concat(chunks).toString("utf8") || "{}");
 }
 
-async function askClaude(prompt, schema) {
+async function askClaude(prompt, schema, maxTokens) {
   const response = await client.beta.messages.create({
     model: MODEL,
-    max_tokens: 16000,
+    max_tokens: maxTokens,
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
     output_config: { effort: EFFORT, format: { type: "json_schema", schema } },
     messages: [{ role: "user", content: prompt }],
   });
+  // Після резервної відмови response.model — модель, яка відповіла; її ціну й рахуємо.
+  limits.record(response.model || MODEL, response.usage);
   if (response.stop_reason === "refusal") {
     throw Object.assign(new Error("refusal"), { status: 422, userMessage: "Директори відмовились це обговорювати. Переформулюй відповідь." });
   }
@@ -84,10 +87,22 @@ async function askClaude(prompt, schema) {
   return JSON.parse(text);
 }
 
+// Відповідь, після якої браузер продовжує засідання в демо-режимі.
+function sendFallback(res, status, error) {
+  return sendJSON(res, status, { error, fallback: true });
+}
+
+const BUDGET_MSG = "Денний ліміт ШІ для гри вичерпано, тому рада до завтра працює в демо-режимі.";
+
 async function handleBoard(req, res) {
-  if (!client) return sendJSON(res, 503, { error: "На сервері не налаштовано ключ Anthropic API." });
-  const ip = req.headers["x-forwarded-for"]?.split(",")[0].trim() || req.socket.remoteAddress || "?";
-  if (rateLimited(ip)) return sendJSON(res, 429, { error: "Рада втомилась від частих засідань. Зачекай кілька хвилин." });
+  if (!client) return sendFallback(res, 503, "На сервері не налаштовано ключ Anthropic API, тому рада працює в демо-режимі.");
+  if (limits.budgetExhausted()) return sendFallback(res, 503, BUDGET_MSG);
+  const ip = clientIp(req, TRUST_PROXY_HOPS);
+  const limited = limits.checkIp(ip);
+  if (limited === "daily") {
+    return sendFallback(res, 429, "Ти сьогодні вже провів(ла) кілька засідань із ШІ. До завтра рада працює в демо-режимі.");
+  }
+  if (limited === "burst") return sendJSON(res, 429, { error: "Рада втомилась від частих засідань. Зачекай кілька хвилин." });
 
   let body;
   try {
@@ -100,18 +115,19 @@ async function handleBoard(req, res) {
 
   try {
     if (body.kind === "verdict") {
-      const data = normalizeVerdict(await askClaude(buildVerdictPrompt(state), VERDICT_SCHEMA));
+      const data = normalizeVerdict(await askClaude(buildVerdictPrompt(state), VERDICT_SCHEMA, 8000));
       return sendJSON(res, 200, { data });
     }
-    const data = normalizeTurn(await askClaude(buildTurnPrompt(state), TURN_SCHEMA));
+    const data = normalizeTurn(await askClaude(buildTurnPrompt(state), TURN_SCHEMA, 6000));
     return sendJSON(res, 200, { data });
   } catch (e) {
     if (e instanceof Anthropic.RateLimitError) {
       return sendJSON(res, 429, { error: "Забагато засідань одночасно. Спробуй за хвилину." });
     }
-    if (e instanceof Anthropic.AuthenticationError) {
-      console.error("Anthropic: невірний ключ API");
-      return sendJSON(res, 503, { error: "Сервер не може зв'язатися з радою: перевір ключ API." });
+    if (e instanceof Anthropic.AuthenticationError || e instanceof Anthropic.PermissionDeniedError || e instanceof Anthropic.BadRequestError) {
+      // Невірний ключ, вичерпаний ліміт витрат у Console тощо: повтор не допоможе.
+      console.error(`Anthropic API ${e.status}:`, e.message);
+      return sendFallback(res, 503, "ШІ для гри зараз недоступний, тому рада працює в демо-режимі.");
     }
     if (e instanceof Anthropic.APIError) {
       console.error(`Anthropic API ${e.status}:`, e.message);
@@ -148,7 +164,10 @@ async function serveStatic(req, res) {
 
 const server = http.createServer(async (req, res) => {
   const { pathname } = new URL(req.url, "http://localhost");
-  if (pathname === "/api/health") return sendJSON(res, 200, { ok: true, ai: Boolean(client) });
+  if (pathname === "/api/health") {
+    const ai = Boolean(client) && !limits.budgetExhausted();
+    return sendJSON(res, 200, { ok: true, ai, note: client && !ai ? BUDGET_MSG : undefined });
+  }
   if (pathname === "/api/board") {
     if (req.method !== "POST") return sendJSON(res, 405, { error: "Тільки POST" });
     return handleBoard(req, res);
@@ -160,4 +179,9 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log(`Рада директорів: http://localhost:${PORT}`);
   console.log(client ? `ШІ увімкнено (${MODEL}, effort: ${EFFORT})` : "Ключ ANTHROPIC_API_KEY не задано: гра працює в демо-режимі.");
+  if (client) {
+    const st = limits.stats();
+    console.log(`Денний бюджет: $${st.dailyBudgetUSD}, сьогодні витрачено $${st.spentUSD.toFixed(2)} (${st.requests} запитів).`);
+    if (!TRUST_PROXY_HOPS) console.log("RADA_TRUST_PROXY не задано: X-Forwarded-For ігнорується, ліміти рахуються за адресою з'єднання.");
+  }
 });

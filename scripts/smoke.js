@@ -44,3 +44,29 @@ assert.equal(dirty.transcript.length, 0);
 assert.ok(dirty.idea.length <= 1201);
 
 console.log(`smoke ok: ${state.covered.length}/10 блоків, оцінка ${v.score}`);
+
+// Ліміти витрат
+import { createLimits, clientIp, costUSD } from "../limits.js";
+assert.equal(costUSD("claude-opus-5-5", { input_tokens: 1_000_000, output_tokens: 0 }), 4);
+assert.equal(costUSD("невідома", { input_tokens: 0, output_tokens: 1_000_000 }), 25);
+
+const lim = createLimits({ dailyBudgetUSD: 0.01, requestsPerIpPerDay: 3, requestsPerIpPer10Min: 2 });
+assert.equal(lim.checkIp("a"), null);
+assert.equal(lim.checkIp("a"), null);
+assert.equal(lim.checkIp("a"), "burst");
+assert.equal(lim.checkIp("b"), null);
+assert.equal(lim.budgetExhausted(), false);
+lim.record("claude-opus-5-5", { input_tokens: 2000, output_tokens: 200 });
+assert.equal(lim.budgetExhausted(), true);
+const daily = createLimits({ requestsPerIpPerDay: 2, requestsPerIpPer10Min: 99 });
+daily.checkIp("c"); daily.checkIp("c");
+assert.equal(daily.checkIp("c"), "daily");
+
+const fakeReq = (xff, remote = "10.0.0.5") => ({ headers: { "x-forwarded-for": xff }, socket: { remoteAddress: remote } });
+assert.equal(clientIp(fakeReq("6.6.6.6")), "10.0.0.5", "без довіри до проксі XFF ігнорується");
+assert.equal(clientIp(fakeReq("6.6.6.6, 1.2.3.4"), 1), "1.2.3.4", "береться адреса від довіреного проксі");
+assert.equal(clientIp(fakeReq(undefined, "::ffff:9.9.9.9")), "9.9.9.9");
+
+const huge = sanitizeState({ idea: "x", transcript: Array.from({ length: 200 }, () => ({ who: "player", text: "я".repeat(5000) })) });
+assert.ok(huge.transcript.reduce((n, m) => n + m.text.length, 0) <= 24000, "стенограма обрізана");
+console.log("limits ok");

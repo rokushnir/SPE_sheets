@@ -202,7 +202,7 @@ onProviderChange((p) => {
   b.textContent = p.label;
   b.dataset.kind = p.id;
   $("providerNote").textContent =
-    p.id === "offline"
+    p.id === "offline" && p.reason !== "limit"
       ? `${p.note} Щоб директори відповідали по-справжньому, запусти гру через сервер із ключем Anthropic API (дивись README) або відкрий її як артефакт у claude.ai.`
       : p.note;
 });

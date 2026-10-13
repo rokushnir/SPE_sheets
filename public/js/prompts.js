@@ -342,14 +342,29 @@ export function sanitizeState(input) {
         : null,
     covered: (Array.isArray(s.covered) ? s.covered : []).filter((b) => BLOCK_IDS.includes(b)),
     trust: Object.fromEntries(DIRECTOR_IDS.map((id) => [id, clamp(s.trust?.[id] ?? 50, 0, 100)])),
-    transcript: (Array.isArray(s.transcript) ? s.transcript : [])
-      .filter((m) => m && whoOk(m.who))
-      .slice(-80)
-      .map((m) => ({
-        who: m.who,
-        to: TARGETS.includes(m.to) ? m.to : undefined,
-        title: m.who === "event" ? clip(m.title, 80) : undefined,
-        text: clip(m.text, 1200),
-      })),
+    transcript: capTranscript(
+      (Array.isArray(s.transcript) ? s.transcript : [])
+        .filter((m) => m && whoOk(m.who))
+        .slice(-60)
+        .map((m) => ({
+          who: m.who,
+          to: TARGETS.includes(m.to) ? m.to : undefined,
+          title: m.who === "event" ? clip(m.title, 80) : undefined,
+          text: clip(m.text, m.who === "player" ? 1200 : 700),
+        })),
+    ),
   };
+}
+
+// Звичайна гра — це 8–12 тисяч символів стенограми. Стеля не дає роздути промпт навмисно.
+const TRANSCRIPT_MAX_CHARS = 24000;
+function capTranscript(items) {
+  let total = 0;
+  const kept = [];
+  for (let i = items.length - 1; i >= 0; i--) {
+    total += items[i].text.length + (items[i].title?.length || 0);
+    if (total > TRANSCRIPT_MAX_CHARS) break;
+    kept.unshift(items[i]);
+  }
+  return kept;
 }
