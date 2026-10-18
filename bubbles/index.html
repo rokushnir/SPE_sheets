@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bubbles</title>
+<meta name="description" content="Bubbles — інтерактивні робочі зошити Campus13: приклади, запис голосу, XP і досягнення.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #3fd49f;
+    --green-deep: #14a874;
+    --green-soft: #e3f8ef;
+    --ink: #1d2433;
+    --muted: #6b7280;
+    --faint: #a3a9b3;
+    --page: #f3f3f3;
+    --panel: #ffffff;
+    --shadow: 0 10px 30px rgba(29, 36, 51, .07);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; overflow-x: hidden;
+    font-family: "Manrope", system-ui, sans-serif; color: var(--ink); background: var(--page);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { width: min(860px, 100% - 32px); margin-inline: auto; padding: 56px 0 64px; position: relative; }
+  .bubble {
+    position: fixed; border-radius: 50%; z-index: 0; pointer-events: none;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .9), rgba(63, 212, 159, .25) 60%, rgba(63, 212, 159, .1));
+    animation: float 12s ease-in-out infinite;
+  }
+  @keyframes float { 50% { transform: translateY(-24px); } }
+  header, .cards { position: relative; z-index: 1; }
+  .kicker { font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--green-deep); }
+  h1 { font-family: "Unbounded"; font-weight: 800; font-size: clamp(40px, 9vw, 72px); line-height: 1; margin: 10px 0 14px; }
+  h1 span { color: var(--green); }
+  .lead { margin: 0; max-width: 560px; font-size: 16px; color: var(--muted); line-height: 1.55; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; margin-top: 36px; }
+  .card {
+    display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: inherit;
+    background: var(--panel); border-radius: 20px; padding: 22px; box-shadow: var(--shadow);
+    border: 1.5px solid transparent; transition: transform .2s, border-color .2s;
+  }
+  a.card:hover { transform: translateY(-4px); border-color: var(--green); }
+  .badge {
+    width: 56px; height: 56px; border-radius: 12px; background: var(--green); color: #fff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: "Unbounded"; font-weight: 800; font-size: 22px; line-height: 1;
+  }
+  .badge small { font-family: "Manrope"; font-size: 8px; font-weight: 700; margin-top: 3px; }
+  .card h2 { margin: 4px 0 0; font-family: "Unbounded"; font-size: 20px; }
+  .card p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .tags span { font-size: 11.5px; font-weight: 700; padding: 4px 9px; border-radius: 99px; background: var(--page); }
+  .go { margin-top: auto; padding-top: 6px; font-weight: 800; font-size: 14px; color: var(--green-deep); }
+  .card.soon { background: transparent; box-shadow: none; border: 1.5px dashed #cfd3d8; color: var(--faint); justify-content: center; align-items: center; text-align: center; min-height: 200px; }
+  .card.soon b { font-family: "Unbounded"; font-size: 15px; color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) { .bubble { animation: none; } }
+</style>
+</head>
+<body>
+  <div class="bubble" style="width:220px;height:220px;top:-60px;right:-50px"></div>
+  <div class="bubble" style="width:90px;height:90px;top:180px;right:14%;animation-delay:-4s"></div>
+  <div class="bubble" style="width:140px;height:140px;bottom:40px;left:-40px;animation-delay:-8s"></div>
+
+  <main class="wrap">
+    <header>
+      <div class="kicker">Campus13 · робочі зошити</div>
+      <h1>Bubbles<span>.</span></h1>
+      <p class="lead">Інтерактивні зошити до занять: готові приклади, запис власного голосу, галочки, XP і досягнення. Прогрес зберігається у твоєму браузері.</p>
+    </header>
+
+    <section class="cards">
+      <a class="card" href="uvaga">
+        <div class="badge">03<small>заняття</small></div>
+        <h2>Увага</h2>
+        <p>Техніки привернення й утримання уваги: 11 технік, вербальні, голосові та візуальні прийоми, історії, анекдоти й притчі.</p>
+        <div class="tags"><span>🎙 запис голосу</span><span>✅ приклади</span><span>🏅 досягнення</span></div>
+        <span class="go">Відкрити зошит →</span>
+      </a>
+      <div class="card soon">
+        <b>Наступне заняття</b>
+        <span>скоро тут</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
