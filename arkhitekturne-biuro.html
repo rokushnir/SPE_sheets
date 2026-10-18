@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Архітектурне бюро Обрис: проєкти будинків, інтер'єрів і реконструкцій. Калькулятор вартості та економії на будівництві.">
+<title>Архітектурне бюро Обрис</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: the page reads as a drawing sheet — a drafting grid, a title block (штамп) in the hero, sections framed by thin construction lines */
+:root {
+  --paper: #e8eae7;
+  --sheet: #f4f5f3;
+  --ink: #1a1e21;
+  --muted: #5b6268;
+  --line: #c3c8c9;
+  --grid: rgba(35, 64, 200, .07);
+  --accent: #2340c8;
+  --accent-ink: #ffffff;
+  --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --wrap: 1180px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121517; --sheet: #191d20; --ink: #e5e8e6; --muted: #98a0a6;
+    --line: #2e3438; --grid: rgba(142, 162, 255, .06); --accent: #8ea2ff; --accent-ink: #0d1330;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121517; --sheet: #191d20; --ink: #e5e8e6; --muted: #98a0a6;
+  --line: #2e3438; --grid: rgba(142, 162, 255, .06); --accent: #8ea2ff; --accent-ink: #0d1330;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  background: var(--paper); color: var(--ink);
+  font: 400 1.0625rem/1.6 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: clamp(1.7rem, 3.6vw, 2.6rem); font-weight: 600; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.label {
+  font: 500 .75rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .12em; color: var(--muted);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: .6em; padding: .9em 1.4em;
+  font: 600 .95rem/1 var(--body); text-decoration: none; border: 1.5px solid var(--ink);
+  background: transparent; color: var(--ink); cursor: pointer; transition: background .15s, color .15s;
+}
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn--solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn--solid:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+/* Header */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.top .wrap { display: flex; align-items: center; gap: 24px; min-height: 64px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo b { font: 800 1.15rem/1 var(--display); letter-spacing: .02em; }
+.logo span { font: 400 .7rem/1.2 var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+.nav { display: flex; gap: 22px; margin-left: auto; }
+.nav a { text-decoration: none; font-size: .92rem; color: var(--muted); }
+.nav a:hover { color: var(--ink); }
+.top .btn { padding: .7em 1.1em; font-size: .85rem; }
+@media (max-width: 860px) { .nav { display: none; } .top .btn { margin-left: auto; } }
+@media (max-width: 420px) { .logo span { display: none; } }
+
+/* Hero */
+.hero { padding-block: clamp(40px, 7vw, 88px) clamp(48px, 7vw, 96px); }
+.hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+.hero-copy { display: grid; gap: 24px; min-width: 0; }
+.hero h1 { font-size: clamp(2.1rem, 5.2vw, 4.1rem); font-weight: 800; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-lead { font-size: 1.15rem; color: var(--muted); max-width: 34em; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 8px 28px; padding-top: 8px; }
+.hero-meta div { display: grid; gap: 2px; }
+.hero-meta strong { font: 600 1.25rem/1.2 var(--display); }
+
+.sheet {
+  min-width: 0; background: var(--sheet); border: 1.5px solid var(--ink);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 20px 20px; display: grid; grid-template-rows: 1fr auto;
+}
+.sheet svg { display: block; width: 100%; height: auto; color: var(--ink); }
+.stamp { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; border-top: 1.5px solid var(--ink); font: 400 .72rem/1.3 var(--mono); }
+.stamp div { padding: 8px 10px; border-left: 1px solid var(--ink); display: grid; gap: 2px; }
+.stamp div:first-child { border-left: 0; }
+.stamp small { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-size: .62rem; }
+.stamp b { font-weight: 500; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .stamp { grid-template-columns: 1fr 1fr; } .stamp div:nth-child(3) { border-left: 0; } .stamp div:nth-child(n+3) { border-top: 1px solid var(--ink); } }
+
+/* Sections */
+section.block { padding-block: clamp(56px, 8vw, 104px); border-top: 1px solid var(--line); }
+.head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px 48px; align-items: end; margin-bottom: clamp(32px, 5vw, 56px); }
+.head > * { min-width: 0; }
+.head .label { grid-column: 1 / -1; }
+.head p { color: var(--muted); max-width: 36em; }
+@media (max-width: 760px) { .head { grid-template-columns: 1fr; } }
+
+/* Services */
+.services { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1.5px solid var(--ink); border-left: 1px solid var(--line); }
+.svc { padding: 28px 24px 32px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 12px; align-content: start; min-width: 0; }
+.svc .code { font: 500 .75rem/1 var(--mono); color: var(--accent); }
+.svc p { color: var(--muted); font-size: .97rem; }
+.svc ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: .9rem; }
+.svc li::before { content: "— "; color: var(--muted); }
+@media (max-width: 900px) { .services { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .services { grid-template-columns: 1fr; } }
+
+/* Projects */
+.projects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.proj { display: grid; gap: 14px; min-width: 0; }
+.proj figure {
+  margin: 0; aspect-ratio: 4 / 3; max-width: 100%; background: var(--sheet); border: 1px solid var(--line);
+  display: grid; place-items: center; overflow: hidden; transition: border-color .2s;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+.proj:hover figure { border-color: var(--ink); }
+.proj svg { width: 86%; height: auto; color: var(--ink); }
+.proj-row { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; flex-wrap: wrap; }
+.proj-row .label { font-variant-numeric: tabular-nums; }
+.proj p { color: var(--muted); font-size: .95rem; }
+@media (max-width: 680px) { .projects { grid-template-columns: 1fr; } }
+
+/* Process */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; counter-reset: s; }
+.steps li { counter-increment: s; padding: 20px 20px 24px 0; border-top: 1.5px solid var(--ink); display: grid; gap: 10px; align-content: start; min-width: 0; position: relative; }
+.steps li::before { content: counter(s, decimal-leading-zero); font: 500 .8rem/1 var(--mono); color: var(--accent); }
+.steps li::after { content: ""; position: absolute; top: -5px; left: 0; width: 8px; height: 8px; background: var(--ink); border-radius: 50%; }
+.steps p { color: var(--muted); font-size: .93rem; }
+.steps .dur { font: 400 .78rem/1.3 var(--mono); color: var(--ink); }
+@media (max-width: 980px) { .steps { grid-template-columns: 1fr 1fr; gap: 0 24px; } }
+@media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
+
+/* Pricing + calculator */
+.prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.price { border: 1px solid var(--line); background: var(--sheet); padding: 28px 24px; display: grid; gap: 16px; align-content: start; min-width: 0; }
+.price.is-main { border: 1.5px solid var(--accent); }
+.price .tag { justify-self: start; font: 500 .7rem/1 var(--mono); text-transform: uppercase; letter-spacing: .1em; padding: 6px 8px; background: var(--accent); color: var(--accent-ink); }
+.price .amount { font: 600 1.9rem/1 var(--display); font-variant-numeric: tabular-nums; }
+.price .amount small { font: 400 .85rem/1 var(--body); color: var(--muted); }
+.price ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: .93rem; }
+.price li { display: grid; grid-template-columns: 16px 1fr; gap: 8px; }
+.price li::before { content: "+"; font-family: var(--mono); color: var(--accent); }
+@media (max-width: 900px) { .prices { grid-template-columns: 1fr; } }
+
+.calc { margin-top: 32px; border: 1.5px solid var(--ink); display: grid; grid-template-columns: 1.2fr 1fr; }
+.calc-in { padding: 28px; display: grid; gap: 22px; min-width: 0; }
+.calc-out { padding: 28px; background: var(--ink); color: var(--paper); display: grid; gap: 18px; align-content: center; min-width: 0; }
+.calc-out .label { color: color-mix(in srgb, var(--paper) 65%, transparent); }
+.calc-out .big { font: 600 clamp(1.8rem, 4vw, 2.6rem)/1.05 var(--display); font-variant-numeric: tabular-nums; }
+.calc-out .row { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: .88rem; border-top: 1px solid color-mix(in srgb, var(--paper) 22%, transparent); padding-top: 10px; }
+.calc-out .note { font-size: .8rem; color: color-mix(in srgb, var(--paper) 65%, transparent); }
+.field { display: grid; gap: 8px; }
+.field label, .field legend { font-weight: 500; font-size: .95rem; padding: 0; }
+.range-row { display: flex; gap: 14px; align-items: center; }
+.range-row input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+.range-row output { font: 500 1rem/1 var(--mono); min-width: 5.5em; text-align: right; font-variant-numeric: tabular-nums; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.seg { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { padding: .6em .9em; border: 1px solid var(--line); cursor: pointer; font-size: .9rem; font-weight: 400; }
+.seg input:checked + label { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--ink); }
+.seg input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+.check { display: flex; gap: 10px; align-items: center; font-size: .95rem; }
+.check input { accent-color: var(--accent); width: 18px; height: 18px; }
+@media (max-width: 820px) { .calc { grid-template-columns: 1fr; } }
+
+/* FAQ */
+.faq { display: grid; border-top: 1.5px solid var(--ink); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; padding: 20px 40px 20px 0; font-weight: 600; font-size: 1.05rem; position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 16px; font: 400 1.5rem/1 var(--mono); color: var(--accent); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding-bottom: 22px; color: var(--muted); max-width: 46em; }
+
+/* Contact */
+.contact .wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(32px, 6vw, 72px); }
+.contact-info { display: grid; gap: 24px; align-content: start; min-width: 0; }
+.contact-info p { color: var(--muted); }
+.contact-list { display: grid; gap: 16px; }
+.contact-list div { display: grid; gap: 4px; }
+.contact-list b { font: 500 1.05rem/1.3 var(--mono); user-select: all; overflow-wrap: anywhere; }
+form.lead { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: var(--sheet); border: 1.5px solid var(--ink); padding: clamp(20px, 3vw, 32px); min-width: 0; }
+form.lead .full { grid-column: 1 / -1; }
+form.lead label { display: grid; gap: 6px; font-size: .9rem; font-weight: 500; min-width: 0; }
+form.lead input, form.lead select, form.lead textarea {
+  font: inherit; font-weight: 400; color: var(--ink); background: var(--paper); border: 1px solid var(--line);
+  padding: .75em .85em; border-radius: 0; width: 100%; min-width: 0;
+}
+form.lead input:focus, form.lead select:focus, form.lead textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+form.lead textarea { min-height: 110px; resize: vertical; }
+form.lead .btn { justify-self: start; }
+.err { color: #c0392b; font-size: .85rem; }
+.done { grid-column: 1 / -1; display: grid; gap: 12px; }
+.done pre { margin: 0; white-space: pre-wrap; font: 400 .85rem/1.5 var(--mono); background: var(--paper); border: 1px solid var(--line); padding: 14px; overflow-x: auto; }
+@media (max-width: 860px) { .contact .wrap { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { form.lead { grid-template-columns: 1fr; } }
+
+/* Savings calculator */
+.save { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); border: 1.5px solid var(--ink); background: var(--sheet); }
+.save-in { padding: 28px; display: grid; gap: 26px; align-content: start; border-right: 1.5px solid var(--ink); }
+.save-in fieldset { display: grid; gap: 16px; }
+.save-in legend { font: 500 .72rem/1 var(--mono); text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin-bottom: 14px; }
+.sl { display: grid; gap: 6px; }
+.sl-top { display: flex; justify-content: space-between; gap: 12px; font-size: .93rem; }
+.sl-top output { font: 500 .93rem/1.3 var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sl input { width: 100%; accent-color: var(--accent); margin: 0; }
+.sl small { color: var(--muted); font-size: .8rem; line-height: 1.4; }
+.save-out { padding: 28px; display: grid; gap: 26px; align-content: start; }
+.kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.kpi { background: var(--sheet); padding: 16px; display: grid; gap: 6px; min-width: 0; }
+.kpi strong { font: 600 clamp(1.35rem, 2.6vw, 1.9rem)/1.05 var(--display); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.kpi.hero { grid-column: 1 / -1; background: var(--accent); color: var(--accent-ink); }
+.kpi.hero .label { color: inherit; opacity: .8; }
+.kpi.hero strong { font-size: clamp(2rem, 4.6vw, 3.2rem); }
+.kpi p { font-size: .85rem; color: var(--muted); }
+.kpi.hero p { color: inherit; opacity: .85; }
+.chart { display: grid; gap: 10px; }
+.chart h3 { font: 600 .95rem/1.3 var(--body); }
+.bars { display: grid; gap: 10px; }
+.bar { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr) auto; gap: 12px; align-items: center; font-size: .88rem; position: relative; }
+.bar .track { height: 14px; position: relative; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 0 4px 4px 0; transition: width .25s ease; min-width: 2px; }
+.bar.is-base .fill { background: color-mix(in srgb, var(--muted) 55%, transparent); }
+.bar .v { font: 500 .85rem/1 var(--mono); font-variant-numeric: tabular-nums; text-align: right; min-width: 7.5em; }
+.bar[data-tip]:hover::after, .bar[data-tip]:focus-visible::after {
+  content: attr(data-tip); position: absolute; left: 11em; bottom: calc(100% + 6px); z-index: 2; max-width: min(320px, 80vw);
+  background: var(--ink); color: var(--paper); font-size: .8rem; line-height: 1.4; padding: 8px 10px; pointer-events: none;
+}
+.bar[tabindex] { outline-offset: 4px; }
+.axis-note { font-size: .8rem; color: var(--muted); }
+@media (max-width: 900px) { .save { grid-template-columns: 1fr; } .save-in { border-right: 0; border-bottom: 1.5px solid var(--ink); } }
+@media (max-width: 480px) { .bar { grid-template-columns: 1fr auto; } .bar .track { grid-column: 1 / -1; grid-row: 2; } .bar[data-tip]:hover::after { left: 0; } }
+
+/* Tools: sun orientation + plan comparison */
+.tools { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+.tool { border: 1px solid var(--line); background: var(--sheet); padding: 24px; display: grid; gap: 16px; align-content: start; min-width: 0; }
+.tool p { color: var(--muted); font-size: .93rem; }
+.tool-row { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.tool-row div { display: grid; gap: 2px; }
+.tool-row strong { font: 600 1.2rem/1.2 var(--display); font-variant-numeric: tabular-nums; }
+.sun svg { width: 100%; max-width: 340px; height: auto; justify-self: center; color: var(--ink); }
+.sun #house { transition: transform .2s ease; }
+.compare { position: relative; display: grid; border: 1px solid var(--line); background: var(--paper); max-width: 100%; }
+.compare > svg { grid-area: 1 / 1; width: 100%; height: auto; display: block; color: var(--ink); }
+.compare .after { clip-path: inset(0 0 0 var(--pos, 50%)); background: var(--paper); }
+.compare .divider { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; background: var(--accent); transform: translateX(-1px); pointer-events: none; }
+.compare .divider::after { content: "◀ ▶"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--accent); color: var(--accent-ink); font: 500 .7rem/1 var(--mono); padding: 7px 8px; white-space: nowrap; }
+.compare input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+.compare:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.compare-tags { display: flex; justify-content: space-between; gap: 12px; }
+@media (max-width: 860px) { .tools { grid-template-columns: 1fr; } }
+
+footer { border-top: 1px solid var(--line); padding-block: 28px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Обрис, на початок сторінки">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" fill="none" stroke="currentColor" stroke-width="2"/><path d="M1.5 14 L14 4 L26.5 14" fill="none" stroke="currentColor" stroke-width="2"/><rect x="10" y="17" width="8" height="9.5" fill="currentColor"/></svg>
+      <b>ОБРИС</b><span>архітектурне<br>бюро</span>
+    </a>
+    <nav class="nav" aria-label="Розділи">
+      <a href="#services">Послуги</a>
+      <a href="#projects">Проєкти</a>
+      <a href="#savings">Економія</a>
+      <a href="#process">Етапи</a>
+      <a href="#prices">Ціни</a>
+      <a href="#faq">Питання</a>
+    </nav>
+    <a class="btn btn--solid" href="#contact">Обговорити проєкт</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="label">Архітектура · Інтер'єр · Реконструкція</span>
+        <h1>Проєктуємо будинки, в&nbsp;яких <em>хочеться жити</em></h1>
+        <p class="hero-lead">Від першого ескізу до робочих креслень і авторського нагляду на будмайданчику. Ви знаєте ціну й терміни ще до підписання договору.</p>
+        <div class="hero-actions">
+          <a class="btn btn--solid" href="#prices">Розрахувати вартість →</a>
+          <a class="btn" href="#savings">Порахувати економію</a>
+        </div>
+        <div class="hero-meta">
+          <div><span class="label">Ескіз</span><strong>від 3 тижнів</strong></div>
+          <div><span class="label">Повний проєкт</span><strong>від 1 400 ₴/м²</strong></div>
+          <div><span class="label">Перший виїзд</span><strong>безкоштовно</strong></div>
+        </div>
+      </div>
+
+      <div class="sheet" role="img" aria-label="Креслення фасаду приватного будинку з висотними відмітками">
+        <svg viewBox="0 0 560 380" fill="none" stroke="currentColor" aria-hidden="true">
+          <!-- axes -->
+          <g stroke-width=".6" stroke-dasharray="10 4 2 4" opacity=".55">
+            <line x1="110" y1="40" x2="110" y2="330"/><line x1="280" y1="40" x2="280" y2="330"/><line x1="450" y1="40" x2="450" y2="330"/>
+          </g>
+          <g stroke-width=".9" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">
+            <circle cx="110" cy="346" r="11" fill="none"/><text x="106" y="350" stroke="none">1</text>
+            <circle cx="280" cy="346" r="11" fill="none"/><text x="276" y="350" stroke="none">2</text>
+            <circle cx="450" cy="346" r="11" fill="none"/><text x="446" y="350" stroke="none">3</text>
+          </g>
+          <!-- ground -->
+          <line x1="40" y1="290" x2="520" y2="290" stroke-width="2.2"/>
+          <g stroke-width=".6" opacity=".6"><line x1="50" y1="290" x2="40" y2="300"/><line x1="70" y1="290" x2="60" y2="300"/><line x1="90" y1="290" x2="80" y2="300"/><line x1="490" y1="290" x2="480" y2="300"/><line x1="510" y1="290" x2="500" y2="300"/></g>
+          <!-- main volume with gable -->
+          <path d="M110 290 V150 L195 85 L280 150 V290" stroke-width="1.8"/>
+          <!-- flat wing -->
+          <path d="M280 290 V175 H450 V290" stroke-width="1.8"/>
+          <line x1="272" y1="175" x2="458" y2="175" stroke-width="1.2"/>
+          <!-- big window on gable -->
+          <rect x="140" y="170" width="110" height="120" stroke-width="1.2"/>
+          <line x1="195" y1="170" x2="195" y2="290" stroke-width=".7"/><line x1="140" y1="230" x2="250" y2="230" stroke-width=".7"/>
+          <path d="M165 135 L195 112 L225 135 Z" stroke-width=".9"/>
+          <!-- wing windows -->
+          <rect x="300" y="200" width="60" height="55" stroke-width="1.2"/>
+          <rect x="375" y="200" width="55" height="90" stroke-width="1.2"/>
+          <line x1="402" y1="200" x2="402" y2="290" stroke-width=".7"/>
+          <!-- cladding lines -->
+          <g stroke-width=".4" opacity=".5"><line x1="290" y1="185" x2="440" y2="185"/><line x1="290" y1="268" x2="360" y2="268"/><line x1="290" y1="278" x2="360" y2="278"/></g>
+          <!-- level marks -->
+          <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor" stroke-width=".8">
+            <path d="M470 290 l6 -7 h-12 z"/><line x1="476" y1="283" x2="522" y2="283"/><text x="480" y="278" stroke="none">±0.000</text>
+            <path d="M470 175 l6 -7 h-12 z"/><line x1="476" y1="168" x2="522" y2="168"/><text x="480" y="163" stroke="none">+3.300</text>
+            <path d="M58 85 l6 -7 h-12 z"/><line x1="64" y1="78" x2="110" y2="78"/><text x="64" y="73" stroke="none">+6.450</text>
+          </g>
+          <!-- dimension line -->
+          <g stroke-width=".8" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">
+            <line x1="110" y1="318" x2="450" y2="318"/>
+            <line x1="104" y1="324" x2="116" y2="312"/><line x1="274" y1="324" x2="286" y2="312"/><line x1="444" y1="324" x2="456" y2="312"/>
+            <text x="180" y="313" stroke="none">6 600</text><text x="350" y="313" stroke="none">7 200</text>
+          </g>
+          <!-- tree -->
+          <g stroke-width=".8" opacity=".75"><circle cx="500" cy="230" r="26"/><line x1="500" y1="256" x2="500" y2="290"/></g>
+        </svg>
+        <div class="stamp">
+          <div><small>Об'єкт</small><b>Житловий будинок, 186 м²</b></div>
+          <div><small>Стадія</small><b>ЕП</b></div>
+          <div><small>Масштаб</small><b>1:100</b></div>
+          <div><small>Аркуш</small><b>3 / 24</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="services">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Послуги</span>
+        <h2>Що ми проєктуємо</h2>
+        <p>Беремо об'єкт цілком або окремий етап. Усі креслення відповідають ДБН, тож проєкт можна віддавати будівельникам і подавати на дозвільні документи.</p>
+      </div>
+      <div class="services">
+        <article class="svc">
+          <span class="code">АР-01</span>
+          <h3>Приватні будинки</h3>
+          <p>Індивідуальний проєкт під вашу ділянку, сім'ю й бюджет на будівництво.</p>
+          <ul><li>планування й фасади</li><li>3D-візуалізація</li><li>підбір конструктиву</li></ul>
+        </article>
+        <article class="svc">
+          <span class="code">ДІ-02</span>
+          <h3>Дизайн інтер'єру</h3>
+          <p>Квартири, будинки, офіси. Креслення, за якими бригада працює без додаткових питань.</p>
+          <ul><li>планувальні рішення</li><li>розкладка плитки й світла</li><li>відомість матеріалів</li></ul>
+        </article>
+        <article class="svc">
+          <span class="code">КО-03</span>
+          <h3>Комерційні об'єкти</h3>
+          <p>Кафе, магазини, невеликі офісні й складські будівлі з урахуванням потоків людей.</p>
+          <ul><li>техніко-економічні показники</li><li>пожежні вимоги</li><li>фасадні рішення</li></ul>
+        </article>
+        <article class="svc">
+          <span class="code">РК-04</span>
+          <h3>Реконструкція</h3>
+          <p>Обстеження, обміри й нове життя для старого будинку, мансарди чи прибудови.</p>
+          <ul><li>обмірні креслення</li><li>перепланування</li><li>утеплення й нова покрівля</li></ul>
+        </article>
+        <article class="svc">
+          <span class="code">ГП-05</span>
+          <h3>Генплан і ландшафт</h3>
+          <p>Розміщення будинку на ділянці з огляду на сонце, вітер, рельєф і сусідів.</p>
+          <ul><li>схема генплану</li><li>вертикальне планування</li><li>доріжки, тераси, озеленення</li></ul>
+        </article>
+        <article class="svc">
+          <span class="code">АН-06</span>
+          <h3>Авторський нагляд</h3>
+          <p>Архітектор виїжджає на об'єкт і стежить, щоб побудували саме те, що запроєктовано.</p>
+          <ul><li>виїзди за графіком</li><li>журнал авторського нагляду</li><li>рішення на місці</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Проєкти</span>
+        <h2>Останні роботи</h2>
+        <p>Кожен проєкт починається з ділянки й способу життя замовника. Тому двох однакових будинків у нас немає.</p>
+      </div>
+      <div class="projects">
+        <article class="proj">
+          <figure>
+            <svg viewBox="0 0 400 260" fill="none" stroke="currentColor" aria-hidden="true">
+              <line x1="10" y1="220" x2="390" y2="220" stroke-width="2"/>
+              <rect x="40" y="130" width="200" height="90" stroke-width="1.6"/>
+              <rect x="150" y="70" width="210" height="60" stroke-width="1.6"/>
+              <line x1="360" y1="130" x2="360" y2="220" stroke-width="1.2"/>
+              <rect x="60" y="150" width="70" height="70" stroke-width="1"/><rect x="150" y="150" width="70" height="45" stroke-width="1"/>
+              <rect x="170" y="85" width="170" height="32" stroke-width="1"/>
+              <g stroke-width=".5" opacity=".5"><line x1="255" y1="85" x2="255" y2="117"/><line x1="40" y1="140" x2="240" y2="140"/></g>
+            </svg>
+          </figure>
+          <div class="proj-row"><h3>Будинок з консоллю</h3><span class="label">Ірпінь · 2025 · 214 м²</span></div>
+          <p>Другий поверх нависає над терасою на 4,5 м і дає тінь улітку. Каркас монолітний, фасад з планкенку.</p>
+        </article>
+        <article class="proj">
+          <figure>
+            <svg viewBox="0 0 400 260" fill="none" stroke="currentColor" aria-hidden="true">
+              <line x1="10" y1="220" x2="390" y2="220" stroke-width="2"/>
+              <path d="M70 220 V120 L200 40 L330 120 V220" stroke-width="1.6"/>
+              <g stroke-width=".5" opacity=".55">
+                <line x1="90" y1="108" x2="90" y2="220"/><line x1="110" y1="95" x2="110" y2="220"/><line x1="290" y1="95" x2="290" y2="220"/><line x1="310" y1="108" x2="310" y2="220"/>
+              </g>
+              <rect x="140" y="110" width="120" height="110" stroke-width="1.2"/>
+              <line x1="200" y1="110" x2="200" y2="220" stroke-width=".7"/>
+            </svg>
+          </figure>
+          <div class="proj-row"><h3>Барнхаус біля лісу</h3><span class="label">Київська обл. · 2024 · 142 м²</span></div>
+          <p>Двосхилий дах без звисів, другий світло у вітальні. Кошторис будівництва зібрали ще на стадії ескізу.</p>
+        </article>
+        <article class="proj">
+          <figure>
+            <svg viewBox="0 0 400 260" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="40" y="30" width="320" height="200" stroke-width="3"/>
+              <line x1="180" y1="30" x2="180" y2="140" stroke-width="2"/>
+              <line x1="40" y1="140" x2="150" y2="140" stroke-width="2"/><line x1="180" y1="140" x2="250" y2="140" stroke-width="2"/>
+              <line x1="250" y1="140" x2="250" y2="230" stroke-width="2"/>
+              <path d="M150 140 A30 30 0 0 1 180 110" stroke-width=".7"/>
+              <rect x="60" y="50" width="70" height="50" stroke-width=".8"/>
+              <rect x="210" y="50" width="120" height="34" rx="4" stroke-width=".8"/>
+              <circle cx="300" cy="185" r="22" stroke-width=".8"/>
+              <rect x="60" y="165" width="40" height="45" stroke-width=".8"/><rect x="110" y="165" width="40" height="45" stroke-width=".8"/>
+              <g font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" stroke="none"><text x="64" y="122">спальня 14,2</text><text x="200" y="122">вітальня 28,6</text><text x="270" y="222">кухня 11,4</text></g>
+            </svg>
+          </figure>
+          <div class="proj-row"><h3>Квартира на Подолі</h3><span class="label">Київ · 2025 · 78 м²</span></div>
+          <p>З двокімнатної зробили повноцінну трикімнатну без перенесення мокрих зон. Пакет робочих креслень на 46 аркушах.</p>
+        </article>
+        <article class="proj">
+          <figure>
+            <svg viewBox="0 0 400 260" fill="none" stroke="currentColor" aria-hidden="true">
+              <line x1="10" y1="220" x2="390" y2="220" stroke-width="2"/>
+              <rect x="50" y="50" width="300" height="170" stroke-width="1.6"/>
+              <g stroke-width=".9">
+                <line x1="110" y1="50" x2="110" y2="220"/><line x1="170" y1="50" x2="170" y2="220"/><line x1="230" y1="50" x2="230" y2="220"/><line x1="290" y1="50" x2="290" y2="220"/>
+                <line x1="50" y1="105" x2="350" y2="105"/><line x1="50" y1="160" x2="350" y2="160"/>
+              </g>
+              <rect x="170" y="160" width="60" height="60" fill="currentColor" opacity=".12" stroke-width="1.4"/>
+              <line x1="40" y1="50" x2="360" y2="50" stroke-width="2.4"/>
+            </svg>
+          </figure>
+          <div class="proj-row"><h3>Кав'ярня з офісом</h3><span class="label">Львів · 2024 · 390 м²</span></div>
+          <p>Двоповерхова будівля на вузькій міській ділянці. Модульний фасад, перший поверх повністю засклений.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="process">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Етапи роботи</span>
+        <h2>Як ми працюємо</h2>
+        <p>Оплата поетапна: ви платите лише за стадію, яку отримали й погодили. На кожному етапі можна зупинитися.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Бриф і виїзд</h3><p>Знайомимося, оглядаємо ділянку, збираємо побажання та вихідні дані.</p><span class="dur">1–3 дні</span></li>
+        <li><h3>Ескізний проєкт</h3><p>Планування, об'єм, фасади й візуалізації. Шукаємо рішення разом із вами.</p><span class="dur">3–4 тижні</span></li>
+        <li><h3>Проєкт (П)</h3><p>Креслення для отримання дозвільних документів і точний кошторис.</p><span class="dur">4–6 тижнів</span></li>
+        <li><h3>Робоча документація (Р)</h3><p>Креслення, вузли й специфікації, за якими будують без питань.</p><span class="dur">5–8 тижнів</span></li>
+        <li><h3>Авторський нагляд</h3><p>Виїзди на будмайданчик і рішення на місці під час будівництва.</p><span class="dur">весь час будівництва</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="savings">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Калькулятор економії</span>
+        <h2>Скільки заощадить хороший проєкт</h2>
+        <p>Рухайте повзунки під свій будинок. Калькулятор порівнює будівництво без детального проєкту і з ним: переробки, зайві матеріали, неефективну площу й опалення.</p>
+      </div>
+
+      <form class="save" id="save" aria-label="Калькулятор економії на будівництві" onsubmit="return false">
+        <div class="save-in">
+          <fieldset>
+            <legend>Будинок</legend>
+            <div class="sl"><div class="sl-top"><label for="s-area">Площа</label><output id="o-area" for="s-area"></output></div>
+              <input type="range" id="s-area" min="40" max="600" step="5" value="180"></div>
+            <div class="sl"><div class="sl-top"><label for="s-cost">Вартість будівництва за м²</label><output id="o-cost" for="s-cost"></output></div>
+              <input type="range" id="s-cost" min="15000" max="50000" step="500" value="28000">
+              <small>Коробка, покрівля, вікна, інженерія й чистове оздоблення.</small></div>
+          </fieldset>
+          <fieldset>
+            <legend>Ризики без проєкту</legend>
+            <div class="sl"><div class="sl-top"><label for="s-redo">Переробки на будмайданчику</label><output id="o-redo" for="s-redo"></output></div>
+              <input type="range" id="s-redo" min="0" max="25" step="1" value="10">
+              <small>Частка бюджету на демонтаж і повторні роботи. Проєкт прибирає ~80% із них.</small></div>
+            <div class="sl"><div class="sl-top"><label for="s-mat">Перевитрата матеріалів</label><output id="o-mat" for="s-mat"></output></div>
+              <input type="range" id="s-mat" min="0" max="20" step="1" value="7">
+              <small>Закупівля «із запасом» без специфікацій. Відомості матеріалів скорочують її на ~70%.</small></div>
+            <div class="sl"><div class="sl-top"><label for="s-waste">Неефективна площа</label><output id="o-waste" for="s-waste"></output></div>
+              <input type="range" id="s-waste" min="0" max="15" step="1" value="6">
+              <small>Довгі коридори й непотрібні метри, які можна не будувати за тих самих кімнат.</small></div>
+          </fieldset>
+          <fieldset>
+            <legend>Експлуатація</legend>
+            <div class="sl"><div class="sl-top"><label for="s-heat">Опалення на рік</label><output id="o-heat" for="s-heat"></output></div>
+              <input type="range" id="s-heat" min="10000" max="150000" step="1000" value="48000"></div>
+            <div class="sl"><div class="sl-top"><label for="s-energy">Енергоекономія від проєкту</label><output id="o-energy" for="s-energy"></output></div>
+              <input type="range" id="s-energy" min="0" max="40" step="1" value="20">
+              <small>Орієнтація, вузли без містків холоду, правильне скління. Можна підібрати нижче.</small></div>
+            <div class="sl"><div class="sl-top"><label for="s-years">Горизонт розрахунку</label><output id="o-years" for="s-years"></output></div>
+              <input type="range" id="s-years" min="1" max="30" step="1" value="10"></div>
+          </fieldset>
+        </div>
+
+        <div class="save-out" aria-live="polite">
+          <div class="kpis">
+            <div class="kpi hero"><span class="label">Загальна економія</span><strong id="k-total">0 ₴</strong><p id="k-total-note"></p></div>
+            <div class="kpi"><span class="label">Проєкт окупається</span><strong id="k-roi">0×</strong><p id="k-roi-note"></p></div>
+            <div class="kpi"><span class="label">Чиста вигода</span><strong id="k-net">0 ₴</strong><p>економія мінус вартість проєкту</p></div>
+          </div>
+
+          <div class="chart">
+            <h3>З чого складається економія</h3>
+            <div class="bars" id="b-items"></div>
+          </div>
+
+          <div class="chart">
+            <h3>Загальні витрати за <span id="b-years">10 років</span></h3>
+            <div class="bars" id="b-compare"></div>
+            <p class="axis-note">Будівництво, переробки, матеріали, опалення і вартість проєкту разом. Наведіть на рядок, щоб побачити деталі.</p>
+          </div>
+        </div>
+      </form>
+
+      <div class="tools">
+        <article class="tool sun">
+          <span class="label">Інструмент · Орієнтація</span>
+          <h3>Поверніть будинок до сонця</h3>
+          <p>Синя лінія показує засклений фасад вітальні. Найбільше тепла взимку він отримує, коли дивиться на південь.</p>
+          <svg viewBox="0 0 320 320" aria-label="Схема ділянки з траєкторією сонця" role="img">
+            <circle cx="160" cy="160" r="130" fill="none" stroke="var(--line)" stroke-width="1"/>
+            <circle cx="160" cy="160" r="90" fill="none" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+            <g font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--muted)" text-anchor="middle">
+              <text x="160" y="20">Пн</text><text x="160" y="312">Пд</text><text x="10" y="164">Зх</text><text x="310" y="164">Сх</text>
+            </g>
+            <path d="M 52 205 A 120 120 0 0 0 268 205" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="2 5" opacity=".8"/>
+            <g fill="var(--accent)"><circle cx="160" cy="276" r="9"/></g>
+            <g stroke="var(--accent)" stroke-width="1.4"><line x1="160" y1="258" x2="160" y2="250"/><line x1="160" y1="294" x2="160" y2="300"/><line x1="142" y1="276" x2="136" y2="276"/><line x1="178" y1="276" x2="184" y2="276"/></g>
+            <g id="house">
+              <rect x="110" y="128" width="100" height="64" fill="var(--sheet)" stroke="currentColor" stroke-width="2"/>
+              <line x1="160" y1="128" x2="160" y2="192" stroke="currentColor" stroke-width=".8"/>
+              <line x1="114" y1="192" x2="206" y2="192" stroke="var(--accent)" stroke-width="5"/>
+              <text x="135" y="165" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--muted)" text-anchor="middle">вітальня</text>
+              <text x="185" y="165" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--muted)" text-anchor="middle">спальні</text>
+            </g>
+          </svg>
+          <div class="sl"><div class="sl-top"><label for="s-rot">Поворот будинку</label><output id="o-rot" for="s-rot"></output></div>
+            <input type="range" id="s-rot" min="-180" max="180" step="5" value="120"></div>
+          <div class="tool-row">
+            <div><span class="label">Сонце у вітальні</span><strong id="sun-gain">0%</strong></div>
+            <div><span class="label">Економія на опаленні</span><strong id="sun-save">0%</strong></div>
+          </div>
+          <button class="btn" type="button" id="sun-apply">Перенести в калькулятор</button>
+        </article>
+
+        <article class="tool">
+          <span class="label">Інструмент · Планування</span>
+          <h3>Той самий будинок, інше планування</h3>
+          <p>Потягніть розділювач. Обидва варіанти мають однаковий набір кімнат, але проєкт архітектора на 14 м² менший і не має темного коридору.</p>
+          <div class="compare" id="compare" style="--pos: 50%">
+            <svg viewBox="0 0 400 300" aria-hidden="true">
+              <rect x="20" y="20" width="360" height="260" fill="none" stroke="currentColor" stroke-width="3"/>
+              <rect x="20" y="130" width="360" height="40" fill="color-mix(in srgb, var(--muted) 18%, transparent)" stroke="none"/>
+              <g stroke="currentColor" stroke-width="2">
+                <line x1="20" y1="130" x2="380" y2="130"/><line x1="20" y1="170" x2="380" y2="170"/>
+                <line x1="140" y1="20" x2="140" y2="130"/><line x1="260" y1="20" x2="260" y2="130"/>
+                <line x1="130" y1="170" x2="130" y2="280"/><line x1="200" y1="170" x2="200" y2="280"/><line x1="290" y1="170" x2="290" y2="280"/>
+              </g>
+              <g font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor" text-anchor="middle">
+                <text x="80" y="78">спальня</text><text x="200" y="78">спальня</text><text x="320" y="78">кухня</text>
+                <text x="200" y="154" fill="var(--muted)">коридор 17 м²</text>
+                <text x="75" y="228">вітальня</text><text x="165" y="228">с/в</text><text x="245" y="228">кабінет</text><text x="335" y="228">хол</text>
+              </g>
+              <text x="30" y="296" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)">134 м² · коридори 19%</text>
+            </svg>
+            <svg class="after" viewBox="0 0 400 300" aria-hidden="true">
+              <rect x="20" y="20" width="340" height="260" fill="none" stroke="var(--accent)" stroke-width="3"/>
+              <rect x="360" y="20" width="20" height="260" fill="var(--paper)" stroke="none"/>
+              <rect x="130" y="130" width="60" height="40" fill="color-mix(in srgb, var(--accent) 14%, transparent)" stroke="none"/>
+              <g stroke="var(--accent)" stroke-width="2">
+                <line x1="130" y1="20" x2="130" y2="280"/><line x1="130" y1="130" x2="190" y2="130"/><line x1="130" y1="170" x2="190" y2="170"/>
+                <line x1="190" y1="20" x2="190" y2="280"/>
+                <line x1="20" y1="150" x2="130" y2="150"/><line x1="190" y1="110" x2="360" y2="110"/><line x1="275" y1="20" x2="275" y2="110"/>
+              </g>
+              <g font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor" text-anchor="middle">
+                <text x="75" y="88">спальня</text><text x="75" y="218">спальня</text>
+                <text x="160" y="154" fill="var(--accent)">хол 4 м²</text><text x="160" y="80">с/в</text><text x="160" y="228">кабінет</text>
+                <text x="232" y="70">тераса</text><text x="318" y="70">комора</text>
+                <text x="275" y="190">кухня-вітальня</text><text x="275" y="206" font-size="9" fill="var(--muted)">36 м², світло з двох боків</text>
+              </g>
+              <text x="200" y="296" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--accent)">120 м² · коридори 6%</text>
+            </svg>
+            <span class="divider"></span>
+            <input type="range" id="s-compare" min="0" max="100" value="50" aria-label="Порівняння планувань: ліворуч типовий, праворуч проєкт архітектора">
+          </div>
+          <div class="compare-tags"><span class="label">← Типовий проєкт</span><span class="label">Проєкт Обрис →</span></div>
+          <div class="tool-row">
+            <div><span class="label">Менше площі</span><strong>−14 м²</strong></div>
+            <div><span class="label">Заощаджено на коробці</span><strong id="cmp-save">0 ₴</strong></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="prices">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Вартість</span>
+        <h2>Ціни за квадратний метр</h2>
+        <p>Ціна залежить від площі та складу проєкту. Точну суму фіксуємо в договорі після брифу, і вона не змінюється.</p>
+      </div>
+      <div class="prices">
+        <article class="price">
+          <h3>Ескізний проєкт</h3>
+          <div class="amount">350 ₴ <small>/ м²</small></div>
+          <ul><li>планування поверхів</li><li>фасади й розрізи</li><li>3D-візуалізація</li><li>схема генплану</li></ul>
+        </article>
+        <article class="price is-main">
+          <span class="tag">Найчастіше обирають</span>
+          <h3>Архітектурний проєкт</h3>
+          <div class="amount">750 ₴ <small>/ м²</small></div>
+          <ul><li>усе з ескізного проєкту</li><li>стадія П для дозволів</li><li>робочі креслення АР</li><li>відомість матеріалів</li></ul>
+        </article>
+        <article class="price">
+          <h3>Повний комплект</h3>
+          <div class="amount">1 400 ₴ <small>/ м²</small></div>
+          <ul><li>усе з архітектурного проєкту</li><li>конструктив (КЗ, КД)</li><li>інженерні мережі</li><li>кошторис будівництва</li></ul>
+        </article>
+      </div>
+
+      <form class="calc" id="calc" aria-label="Калькулятор вартості проєкту" onsubmit="return false">
+        <div class="calc-in">
+          <div class="field">
+            <label for="area">Площа будинку</label>
+            <div class="range-row">
+              <input type="range" id="area" min="40" max="600" step="5" value="180">
+              <output id="areaOut" for="area">180 м²</output>
+            </div>
+          </div>
+          <fieldset class="field">
+            <legend>Склад проєкту</legend>
+            <div class="seg">
+              <input type="radio" name="pkg" id="pkg1" value="sketch"><label for="pkg1">Ескізний</label>
+              <input type="radio" name="pkg" id="pkg2" value="arch" checked><label for="pkg2">Архітектурний</label>
+              <input type="radio" name="pkg" id="pkg3" value="full"><label for="pkg3">Повний</label>
+            </div>
+          </fieldset>
+          <label class="check" for="nadzor"><input type="checkbox" id="nadzor"> Додати авторський нагляд (6 виїздів)</label>
+        </div>
+        <div class="calc-out" aria-live="polite">
+          <span class="label">Орієнтовна вартість</span>
+          <div class="big" id="total">135 000 ₴</div>
+          <div class="row"><span>Термін</span><span id="term">9–12 тижнів</span></div>
+          <div class="row"><span>Ставка</span><span id="rate">750 ₴/м²</span></div>
+          <p class="note">Розрахунок попередній. Остаточну ціну фіксуємо в договорі.</p>
+          <a class="btn btn--solid" href="#contact" id="calcCta">Надіслати розрахунок</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Питання</span>
+        <h2>Часті запитання</h2>
+        <p>Не знайшли відповіді? Напишіть нам, відповідаємо протягом робочого дня.</p>
+      </div>
+      <div class="faq">
+        <details><summary>Чи можна працювати дистанційно?</summary><p>Так. Зустрічі проводимо онлайн, креслення надсилаємо в PDF і DWG. На ділянку виїжджаємо один раз на старті; для об'єктів поза Київською областю дорогу оплачує замовник.</p></details>
+        <details><summary>Чи підійде проєкт для отримання дозволу на будівництво?</summary><p>Так, стадія П входить в архітектурний і повний комплект. Ми готуємо креслення відповідно до ДБН і допомагаємо з поданням документів.</p></details>
+        <details><summary>Скільки разів можна вносити зміни?</summary><p>На стадії ескізу правки необмежені, доки ви не погодите рішення. Після погодження зміни, що зачіпають конструктив, оцінюємо окремо.</p></details>
+        <details><summary>Чи допомагаєте ви з вибором підрядника?</summary><p>Порекомендуємо перевірені бригади й допоможемо порівняти кошториси. Під час авторського нагляду стежимо, щоб будували за проєктом.</p></details>
+        <details><summary>Як відбувається оплата?</summary><p>Поетапно: 30% авансу за стадію, решту після здачі креслень цієї стадії. Працюємо за договором, приймаємо безготівковий розрахунок.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block contact" id="contact">
+    <div class="wrap">
+      <div class="contact-info">
+        <span class="label">Контакти</span>
+        <h2>Розкажіть про свій проєкт</h2>
+        <p>Залиште заявку, і архітектор зателефонує, щоб обговорити задачу та призначити безкоштовний виїзд.</p>
+        <div class="contact-list">
+          <div><span class="label">Телефон</span><b>+380 00 000 00 00</b></div>
+          <div><span class="label">Пошта</span><b>studio@vash-domen.ua</b></div>
+          <div><span class="label">Студія</span><b>Київ, вул. Вашої студії, 1</b></div>
+        </div>
+      </div>
+
+      <form class="lead" id="lead" novalidate>
+        <label>Ім'я<input id="f-name" name="name" autocomplete="name" required></label>
+        <label>Телефон<input id="f-phone" name="phone" type="tel" autocomplete="tel" required placeholder="+380"></label>
+        <label>Тип об'єкта
+          <select id="f-type" name="type">
+            <option>Приватний будинок</option><option>Інтер'єр</option><option>Комерційний об'єкт</option><option>Реконструкція</option><option>Інше</option>
+          </select>
+        </label>
+        <label>Площа, м²<input id="f-area" name="area" inputmode="numeric" placeholder="напр., 180"></label>
+        <label class="full">Коротко про задачу<textarea id="f-msg" name="msg" placeholder="Ділянка, бюджет, бажані терміни"></textarea></label>
+        <p class="err full" id="f-err" hidden>Вкажіть ім'я та телефон, щоб ми могли з вами зв'язатися.</p>
+        <button class="btn btn--solid full" type="submit">Залишити заявку</button>
+        <div class="done" id="f-done" hidden>
+          <h3>Заявку сформовано</h3>
+          <p>Скопіюйте текст і надішліть його на пошту або в месенджер за номером зліва.</p>
+          <pre id="f-text"></pre>
+          <button class="btn" type="button" id="f-copy">Скопіювати текст</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="label">© 2026 Архітектурне бюро «Обрис»</span>
+    <span class="label">Проєктування за ДБН · Київ</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const PKG = {
+    sketch: { rate: 350, label: "Ескізний проєкт", weeks: [3, 4] },
+    arch:   { rate: 750, label: "Архітектурний проєкт", weeks: [9, 12] },
+    full:   { rate: 1400, label: "Повний комплект", weeks: [14, 18] }
+  };
+  const NADZOR = 6 * 2500;
+  const fmt = n => n.toLocaleString("uk-UA").replace(/,/g, " ") + " ₴";
+  const $ = id => document.getElementById(id);
+  const area = $("area");
+
+  function calc() {
+    const a = +area.value;
+    const p = PKG[document.querySelector('input[name="pkg"]:checked').value];
+    const extra = Math.ceil(Math.max(0, a - 200) / 100); // bigger houses take longer
+    let total = Math.max(a * p.rate, 25000);
+    if ($("nadzor").checked) total += NADZOR;
+    $("areaOut").textContent = a + " м²";
+    $("total").textContent = fmt(total);
+    $("rate").textContent = p.rate.toLocaleString("uk-UA").replace(/,/g, " ") + " ₴/м²";
+    $("term").textContent = (p.weeks[0] + extra) + "–" + (p.weeks[1] + extra) + " тижнів";
+    return { a, p, total };
+  }
+  $("calc").addEventListener("input", calc);
+  calc();
+
+  $("calcCta").addEventListener("click", () => {
+    const { a, p, total } = calc();
+    $("f-area").value = a;
+    if (!$("f-msg").value) $("f-msg").value = `Цікавить: ${p.label}. Розрахунок на сайті: ${fmt(total)}.`;
+  });
+
+
+  // Savings calculator
+  const money = n => {
+    const a = Math.abs(n), sign = n < 0 ? "−" : "";
+    if (a >= 1e6) return sign + (a / 1e6).toLocaleString("uk-UA", { maximumFractionDigits: 2 }) + " млн ₴";
+    return sign + Math.round(a).toLocaleString("uk-UA").replace(/,/g, " ") + " ₴";
+  };
+  const yearsWord = y => y % 10 === 1 && y % 100 !== 11 ? "рік" : (y % 10 >= 2 && y % 10 <= 4 && (y % 100 < 10 || y % 100 >= 20)) ? "роки" : "років";
+  const v = id => +$(id).value;
+
+  function bars(el, rows, max, cls) {
+    el.innerHTML = rows.map(r => `
+      <div class="bar ${r.base ? "is-base" : ""}" tabindex="0" data-tip="${r.tip}">
+        <span>${r.name}</span>
+        <span class="track"><span class="fill" style="width:${max > 0 ? Math.max(0, r.value) / max * 100 : 0}%"></span></span>
+        <span class="v">${money(r.value)}</span>
+      </div>`).join("");
+  }
+
+  function savings() {
+    const A = v("s-area"), C = v("s-cost"), r = v("s-redo") / 100, m = v("s-mat") / 100,
+          w = v("s-waste") / 100, H = v("s-heat"), e = v("s-energy") / 100, Y = v("s-years");
+    $("o-area").textContent = A + " м²";
+    $("o-cost").textContent = money(C);
+    $("o-redo").textContent = Math.round(r * 100) + "%";
+    $("o-mat").textContent = Math.round(m * 100) + "%";
+    $("o-waste").textContent = Math.round(w * 100) + "%";
+    $("o-heat").textContent = money(H);
+    $("o-energy").textContent = Math.round(e * 100) + "%";
+    $("o-years").textContent = Y + " " + yearsWord(Y);
+
+    const B = A * C, P = A * 750;
+    const items = [
+      { name: "Без переробок", value: B * r * .8, tip: `Бюджет ${money(B)} × ${Math.round(r * 100)}% переробок × 80%, яких уникає проєкт` },
+      { name: "Точні матеріали", value: B * m * .7, tip: `Бюджет × ${Math.round(m * 100)}% перевитрати × 70%, що прибирають специфікації` },
+      { name: "Компактна площа", value: B * w, tip: `${(A * w).toFixed(1).replace(".", ",")} м² не треба будувати × ${money(C)} за м²` },
+      { name: "Опалення", value: H * e * Y, tip: `${money(H)} на рік × ${Math.round(e * 100)}% × ${Y} ${yearsWord(Y)}` }
+    ];
+    const S = items.reduce((t, i) => t + i.value, 0), net = S - P;
+    const without = B * (1 + r + m) + H * Y;
+    const withP = without - net;
+
+    $("k-total").textContent = money(S);
+    $("k-total-note").textContent = `за ${Y} ${yearsWord(Y)} для будинку ${A} м², до вирахування вартості проєкту`;
+    $("k-roi").textContent = (S / P).toLocaleString("uk-UA", { maximumFractionDigits: 1 }) + "×";
+    $("k-roi-note").textContent = `проєкт коштує ${money(P)} (750 ₴/м²)`;
+    $("k-net").textContent = money(net);
+    $("b-years").textContent = Y + " " + yearsWord(Y);
+
+    bars($("b-items"), items, Math.max(...items.map(i => i.value)));
+    bars($("b-compare"), [
+      { name: "Без проєкту", value: without, base: true, tip: `Будівництво ${money(B)} + переробки + зайві матеріали + опалення за ${Y} ${yearsWord(Y)}` },
+      { name: "З проєктом Обрис", value: withP, tip: `Менша площа, без переробок, точні закупівлі, тепліший будинок і вартість проєкту ${money(P)}` }
+    ], Math.max(without, withP));
+    $("cmp-save").textContent = money(14 * C);
+  }
+  $("save").addEventListener("input", savings);
+  savings();
+
+  // Sun orientation
+  const DIRS = ["південь", "південний захід", "захід", "північний захід", "північ", "північний схід", "схід", "південний схід"];
+  let sunPct = 0;
+  function sun() {
+    const deg = v("s-rot");
+    $("house").setAttribute("transform", `rotate(${deg} 160 160)`);
+    $("o-rot").textContent = DIRS[((Math.round(deg / 45) % 8) + 8) % 8];
+    const gain = Math.max(0, Math.cos(deg * Math.PI / 180));
+    sunPct = Math.round(5 + 25 * gain);
+    $("sun-gain").textContent = Math.round(gain * 100) + "%";
+    $("sun-save").textContent = sunPct + "%";
+  }
+  $("s-rot").addEventListener("input", sun);
+  sun();
+  $("sun-apply").addEventListener("click", () => {
+    $("s-energy").value = sunPct;
+    savings();
+    $("save").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  // Plan comparison
+  $("s-compare").addEventListener("input", e => $("compare").style.setProperty("--pos", e.target.value + "%"));
+
+  // The page has no server: the form composes the request text for the visitor to send.
+  // To receive leads directly, point this handler at your form service.
+  $("lead").addEventListener("submit", e => {
+    e.preventDefault();
+    const name = $("f-name").value.trim(), phone = $("f-phone").value.trim();
+    $("f-err").hidden = !!(name && phone);
+    if (!name || !phone) return;
+    $("f-text").textContent = [
+      "Заявка на проєктування",
+      "Ім'я: " + name,
+      "Телефон: " + phone,
+      "Об'єкт: " + $("f-type").value,
+      $("f-area").value ? "Площа: " + $("f-area").value + " м²" : "",
+      $("f-msg").value.trim() ? "Задача: " + $("f-msg").value.trim() : ""
+    ].filter(Boolean).join("\n");
+    $("f-done").hidden = false;
+    $("f-done").scrollIntoView({ block: "nearest", behavior: "smooth" });
+  });
+
+  $("f-copy").addEventListener("click", e => {
+    const btn = e.currentTarget, text = $("f-text").textContent;
+    navigator.clipboard.writeText(text).then(() => { btn.textContent = "Скопійовано"; }).catch(() => {
+      const r = document.createRange(); r.selectNodeContents($("f-text"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = "Текст виділено, натисніть Ctrl+C";
+    });
+  });
+})();
+</script>
+</body>
+</html>
