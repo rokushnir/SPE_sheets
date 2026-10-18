@@ -1,0 +1,1287 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Перемовини й домовленості</title>
+<meta name="description" content="Заняття 03 «Перемовини і вміння домовлятись»: айсберг складових особистості у спілкуванні, ролі Я+/Ти+, компліменти й кордони, розмова графічно, принципи і триступенева модель психологічного айкідо з симулятором діалогу, домашнє завдання та практика.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Стиль робочого зошита «Мистецтво перемовин»: світло-сірий аркуш, фіолетові плашки й лавандові поля. */
+  :root {
+    --bg: #ececec;
+    --paper: #f7f7f7;
+    --surface: #ffffff;
+    --text: #1f1f22;
+    --muted: #66666d;
+    --faint: #9a9aa1;
+    --line: #e2e2e4;
+    --vio: #9b6cf0;
+    --vio-2: #7d4fe3;
+    --deep: #402090;
+    --ink: #402090;
+    --lav: #ece4fd;
+    --lav-2: #f5f0fe;
+    --on-vio: #ffffff;
+    --ice: #f1ebff;
+    --water: rgba(125, 79, 227, .16);
+    --ok: #22a447;
+    --no: #e5484d;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .07);
+    --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121214; --paper: #1a1a1d; --surface: #232327; --text: #ededf0; --muted: #a5a5ad; --faint: #75757d; --line: #303035;
+      --vio: #a47cf6; --vio-2: #8a5ef0; --deep: #5b37c0; --ink: #cdb8ff; --lav: #2d2545; --lav-2: #231d33; --ice: #2b2442;
+      --water: rgba(150, 110, 255, .2); --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121214; --paper: #1a1a1d; --surface: #232327; --text: #ededf0; --muted: #a5a5ad; --faint: #75757d; --line: #303035;
+    --vio: #a47cf6; --vio-2: #8a5ef0; --deep: #5b37c0; --ink: #cdb8ff; --lav: #2d2545; --lav-2: #231d33; --ice: #2b2442;
+    --water: rgba(150, 110, 255, .2); --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--vio); outline-offset: 2px; }
+  .wrap { width: min(980px, 100% - 32px); margin: 0 auto; padding: 0 0 60px; }
+  .sheet { position: relative; background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(18px, 4vw, 40px); scroll-margin-top: 78px; }
+  .sheet + .sheet { margin-top: 24px; }
+
+  /* ---------- Навігація + прогрес ---------- */
+  .topbar { position: sticky; top: 0; z-index: 40; margin: 0 -4px 16px; padding: 10px 4px 8px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); }
+  .secnav { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .secnav::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) { .secnav { flex-wrap: wrap; justify-content: center; } }
+  .secnav a {
+    flex: none; text-decoration: none; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 700; white-space: nowrap; transition: background .2s, color .2s;
+  }
+  .secnav a:hover { border-color: var(--vio); color: var(--text); }
+  .secnav a.on { background: var(--vio); border-color: var(--vio); color: var(--on-vio); }
+  .secnav a.done::after { content: " ✓"; color: var(--ok); }
+  .secnav a.on.done::after { color: #fff; }
+  .prog { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .prog-bar { flex: 1; height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .prog-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--vio), var(--vio-2)); border-radius: 99px; transition: width .5s; }
+  .prog b { color: var(--ink); }
+
+  /* ---------- Шапка як у зошиті ---------- */
+  .lesson { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+  .lesson-num { background: var(--vio); color: var(--on-vio); border-radius: 10px; padding: 6px 12px 5px; text-align: center; font-family: "Unbounded", sans-serif; line-height: 1; }
+  .lesson-num b { display: block; font-size: 34px; font-weight: 700; }
+  .lesson-num small { font-family: "Inter", sans-serif; font-size: 10px; letter-spacing: .04em; }
+  .lesson-sub { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+  h1 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(20px, 3.4vw, 32px); line-height: 1.15; margin: 2px 0 0; text-wrap: balance; }
+  .mood-wrap { position: relative; }
+  .sticker {
+    width: 132px; min-height: 72px; border: 2px dashed var(--line); border-radius: 14px; background: transparent;
+    display: grid; place-items: center; color: var(--faint); font-family: "Unbounded", sans-serif; font-size: 12px; line-height: 1.2;
+    padding: 6px; transition: transform .2s, border-color .2s;
+  }
+  .sticker:hover { border-color: var(--vio); transform: rotate(-3deg); }
+  .sticker.has { border-color: transparent; font-size: 44px; }
+  .sticker img { width: 96px; height: auto; }
+  .sticker.has > * { animation: stick .5s cubic-bezier(.2, 1.6, .4, 1) both; }
+  @keyframes stick { from { transform: scale(1.8) rotate(18deg); opacity: 0; } to { transform: rotate(-6deg); opacity: 1; } }
+  .mood-pop {
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: var(--shadow); padding: 12px; width: 260px;
+  }
+  .mood-pop[hidden] { display: none; }
+  .mood-pop p { margin: 0 0 8px; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .mood-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .mood-row button { border: 1px solid var(--line); background: var(--paper); border-radius: 12px; padding: 4px; font-size: 26px; line-height: 1; min-width: 44px; min-height: 44px; }
+  .mood-row button:hover { border-color: var(--vio); }
+  .mood-row .st-btn { width: 108px; }
+  .mood-row .st-btn img { width: 100%; height: auto; display: block; }
+
+  /* Наліпки-персонажі виглядають як наклейки */
+  .stk { filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .25)); transform: rotate(-6deg); transition: transform .25s, filter .25s; }
+  .stk:hover { transform: rotate(-2deg) translateY(-3px) scale(1.04); filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .3)); }
+  .corner-st { position: absolute; top: -18px; right: -10px; width: 92px; height: auto; z-index: 5; pointer-events: auto; }
+  .fly { position: fixed; z-index: 99; pointer-events: none; filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .35)); }
+
+  /* Текстові наліпки */
+  .tst { display: inline-block; background: #fff; color: #1f1f22; border-radius: 14px; padding: 8px 12px 10px; box-shadow: 0 6px 16px rgba(0, 0, 0, .14); transform: rotate(-4deg); text-align: left; line-height: 1.15; }
+  .tst b { display: block; font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+  .tst span { display: inline-block; background: var(--vio); color: #fff; font-weight: 800; font-size: 15px; padding: 2px 8px 3px; border-radius: 7px; }
+  .tst.r { transform: rotate(3deg); }
+
+  /* ---------- Розділи ---------- */
+  .sec-head { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin-bottom: 6px; }
+  .sec-num { width: 46px; height: 46px; border-radius: 12px; background: var(--vio); color: var(--on-vio); display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 20px; transition: background .3s; }
+  .sheet.done .sec-num { background: var(--ok); }
+  h2 { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: clamp(17px, 2.6vw, 22px); line-height: 1.2; margin: 2px 0 0; text-wrap: balance; }
+  h3 { font-size: 16px; font-weight: 800; margin: 26px 0 4px; }
+  .sec-tools { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .btn { border: 0; border-radius: 12px; background: var(--vio); color: var(--on-vio); font-weight: 800; padding: 11px 18px; white-space: nowrap; transition: background .2s, transform .15s; }
+  .btn:hover { background: var(--vio-2); transform: translateY(-1px); }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); font-weight: 600; }
+  .btn-ghost:hover { background: var(--lav); }
+  .btn-sm { padding: 8px 12px; font-size: 13px; border-radius: 10px; }
+  .hint { color: var(--muted); font-size: 14px; margin: 4px 0 12px; max-width: 760px; }
+  .tip { background: var(--lav); border-radius: 12px; padding: 12px 14px; font-size: 14px; margin: 14px 0 0; }
+  .tip b { color: var(--ink); }
+  textarea.area, input.field {
+    width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; font-size: 15px;
+  }
+  textarea.area { resize: vertical; min-height: 78px; line-height: 1.45; }
+  textarea.area:focus, input.field:focus { outline: 2px solid var(--vio); outline-offset: 0; border-color: transparent; }
+  ::placeholder { color: var(--faint); }
+  .lbl { display: block; font-size: 13px; font-weight: 700; color: var(--muted); margin: 10px 0 4px; }
+  .chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; transition: border-color .2s, background .2s; }
+  .chip:hover { border-color: var(--vio); background: var(--lav); }
+  .chip.on { background: var(--vio); border-color: var(--vio); color: #fff; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+  .shake { animation: shake .4s; }
+  @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+  .pop { animation: popin .35s both; }
+  @keyframes popin { from { transform: scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  /* ---------- 1. Айсберг ---------- */
+  .ice-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; align-items: start; margin-top: 10px; }
+  .ice-svg { width: 100%; height: auto; display: block; touch-action: none; user-select: none; }
+  .ice-body { fill: var(--ice); stroke: var(--vio-2); stroke-width: 2; stroke-linejoin: round; }
+  .water { fill: var(--water); }
+  .wave { fill: none; stroke: var(--vio-2); stroke-width: 2.5; }
+  .wave-g { animation: wave 6s linear infinite; }
+  @keyframes wave { to { transform: translateX(-80px); } }
+  .lay { cursor: pointer; }
+  .lay line { stroke: var(--vio-2); stroke-width: 1.5; }
+  .lay circle { fill: var(--surface); stroke: var(--vio-2); stroke-width: 2; transition: r .2s; }
+  .lay text { font-size: 15px; font-weight: 800; fill: var(--text); transition: opacity .4s, filter .4s; }
+  .lay .q { fill: var(--faint); opacity: 0; }
+  .lay.hide text.n { opacity: .08; filter: blur(3px); }
+  .lay.hide .q { opacity: 1; }
+  .lay.sel circle { fill: var(--vio); r: 8; }
+  .lay.sel text.n { fill: var(--ink); }
+  .ice-cap { font-size: 13px; font-weight: 800; fill: var(--ink); }
+  .ice-zone { font-size: 11px; font-weight: 700; letter-spacing: .1em; fill: var(--faint); }
+  .lvl { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; margin-top: 6px; font-size: 13px; font-weight: 700; color: var(--muted); }
+  input[type=range] { width: 100%; accent-color: var(--vio); }
+  .layers { display: grid; gap: 6px; }
+  .layer-btn {
+    display: grid; grid-template-columns: 26px 1fr auto; gap: 8px; align-items: center; text-align: left; border: 1px solid var(--line);
+    background: var(--surface); border-radius: 12px; padding: 8px 10px; font-weight: 700; font-size: 14px;
+  }
+  .layer-btn i { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-style: normal; font-size: 12px; background: var(--lav); color: var(--ink); }
+  .layer-btn.under i { background: var(--deep); color: #fff; }
+  .layer-btn small { color: var(--faint); font-weight: 600; font-size: 11px; }
+  .layer-btn.sel { border-color: var(--vio); box-shadow: 0 0 0 2px var(--lav); }
+  .layer-btn.filled small { color: var(--ok); }
+  .layer-card { margin-top: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; position: relative; }
+  .layer-card h4 { margin: 0 0 4px; font-size: 15px; color: var(--ink); }
+  .layer-card p { margin: 0 0 8px; font-size: 14px; }
+  .peek { position: absolute; right: -8px; bottom: -14px; width: 70px; height: auto; transform: rotate(10deg); }
+  .peek.wink { animation: wink 2.4s ease-in-out infinite; }
+  @keyframes wink { 0%, 80%, 100% { transform: rotate(10deg); } 88% { transform: rotate(2deg) translateY(-6px); } }
+  .trans { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; margin-top: 16px; background: var(--lav-2); border: 1px dashed var(--vio); border-radius: 14px; padding: 12px 14px; font-size: 14px; }
+  .trans svg { width: 120px; height: 46px; }
+
+  /* ---------- 2. Ролі ---------- */
+  .pool { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 14px; min-height: 44px; padding: 10px; border-radius: 14px; background: var(--lav-2); border: 1px dashed var(--line); }
+  .pool:empty::after { content: "Усі репліки розкладено 🎉"; font-size: 14px; font-weight: 700; color: var(--ok); align-self: center; }
+  .card {
+    border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 8px 12px; font-size: 13.5px; font-weight: 600;
+    text-align: left; max-width: 100%; box-shadow: 0 3px 8px rgba(0, 0, 0, .05); transition: transform .15s, box-shadow .15s;
+  }
+  .card[draggable=true] { cursor: grab; }
+  .card.sel { border-color: var(--vio); box-shadow: 0 0 0 3px var(--lav); transform: translateY(-2px); }
+  .card.placed { cursor: default; background: var(--lav-2); font-size: 12.5px; padding: 6px 10px; box-shadow: none; }
+  .roles { display: grid; grid-template-columns: 44px minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+  .roles .ch { text-align: center; font-weight: 800; color: var(--ink); font-size: 15px; align-self: end; }
+  .roles .rh { font-weight: 800; color: var(--ink); align-self: center; text-align: center; font-size: 15px; }
+  .quad { background: var(--surface); border: 2px solid transparent; border-radius: 14px; padding: 10px; min-height: 140px; display: flex; flex-direction: column; gap: 6px; transition: border-color .2s, background .2s; }
+  .quad.target { border-color: var(--vio); border-style: dashed; cursor: pointer; }
+  .quad.over { background: var(--lav); }
+  .quad .tag { align-self: flex-start; background: var(--vio); color: #fff; border-radius: 99px; padding: 3px 10px; font-size: 12px; font-weight: 800; }
+  .quad[data-q=pm] .tag, .quad[data-q=mm] .tag { background: var(--deep); }
+  .quad .desc { font-size: 12.5px; color: var(--muted); margin: 0; }
+  .quad textarea { min-height: 56px; font-size: 13.5px; margin-top: auto; }
+  .score-line { font-size: 14px; font-weight: 700; color: var(--muted); }
+  .score-line b { color: var(--ink); }
+
+  /* ---------- 3. Компліменти ---------- */
+  .types { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+  .type { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 13px; }
+  .type b { display: block; font-size: 14px; color: var(--ink); }
+  .type i { display: block; color: var(--muted); margin-top: 4px; }
+  .type.neg b { color: var(--no); }
+  .comp-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 12px; align-items: start; }
+  .tree { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 0 14px; align-items: center; }
+  .tree-root { font-weight: 800; font-size: 15px; line-height: 1.2; position: relative; padding-right: 10px; }
+  .tree-root::after { content: ""; position: absolute; right: -8px; top: 50%; width: 10px; height: 10px; border-radius: 50%; background: var(--vio); transform: translateY(-50%); }
+  .branches { list-style: none; margin: 0; padding: 0 0 0 18px; border-left: 3px solid var(--vio); display: grid; gap: 6px; }
+  .branches li { position: relative; }
+  .branches li::before { content: ""; position: absolute; left: -18px; top: 50%; width: 16px; border-top: 3px solid var(--vio); }
+  .branches button { width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 7px 10px; font-weight: 700; font-size: 14px; display: flex; justify-content: space-between; gap: 6px; }
+  .branches button.sel { border-color: var(--vio); background: var(--lav); }
+  .branches button.filled::after { content: "✓"; color: var(--ok); }
+  .act-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+  .act-card h4 { margin: 0 0 4px; color: var(--ink); font-size: 15px; }
+  .act-card p { margin: 0 0 8px; font-size: 14px; }
+  .act-card .ex { font-style: italic; color: var(--muted); font-size: 13.5px; }
+  .builder { margin-top: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .b-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; align-items: start; margin-top: 10px; }
+  .b-row > b { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); padding-top: 10px; }
+  .b-row .chips { margin-top: 6px; }
+  .b-row .chip { font-size: 12px; padding: 4px 10px; }
+  .result {
+    margin-top: 14px; background: linear-gradient(120deg, var(--vio), var(--vio-2)); color: #fff; border-radius: 14px; padding: 14px 16px;
+    font-size: 17px; font-weight: 700; line-height: 1.4; min-height: 56px; position: relative;
+  }
+  .result.empty { background: var(--lav); color: var(--muted); font-weight: 600; font-size: 14px; }
+  .meter { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-top: 10px; font-size: 13px; }
+  .stars { font-size: 20px; letter-spacing: 2px; color: var(--vio); }
+  .warn { color: var(--no); font-weight: 700; }
+  .good { color: var(--ok); font-weight: 700; }
+  .border-box { margin-top: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .bview { position: relative; height: 70px; margin: 10px 4px 0; }
+  .bview .side { position: absolute; top: 18px; font-family: "Unbounded", sans-serif; font-weight: 700; color: var(--ink); font-size: 18px; }
+  .bview .zone { position: absolute; top: 14px; height: 34px; border-radius: 8px; background: repeating-linear-gradient(45deg, var(--lav), var(--lav) 8px, var(--lav-2) 8px, var(--lav-2) 16px); border: 2px dashed var(--vio); transition: background .3s; }
+  .bview .zone.bad { background: color-mix(in srgb, var(--no) 18%, var(--surface)); border-color: var(--no); }
+  .bview .mine, .bview .yours { position: absolute; top: 0; bottom: 0; width: 4px; border-radius: 2px; background: var(--vio-2); }
+  .bview .yours { background: var(--deep); }
+  .bview .terr { position: absolute; top: 24px; height: 14px; border-top: 2px dotted var(--vio); }
+  .bview .cap { position: absolute; bottom: -2px; font-size: 11px; font-weight: 700; color: var(--muted); transform: translateX(-50%); white-space: nowrap; }
+  .bctl { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+  .bctl label { font-size: 13px; font-weight: 700; color: var(--muted); }
+  .bmsg { margin: 8px 0 0; font-size: 14px; font-weight: 600; }
+
+  /* ---------- 4. Розмова графічно ---------- */
+  .venn { position: relative; aspect-ratio: 2 / 1.05; margin-top: 12px; }
+  .venn .c { position: absolute; top: 0; bottom: 0; width: 60%; border-radius: 50%; border: 3px solid var(--vio); background: color-mix(in srgb, var(--vio) 10%, transparent); }
+  .venn .c.l { left: 0; }
+  .venn .c.r { right: 0; border-color: var(--deep); background: color-mix(in srgb, var(--deep) 10%, transparent); }
+  .venn .zn { position: absolute; top: 12%; bottom: 10%; display: flex; flex-direction: column; align-items: center; gap: 5px; overflow-y: auto; padding: 4px; }
+  .venn .zn.me { left: 5%; width: 30%; }
+  .venn .zn.both { left: 38%; width: 24%; }
+  .venn .zn.you { right: 5%; width: 30%; }
+  .zn h4 { margin: 0 0 2px; font-family: "Unbounded", sans-serif; font-size: 13px; color: var(--ink); text-align: center; }
+  .zn.both h4 { color: var(--ok); }
+  .topic { display: inline-flex; align-items: center; max-width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 99px; font-size: 12.5px; font-weight: 600; }
+  .topic button { border: 0; background: transparent; padding: 4px 8px; }
+  .topic .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; padding-right: 2px; }
+  .topic .x { color: var(--faint); padding-left: 0; }
+  .zn.both .topic { border-color: var(--ok); }
+  .add-topic { display: grid; grid-template-columns: 1fr auto auto auto; gap: 6px; margin-top: 12px; }
+  .zbtn { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 10px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .zbtn:hover { border-color: var(--vio); background: var(--lav); }
+  .zbtn.both { border-color: var(--ok); color: var(--ok); }
+  .venn-stat { margin: 8px 0 0; font-size: 14px; }
+  .sketch { margin-top: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+  .sketch canvas { width: 100%; aspect-ratio: 800 / 380; display: block; border-radius: 10px; touch-action: none; cursor: crosshair;
+    background-color: var(--paper); background-image: radial-gradient(var(--line) 1.2px, transparent 1.3px); background-size: 18px 18px; }
+  .pens { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+  .pen { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--line); padding: 0; }
+  .pen.on { box-shadow: 0 0 0 3px var(--text); }
+
+  /* ---------- 5. Принципи ---------- */
+  .flips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+  .flip { position: relative; border: 0; padding: 0; background: transparent; min-height: 132px; perspective: 900px; text-align: left; }
+  .flip-in { position: absolute; inset: 0; transition: transform .55s; transform-style: preserve-3d; }
+  .flip.on .flip-in { transform: rotateY(180deg); }
+  .flip-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .flip-front { background: var(--surface); border: 1px solid var(--line); }
+  .flip-front .n { width: 28px; height: 28px; border-radius: 8px; background: var(--deep); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 14px; flex: none; }
+  .flip-front b { font-size: 14px; line-height: 1.3; }
+  .flip-front em { margin-top: auto; font-size: 11px; font-style: normal; color: var(--faint); font-weight: 700; }
+  .flip-back { background: var(--vio); color: #fff; transform: rotateY(180deg); justify-content: center; font-size: 13.5px; line-height: 1.4; }
+  .flip-back small { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; font-weight: 800; opacity: .85; }
+  .flip.seen .flip-front em { color: var(--ok); }
+  .week-pick { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 14px; font-size: 14px; font-weight: 700; }
+  .week-pick .chip { min-width: 40px; }
+  .p-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+
+  /* ---------- 6. Айкідо ---------- */
+  .steps3 { display: grid; gap: 10px; margin-top: 12px; }
+  .s3 { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: center; }
+  .s3 .bar { height: 18px; border-radius: 99px; background: var(--c); justify-self: var(--j, end); width: var(--w); transition: transform .3s; }
+  .s3 p { margin: 0; font-size: 14px; font-weight: 700; }
+  .s3.lit .bar { transform: scaleY(1.5); box-shadow: 0 0 0 4px var(--lav); }
+  .sim { margin-top: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+  .sim-top { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+  .scen { display: flex; flex-wrap: wrap; gap: 6px; }
+  .arena { width: 100%; height: auto; display: block; margin: 8px 0 4px; }
+  .arena .who { font-size: 13px; font-weight: 800; fill: var(--text); text-anchor: middle; }
+  .arena .me { fill: var(--vio); }
+  .arena .pt { fill: var(--deep); }
+  .arena path.a { fill: none; stroke: var(--no); stroke-width: 4; stroke-linecap: round; transition: d .7s cubic-bezier(.5, 0, .2, 1), stroke .4s; }
+  .arena path.b { fill: none; stroke: var(--ok); stroke-width: 4; stroke-linecap: round; opacity: 0; transition: opacity .5s, d .7s; }
+  .arena.s1 path.a, .arena.s2 path.a { stroke: var(--vio-2); }
+  .arena.s3 path.a { stroke: var(--ok); }
+  .arena.s3 path.b { opacity: 1; }
+  .arena .star { opacity: 0; transition: opacity .5s .4s; fill: #ffc531; }
+  .arena.s3 .star { opacity: 1; }
+  .arena .swirl { opacity: 0; transform-origin: 200px 52px; transform-box: view-box; transition: opacity .4s; fill: none; stroke: var(--vio); stroke-width: 2.5; stroke-dasharray: 6 6; }
+  .arena.s2 .swirl { opacity: 1; animation: spin 3s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .arena.hit .me { animation: hit .5s; }
+  @keyframes hit { 30% { fill: var(--no); transform: translateX(-6px); } }
+  .attack { margin: 4px 0 10px; background: var(--lav-2); border-left: 4px solid var(--deep); border-radius: 10px; padding: 10px 14px; font-size: 16px; font-weight: 700; }
+  .attack small { display: block; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .stepper3 { display: flex; gap: 6px; margin-bottom: 8px; }
+  .stepper3 span { flex: 1; height: 6px; border-radius: 99px; background: var(--line); }
+  .stepper3 span.ok { background: var(--ok); }
+  .stepper3 span.mid { background: #e9a23b; }
+  .stepper3 span.bad { background: var(--no); }
+  .stepper3 span.cur { background: var(--vio); }
+  .q-step { font-size: 13px; font-weight: 800; color: var(--ink); margin: 0 0 6px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: left; border: 1px solid var(--line); background: var(--paper); border-radius: 12px; padding: 10px 14px; font-size: 14.5px; font-weight: 600; transition: border-color .2s, background .2s; }
+  .opt:hover:not(:disabled) { border-color: var(--vio); background: var(--lav); }
+  .opt:disabled { cursor: default; opacity: .55; }
+  .opt.pick-ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--surface)); opacity: 1; }
+  .opt.pick-mid { border-color: #e9a23b; background: color-mix(in srgb, #e9a23b 16%, var(--surface)); opacity: 1; }
+  .opt.pick-bad { border-color: var(--no); background: color-mix(in srgb, var(--no) 12%, var(--surface)); opacity: 1; }
+  .fb { margin: 10px 0 0; font-size: 14px; min-height: 21px; }
+  .soft { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--muted); }
+  .soft .prog-bar { height: 10px; }
+  .soft b { color: var(--ink); font-size: 15px; }
+  .sim-end { text-align: center; padding: 10px 0 4px; }
+  .sim-end b { font-family: "Unbounded", sans-serif; font-size: 22px; color: var(--ink); display: block; }
+  .sim-end p { margin: 4px 0 12px; font-size: 14px; }
+  .my3 { display: grid; gap: 8px; margin-top: 8px; }
+  .my3 .row { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; }
+  .my3 .row i { width: 34px; height: 34px; border-radius: 10px; background: var(--c); color: #fff; display: grid; place-items: center; font-style: normal; font-weight: 800; margin-top: 3px; }
+  .my3 textarea { min-height: 54px; }
+
+  /* ---------- 7–9. ДЗ, практика, головне ---------- */
+  .hw-check { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .cb { appearance: none; width: 28px; height: 28px; border: 2px solid var(--vio); border-radius: 8px; background: var(--surface); display: grid; place-items: center; cursor: pointer; margin: 0; flex: none; }
+  .cb::after { content: "✓"; color: #fff; font-weight: 800; font-size: 16px; opacity: 0; }
+  .cb:checked { background: var(--ok); border-color: var(--ok); }
+  .cb:checked::after { opacity: 1; }
+  .hw-check label { font-weight: 700; cursor: pointer; }
+  .refuse { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; margin-top: 10px; }
+  .refuse-f { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .lists { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .list-box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .list-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-weight: 800; font-size: 14.5px; }
+  .ring { --p: 0; width: 46px; height: 46px; border-radius: 50%; background: conic-gradient(var(--vio) calc(var(--p) * 1%), var(--line) 0); display: grid; place-items: center; flex: none; transition: --p .4s; }
+  .ring span { width: 36px; height: 36px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-size: 12px; font-weight: 800; color: var(--ink); }
+  .ring.full { background: var(--ok); }
+  .nlist { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+  .nlist li { display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: center; }
+  .nlist li i { width: 26px; height: 26px; border-radius: 7px; background: var(--deep); color: #fff; display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: 12px; transition: background .3s; }
+  .nlist li.f i { background: var(--ok); }
+  .nlist input { border: 0; border-bottom: 1.5px solid var(--line); background: transparent; padding: 6px 2px; font-size: 14px; width: 100%; outline: 0; border-radius: 0; }
+  .nlist input:focus { border-bottom-color: var(--vio); }
+  .prac { display: grid; gap: 10px; margin-top: 10px; }
+  .prac .hw-check { grid-template-columns: auto 1fr; align-items: start; }
+  .prac textarea { grid-column: 2; min-height: 54px; font-size: 14px; }
+  .counter { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; margin-top: 4px; grid-column: 1 / -1; }
+  .big-ring { --p: 0; width: 112px; height: 112px; border-radius: 50%; background: conic-gradient(var(--vio) calc(var(--p) * 1%), var(--line) 0); display: grid; place-items: center; }
+  .big-ring div { width: 90px; height: 90px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; text-align: center; line-height: 1; }
+  .big-ring b { font-family: "Unbounded", sans-serif; font-size: 28px; color: var(--ink); display: block; }
+  .big-ring small { font-size: 11px; color: var(--muted); font-weight: 700; }
+  .big-ring.full { background: var(--ok); }
+  .cnt-btns { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .days { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .day { width: 34px; text-align: center; font-size: 10px; font-weight: 700; color: var(--muted); }
+  .day i { display: block; width: 30px; height: 30px; margin: 0 auto 2px; border-radius: 8px; background: var(--line); position: relative; overflow: hidden; }
+  .day i::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--v) * 1%); background: var(--vio); }
+  .day.full i::after { background: var(--ok); }
+  .notes-area { min-height: 160px !important; background-color: var(--surface); background-image: radial-gradient(var(--line) 1.2px, transparent 1.3px); background-size: 18px 18px; }
+  .main-take { margin-top: 18px; }
+  .main-take label { font-family: "Unbounded", sans-serif; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--vio-2); font-weight: 700; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .badge { font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 99px; background: var(--line); color: var(--muted); }
+  .badge.on { background: var(--ok); color: #fff; }
+
+  .foot { text-align: center; margin-top: 28px; font-size: 13px; color: var(--muted); }
+  .foot a { color: var(--ink); font-weight: 700; text-decoration: none; }
+  .foot a:hover { text-decoration: underline; }
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 30px); opacity: 0; pointer-events: none; max-width: calc(100% - 32px);
+    background: var(--text); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; transition: .3s; z-index: 90; text-align: center;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (max-width: 760px) {
+    .lesson { grid-template-columns: auto 1fr; }
+    .mood-wrap { grid-column: 1 / -1; }
+    .sticker { width: 100%; min-height: 56px; }
+    .mood-pop { left: 0; right: auto; }
+    .sec-head { grid-template-columns: auto 1fr; }
+    .sec-tools { grid-column: 1 / -1; justify-content: flex-start; }
+    .ice-grid, .comp-grid, .lists { grid-template-columns: 1fr; }
+    .types { grid-template-columns: 1fr 1fr; }
+    .flips { grid-template-columns: 1fr 1fr; }
+    .roles { grid-template-columns: 30px minmax(0, 1fr) minmax(0, 1fr); gap: 6px; }
+    .quad { padding: 8px; min-height: 120px; }
+    .quad .desc { font-size: 11.5px; }
+    .refuse { grid-template-columns: 1fr; }
+    .refuse .tst { justify-self: center; }
+    .s3 { grid-template-columns: 70px 1fr; }
+    .b-row { grid-template-columns: 1fr; gap: 2px; }
+    .b-row > b { padding-top: 0; }
+    .bctl { grid-template-columns: 1fr; gap: 4px; }
+    .corner-st { width: 72px; top: -14px; right: -6px; }
+    /* Діаграма Венна на телефоні — три стовпчики-списки */
+    .venn { aspect-ratio: auto; display: grid; gap: 8px; }
+    .venn .c { display: none; }
+    .venn .zn { position: static; width: auto !important; align-items: flex-start; flex-direction: row; flex-wrap: wrap; border-radius: 14px; padding: 10px; background: var(--surface); border: 2px solid var(--vio); overflow: visible; }
+    .venn .zn.both { border-color: var(--ok); }
+    .venn .zn.you { border-color: var(--deep); }
+    .zn h4 { width: 100%; text-align: left; }
+    .add-topic { grid-template-columns: 1fr 1fr 1fr; }
+    .add-topic input { grid-column: 1 / -1; }
+  }
+  @media (max-width: 440px) {
+    .flips { grid-template-columns: 1fr; }
+    .flip { min-height: 118px; }
+    .refuse-f { grid-template-columns: 1fr; }
+    .types { grid-template-columns: 1fr; }
+    .trans { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  @media print {
+    body { background: #fff; }
+    .topbar, .sec-tools, .toast, .no-print { display: none !important; }
+    .sheet { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar no-print">
+    <nav class="secnav" id="secnav" aria-label="Розділи заняття">
+      <a href="#s1">1 · Айсберг</a>
+      <a href="#s2">2 · Ролі</a>
+      <a href="#s3">3 · Компліменти</a>
+      <a href="#s4">4 · Розмова</a>
+      <a href="#s5">5 · Принципи айкідо</a>
+      <a href="#s6">6 · Модель айкідо</a>
+      <a href="#s7">7 · ДЗ</a>
+      <a href="#s8">8 · Практика</a>
+      <a href="#s9">9 · Головне</a>
+    </nav>
+    <div class="prog" aria-live="polite"><span>Заповнено</span><div class="prog-bar"><i id="progBar"></i></div><b id="progTxt">0%</b><span id="badgeTxt">· значки 0/9</span></div>
+  </div>
+
+  <!-- ===== 1. Айсберг ===== -->
+  <section class="sheet" id="s1">
+    <div class="lesson">
+      <div class="lesson-num"><b>03</b><small>заняття</small></div>
+      <div>
+        <div class="lesson-sub">Мистецтво перемовин</div>
+        <h1>Перемовини і вміння домовлятись</h1>
+      </div>
+      <div class="mood-wrap no-print">
+        <button class="sticker" id="mood" type="button" aria-haspopup="true" aria-expanded="false" title="Обери наліпку настрою">наліпка<br>настрою</button>
+        <div class="mood-pop" id="moodPop" hidden>
+          <p>Який у тебе настрій на перемовини?</p>
+          <div class="mood-row">
+            <button type="button" class="st-btn" data-mood="franko" aria-label="Наліпка Франко «Думай глибше»"><img data-st="franko" src="data:image/webp;base64,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" alt="Наліпка: Іван Франко «Думай глибше»" width="251" height="278" id="stFranko"></button>
+            <button type="button" class="st-btn" data-mood="shevchenko" aria-label="Наліпка Шевченко «Твори сміливо»"><img data-st="shevchenko" src="data:image/webp;base64,UklGRmRFAABXRUJQVlA4WAoAAAAQAAAABwEA+QAAQUxQSAoFAAABkFXbdt1WhSAIgSAIglAIglAIYSIIhSAIB0IhCILHSG356ETSOvfxERHOaG3JmkcYqW07c19E1Obfj12XENOrxLCdseiVGBZ5oLnUVynZrGGdsTiXVYYkxFyqtONVmtSSzRYWGYtzWWRIwmfpP9Amvws7WOq03A/JxPrd3vQwl3hF6BY+w7Rv/pO+aWH6V4R24dt6REJMJuX05h94wveg2tfG4zSqZiNrUmTsCf8MS+vowvM0qmYja1UGZVW1GJIf21GdQxZVo7KcrKk7khJ9oMdR02LEsis9JIe1bJbjxa6q67VtzKzWtjOzYNu2Vl7KOoFUj/8bCFl2hxOueUgOa9pNbfOHOP9OnBB/w7Pbk5zLzU6ciQPj2xORNvtOnPC5vdaBCPqaChgmjOWlLpBUj2PnMhl7l7nYvEzF7mUmti8+4GglrnRDjJt+Icv+zUoQxURCTDGEGEPXnd8/b8tCLDmXkq+ZMi/dP+/KQjxtOjfpZcoAMEt4g5ObDyAo3qBY2CsX5t6qD0j14EJymIj9b+ragib5ul8JnqNJd78SOrf7lZBRHysyJbvew2YL3BcXK6NHK40Bu9YQHlgrlkYs6igwrpRoXGXb7lND3KTtIG6y7iCLDPkBbQV5ZaVF7lCGyZGrKoVGo9QoFJt75eZWwblTcm78NnT6fhs7XQtP18LTs04gVXZtJToByaEDfr0Dfb0Hfb0Hfb0HfF0H8+6jLvD9Xdjb+sDbftQD3nbDHuj2popuFVUPpFyELOB6W+VWB1QlB08k6HnA/Dwf6uPniS9sDe8Bc4/nD3Eqs/qCWHTN0H6s7lSO0KI6xwK1qHNwgO/PDzk4TtCjpq7+Vci5CFkOejoWn47F52qdQKrH3wMuPQ7g0uMAnFBvJToByeGMB+wt3OGfC/xtbklsxw+KpkqvHklcZdebREVy9USi4o0hT1T0gPl5PlRpBn44BQt1s1aIc0+cI9TrqAR6HZ1gG4378kd/PjtluiJ8FX7Lv6b/OYmlQZ8gWefSI6MVYtQCjF7AQT8MppVo+1fooH/pL8QvYa4rHRjmC10EhLlZ6dmTmkFYj6gexAmSKqzr4gSOmv55gL8nSXIY8udhrzhkac1IDIjWqIOjbgiW/8nvPPFDNo4uTY0ZP/y4oVsyvFPFPg5GgS9OEeyA/xUQsgAv5eiCMyXLV9T+gjzyXboAycEJ1PTxb4JWoh7eNfVA13X+mxMIWXh7XFCVHJxwUdPHSLMbevxwTSesmSpuGNAN13ZDdp4fsjXdkL3ro2xuL2T3x9KArT4hC/Ton3HBZegoQUbMpm8FiN1MomgZ2e4nZfiLm89tsTN4zrwheGpYccJ/lk0VLw0Lsz4+WTfLOtxqlnU0NYZMrQG7fXO4ElWpUU/SBftqTUYmbWMRDiO67bcJpcNmGheEm2IFZlywlTjJdFulAXhs80zmiUbf+kENp2/Y9Oef1lMsbfOeK6w5TxFk9jkUp7rDvpLTTTm3zMf++pTDPSWTDZe0xfomW3Gq4bLwCdtPm65vHdfFdLiup90d+pQtzyLNsm8D0qRKs33bDM4Mu9brp2x8DDxDTeq1b+FZTKv8ApP3llyGa3ym4Jcvl+FnqOS1Z36ueg+171+/4LzdM9wSg9XM0Q2eof66yy/0PeXeh9ZgFG5Pc2yfIxBy9ZRHAkVTz1J9K/N/P7/FNIEi/fuQq2HwM0QaRMv7P0NUL1Pum9t6ywdWUDggNEAAAPDHAJ0BKggB+gA+dS6TRiSioaEyt9vQkA6JZgaGlAboEfQY/R+fHQm8d9eHwz7t5s+0Tr7zEunvOR/rf2T94/6m9hP9l/Up6ZPOD+7/qqeqH+u+qJ/Kf+R6//rceh75sf/x9pD928Jy/xfnj8YfzvhT5Wfbn77+6/sr5D+0jVB+Z/hz+P66/6nvz+XH+96hH5L/TP9b3RHefXB9Av2w+0f9f/Ieqv+h+w/qv9sfYC/XL/u+xf/d8Nj8v/2PYD/qX+X/93s1/5nkq+tP24+A7+cf4X05P//71fRx/aT/3OVU11XK+n6lQGk0Qzwxixc7hhGkuWv/x5H3owIt41kMyZ+IpgagHqoMcHAJMmW32i1Y3TYFdZAd+zHnRN+Rm5kIO2vr2EU1GpbzZZh6QdNeFimQRirfoZEfEAsEn+Tm/scZhgj5xFpsHWxaBdwSEFN2HU/cABbqbPu+klTnKZZkwXfWo3z26XvyI3Zc3IJPXOd81ynMfsSk3u0E0G+KRPYFM6TCeKhuQEFIGPMWwzUodWquFGlIWKxZUX+3dT1+FfBMBHztvW2Is7pfQmZdwBgZ8lgeCRWfKo+YAggBeLvAVWVcDQwtm4NX7IOT9NPF8yMjhdLWSKcTLh4tQhrHixETJw4tZaiPrQJaPyjXmg2bjFReu0pM7m8Yib9jv63B/E0yZ3SGWluXZjzhaFUEp2Bt/RSKbznZdQiABBnk8i5stzI/LLTuF1OjzbEpZAo55IKHJwkxA+1gbIR/zRp2FrdTq0msw3cyp9uFw490AlQA6x3RLxnmgx6OlfXkvOzIFYRL3B2FFRzVEY3fkdowRvuP0PkLWccYPhgAfwsd6xPbFYMiGTl//mfBvEQqVxZtaFU77AF3/Myn7wG6BlGZWqUm0huffIfLbOPvrDFIOyTaTOIk5JWTAYRzawDMJR7kBA8kJAleP6byBZk8v8TLY0wMa8H4tkrBzDzCyRLNulJtNchiXbKnEi72XgawO4LoD90E0y5jrq8bZVKXogtP31loN6OUIDiIHrqKpydMCtk50iFyscC3I5BoOc+6hyzQJT3MRh/YOM6in1zBUPGnlYkbrolwCHa5Z8eAp0UCReLk8rTc3K5qy4h/nJ86iEhp8Uz8CLU99WcfMHGjoNdeCyaiYtKbvqmP9xydAaYQ+ljSDtNtuoVldI92sjBQ6CsTsBH9opcdEZHnG0QOL+GHpYjkRYdl6OJdZcd9QVlYgtY3IBQX/04R+2cTc25ZBn6EV+peDgpXQT3MiiEY8SKoOAxke7YQ+2JCPwc5sZzGmkUVQB0zK5IZ1S7FtrWpphKanMWNgQcLdbk0zTtUvzoMy06yQp+20+WHtq+8t7lnMlhrN5MzJb//2DJrbdWhUC6MoCg57tzb9Vsgn47rUkOOsE4Q0DB6PQ9tRuZDDBufk1xiPlSU/WrIj7bKRp4B4d1P9trP2D9ehOr+0yS78Mx/txx7YeM+v7F4SsH8X+fGAD7t+9Q4iOUqYbxhTzs2NuMJXovwoL0KeUImuOujgsHW5MMUAttqCsHR8/uc7Xf54F5AKJyoGvCR206xKtfiTjx2ytxvHB3MN/H/rdHp+rV6+dQy6OxxiseDEQns0oQ730UXEbkufGeIe0+7f4LsCq+uPSbApi/SSYu3izEWdvzJkaLTqfx3ys/10u1y8nKY1GrCuMQtufAB3incwtGsWf2yRWv8WW/lgCL6JtsqGqxkxLgmwzss8alPjbVGpqpjg2Y17QAouYSLmrECDg7SZvNKEiN4wPXEl8SbZXsadfy4Z54tShP2TLDjcqIV4wptl3r5tX9fh//ckVxgOl2jw2lYoFY/84Akts5M58ew4LkzhkXVDMoCvpgzPVKvuxo5e+tFrcFlw+g5MaRkPWjEjdpELvGpSBmR//wsc5u0y2JS56yF55cxol/I4TQuS/5QE60fH9aUQXMvHNau4pp9NdWdUdBoXWJpjcjaa030TumvIvzHm9e2LvmDn2dej7TUMilCXyzbf7epRIwn1kol07QEM0m+6n+DjWleXW+iMz/tdBzJnM4mHzeZ8YcpI/ik7iMHa9tfKd3ucNak5e4CJKCUoAIw61uMHTK8WI3Tr2n+OU+m6wrsqHwZq9Q8vrHyg11PtHI/0WxvXUYVwAD+/ExDa4s05+WBv6Aed3LenDppT1MsIrYwb5Ja5P2t7KIZXcnDnR1cYw3115ZF5nhJDM741jzK+8h++iWj+RwOQpdqUf7vUeZJ4elYxO2CDIaVhlc++5nuvfPFuCFfV/wvoQEUi7iQc7ht8+l49mzY9kaW+vSm13Vo7yt9XJq0P2S8B/mnrMuQ6YUn+Hs2QQjkGv0EaVM8ko+TcIVgjxlCvUQi/FHko6UyYL1A8LAY4Ybic+3EPOTzu9QrMBEf7RzjTKnaUJDnk84yrRb5IFXZ+9++VER+tcLZBXNrTQlNeqTDut9+SoErfpZrS+o2gkwhH45/6/b3/6vewHPxuoI+iP2f/siN//lYp8655XpjlF8cVe+AT+Y2DcqYL3jgiInRIDJQFZr5lrG1t278z9txNQ9D/o6z/iQy4JnzcM36pE0G2AQgZclUQ+SHhXCvw9N5ZgGSqgXRt3wv85n/V9AEH+GTtkcb+Arcidvc0ojNQi3VwWWWHYNT/23MyN3e8V89Qx7zBZH5D43+V+jynm88OBjbAqvx8cZzni8dwSiUBBw/S/DHyb9rumpop1sQ9OdF9+MOW4IDXjEStHSIUnzcE5VY/4H5oFOJywUaZhtk1opatV/cP7EJY5cEDRvTDhI/Sq0lYqZo11yfGZeZhQCuF6+F/j7817V//7SKKdIABCaAEHjmDy+B1drwArEtSejQhZvfjid8KbXx6oORpvZgAlxFknYqIn61fSAUa+aw142dsbV8rqqo7l+ppWhMrRezjSfg18TEGcWZslTVBzEk/Liy4agjmd8FOXjxcITE9VHR9WbZeQf+ac1Rt8NV4iL7JY63LXonchucU77hkpqAbmLJ7oQmXFQSgJkW0CgXKXvpWmA55Crf582qyxh/U7nrQGE41ggeB2X/rBn9qskdwkwlbeSY0OAZLsie53Q9oUpdsy4iJCtY+DDT3qLBLpfyRbj7ofEazy1BfA/qMw/yctk7RMPkqeA0pWgi1+GBn+1Zgnzh/X+wWhsRDKXC9Cj5DwsNGpgImOxrTRvJECBXVW6hdONK9b/nfKnFU8cUDRZ07P4SOQukxa7NbmjbFXyxpQy8ANs41nuD0dQtZNuWqMw/zhg2awILeQhjmXLYVcBI5D4qQ6/gevmhBov8arFnkCKsCaf4hB4j7ygRsmRrfK0z/hbjIBU/+ly/wV4k86CFAC/ZWK/1my0kEH40X7zxa4csA1DFAAOALswnTmCFli8YpeMK9iKynUzjhKsvYmEo+CiyOISzSMqR7uNhnel9opbJlmuLY7Cco5VMRnR5HGV0a1hhV7ATmU4K6tadsZAi0iwu3se67gCbf0R0y1Dt12mGBg/fuzNZJvjFeXXr39brXm7eoSN/vWh93apB1TUBZ3/gIQMz0g2dOkBp3gEH+QapAWbMiYQLYoVUtenvhbUIitjA1qMl/kyCGhM0kid6ioR4whOzT2QPVQKnaP98d6D0/L9WLYEMzS2Ncn+fa/fDmheHzX0axd9o/91KH90z9PXMt6evWuj6/K5pqqyyvO0THvd/29/5s54VMPpEOmO3jL+bbwvU7pKmIr4WO8GtsAsCq/NXLT8oAjKiVDwbTrdufSXdX5bX/9wxtf0lMtXIT7V7oKnEL4jlUPcmgbdwk7+0/cR6GAZ+W5ghvCKUUEiAr0JwmhuWoXpxnFYNAvcr/jpf/uGbN+f1YmO61zz037/M/f4tMrHJCew85B0ytiD+LLZ3m4yrGFKQlfZPLL4kRu9TTGaCvoE5fwNRXpl5P64NCqJ3OoyAp59gjvDQx96fesBAWhSUdDM9xICeXpPK3fos6gdjXTUNskNtBZxJ/UWjssYLzBIG5MaxLncF8kkk6tAUmSC/F43n4RNzVZrkl25icWB5AQA9X99/LPsQzwGicDBiRF0BYpfZfD5fjyUpxTrWi080t8BK2MovOkonsuPGRQF36DwEKbcKKoz+6Dp5eurDHj5d/5P3OeGSv4CdzLOTfVjjbLuBLA18SVJIJPWLR+NsPecodD9hHQHqNYNhHCqm6PWACAbOugjdAvs+EsDmP6j7h2lUWtZdX7EXL/Zxh+CyCbQbs97/LPB4aWq4G5QfP+f/A0+TSY0YFb9/EsMYYzDz7B0yjcS3tdgQd15UlIZc1cdtyAyk2gwTAPKka3V4KDIHTLSV9H296fXRFpoW6lpIzRcvU4/8zYv5z/lVJthZmvM2Qig4QxMeIH4EwCiLsUgCkYLjrjikhwEyo2Nd06TllR2PrB3NCyhDAEyKRdSuCS6eH9yEwasEBrrDRaWNU+f0UPGfw3mwQTJZbfquKR2b0kLyy7IAn67gyEVUgVclSvdXmRj8yVoSrkRwe0Sm2Yl3LJec9MAjKK4E71+Q/0/UE0zJPtjNVB5bml2fggUx0PLrnNeE221Uyt0j6MwUL0RJcbL2PdWwK6PXLK5bYShwiWOC+o7gJ534MRQW6B2NBNoKNqqo7BVQZ+dMM9T+6mC0jCzuylo88Kex0hFrLnBhzsZEOpnYRDha7f3Mc/mTbQnDGRqFs1jOYKJJh/2a4ecsREtqt7jjzFyZN8+vhvtKBk6wZwWqutgJSSGwwz379Jx+iU303ojcM9PybOGPHVbWaCg6FIspnr8Lz0uIDWdobTga9p081Ntr6nBwdvSvaILMWHq5CWcRKkq9vm2eiEiXvfSinuXHiF6Qd1IM5R2bpk7D8cDs3AtIekcT8vRif2SmEpeRecaIvIiOju9I6kGSX4sNIIuytveXBRLH/ld//mA96kSJHdRtST8RVw+Wf4E0E+IxilVLvS9WVz3pYG6IqoOON5B4baEptF+pdp/xp/At9eQn9My/6syyIB8HIOTv0cxk6urTxbqGtv9GzFHkh4XPdOVCYf+Nr4eNGb4qqCekdaXz8nxX40yIh8aEk/XNFkDslbyjLonb6mUKRAZm+tpWjGdaBJQUhxjms6WOzO+f1DxCuv7EgQpD3ajGLOH+ZR93tkcxnrNRt8Io1SAyOKH6XB/bltUTNsx8+jmIRV3U45A+mkGJMQg2Yape3vD+szqboVoYdsW7q8T2t+7JCQV35SjpEwv02zVvMcVAMtU4Rk3aB/o6OPCYTYCzQdPLUlsLy/AYnwjG92/G5bEMW8MdtftjTb7ie40v2Eh4/PkBTXaVqbinbCPsDRSt/PxkxIeOKkt7FDLuHurviRH+gLFg8vjWRR1+u4c94ev9pv6hj/wGxoOgyMOowHsbQ1uPq8nuy2W1pWOkBbpglcls5jL+RR2xbLqjVpM7WCyEdOr5V+oB9j1yrfKOot+4EkPgJghk9FSM4JTkn3xvkrwBLEIzH0M3Ucx2z02M7/OP2ZknB98XvwvPvcydNxAz53z+ZgwAsrTZN9HfMiSZGcITYo71kldQABgv10mbX5+RqB6sqHPuqKAZF71npCyymdehIFclaGbzfqiTnp9Y50d5MbDIdg8xd9s/oPXgGKf2yIZz3VmxD9FcXpmqzeSzYorlb/EWE3aFON6J3Kn/FaRfraTWg9DLg48Bi8A9MpKnewHhPAB11OEMC6zkll+Meje8mB03Y6xTl9CpruicWD9IjkVyeGAfUhARnvwHvZPtUK1KaMP4KNKag+8TwcHbh/wEgsXvuBDYLRV/0z4S4gWvP2da/tca3khLHsvcMTvx25wrSRkFxsvWrLurRMX2YhceijsZri9hzyADe8zJi+KHqDE3mlmlD/VCH9Tnt90uoa1vZaCGXRnbk2xUv9fK1lPbxKNNH2Bfg5FjDBH5nkYTbCbgSiqexV0zMGEOgxRo9/aBtWkZxJ1m+vHkgP0YfQIhUKuWKHWjWH6obLl9svBmQwklBSyQoGG5o/eOmITxAl7iTbTbUs83SQ8YeRN/9npTdsjBLOlGgHJPjIUFeCTK0rw8xkZTIiExc7+fsQemVAAiG3+8XkUEn2OAk4oU+mutjxWJq8fVl6OvqQ/3y6Hgzv4/ghWtyesiW7wS/ucfqRxkvxecK8rIld/n/hdE0Uod2WzQ0z+DOr0fP7DZykUJo23DmSbBsE0Hi5oYPyEWevkWd06x3f/imHUzkxrUB6a2qFcyy4hTS9zNyl/mNsaLzEWSmzyUKimRHg+OI8lo4yjmGtB0RlQ4/82tDoQUWYnnswx4RKrN3F2+9p9wWQN6Blob2t5MqYLW8GW5kpXfAGb0v4raaqSgru2BZeMmpM89rkSuLx3UeyBJaSeXxr9HyH5U6MJdXf1mezUhajF0uIOv9hu1KtHj0pIEzDnhAtMMrK7+QnAQkJk5Qp2FfWYL1dCEb2By5RH7SYgYkwm22wILrFy6iCDTx+MGZK0jZmtW7S9cPjs/NRZGPMho03yDbYGhleRXhZ/IXPbDwzj/3M4u95gH2TLzE5tv4jwL42ZxUM2DgW936sDmLecIV8P3DtwZgu20AjFYihJ2LT7YS1cJFjsg4si1YmU8TYXoJTcmt64XYUdnlFhiXQaONVIffnyEqWeD88rjsbSxHfxbFaXtO5eSK1hEh2/cSSJpY8sOOh1Xe5UrzSYsAWlTFIONGCbOkLtXxBWcbJCjZF2a+v4Z3cV6E48dqz9bTiIWLThUNz4vZfkJ53rx5Tu6LE91K+/KDHCtweteyb2HMqSVdAlQ3S/1EaaUVKynggMogoPELkCHy/nLQFyuweECAsMh0R5JnCrzfO2K+EwBRKVSeS0MCV9qH8hbe90GTEcZRX+/xe3cCR0tOGVpAmtrmij5xSyyJPF4Kpbw+23DYvv3mwH1kBW4JEJDtFw/YB4EnH6cHwFd2qd5MHEgW3EItqwW87O+vAexkb6wLLkcObawlUcEHhs7o2aFWTAEDQOONjlL/wFSdcwM5ZojUMEZJxJAJy6+uM6gZ6Be3nQIXvjSMSqybREa8de5EAF/zrh1zHET5nu9FvMAmbrZeKwIDTx6WHd0ReuaNgF65zg3Q6Oq/R4vLzmK8fIy9htH6U2KgyQgcDDwCeSQ6YkyfFRsyfzvLQKgNNuffVvWVq5e9TXLNSbobprrPTIW6CO+vL2SmSrrNl0X2dp164TpH/xk7EKN0K0wo1J4MQDqB73k+sMdp09tnrEaMI2q5Tyt6o+flwNoBjLhbEfFbPfoi9XrQkdoeL1vsSJbHT2TF2ntZKtMEa8pl6pSSPJiflORSUvJPWBvmlP5BLO2byEBiwK6kVMlBdlyoKMaL54ury4LsaSgugw+MDH6hlwQWu0hNtLbnxdoKACLF8LgbBYrIlLBpMRImE/2g0K364XZQXFun9NZVG1CDxFKgpE3GDtwNWFeLdPUWO6yN8rNBG/Pm0lLsPUM83IhcM1X0di2MDuEaRRXcZJLb0Sv95tkAx7gygI0mBWp87dCLXXUygO7vctb1JzdMn5TmSfGFH1Y6aj8hg47C5B/Dg0O30nskfXZsZEadT2hGjLlbJPJpU2znxWT+ewb8iVOwrhdlnOkyAUFAvMx1V08fiJN2TVvSz9BriUsGyOzvu4jgWkv2o1LtR0CWXlHBDSHlXBYvYXljlhEzJ+9nmbf/bhPrGLvxWbbGuIrhBbMHRPqQyFsG5dP+c71PG17km3WFz9DvHIWfFsedvRTYSoYLCB+uBJHaeAj9mGO5YYZC5ewVnzzJGQoGyUfo/xRwQ5w8BoDnDPY1ypxaFnvJVFelErC9v0pthxXdhEgkSuEWyGRGMt6laktEfp9XqS6SsJR3VV8Ez9vyXvpA2KtBUtx+PeCTxC2Z4cCnREjGxBbbRw8ZVEO48u2fVCWanM3g27HpWkLltfeOuYAG7Vg9dwDVighRV+qmCdsummJOlXHz7WiHUH0VTfOAdvdaWOOFBUKcAUbMACR8mgYgwVzYikRgTf1JSQZ0BBnE7VlhCReVK30putKXfllaycmPAgAJhdZLJVJXLr6gPxWpI/9T/O+tB7Ccv8BTMSpOf2nd6AxRIM8TxNMkGnixmzjJRrLhGGQPVT10dDWk4t01bNTNLmIy2GYVg0W86GntLY9OxuZ8p1yF7XlBep6/0vpnvbm7lsSp4HiXZ1+7PRZ46e9VcAaVrkmIbbWhlAefekgo/LLk/0lanR1hKaTPE0qLbY8tcQwim8YGqmdjfBnUud6ATo8PU4Fjmx8mHRUUIdempdsOuePCiSEauvWaiu2VzfM7JiGbpgozQF9ODp+pqY6gCDAv0Cc2uHNdbJqPAdyP7QdcsRyP4tE/XQEH12yCVY9EuHrpYLgmvqjDPzY14GtPpFw04Y4AY/rEaeShC7wr2yiBagjRhSTd1wU0F7OZ1jBqj21TWRiSI/6yVP4RlAsGPz5lHMzSdOGfyU4t256UkFnJovQNxZVmbX8xNQlmE7K8ZGWXr0Oqjjt9sh+octLtiq862PhJ/Ja0Ve3gPiWmtgxAmCzvKLJHSac6UD77qSWZkyQhXKgHJe4qzWCW7frgHqGMHW+c0f9xYg8Y672TEyfOAYsxSgUYiatEWTl/SeNYR+s2QOQKeggHSDZ3BN9mST34d0Q1AhfesHeXr6qC0t0cSgD78U/iD0lu0kxxGpJ+cc/pci+4EegPDB5/4CfSzrMddQTNYWKnqQVcXNys0iOCiCCbz4erOGrbE68uBWBTkFSyYu6eDL2T+jPHjmRqqdntOSruLjAxpCUtS6oQqbFzzSKWb44yU/lNn701fSo2+i0ugTJI8tgLRGFM7/jOEoRKRuRiraTdLg7XIoDHCqN1UhrG6BV5IcjYhSDHneSmZd6Ev65XS+/I5BEj8BpTIJMIXcY0u6546/CgsnIfLusD2/7LjOM4izvdO++LvHzQZ6ymEIeYJT9/gtJitUu/EUuKqzalLkhzzKM6k0pz43fXinL8IKuA686wobqzgICT+an29CNEiV6n8WwFqHcoTx6n11che74HeSr6GDwOcDz4hyPxrJqSZ+RKi0QnKO9z4JGpqHo+kiWHDPgEwV9IZnb78Zn1bziZktayoFLGZaD2dK/ImKGB95624BWEvNY7sicRKf+Lca17vDy68SLK5NEmGPq/hUkwUT6wh+JksE+T0v+WUjt1anL5LjXFXdF35R5J6gkvG7ns15gIkbG7op8gOBGC5O6sCLeAeBNyKO0ltZdGseg0ERMVNes3HslYhM/TkooSe+6n3melf1Ox9Mm/WOkaPCEk7mPkpc+0ncY919o0/jM5iI4WX2kIShmPXSYvsfe5Xk4u6dVzgJA6fUgfYo7IzN4K6rDFDyhYgv4bLOBwmKHRD2IHMkYladB6Te6/vAC2kTEhAgg7sw8PvMlvA+SzD6Xe+QQ9PopqBBW8xg+jte1t9BoonkKLkkrgfzf1rzSPE7HaEzXBv+wh5UIhGgGr0PWBiP6JaRVjeHB6pK7PQxpG29B78UOzddvoFcb/gKxQC9QqKGx3tZVLlkcfT72A8QSSKDH6Bx+OXepFabyv/wfk6b6ojOmtCh84ekqUrRg2VPS1D/XY9RAQ/umEFx+VpSeBTLOuPsxaJA6XLmZXWH6X6g3fiMvQ/wKqPawh9dLzmn1VLnodLfBU9pq+IR2+rSIhtuT2Lqm9QfS2jM+OlLPbFfn9cB6t1giM3HZivcuUsN6Jkq75U/kbWNRkT3VoI/RJL4Bsb+EiEb75bL0CvoSzMJS7y3V1YBc+JXT5scNeGcFT2I1tCHQSl7hnyITeAnuK3ibumYcf2iHUWBH1tsfsrOO01TAsc9rMqfUXu+pr5qeeaDtgQ/AntR0+KQPuWo03sTdOXGo6ouxJC01pXs1qlzlFZ6ZlF7Ux8Tk/Qr6FahlLyzWVCyPumk6AfGNwl7heW18oIacqstfiV2XXgCzHcEPkFRKRksrnd9KO4jZzjqoFNx4PoK7oxDAhNcA9WGO30TWDcGS6/yKxMIOLurqM+w2UD36B+ilN84qP6DDNNL8ztkK3zCctgCgz/yiihuWuPeQU2ouOxnr68BfMD+aXbfCLOUWOCQGGtdqVXSd/zghkRmW1eo5uBIvMfsGJFR9PVC9xgRh3V/r9NgFx6EXQdt3bhnYCosYHKtGI7SExvg/rKrAlNnpVz233zvnSiqms5a8EFVjFesGuOmaZnCmV2zXaY0R7mgUsw5X8nU2yYY76m3TMk+etMihZCXWQgifRoGToRt0/8nxRjHzsfofMp+u3kM6cM6b6/Y/4ErMBtsZhlPc9kJ/wra9IfSXJM1EyCvEkuBE0axCfkwE0/xaKJh5mDbawR+cgknByBddnZ5HcXxPh8gd2fAH0ED6k95w+RD1PBMq5dv21dBDfVtbnsSe9J88qzSLH/fmOl28DDnhmyEa/K2TVLxz66SlfVkR+fmryKPfOzz8zJ+2uYCXBLGhbygbfY9e9tDrAaOMLBhap2Zx5mKhOPEOggw7JPLNtheUoNzCTut0MrPJsGnxvlSQynfvs1Q8T8DJCdFNcBsD7149rS+AQBweQghALF7UFcCkuAaB/zfaA2vxDEeR0MuOVmtJRWHapPrWbWEZfQQ2Iomlr/2HNx7EPSOm8tPSCj9LRYFAtLcn6qfBV5Xz5gPk2cQmaMxpEroroJzK2eyfBfiWbArsDV60zx0yRl2kZufIW1qZldep0gri+3Ec/LbOWZaZj/gd7npH5cSKhWe3oqQ8BC/Glujqqokf1MFTj3PC5IyNY5L2WWhdYVWjEv5OxYGFo52CdhBFAAndo0bJ/MTUgpwwXll3Oref5rjGp4k/stVUlplVU/5slF/opspoLpplNanCvYY7c64/QZwxQL1QKrZVPF6HlFvyIWSJuJL4qOmp1+v485y98pEB6N0u67IN+PWItIR3rIi+ZHX4RoIGeMAvHVg8zpSMJeDhCKpXsZ6K7Kdz0dz/fhoplgMMfuRlhG5vlvh1tzzSnA5PKN5WVy9xEC0Ryo1+khzUkTHnsXtrvf4ziwFZtU6tKFnIvcoytkf2S1p/VhZiqqDEuuUz2D+89zeycJWsTCcuOIqWIX/xd+oHOG7PIjEKt8iOuqPFUg2i9lV/10pJlmxiLaLDx7KXz6IZ9D4ZR2EV3nzvR5UH+UdEWwKoJ+WGg2RoLPNW3jPWWDTTwGhz8DKFYQJM5ke8DJo+Mt3+F+2CHktB1Txb7gzSvErjL7AesgRDbSAgvZbNNRVzAyUBdo7OARrq2G4wAbOPms8cgS91boCQqINlIK88QQ+gElr+YDBrc3KKPYqQEPjhRL6VPFPyL0n2tAsHykssKGWnGj6GXjEepuXQmEDftJ1qed1Q75r3J9qp3VPtM0FfjAAo9gvCgPSvVr4ScPIwgwG43naagJvUY3LbJX0OMqlpadn/BKSM20mYQ1LGSso4C5uHqX3VVeg06FHX+XlESmoXQC5VhdKhgXQ6g0eFG6ZM1qOu9whhVLdilXUHTCtlVdv9iStD/UnN7umvbNu/0pPvfrgHKWxEHGgcrtmyvcnb83YJXmdWBVh4+AukpxYQr/dXTL6xTv/XyP7gcDrJzQowRTwqZaCck3Nti5lCSfR1r/qEUbHZJG6KyFBN8kkxJYywNIczJ2aXfHkH+rvBUcej1zWpSrlo1qHfxIKUiPXEgAMtHzMheBc/HeLupKEaK/W9SMawT6kvuQH0ffleBH10wRk4BPb3v1jrMALs+2+ghgT9Fjh0Vay6Pg6SCA0gymGKwYnqFVzd4q1hzZ1iCPgHELKfQ7v2dJ3SK7tnnb+FGYMtsDht/5rF4MBQpqbEttpTi95ompaJ1ILnu7hhpv9kCoq6y8qCcvqpvsWTqEvAOKgJOd/Xgnaf+8WHGkXLf406SYJocIFD/XtvzG1KHCZHq621ZX4Ok9RDwntxt7Ch8OgkIiKQpu97ztjVClYwAgiLqPuhhHU+BgjNsgNmwxFZ226UUEXTR4mn7vioZ56+IBlkPFxNcAzRIwMkSdlY/KNVnGir/oV8s86mqfB6PZU11KsK2yIBFgQugVZC7SvvCInlLA7ge25fy4x4NMWqYr5aCBTgsVRUHpSRAjZ40Az+tip14814NYACrfA/J3vSWF98eK9ugi8r2ExOPod1VwBJyPoe120tqJyzb2Q67hKq57n9JmV8BKvV39l8jkwqaZHCScv7ByaYsx3+v1dSp1dIhzGwTmReayNXwlnaPSZa9bdkgzlEDZZcw1oWjKYyxr676Pyfcga/xxTsDtlS3SqF1rSH7B5/a1QxjEqgNia2n4LO5M5kfR/XkxdROnO4hBTA+8dO+yL9R2SP9TVxwqdQ7VscyYR1oen5jEDwi12TYvif6D4cHXqY7F5/AVSamBxx7KrdPJRqKhKphOhn2gWusBfwG/BXnKVP+hF/BaQRwws2GUdrDzFDxgycM72qJ02+S+SSFpiNRhkWM6tXN6ur5SF9aaGeH/UnK0tn1s02RnDpo+pLKBocqwku3SLY4OBx3MNBvT2q7fAqRwZOqK3ByTiY8jojUio7rmh7/46XF572vjk80Mbqh8oTiqEpd8ijwtm85aXKMy9rqc9ezpaSDUS/cCbLgFag6dyTu3XO4Dy4H/1bc0654biUaz7O74phnnYuSPTemcFfn3ojcYh7MMQIP85/vABMNTSZqrk6czJI8m1DqH7/b9VpItYcUu9xAJ6qJHvBJEGU4NNuNUVLd6EYxDchjagu3pxqWmBb+84RBa0EGXnGMaWJl0pOSlBZT41oiJ9KY5U4S52SiL8X8x9HThTWazeOjlYNYngaRcFCgbxwLsS3BZ2L1OZ9GfPeVYTzrdhoIUafksHJJdQUOfcMRd/GvUqOzLuNhY6rFITdCb6zM0kWp4QYnX11bXP0HJQMTYTZAOQoAoA7Lb+aWvFxlkDIkaRpSY+blVUqokKk6gsv22IH1CFf9A5lVvTShBjWCHzOQMvzccu/qY4qBoeiNM9+NZGkssZKkMJzDn3kT/t4hcj3hKqIjDzLUMvYX+IM/pMCSeY9FewGYNdRhzyQrpV5hEbIgUDtmlKW/SVglTvw/0yzDX4NHFtGQ8OnJtPGd4a36GG7eptL+zrIjrUbpSFNf9e7du7oACM/hvlhZhL3YYblPCxyTiApIKEyRX9qA+pNmFinKP7D2+15ErI6yi16wO0yfhMloPdvuhZtHz1Gs/Ptf6hBmebeMVXY6P6AilVuY36e9g3E8ftDkgiDEL/n3eF5J5h9nS96BsAegwUZ+699NzNpsSSjfci5PTGIfa1nWZNCl73Ni5U2NfXox++FMQy7BDkxZa6bWJ8dHtkppsaXnvwx1aAtyz3OrHx/H6OuDdeAbBsT7gav6nNCv0WL5LFhuSQqafrF6gf1sphlvCpNbsFPFUXpux2Ai3lYOjnZUHIF7jiCpBKFWXxysi+MxDingv44FFEfKZt61BOpix9Rl8qRrHvqbZ88HdBmIY4/bHfvsa6wajaZyNxn6y8avdNx0K9gIL7Zcu7j4znO3Z/zhIxfU+b9MnHVUDW81GRjnYB6ZavNNEEifCEq3EcvUhvdbHxiQvreoGkTrrpk3iagyR8rLrMgNfOnw2gG20SnoKKqxYkhH2eOSQ9QeLzLLyk+yxgjoXPySqgYI9yvNfYdXTPMB9eGkJiuDLmxsWqaR1/kCfG/ytHxOwao70/nmIPQA6DTsm9Vun6DFa703VXOH5tQF5wPVljC4sfa3Z8WJu6uBixMT6Amd/YJ0C7hBLMZat/PsacuVClLLu6dMpjAGpFamASe5ge8iAONJg2Y+NSKmcAdhL+2UrPMJNVjE5ScWUjPvx+7UnEvFLXw4OjfZCbPHOhvCGYIy9P91FHTf7i17j0BgkrDWLBHsf0CmBw52zL+ZS4FLHyE2C7ttvk1ViFkaq9WlO1vlyAyNK0Tbw+ZV8gnYHnHHIGB+5d/GYXw868ckRpaUaZKKlK3DCFaem1L5yElWWvjFYrS+26sbM9ZRlnrUnW9tRlaUjMSB3urDYebUMihwt2l5iTdGJrNEiPousotI+ktyUg1C/jxgLo5T0h/WCYugUjuMn6pZ/MzGQCvWN3oo9EGzjQujsALtmRP550In9093a6fwx4/QKDzD0aeCqkmh7WwslQCWBCmRfmeS38uSePWktVX6Oy6kM7FGyG3v1r0sa0EV5KMLD1AXCzcCo+xGgLWkPuWVuxSpegXPD09i5f+zOKakgPdPK9mDh3LF2nfP0h1omh9Ew0uRWQB5Ac5N0ZcIfC+xsxZSgiSedqq70ekqaLmUaJoaDP8uPj3TdcL/j32XTbHV5aw8GZMFndXfkb5r6Xgi+jarcrDHLN5x/Bd/Sb00cV19HcuY9uybvQ38E5UNRuQTWkxLkPZ8/LZ1UK65T7sYBr+4Gbokc+Kn9/yujQr0YQXTjRomrjUt4rkB7d+vIgGxMbREnGYWqT6KhGrY0wIdL9ThYkiNaSJp8/j1RMKHzDXK+Y83qqhtnROyd8+Pd9v+B1aCyBeF9KmRvVRBzN0MWJvazD1ChbPcihj6JvifJ8m2yCjlpnH4IOD972Ai846Env2o7XpwUF1SesdmV6Wo7oFDofD6zzCUytB6JkfYyHHUD0Z/ynDzlOPxhG3wSRijdLW0dTtKyiph8JOumaZ71eXLt9UhlR/vfJ4oihLgclJZOUSnOmdqnIFXhA4DoEpDA57u+xWW43tMUdatLfTeI7qP5dQohJcYEB78b+6+9ExFPwZ8iNpgMTtkRtThISTFjH+4QE8FFnLUWGoHj82sLnLl4o300LvBeD36j8C22ALnOjJcsfal5YF3MchWqhcy/1aDqkvCVO+3OhUBAGrr1SUDYcrgSKvxeDcB4ShALuqwCDuojSJvswCjc7Ydk/R9/nGcHlSRCZA9LwM7tS7RWG3jbIOd8H5s/ob3NgMXcMEf20x0QUrDa6wDErjhudXlcZmvZ13cid5Xyj1YjcVX2RWXIf/76qA9Y9i0I0Ts/+Ud1kmfKpZ+h63pf7+UuYEl48utCsxy3LnWSR4y1608SQ6jEema7PnxKEPzGwG91w2HEUv7Z+XOSG9XwqIdO0zqzqLtpaQHeuN4hVSPcq9sleV8dAaj6MHdVef2CHXsrOdH3N8lezhX9pmEGNU+qag8lkv+KPAHgvvAAZ4QzIrG0BbLC40ORL5fUy/YGGqP9sq2x7gnY6TIEsgffcLkzXWlJuZFIKJI/3oGss967o4l/QBU1aCtkkxjOcazAO09M60U2IYwGMsfusLyi3/oNGiQGKHWBM0J5c00PWk7pRvg3opmGnMFhpw/rZ4gm/9oKy5a6DcNoXKd9Zx7NNfR6X4ktK9mHOskttrBfxIjL6stEau5lOWFDox3Hi/n4BHzHR6TAfOKBMHUkGJ7VqHR6Gpz1SC2Z5oABrpi/2+E2SBXr63m4S3OGM3iR05h794h7bNJhEgCyqf94EJBW1IS64HI13mBL6rsxamQWu8pzhXyLKice9xpcm0RX9QvCxCywtIhjqIHwW5Sy8dVr0UiQTsKqh8QGkNPiLLf5rOtiBD6zUApbByA6vHKhN2f/vY2qRugyhoQElmd1L6yDdiMAStyjqGtN+rXw5WHR+ZlqEx0Qsu/H0FGQBsZUZpKfVxcxVY+wYhpbhrGDFu+a/hlZTAwNaa4uk5ZI/72s9rGKVxT9Il2hOjVKcVjQ/P4zI1mZ+3MyGJTgcnT48r/S1X2RRym8eLTup1rutgef1W7i3XBR+aWEEkZZ36yDPFRwC4v4pGTCnE4jadx2+0CzxbtgXCMKIvl1NUrsgPHIleqBz1vV3+JrR9goTw922yvjKgtHEWxjaMuF2Y0rqoy623g2wFoQrcyubDpoCbzFymelnv4x/HgQsAya2Y7sCZm2aRQFMiGOVyL5aKBIJPO1KDIdd5yE2Qg7eDtaKewfPBhUPJckDzuTvFv9xkrOCi0hbmMrf4ou+fU/CMx3i0bO60sP/zd/58qFSOW1NqiRK+fTwxjg+kejwf3tJrd5edluMXBTiijO0ptiLxuADuFr5E0XmMCKa2dJPaLzTprTcp6ZBH6JHflIjaKfTo784br6TtjbBYtxG86+rBQcRtKRZS7P9sB9tSq1Bgozfq2mUNShxyUz9NRYnAJsctCqFycOOZtiR56EG9v3ITKwFrlG7Kt3osO23iBEM5UJTmdEgjFpZG2+iCvvrUy8dTwO2gvLNnsct8QKfeXCp3BPB4w6nimrxySm2B7YbdGmP2SU3aOep/jeaPZsxVKXpz0aiLl+oeIYfaofXIcckivePOKaZMICfvPJ5Ceslkdr6W7ijc++QQQhBj9FmHTgAZcUR1iskRsLYE84G7rATfk70OWuFrraL0PcMf61KDTmok3nGUZd6QccUX4LboHUWuV3bd1DB/0mcCiZSs1WJ37dQ1mxsd3U/Td4JEE3deqFsSJyQQOnNh0Aj6t7BLRMaYRQr5cJqaheUJ0Al61K1Mnto1m6CivbcCoRY9QN3BI4nteR9sTOaIRJuqrb4CG77LH+3mH+4r6Iuy2M9lG1H7D5/VFV5bPvChDrx3OrF6cPfxNUeXNnPMfe/IMNajzirlfnNellvNwyX97lXipgn9v4otT3WLH1QlcwfNfhQERP5fvF0/z/+aPpjGiTnsOxOP3gfdGgIctXDINv38FO/fcAkuTwc3YkCinAgp6tUkyE9xABwcf5nuHz29ZMtR/iQsXBQmRac1ORk8ztLnWztKbQDrfi0nyIPNe+B64GviOUWaNGyOd4bP5lK4nREAVix4NVUOvj/suKbbXjdINOpGuc40ba/ZnGxOcZT1xDnShEHLZpo9HmEVz04EaBkbl+vw1nAm8oXX6xfXExStf8DDPVhgTXs8YqVHC5JfirMLHdx+u0GuSeq28/PU/5FrsesHj9h/WPq01qRE2s2jeJ12dRP2qsm62jOOqaXWHBJMHcrur+NC7Z75toAfroNc4WGRObZaoOEXWxefOX9erayxfCk+Xfa0C2bgVZbESiSZEm59oD1rUXmWn64z1mz14Qv3LQ56eIWQmeZ01BEvEmpWKBTGLjWo/Vso5M5FOiUBONxVMDpmvFNH9sFa2gjm29rEIohrE6vW3PQ74N5Ag5yh/uf+4IQExrL7TsHTN9sC8aFmmSsCImdClA9Dkg/Kf8MUGccpnJZwazjKlYk9AgI0xIuVHQC4RjBkSWToAujWtSYUDFYAw8T57Gf7WiYVmPryXAaMN93TljiggttHGXNlQtIOYQX0kkSoxhi0Cujsv5YUXisBkjYECaYGwy1MPwEMdQ/IH2uZV3/gOLlDrpv9DgQMPFj/ladp9GmmXmnu4UBU0GnGxz5tGcvwtEHwVrWF6WoPzYVRT/iPx6/ySPc1pzoGE/Khv7sMIOWm7h/cfRJ0tlC4pxcG8Pm+WGub3FNoREw1+u3tvrTk1U+iT71ViCeD71yOfAspP4MCLfl0JY/u4vOyXFk8AgcZzZHdSwKAAB1/udr6SknQCm08JmO3h6RICFUsvbjFsd6vmS499buPxwWlInwoXfDZWLF0tfdBJwx0vXhYRvj+c0t2SO6bA4q0tK84Su+5zF48AIe4BqJRo0Qnha1x0n/Vr8NFUjqim/AIxXe7iJ4y9fvUEh7bm3WzZRDjsVASqite5iXnHf6F44l3+hzV2EkVmP74e6C9a5qQkO0AwV7mso786KTV/5jtl2AhWMXuwtPVsyBuGiaSfH4Q3tS+Nvmq7Kb07HmWlDQqRDUPX0D42rK43cY3ZXqBHf7oVN/EEFOzdqDIF34GPzh2+XL9rsYT8BzjoSIlVJoEKraaG7ApyXQ73E9BK9RCOiBRVPz3AMFbLsyogvggsAnTxfu6LePyVIMO+23WL4BqI5iA/36Xu6GFK0J2yJQ2nQ+xSNPhZRtmm2qTVmtdEnya3mChVFAHbTMs9w2RmBFzfEgaVBKXDT+Dqra1zP+hW0D6BpOjf0WyfxWAmTPC0GoYAQvq0pNmKj8hI4Rpn3TfI0iOsqjmyXSIVUaWYDM/5zouhSLqGtHLJUzvIc1TBlgd6g2xOy+FxRJdrWowDAsAcusFtgZAfib/9NvoJlFS5upooPOmSv+fGnjxqKgRIziLX4XG8Oc+nEK+uTBVdQAr0LS8HHbbEA9868L+DLxzv3IsSGlDDRcONhJmpvRO3RsimqDYImGgcwFCgVarywWP40b9QIeZmaY4AcOCAgcKj8D9QjRqEVqHJJUfwMZMVU3WwF7fhqmQdmtvIvNHVdy0YbjmRMSiJ13r+Zn3G4+PHdm6lIanxdi20RVW5eCCy1hH3DmAOShpXDnIQF+B8tpIpr2Czn2mCTlMNIUh2LjfsjPptBwhGx5avMJWj+4uvFxlKkUjY4z9SVypJywBEMokAtByeyi/KXUPUW5aX4qQMwwToghAS3+IeMytdiL86iiEl0AsVx3qhZCdMx5WJwZiKExmBL2NnXsSKxExIW76ckGqYVC6+R1c9u9/fBJyxlPzHz3sfFmykggccK9J2ZgpaCx5kMdMfEsbZGwzrol8U4+BdZHmmggftvvG4AT0g10QpPUfH4MZ/d6nFmeSZa9LKLi+ygQEpLF4nBDtS27NYXnj4CWKBFHvXxeyjq2t4NluUSnG+BrZT+OlG/ZJDuKgG/yKIa0a5mTyXWmqwZp+Pst2XTCEfu/Dfq/3kccinaKzXsR90K0OQUbz00PKBFF5RC3SsCDLMVYypz4n6d+u1+qAyGo59DP2yK7P5S6QkSpa/XdtzZeZUyQyx9hGj2vuw42WRXLD2Zo0mifiv+JoiYJsSXYGPOTu+JMJ9pqGEE4cheU2hYUFUwQDnSLhjntSIZFuTnFMd+kPY4wTvqIts50Kmukkunx2f3BLV5TW9/xoKtQH9IfnjyE2pO7xipBo3bTJJUcPZzivDgmkOE+AbByMkObkvgHe3HwHeZkZvtl+bFdEFxJv2GgZv5zj3KNOAHgWaL3ogqHiGG7azqBebayf4+YqoNiMUmbeygSUVk3K9oARiirxTrSIC+wvlQEZbCQjYOvR5urdXpQIFAdrlyTkdMoMvgzG2LImhrOHn2g6JC1JPYzUUfun0WDrTqAB09FWoHZOwBG7tMIDJKwdQR8/tq40hkolg/3Fkw+OmuufZElq2YRr1igHBh6vCBKDXp5oO5VsDgvGbWqFQVM/DUCk73tmCS3JxHY/BpNzkVyff209whVzTx0X5GA+dR5kNL7mTzexwL95Fffy9TvZ8J+8UNQXrN2hxazzfJFfeGvicXi+XTRSVUkkNYA7POGa/Id3aR+BomLpovrdj8Ov3l1ARrRkJ9m/CMzPStm4vJZ/Z0G6I0uk77wJnib2WmGUT7WXAaLEoGF5XbbWX6tPEVl/SRr5pU4BbMeXql9t1zUaPwp4oYQpVGdfxD1W2A9g6pPL1vq0jghpFuo3MIV4iNEXibmbR5WVnGZ7j9HAuihAXWitrqvdx6ovRalAE3Q/IC4MdTXORX4M/NLGoYWz6DZ5VipcBxjWkGW7hvJEi8L4k7x6YtBPVnphJ2wj3QbZ0A6yED6m8K+y1Un0cm7kt/L00uf/5u0e+hAqHbZrkgpsxrPd6K+ird+olxbEE8XdVUj1ZR52f6uxaGC8WWWCtNU7xcLoQ94guTlNS1Coj7xtd6DswYcha4ULvkLZHwtvNWbgWzlf3iOfZCgdCxyMacecAkT8eEuH1c2SWxH2R2LAZAMOIJwKsIbZ1LKUg5zGdI/Q6RTdg2ZD/M2KdkhEWBMjpyEy4b2/ZGp9zc2WmglFXKH34B2XDEcq0nGOkXzNjiT+7srsd07t9BRsNy/WhVnvNc2MOO0/6zntja+EdXXLXTyQRS3ebZeusyBTtBZ1OSXYBVBfu84m/03xJ19v5oCSuwEqVtcpvktGK5Efwtn0mBpT8lle4kcxA+CXbSyiQE9aSdhOjH9HYa7B19yWQKrzr9eKKyEuM30wsyNulN9YJ+I8rENF6pAAdoUfNqRDIfsN2AKCaDEIbcGyTQ/Ny9RZqHsydK1Lubs80L6avRcird761zBEAnpqmRWxdjmv2fStgMtWbC45OR8YutV3qNdgo0Odus/7XMyK0H1uWyqoZOdlCdcc02gOQENpNgq+hxmOIIlUNSFUkYaoFLSJ+D1p471cMn+JyDiuDSrdceB4/cnKvWBOaSCCqiUtd4Sndt0oBV796h58zHa8A+A21xATDum1Uv/foLWGCA8MnrjfijiZ2aMAGxrKqwh8decJewvxGl8WMeVBG8u+0+VUMl0e60ZzcrT3vFh8uF26MVcSv+zt1yUI7a9lWct/cbBh+7++MaSFIOIv4SlbiPJhI/zDujnsoJIkGStu6hnBA/pieOPpd/KUpe5ODttE4KAgkzShM+b7vJLpbBh50mj12HKREevL/HvMS5X1mHDhpkJ+ptI7lvZA7hnxKLy/CECnbka+YFD1AKTzcO5MyxJ8D96Dt7dBsLYbpi6ozQaQ7uKKnYhoW1XqCUoqyhIj3n9xa+BxnN9B/AqLgYOr57hq3TuFyt0oYZ04iHPQJZYu08Mqc+fIFInqXAJ0pI5u5pcZfO1H3xnTX+nG6+jfHNTMt+wEqfLixxCUzoylnTRfi9MjdHcFtD76TZCxvkwBD1dJgIxDXA3TKjjvESBMi22KFNIxcwkptXFKtgBz4D5LaP9xDRMxNqP9q7Plq9bOmBnXy8may8GIY37w3mUMBIg5zCfYhrcu/POtcMHlFgAVgHWOIsJUVM/7BmwDvL+vNxW4kdHYDipFGHAawsw0Lym3Ij8Lqw/Vajhm/EyEMHXbcCN2wjIemYCohdR/dR47c5TmJwdEEvNgJ8SRDpi5Ir2eBbxmKWZIlSlZCisGJki77L5crWatVJu4FNMeDsxnlTMOBVtuT804ECLKf2/5CczcYOwqTp7TLqZNVx48AgMn+3/eiNbohLnkIZMCqcJzxj7CClzdLC0xkxEGKQ7gvfOdc2EpeVZxQ3W0RQmaL569K/65UL0QzC2WLvqse5BoQYQWcmrwtGaH/w27f+zv+5Ip5080weWLxkaxzcEa/sgRDQTAU6Mg4/6nLh09hW5QEXqgK2wxV41YaBp324Npo42luuBeO3KWJlGLlu48/XLmi+oH8gvX4xot9RGPhwb4ftvC4txHNffiulWfhWeUqW+7dtljfDBNk6Y3c6ondPOz2mDt6ttDkpuikz6/vkSi0JxCDjcU2JqdZXsUmby3CVluOGDVPumdVvFm46sw2fJwmB0AQTYADVgbyeVc3QPgA8ABjF1XpB5GvzdJYA/Vk62Yy1m/C8sfqrXOD32pn4RsIdZlGxXtd2gGeyhXZxHtdp3fq4l1VHpz/hHZgvrYTSStcX9w2vIvJcj9PNvnUqCSCAbVljlU491AAA7wUwF2Lf/1en/ycP/+oc050ErgALaD3LKUK1mwMGPPWp+4AZ2LuiBI+M6K6Jo+Z1UP9QC6NaZVm3oE1AukdAt+HRx+v/HTG0CbiWZGQl7Og2/t5SHHrCNxS414UbvvGotJLV0Kv9/VIUJwty5ICSGtr3tloIes96c/ci68JPLp4P36GnKbb5hg1XE7wJ9OpuySSQjyHgLsZR1FPbC7S3UpzIF5aFUa/rg3HPVmLEASRcirEpJkK7Ml0lF5xfcZaMVlSUldk0tIww1l1jiBSmS0R/PpOsguuLQnDECSTtfQBZXNT5CooPeUfzXv3TtG3jGdEIfhZ9UBqRdCSLGAO5PHdBtnDwQf9FQl5zo9fylZ0JAcjkfsDDdKphTqKDSzkQbOuQtKQyDhOgafuMUddHyDWXRlFYshxUrhNGYM5NqBXwFzIzMizb2pEYsjHDs4U7eVRBrs+L/U9rV5fmcHcMjkZQRRAV4Dz5bc1Qmyjb/agJIx9HSU4d5wgF+9NJ+tfhObXEVokADnsf4FjbpStwLD/o4GS95gkvTPg/l8AAAA" alt="Наліпка: Тарас Шевченко «Твори сміливо»" width="264" height="250" id="stShev"></button>
+            <button type="button" data-mood="🤝">🤝</button><button type="button" data-mood="😎">😎</button><button type="button" data-mood="🙂">🙂</button>
+            <button type="button" data-mood="😬">😬</button><button type="button" data-mood="🔥">🔥</button><button type="button" data-mood="" aria-label="Зняти наліпку">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:26px">
+      <span class="sec-num">1</span>
+      <div><div class="lesson-sub">Айсберг</div><h2>Складові особистості у спілкуванні</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-ex="ice">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="ice">Очистити</button></div>
+    </div>
+    <p class="hint">Над водою — те, що чують і бачать інші. Під водою — те, що насправді керує розмовою. Опусти воду повзунком або тапни шар, щоб зазирнути глибше.</p>
+
+    <div class="ice-grid">
+      <div>
+        <svg class="ice-svg" id="iceSvg" viewBox="0 0 560 420" role="img" aria-label="Айсберг: над водою слова, голос, невербаліка; під водою ставлення до світу і до себе">
+          <defs><clipPath id="clipW"><rect id="clipRect" x="0" y="190" width="560" height="240"/></clipPath></defs>
+          <text class="ice-zone" x="14" y="24">ВИДНО ВСІМ</text>
+          <polygon class="ice-body" points="60,252 110,196 182,20 222,104 246,72 296,196 334,252 312,330 268,350 238,405 204,362 146,344 96,302"/>
+          <g clip-path="url(#clipW)">
+            <rect class="water" x="0" y="0" width="560" height="430"/>
+            <text class="ice-zone" x="14" y="410">ПРИХОВАНО</text>
+          </g>
+          <g id="waveG" transform="translate(0,190)"><g class="wave-g"><path class="wave" id="wavePath"/></g></g>
+          <g id="layersSvg"></g>
+          <text class="ice-cap" x="280" y="418" text-anchor="middle" dy="-2"></text>
+        </svg>
+        <div class="lvl"><label for="lvl">Рівень води</label><input type="range" id="lvl" min="0" max="100" value="0"><span id="lvlTxt">видно 3/5</span></div>
+      </div>
+      <div>
+        <div class="layers" id="layerBtns"></div>
+        <div class="layer-card" id="layerCard"></div>
+      </div>
+    </div>
+    <div class="trans">
+      <svg viewBox="0 0 120 46" aria-hidden="true"><circle cx="14" cy="23" r="11" fill="var(--vio)"/><circle cx="106" cy="23" r="11" fill="var(--deep)"/><path d="M28 16 H90" stroke="var(--vio)" stroke-width="3" marker-end="url(#ar)"/><path d="M92 30 H30" stroke="var(--deep)" stroke-width="3" marker-end="url(#ar2)"/><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--vio)"/></marker><marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--deep)"/></marker></defs></svg>
+      <div><b>Трансакція — одиниця спілкування.</b> Стимул (твоя репліка) + реакція (відповідь партнера). Уся розмова — ланцюжок трансакцій, і кожна йде з усього айсберга одразу.</div>
+    </div>
+  </section>
+
+  <!-- ===== 2. Ролі ===== -->
+  <section class="sheet" id="s2">
+    <div class="sec-head">
+      <span class="sec-num">2</span>
+      <div><div class="lesson-sub">Позиції</div><h2>Ролі у спілкуванні</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-ex="roles">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="roles">Очистити</button></div>
+    </div>
+    <p class="hint">«Я+» — я в порядку, «Ти+» — ти в порядку. Розклади репліки по клітинках: перетягни картку або тапни її, а потім — клітинку. Потім допиши, коли ти сам(-а) буваєш у кожній ролі.</p>
+    <div class="pool" id="pool" aria-label="Репліки для сортування"></div>
+    <div class="roles" id="roles">
+      <span></span><span class="ch">Ти +</span><span class="ch">Ти −</span>
+      <span class="rh">Я +</span>
+      <div class="quad" data-q="pp"><span class="tag">Я+ Ти+</span><p class="desc">Партнерство. «Ми обидва ок — шукаймо рішення».</p><div class="placed-list"></div><label class="sr" for="q-pp">Мій приклад Я+ Ти+</label><textarea class="area" id="q-pp" data-k="roles.cells.pp" placeholder="Коли я в цій ролі…"></textarea></div>
+      <div class="quad" data-q="pm"><span class="tag">Я+ Ти−</span><p class="desc">Зверхність. Критика, тиск, «я краще знаю».</p><div class="placed-list"></div><label class="sr" for="q-pm">Мій приклад Я+ Ти−</label><textarea class="area" id="q-pm" data-k="roles.cells.pm" placeholder="Коли я в цій ролі…"></textarea></div>
+      <span class="rh">Я −</span>
+      <div class="quad" data-q="mp"><span class="tag">Я− Ти+</span><p class="desc">Підлаштування. Невпевненість, догоджання.</p><div class="placed-list"></div><label class="sr" for="q-mp">Мій приклад Я− Ти+</label><textarea class="area" id="q-mp" data-k="roles.cells.mp" placeholder="Коли я в цій ролі…"></textarea></div>
+      <div class="quad" data-q="mm"><span class="tag">Я− Ти−</span><p class="desc">Безнадія. «Все погано, і всі погані».</p><div class="placed-list"></div><label class="sr" for="q-mm">Мій приклад Я− Ти−</label><textarea class="area" id="q-mm" data-k="roles.cells.mm" placeholder="Коли я в цій ролі…"></textarea></div>
+    </div>
+    <p class="score-line" id="rolesScore"></p>
+    <p class="tip">Домовитися по-справжньому можна лише з позиції <b>Я+ Ти+</b>. Решта трьох — це або боротьба, або втеча.</p>
+  </section>
+
+  <!-- ===== 3. Компліменти ===== -->
+  <section class="sheet" id="s3">
+    <div class="sec-head">
+      <span class="sec-num">3</span>
+      <div><div class="lesson-sub">Компліменти й кордони</div><h2>Компліменти у спілкуванні</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-ex="comp">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="comp">Очистити</button></div>
+    </div>
+    <p class="hint">Компліменти бувають умовні й безумовні, позитивні й негативні.</p>
+    <div class="types">
+      <div class="type"><b>Умовний</b>за дію чи результат<i>«Ти круто провів презентацію».</i></div>
+      <div class="type"><b>Безумовний</b>за те, яка людина є<i>«З тобою спокійно».</i></div>
+      <div class="type"><b>Позитивний</b>щиро підсилює<i>«Твоя ідея всіх запалила».</i></div>
+      <div class="type neg"><b>Негативний</b>комплімент зі шпилькою<i>«Непогано, як для новачка».</i></div>
+    </div>
+
+    <div class="comp-grid">
+      <div class="tree">
+        <div class="tree-root">Компліменти<br>можна</div>
+        <ul class="branches" id="branches"></ul>
+      </div>
+      <div class="act-card" id="actCard"></div>
+    </div>
+
+    <div class="builder">
+      <h3 style="margin-top:0">🧩 Конструктор компліменту</h3>
+      <p class="hint" style="margin-bottom:0">Збери комплімент із трьох частин або впиши свої. Сила компліменту рахується наживо.</p>
+      <div class="b-row"><b>Як скажеш</b><div><label class="sr" for="cHow">Як скажеш</label><input class="field" id="cHow" data-k="comp.how" placeholder="Мене вразило…"><div class="chips" data-for="cHow"></div></div></div>
+      <div class="b-row"><b>Що помітив</b><div><label class="sr" for="cWhat">Що помітив</label><input class="field" id="cWhat" data-k="comp.what" placeholder="як ти пояснюєш складне простими словами"><div class="chips" data-for="cWhat"></div></div></div>
+      <div class="b-row"><b>Чому це важливо</b><div><label class="sr" for="cWhy">Чому це важливо</label><input class="field" id="cWhy" data-k="comp.why" placeholder="Мені після цього захотілося теж спробувати."><div class="chips" data-for="cWhy"></div></div></div>
+      <div class="result empty" id="cResult" aria-live="polite">Тут з'явиться твій комплімент</div>
+      <div class="meter"><span>Сила: <span class="stars" id="cStars">☆☆☆</span></span><span id="cNote"></span></div>
+      <div class="chips" style="margin-top:10px"><button class="btn btn-sm" id="cDice" type="button">🎲 Випадковий</button><button class="btn btn-ghost btn-sm" id="cToHw" type="button">→ у ДЗ «Дай 10 компліментів»</button></div>
+    </div>
+
+    <div class="border-box">
+      <h3 style="margin-top:0">Кордони у спілкуванні</h3>
+      <p class="hint" style="margin-bottom:0"><b>Переговорна можливість</b> — простір між твоїми й чужими кордонами. Посунь кордони й подивись, скільки місця лишається для домовленостей.</p>
+      <div class="bview" id="bview" aria-hidden="true">
+        <span class="side" style="left:0">Я</span><span class="side" style="right:0">Ти</span>
+        <span class="zone" id="bZone"></span><span class="mine" id="bMine"></span><span class="yours" id="bYours"></span>
+        <span class="cap" id="bCap"></span>
+      </div>
+      <div class="bctl">
+        <label>Мій кордон<input type="range" id="bMe" data-k="comp.bMe" min="8" max="92" value="35"></label>
+        <label>Кордон партнера<input type="range" id="bYou" data-k="comp.bYou" min="8" max="92" value="68"></label>
+      </div>
+      <p class="bmsg" id="bMsg"></p>
+      <label class="lbl" for="bLine">Що для мене недоторканне в розмові (мій кордон)?</label>
+      <input class="field" id="bLine" data-k="comp.line" placeholder="Наприклад: не обговорюю мою зовнішність">
+    </div>
+  </section>
+
+  <!-- ===== 4. Розмова графічно ===== -->
+  <section class="sheet" id="s4">
+    <div class="sec-head">
+      <span class="sec-num">4</span>
+      <div><div class="lesson-sub">Спільне й відмінне</div><h2>Зобрази розмову графічно</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-ex="venn">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="venn">Очистити</button></div>
+    </div>
+    <p class="hint">Згадай розмову з кимось (або підготуйся до нової). Спробуй вийти на теми, у яких у вас спільні думки, — і теми, де вони відмінні. Тапни тему, щоб пересунути її в інше коло.</p>
+    <div class="venn" id="venn">
+      <span class="c l"></span><span class="c r"></span>
+      <div class="zn me" data-z="me"><h4>Я</h4></div>
+      <div class="zn both" data-z="both"><h4>Спільне</h4></div>
+      <div class="zn you" data-z="you"><h4>Ти</h4></div>
+    </div>
+    <div class="add-topic">
+      <label class="sr" for="topicIn">Нова тема</label>
+      <input class="field" id="topicIn" placeholder="Тема розмови, напр.: де святкувати день народження">
+      <button class="zbtn" data-add="me" type="button">+ моя думка</button>
+      <button class="zbtn both" data-add="both" type="button">+ спільне</button>
+      <button class="zbtn" data-add="you" type="button">+ думка партнера</button>
+    </div>
+    <p class="venn-stat" id="vennStat"></p>
+    <div class="sketch">
+      <div class="pens" role="group" aria-label="Олівці">
+        <b style="font-size:14px;margin-right:6px">Або намалюй від руки:</b>
+        <button class="pen on" type="button" data-pen="#22a447" style="background:#22a447" aria-label="Зелений — спільне"></button>
+        <button class="pen" type="button" data-pen="#e5484d" style="background:#e5484d" aria-label="Червоний — відмінне"></button>
+        <button class="pen" type="button" data-pen="#9b6cf0" style="background:#9b6cf0" aria-label="Фіолетовий"></button>
+        <button class="btn btn-ghost btn-sm" type="button" id="skClear">Стерти малюнок</button>
+      </div>
+      <canvas id="sketch" width="800" height="380" aria-label="Полотно для малювання розмови"></canvas>
+    </div>
+  </section>
+
+  <!-- ===== 5. Принципи айкідо ===== -->
+  <section class="sheet" id="s5">
+    <div class="sec-head">
+      <span class="sec-num">5</span>
+      <div><div class="lesson-sub">Психологічне айкідо</div><h2>Принципи психологічного айкідо</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-ex="aik">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="aik">Очистити</button></div>
+    </div>
+    <div class="p-head">
+      <p class="hint" style="margin:0">Айкідо — бойове мистецтво, де не б'ють у відповідь, а використовують енергію атаки. Перегорни кожну картку — там приклад, як принцип звучить у житті.</p>
+      <span class="tst r" aria-hidden="true"><b>подумай</b><span>ще раз</span></span>
+    </div>
+    <div class="flips" id="flips"></div>
+    <div class="week-pick"><span>Мій принцип тижня:</span><span class="chips" id="weekPick" style="margin:0"></span></div>
+  </section>
+
+  <!-- ===== 6. Триступенева модель ===== -->
+  <section class="sheet" id="s6">
+    <div class="sec-head">
+      <span class="sec-num">6</span>
+      <div><div class="lesson-sub">Психологічне айкідо</div><h2>Триступенева модель психологічного айкідо</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-ex="my3">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="my3">Очистити</button></div>
+    </div>
+    <div class="steps3" id="steps3">
+      <div class="s3" style="--c:var(--vio);--w:64%"><span class="bar"></span><p>«Так» — перша реакція, схід із лінії атаки</p></div>
+      <div class="s3" style="--c:var(--vio-2);--w:78%"><span class="bar"></span><p>Підсилення сказаного партнером — розкручування</p></div>
+      <div class="s3" style="--c:#c9a9ff;--w:96%"><span class="bar"></span><p>Перехід на рівень Дорослий — Дорослий (заклик до співпраці) → рішення</p></div>
+    </div>
+
+    <div class="sim" id="sim">
+      <div class="sim-top">
+        <b>🥋 Тренажер: відбий атаку м'яко</b>
+        <div class="scen" id="scen" role="group" aria-label="Ситуації"></div>
+      </div>
+      <svg class="arena" id="arena" viewBox="0 0 400 110" aria-hidden="true">
+        <circle class="me" cx="50" cy="52" r="22"/><text class="who" x="50" y="96">Ти</text>
+        <circle class="pt" cx="350" cy="52" r="22"/><text class="who" x="350" y="96">Партнер</text>
+        <circle class="swirl" cx="200" cy="52" r="26"/>
+        <path class="a" id="arA" d="M322,52 C260,52 140,52 78,52"/>
+        <path class="b" id="arB" d="M78,52 C120,52 160,52 186,52"/>
+        <path class="star" d="M200 36l4.5 9.6 10.5 1.3-7.7 7.2 2 10.4-9.3-5.1-9.3 5.1 2-10.4-7.7-7.2 10.5-1.3z"/>
+      </svg>
+      <div id="simBody"></div>
+      <div class="soft"><span>М'якість</span><div class="prog-bar"><i id="softBar"></i></div><b id="softTxt">0/9</b></div>
+    </div>
+
+    <h3>Твоя ситуація: розпиши три кроки</h3>
+    <p class="hint">Згадай репліку, яка тебе зачепила, і відповідь за моделлю.</p>
+    <div class="my3">
+      <div class="row" style="--c:var(--no)"><i>!</i><div><label class="sr" for="m0">Атака</label><textarea class="area" id="m0" data-k="my3.atk" placeholder="Репліка-атака: що тобі сказали?"></textarea></div></div>
+      <div class="row" style="--c:var(--vio)"><i>1</i><div><label class="sr" for="m1">Крок 1</label><textarea class="area" id="m1" data-k="my3.s1" placeholder="«Так…» — схід із лінії атаки"></textarea></div></div>
+      <div class="row" style="--c:var(--vio-2)"><i>2</i><div><label class="sr" for="m2">Крок 2</label><textarea class="area" id="m2" data-k="my3.s2" placeholder="Підсилення — розкручування"></textarea></div></div>
+      <div class="row" style="--c:#b48cff"><i>3</i><div><label class="sr" for="m3">Крок 3</label><textarea class="area" id="m3" data-k="my3.s3" placeholder="Дорослий — Дорослий: «Давай разом…» → рішення"></textarea></div></div>
+    </div>
+  </section>
+
+  <!-- ===== 7. Домашнє завдання ===== -->
+  <section class="sheet" id="s7">
+    <div class="sec-head">
+      <span class="sec-num">7</span>
+      <div><div class="lesson-sub">Заняття 3</div><h2>Домашнє завдання</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-ex="hw">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="hw">Очистити</button></div>
+    </div>
+    <div class="refuse">
+      <div>
+        <div class="hw-check"><input type="checkbox" class="cb" id="hwRef" data-k="hw.refuse"><label for="hwRef">Напросися на відмову — і прийми її.</label></div>
+        <div class="refuse-f">
+          <div><label class="lbl" for="hwAsk">Про що попросив(-ла)?</label><input class="field" id="hwAsk" data-k="hw.ask" placeholder="Попросив знижку в кав'ярні"></div>
+          <div><label class="lbl" for="hwFelt">Як прийняв(-ла) «ні»?</label><input class="field" id="hwFelt" data-k="hw.felt" placeholder="Усміхнувся, подякував — і не помер 🙂"></div>
+        </div>
+      </div>
+      <span class="tst" aria-hidden="true"><b>страх — це не причина</b><span>зупинятись</span></span>
+    </div>
+    <div class="lists">
+      <div class="list-box"><div class="list-head"><span>Дай 10 компліментів оточуючим</span><span class="ring" id="ringGive"><span>0</span></span></div><ol class="nlist" id="listGive"></ol></div>
+      <div class="list-box"><div class="list-head"><span>Прийми 10 компліментів від інших</span><span class="ring" id="ringTake"><span>0</span></span></div><ol class="nlist" id="listTake"></ol></div>
+    </div>
+    <p class="tip">Приймаючи комплімент, просто скажи <b>«Дякую, мені приємно»</b> — без «та нічого особливого».</p>
+  </section>
+
+  <!-- ===== 8. Практика ===== -->
+  <section class="sheet" id="s8">
+    <div class="sec-head">
+      <span class="sec-num">8</span>
+      <div><div class="lesson-sub">Для себе</div><h2>Практика на вільний час</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-ex="prac">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="prac">Очистити</button></div>
+    </div>
+    <div class="prac">
+      <div class="hw-check"><input type="checkbox" class="cb" id="p0" data-k="prac.c0"><label for="p0">Спостерігай за людьми на вулиці: які жести й міміку вони роблять і які переваги/недоліки це створює?</label><textarea class="area" data-k="prac.n0" aria-label="Спостереження за людьми" placeholder="Що помітив(-ла)?"></textarea></div>
+      <div class="hw-check"><input type="checkbox" class="cb" id="p1" data-k="prac.c1"><label for="p1">Які жести й міміку ти повторюєш від когось із близьких? Що це тобі дає?</label><textarea class="area" data-k="prac.n1" aria-label="Жести від близьких" placeholder="Від кого, який жест, що дає"></textarea></div>
+      <div class="hw-check"><input type="checkbox" class="cb" id="p2" data-k="prac.c2"><label for="p2">Щодня давай мінімум 12 компліментів оточуючим.</label>
+        <div class="counter">
+          <div class="big-ring" id="bigRing"><div><span><b id="cntNum">0</b><small>з 12 сьогодні</small></span></div></div>
+          <div>
+            <div class="cnt-btns"><button class="btn" type="button" id="cntPlus">+1 комплімент</button><button class="btn btn-ghost btn-sm" type="button" id="cntMinus" aria-label="Мінус один">−1</button></div>
+            <div class="days" id="days"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 9. Нотатки й головне ===== -->
+  <section class="sheet" id="s9">
+    <div class="sec-head">
+      <span class="sec-num">9</span>
+      <div><div class="lesson-sub">Нотатки</div><h2>Ідеї, які не можна загубити</h2></div>
+      <div class="sec-tools"><button class="btn btn-ghost btn-sm" data-ex="main">Приклад</button><button class="btn btn-ghost btn-sm" data-clear="main">Очистити</button></div>
+    </div>
+    <label class="sr" for="notes">Нотатки</label>
+    <textarea class="area notes-area" id="notes" data-k="notes" placeholder="Думки, фрази, ідеї з заняття…"></textarea>
+    <div class="main-take">
+      <label for="mainTake">Головне, що забираю з розділу:</label>
+      <textarea class="area" id="mainTake" data-k="main" placeholder="Одне-два речення — найважливіше для тебе"></textarea>
+    </div>
+    <div class="badges" id="badges"></div>
+  </section>
+
+  <footer class="foot">
+    <a href="index.html">← Усі зошити</a>
+    <div>Робочий зошит Campus 13 · Мистецтво перемовин · заняття 03</div>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const KEY = 'spe-peremovyny-v1';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  /* ---------- Стан і сховище ---------- */
+  const fresh = () => ({
+    mood: '',
+    ice: { level: 0, sel: 0, notes: ['', '', '', '', ''] },
+    roles: { placed: {}, cells: { pp: '', pm: '', mp: '', mm: '' } },
+    comp: { sel: 0, acts: ['', '', '', '', '', ''], how: '', what: '', why: '', bMe: 35, bYou: 68, line: '' },
+    venn: { topics: [] }, sketch: '',
+    aik: { seen: [], week: -1 },
+    sim: { best: [0, 0, 0, 0], cur: 0 },
+    my3: { atk: '', s1: '', s2: '', s3: '' },
+    hw: { refuse: false, ask: '', felt: '', give: Array(10).fill(''), take: Array(10).fill('') },
+    prac: { c0: false, c1: false, c2: false, n0: '', n1: '', days: {} },
+    notes: '', main: '',
+    rewards: {}
+  });
+  let S = fresh();
+  try {
+    const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (raw && typeof raw === 'object') for (const k in S) if (k in raw) S[k] = (typeof S[k] === 'object' && !Array.isArray(S[k])) ? Object.assign(S[k], raw[k]) : raw[k];
+  } catch (e) {}
+  let saveT;
+  const save = () => { clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 200); };
+  const getK = p => p.split('.').reduce((o, k) => (o == null ? o : o[k]), S);
+  const setK = (p, v) => { const ks = p.split('.'); const last = ks.pop(); ks.reduce((o, k) => o[k], S)[last] = v; };
+  const filled = v => typeof v === 'string' && v.trim().length > 0;
+
+  function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2600); }
+
+  /* Загальне зв'язування полів data-k зі станом */
+  function paintFields(root = document) {
+    $$('[data-k]', root).forEach(el => {
+      const v = getK(el.dataset.k);
+      if (el.type === 'checkbox') el.checked = !!v; else el.value = v == null ? '' : v;
+    });
+  }
+  document.addEventListener('input', e => {
+    const el = e.target.closest('[data-k]'); if (!el) return;
+    let v = el.type === 'checkbox' ? el.checked : el.value;
+    if (el.type === 'range') v = +v;
+    setK(el.dataset.k, v); save(); onChange(el.dataset.k);
+  });
+  document.addEventListener('change', e => { if (e.target.type === 'checkbox' && e.target.dataset.k) { setK(e.target.dataset.k, e.target.checked); save(); onChange(e.target.dataset.k); } });
+  function onChange(k) {
+    if (k.startsWith('ice.')) paintLayerBtns();
+    if (k.startsWith('comp.')) { paintBuilder(); paintBorders(); paintBranches(); }
+    if (k.startsWith('hw.')) paintLists();
+    updateProgress();
+  }
+
+  /* ---------- Наліпка настрою ---------- */
+  const ST = { franko: () => $('#stFranko').src, shevchenko: () => $('#stShev').src };
+  const ST_ALT = { franko: 'Наліпка: Іван Франко «Думай глибше»', shevchenko: 'Наліпка: Тарас Шевченко «Твори сміливо»' };
+  const moodBtn = $('#mood'), moodPop = $('#moodPop');
+  function paintMood(anim) {
+    if (!S.mood) { moodBtn.innerHTML = 'наліпка<br>настрою'; moodBtn.classList.remove('has'); return; }
+    moodBtn.classList.add('has');
+    moodBtn.innerHTML = ST[S.mood] ? `<img class="stk" alt="${ST_ALT[S.mood]}" src="${ST[S.mood]()}">` : `<span>${esc(S.mood)}</span>`;
+    if (!anim) moodBtn.firstElementChild.style.animation = 'none';
+  }
+  moodBtn.addEventListener('click', () => { const open = moodPop.hidden; moodPop.hidden = !open; moodBtn.setAttribute('aria-expanded', open); });
+  moodPop.addEventListener('click', e => {
+    const b = e.target.closest('[data-mood]'); if (!b) return;
+    S.mood = b.dataset.mood; save(); paintMood(true); moodPop.hidden = true; moodBtn.setAttribute('aria-expanded', 'false'); moodBtn.focus();
+  });
+  document.addEventListener('click', e => { if (!moodPop.hidden && !e.target.closest('.mood-wrap')) { moodPop.hidden = true; moodBtn.setAttribute('aria-expanded', 'false'); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !moodPop.hidden) { moodPop.hidden = true; moodBtn.focus(); } });
+
+  /* ---------- 1. Айсберг ---------- */
+  const LAYERS = [
+    { n: 'Слова', y: 66, x: 196, d: 'Те, що ти кажеш. Найпомітніше — але не найсильніше: ті самі слова можуть звучати як підтримка чи як удар.', q: 'Які слова-паразити чи улюблені фрази в тебе є?' },
+    { n: 'Голос', y: 124, x: 218, d: 'Темп, гучність, інтонація, паузи. Одне «добре» може означати згоду, образу або сарказм.', q: 'Яким стає твій голос, коли ти хвилюєшся?' },
+    { n: 'Невербаліка', y: 164, x: 206, d: 'Жести, міміка, поза, погляд, дистанція. Тіло часто «каже» раніше за слова.', q: 'Що робить твоє тіло в незручній розмові?' },
+    { n: 'Ставлення до світу', y: 262, x: 214, d: 'Як ти бачиш людей і обставини: «світ безпечний чи небезпечний», «люди допомагають чи заважають». Звідси — тон і готовність співпрацювати.', q: 'Яка твоя думка про людей заважає / допомагає домовлятись?' },
+    { n: 'Ставлення до себе', y: 326, x: 188, d: 'Самооцінка: «я ок чи я не ок». Найглибший шар — він тихо керує всім, що над водою.', q: 'У яких розмовах ти почуваєшся «Я−»? Чому?' }
+  ];
+  const BASE_W = 190;
+  const waterY = () => BASE_W + (S.ice.level / 100) * 220;
+  // Хвиля
+  (() => { let d = 'M-80 0'; for (let x = -80; x <= 640; x += 40) d += ` Q${x + 20} ${x % 80 === 0 ? -7 : 7} ${x + 40} 0`; $('#wavePath').setAttribute('d', d); })();
+  $('#layersSvg').innerHTML = LAYERS.map((l, i) => `
+    <g class="lay" data-i="${i}" tabindex="-1">
+      <line x1="${l.x}" y1="${l.y}" x2="372" y2="${l.y}"/><circle cx="${l.x}" cy="${l.y}" r="6"/>
+      <text class="n" x="384" y="${l.y + 5}">${l.n}</text><text class="q" x="384" y="${l.y + 5}">???</text>
+      <rect x="${l.x - 14}" y="${l.y - 18}" width="${560 - l.x + 14}" height="36" fill="transparent"/>
+    </g>`).join('');
+  $('#layerBtns').innerHTML = LAYERS.map((l, i) => `<button type="button" class="layer-btn${i > 2 ? ' under' : ''}" data-i="${i}"><i>${i + 1}</i><span>${l.n}</span><small></small></button>`).join('');
+  const revealed = i => LAYERS[i].y < waterY() || S.ice.sel === i;
+  function paintIce() {
+    const wy = waterY();
+    $('#clipRect').setAttribute('y', wy);
+    $('#waveG').setAttribute('transform', `translate(0,${wy})`);
+    $('#lvl').value = S.ice.level;
+    let vis = 0;
+    $$('.lay').forEach(g => { const i = +g.dataset.i; const r = revealed(i); if (LAYERS[i].y < wy) vis++; g.classList.toggle('hide', !r); g.classList.toggle('sel', S.ice.sel === i); });
+    $('#lvlTxt').textContent = `видно ${vis}/5`;
+    paintLayerBtns();
+    const l = LAYERS[S.ice.sel];
+    const card = $('#layerCard');
+    card.innerHTML = `<h4>${S.ice.sel > 2 ? '🌊 Під водою: ' : '☀️ Над водою: '}${l.n}</h4><p>${l.d}</p>
+      <label class="lbl" for="iceNote">${l.q}</label>
+      <textarea class="area" id="iceNote" data-k="ice.notes.${S.ice.sel}" placeholder="Як це проявляється в тебе?"></textarea>`;
+    if (S.ice.sel > 2) { const p = new Image(); p.src = ST.franko(); p.alt = ''; p.className = 'stk peek wink'; p.width = 70; card.appendChild(p); }
+    paintFields(card);
+  }
+  function paintLayerBtns() {
+    $$('.layer-btn').forEach(b => { const i = +b.dataset.i; b.classList.toggle('sel', S.ice.sel === i); const f = filled(S.ice.notes[i]); b.classList.toggle('filled', f); b.querySelector('small').textContent = f ? '✓ записано' : (i > 2 ? 'під водою' : 'над водою'); });
+  }
+  const selLayer = i => { S.ice.sel = i; save(); paintIce(); };
+  $('#layerBtns').addEventListener('click', e => { const b = e.target.closest('.layer-btn'); if (b) selLayer(+b.dataset.i); });
+  $('#layersSvg').addEventListener('click', e => { const g = e.target.closest('.lay'); if (g) selLayer(+g.dataset.i); });
+  $('#lvl').addEventListener('input', e => { S.ice.level = +e.target.value; save(); paintIce(); });
+  // Перетягування рівня води прямо на SVG
+  (() => {
+    const svg = $('#iceSvg'); let drag = false;
+    const toY = e => { const r = svg.getBoundingClientRect(); return (e.clientY - r.top) / r.height * 420; };
+    svg.addEventListener('pointerdown', e => { if (Math.abs(toY(e) - waterY()) < 26) { drag = true; svg.setPointerCapture(e.pointerId); } });
+    svg.addEventListener('pointermove', e => { if (!drag) return; S.ice.level = Math.max(0, Math.min(100, Math.round((toY(e) - BASE_W) / 220 * 100))); paintIce(); });
+    svg.addEventListener('pointerup', () => { if (drag) { drag = false; save(); } });
+  })();
+
+  /* ---------- 2. Ролі ---------- */
+  const CARDS = [
+    ['Давай подумаємо разом, як зробити, щоб підійшло обом.', 'pp'],
+    ['Ну ти й незграба. Дай я сам.', 'pm'],
+    ['Вибач, я, мабуть, знову все зіпсую… Роби як знаєш.', 'mp'],
+    ['Нічого в нас не вийде. І в тебе теж.', 'mm'],
+    ['Мені важлива твоя думка — і я пропоную ось що.', 'pp'],
+    ['Я краще знаю, просто слухай.', 'pm'],
+    ['Ти такий розумний, а я так не вмію.', 'mp'],
+    ['Яка різниця? Нас однаково ніхто не послухає.', 'mm']
+  ];
+  const QNAME = { pp: 'Я+ Ти+', pm: 'Я+ Ти−', mp: 'Я− Ти+', mm: 'Я− Ти−' };
+  let selCard = -1;
+  function paintRoles() {
+    const pool = $('#pool'); pool.innerHTML = '';
+    $$('.placed-list').forEach(p => p.innerHTML = '');
+    CARDS.forEach(([t], i) => {
+      const q = S.roles.placed[i];
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'card' + (q ? ' placed' : '') + (selCard === i ? ' sel' : ''); b.textContent = '«' + t + '»'; b.dataset.i = i;
+      if (q) $(`.quad[data-q=${q}] .placed-list`).appendChild(b);
+      else { b.draggable = true; pool.appendChild(b); }
+    });
+    $$('.quad').forEach(q => q.classList.toggle('target', selCard >= 0));
+    const n = Object.keys(S.roles.placed).length;
+    $('#rolesScore').innerHTML = `Розкладено правильно: <b>${n}/8</b>${n === 8 ? ' — ти бачиш позиції як на долоні!' : ''}`;
+  }
+  function drop(i, q) {
+    if (CARDS[i][1] === q) { S.roles.placed[i] = q; selCard = -1; save(); paintRoles(); updateProgress(); }
+    else {
+      selCard = -1; paintRoles();
+      const c = $(`#pool .card[data-i="${i}"]`); if (c) { c.classList.add('shake'); setTimeout(() => c.classList.remove('shake'), 450); }
+      toast(`Не зовсім ${QNAME[q]}. Подумай: хто тут «ок», а хто ні?`);
+    }
+  }
+  $('#pool').addEventListener('click', e => { const c = e.target.closest('.card'); if (!c) return; const i = +c.dataset.i; selCard = selCard === i ? -1 : i; paintRoles(); });
+  $('#roles').addEventListener('click', e => { const q = e.target.closest('.quad'); if (!q || selCard < 0 || e.target.closest('textarea')) return; drop(selCard, q.dataset.q); });
+  $('#pool').addEventListener('dragstart', e => { const c = e.target.closest('.card'); if (c) e.dataTransfer.setData('text/plain', c.dataset.i); });
+  $$('.quad').forEach(q => {
+    q.addEventListener('dragover', e => { e.preventDefault(); q.classList.add('over'); });
+    q.addEventListener('dragleave', () => q.classList.remove('over'));
+    q.addEventListener('drop', e => { e.preventDefault(); q.classList.remove('over'); const i = e.dataTransfer.getData('text/plain'); if (i !== '') drop(+i, q.dataset.q); });
+  });
+
+  /* ---------- 3. Компліменти ---------- */
+  const ACTS = [
+    ['давати', 'Щиро, конкретно й вчасно. Не «ти класний», а що саме сподобалось.', '«Твоя презентація була дуже чіткою — я все зрозумів з першого разу».'],
+    ['брати', 'Прийми без знецінення. Просте «дякую» — це теж повага до того, хто сказав.', '«Дякую, мені дуже приємно!» замість «Та нічого особливого».'],
+    ['просити', 'Попросити зворотний зв\'язок — нормально. Так ти дізнаєшся свої сильні сторони.', '«Що тобі найбільше сподобалось у моєму виступі?»'],
+    ['не брати', 'Можна ввічливо не прийняти комплімент, за яким ховається маніпуляція.', '«Дякую, але рішення я ще не ухвалив».'],
+    ['рефреймінг (змінювати)', 'Переверни шпильку на ресурс — і відповідай уже на нову версію.', '«Ти впертий» → «Дякую, я справді наполегливий».'],
+    ['самокомпліменти', 'Хвали себе за конкретне. Це тренує «Я+».', '«Я сьогодні не побоявся поставити питання — клас».']
+  ];
+  function paintBranches() {
+    $('#branches').innerHTML = ACTS.map((a, i) => `<li><button type="button" data-i="${i}" class="${S.comp.sel === i ? 'sel' : ''} ${filled(S.comp.acts[i]) ? 'filled' : ''}">${a[0]}</button></li>`).join('');
+  }
+  function paintAct() {
+    const a = ACTS[S.comp.sel];
+    $('#actCard').innerHTML = `<h4>Компліменти можна ${a[0]}</h4><p>${a[1]}</p><p class="ex">${a[2]}</p>
+      <label class="lbl" for="actIn">Твій приклад:</label><textarea class="area" id="actIn" data-k="comp.acts.${S.comp.sel}" placeholder="Як ти це скажеш?"></textarea>`;
+    paintFields($('#actCard'));
+  }
+  $('#branches').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.comp.sel = +b.dataset.i; save(); paintBranches(); paintAct(); });
+
+  const PARTS = {
+    cHow: ['Мене вразило', 'Чесно, круто', 'Я помітив(-ла)', 'Хочу сказати: мені подобається', 'Дуже ціную'],
+    cWhat: ['як ти пояснюєш складне простими словами', 'як спокійно ти тримався на виступі', 'що ти завжди доводиш справу до кінця', 'твоя ідея з назвою проєкту', 'як ти підтримав новеньку в команді'],
+    cWhy: ['Це надихає і мене.', 'З тобою легше починати щось нове.', 'Команді це додало впевненості.', 'Я теж хочу так навчитися.', 'Через це я тобі довіряю.']
+  };
+  $$('.chips[data-for]').forEach(c => { c.innerHTML = PARTS[c.dataset.for].map(p => `<button type="button" class="chip">${p}</button>`).join(''); });
+  document.addEventListener('click', e => {
+    const ch = e.target.closest('.chips[data-for] .chip'); if (!ch) return;
+    const inp = $('#' + ch.parentElement.dataset.for); inp.value = ch.textContent; inp.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  const compText = () => {
+    const h = S.comp.how.trim(), w = S.comp.what.trim(), y = S.comp.why.trim();
+    if (!h && !w) return '';
+    let t = h && w ? `${h.replace(/[:.,!]+$/, '')} — ${w.replace(/[.!]+$/, '')}.` : (h || w);
+    if (y) t += ' ' + y.charAt(0).toUpperCase() + y.slice(1) + (/[.!?…]$/.test(y) ? '' : '.');
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  };
+  function paintBuilder() {
+    const t = compText(), r = $('#cResult');
+    r.classList.toggle('empty', !t); r.textContent = t || "Тут з'явиться твій комплімент";
+    let s = 0; const notes = [];
+    const w = S.comp.what.trim(), all = (S.comp.how + ' ' + w + ' ' + S.comp.why).toLowerCase();
+    if (w.split(/\s+/).length >= 4) s++; else if (t) notes.push('додай конкретики в «що»');
+    if (filled(S.comp.why)) s++; else if (t) notes.push('поясни, чому це важливо');
+    if (/(^|\s)(ти|тебе|тобі|твій|твоя|твоє|твої|тобою)(\s|$|[,.!])/.test(all)) s++; else if (t) notes.push('звернись до людини: «ти», «твій»');
+    const neg = /(\sале\s|як для|навіть ти|незважаючи|нарешті ти|хоч раз)/.test(' ' + all + ' ');
+    if (neg) s = Math.max(0, s - 2);
+    $('#cStars').textContent = '★'.repeat(s) + '☆'.repeat(3 - s);
+    $('#cNote').innerHTML = !t ? '' : neg ? '<span class="warn">Звучить як негативний комплімент — зі шпилькою. Прибери «але» / «як для».</span>' : s === 3 ? '<span class="good">Конкретно, щиро, з причиною — такий запам\'ятають!</span>' : 'Підказка: ' + notes.join(', ') + '.';
+  }
+  $('#cDice').addEventListener('click', () => {
+    const pick = a => a[Math.floor(Math.random() * a.length)];
+    S.comp.how = pick(PARTS.cHow); S.comp.what = pick(PARTS.cWhat); S.comp.why = pick(PARTS.cWhy);
+    paintFields($('.builder')); save(); paintBuilder(); updateProgress();
+    if (!reduce) { const r = $('#cResult'); r.classList.remove('pop'); void r.offsetWidth; r.classList.add('pop'); }
+  });
+  $('#cToHw').addEventListener('click', () => {
+    const t = compText(); if (!t) { toast('Спершу збери комплімент'); return; }
+    const i = S.hw.give.findIndex(v => !filled(v));
+    if (i < 0) { toast('Усі 10 рядків уже заповнені — ти машина компліментів!'); return; }
+    S.hw.give[i] = t; save(); paintFields($('#listGive')); paintLists(); updateProgress(); toast(`Додано в ДЗ, рядок ${i + 1}`);
+  });
+
+  function paintBorders() {
+    const a = S.comp.bMe, b = S.comp.bYou;
+    $('#bMe').value = a; $('#bYou').value = b;
+    // Позиції у відсотках ширини доріжки (лишаємо поля під «Я» і «Ти»)
+    const pos = v => `calc(28px + (100% - 56px) * ${v / 100})`;
+    $('#bMine').style.left = pos(a); $('#bYours').style.left = pos(b);
+    const lo = Math.min(a, b), hi = Math.max(a, b), z = $('#bZone');
+    z.style.left = pos(lo); z.style.width = `calc((100% - 56px) * ${(hi - lo) / 100})`;
+    z.classList.toggle('bad', a > b);
+    $('#bCap').style.left = pos((a + b) / 2);
+    const gap = b - a;
+    $('#bCap').textContent = gap > 0 ? `переговорна можливість: ${gap}%` : 'кордони перетнулися';
+    $('#bMsg').textContent = gap >= 30 ? '🟢 Багато простору — є де шукати варіанти, які влаштують обох.'
+      : gap >= 10 ? '🟡 Простір вузький: домовляйтесь конкретно, кожен крок важить.'
+      : gap > 0 ? '🟠 Майже впритул — будь-яка вимога вже тисне. Проговоріть кордони вголос.'
+      : '🔴 Хтось зайшов на чужу територію. Зупинись: «Мені це не підходить. Давай знайдемо інший варіант».';
+  }
+
+  /* ---------- 4. Розмова графічно ---------- */
+  const ZORDER = ['me', 'both', 'you'];
+  function paintVenn() {
+    $$('.venn .zn').forEach(z => { $$('.topic', z).forEach(t => t.remove()); });
+    S.venn.topics.forEach((t, i) => {
+      const el = document.createElement('span'); el.className = 'topic pop';
+      el.innerHTML = `<button type="button" class="t" data-i="${i}" title="Пересунути">${esc(t.t)}</button><button type="button" class="x" data-del="${i}" aria-label="Видалити тему">×</button>`;
+      $(`.venn .zn[data-z=${t.z}]`).appendChild(el);
+    });
+    const c = z => S.venn.topics.filter(t => t.z === z).length;
+    const b = c('both'), d = c('me') + c('you');
+    $('#vennStat').innerHTML = !S.venn.topics.length ? 'Додай хоча б 4 теми — і побачиш, де ваш «місток».'
+      : `Спільних тем: <b>${b}</b>, відмінних: <b>${d}</b>. ` + (b === 0 ? 'Пошукай хоча б одну спільну — з неї варто починати розмову.' : b >= d ? 'Спільного багато — на ньому й будуй домовленість.' : 'Почни зі спільного, а відмінне обговорюй як «задачу на двох».');
+  }
+  function addTopic(z) {
+    const inp = $('#topicIn'), v = inp.value.trim();
+    if (!v) { inp.classList.add('shake'); setTimeout(() => inp.classList.remove('shake'), 450); inp.focus(); return; }
+    S.venn.topics.push({ t: v.slice(0, 80), z }); inp.value = ''; inp.focus(); save(); paintVenn(); updateProgress();
+  }
+  $$('[data-add]').forEach(b => b.addEventListener('click', () => addTopic(b.dataset.add)));
+  $('#topicIn').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addTopic('both'); } });
+  $('#venn').addEventListener('click', e => {
+    const d = e.target.closest('[data-del]'); if (d) { S.venn.topics.splice(+d.dataset.del, 1); save(); paintVenn(); updateProgress(); return; }
+    const t = e.target.closest('.t'); if (t) { const tp = S.venn.topics[+t.dataset.i]; tp.z = ZORDER[(ZORDER.indexOf(tp.z) + 1) % 3]; save(); paintVenn(); }
+  });
+
+  // Полотно для малювання
+  const cv = $('#sketch'), cx = cv.getContext('2d');
+  let pen = '#22a447', drawing = false, last = null;
+  function loadSketch() {
+    cx.clearRect(0, 0, cv.width, cv.height);
+    if (S.sketch) { const im = new Image(); im.onload = () => cx.drawImage(im, 0, 0); im.src = S.sketch; }
+  }
+  const pt = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * cv.width, (e.clientY - r.top) / r.height * cv.height]; };
+  cv.addEventListener('pointerdown', e => { drawing = true; last = pt(e); cv.setPointerCapture(e.pointerId); cx.beginPath(); cx.fillStyle = pen; cx.arc(last[0], last[1], 2.5, 0, 7); cx.fill(); });
+  cv.addEventListener('pointermove', e => {
+    if (!drawing) return; const p = pt(e);
+    cx.strokeStyle = pen; cx.lineWidth = 5; cx.lineCap = 'round'; cx.lineJoin = 'round';
+    cx.beginPath(); cx.moveTo(last[0], last[1]); cx.lineTo(p[0], p[1]); cx.stroke(); last = p;
+  });
+  const endDraw = () => { if (!drawing) return; drawing = false; try { S.sketch = cv.toDataURL('image/png'); } catch (e) {} save(); };
+  cv.addEventListener('pointerup', endDraw); cv.addEventListener('pointercancel', endDraw);
+  $$('[data-pen]').forEach(b => b.addEventListener('click', () => { pen = b.dataset.pen; $$('[data-pen]').forEach(x => x.classList.toggle('on', x === b)); }));
+  $('#skClear').addEventListener('click', () => { S.sketch = ''; save(); loadSketch(); });
+
+  /* ---------- 5. Принципи ---------- */
+  const PRIN = [
+    ['«Так» — людина має право на свою думку', '«Так, розумію, чому ти так думаєш». Визнати право ≠ погодитися.'],
+    ['Люди за замовчуванням вважають себе правими', 'Не доводь, що людина неправа. Шукай, у чому вона права, — і рухайся звідти.'],
+    ['Системність дає результат (робота в штиль)', 'Тренуй навички, коли все спокійно, а не в розпал сварки.'],
+    ['Немає невдач — є досвід. Кожен раз з чистого аркуша', 'Не тягни образу з минулої розмови в нову.'],
+    ['Знай, що хочеш, але іноді ініціативу передавай партнеру', '«А як би ти запропонував?» — і людина вже співавтор рішення.'],
+    ['Влаштовує пропозиція — погоджуйся одразу', 'Не торгуйся заради торгу: це руйнує довіру.'],
+    ['Не пропонуй послуг; допомагай, зробивши своє', 'Спершу виконай свою частину — тоді допомога важить.'],
+    ['Не тіш себе успіхом, але враховуй його', 'Після вдалої розмови розбери: що саме спрацювало?'],
+    ['Не переконуй — переконувати означає змушувати', 'Став питання — хай людина сама дійде до висновку.']
+  ];
+  $('#flips').innerHTML = PRIN.map((p, i) => `<button type="button" class="flip" data-i="${i}" aria-label="Принцип ${i + 1}: ${p[0]}. Перегорнути">
+    <span class="flip-in"><span class="flip-face flip-front"><span class="n">${i + 1}</span><b>${p[0]}</b><em>перегорнути ↻</em></span>
+    <span class="flip-face flip-back"><small>Як це звучить</small>${p[1]}</span></span></button>`).join('');
+  $('#weekPick').innerHTML = PRIN.map((p, i) => `<button type="button" class="chip" data-w="${i}" title="${esc(p[0])}">${i + 1}</button>`).join('');
+  function paintAik() {
+    $$('.flip').forEach(f => { const i = +f.dataset.i; f.classList.toggle('seen', S.aik.seen.includes(i)); f.querySelector('em').textContent = S.aik.seen.includes(i) ? '✓ прочитано · ↻' : 'перегорнути ↻'; });
+    $$('[data-w]').forEach(c => c.classList.toggle('on', +c.dataset.w === S.aik.week));
+  }
+  $('#flips').addEventListener('click', e => {
+    const f = e.target.closest('.flip'); if (!f) return; f.classList.toggle('on');
+    const i = +f.dataset.i; if (!S.aik.seen.includes(i)) { S.aik.seen.push(i); save(); paintAik(); updateProgress(); }
+  });
+  $('#weekPick').addEventListener('click', e => { const c = e.target.closest('[data-w]'); if (!c) return; S.aik.week = +c.dataset.w === S.aik.week ? -1 : +c.dataset.w; save(); paintAik(); if (S.aik.week >= 0) toast('Принцип тижня: ' + PRIN[S.aik.week][0]); });
+
+  /* ---------- 6. Тренажер айкідо ---------- */
+  // У кожному кроці: [м'яка відповідь (3 бали), оборона (1), атака (0)]
+  const SCEN = [
+    { who: 'Одногрупник', atk: 'Твоя ідея — повна дурня, нічого не вийде!', steps: [
+      ['Так, ідея ще сира — і добре, що ти це помітив.', 'Нічого не дурня, ти просто не зрозумів!', 'Спершу свої ідеї май, а потім критикуй.'],
+      ['Може, там навіть більше слабких місць, ніж я бачу. Що тебе найбільше бентежить?', 'Я над нею тиждень сидів, між іншим.', 'Ну звісно, ти ж у нас експерт з усього.'],
+      ['Давай разом пройдемося по ризиках і вирішимо, що виправити до п\'ятниці?', 'Добре, роби як знаєш, я вмиваю руки.', 'Або підтримуєш, або не заважай.']] },
+    { who: 'Мама', atk: 'Ти знову весь вечір у телефоні!', steps: [
+      ['Так, я справді довго сиджу в телефоні.', 'Я не весь вечір, лише годинку!', 'А ти сама весь час у серіалах!'],
+      ['Мабуть, збоку здається, що я взагалі не відриваюсь. Тебе турбує, що я менше вчуся?', 'Я там у справах, у нас чат проєкту.', 'Ну так, я ж у тебе найгірша дитина.'],
+      ['Давай домовимось: до дев\'ятої — уроки без телефона, а потім мій час. Як тобі?', 'Окей, сидітиму в кімнаті, щоб ти не бачила.', 'Ще раз почую — взагалі не виходитиму з кімнати.']] },
+    { who: 'Покупець на ярмарку', atk: 'У вас усе задорого!', steps: [
+      ['Так, ціна в нас не найнижча.', 'Це нормальна ціна, ви просто не розумієтеся.', 'Не подобається — не купуйте.'],
+      ['І справді, за такі гроші хочеться бути певним, що річ того варта. Що для вас найважливіше?', 'Матеріали подорожчали, ми й так майже в мінус працюємо.', 'Усім дорого, а потім дешевий непотріб беруть.'],
+      ['Давайте покажу, з чого це зроблено, а ви вирішите. Є й менший набір — дешевший.', 'Ну, можу віддати за півціни, тільки купіть.', 'Знижок не буде, вирішуйте швидше.']] },
+    { who: 'Колега по проєкту', atk: 'Ти завжди все робиш в останній момент!', steps: [
+      ['Так, я часто затягую до дедлайну.', 'Не завжди! Минулого разу я здав раніше.', 'А ти взагалі нічого не робиш.'],
+      ['Розумію, як це нервує: ти не знаєш, чи я встигну, і мусиш чекати.', 'У мене просто багато інших справ.', 'Тобі аби до чогось причепитися.'],
+      ['Давай поставимо проміжну перевірку на середу — і ти бачитимеш, що все йде?', 'Добре, більше нічого тобі не обіцятиму.', 'Не подобається — роби сам.']] }
+  ];
+  const FB = [
+    ['Ти зійшов(-ла) з лінії атаки: «так» знімає напругу — нема в що бити.', 'Оборона — це теж прийняти удар. Сперечаєшся — значить, удар долетів.', 'Контратака: тепер ви обоє б\'єтесь, і енергія зростає.'],
+    ['Розкручування: ти підсилюєш сказане — і атака втрачає сенс.', 'Виправдання знову повертає тебе в оборону.', 'Сарказм — та сама атака, тільки в обгортці.'],
+    ['Дорослий — Дорослий: заклик до співпраці й конкретне рішення. 🎯', 'Здача позицій — це «Я− Ти+». Рішення немає.', 'Ультиматум — «Я+ Ти−». Розмова закінчиться сваркою.']
+  ];
+  const PTS = [3, 1, 0], CLS = ['ok', 'mid', 'bad'];
+  const PATHS = {
+    idle: 'M322,52 C260,52 140,52 78,52',
+    s1: 'M322,52 C250,52 170,40 120,8',
+    s2: 'M322,52 C260,52 230,20 200,26',
+    s3: 'M322,52 C280,52 240,52 214,52',
+    hit: 'M322,52 C260,52 140,52 74,52'
+  };
+  let run = null; // { sc, step, picks:[] , order:[[...]] }
+  const shuffle = a => { const r = a.slice(); for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; };
+  function startRun(sc) { S.sim.cur = sc; save(); run = { sc, step: 0, picks: [], order: [0, 1, 2].map(() => shuffle([0, 1, 2])), shown: false }; setArena('idle'); paintSim(); }
+  function setArena(st) {
+    const a = $('#arena'); a.classList.remove('s1', 's2', 's3', 'hit');
+    $('#arA').setAttribute('d', PATHS[st === 'hit' ? 'hit' : st] || PATHS.idle);
+    if (st === 'hit') { void a.offsetWidth; a.classList.add('hit'); } else if (st !== 'idle') a.classList.add(st);
+    $('#arB').setAttribute('d', st === 's3' ? 'M78,52 C120,52 160,52 186,52' : 'M78,52 C80,52 80,52 80,52');
+    $$('.s3').forEach((s, i) => s.classList.toggle('lit', st === 's' + (i + 1)));
+  }
+  function paintSim() {
+    $('#scen').innerHTML = SCEN.map((s, i) => `<button type="button" class="chip${run && run.sc === i ? ' on' : ''}" data-sc="${i}">${s.who}${S.sim.best[i] === 9 ? ' 🥋' : ''}</button>`).join('');
+    const sc = SCEN[run.sc], pts = run.picks.reduce((a, p) => a + PTS[p], 0);
+    $('#softBar').style.width = (pts / 9 * 100) + '%'; $('#softTxt').textContent = `${pts}/9`;
+    const bar = [0, 1, 2].map(i => `<span class="${i < run.picks.length ? CLS[run.picks[i]] : i === run.step ? 'cur' : ''}"></span>`).join('');
+    if (run.step >= 3) {
+      const best = S.sim.best[run.sc] = Math.max(S.sim.best[run.sc], pts); save(); updateProgress();
+      const msg = pts === 9 ? 'Майстер айкідо! Атака перетворилась на співпрацю.' : pts >= 6 ? 'Добре! Ще трохи м\'якості — і буде ідеально.' : 'Енергія атаки перемогла. Спробуй ще раз — тепер ти знаєш, як.';
+      $('#simBody').innerHTML = `<div class="stepper3">${bar}</div><div class="sim-end pop"><b>${pts}/9</b><p>${msg}<br><small>Найкраще в цій ситуації: ${best}/9</small></p>
+        <button type="button" class="btn btn-sm" id="simAgain">Ще раз</button> <button type="button" class="btn btn-ghost btn-sm" id="simNext">Наступна ситуація →</button></div>`;
+      return;
+    }
+    const st = run.step, lastPick = run.shown ? run.picks[st] : -1;
+    $('#simBody').innerHTML = `<div class="stepper3">${bar}</div>
+      <div class="attack"><small>${sc.who}${st > 0 ? ' (далі)' : ''}:</small>«${esc(sc.atk)}»</div>
+      <p class="q-step">Крок ${st + 1}: ${['«Так» — зійди з лінії атаки', 'Підсиль сказане — розкрути', 'Дорослий — Дорослий → рішення'][st]}</p>
+      <div class="opts">${run.order[st].map(k => `<button type="button" class="opt${lastPick === k ? ' pick-' + CLS[k] : ''}" data-k2="${k}"${run.shown ? ' disabled' : ''}>${esc(sc.steps[st][k])}</button>`).join('')}</div>
+      <p class="fb" aria-live="polite">${run.shown ? FB[st][lastPick] : ''}</p>
+      ${run.shown ? `<button type="button" class="btn btn-sm" id="simGo">${st < 2 ? 'Далі →' : 'Результат'}</button>` : ''}`;
+  }
+  $('#sim').addEventListener('click', e => {
+    const sc = e.target.closest('[data-sc]'); if (sc) { startRun(+sc.dataset.sc); return; }
+    const o = e.target.closest('.opt'); if (o && !run.shown) {
+      const k = +o.dataset.k2; run.picks.push(k); run.shown = true;
+      setArena(k === 0 ? 's' + (run.step + 1) : 'hit'); paintSim(); return;
+    }
+    if (e.target.id === 'simGo') { run.step++; run.shown = false; paintSim(); const f = $('#simBody .opt'); if (f) f.focus(); return; }
+    if (e.target.id === 'simAgain') startRun(run.sc);
+    if (e.target.id === 'simNext') startRun((run.sc + 1) % SCEN.length);
+  });
+
+  /* ---------- 7. ДЗ ---------- */
+  ['Give', 'Take'].forEach(n => {
+    const k = n === 'Give' ? 'give' : 'take';
+    $('#list' + n).innerHTML = Array.from({ length: 10 }, (_, i) => `<li><i>${i + 1}</i><input data-k="hw.${k}.${i}" aria-label="${n === 'Give' ? 'Комплімент, який я дав(-ла)' : 'Комплімент, який я прийняв(-ла)'} ${i + 1}" placeholder="${n === 'Give' ? 'Кому і що сказав(-ла)' : 'Хто і що сказав(-ла)'}"></li>`).join('');
+  });
+  function paintLists() {
+    [['give', 'Give'], ['take', 'Take']].forEach(([k, n]) => {
+      const c = S.hw[k].filter(filled).length, r = $('#ring' + n);
+      r.style.setProperty('--p', c * 10); r.classList.toggle('full', c === 10); r.firstElementChild.textContent = c === 10 ? '✓' : c;
+      $$('#list' + n + ' li').forEach((li, i) => li.classList.toggle('f', filled(S.hw[k][i])));
+    });
+  }
+
+  /* ---------- 8. Практика: лічильник компліментів ---------- */
+  const dkey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const DN = ['нд', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+  function paintCounter() {
+    const today = S.prac.days[dkey(new Date())] || 0;
+    $('#cntNum').textContent = today;
+    const r = $('#bigRing'); r.style.setProperty('--p', Math.min(100, today / 12 * 100)); r.classList.toggle('full', today >= 12);
+    $('#days').innerHTML = Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(); d.setDate(d.getDate() - 6 + i); const v = S.prac.days[dkey(d)] || 0;
+      return `<span class="day${v >= 12 ? ' full' : ''}" title="${v} компліментів"><i style="--v:${Math.min(100, v / 12 * 100)}"></i>${DN[d.getDay()]}</span>`;
+    }).join('');
+  }
+  const bump = n => {
+    const k = dkey(new Date()); const v = Math.max(0, (S.prac.days[k] || 0) + n); S.prac.days[k] = v; save(); paintCounter();
+    if (n > 0 && v === 12) toast('12 з 12! Сьогоднішню норму компліментів виконано 🎉');
+  };
+  $('#cntPlus').addEventListener('click', () => bump(1));
+  $('#cntMinus').addEventListener('click', () => bump(-1));
+
+  /* ---------- Приклади й очищення ---------- */
+  const EX = {
+    ice: () => { S.ice.notes = ['Часто кажу «типу» і «ну таке» — звучить невпевнено.', 'Коли хвилююсь, говорю швидко й тихо.', 'Схрещую руки й дивлюсь у телефон.', 'Думаю, що дорослі мене не почують — тому й не пробую.', 'З новими людьми почуваюсь «Я−», боюся здатися дивним.']; S.ice.level = 100; },
+    roles: () => { CARDS.forEach((c, i) => S.roles.placed[i] = c[1]); Object.assign(S.roles.cells, { pp: 'Коли ми з другом плануємо поїздку і слухаємо одне одного.', pm: 'Коли молодший брат щось робить повільно, а я поспішаю.', mp: 'Коли говорю з учителем, якого побоююсь.', mm: 'Коли я втомлений і все дратує.' }); },
+    comp: () => { S.comp.acts = ['Олю, твій постер — найяскравіший у класі, видно, скільки ти вклала.', 'Дякую, мені дуже приємно!', 'Що тобі найбільше сподобалось у моєму проєкті?', 'Дякую, але я ще подумаю над пропозицією.', '«Ти зануда» → «Дякую, я справді уважний до деталей».', 'Я сьогодні сам підійшов до тренера — молодець.']; S.comp.how = 'Мене вразило'; S.comp.what = 'як спокійно ти тримався на виступі'; S.comp.why = 'Мені після цього захотілося теж спробувати.'; S.comp.bMe = 30; S.comp.bYou = 66; S.comp.line = 'Не обговорюю мою вагу й зовнішність.'; },
+    venn: () => { S.venn.topics = [{ t: 'Хочемо поїхати на море', z: 'both' }, { t: 'Любимо одну музику', z: 'both' }, { t: 'Їхати потягом', z: 'me' }, { t: 'Їхати автобусом — дешевше', z: 'you' }, { t: 'Жити в наметі', z: 'me' }, { t: 'Готель із басейном', z: 'you' }, { t: 'Бюджет до 5000 грн', z: 'both' }]; },
+    aik: () => { S.aik.seen = PRIN.map((_, i) => i); S.aik.week = 8; $$('.flip').forEach(f => f.classList.add('on')); },
+    my3: () => { Object.assign(S.my3, { atk: 'Тренер: «Ти сьогодні грав гірше за всіх!»', s1: 'Так, сьогодні я справді грав слабко.', s2: 'Мабуть, збоку це було ще помітніше — я кілька разів втратив м\'яч у простих ситуаціях.', s3: 'Давайте розберемо дві-три помилки — що мені тренувати до наступної гри?' }); },
+    hw: () => { S.hw.refuse = true; S.hw.ask = 'Попросив у кав\'ярні дати мені другий круасан безкоштовно'; S.hw.felt = 'Сказали «ні» — я усміхнувся, подякував. Виявилось, не страшно!';
+      const g = ['Мамі: «Твій борщ — найкращий у світі»', 'Другу: «Ти класно пояснив задачу»', 'Сестрі: «Тобі дуже личить ця зачіска»', 'Вчительці: «Цікавий урок, я все зрозумів»', 'Тренеру: «Дякую, що вірите в нас»', 'Сусідці: «У вас найгарніші квіти на поверсі»', 'Однокласниці: «Твій виступ надихнув»', 'Татові: «Ти круто полагодив велосипед»', 'Продавчині: «Дякую за усмішку»', 'Собі: «Я сьогодні молодець»'];
+      const t = ['Бабуся: «Ти став такий самостійний»', 'Друг: «З тобою весело»', 'Вчитель: «Гарна робота»', 'Мама: «Дякую за допомогу»', 'Тренер: «Швидко прогресуєш»']; S.hw.give = g; S.hw.take = t.concat(Array(5).fill('')); },
+    prac: () => { S.prac.c0 = true; S.prac.c1 = true; S.prac.n0 = 'Люди, що йдуть з піднятою головою, здаються впевненішими — їм частіше поступаються дорогою.'; S.prac.n1 = 'Від тата — потирати підборіддя, коли думаю. Виглядаю серйозніше, але іноді — ніби сумніваюсь.'; S.prac.days[dkey(new Date())] = Math.max(S.prac.days[dkey(new Date())] || 0, 7); },
+    main: () => { S.notes = '• Айсберг: найважливіше — під водою.\n• Говорити з позиції Я+ Ти+.\n• Компліменти — конкретні й щирі.\n• Айкідо: так → підсилюю → давай разом.'; S.main = 'Не сперечатися з атакою, а приєднуватись і переводити на співпрацю.'; }
+  };
+  const CLEAR = {
+    ice: () => { S.ice = fresh().ice; },
+    roles: () => { S.roles = fresh().roles; selCard = -1; },
+    comp: () => { S.comp = fresh().comp; },
+    venn: () => { S.venn = fresh().venn; S.sketch = ''; loadSketch(); },
+    aik: () => { S.aik = fresh().aik; $$('.flip').forEach(f => f.classList.remove('on')); },
+    my3: () => { S.my3 = fresh().my3; S.sim.best = [0, 0, 0, 0]; startRun(S.sim.cur); },
+    hw: () => { S.hw = fresh().hw; },
+    prac: () => { S.prac = fresh().prac; },
+    main: () => { S.notes = ''; S.main = ''; }
+  };
+  // Приклад заповнює лише порожні поля там, де це текст; списки — повністю
+  document.addEventListener('click', e => {
+    const ex = e.target.closest('[data-ex]'), cl = e.target.closest('[data-clear]');
+    if (ex) { EX[ex.dataset.ex](); save(); paintAll(); toast('Приклад підставлено — заміни своїм'); }
+    if (cl && confirm('Очистити всі записи в цьому розділі?')) { CLEAR[cl.dataset.clear](); save(); paintAll(); }
+  });
+
+  /* ---------- Прогрес, значки, наліпки-нагороди ---------- */
+  const cnt = a => a.filter(filled).length;
+  const SECS = [
+    ['s1', 'Айсберг', () => Math.min(1, cnt(S.ice.notes) / 3)],
+    ['s2', 'Ролі', () => Object.keys(S.roles.placed).length / 8 * .75 + (cnt(Object.values(S.roles.cells)) ? .25 : 0)],
+    ['s3', 'Компліменти', () => Math.min(1, cnt(S.comp.acts) / 3) * .7 + (compText() ? .3 : 0)],
+    ['s4', 'Розмова', () => Math.min(1, S.venn.topics.length / 4)],
+    ['s5', 'Принципи', () => S.aik.seen.length / 9],
+    ['s6', 'Айкідо', () => (S.sim.best.some(b => b > 0) ? .5 : 0) + cnt(Object.values(S.my3)) / 4 * .5],
+    ['s7', 'ДЗ', () => ((S.hw.refuse ? 1 : 0) + cnt(S.hw.give) / 10 + cnt(S.hw.take) / 10) / 3],
+    ['s8', 'Практика', () => ['c0', 'c1', 'c2'].filter(k => S.prac[k]).length / 3],
+    ['s9', 'Головне', () => filled(S.main) ? 1 : 0]
+  ];
+  // Наліпки-нагороди: Франко — за глибину, Шевченко — за сміливість
+  const REWARD = { s1: 'franko', s6: 'franko', s3: 'shevchenko', s7: 'shevchenko' };
+  function placeCorner(id, animate) {
+    const sec = $('#' + id); if ($('.corner-st', sec)) return;
+    const img = new Image(); img.src = ST[REWARD[id]](); img.alt = ST_ALT[REWARD[id]]; img.className = 'stk corner-st'; img.width = 92;
+    sec.appendChild(img);
+    if (!animate || reduce || !img.animate) return;
+    const r = img.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    img.animate([
+      { transform: `translate(${innerWidth / 2 - r.left - r.width / 2}px, ${innerHeight / 2 - r.top - r.height / 2}px) scale(2.4) rotate(25deg)`, opacity: 0 },
+      { opacity: 1, offset: .3 },
+      { transform: 'rotate(-6deg)', opacity: 1 }
+    ], { duration: 900, easing: 'cubic-bezier(.2,.9,.3,1.2)' });
+  }
+  function updateProgress(first) {
+    let sum = 0, done = 0;
+    SECS.forEach(([id, name, f]) => {
+      const v = Math.max(0, Math.min(1, f())); sum += v;
+      const ok = v >= .999; if (ok) done++;
+      $('#' + id).classList.toggle('done', ok);
+      const a = $(`#secnav a[href="#${id}"]`); if (a) a.classList.toggle('done', ok);
+      if (ok && REWARD[id]) {
+        if (!S.rewards[id]) { S.rewards[id] = true; save(); if (!first) toast(REWARD[id] === 'franko' ? 'Франко каже: «Думай глибше» — розділ виконано!' : 'Шевченко каже: «Твори сміливо» — розділ виконано!'); placeCorner(id, !first); }
+        else placeCorner(id, false);
+      }
+    });
+    const p = Math.round(sum / SECS.length * 100);
+    $('#progBar').style.width = p + '%'; $('#progTxt').textContent = p + '%'; $('#badgeTxt').textContent = `· значки ${done}/9`;
+    $('#badges').innerHTML = SECS.map(([id, name, f]) => `<span class="badge${f() >= .999 ? ' on' : ''}">${f() >= .999 ? '✓ ' : ''}${name}</span>`).join('');
+  }
+  // Підсвітка активного розділу в навігації
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) $$('#secnav a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id)); }), { rootMargin: '-40% 0px -55% 0px' });
+    $$('.sheet').forEach(s => io.observe(s));
+  }
+
+  function paintAll() {
+    paintFields(); paintMood(false); paintIce(); paintRoles(); paintBranches(); paintAct(); paintBuilder(); paintBorders();
+    paintVenn(); paintAik(); paintLists(); paintCounter(); updateProgress();
+  }
+  paintAll(); loadSketch(); startRun(S.sim.cur || 0); updateProgress(true);
+})();
+</script>
+</body>
+</html>

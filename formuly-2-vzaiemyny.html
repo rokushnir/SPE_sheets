@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2. Взаємини людей — формули поведінки</title>
+<meta name="description" content="Формула особистості, модель віддзеркалення, дефіцит, однаковість, лояльність, внутрішній конфлікт, комунікативна теорія всього, плинна середня — інтерактивні калькулятори з графіками.">
+<meta property="og:title" content="2. Взаємини людей — формули поведінки">
+<meta property="og:description" content="Формула особистості, модель віддзеркалення, дефіцит, однаковість, лояльність, внутрішній конфлікт, комунікативна теорія всього, плинна середня — інтерактивні калькулятори з графіками.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem('fx-theme');if(t&&t!=='auto')document.documentElement.dataset.theme=t}catch(e){}</script>
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #17203a;
+    --muted: #5f6880;
+    --faint: #9aa1b2;
+    --page: #f2f1ee;
+    --panel: #ffffff;
+    --line: #e3e3e8;
+    --soft: #f6f6f8;
+    --acc: #5b4bdb;
+    --acc-2: #8f84f0;
+    --acc-soft: #ecebfc;
+    --ok: #138a5f;
+    --ok-soft: #e1f6ee;
+    --warn: #b86f00;
+    --warn-soft: #fff2d9;
+    --bad: #d0334c;
+    --bad-soft: #ffe6ea;
+    --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100; --c5: #e87ba4; --c6: #008300; --c7: #6250d6; --c8: #e34948;
+    --grid: #ececf0;
+    --shadow: 0 10px 30px rgba(23, 32, 58, .07);
+    --on-acc: #ffffff;
+    --r: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ink: #eceef5; --muted: #a9afc2; --faint: #6f768a; --page: #12141b; --panel: #1b1e28; --line: #2c3040; --soft: #222634;
+      --acc: #9d93f5; --acc-2: #7d72e6; --acc-soft: #2a2750;
+      --ok: #3cc794; --ok-soft: #173a2e; --warn: #f0a53a; --warn-soft: #3d2f15; --bad: #f2788b; --bad-soft: #42202a;
+      --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; --c8: #e66767;
+      --grid: #282c3a; --shadow: 0 10px 30px rgba(0, 0, 0, .35); --on-acc: #15122e;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ink: #eceef5; --muted: #a9afc2; --faint: #6f768a; --page: #12141b; --panel: #1b1e28; --line: #2c3040; --soft: #222634;
+    --acc: #9d93f5; --acc-2: #7d72e6; --acc-soft: #2a2750;
+    --ok: #3cc794; --ok-soft: #173a2e; --warn: #f0a53a; --warn-soft: #3d2f15; --bad: #f2788b; --bad-soft: #42202a;
+    --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; --c8: #e66767;
+    --grid: #282c3a; --shadow: 0 10px 30px rgba(0, 0, 0, .35); --on-acc: #15122e;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  button, input, textarea, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  a { color: var(--acc); }
+  .wrap { width: min(1000px, 100% - 32px); margin-inline: auto; }
+  h1, h2, h3, .disp { font-family: "Unbounded", "Manrope", sans-serif; letter-spacing: -.01em; }
+  .muted { color: var(--muted); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  /* ---------- верхня панель ---------- */
+  .bar { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--panel) 93%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .bar-in { display: flex; align-items: center; gap: 12px; min-height: 62px; padding: 8px 0; }
+  .back { text-decoration: none; color: var(--muted); font-weight: 700; font-size: 14px; white-space: nowrap; }
+  .back:hover { color: var(--acc); }
+  .ring { position: relative; width: 42px; height: 42px; flex: none; }
+  .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring circle { fill: none; stroke-width: 5; }
+  .ring .bg { stroke: var(--acc-soft); }
+  .ring .fg { stroke: var(--acc); stroke-linecap: round; transition: stroke-dashoffset .6s ease; }
+  .ring b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 11px; font-weight: 800; }
+  .bar-main { flex: 1; min-width: 0; }
+  .bar-main strong { display: block; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-main span { font-size: 12px; color: var(--muted); }
+  .tools { display: flex; gap: 6px; flex: none; }
+  .tbtn { border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 7px 10px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .tbtn:hover { border-color: var(--acc); color: var(--acc); }
+  .tmenu { position: relative; }
+  .tmenu-list { display: none; position: absolute; right: 0; top: calc(100% + 6px); background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; min-width: 260px; flex-direction: column; z-index: 50; }
+  .tmenu.open .tmenu-list { display: flex; }
+  .tmenu-list a { text-decoration: none; color: var(--ink); padding: 9px 10px; border-radius: 8px; font-weight: 600; font-size: 14px; }
+  .tmenu-list a:hover, .tmenu-list a.cur { background: var(--acc-soft); }
+  @media (max-width: 640px) { .back span, .tbtn .lbl { display: none; } }
+
+  /* ---------- обкладинка ---------- */
+  .hero { padding: 36px 0 8px; }
+  .kicker { display: inline-flex; gap: 8px; align-items: center; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--acc); background: var(--acc-soft); padding: 7px 12px; border-radius: 99px; }
+  .hero h1 { font-size: clamp(27px, 5vw, 44px); line-height: 1.1; margin: 16px 0 12px; }
+  .hero h1 em { font-style: normal; color: var(--acc); }
+  .lead { font-size: clamp(16px, 2vw, 18px); color: var(--muted); max-width: 780px; margin: 0; }
+  .howto { margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); }
+  .howto span { display: inline-flex; align-items: center; gap: 6px; }
+  .howto i { font-style: normal; display: inline-grid; place-items: center; min-width: 22px; height: 22px; border-radius: 6px; background: var(--acc-soft); color: var(--acc); font-weight: 800; font-size: 12px; padding: 0 5px; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 6px; }
+  .toc a { text-decoration: none; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 99px; padding: 7px 12px; font-size: 13px; font-weight: 700; display: inline-flex; gap: 6px; align-items: center; }
+  .toc a b { color: var(--acc); }
+  .toc a:hover { border-color: var(--acc); }
+  .toc a.done::after { content: "✓"; color: var(--ok); font-weight: 900; }
+  .toc-sep { width: 100%; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-top: 6px; }
+
+  /* ---------- модель ---------- */
+  .part { margin: 46px 0 6px; }
+  .part h2 { font-size: clamp(20px, 3vw, 26px); margin: 0 0 6px; }
+  .part p { margin: 0; color: var(--muted); max-width: 780px; }
+  .model { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); padding: clamp(18px, 3vw, 28px); margin: 22px 0; }
+  .m-head { display: flex; gap: 14px; align-items: flex-start; }
+  .m-num { flex: none; width: 44px; height: 44px; border-radius: 12px; background: var(--acc); color: var(--on-acc); display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 14px; }
+  .m-head h2 { font-size: clamp(18px, 2.6vw, 23px); margin: 2px 0 2px; line-height: 1.2; }
+  .m-head .m-sub { margin: 0; font-size: 14px; color: var(--muted); }
+  .m-title { flex: 1; min-width: 0; }
+  .m-tools { display: flex; gap: 6px; flex: none; }
+  .ibtn { border: 1px solid var(--line); background: var(--soft); border-radius: 10px; min-width: 36px; height: 36px; padding: 0 9px; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+  .ibtn:hover { border-color: var(--acc); color: var(--acc); }
+  .ibtn.ok { border-color: var(--ok); color: var(--ok); }
+  @media (max-width: 560px) { .m-head { flex-wrap: wrap; } .m-tools { width: 100%; justify-content: flex-end; } .ibtn .lbl { display: none; } }
+  .m-law { margin: 16px 0 0; font-size: 16px; font-weight: 700; padding: 12px 16px; border-left: 4px solid var(--acc); background: var(--soft); border-radius: 0 12px 12px 0; }
+  .ex-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 14px 0 0; font-size: 13px; color: var(--muted); }
+  .chip { border: 1px solid var(--line); background: var(--panel); border-radius: 99px; padding: 5px 11px; font-size: 13px; font-weight: 700; }
+  .chip:hover, .chip.on { border-color: var(--acc); color: var(--acc); background: var(--acc-soft); }
+
+  /* формула */
+  .fx { margin: 18px 0 4px; padding: 26px 14px 30px; text-align: center; font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif; font-size: clamp(24px, 4.4vw, 36px); background: var(--acc-soft); border-radius: 14px; line-height: 1.6; overflow-x: auto; }
+  .fx .op { color: var(--muted); padding: 0 .12em; }
+  .fx .small { font-size: .62em; }
+  .v, .r { position: relative; display: inline-block; font-style: italic; font-weight: 700; padding: 0 .08em; }
+  .v { color: var(--acc); cursor: pointer; border-bottom: 2px dashed var(--acc-2); line-height: 1.15; }
+  .v:hover, .v:focus-visible { background: var(--panel); border-radius: 6px; outline: none; }
+  .r { color: var(--ink); }
+  .v .vv, .r .vv { position: absolute; left: 50%; top: 100%; transform: translateX(-50%); margin-top: 4px; font-family: "Manrope", sans-serif; font-style: normal; font-size: 12px; font-weight: 800; color: var(--panel); background: var(--acc); border-radius: 6px; padding: 0 6px; white-space: nowrap; line-height: 18px; }
+  .r .vv { background: var(--ink); }
+  .r.good .vv { background: var(--ok); } .r.warn .vv { background: var(--warn); } .r.bad .vv { background: var(--bad); }
+  .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; margin: 0 .1em; }
+  .frac > span:first-child { border-bottom: 2px solid currentColor; padding: 0 .2em .1em; }
+  .frac > span:last-child { padding-top: .45em; }
+  .frac > span:first-child .vv { top: auto; bottom: 100%; margin: 0 0 3px; }
+  .frac > span:first-child .v { margin-top: .6em; }
+  .fx-note { text-align: center; font-size: 12px; color: var(--faint); margin: 2px 0 0; }
+  .legend { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 14px 0 0; font-size: 14px; }
+  .legend dt { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; font-weight: 700; color: var(--acc); text-align: right; }
+  .legend dd { margin: 0; color: var(--muted); }
+
+  /* керування і результат */
+  .m-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; margin-top: 18px; align-items: start; }
+  @media (max-width: 760px) { .m-grid { grid-template-columns: 1fr; } }
+  .ctrls { display: grid; gap: 10px; }
+  .ctrl { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; transition: border-color .3s, box-shadow .3s; }
+  .ctrl.flash { border-color: var(--acc); box-shadow: 0 0 0 3px var(--acc-soft); }
+  .ctrl-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; }
+  .ctrl-top label { min-width: 0; }
+  .ctrl-top .sym { font-family: "Cambria Math", "Times New Roman", serif; font-style: italic; color: var(--acc); margin-right: 6px; }
+  .num { display: inline-flex; align-items: center; gap: 4px; flex: none; }
+  .num input { width: 84px; text-align: right; border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 4px 6px; font-weight: 800; }
+  .num small { color: var(--muted); font-size: 12px; }
+  input[type=range] { width: 100%; margin: 8px 0 0; accent-color: var(--acc); height: 22px; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .out { background: var(--soft); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; }
+  .big { font-family: "Unbounded", sans-serif; font-size: clamp(23px, 3.4vw, 32px); font-weight: 700; line-height: 1.1; }
+  .big small { font-family: "Manrope", sans-serif; font-size: 14px; color: var(--muted); font-weight: 700; display: block; margin-top: 4px; }
+  .verdict { border-radius: 12px; padding: 12px 14px; font-weight: 700; font-size: 15px; display: flex; gap: 10px; align-items: flex-start; }
+  .verdict::before { flex: none; font-size: 18px; line-height: 1.2; }
+  .verdict.good { background: var(--ok-soft); color: var(--ok); } .verdict.good::before { content: "✔"; }
+  .verdict.warn { background: var(--warn-soft); color: var(--warn); } .verdict.warn::before { content: "⚠"; }
+  .verdict.bad { background: var(--bad-soft); color: var(--bad); } .verdict.bad::before { content: "✖"; }
+  .verdict.info { background: var(--acc-soft); color: var(--acc); } .verdict.info::before { content: "ℹ"; }
+  .verdict span { color: var(--ink); font-weight: 600; display: block; margin-top: 2px; font-size: 14px; }
+  .kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 14px; }
+  .kv b { text-align: right; }
+  .meter { height: 12px; background: var(--line); border-radius: 99px; overflow: hidden; display: flex; }
+  .meter i { display: block; height: 100%; transition: width .35s ease; }
+
+  /* графіки */
+  .chart { margin-top: 18px; position: relative; }
+  .chart-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .chart-h b { font-size: 14px; }
+  .chart-h span { font-size: 12px; color: var(--muted); }
+  .lg { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .lg span { display: inline-flex; align-items: center; gap: 6px; }
+  .lg i { width: 14px; height: 4px; border-radius: 2px; display: inline-block; }
+  .lg i.dot { width: 10px; height: 10px; border-radius: 50%; }
+  svg.cv { display: block; width: 100%; height: auto; overflow: visible; }
+  svg.cv text { fill: var(--muted); font-family: "Manrope", sans-serif; font-size: 12px; }
+  svg.cv .ink { fill: var(--ink); font-weight: 800; }
+  svg.cv .gl { stroke: var(--grid); stroke-width: 1; }
+  svg.cv .ax { stroke: var(--faint); stroke-width: 1; }
+  svg.cv .hit { fill: transparent; }
+  svg.cv .xh { stroke: var(--faint); stroke-width: 1; stroke-dasharray: 3 3; pointer-events: none; }
+  .tip { position: fixed; z-index: 90; pointer-events: none; background: var(--ink); color: var(--panel); font-size: 13px; padding: 8px 10px; border-radius: 10px; box-shadow: var(--shadow); max-width: 260px; opacity: 0; transform: translateY(4px); transition: opacity .12s, transform .12s; }
+  .tip.on { opacity: 1; transform: none; }
+  .tip b { display: block; margin-bottom: 2px; }
+  .tip i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+
+  /* таблиці-редактори */
+  .tbl { width: 100%; border-collapse: separate; border-spacing: 0 6px; font-size: 14px; }
+  .tbl th { text-align: left; font-size: 12px; color: var(--muted); font-weight: 700; padding: 0 6px; }
+  .tbl td { padding: 0 4px; }
+  .tbl input[type=text], .tbl input[type=number], .tbl select { width: 100%; border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 6px 8px; font-weight: 600; min-width: 0; }
+  .tbl input[type=number] { text-align: right; }
+  .tbl .del { border: 0; background: none; color: var(--faint); font-size: 18px; padding: 0 4px; }
+  .tbl .del:hover { color: var(--bad); }
+  .tbl-wrap { overflow-x: auto; }
+  .addrow { margin-top: 6px; border: 1px dashed var(--acc-2); background: none; color: var(--acc); border-radius: 10px; padding: 7px 12px; font-weight: 700; font-size: 13px; }
+  .btn { border: 0; background: var(--acc); color: var(--on-acc); border-radius: 10px; padding: 9px 14px; font-weight: 800; font-size: 14px; }
+  .btn.ghost { background: var(--panel); color: var(--acc); border: 1px solid var(--acc-2); }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .seg button { border: 0; background: var(--panel); padding: 7px 12px; font-size: 13px; font-weight: 700; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button.on { background: var(--acc); color: var(--on-acc); }
+
+  /* у житті */
+  details.life { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
+  details.life summary { cursor: pointer; font-weight: 800; color: var(--acc); list-style: none; display: flex; align-items: center; gap: 8px; }
+  details.life summary::-webkit-details-marker { display: none; }
+  details.life summary::before { content: "▸"; transition: transform .2s; }
+  details.life[open] summary::before { transform: rotate(90deg); }
+  details.life ul { margin: 10px 0 0; padding-left: 20px; columns: 2 280px; column-gap: 28px; }
+  details.life li { margin: 0 0 6px; break-inside: avoid; }
+  details.life p { margin: 10px 0 0; color: var(--muted); }
+  .q { font-style: italic; color: var(--muted); border-left: 3px solid var(--line); padding-left: 12px; margin: 12px 0 0; }
+
+  /* навігація між розділами */
+  .chapnav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 40px 0 20px; }
+  .chapnav a { text-decoration: none; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .chapnav a:hover { border-color: var(--acc); }
+  .chapnav a span { font-size: 12px; color: var(--muted); font-weight: 700; display: block; }
+  .chapnav a b { font-family: "Unbounded", sans-serif; font-size: 15px; }
+  .chapnav a.next { text-align: right; grid-column: 2; }
+  @media (max-width: 560px) { .chapnav { grid-template-columns: 1fr; } .chapnav a.next { grid-column: 1; } }
+  footer.foot { padding: 26px 0 40px; color: var(--muted); font-size: 13px; text-align: center; }
+
+  /* спливне вікно змінної */
+  .pop { position: absolute; z-index: 80; width: 280px; background: var(--panel); border: 1px solid var(--acc-2); border-radius: 14px; box-shadow: var(--shadow); padding: 12px 14px; display: none; }
+  .pop.on { display: block; }
+  .pop .pop-h { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 800; }
+  .pop .pop-h button { border: 0; background: none; color: var(--faint); font-size: 18px; line-height: 1; padding: 0; }
+  .pop p { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
+  .toast { position: fixed; left: 50%; bottom: 22px; transform: translate(-50%, 20px); background: var(--ink); color: var(--panel); padding: 10px 16px; border-radius: 12px; font-weight: 700; font-size: 14px; opacity: 0; transition: .25s; z-index: 95; pointer-events: none; }
+  .toast.on { opacity: 1; transform: translate(-50%, 0); }
+  @media print { .bar, .m-tools, .ex-row, .chapnav, .addrow { display: none !important; } .model { break-inside: avoid; box-shadow: none; } }
+
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap bar-in"><a class="back" href="formuly.html">← <span>Зміст</span></a><div class="ring" id="ring"><svg viewBox="0 0 42 42"><circle class="bg" cx="21" cy="21" r="17"/><circle class="fg" cx="21" cy="21" r="17"/></svg><b>0</b></div><div class="bar-main"><strong>🤝 Розділ 2. Формули і моделі, пов’язані із взаєминами людей</strong><span>Поведінка людини у формулах і моделях · Роман Кушнір</span></div>
+<div class="tools"><div class="tmenu"><button class="tbtn" type="button" aria-label="Розділи книги">📚<span class="lbl"> Розділи</span></button><div class="tmenu-list"><a href="formuly.html">📘 Зміст книги</a><a href="formuly-1-vsesvit.html">🌌 1. Архітектура Всесвіту</a><a href="formuly-2-vzaiemyny.html" class=cur>🤝 2. Взаємини людей</a><a href="formuly-3-kokhannia.html">❤️ 3. Формули кохання</a><a href="formuly-4-komunikatsiia.html">💬 4. Комунікація</a><a href="formuly-5-efektyvnist.html">🚀 5. Ефективність</a><a href="formuly-6-sotsium.html">👥 6. Соціальна поведінка</a></div></div><button class="tbtn" id="themeBtn" type="button" title="Тема: авто / світла / темна"><b>🌓</b></button></div></div></header>
+<main class="wrap" id="top">
+<section class="hero">
+<span class="kicker">🤝 Розділ 2 · Поведінка людини у формулах і моделях</span>
+<h1>Формули і моделі <em>взаємин людей</em></h1>
+<p class="lead">Хто ми є, залежить від того, з ким і скільки часу ми проводимо. Розрахуйте структуру своєї особистості, рівень конфлікту в парі, лояльність і плинну середню задоволення.</p>
+<div class="howto"><span><i>x</i> натисніть змінну у формулі — і змініть її</span><span><i>⇆</i> рухайте повзунки</span><span><i>📖</i> підставте приклад із книги</span><span><i>🔗</i> поділіться формулою з вашими цифрами</span></div>
+<nav class="toc" id="toc" aria-label="Формули розділу"></nav>
+</section>
+<section class="model" id="osobystist" data-n="1" data-title="Формула особистості" data-sub="Особистість — сукупність часу, проведеного з іншими людьми" data-short="Особистість">
+<p class="m-law">Особистість окремої людини — це сукупність проведеного з іншими людьми часу. Навіть однояйцеві близнюки до десяти років проводять близько 60% часу окремо.</p>
+<div class="fx"><b class="r" data-r="P">P</b> <span class="op">=</span> <span class="op">∑</span> <b class="r" data-r="Pn">P<sub>n</sub></b><span class="op">·</span><b class="r" data-r="tm">t<sub>m</sub></b>, <span class="op">&nbsp;</span> <span class="op">∑</span> t<sub>m</sub> <span class="op">=</span> <b class="v" data-k="T">T</b></div>
+<dl class="legend"><dt>P</dt><dd>особистість людини</dd><dt>Pₙ</dt><dd>особистості всіх інших людей, що коли-небудь взаємодіяли з P</dd><dt>tₘ</dt><dd>загальна тривалість взаємодії P із Pₙ</dd><dt>T</dt><dd>поточний вік людини</dd></dl>
+<div class="m-grid"><div class="ctrls" data-ctrls></div><div class="out" data-out></div></div>
+<p class="muted" style="margin:16px 0 6px;font-size:14px">Скільки років ви поруч із кожною людиною і скільки годин на добу в середньому (фізично чи в думках) — досі і надалі:</p>
+<div data-table></div>
+<div class="chart" data-chart></div>
+<div class="chart" data-chart2></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Скажи мені, хто твій друг, — і я скажу, хто ти.</li><li>З ким поведешся, того і наберешся.</li><li>Заліз між ворони — то й каркай, як вони.</li><li>У 20 років частка мами й тата — приблизно по 30%, у 40 — разом лише близько 30%.</li><li>Подружжя, що живе разом із 30 до 60 років на безлюдному острові, матиме частку одне в одному всього 25%.</li><li>Щоб змінитися, почніть більше часу проводити з людьми, на яких хочете бути схожі.</li>
+</ul></details>
+</section>
+
+<section class="model" id="viddzerkalennia" data-n="2" data-title="Модель віддзеркалення" data-sub="Ми — середнє людей, з якими взаємодіємо впродовж доби" data-short="Віддзеркалення">
+<p class="m-law">Будь-яку фактичну рису чи ознаку людини можна вирахувати, проаналізувавши риси людей, із якими вона взаємодіє фізично чи ментально впродовж дня.</p>
+<div class="fx"><b class="r" data-r="S">S</b> <span class="op">=</span> <span class="op">∑</span> <b class="r" data-r="Sn">S<sub>n</sub></b><span class="op">·</span><b class="r" data-r="tm">t<sub>m</sub></b>, <span class="op">&nbsp;</span> <span class="op">∑</span> t<sub>m</sub> <span class="op">=</span> 24</div>
+<dl class="legend"><dt>S</dt><dd>риса, властивість або ознака людини</dd><dt>Sₙ</dt><dd>та сама риса в іншої людини</dd><dt>tₘ</dt><dd>тривалість взаємодії впродовж доби (∑ = 24 години)</dd></dl>
+<div class="m-grid">
+  <div><label class="muted" style="font-size:14px;font-weight:700">Яку рису досліджуємо?<input type="text" data-trait style="width:100%;margin-top:6px;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 10px;font-weight:700"></label>
+  <div data-table style="margin-top:10px"></div></div>
+  <div class="out" data-out></div>
+</div>
+<div class="chart" data-chart></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Якщо з 10 людей, з якими ви порівну спілкувались, 5 мають автомобіль, — з імовірністю 50% ви теж його маєте.</li><li>Ожиріння і комп’ютерна залежність — соціальні віруси.</li><li>Ми є середньостатистичним показником усіх людей, з якими спілкуємось за день.</li><li>У жорсткої людини жорсткі клієнти, для прискіпливого всі прискіпливі, а мудрець помічає мудрих.</li><li>Я = друг 1 + друг 2 + друг 3 = родич 1 + родич 2 + … — тож зміна на одному рівні тягне зміни на інших.</li><li>Зі своєї соціальної системи важко вийти: іноді простіше «зірватися з орбіти», ніж змінювати потроху.</li>
+</ul></details>
+</section>
+
+<section class="model" id="defitsyt" data-n="3" data-title="Формула дефіциту" data-sub="Ресурс — наче казанок борщу на цілу групу" data-short="Дефіцит">
+<p class="m-law">У замкнутій системі кожна риса чи властивість людини обмежена наявністю такої риси в інших людей. Якщо хтось бере більше — комусь дістанеться менше.</p>
+<div class="fx"><span class="op">∑</span> <b class="r" data-r="sum">S<sub>n</sub></b> <span class="op">=</span> 1</div>
+<dl class="legend"><dt>Sₙ</dt><dd>частка певної риси чи властивості, яку бере кожен учасник системи</dd></dl>
+<div class="m-grid">
+  <div><label class="muted" style="font-size:14px;font-weight:700">Яку рису ділимо?<input type="text" data-trait style="width:100%;margin-top:6px;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 10px;font-weight:700"></label>
+  <div class="ctrls" data-people style="margin-top:10px"></div>
+  <div class="row" style="margin-top:8px"><button class="addrow" data-addp>+ Додати учасника</button></div></div>
+  <div class="out" data-out></div>
+</div>
+<div class="chart" data-chart></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Якщо ініціатор забере 100% «готовності» і «відповідальності», решта 9 у колективі битимуть байдики.</li><li>Якщо мама дуже поспішає, дитина саботуватиме неквапливістю.</li><li>Якщо хтось «не бере відповідальності», швидше за все ви її просто не даєте.</li><li>Якщо хтось занадто сердитий, то лише тому, що ви занадто «добрі».</li><li>Хочете знати, який буде чоловік? Запитайте про брата.</li><li>Якщо різкий клієнт пом’якшав, у системі з’явиться хтось інший «різкий».</li><li>Число Данбара: 5 найближчих → 12 у колі симпатії → близько 150 у групі.</li>
+</ul></details>
+</section>
+
+<section class="model" id="odnakovist" data-n="4" data-title="Формули однаковості" data-sub="Принцип маятника: у білому стільки ж чорного, скільки в чорному білого" data-short="Однаковість">
+<p class="m-law">У замкнутій системі людина рівна людині за будь-якими рисами, які, однак, відрізняються у проявах (зовнішній — внутрішній) і за часом (тоді — тепер).</p>
+<div class="fx" style="font-size:clamp(20px,3.6vw,30px)">S<sub>1</sub> <span class="op">=</span> S<sub>2</sub> <span class="op">= … =</span> S<sub>n</sub> <span class="op">;</span> &nbsp; S <span class="op">=</span> <b class="v" data-k="Sa">S<sub>a</sub></b> <span class="op">+</span> <b class="r" data-r="Sb">S<sub>b</sub></b> <span class="op">;</span> &nbsp; S <span class="op">=</span> <b class="v" data-k="Sc">S<sub>c</sub></b> <span class="op">+</span> <b class="r" data-r="Sd">S<sub>d</sub></b></div>
+<dl class="legend"><dt>S</dt><dd>певна риса чи властивість (у всіх однакова — тут 10 балів)</dd><dt>Sₐ / S_b</dt><dd>зовнішній / внутрішній прояв</dd><dt>S_c / S_d</dt><dd>прояв у минулому / у теперішньому</dd></dl>
+<div class="m-grid"><div><label class="muted" style="font-size:14px;font-weight:700">Риса <select data-trait style="margin-left:6px;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 8px;font-weight:700"></select></label><div class="ctrls" data-ctrls style="margin-top:10px"></div></div><div class="out" data-out></div></div>
+<div class="chart" data-chart></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Микола відповідально затримується на роботі — бо безвідповідально ставиться до стосунків із дружиною.</li><li>Марійка дуже любить інших — бо дуже не любить себе.</li><li>Андрій тепер завжди спізнюється — бо колись приходив до школи найшвидше.</li><li>Немає поганих працівників — є невластиві для них посади.</li><li>Людина ані добра, ані погана — така, якою їй дозволяють бути обставини.</li><li>Питайте не «Яка ця людина?», а «Перед ким і коли вона поводиться протилежно?».</li>
+</ul></details>
+</section>
+
+<section class="model" id="chas-viddz" data-n="5" data-title="Модель віддзеркалення у часі" data-sub="Люди навколо — проекції нас самих у минулому чи майбутньому" data-short="Віддзеркалення у часі">
+<p class="m-law">Будь-яку рису людини в іншому віці можна вирахувати, проаналізувавши риси людей, які зараз у цьому віці і з якими вона взаємодіє впродовж дня.</p>
+<div class="fx"><b class="r" data-r="St">S<sub>t</sub></b> <span class="op">=</span> <span class="op">∑</span> S<sub>nt</sub><span class="op">·</span>t<sub>m</sub>, <span class="op">&nbsp;</span> <span class="op">∑</span> t<sub>m</sub> <span class="op">=</span> 24 <span class="op small">&nbsp; мій вік:</span> <b class="v" data-k="age">t</b></div>
+<dl class="legend"><dt>Sₜ</dt><dd>риса людини у віці t</dd><dt>Sₙₜ</dt><dd>та сама риса в людини, яка зараз у віці t</dd><dt>tₘ</dt><dd>тривалість взаємодії з нею впродовж доби</dd></dl>
+<div class="m-grid"><div class="ctrls" data-ctrls></div><div class="out" data-out></div></div>
+<p class="muted" style="margin:16px 0 6px;font-size:14px">Люди, з якими ви контактуєте (фізично чи в думках), їхній вік, години на добу і що вони зараз вирішують:</p>
+<div data-table></div>
+<div class="chart" data-chart></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Вам даватимуть у навчання людей, які схожі на вас 2–3 роки тому.</li><li>Якщо старші здаються критичними і прикрими, у їхньому віці людина сама буде такою.</li><li>Неґречні підлітки — це ви в їхньому віці, якого ще не готові визнати.</li><li>Що б ви сказали собі минулому? Подивіться на тих, хто зараз проходить ваші старі питання.</li><li>Чим нижча самооцінка, тим менше людина хоче бачити в інших схожість із собою.</li><li>Завдяки «теперішньому» все реально змінити.</li>
+</ul></details>
+</section>
+
+<section class="model" id="loialnist" data-n="6" data-title="Модель лояльності" data-sub="Кредит довіри потребує попереднього депозиту" data-short="Лояльність">
+<p class="m-law">Чим більше якісного часу ми проводимо з іншою людиною, тим швидше вона погоджується з нашою думкою без зайвих пояснень.</p>
+<div class="fx"><b class="r" data-r="L">L</b> <span class="op">=</span> f(<b class="r" data-r="T">T</b>), <span class="op">&nbsp;</span> T <span class="op">=</span> <b class="v" data-k="V">V</b> <span class="op">·</span> <b class="v" data-k="t">t</b></div>
+<p class="fx-note">якщо T → max, то L → min; якщо T → min, то L → max</p>
+<dl class="legend"><dt>T</dt><dd>час, вкладений у пояснення іншій людині, спілкування з нею</dd><dt>L</dt><dd>середній час, необхідний для погодження з вашою думкою (менше — вища лояльність)</dd><dt>V</dt><dd>інтенсивність, якість контакту</dd><dt>t</dt><dd>тривалість контакту, год на місяць</dd></dl>
+<div class="m-grid"><div class="ctrls" data-ctrls></div><div class="out" data-out></div></div>
+<div class="chart" data-chart></div>
+<div class="chart" data-chart2></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Хочете сформувати добрі взаємини — вкладайте в них час.</li><li>Хто доскіпується, не довіряє, вимагає пояснень — у цих взаєминах бракує лояльності.</li><li>Лояльність, не конвертована в результати, згорає, як бонуси, якими не скористались.</li><li>Увесь час, який керівник не вкладає у видачу і контроль завдань, він має вкладати в лояльність.</li><li>Не брудни криниці, бо схочеш із неї води напитись.</li><li>Короткотерміновий гравець, що користається кредитом довіри, часто виграє в сумлінного довготермінового.</li>
+</ul></details>
+</section>
+
+<section class="model" id="zusyllia" data-n="7" data-title="Формула докладених зусиль (з позиції взаємин)" data-sub="Людина старається рівно на різницю між результатом і альтернативою" data-short="Докладені зусилля">
+<p class="m-law">«Альтернатива» — одне з ключових слів в аналізі поведінки. Рамка, тиск, потреба, «біль» здебільшого виступають її синонімами.</p>
+<div class="fx"><b class="r" data-r="P">P</b> <span class="op">=</span> <b class="v" data-k="F">F</b> <span class="op">−</span> <b class="v" data-k="A">A</b></div>
+<dl class="legend"><dt>P</dt><dd>зусилля, які докладе людина</dd><dt>F</dt><dd>очікуваний ефект від зусиль, результат</dd><dt>A</dt><dd>можливий альтернативний результат</dd></dl>
+<div class="m-grid"><div class="ctrls" data-ctrls></div><div class="out" data-out></div></div>
+<div class="chart" data-chart></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>У перемовинах виграє той, хто має більше альтернатив і краще ними користується.</li><li>Більше старається той, кому більше треба.</li><li>Стратегія перемовин — зменшити альтернативи іншої сторони.</li><li>Перш ніж просити про завдання, зрозумійте, що людині буде за невиконання.</li><li>«Погана» поведінка — результат недостатнього очікуваного факту або надмірних альтернатив.</li><li>Знання альтернатив змінює саму альтернативу — аналог принципу невизначеності.</li>
+</ul></details>
+</section>
+
+<section class="model" id="vnutr-konflikt" data-n="8" data-title="Формула внутрішнього конфлікту" data-sub="95% конфліктів — внутрішні" data-short="Внутрішній конфлікт">
+<p class="m-law">Зовнішні непорозуміння завжди є наслідком невирішених внутрішніх конфліктів — щонайменше двох учасників. Аварію може створити і один водій, але для аварії потрібні двоє неуважних.</p>
+<div class="fx"><b class="r" data-r="Ci">C<sub>i</sub></b> <span class="op">=</span> <span class="op">|</span> <b class="v" data-k="Ai">A<sub>i</sub></b> <span class="op">−</span> <b class="v" data-k="Ae">A<sub>e</sub></b> <span class="op">|</span></div>
+<dl class="legend"><dt>Cᵢ</dt><dd>рівень внутрішнього конфлікту</dd><dt>Aᵢ</dt><dd>рівень ставлення людини до самої себе (0–100)</dd><dt>Aₑ</dt><dd>рівень ставлення до іншої людини — або до себе минулої чи майбутньої</dd></dl>
+<div class="row" style="margin-top:14px"><span class="seg" data-mode><button data-v="other">До іншої людини</button><button data-v="past">До себе минулого</button><button data-v="future">До себе майбутнього</button></span></div>
+<div class="m-grid"><div class="ctrls" data-ctrls></div><div class="out" data-out></div></div>
+<div class="chart" data-chart></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Зверхність чи страх, радість чи сум — це система вимірювання ставлення людини до інших.</li><li>Зміна ставлення до себе автоматично змінює ставлення до інших.</li><li>Ми сприймаємо інших людей крізь призму самих себе.</li><li>Минуле визначає теперішнє, теперішнє — майбутнє.</li><li>Корисно питати себе: на скільки балів зі 100 я зараз ставлюся до себе? А до цієї людини?</li>
+</ul></details>
+</section>
+
+<section class="model" id="teoriia-vsoho" data-n="9" data-title="Формула загального рівня конфлікту" data-sub="Комунікативна теорія всього" data-short="Теорія всього">
+<p class="m-law">Кожен конфлікт можна «порахувати» і почати вирішувати. Першочергово посилюйте найслабшу ланку — нею визначається вся система.</p>
+<div class="fx" style="font-size:clamp(17px,3vw,28px)"><b class="r" data-r="Ce">C<sub>e</sub></b> <span class="op">=</span> |A<sub>i1</sub>−Ā| + |A<sub>i2</sub>−Ā| + |A<sub>e1</sub>−Ā| + |A<sub>e2</sub>−Ā|, <span class="op">&nbsp;</span> <b class="r" data-r="Abar">Ā</b> <span class="op">=</span> <span class="frac"><span>A<sub>i1</sub>+A<sub>i2</sub>+A<sub>e1</sub>+A<sub>e2</sub></span><span>4</span></span></div>
+<p class="fx-note">кожне A<sub>nm</sub> = (минуле + теперішнє + майбутнє) / 3 · максимальний теоретичний конфлікт — 18</p>
+<dl class="legend"><dt>Cₑ</dt><dd>рівень конфлікту між двома людьми</dd><dt>Ā</dt><dd>середній рівень ставлення між людьми в поточній ситуації</dd><dt>Aₙₘ</dt><dd>ставлення (1–10): до себе і одне до одного — у минулому, теперішньому і майбутньому</dd></dl>
+<div class="row" style="margin-top:14px;font-size:14px"><label>Людина 1 <input type="text" data-name="0" style="border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 8px;font-weight:700;width:130px"></label><label>Людина 2 <input type="text" data-name="1" style="border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 8px;font-weight:700;width:130px"></label></div>
+<div class="tbl-wrap" style="margin-top:10px" data-matrix></div>
+<div class="m-grid"><div class="chart" data-chart style="margin-top:0"></div><div class="out" data-out></div></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Працюйте над ставленням до себе водночас зі ставленням до іншої людини.</li><li>У першу чергу посилюйте найслабшу ланку — навіть якщо вона в минулому.</li><li>Не варто ставитися надто добре до людини, яка погано ставиться до себе, — але трохи краще, ніж вона до вас, варто.</li><li>Якщо ставлення доходять до 0, взаємодія припиняється.</li><li>Якщо на всіх рівнях десятки — це ідеальні взаємини.</li><li>Інструменти: прийняття, пробачення, цінування, робота із сумнівами та очікуваннями.</li>
+</ul></details>
+</section>
+
+<section class="model" id="protylezhnist" data-n="10" data-title="Формула протилежності вчинків щодо оцінки реальності" data-sub="Канатохідець хитається в протилежний бік" data-short="Протилежність вчинків">
+<p class="m-law">Вчинки людини обернено протилежні її оцінці реальності. Людина, що нахилилась вправо, хитається вліво, щоб не впасти.</p>
+<div class="fx"><b class="r" data-r="A">A</b> <span class="op">=</span> <span class="op">−</span><b class="v" data-k="R">R</b></div>
+<dl class="legend"><dt>A</dt><dd>вчинок (поведінка) людини</dd><dt>R</dt><dd>оцінка реальності: від −10 «мені бракує, все погано» до +10 «все добре, можу собі дозволити»</dd></dl>
+<div class="row" style="margin-top:14px"><span class="seg" data-dom></span></div>
+<div class="m-grid"><div class="ctrls" data-ctrls></div><div class="out" data-out></div></div>
+<div class="chart" data-chart></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Якщо хтось жахливо поводиться, то лише тому, що може собі це дозволити.</li><li>Принцеси можуть вередувати, бо їм за це «нічого не буде».</li><li>Хто не йде у спортзал — думає, що в нього все добре.</li><li>Поправляється «товстий» — той, хто оцінює себе як худого. Багатшає «багатий» — той, хто оцінює себе як бідного.</li><li>Якщо людина щось робить, то тому, що відчуває брак чогось.</li><li>Якщо людина терпить погане, то тому, що думає: все добре.</li><li>Права людина в оцінці чи ні — покаже тільки найвищий суддя: час.</li>
+</ul></details>
+</section>
+
+<div class="part" data-toc="Динамічні моделі"><h2>Динамічні моделі</h2><p>Попередні формули фіксують показники в певний момент. Набагато складніша взаємодія в динаміці — у часі, з повтореннями і прискоренням.</p></div>
+
+<section class="model" id="plynna" data-n="Д1" data-title="Теорія плинної середньої (спрощена)" data-sub="Задоволення = те, що отримали, мінус те, до чого звикли" data-short="Плинна середня">
+<p class="m-law">Рівень очікувань щодо майбутнього визначається минулим. Не давайте четверту «цукерку», якщо «не потягнете» п’яту.</p>
+<div class="fx"><b class="r" data-r="Z">Z</b> <span class="op">=</span> <b class="r" data-r="X">X</b> <span class="op">−</span> <b class="r" data-r="Xb">X̄</b>, <span class="op">&nbsp;</span> X̄ <span class="op">=</span> <span class="op">∑</span><span class="frac"><span>X<sub>i</sub></span><span><b class="v" data-k="n">n</b></span></span></div>
+<dl class="legend"><dt>Z</dt><dd>задоволення / очікування щодо майбутнього стану</dd><dt>X</dt><dd>поточний стан (що людина отримала сьогодні)</dd><dt>X̄</dt><dd>плинна середня за попередні n разів — до чого людина звикла</dd></dl>
+<div class="m-grid"><div class="ctrls" data-ctrls></div><div class="out" data-out></div></div>
+<p class="muted" style="margin:16px 0 6px;font-size:14px">Що людина отримувала день за днем (цукерки, троянди, зарплата, увага):</p>
+<div class="row" data-series></div>
+<div class="chart" data-chart></div>
+<div class="chart" data-chart2></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Звиклий до зарплати 10 радіє 11-ти на 1, а звиклий до 3 радіє 5-ти на 2 — удвічі більше.</li><li>Дитина, що отримала 4 цукерки замість звичних 2, завтра вередуватиме на звичних 2.</li><li>5 троянд щодня з понеділка до четверга і «забув» у п’ятницю — скандал приблизно на 5 балів.</li><li>Все відносно. Закон граничної корисності. Гедоністична адаптація.</li><li>«Погані стосунки» іноді тримаються, бо їх простіше «обслуговувати»: рідкісна усмішка вже здається подарунком.</li><li>Пропонуйте перехід на вищий рівень лише тоді, коли маєте ще один рівень у запасі.</li>
+</ul></details>
+</section>
+
+<section class="model" id="eksponenta" data-n="Д2" data-title="Модель експоненційної зміни" data-sub="Зміни прискорюють самі себе" data-short="Експоненційна зміна">
+<p class="m-law">Якщо люди зближуються, то з прискоренням; а якщо «все валиться» — то валиться. Кожна дія прискорює наступну в тому самому напрямку.</p>
+<div class="fx"><b class="r" data-r="C">C</b> <span class="op">→</span> max, <span class="op">коли</span> <b class="v" data-k="v">v</b> <span class="op">→</span> max <span class="op">і</span> <b class="v" data-k="t">t</b> <span class="op">→</span> max</div>
+<p class="fx-note">причому v прискорює саму себе на <b>a</b>% за кожен крок</p>
+<dl class="legend"><dt>C</dt><dd>зміни, які відбуваються (відстань між людьми)</dd><dt>v</dt><dd>швидкість змін на старті</dd><dt>t</dt><dd>час віддаленості від точки відліку</dd></dl>
+<div class="row" style="margin-top:14px"><span class="seg" data-dir><button data-v="apart">Розходження</button><button data-v="close">Зближення</button></span></div>
+<div class="m-grid"><div class="ctrls" data-ctrls></div><div class="out" data-out></div></div>
+<div class="chart" data-chart></div>
+<details class="life"><summary>Як це працює в житті</summary><ul>
+<li>Чим довше люди живуть у конфлікті, тим важче помиритися.</li><li>Розходження, незначне день тому, за рік переростає у нездоланну прірву.</li><li>Кожен крок назустріч збільшує ймовірність наступного кроку назустріч.</li><li>Набагато простіше тримати баланс — бо як падаємо, то вже падаємо.</li><li>Кулька на дошці: різкий компенсаційний рух лише сильніше розгойдує — і вона злітає.</li>
+</ul></details>
+</section>
+
+<nav class="chapnav"><a href="formuly-1-vsesvit.html"><span>← Розділ 1</span><b>Архітектура Всесвіту</b></a><a class="next" href="formuly-3-kokhannia.html"><span>Розділ 3 →</span><b>Формули кохання</b></a></nav>
+</main>
+<footer class="foot">За книгою Романа Кушніра «Поведінка людини у формулах і моделях» (Дрогобич: Коло, 2017) · Школа розвитку SPE · Дані зберігаються лише у вашому браузері</footer>
+<div class="tip" id="tip" role="tooltip"></div><div class="pop" id="pop"></div><div class="toast" id="toast" role="status"></div>
+<script>window.FX_PAGE={"key": "formuly-2-vzaiemyny"};</script>
+<script>
+/* ===== ядро інтерактивних формул: стан, повзунки, графіки ===== */
+(() => {
+  const PAGE = window.FX_PAGE;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const NF = {};
+  const fmt = (v, d) => {
+    if (v == null || !isFinite(v)) return '—';
+    if (d == null) { const a = Math.abs(v); d = a >= 100 ? 0 : a >= 10 ? 1 : 2; }
+    const k = 'd' + d;
+    NF[k] = NF[k] || new Intl.NumberFormat('uk-UA', { maximumFractionDigits: d });
+    return NF[k].format(Math.abs(v) < 1e-9 ? 0 : v).replace(/ /g, ' ');
+  };
+  const pct = (v, d = 0) => fmt(v * 100, d) + '%';
+  const C = i => `var(--c${(i % 8) + 1})`;
+
+  /* ---------- збереження ---------- */
+  const KEY = 'fx-' + PAGE.key;
+  let DB = {};
+  try { DB = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+  let saveT;
+  const flush = () => { clearTimeout(saveT); saveT = null; try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch (e) {} };
+  const save = () => { clearTimeout(saveT); saveT = setTimeout(flush, 250); };
+  addEventListener('pagehide', () => { if (saveT) flush(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && saveT) flush(); });
+  let PR = {};
+  try { PR = JSON.parse(localStorage.getItem('fx-progress') || '{}') || {}; } catch (e) {}
+  PR[PAGE.key] = PR[PAGE.key] || {};
+  const saveProgress = () => { try { localStorage.setItem('fx-progress', JSON.stringify(PR)); } catch (e) {} };
+
+  /* ---------- тема ---------- */
+  const themeBtn = $('#themeBtn');
+  const themeIcons = { auto: '🌓', light: '☀️', dark: '🌙' };
+  const setTheme = t => {
+    if (t === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+    try { localStorage.setItem('fx-theme', t); } catch (e) {}
+    if (themeBtn) themeBtn.querySelector('b').textContent = themeIcons[t];
+    rerenderAll();
+  };
+  if (themeBtn) {
+    let t = 'auto'; try { t = localStorage.getItem('fx-theme') || 'auto'; } catch (e) {}
+    themeBtn.querySelector('b').textContent = themeIcons[t];
+    themeBtn.addEventListener('click', () => {
+      let cur = 'auto'; try { cur = localStorage.getItem('fx-theme') || 'auto'; } catch (e) {}
+      setTheme({ auto: 'light', light: 'dark', dark: 'auto' }[cur]);
+    });
+  }
+  $$('.tmenu').forEach(m => {
+    m.querySelector('button').addEventListener('click', e => { e.stopPropagation(); m.classList.toggle('open'); });
+    document.addEventListener('click', () => m.classList.remove('open'));
+  });
+
+  /* ---------- підказка й повідомлення ---------- */
+  const tipEl = $('#tip');
+  const tip = (e, html) => {
+    tipEl.innerHTML = html; tipEl.classList.add('on');
+    const pt = e.touches ? e.touches[0] : e;
+    const w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+    let x = pt.clientX + 14, y = pt.clientY - h - 12;
+    if (x + w > innerWidth - 8) x = pt.clientX - w - 14;
+    if (x < 8) x = 8;
+    if (y < 8) y = pt.clientY + 18;
+    tipEl.style.left = x + 'px'; tipEl.style.top = y + 'px';
+  };
+  const untip = () => tipEl.classList.remove('on');
+  const toastEl = $('#toast');
+  let toastT;
+  const toast = msg => { toastEl.textContent = msg; toastEl.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('on'), 2200); };
+
+  /* ---------- графіки (SVG) ---------- */
+  const width = el => Math.max(260, Math.round(el.clientWidth || el.parentNode.clientWidth || 600));
+  const ticks = (min, max, n = 5) => {
+    if (max === min) return [min];
+    const raw = (max - min) / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    const step = [1, 2, 2.5, 5, 10].map(s => s * mag).find(s => s >= raw) || raw;
+    const out = []; for (let v = Math.ceil(min / step - 1e-9) * step; v <= max + 1e-9; v += step) out.push(+v.toFixed(10));
+    return out;
+  };
+  const extent = (vals, o = {}) => {
+    let mn = o.min != null ? o.min : Math.min(...vals), mx = o.max != null ? o.max : Math.max(...vals);
+    if (o.min == null && mn > 0 && o.zero !== false) mn = 0;
+    if (mx === mn) mx = mn + 1;
+    if (o.max == null) { const t = ticks(mn, mx); mx = Math.max(mx, t[t.length - 1]); }
+    if (o.min == null && mn < 0) { const t = ticks(mn, mx); mn = Math.min(mn, t[0]); }
+    return [mn, mx];
+  };
+  const wrapLabel = (s, max) => {
+    const words = String(s).split(' '), lines = [''];
+    words.forEach(w => { const l = lines[lines.length - 1]; if ((l + ' ' + w).trim().length > max && l) lines.push(w); else lines[lines.length - 1] = (l + ' ' + w).trim(); });
+    return lines.slice(0, 2).map((l, i, a) => i === 1 && lines.length > 2 ? l + '…' : l);
+  };
+
+  function lineChart(el, o) {
+    const w = width(el), h = o.h || 250, P = { l: o.padL || 50, r: 18, t: 16, b: o.x.label ? 46 : 30 };
+    const all = o.series.flatMap(s => s.pts.map(p => p[1])).concat((o.marks || []).map(m => m.y)).filter(isFinite);
+    const [ymin, ymax] = extent(all.length ? all : [0, 1], o.y || {});
+    const xmin = o.x.min, xmax = o.x.max;
+    const sx = v => P.l + (v - xmin) / (xmax - xmin) * (w - P.l - P.r);
+    const sy = v => P.t + (1 - (v - ymin) / (ymax - ymin)) * (h - P.t - P.b);
+    const fx = o.x.fmt || (v => fmt(v)), fy = (o.y && o.y.fmt) || (v => fmt(v));
+    let g = '';
+    (o.bands || []).forEach(b => { const y0 = sy(clamp(b.y1, ymin, ymax)), y1 = sy(clamp(b.y0, ymin, ymax)); g += `<rect x="${P.l}" y="${y0}" width="${w - P.l - P.r}" height="${Math.max(0, y1 - y0)}" style="fill:${b.fill}" opacity="${b.op || .14}"/>${b.label ? `<text x="${w - P.r - 4}" y="${y0 + 14}" text-anchor="end">${esc(b.label)}</text>` : ''}`; });
+    (o.xbands || []).forEach(b => { const x0 = sx(clamp(b.x0, xmin, xmax)), x1 = sx(clamp(b.x1, xmin, xmax)); g += `<rect x="${x0}" y="${P.t}" width="${Math.max(0, x1 - x0)}" height="${h - P.t - P.b}" style="fill:${b.fill}" opacity="${b.op || .12}"/>${b.label ? `<text x="${(x0 + x1) / 2}" y="${P.t + 13}" text-anchor="middle">${esc(b.label)}</text>` : ''}`; });
+    ticks(ymin, ymax, o.yTicks || 5).forEach(t => { g += `<line class="gl" x1="${P.l}" x2="${w - P.r}" y1="${sy(t)}" y2="${sy(t)}"/><text x="${P.l - 8}" y="${sy(t) + 4}" text-anchor="end">${esc(fy(t))}</text>`; });
+    const xt = o.x.ticks || ticks(xmin, xmax, Math.max(2, Math.min(8, Math.floor((w - P.l) / 70))));
+    xt.forEach(t => { g += `<text x="${sx(t)}" y="${h - P.b + 18}" text-anchor="middle">${esc(fx(t))}</text>`; });
+    if (o.x.label) g += `<text x="${(P.l + w - P.r) / 2}" y="${h - 6}" text-anchor="middle">${esc(o.x.label)}</text>`;
+    if (o.y && o.y.label) g += `<text x="${P.l}" y="${P.t - 4}" text-anchor="start" font-weight="700">${esc(o.y.label)}</text>`;
+    if (ymin < 0 && ymax > 0) g += `<line class="ax" x1="${P.l}" x2="${w - P.r}" y1="${sy(0)}" y2="${sy(0)}"/>`;
+    g += `<line class="ax" x1="${P.l}" x2="${w - P.r}" y1="${h - P.b}" y2="${h - P.b}"/>`;
+    (o.hlines || []).forEach(l => { g += `<line x1="${P.l}" x2="${w - P.r}" y1="${sy(l.y)}" y2="${sy(l.y)}" style="stroke:${l.color || 'var(--faint)'}" stroke-width="1.5" stroke-dasharray="5 4"/>${l.label ? `<text x="${w - P.r - 4}" y="${sy(l.y) - 6}" text-anchor="end">${esc(l.label)}</text>` : ''}`; });
+    (o.vlines || []).forEach(l => { g += `<line x1="${sx(l.x)}" x2="${sx(l.x)}" y1="${P.t}" y2="${h - P.b}" style="stroke:${l.color || 'var(--faint)'}" stroke-width="1.5" stroke-dasharray="5 4"/>${l.label ? `<text x="${sx(l.x) + 5}" y="${P.t + 12}">${esc(l.label)}</text>` : ''}`; });
+    o.series.forEach(s => {
+      const pts = s.pts.filter(p => isFinite(p[1]));
+      if (!pts.length) return;
+      const d = pts.map((p, i) => (i ? 'L' : 'M') + sx(p[0]).toFixed(1) + ' ' + sy(p[1]).toFixed(1)).join('');
+      if (s.area) g += `<path d="${d}L${sx(pts[pts.length - 1][0])} ${sy(Math.max(ymin, 0))}L${sx(pts[0][0])} ${sy(Math.max(ymin, 0))}Z" style="fill:${s.color}" opacity=".12"/>`;
+      g += `<path d="${d}" fill="none" style="stroke:${s.color}" stroke-width="${s.width || 2.5}" stroke-linejoin="round" stroke-linecap="round" ${s.dash ? 'stroke-dasharray="6 5"' : ''}/>`;
+      if (s.dots) pts.forEach(p => { g += `<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="4" style="fill:${s.color};stroke:var(--panel)" stroke-width="2"/>`; });
+    });
+    (o.marks || []).forEach(m => {
+      g += `<circle cx="${sx(m.x)}" cy="${sy(m.y)}" r="${m.r || 7}" style="fill:${m.color || 'var(--acc)'};stroke:var(--panel)" stroke-width="2.5"/>`;
+      if (m.label) { const right = sx(m.x) > w - 150; g += `<text class="ink" x="${sx(m.x) + (right ? -12 : 12)}" y="${sy(m.y) - 10}" text-anchor="${right ? 'end' : 'start'}">${esc(m.label)}</text>`; }
+    });
+    g += `<line class="xh" x1="0" x2="0" y1="${P.t}" y2="${h - P.b}" visibility="hidden"/><g class="hd"></g><rect class="hit" x="${P.l}" y="${P.t}" width="${w - P.l - P.r}" height="${h - P.t - P.b}"/>`;
+    el.innerHTML = `<svg class="cv" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">${g}</svg>` + legend(o.series.filter(s => s.name && !s.noLegend));
+    const svg = el.querySelector('svg'), hit = svg.querySelector('.hit'), xh = svg.querySelector('.xh'), hd = svg.querySelector('.hd');
+    const move = e => {
+      const pt = e.touches ? e.touches[0] : e, r = svg.getBoundingClientRect();
+      const xv = xmin + ((pt.clientX - r.left) * (w / r.width) - P.l) / (w - P.l - P.r) * (xmax - xmin);
+      const base = o.series[0].pts; if (!base.length) return;
+      let best = base[0][0]; base.forEach(p => { if (Math.abs(p[0] - xv) < Math.abs(best - xv)) best = p[0]; });
+      xh.setAttribute('x1', sx(best)); xh.setAttribute('x2', sx(best)); xh.setAttribute('visibility', 'visible');
+      let dots = '', rows = '';
+      o.series.forEach(s => {
+        const p = s.pts.find(q => Math.abs(q[0] - best) < 1e-9); if (!p || !isFinite(p[1])) return;
+        dots += `<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="5" style="fill:${s.color};stroke:var(--panel)" stroke-width="2"/>`;
+        if (!s.noTip) rows += `<div><i style="background:${s.color}"></i>${esc(s.name || '')} <b style="display:inline">${esc(fy(p[1]))}</b></div>`;
+      });
+      hd.innerHTML = dots;
+      tip(e, `<b>${esc(o.x.tipFmt ? o.x.tipFmt(best) : (o.x.label ? o.x.label + ': ' : '') + fx(best))}</b>${rows}`);
+    };
+    const leave = () => { xh.setAttribute('visibility', 'hidden'); hd.innerHTML = ''; untip(); };
+    hit.addEventListener('mousemove', move); hit.addEventListener('touchmove', move, { passive: true }); hit.addEventListener('touchstart', move, { passive: true });
+    hit.addEventListener('mouseleave', leave); hit.addEventListener('touchend', leave);
+  }
+
+  function legend(series) {
+    if (series.length < 2) return '';
+    return `<div class="lg">${series.map(s => `<span><i style="background:${s.color}" class="${s.dot ? 'dot' : ''}"></i>${esc(s.name)}</span>`).join('')}</div>`;
+  }
+
+  function barChart(el, o) {
+    const w = width(el), h = o.h || 240, n = o.items.length;
+    const P = { l: o.noAxis ? 8 : 46, r: 10, t: 22, b: 44 };
+    const [ymin, ymax] = extent(o.items.map(i => i.v).concat((o.hlines || []).map(l => l.y)), o);
+    const sy = v => P.t + (1 - (v - ymin) / (ymax - ymin)) * (h - P.t - P.b);
+    const slot = (w - P.l - P.r) / n, bw = Math.min(o.bw || 64, slot * .62);
+    const f = o.fmt || (v => fmt(v));
+    let g = '';
+    if (!o.noAxis) ticks(ymin, ymax, 4).forEach(t => { g += `<line class="gl" x1="${P.l}" x2="${w - P.r}" y1="${sy(t)}" y2="${sy(t)}"/><text x="${P.l - 8}" y="${sy(t) + 4}" text-anchor="end">${esc(f(t))}</text>`; });
+    const z = sy(clamp(0, ymin, ymax));
+    o.items.forEach((it, i) => {
+      const cx = P.l + slot * (i + .5), y = sy(it.v), top = Math.min(y, z), hh = Math.max(Math.abs(z - y), it.v ? 2 : 0);
+      g += `<rect x="${cx - bw / 2}" y="${top}" width="${bw}" height="${hh}" rx="4" style="fill:${it.color || C(i)}"/>`;
+      g += `<text class="ink" x="${cx}" y="${it.v >= 0 ? top - 6 : top + hh + 14}" text-anchor="middle">${esc(it.text != null ? it.text : f(it.v))}</text>`;
+      wrapLabel(it.label, Math.max(6, Math.floor(slot / 7.2))).forEach((l, k) => { g += `<text x="${cx}" y="${h - P.b + 17 + k * 14}" text-anchor="middle">${esc(l)}</text>`; });
+      g += `<rect class="hit" data-i="${i}" x="${cx - slot / 2}" y="${P.t}" width="${slot}" height="${h - P.t - P.b}"/>`;
+    });
+    g += `<line class="ax" x1="${P.l}" x2="${w - P.r}" y1="${z}" y2="${z}"/>`;
+    (o.hlines || []).forEach(l => { g += `<line x1="${P.l}" x2="${w - P.r}" y1="${sy(l.y)}" y2="${sy(l.y)}" style="stroke:${l.color || 'var(--faint)'}" stroke-width="1.5" stroke-dasharray="5 4"/>${l.label ? `<text x="${w - P.r}" y="${sy(l.y) - 6}" text-anchor="end">${esc(l.label)}</text>` : ''}`; });
+    el.innerHTML = `<svg class="cv" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">${g}</svg>` + (o.legend ? legend(o.legend) : '');
+    hoverItems(el, o.items, it => it.tip || `<b>${esc(it.label)}</b>${esc(it.text != null ? it.text : f(it.v))}`);
+  }
+
+  function hbarChart(el, o) {
+    const w = width(el), rowH = o.rowH || 34, n = o.items.length, h = n * rowH + 26;
+    const lw = Math.min(o.labelW || 190, w * .42);
+    const vals = o.items.map(i => i.v);
+    const [mn, mx] = extent(vals.concat((o.vlines || []).map(l => l.x)), o);
+    const sx = v => lw + 10 + (v - mn) / (mx - mn) * (w - lw - 60);
+    const f = o.fmt || (v => fmt(v));
+    let g = '';
+    const z = sx(clamp(0, mn, mx));
+    o.items.forEach((it, i) => {
+      const y = 8 + i * rowH, x = sx(it.v), left = Math.min(x, z), ww = Math.max(Math.abs(x - z), it.v ? 2 : 0);
+      const lab = wrapLabel(it.label, Math.floor(lw / 7));
+      lab.forEach((l, k) => { g += `<text x="${lw}" y="${y + rowH / 2 + 4 - (lab.length - 1) * 7 + k * 14}" text-anchor="end" ${it.bold ? 'class="ink"' : ''}>${esc(l)}</text>`; });
+      g += `<rect x="${left}" y="${y + 6}" width="${ww}" height="${rowH - 14}" rx="4" style="fill:${it.color || C(i)}"/>`;
+      g += `<text class="ink" x="${it.v >= 0 ? left + ww + 6 : left - 6}" y="${y + rowH / 2 + 4}" text-anchor="${it.v >= 0 ? 'start' : 'end'}">${esc(it.text != null ? it.text : f(it.v))}</text>`;
+      g += `<rect class="hit" data-i="${i}" x="0" y="${y}" width="${w}" height="${rowH}"/>`;
+    });
+    g += `<line class="ax" x1="${z}" x2="${z}" y1="4" y2="${h - 18}"/>`;
+    (o.vlines || []).forEach(l => { g += `<line x1="${sx(l.x)}" x2="${sx(l.x)}" y1="4" y2="${h - 18}" style="stroke:${l.color || 'var(--faint)'}" stroke-width="1.5" stroke-dasharray="5 4"/>${l.label ? `<text x="${sx(l.x)}" y="${h - 4}" text-anchor="middle">${esc(l.label)}</text>` : ''}`; });
+    el.innerHTML = `<svg class="cv" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">${g}</svg>` + (o.legend ? legend(o.legend) : '');
+    hoverItems(el, o.items, it => it.tip || `<b>${esc(it.label)}</b>${esc(it.text != null ? it.text : f(it.v))}`);
+  }
+
+  function donut(el, o) {
+    const items = o.items.filter(i => i.v > 0), tot = items.reduce((a, i) => a + i.v, 0) || 1;
+    const S = o.size || 210, R = S / 2 - 6, r = R * .6, cx = S / 2, cy = S / 2;
+    let a0 = -Math.PI / 2, g = '';
+    items.forEach((it, i) => {
+      const a1 = a0 + it.v / tot * Math.PI * 2, large = a1 - a0 > Math.PI ? 1 : 0;
+      const p = (a, rr) => (cx + Math.cos(a) * rr).toFixed(2) + ' ' + (cy + Math.sin(a) * rr).toFixed(2);
+      const d = items.length === 1 ? `M${cx} ${cy - R}A${R} ${R} 0 1 1 ${cx - .01} ${cy - R}L${cx - .01} ${cy - r}A${r} ${r} 0 1 0 ${cx} ${cy - r}Z`
+        : `M${p(a0, R)}A${R} ${R} 0 ${large} 1 ${p(a1, R)}L${p(a1, r)}A${r} ${r} 0 ${large} 0 ${p(a0, r)}Z`;
+      g += `<path class="seg" data-i="${i}" d="${d}" style="fill:${it.color || C(i)};stroke:var(--panel)" stroke-width="2"/>`;
+      a0 = a1;
+    });
+    if (o.center) g += `<text x="${cx}" y="${cy + 2}" text-anchor="middle" class="ink" style="font-size:22px">${esc(o.center[0])}</text><text x="${cx}" y="${cy + 20}" text-anchor="middle">${esc(o.center[1] || '')}</text>`;
+    el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:18px;align-items:center"><svg class="cv" viewBox="0 0 ${S} ${S}" style="width:${S}px;max-width:100%">${g}</svg><div class="lg" style="flex-direction:column;gap:6px;flex:1;min-width:180px">${items.map((it, i) => `<span><i class="dot" style="background:${it.color || C(i)}"></i>${esc(it.label)} — <b style="color:var(--ink)">${esc(o.fmt ? o.fmt(it.v, it.v / tot) : pct(it.v / tot))}</b></span>`).join('')}</div></div>`;
+    $$('.seg', el).forEach(s => {
+      const it = items[+s.dataset.i];
+      const h = e => tip(e, `<b>${esc(it.label)}</b>${esc(o.fmt ? o.fmt(it.v, it.v / tot) : pct(it.v / tot, 1))}`);
+      s.addEventListener('mousemove', h); s.addEventListener('touchstart', h, { passive: true }); s.addEventListener('mouseleave', untip);
+    });
+  }
+
+  function hoverItems(el, items, html) {
+    $$('.hit[data-i]', el).forEach(r => {
+      const it = items[+r.dataset.i];
+      const h = e => tip(e, html(it));
+      r.addEventListener('mousemove', h); r.addEventListener('touchstart', h, { passive: true });
+      r.addEventListener('mouseleave', untip); r.addEventListener('touchend', untip);
+    });
+  }
+
+
+  /* ---------- редаговані таблиці ---------- */
+  function table(m, o) {
+    const box = m.q(o.sel || '[data-table]');
+    const cell = (c, v, i) => {
+      if (c.type === 'text') return `<input type="text" data-k="${c.k}" value="${esc(v == null ? '' : v)}" placeholder="${esc(c.ph || '')}" aria-label="${esc(c.label)}">`;
+      if (c.type === 'select') return `<select data-k="${c.k}" aria-label="${esc(c.label)}">${c.options.map(([val, lab]) => `<option value="${esc(val)}"${String(val) === String(v) ? ' selected' : ''}>${esc(lab)}</option>`).join('')}</select>`;
+      if (c.type === 'calc') return `<span class="calc" data-calc="${c.k}" style="font-weight:800;white-space:nowrap">${esc(c.fn(m.s[o.key][i], i, m))}</span>`;
+      return `<input type="number" data-k="${c.k}" value="${v}" min="${c.min}" max="${c.max}" step="${c.step || 1}" aria-label="${esc(c.label)}">`;
+    };
+    const draw = () => {
+      const rows = m.s[o.key];
+      box.innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr>${o.cols.map(c => `<th style="${c.w ? 'width:' + c.w : ''}">${esc(c.label)}</th>`).join('')}<th style="width:28px"></th></tr></thead><tbody>${rows.map((r, i) => `<tr data-i="${i}">${o.cols.map(c => `<td>${cell(c, r[c.k], i)}</td>`).join('')}<td>${rows.length > (o.min || 1) ? `<button class="del" data-del="${i}" aria-label="Видалити рядок">×</button>` : ''}</td></tr>`).join('')}</tbody></table></div>${!o.max || rows.length < o.max ? `<button class="addrow" type="button" data-add>+ ${esc(o.addLabel || 'Додати рядок')}</button>` : ''}`;
+    };
+    const calcs = () => $$('[data-calc]', box).forEach(el => { const i = +el.closest('tr').dataset.i, c = o.cols.find(c => c.k === el.dataset.calc); el.textContent = c.fn(m.s[o.key][i], i, m); });
+    box.addEventListener('input', e => {
+      const k = e.target.dataset.k, tr = e.target.closest('tr'); if (!k || !tr) return;
+      const c = o.cols.find(c => c.k === k);
+      let v = e.target.value;
+      if (c.type !== 'text' && c.type !== 'select') { if (v === '') return; v = clamp(+v, c.min, c.max); }
+      if (c.type === 'select' && c.num) v = +v;
+      m.s[o.key][+tr.dataset.i][k] = v; m.save(); m.touch(); m.render(); calcs();
+    });
+    box.addEventListener('change', e => { const k = e.target.dataset.k, c = o.cols.find(c => c.k === k); if (c && c.type !== 'text' && c.type !== 'select') e.target.value = m.s[o.key][+e.target.closest('tr').dataset.i][k]; });
+    box.addEventListener('click', e => {
+      const a = e.target.closest('[data-add]'), d = e.target.closest('[data-del]');
+      if (a) { m.s[o.key].push(o.add(m.s[o.key].length)); }
+      else if (d) { m.s[o.key].splice(+d.dataset.del, 1); }
+      else return;
+      m.save(); m.touch(); draw(); m.render();
+    });
+    m._redraw = (m._redraw || []).concat(draw);
+    m._calcs = (m._calcs || []).concat(calcs);
+    draw();
+  }
+
+  /* ---------- моделі ---------- */
+  const DEFS = {}, M = {};
+  const model = (id, def) => { DEFS[id] = def; };
+  const clone = o => JSON.parse(JSON.stringify(o));
+  const fresh = def => {
+    const s = {};
+    Object.entries(def.params || {}).forEach(([k, p]) => { s[k] = p.v; });
+    return Object.assign(s, def.state ? clone(def.state()) : {});
+  };
+
+  let hashParams = null, hashId = null;
+  (() => {
+    const h = decodeURIComponent(location.hash.slice(1));
+    if (!h) return;
+    const [id, q] = h.split('?');
+    hashId = id;
+    if (q) { hashParams = {}; q.split('&').forEach(kv => { const [k, v] = kv.split('='); if (k && v != null && v !== '' && isFinite(+v)) hashParams[k] = +v; }); }
+  })();
+
+  function setup(sec, idx) {
+    const id = sec.id, def = DEFS[id] || {};
+    const params = def.params || {};
+    const m = { id, def, el: sec, q: s => $(s, sec), qa: s => $$(s, sec) };
+    m.s = Object.assign(fresh(def), DB[id] || {});
+    if (hashId === id && hashParams) Object.entries(hashParams).forEach(([k, v]) => { if (params[k]) m.s[k] = clamp(v, params[k].min, params[k].max); });
+    m.chart = m.q('[data-chart]'); m.out = m.q('[data-out]');
+    m.save = () => { DB[id] = m.s; save(); };
+    m.touch = () => {
+      if (!PR[PAGE.key][id]) { PR[PAGE.key][id] = 1; saveProgress(); progress(); }
+    };
+    m.render = () => {
+      try { def.render && def.render(m); } catch (err) { console.error(id, err); }
+      m.qa('.v[data-k]').forEach(v => { const p = params[v.dataset.k]; if (p) v.querySelector('.vv').textContent = (p.fmt ? p.fmt(m.s[v.dataset.k]) : fmt(m.s[v.dataset.k])) + (p.unitShort || ''); });
+      syncCtrls();
+      (m._calcs || []).forEach(f => f());
+      if (popFor && popFor.m === m) syncPop();
+    };
+    m.set = (k, v, quiet) => { m.s[k] = v; m.save(); m.touch(); if (!quiet) m.render(); };
+    m.res = (k, text, cls) => { const r = m.q(`.r[data-r="${k}"]`); if (!r) return; r.querySelector('.vv').textContent = text; r.classList.remove('good', 'warn', 'bad'); if (cls) r.classList.add(cls); };
+    M[id] = m;
+
+    // заголовок
+    const head = document.createElement('div');
+    head.className = 'm-head';
+    head.innerHTML = `<div class="m-num">${esc(sec.dataset.n || idx + 1)}</div><div class="m-title"><h2>${esc(sec.dataset.title || '')}</h2>${sec.dataset.sub ? `<p class="m-sub">${esc(sec.dataset.sub)}</p>` : ''}</div>
+      <div class="m-tools">${def.examples && def.examples.length === 1 ? `<button class="ibtn" data-act="ex" title="Підставити приклад із книги">📖<span class="lbl">Приклад</span></button>` : ''}<button class="ibtn" data-act="share" title="Скопіювати посилання на цю формулу з поточними значеннями">🔗<span class="lbl">Поділитися</span></button><button class="ibtn" data-act="reset" title="Скинути значення">↺</button></div>`;
+    sec.prepend(head);
+    if (def.examples && def.examples.length > 1) {
+      const row = document.createElement('div');
+      row.className = 'ex-row';
+      row.innerHTML = '<span>Приклади:</span>' + def.examples.map((e, i) => `<button class="chip" data-exi="${i}">${esc(e.name)}</button>`).join('');
+      const law = m.q('.m-law');
+      (law || head).after(row);
+      row.addEventListener('click', e => { const b = e.target.closest('[data-exi]'); if (b) applyEx(def.examples[+b.dataset.exi], b); });
+    }
+    const applyEx = (ex, chip) => {
+      const base = fresh(def);
+      m.s = Object.assign(base, ex.set ? clone(ex.set) : {});
+      if (ex.fn) ex.fn(m.s);
+      m.save(); m.touch();
+      m.qa('.chip[data-exi]').forEach(c => c.classList.toggle('on', c === chip));
+      (m._redraw || []).forEach(f => f()); def.onState && def.onState(m);
+      m.render();
+      if (ex.note) toast(ex.note);
+    };
+    head.addEventListener('click', e => {
+      const b = e.target.closest('[data-act]'); if (!b) return;
+      if (b.dataset.act === 'ex') applyEx(def.examples[0]);
+      if (b.dataset.act === 'reset') { m.s = fresh(def); m.save(); m.qa('.chip.on').forEach(c => c.classList.remove('on')); (m._redraw || []).forEach(f => f()); def.onState && def.onState(m); m.render(); toast('Значення скинуто'); }
+      if (b.dataset.act === 'share') {
+        const q = Object.keys(params).map(k => k + '=' + +(+m.s[k]).toFixed(4)).join('&');
+        const url = location.href.split('#')[0] + '#' + id + (q ? '?' + q : '');
+        const done = () => { b.classList.add('ok'); setTimeout(() => b.classList.remove('ok'), 1500); toast('Посилання на формулу скопійовано'); };
+        if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => prompt('Скопіюйте посилання:', url));
+        else prompt('Скопіюйте посилання:', url);
+      }
+    });
+
+    // повзунки
+    const box = m.q('[data-ctrls]');
+    const rows = {};
+    if (box) {
+      Object.entries(params).forEach(([k, p]) => {
+        if (p.hidden) return;
+        const row = document.createElement('div');
+        row.className = 'ctrl'; row.dataset.k = k;
+        const uid = id + '-' + k;
+        row.innerHTML = `<div class="ctrl-top"><label for="${uid}">${p.sym ? `<span class="sym">${p.sym}</span>` : ''}${esc(p.label)}</label><span class="num"><input type="number" step="${p.step || 1}" min="${p.min}" max="${p.max}" aria-label="${esc(p.label)}"><small>${esc(p.unit || '')}</small></span></div>
+          <input type="range" id="${uid}" min="${p.min}" max="${p.max}" step="${p.step || 1}">${p.hint ? `<div class="hint">${esc(p.hint)}</div>` : ''}`;
+        const rg = row.querySelector('[type=range]'), nm = row.querySelector('[type=number]');
+        rg.addEventListener('input', () => m.set(k, +rg.value));
+        nm.addEventListener('change', () => { const v = clamp(+nm.value || 0, p.min, p.max); m.set(k, v); });
+        rows[k] = { row, rg, nm };
+        box.append(row);
+      });
+    }
+    const syncCtrls = () => Object.entries(rows).forEach(([k, r]) => { if (document.activeElement !== r.nm) r.nm.value = +(+m.s[k]).toFixed(4); r.rg.value = m.s[k]; });
+    m.flash = k => { const r = rows[k]; if (!r) return; r.row.classList.add('flash'); setTimeout(() => r.row.classList.remove('flash'), 900); };
+
+    // змінні у формулі
+    m.qa('.v[data-k]').forEach(v => {
+      v.tabIndex = 0; v.setAttribute('role', 'button');
+      const p = params[v.dataset.k]; if (p) v.title = p.label + ' — натисніть, щоб змінити';
+      v.insertAdjacentHTML('beforeend', '<span class="vv"></span>');
+      const open = e => { e.stopPropagation(); openPop(m, v.dataset.k, v); };
+      v.addEventListener('click', open);
+      v.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(e); } });
+    });
+    m.qa('.r[data-r]').forEach(r => r.insertAdjacentHTML('beforeend', '<span class="vv">—</span>'));
+    sec.addEventListener('input', () => m.touch());
+    def.init && def.init(m);
+  }
+
+  /* ---------- спливне вікно для змінної ---------- */
+  const pop = $('#pop');
+  let popFor = null;
+  function openPop(m, k, anchor) {
+    const p = m.def.params[k]; if (!p) return;
+    popFor = { m, k };
+    pop.innerHTML = `<div class="pop-h"><span>${p.sym ? `<i style="font-family:serif">${p.sym}</i> · ` : ''}${esc(p.label)}</span><button aria-label="Закрити">×</button></div>
+      <div class="row" style="margin-top:8px"><span class="num"><input type="number" step="${p.step || 1}" min="${p.min}" max="${p.max}"><small>${esc(p.unit || '')}</small></span></div>
+      <input type="range" min="${p.min}" max="${p.max}" step="${p.step || 1}">${p.hint ? `<p>${esc(p.hint)}</p>` : ''}`;
+    const rg = $('[type=range]', pop), nm = $('[type=number]', pop);
+    rg.addEventListener('input', () => m.set(k, +rg.value));
+    nm.addEventListener('change', () => m.set(k, clamp(+nm.value || 0, p.min, p.max)));
+    $('.pop-h button', pop).addEventListener('click', closePop);
+    syncPop();
+    pop.classList.add('on');
+    const r = anchor.getBoundingClientRect();
+    let x = r.left + scrollX + r.width / 2 - 140;
+    x = clamp(x, 8 + scrollX, scrollX + document.documentElement.clientWidth - 288);
+    pop.style.left = x + 'px'; pop.style.top = (r.bottom + scrollY + 26) + 'px';
+    m.flash(k);
+    setTimeout(() => rg.focus({ preventScroll: true }), 0);
+  }
+  function syncPop() { if (!popFor) return; const v = popFor.m.s[popFor.k]; const nm = $('[type=number]', pop), rg = $('[type=range]', pop); if (nm && document.activeElement !== nm) nm.value = +(+v).toFixed(4); if (rg) rg.value = v; }
+  function closePop() { pop.classList.remove('on'); popFor = null; }
+  document.addEventListener('click', e => { if (popFor && !pop.contains(e.target)) closePop(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePop(); });
+
+  /* ---------- прогрес ---------- */
+  function progress() {
+    const ids = $$('section.model').map(s => s.id), done = ids.filter(i => PR[PAGE.key][i]).length;
+    const ring = $('#ring');
+    if (ring) {
+      const c = 2 * Math.PI * 17;
+      ring.querySelector('.fg').style.strokeDasharray = c;
+      ring.querySelector('.fg').style.strokeDashoffset = c * (1 - (ids.length ? done / ids.length : 0));
+      ring.querySelector('b').textContent = done + '/' + ids.length;
+      ring.title = `Досліджено формул: ${done} з ${ids.length}`;
+    }
+    $$('.toc a[href^="#"]').forEach(a => a.classList.toggle('done', !!PR[PAGE.key][a.getAttribute('href').slice(1)]));
+  }
+
+  function rerenderAll() { Object.values(M).forEach(m => m.render()); }
+  let lastW = innerWidth, rt;
+  addEventListener('resize', () => { if (Math.abs(innerWidth - lastW) < 30) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(rerenderAll, 150); });
+
+  function boot() {
+    // зміст
+    const toc = $('#toc');
+    if (toc) {
+      let html = '';
+      $$('main > .part, main > section.model').forEach(el => {
+        if (el.classList.contains('part')) html += `<div class="toc-sep">${esc(el.dataset.toc || el.querySelector('h2').textContent)}</div>`;
+        else html += `<a href="#${el.id}"><b>${esc(el.dataset.n)}</b>${esc(el.dataset.short || el.dataset.title)}</a>`;
+      });
+      toc.innerHTML = html;
+    }
+    $$('section.model').forEach(setup);
+    Object.values(M).forEach(m => m.render());
+    progress();
+    if (hashId && $('#' + CSS.escape(hashId))) setTimeout(() => $('#' + CSS.escape(hashId)).scrollIntoView({ block: 'start' }), 60);
+  }
+
+  window.fx = { $, $$, esc, fmt, pct, clamp, C, tip, untip, toast, lineChart, barChart, hbarChart, donut, ticks, model, table, boot, width, M };
+})();
+
+</script>
+<script>
+
+const { fmt, pct, clamp, C, lineChart, barChart, hbarChart, donut, esc } = fx;
+const V = (cls, t, s) => `<div class="verdict ${cls}"><div>${t}${s ? `<span>${s}</span>` : ''}</div></div>`;
+const bindText = (m, sel, key) => { const el = m.q(sel); el.value = m.s[key]; el.addEventListener('input', () => { m.s[key] = el.value; m.save(); m.touch(); m.render(); }); m._redraw = (m._redraw || []).concat(() => { el.value = m.s[key]; }); };
+
+/* 1. Особистість */
+fx.model('osobystist', {
+  params: {
+    T: { label: 'Мій вік', sym: 'T', min: 5, max: 90, v: 20, unit: 'р.' },
+    F: { label: 'Подивитися вперед на', min: 0, max: 40, v: 20, unit: 'р.', hint: 'як зміниться структура особистості з новим розкладом часу' }
+  },
+  state: () => ({ rows: [
+    { n: 'Мама', y: 20, h: 7, f: 1 }, { n: 'Тато', y: 20, h: 7, f: 1 }, { n: 'Брат / сестра', y: 17, h: 3, f: .5 },
+    { n: 'Друзі', y: 12, h: 2.5, f: 2 }, { n: 'Вчителі, тренери', y: 12, h: 2, f: 0 }, { n: 'Кохана людина', y: 1, h: 3, f: 6 }, { n: 'Колеги', y: 0, h: 0, f: 6 } ] }),
+  examples: [{ name: '20-річний студент', set: { T: 20, F: 20 }, note: 'У 20 років мама й тато — приблизно по 30%. Подивіться, що стане у 40.' }],
+  init(m) {
+    fx.table(m, { key: 'rows', addLabel: 'Додати людину', max: 12, add: () => ({ n: 'Людина', y: 5, h: 1, f: 1 }),
+      cols: [ { k: 'n', type: 'text', label: 'Людина', w: '34%' }, { k: 'y', label: 'Років поруч', min: 0, max: 90, step: .5 }, { k: 'h', label: 'Год/добу досі', min: 0, max: 24, step: .5 }, { k: 'f', label: 'Год/добу надалі', min: 0, max: 24, step: .5 } ] });
+  },
+  render(m) {
+    const { T, F, rows } = m.s;
+    const yrs = rows.map(r => Math.min(+r.y, T) * r.h / 24);
+    let sum = yrs.reduce((a, b) => a + b, 0), scale = sum > T ? T / sum : 1;
+    const items = rows.map((r, i) => ({ label: r.n || '—', v: yrs[i] * scale, color: C(i) }));
+    const rest = Math.max(0, T - sum * scale);
+    items.push({ label: 'Інші люди, книги, думки наодинці', v: rest, color: 'var(--line)' });
+    const top = items.slice(0, -1).sort((a, b) => b.v - a.v)[0];
+    m.res('P', '100%'); m.res('Pn', rows.length + ' людей'); m.res('tm', fmt(sum * scale, 1) + ' р.');
+    m.out.innerHTML = `<div class="big">${top ? esc(top.label) + ' — ' + pct(top.v / T) : '—'}<small>найбільша частка у вашій особистості зараз</small></div>
+      <div class="kv"><span>Враховано часу з людьми</span><b>${fmt(sum * scale, 1)} з ${T} р.</b><span>Решта (інші люди, думки)</span><b>${pct(rest / T)}</b></div>
+      ${sum > T ? V('warn', 'Сума часу більша за вік', 'Години перетинаються (кілька людей одночасно) — частки пропорційно зменшено, щоб ∑tₘ = T.') : V('info', 'Хочете бути схожими на когось — збільшуйте час із ним', 'Зміни відбуваються дуже повільно, але постійно.')}`;
+    donut(m.chart, { items, center: ['P', T + ' р.'], fmt: (v, s) => pct(s, 1) + ' · ' + fmt(v, 1) + ' р.' });
+    m.chart.insertAdjacentHTML('afterbegin', '<div class="chart-h"><b>Структура особистості зараз</b><span>частка кожної людини в прожитому часі</span></div>');
+    // прогноз
+    const el = m.q('[data-chart2]');
+    if (!F) { el.innerHTML = ''; return; }
+    const series = rows.map((r, i) => ({ name: r.n || '—', color: C(i), pts: [] }));
+    for (let a = T; a <= T + F + 1e-9; a += Math.max(1, F / 20)) {
+      const ys = rows.map((r, i) => yrs[i] * scale + (a - T) * r.f / 24);
+      const tot = a;
+      series.forEach((s, i) => s.pts.push([Math.round(a), ys[i] / tot * 100]));
+    }
+    lineChart(el, { h: 240, x: { min: T, max: T + F, label: 'вік', fmt: v => fmt(v, 0), tipFmt: v => 'У ' + fmt(v, 0) + ' р.' }, y: { min: 0, label: 'частка в особистості, %', fmt: v => fmt(v, 0) + '%' }, series });
+    el.insertAdjacentHTML('afterbegin', `<div class="chart-h"><b>Як зміниться структура до ${T + F} років</b><span>за розкладом «год/добу надалі»</span></div>`);
+  }
+});
+
+/* 2. Віддзеркалення */
+fx.model('viddzerkalennia', {
+  state: () => ({ trait: 'має автомобіль', rows: [
+    { n: 'Колега Олег', h: 5, s: 10 }, { n: 'Дружина', h: 6, s: 10 }, { n: 'Друг Петро', h: 2, s: 0 }, { n: 'Клієнти', h: 3, s: 10 },
+    { n: 'Сусідка', h: .5, s: 0 }, { n: 'Блогер у телефоні', h: 1.5, s: 10 }, { n: 'Мама (у думках)', h: 1, s: 0 } ] }),
+  examples: [
+    { name: 'Книга: 10 людей, 5 з авто', set: { trait: 'має автомобіль', rows: Array.from({ length: 10 }, (_, i) => ({ n: 'Людина ' + (i + 1), h: 1.6, s: i < 5 ? 10 : 0 })) }, note: '5 з 10 рівноцінних контактів мають авто — ймовірність 50%.' },
+    { name: 'Відпочинок на морі', set: { trait: 'відпочиватиме на морі', rows: Array.from({ length: 10 }, (_, i) => ({ n: 'Людина ' + (i + 1), h: 1.6, s: i < 2 ? 10 : 0 })) } }
+  ],
+  init(m) {
+    bindText(m, '[data-trait]', 'trait');
+    fx.table(m, { key: 'rows', addLabel: 'Додати людину', max: 14, add: () => ({ n: 'Людина', h: 1, s: 5 }),
+      cols: [ { k: 'n', type: 'text', label: 'Людина', w: '44%' }, { k: 'h', label: 'Год/добу', min: 0, max: 24, step: .5 }, { k: 's', label: 'Риса 0–10', min: 0, max: 10, step: .5 } ] });
+  },
+  render(m) {
+    const { rows, trait } = m.s, tot = rows.reduce((a, r) => a + +r.h, 0) || 1;
+    const S = rows.reduce((a, r) => a + r.s / 10 * r.h, 0) / tot;
+    m.res('S', pct(S)); m.res('Sn', rows.length + ' людей'); m.res('tm', fmt(tot, 1) + ' год');
+    m.out.innerHTML = `<div class="big">${pct(S)}<small>ймовірність / рівень: «${esc(trait || 'риса')}»</small></div>
+      <div class="meter"><i style="width:${S * 100}%;background:var(--acc)"></i></div>
+      ${tot > 24 ? V('warn', `Годин більше за 24 (${fmt(tot, 1)})`, 'Частки нормовано на загальний час — враховано й одночасні контакти.') : tot < 24 ? V('info', `Враховано ${fmt(tot, 1)} з 24 годин`, 'Решту доби (сон, думки наодинці) модель не рахує — частки нормовано на вказаний час.') : ''}
+      ${V(S >= .5 ? 'good' : 'info', S >= .5 ? 'Ваше оточення «тягне» до цієї риси' : 'Оточення радше віддаляє від цієї риси', 'Мова про ймовірності, а не факти. Щоб змінити рису — почніть з оточення.')}`;
+    hbarChart(m.chart, { items: rows.map((r, i) => ({ label: r.n || '—', v: r.s / 10 * r.h / tot * 100, color: r.s >= 5 ? 'var(--c1)' : 'var(--c2)', tip: `<b>${esc(r.n)}</b>${fmt(r.h, 1)} год/добу · риса ${fmt(r.s)}/10<br>внесок ${fmt(r.s / 10 * r.h / tot * 100, 1)}%` })).concat([{ label: 'Я (сума)', v: S * 100, bold: true, color: 'var(--acc)' }]),
+      min: 0, max: 100, fmt: v => fmt(v, 1) + '%' });
+    m.chart.insertAdjacentHTML('afterbegin', '<div class="chart-h"><b>Внесок кожної людини у вашу рису</b><span>Sₙ · tₘ / 24</span></div>');
+  }
+});
+
+/* 3. Дефіцит */
+fx.model('defitsyt', {
+  state: () => ({ trait: 'ініціатива і відповідальність', p: [ { n: 'Ініціатор', v: 55 }, { n: 'Оля', v: 15 }, { n: 'Тарас', v: 12 }, { n: 'Ірина', v: 10 }, { n: 'Богдан', v: 8 } ] }),
+  examples: [
+    { name: 'Ініціатор забрав усе', set: { trait: 'ініціатива і відповідальність', p: [ { n: 'Ініціатор', v: 96 }, { n: 'Оля', v: 1 }, { n: 'Тарас', v: 1 }, { n: 'Ірина', v: 1 }, { n: 'Богдан', v: 1 } ] }, note: 'Решта не «пасивні» — їм просто не дали шансу проявитися.' },
+    { name: 'Мама поспішає', set: { trait: 'поспіх', p: [ { n: 'Мама', v: 85 }, { n: 'Дитина', v: 15 } ] }, note: 'Що більше поспішає мама, то більше дитина саботує неквапливістю.' },
+    { name: 'Доброта і сердитість', set: { trait: '«доброта»', p: [ { n: 'Я', v: 80 }, { n: 'Партнер', v: 20 } ] } }
+  ],
+  init(m) {
+    bindText(m, '[data-trait]', 'trait');
+    const box = m.q('[data-people]');
+    const draw = () => {
+      box.innerHTML = m.s.p.map((p, i) => `<div class="ctrl"><div class="ctrl-top"><input type="text" data-pn="${i}" value="${esc(p.n)}" style="border:0;background:none;font-weight:800;min-width:0;flex:1"><span class="num"><b data-pv="${i}"></b>${m.s.p.length > 2 ? `<button class="del" data-pdel="${i}" style="border:0;background:none;color:var(--faint);font-size:18px" aria-label="Видалити">×</button>` : ''}</span></div><input type="range" min="0" max="100" step="1" data-pr="${i}" aria-label="Частка ${esc(p.n)}"></div>`).join('');
+      m.q('[data-addp]').style.display = m.s.p.length >= 8 ? 'none' : '';
+    };
+    box.addEventListener('input', e => {
+      const t = e.target;
+      if (t.dataset.pn != null) { m.s.p[+t.dataset.pn].n = t.value; m.save(); m.render(); return; }
+      if (t.dataset.pr == null) return;
+      const i = +t.dataset.pr, v = +t.value, ps = m.s.p, others = ps.reduce((a, p, j) => j === i ? a : a + p.v, 0), rem = 100 - v;
+      ps.forEach((p, j) => { if (j !== i) p.v = others > 0 ? p.v * rem / others : rem / (ps.length - 1); });
+      ps[i].v = v; m.save(); m.touch(); m.render();
+    });
+    box.addEventListener('click', e => { const d = e.target.closest('[data-pdel]'); if (!d) return; m.s.p.splice(+d.dataset.pdel, 1); norm(m); draw(); m.save(); m.render(); });
+    m.q('[data-addp]').addEventListener('click', () => { m.s.p.forEach(p => p.v *= .85); m.s.p.push({ n: 'Новий учасник', v: 15 }); norm(m); draw(); m.save(); m.touch(); m.render(); });
+    m._redraw = (m._redraw || []).concat(draw);
+    draw();
+  },
+  render(m) {
+    const ps = m.s.p, tot = ps.reduce((a, p) => a + p.v, 0);
+    ps.forEach((p, i) => { const r = m.q(`[data-pr="${i}"]`); if (r && document.activeElement !== r) r.value = p.v; const b = m.q(`[data-pv="${i}"]`); if (b) b.textContent = fmt(p.v, 0) + '%'; });
+    m.res('sum', pct(tot / 100), 'good');
+    const mx = ps.reduce((a, p) => p.v > a.v ? p : a, ps[0]), fair = 100 / ps.length;
+    m.out.innerHTML = `<div class="big">${esc(mx.n)}: ${fmt(mx.v, 0)}%<small>забирає найбільше: «${esc(m.s.trait)}»</small></div>
+      <div class="kv"><span>Рівна частка на кожного</span><b>${fmt(fair, 0)}%</b><span>Решті учасників разом лишається</span><b>${fmt(100 - mx.v, 0)}%</b></div>
+      ${mx.v > fair * 2 ? V('warn', `${esc(mx.n)} бере у ${fmt(mx.v / fair, 1)} раза більше за рівну частку`, 'Інші не «пасивні» — їм просто не лишилось місця. Візьміть менше — і система навколо зміниться.') : V('good', 'Ресурс розподілено доволі рівно', 'Ніхто не забирає чужої частки.')}`;
+    hbarChart(m.chart, { items: ps.map((p, i) => ({ label: p.n, v: p.v, color: C(i) })), min: 0, max: 100, fmt: v => fmt(v, 0) + '%', vlines: [{ x: fair, label: 'рівна частка' }] });
+    m.chart.insertAdjacentHTML('afterbegin', `<div class="chart-h"><b>Хто скільки бере</b><span>сума завжди 100% — тягніть будь-який повзунок</span></div>`);
+  }
+});
+function norm(m) { const t = m.s.p.reduce((a, p) => a + p.v, 0) || 1; m.s.p.forEach(p => p.v = p.v * 100 / t); }
+
+/* 4. Однаковість */
+const TRAITS = {
+  'Відповідальність': ['на роботі', 'у стосунках удома', 'Микола затримується на роботі — і безвідповідальний у стосунках із дружиною.'],
+  'Любов': ['до інших', 'до себе', 'Марійка дуже любить інших — бо дуже не любить себе.'],
+  'Пунктуальність': ['перед іншими', 'для себе', 'Андрій тепер спізнюється, бо колись приходив найшвидше.'],
+  'Комунікабельність': ['з друзями', 'з незнайомцями', 'З друзями «говорун», з незнайомцями — «мовчун».'],
+  'Щедрість': ['до чужих', 'до своїх', 'Щедрий на людях — скупий удома.']
+};
+fx.model('odnakovist', {
+  params: {
+    Sa: { label: 'Зовнішній прояв', sym: 'Sₐ', min: 0, max: 10, step: .5, v: 8 },
+    Sc: { label: 'Прояв у минулому', sym: 'S<sub>c</sub>', min: 0, max: 10, step: .5, v: 3 }
+  },
+  state: () => ({ trait: 'Відповідальність' }),
+  examples: [
+    { name: 'Микола', set: { trait: 'Відповідальність', Sa: 9, Sc: 5 } },
+    { name: 'Марійка', set: { trait: 'Любов', Sa: 9, Sc: 6 } },
+    { name: 'Андрій', set: { trait: 'Пунктуальність', Sa: 5, Sc: 9 } }
+  ],
+  init(m) {
+    const sel = m.q('[data-trait]');
+    sel.innerHTML = Object.keys(TRAITS).map(t => `<option>${t}</option>`).join('');
+    sel.value = m.s.trait;
+    sel.addEventListener('change', () => m.set('trait', sel.value));
+    m._redraw = [() => { sel.value = m.s.trait; }];
+  },
+  render(m) {
+    const { Sa, Sc, trait } = m.s, Sb = 10 - Sa, Sd = 10 - Sc, t = TRAITS[trait] || TRAITS['Відповідальність'];
+    m.res('Sb', fmt(Sb)); m.res('Sd', fmt(Sd));
+    const ang = (Sa - 5) * 7;
+    m.out.innerHTML = `<div class="big">S = 10<small>${esc(trait)} у всіх однакова — різняться прояви</small></div>
+      <div class="kv"><span>${esc(t[0])} (Sₐ)</span><b>${fmt(Sa)}</b><span>${esc(t[1])} (S_b)</span><b>${fmt(Sb)}</b><span>тоді (S_c) → тепер (S_d)</span><b>${fmt(Sc)} → ${fmt(Sd)}</b></div>
+      ${Math.abs(Sa - Sb) >= 5 ? V('info', `Маятник відхилився: ${esc(t[0])} ${fmt(Sa)}, а ${esc(t[1])} лише ${fmt(Sb)}`, t[2]) : V('good', 'Маятник близько до центру', 'Прояви рівномірні — людину важко «вписати» в ярлик.')}
+      <svg class="cv" viewBox="0 0 240 120" style="max-width:280px;margin:auto"><line x1="40" y1="10" x2="200" y2="10" style="stroke:var(--faint)" stroke-width="2"/>
+      <g transform="rotate(${ang} 120 10)"><line x1="120" y1="10" x2="120" y2="92" style="stroke:var(--ink)" stroke-width="2"/><circle cx="120" cy="100" r="13" style="fill:var(--acc)"/></g>
+      <text x="20" y="116">${esc(t[1])}</text><text x="220" y="116" text-anchor="end">${esc(t[0])}</text></svg>`;
+    barChart(m.chart, { h: 220, items: [ { label: t[0] + ' (Sₐ)', v: Sa, color: 'var(--c1)' }, { label: t[1] + ' (S_b)', v: Sb, color: 'var(--c2)' }, { label: 'у минулому (S_c)', v: Sc, color: 'var(--c3)' }, { label: 'тепер (S_d)', v: Sd, color: 'var(--c4)' } ], min: 0, max: 10, hlines: [{ y: 5, label: 'центр маятника' }] });
+  }
+});
+
+/* 5. Віддзеркалення у часі */
+fx.model('chas-viddz', {
+  params: { age: { label: 'Мій вік', sym: 't', min: 10, max: 80, v: 32, unit: 'р.' } },
+  state: () => ({ rows: [
+    { n: 'Студентка-стажерка', a: 22, h: 2, q: 'шукає першу роботу' }, { n: 'Колега Андрій', a: 29, h: 4, q: 'бере іпотеку' },
+    { n: 'Друг Сергій', a: 34, h: 1, q: 'народилася друга дитина' }, { n: 'Керівниця', a: 41, h: 2, q: 'будує власну команду' },
+    { n: 'Тато', a: 63, h: .5, q: 'виходить на пенсію' }, { n: 'Клієнт-підприємець', a: 47, h: 1, q: 'продає бізнес' } ] }),
+  init(m) {
+    fx.table(m, { key: 'rows', addLabel: 'Додати людину', max: 14, add: () => ({ n: 'Людина', a: 30, h: 1, q: '' }),
+      cols: [ { k: 'n', type: 'text', label: 'Людина', w: '28%' }, { k: 'a', label: 'Вік', min: 1, max: 100 }, { k: 'h', label: 'Год/добу', min: 0, max: 24, step: .5 }, { k: 'q', type: 'text', label: 'Що зараз вирішує', w: '34%', ph: 'питання, яке вас ще чекає' } ] });
+  },
+  render(m) {
+    const { age, rows } = m.s, tot = rows.reduce((a, r) => a + +r.h, 0) || 1;
+    const past = rows.filter(r => r.a < age - 1), fut = rows.filter(r => r.a > age + 1);
+    const hp = past.reduce((a, r) => a + +r.h, 0), hf = fut.reduce((a, r) => a + +r.h, 0);
+    m.res('St', pct(hf / tot) + ' майбутнє');
+    const next = fut.filter(r => r.q).sort((a, b) => a.a - b.a).slice(0, 4);
+    m.out.innerHTML = `<div class="big">${pct(hp / tot)} / ${pct(hf / tot)}<small>часу з «минулими я» / з «майбутніми я»</small></div>
+      <div class="meter"><i style="width:${hp / tot * 100}%;background:var(--c3)"></i><i style="width:${(tot - hp - hf) / tot * 100}%;background:var(--faint)"></i><i style="width:${hf / tot * 100}%;background:var(--c7)"></i></div>
+      ${next.length ? `<div><b style="font-size:14px">Що, ймовірно, чекає на вас:</b><div class="kv" style="margin-top:6px">${next.map(r => `<span>у ${r.a} р. (через ${r.a - age})</span><b style="text-align:right;font-weight:600">${esc(r.q)}</b>`).join('')}</div></div>` : ''}
+      ${V(hp > hf ? 'info' : 'good', hp > hf ? 'Ви більше часу віддаєте тим, хто йде вашим минулим шляхом' : 'Ви багато спілкуєтесь із «людьми з майбутнього»', hp > hf ? 'Ви вирішуєте їхні питання — і бачите себе 2–3 роки тому.' : 'Вони вже вирішують питання, з якими вам ще доведеться стикнутись.')}`;
+    const items = rows.slice().sort((a, b) => a.a - b.a).map(r => ({ label: `${r.n} (${r.a})`, v: +r.h, color: r.a < age - 1 ? 'var(--c3)' : r.a > age + 1 ? 'var(--c7)' : 'var(--faint)', tip: `<b>${esc(r.n)}, ${r.a} р.</b>${fmt(r.h, 1)} год/добу${r.q ? '<br>' + esc(r.q) : ''}` }));
+    hbarChart(m.chart, { items, min: 0, fmt: v => fmt(v, 1) + ' год', legend: [{ name: 'молодші — «я в минулому»', color: 'var(--c3)' }, { name: 'старші — «я в майбутньому»', color: 'var(--c7)' }] });
+    m.chart.insertAdjacentHTML('afterbegin', `<div class="chart-h"><b>Контакти за віком</b><span>ваш вік — ${age}</span></div>`);
+  }
+});
+
+/* 6. Лояльність */
+fx.model('loialnist', {
+  params: {
+    V: { label: 'Інтенсивність, якість контакту', sym: 'V', min: 1, max: 10, step: .5, v: 5 },
+    t: { label: 'Тривалість контакту', sym: 't', min: 0, max: 60, v: 10, unit: 'год/міс' },
+    w: { label: 'Скільки «знімаєте з рахунку»', min: 0, max: 100, v: 30, unit: 'балів/міс', hint: 'прохання, доручення, рішення, з якими людина має погодитися' }
+  },
+  examples: [
+    { name: 'Керівник, що лише контролює', set: { V: 3, t: 4, w: 60 } },
+    { name: 'Батьки підлітка', set: { V: 6, t: 12, w: 40 } },
+    { name: 'Довготермінова пара', set: { V: 8, t: 40, w: 50 } }
+  ],
+  render(m) {
+    const { V: v, t, w } = m.s, T = v * t, Lf = T => 60 * Math.exp(-T / 90) + 2, L = Lf(T);
+    m.res('T', fmt(T)); m.res('L', fmt(L, 0) + ' хв', L < 15 ? 'good' : L < 35 ? 'warn' : 'bad');
+    let bal = 0; const pts = [[0, 0]];
+    for (let mo = 1; mo <= 12; mo++) { bal = bal * .85 + T - w; pts.push([mo, bal]); }
+    m.out.innerHTML = `<div class="big">${fmt(L, 0)} хв<small>у середньому, щоб людина погодилась із вашою думкою</small></div>
+      <div class="kv"><span>Вкладений час T = V · t</span><b>${fmt(T)}</b><span>Кредит довіри через рік</span><b style="color:${bal >= 0 ? 'var(--ok)' : 'var(--bad)'}">${bal >= 0 ? '+' : ''}${fmt(bal)}</b></div>
+      ${bal < 0 ? V('bad', 'Ви знімаєте більше, ніж кладете на депозит', 'Людина доскіпуватиметься, вимагатиме пояснень і не довірятиме. Поновити лояльність можна лише часом.') : L > 30 ? V('warn', 'Лояльність низька', 'Кожне рішення доведеться довго пояснювати. Додайте якісного спільного часу.') : V('good', 'Кредит довіри працює', 'Пам’ятайте: неконвертована лояльність згорає — близько 15% на місяць у цій моделі.')}`;
+    const pc = []; for (let x = 0; x <= 600; x += 15) pc.push([x, Lf(x)]);
+    lineChart(m.chart, { h: 220, x: { min: 0, max: 600, label: 'вкладений час T = V · t' }, y: { min: 0, max: 65, label: 'хвилин до погодження L' }, series: [{ name: 'L = f(T)', color: 'var(--c1)', pts: pc }], marks: [{ x: Math.min(T, 600), y: L, label: 'ви тут' }] });
+    lineChart(m.q('[data-chart2]'), { h: 200, x: { min: 0, max: 12, label: 'місяці', tipFmt: v => v + '-й місяць' }, y: { label: 'кредит довіри' }, series: [{ name: 'Баланс', color: bal >= 0 ? 'var(--ok)' : 'var(--bad)', pts, area: true, dots: true }] });
+    m.q('[data-chart2]').insertAdjacentHTML('afterbegin', '<div class="chart-h"><b>Рахунок довіри за рік</b><span>щомісяця +T, −зняття, −15% згорає</span></div>');
+  }
+});
+
+/* 7. Зусилля */
+fx.model('zusyllia', {
+  params: {
+    F: { label: 'Очікуваний результат', sym: 'F', min: 0, max: 20000, step: 100, v: 5000, unit: 'од.', hint: 'зарплата, визнання, вигода від виконаного' },
+    A: { label: 'Альтернативний результат', sym: 'A', min: 0, max: 20000, step: 100, v: 4000, unit: 'од.', hint: 'що людина отримає, якщо не старатиметься або піде деінде' }
+  },
+  examples: [{ name: 'Працівник: 5000 при ринку 4000', set: { F: 5000, A: 4000 }, note: 'Старатиметься на 1000, а роботодавець чекає вкладу на всі 5000.' }],
+  render(m) {
+    const { F, A } = m.s, P = F - A;
+    m.res('P', fmt(P), P > 0 ? 'good' : 'bad');
+    m.out.innerHTML = `<div class="big">${fmt(P)}<small>стільки зусиль докладе людина (${F ? pct(Math.max(0, P) / F) : '0%'} від очікуваного)</small></div>
+      ${P <= 0 ? V('bad', 'Альтернатива не гірша — зусиль не буде', 'Людина робитиме мінімум, якого вимагає система, або піде до альтернативи.') : V('info', `Людина старатиметься на ${fmt(P)}, а не на ${fmt(F)}`, 'Решту вона відпрацює на швидкості системи — без зусиль понад мінімум.')}
+      <div class="kv"><span>Збільшити F</span><b>платити більше, обіцяти зростання</b><span>Зменшити A</span><b>забрати чи знецінити альтернативу</b></div>`;
+    barChart(m.chart, { h: 220, items: [ { label: 'Очікуваний результат F', v: F, color: 'var(--c1)' }, { label: 'Альтернатива A', v: A, color: 'var(--c2)' }, { label: 'Зусилля P', v: P, color: P > 0 ? 'var(--ok)' : 'var(--bad)' } ] });
+  }
+});
+
+/* 8. Внутрішній конфлікт */
+fx.model('vnutr-konflikt', {
+  params: {
+    Ai: { label: 'Ставлення до себе', sym: 'Aᵢ', min: 0, max: 100, v: 40 },
+    Ae: { label: 'Ставлення до іншого', sym: 'Aₑ', min: 0, max: 100, v: 15 }
+  },
+  state: () => ({ mode: 'other' }),
+  examples: [{ name: 'Книга: 40 і 15', set: { Ai: 40, Ae: 15, mode: 'other' }, note: 'Рівень особистих проблем такої людини — 25.' }],
+  init(m) { m.q('[data-mode]').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) m.set('mode', b.dataset.v); }); },
+  render(m) {
+    const { Ai, Ae, mode } = m.s, Ci = Math.abs(Ai - Ae);
+    const lab = { other: 'до іншої людини', past: 'до себе минулого', future: 'до себе майбутнього' }[mode];
+    m.qa('[data-mode] button').forEach(b => b.classList.toggle('on', b.dataset.v === mode));
+    const row = m.q('.ctrl[data-k="Ae"] label'); if (row) row.innerHTML = `<span class="sym">Aₑ</span>Ставлення ${lab}`;
+    const cls = Ci < 10 ? 'good' : Ci < 30 ? 'warn' : 'bad';
+    m.res('Ci', fmt(Ci), cls);
+    m.out.innerHTML = `<div class="big">${fmt(Ci)}<small>рівень внутрішнього конфлікту (0–100)</small></div>
+      ${V(cls, Ci < 10 ? 'Ставлення збалансовані' : Ci < 30 ? 'Помітний внутрішній конфлікт' : 'Сильний внутрішній конфлікт', Ai > Ae ? `До себе ви ставитеся на ${fmt(Ai - Ae)} краще, ніж ${lab}: ймовірні зверхність, критика, роздратування.` : Ai < Ae ? `${lab[0].toUpperCase() + lab.slice(1)} ви ставитеся на ${fmt(Ae - Ai)} краще, ніж до себе: ймовірні страх, залежність, ідеалізація.` : 'Ставлення однакові — конфлікту немає.')}`;
+    const w = fx.width(m.chart), x = v => 20 + v / 100 * (w - 40);
+    m.chart.innerHTML = `<div class="chart-h"><b>Розрив між ставленнями</b><span>шкала 0–100</span></div><svg class="cv" viewBox="0 0 ${w} 90" width="${w}" height="90">
+      <line x1="20" x2="${w - 20}" y1="45" y2="45" class="ax" stroke-width="2"/>${[0, 25, 50, 75, 100].map(t => `<text x="${x(t)}" y="80" text-anchor="middle">${t}</text>`).join('')}
+      <rect x="${x(Math.min(Ai, Ae))}" y="36" width="${Math.max(2, x(Math.max(Ai, Ae)) - x(Math.min(Ai, Ae)))}" height="18" rx="9" style="fill:var(--${cls === 'good' ? 'ok' : cls})" opacity=".35"/>
+      <circle cx="${x(Ai)}" cy="45" r="9" style="fill:var(--c1);stroke:var(--panel)" stroke-width="2"/><text class="ink" x="${x(Ai)}" y="24" text-anchor="middle">до себе ${fmt(Ai)}</text>
+      <circle cx="${x(Ae)}" cy="45" r="9" style="fill:var(--c2);stroke:var(--panel)" stroke-width="2"/><text class="ink" x="${x(Ae)}" y="${Math.abs(Ai - Ae) < 20 ? 72 : 24}" text-anchor="middle">${esc(lab)} ${fmt(Ae)}</text></svg>`;
+  }
+});
+
+/* 9. Комунікативна теорія всього */
+const ROWS9 = [ ['Ai1', p => `${p[0]} → себе`], ['Ai2', p => `${p[0]} → ${p[1]}`], ['Ae1', p => `${p[1]} → ${p[0]}`], ['Ae2', p => `${p[1]} → себе`] ];
+const TIMES = ['Минуле', 'Теперішнє', 'Майбутнє'];
+fx.model('teoriia-vsoho', {
+  state: () => ({ names: ['Андрій', 'Іван'], v: [[8, 4, 9], [2, 9, 10], [1, 7, 4], [5, 5, 8]] }),
+  examples: [
+    { name: 'Андрій та Іван (книга)', set: { names: ['Андрій', 'Іван'], v: [[8, 4, 9], [2, 9, 10], [1, 7, 4], [5, 5, 8]] }, note: 'Ā = 6, Cₑ = 4 — як у книзі.' },
+    { name: 'Ідеальні взаємини', set: { names: ['Оля', 'Петро'], v: [[10, 10, 10], [10, 10, 10], [10, 10, 10], [10, 10, 10]] } },
+    { name: 'Максимальний конфлікт', set: { names: ['Оля', 'Петро'], v: [[1, 1, 1], [1, 1, 1], [10, 10, 10], [10, 10, 10]] } }
+  ],
+  init(m) {
+    const box = m.q('[data-matrix]');
+    const draw = () => {
+      const p = m.s.names;
+      m.qa('[data-name]').forEach(i => { i.value = p[+i.dataset.name]; });
+      box.innerHTML = `<table class="tbl"><thead><tr><th>Ставлення</th>${TIMES.map(t => `<th style="text-align:center">${t}</th>`).join('')}<th style="text-align:center">Середнє</th></tr></thead><tbody>${ROWS9.map(([k, f], i) => `<tr><td><b>${esc(f(p))}</b> <small class="muted">${k}</small></td>${[0, 1, 2].map(j => `<td><input type="number" min="1" max="10" step="1" data-c="${i}-${j}" value="${m.s.v[i][j]}" style="text-align:center"></td>`).join('')}<td style="text-align:center;font-weight:800" data-avg="${i}"></td></tr>`).join('')}</tbody></table>`;
+    };
+    box.addEventListener('input', e => { const c = e.target.dataset.c; if (!c || e.target.value === '') return; const [i, j] = c.split('-').map(Number); m.s.v[i][j] = clamp(+e.target.value, 1, 10); m.save(); m.touch(); m.render(); });
+    m.qa('[data-name]').forEach(inp => inp.addEventListener('input', () => { m.s.names[+inp.dataset.name] = inp.value || '—'; m.save(); draw(); m.render(); }));
+    m._redraw = [draw]; draw();
+  },
+  render(m) {
+    const p = m.s.names, avg = m.s.v.map(r => (r[0] + r[1] + r[2]) / 3), Ab = avg.reduce((a, b) => a + b, 0) / 4;
+    const Ce = avg.reduce((a, x) => a + Math.abs(x - Ab), 0);
+    m.res('Abar', fmt(Ab, 2)); const cls = Ce < 3 ? 'good' : Ce < 7 ? 'warn' : 'bad'; m.res('Ce', fmt(Ce, 2), cls);
+    // підсвітка клітинок
+    m.qa('[data-c]').forEach(inp => { const [i, j] = inp.dataset.c.split('-').map(Number), v = m.s.v[i][j]; inp.style.background = `color-mix(in srgb, var(--${v <= 3 ? 'bad' : v <= 6 ? 'warn' : 'ok'}) ${v <= 3 ? 26 : v <= 6 ? 16 : 14}%, var(--panel))`; });
+    m.qa('[data-avg]').forEach(el => { el.textContent = fmt(avg[+el.dataset.avg], 2); });
+    const cells = []; m.s.v.forEach((r, i) => r.forEach((v, j) => cells.push({ v, i, j })));
+    const fix = cells.sort((a, b) => a.v - b.v || b.j - a.j).filter(c => c.v < 8).slice(0, 4);
+    m.out.innerHTML = `<div class="big">Cₑ = ${fmt(Ce, 2)}<small>з 18 можливих · Ā = ${fmt(Ab, 2)}</small></div>
+      <div class="meter"><i style="width:${Ce / 18 * 100}%;background:var(--${cls === 'good' ? 'ok' : cls})"></i></div>
+      ${V(cls, Ce < 3 ? 'Взаємодія стабільна' : Ce < 7 ? '«Дамоклів меч» непорозуміння висить над спілкуванням' : 'Високий рівень конфлікту', fix.length ? 'Що «ремонтувати» насамперед:' : 'Усі ланки сильні — підтримуйте баланс.')}
+      ${fix.length ? `<ol style="margin:0;padding-left:20px;font-size:14px">${fix.map(c => `<li><b>${esc(ROWS9[c.i][1](p))}</b> — ${TIMES[c.j].toLowerCase()} (${c.v})</li>`).join('')}</ol>` : ''}`;
+    barChart(m.chart, { h: 240, items: ROWS9.map(([k, f], i) => ({ label: f(p), v: avg[i], text: fmt(avg[i], 1), color: C(i), tip: `<b>${esc(f(p))}</b>середнє ${fmt(avg[i], 2)} · відхилення від Ā ${fmt(avg[i] - Ab, 2)}` })), min: 0, max: 10, hlines: [{ y: Ab, label: 'Ā = ' + fmt(Ab, 2), color: 'var(--acc)' }] });
+  }
+});
+
+/* 10. Протилежність вчинків */
+const DOMS = {
+  body: ['Вага і спорт', 'відчуває себе «товстою», незадоволена формою', 'йде в зал, сідає на дієту, худне', 'оцінює себе як худу, «все гаразд»', 'не йде в зал і поправляється'],
+  money: ['Гроші', 'оцінює себе як бідного, відчуває брак', 'працює, заощаджує — і багатшає', 'відчуває, що грошей досить', 'витрачає і не шукає нових доходів'],
+  love: ['Взаємини', 'відчуває: «у нас щось не так»', 'працює над стосунками, дбає, говорить', 'думає: «все добре»', 'терпить погане, дозволяє собі грубощі'],
+  manners: ['Поведінка', 'відчуває, що за погане буде покарання', 'поводиться чемно і стримано', 'відчуває: «мені нічого за це не буде»', 'вередує, поводиться жахливо']
+};
+fx.model('protylezhnist', {
+  params: { R: { label: 'Оцінка реальності', sym: 'R', min: -10, max: 10, step: .5, v: 6, hint: '−10: мені бракує, все погано · +10: все добре, можу собі дозволити' } },
+  state: () => ({ dom: 'body' }),
+  examples: [{ name: 'Принцеса вередує', set: { R: 9, dom: 'manners' } }, { name: '«Багатшає бідний»', set: { R: -7, dom: 'money' } }],
+  init(m) {
+    const seg = m.q('[data-dom]');
+    seg.innerHTML = Object.entries(DOMS).map(([k, d]) => `<button data-v="${k}">${d[0]}</button>`).join('');
+    seg.addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) m.set('dom', b.dataset.v); });
+  },
+  render(m) {
+    const { R, dom } = m.s, d = DOMS[dom], A = -R;
+    m.qa('[data-dom] button').forEach(b => b.classList.toggle('on', b.dataset.v === dom));
+    m.res('A', (A > 0 ? '+' : '') + fmt(A), A > 0 ? 'good' : A < 0 ? 'bad' : '');
+    const feel = R < 0 ? d[1] : d[3], act = R < 0 ? d[2] : d[4];
+    m.out.innerHTML = `<div class="big">${A > 0 ? 'Діє' : A < 0 ? 'Дозволяє собі' : 'Рівновага'}<small>сила вчинку: ${fmt(Math.abs(A))} з 10</small></div>
+      ${R === 0 ? V('info', 'Людина на середині каната', 'Немає відхилення — немає й компенсаційного руху.') : V(A > 0 ? 'good' : 'warn', `Людина ${esc(feel)}`, `Тому вона ${esc(act)}.`)}`;
+    const w = fx.width(m.chart), cx = w / 2, ang = R * 3;
+    m.chart.innerHTML = `<div class="chart-h"><b>Канатохідець</b><span>оцінка реальності хилить в один бік — вчинок у протилежний</span></div><svg class="cv" viewBox="0 0 ${w} 180" width="${w}" height="180">
+      <line x1="20" x2="${w - 20}" y1="150" y2="150" style="stroke:var(--faint)" stroke-width="3"/>
+      <g transform="rotate(${ang} ${cx} 150)"><line x1="${cx}" y1="150" x2="${cx}" y2="80" style="stroke:var(--ink)" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="66" r="14" style="fill:var(--acc)"/>
+      <line x1="${cx - 70}" y1="98" x2="${cx + 70}" y2="98" style="stroke:var(--ink)" stroke-width="3" stroke-linecap="round"/></g>
+      ${R ? `<path d="M${cx + (R > 0 ? 30 : -30)} 30 L${cx + (R > 0 ? 110 : -110)} 30" style="stroke:var(--c2)" stroke-width="3" marker-end="url(#ar1)"/><text x="${cx + (R > 0 ? 70 : -70)}" y="22" text-anchor="middle">оцінка R</text>
+      <path d="M${cx + (R > 0 ? -30 : 30)} 30 L${cx + (R > 0 ? -110 : 110)} 30" style="stroke:var(--c3)" stroke-width="3" marker-end="url(#ar2)"/><text x="${cx + (R > 0 ? -70 : 70)}" y="22" text-anchor="middle">вчинок A</text>` : ''}
+      <defs><marker id="ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" style="fill:var(--c2)"/></marker><marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" style="fill:var(--c3)"/></marker></defs></svg>`;
+  }
+});
+
+/* Д1. Плинна середня */
+fx.model('plynna', {
+  params: { n: { label: 'Скільки минулих разів пам’ятає людина', sym: 'n', min: 1, max: 7, v: 3 } },
+  state: () => ({ x: [2, 2, 2, 2, 3, 4, 2, 2, 2, 2] }),
+  examples: [
+    { name: 'Цукерки', set: { n: 3, x: [2, 2, 2, 2, 3, 4, 2, 2, 2, 2] }, note: 'Учора 4 цукерки — сьогодні звичні 2 викликають вередування.' },
+    { name: 'Троянди щодня', set: { n: 4, x: [0, 0, 0, 5, 5, 5, 5, 0, 0, 0] }, note: 'П’ятниця без троянд — скандал.' },
+    { name: 'Зарплата 10 → 11', set: { n: 3, x: [10, 10, 10, 11, 11, 11, 11] } },
+    { name: 'Зарплата 3 → 5', set: { n: 3, x: [3, 3, 3, 5, 5, 5, 5] } }
+  ],
+  init(m) {
+    const box = m.q('[data-series]');
+    const draw = () => {
+      box.innerHTML = m.s.x.map((v, i) => `<label style="display:grid;gap:2px;text-align:center;font-size:11px;color:var(--muted);width:56px">день ${i + 1}<input type="number" min="0" max="100" step="1" value="${v}" data-xi="${i}" style="width:56px;text-align:center;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:5px 2px;font-weight:800"></label>`).join('') +
+        `<button class="ibtn" data-xadd title="Додати день" ${m.s.x.length >= 21 ? 'disabled' : ''}>+</button><button class="ibtn" data-xdel title="Прибрати останній день" ${m.s.x.length <= 2 ? 'disabled' : ''}>−</button>`;
+    };
+    box.addEventListener('input', e => { const i = e.target.dataset.xi; if (i == null || e.target.value === '') return; m.s.x[+i] = clamp(+e.target.value, 0, 100); m.save(); m.touch(); m.render(); });
+    box.addEventListener('click', e => {
+      if (e.target.closest('[data-xadd]')) m.s.x.push(m.s.x[m.s.x.length - 1]); else if (e.target.closest('[data-xdel]')) m.s.x.pop(); else return;
+      m.save(); m.touch(); draw(); m.render();
+    });
+    m._redraw = [draw]; draw();
+  },
+  render(m) {
+    const { x, n } = m.s;
+    const xb = x.map((v, i) => { if (!i) return v; const w = x.slice(Math.max(0, i - n), i); return w.reduce((a, b) => a + b, 0) / w.length; });
+    const z = x.map((v, i) => v - xb[i]);
+    const last = x.length - 1, worst = z.reduce((a, v, i) => v < z[a] ? i : a, 0), best = z.reduce((a, v, i) => v > z[a] ? i : a, 0);
+    m.res('X', fmt(x[last])); m.res('Xb', fmt(xb[last], 2)); m.res('Z', (z[last] > 0 ? '+' : '') + fmt(z[last], 2), z[last] > 0 ? 'good' : z[last] < 0 ? 'bad' : '');
+    m.out.innerHTML = `<div class="big">${z[last] > 0 ? '+' : ''}${fmt(z[last], 2)}<small>задоволення в останній день: отримав ${fmt(x[last])}, звик до ${fmt(xb[last], 2)}</small></div>
+      <div class="kv"><span>Найщасливіший день</span><b style="color:var(--ok)">день ${best + 1}: ${z[best] > 0 ? '+' : ''}${fmt(z[best], 2)}</b><span>Найбільше розчарування</span><b style="color:var(--bad)">день ${worst + 1}: ${fmt(z[worst], 2)}</b></div>
+      ${z[worst] < -.01 ? V('warn', `День ${worst + 1}: ${fmt(x[worst])} замість звичних ${fmt(xb[worst], 2)}`, 'Те саме, що раніше тішило, тепер сприймається як втрата. Не підвищуйте ставки, якщо не зможете їх утримати.') : V('good', 'Розчарувань немає', 'Плинна середня росте плавно — очікування встигають за реальністю.')}`;
+    const pts = x.map((v, i) => [i + 1, v]), pb = xb.map((v, i) => [i + 1, v]);
+    lineChart(m.chart, { h: 220, x: { min: 1, max: x.length, label: 'день', tipFmt: v => 'День ' + v, ticks: x.map((_, i) => i + 1).filter((d, i, a) => a.length < 12 || d % 2 === 1) }, y: { min: 0, label: 'отримано' },
+      series: [{ name: 'Отримав X', color: 'var(--c1)', pts, dots: true }, { name: 'Звик X̄ (плинна середня)', color: 'var(--c2)', pts: pb, dash: true }] });
+    barChart(m.q('[data-chart2]'), { h: 200, items: z.map((v, i) => ({ label: 'д. ' + (i + 1), v, text: (v > 0 ? '+' : '') + fmt(v, 1), color: v >= 0 ? 'var(--ok)' : 'var(--bad)', tip: `<b>День ${i + 1}</b>Z = ${fmt(x[i])} − ${fmt(xb[i], 2)} = ${fmt(v, 2)}` })), fmt: v => fmt(v, 1) });
+    m.q('[data-chart2]').insertAdjacentHTML('afterbegin', '<div class="chart-h"><b>Задоволення Z щодня</b><span>зелене — радість, червоне — вередування і скандал</span></div>');
+  }
+});
+
+/* Д2. Експоненційна зміна */
+fx.model('eksponenta', {
+  params: {
+    v: { label: 'Швидкість змін на старті', sym: 'v', min: .5, max: 10, step: .5, v: 1, unit: 'од./крок' },
+    a: { label: 'Самоприскорення', min: 0, max: 30, v: 10, unit: '%/крок', hint: 'наскільки кожна зміна пришвидшує наступну' },
+    t: { label: 'Скільки кроків часу минуло', sym: 't', min: 3, max: 40, v: 24, unit: 'кроків' }
+  },
+  state: () => ({ dir: 'apart' }),
+  examples: [{ name: 'Дрібна сварка за рік', set: { v: 1, a: 12, t: 30, dir: 'apart' } }, { name: 'Крок назустріч', set: { v: 1, a: 15, t: 20, dir: 'close' } }],
+  init(m) { m.q('[data-dir]').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) m.set('dir', b.dataset.v); }); },
+  render(m) {
+    const { v, a, t, dir } = m.s;
+    m.qa('[data-dir] button').forEach(b => b.classList.toggle('on', b.dataset.v === dir));
+    let c = 0, s = v, cl = 0; const pe = [[0, 0]], pl = [[0, 0]];
+    for (let i = 1; i <= t; i++) { c += s; s *= 1 + a / 100; cl += v; pe.push([i, c]); pl.push([i, cl]); }
+    m.res('C', fmt(c), dir === 'apart' ? 'bad' : 'good');
+    const ratio = cl ? c / cl : 1;
+    m.out.innerHTML = `<div class="big">${fmt(c)}<small>${dir === 'apart' ? 'відстань між людьми' : 'накопичене зближення'} після ${t} кроків</small></div>
+      <div class="kv"><span>Без самоприскорення було б</span><b>${fmt(cl)}</b><span>Прискорення збільшило зміни в</span><b>${fmt(ratio, 1)} раза</b><span>Швидкість зараз</span><b>${fmt(s, 1)} од./крок</b></div>
+      ${dir === 'apart' ? V('bad', 'Розходження, незначне на старті, перетворюється на прірву', 'Чим довше триває конфлікт, тим важче помиритися. Тримати баланс дешевше, ніж падати і пристрасно миритися.') : V('good', 'Кожен крок назустріч пришвидшує наступний', 'Що раніше піти на зближення, то швидше зблизитесь.')}`;
+    lineChart(m.chart, { h: 230, x: { min: 0, max: t, label: 'час t (кроки)' }, y: { min: 0, label: dir === 'apart' ? 'відстань між людьми' : 'зближення' },
+      series: [{ name: 'Зі самоприскоренням', color: dir === 'apart' ? 'var(--c8)' : 'var(--c3)', pts: pe, area: true }, { name: 'Лінійно (без прискорення)', color: 'var(--faint)', pts: pl, dash: true }] });
+  }
+});
+
+fx.boot();
+</script>
+</body>
+</html>

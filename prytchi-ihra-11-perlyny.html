@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>98 перлин</title>
+<meta name="description" content="Детектив за притчею «Намисто».">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=Commissioner:wght@400;500;600;700&display=swap">
+<style>/* Макет: ігрова консоль — вузька шапка, сцена 16:9 по центру, під нею підказка керування.
+   Сторінка має світлу і темну тему; інтерфейс поверх сцени — завжди темне «скло», бо лежить на ігровому світі. */
+:root {
+  --bg: #eef1f6;
+  --surface: #ffffff;
+  --ink: #141a26;
+  --muted: #586174;
+  --line: #d5dbe5;
+  --accent: #2f5bd3;
+  --glass: rgba(14, 18, 30, 0.86);
+  --glass-ink: #f3f5fb;
+  --glass-muted: #b7bfd2;
+  --glass-line: rgba(255, 255, 255, 0.16);
+  --gold: #f2c14e;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-ui: "Commissioner", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Literata", Georgia, serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1018; --surface: #161b27; --ink: #e8ecf5; --muted: #9aa3b8; --line: #283043; --accent: #8fb0ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1018; --surface: #161b27; --ink: #e8ecf5; --muted: #9aa3b8; --line: #283043; --accent: #8fb0ff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-ui); padding-inline: 16px;
+  -webkit-tap-highlight-color: transparent; }
+button { font: inherit; }
+.page { max-width: 1180px; margin-inline: auto; padding-block: 10px 24px; display: grid; gap: 10px; }
+
+.top { display: flex; align-items: center; gap: 12px; min-height: 40px; }
+.top .back { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 0.9rem; white-space: nowrap; }
+.top .back:hover { text-decoration: underline; }
+.top .ttl { flex: 1; min-width: 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top .ttl .n { color: var(--muted); font-weight: 500; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.icon { background: var(--surface); border: 1px solid var(--line); color: var(--ink); border-radius: 10px;
+  min-width: 40px; height: 40px; cursor: pointer; font-size: 1.05rem; }
+.icon:focus-visible, .btn:focus-visible, .opt:focus-visible, .back:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.stage { position: relative; width: min(100%, calc((100svh - 130px) * 16 / 9)); aspect-ratio: 16 / 9; margin-inline: auto;
+  border-radius: 14px; overflow: hidden; background: #0b0e16; container-type: inline-size; user-select: none;
+  box-shadow: 0 10px 40px rgba(10, 16, 30, 0.25); touch-action: none; }
+#cv { display: block; width: 100%; height: 100%; }
+
+.hud { position: absolute; left: 10px; top: 10px; display: flex; flex-wrap: wrap; gap: 6px; max-width: 75%; pointer-events: none; }
+.hud span { background: var(--glass); color: var(--glass-ink); border-radius: 999px; padding: 4px 11px;
+  font-size: clamp(11px, 1.45cqw, 15px); font-weight: 500; white-space: nowrap; }
+.hud b { color: var(--gold); font-weight: 700; margin-left: 4px; font-variant-numeric: tabular-nums; }
+
+.banner { position: absolute; left: 50%; top: 12%; transform: translateX(-50%); background: var(--glass); color: var(--glass-ink);
+  border: 1px solid var(--glass-line); border-radius: 14px; padding: 10px 18px; font-family: var(--f-display);
+  font-size: clamp(13px, 2cqw, 22px); text-align: center; max-width: 80%; pointer-events: none; animation: pop .25s ease-out; }
+@keyframes pop { from { transform: translateX(-50%) scale(.92); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+
+.dlg { position: absolute; left: 3%; right: 3%; bottom: 4%; background: var(--glass); color: var(--glass-ink);
+  border: 1px solid var(--glass-line); border-radius: 16px; padding: 14px 18px 12px; display: grid; gap: 8px;
+  font-size: clamp(14px, 1.9cqw, 19px); line-height: 1.45; max-height: 70%; overflow: auto; z-index: 5; }
+.dlg.top { bottom: auto; top: 12%; }
+.dlg .who { font-family: var(--f-display); font-size: 0.8em; color: var(--gold); letter-spacing: .02em; }
+.dlg .who:empty { display: none; }
+.dlg .txt { font-family: var(--f-body); }
+.dlg .opts { display: grid; gap: 6px; }
+.dlg .opts:empty { display: none; }
+.opt { text-align: left; background: rgba(255,255,255,0.07); color: var(--glass-ink); border: 1px solid var(--glass-line);
+  border-radius: 10px; padding: 8px 12px; cursor: pointer; display: flex; gap: 10px; align-items: baseline; }
+.opt .k { color: var(--gold); font-family: var(--f-display); font-size: 0.8em; min-width: 1.2em; }
+.opt:hover, .opt.sel { background: rgba(242, 193, 78, 0.18); border-color: var(--gold); }
+.dlg .more { justify-self: end; font-size: 0.75em; color: var(--glass-muted); }
+
+.screen { position: absolute; inset: 0; background: rgba(9, 12, 20, 0.9); color: var(--glass-ink); overflow: auto; z-index: 8;
+  display: grid; place-items: center; padding: 4% 5%; }
+.screen[hidden] { display: none; }
+.card { width: min(100%, 680px); display: grid; gap: 12px; }
+.card .eyebrow { font-size: clamp(11px, 1.4cqw, 13px); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.card h1, .card h2 { font-family: var(--f-display); margin: 0; text-wrap: balance; line-height: 1.1; }
+.card h1 { font-size: clamp(22px, 4.6cqw, 46px); }
+.card h2 { font-size: clamp(18px, 3cqw, 30px); }
+.card p { margin: 0; line-height: 1.5; font-size: clamp(13px, 1.75cqw, 17px); }
+.card .story { font-family: var(--f-body); font-style: italic; color: #dfe4f0; border-left: 3px solid var(--gold); padding-left: 12px; }
+.card ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: clamp(13px, 1.7cqw, 16px); line-height: 1.45; }
+.card .moral { font-family: var(--f-body); font-size: clamp(14px, 2cqw, 19px); }
+.card .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.btn { background: var(--gold); color: #1a1405; border: 0; border-radius: 12px; padding: 10px 18px; font-weight: 700;
+  cursor: pointer; text-decoration: none; font-size: clamp(13px, 1.7cqw, 16px); display: inline-block; }
+.btn.ghost { background: transparent; color: var(--glass-ink); border: 1px solid var(--glass-line); }
+.ends { display: flex; flex-wrap: wrap; gap: 6px; }
+.ends span { border: 1px solid var(--glass-line); border-radius: 999px; padding: 4px 10px; font-size: clamp(11px, 1.45cqw, 14px); color: var(--glass-muted); }
+.ends span.got { border-color: var(--gold); color: var(--glass-ink); }
+.ends span.now { background: var(--gold); color: #1a1405; border-color: var(--gold); }
+.letter { display: inline-grid; place-items: center; width: 2.2em; height: 2.2em; border-radius: 50%; background: var(--gold); color: #1a1405;
+  font-family: var(--f-display); font-weight: 700; margin-right: 10px; vertical-align: middle; }
+
+.help { margin: 0; text-align: center; color: var(--muted); font-size: 0.875rem; }
+.help kbd { font-family: var(--f-ui); background: var(--surface); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px;
+  padding: 1px 6px; font-size: 0.8rem; color: var(--ink); }
+
+.pad { display: none; justify-content: space-between; align-items: center; gap: 16px; padding: 4px 6px; touch-action: none; user-select: none; }
+.pad.on { display: flex; }
+.stick { width: 120px; height: 120px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); position: relative; flex: none; }
+.knob { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: var(--accent); opacity: .85; }
+.pbtns { display: flex; gap: 12px; }
+.pbtns button { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  font-weight: 700; font-size: 0.68rem; line-height: 1.1; padding: 6px; touch-action: none; overflow-wrap: anywhere; hyphens: auto; }
+.pbtns button[data-k="act"] { background: var(--gold); color: #1a1405; border-color: var(--gold); }
+.pbtns button.down { transform: scale(.94); filter: brightness(.9); }
+.pbtns button[hidden] { display: none; }
+
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px) {
+  .page { padding-block: 4px; gap: 4px; }
+  .help { display: none; }
+  .stage { width: min(100%, calc((100svh - 56px) * 16 / 9)); }
+  .pad.on { position: fixed; left: 0; right: 0; bottom: 8px; padding-inline: 16px; pointer-events: none; z-index: 20; }
+  .pad.on .stick, .pad.on .pbtns button { pointer-events: auto; opacity: .75; }
+}
+@media (max-width: 700px) {
+  .dlg { position: fixed; left: 8px; right: 8px; bottom: 8px; max-height: 55svh; font-size: 15px; z-index: 30; }
+  .screen { position: fixed; z-index: 40; padding: 20px 16px; place-items: start center; }
+  .card h1 { font-size: 26px; } .card h2 { font-size: 20px; } .card p, .card ul { font-size: 15px; } .card .moral { font-size: 16px; }
+  .btn { font-size: 15px; }
+  .hud span { font-size: 11px; padding: 3px 8px; }
+  .banner { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .banner { animation: none; } }
+
+/* Головна сторінка ігор */
+.hub { display: grid; gap: 28px; padding-block: 16px 40px; max-width: 1080px; margin-inline: auto; }
+.hub header { display: grid; gap: 12px; }
+.hub .eyebrow { color: var(--accent); font-size: 0.8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.hub h1 { font-family: var(--f-display); font-size: clamp(2rem, 7vw, 3.6rem); margin: 0; line-height: 1.05; text-wrap: balance; }
+.hub .lede { font-family: var(--f-body); font-size: 1.1rem; line-height: 1.55; max-width: 44rem; margin: 0; }
+.hub h2 { font-size: 0.8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.tile { display: grid; grid-template-columns: 64px 1fr; gap: 4px 14px; padding: 14px; border-radius: 16px; background: var(--surface);
+  border: 1px solid var(--line); color: var(--ink); text-decoration: none; min-width: 0; transition: transform .15s, border-color .15s; }
+.tile:hover { transform: translateY(-2px); border-color: var(--accent); }
+.tile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.tile .art { grid-row: span 4; width: 64px; height: 64px; border-radius: 14px; display: grid; place-items: center; font-size: 34px; }
+.tile .num { font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tile h3 { margin: 0; font-family: var(--f-display); font-size: 1.05rem; font-weight: 600; line-height: 1.2; }
+.tile .genre { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+.tile .par { font-family: var(--f-body); font-style: italic; font-size: 0.9rem; color: var(--muted); }
+.tile .got { grid-column: 2; font-size: 0.8rem; color: var(--muted); }
+.tile .got b { color: var(--ink); }
+.hub .concl { font-family: var(--f-body); font-size: 1.05rem; line-height: 1.6; max-width: 44rem; display: grid; gap: 10px; }
+.hub .concl p { margin: 0; }
+.hub .foot { color: var(--muted); font-size: 0.85rem; }
+@media (prefers-reduced-motion: reduce) { .tile { transition: none; } .tile:hover { transform: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+<header class="top"><a class="back" href="prytchi-ihry.html">← Усі ігри</a>
+<div class="ttl"><span class="n">11</span>98 перлин</div>
+<button id="mute" class="icon" type="button" aria-label="Вимкнути звук">🔊</button></header>
+<div id="stage" class="stage">
+<canvas id="cv" aria-label="Ігрове поле: 98 перлин"></canvas>
+<div id="hud" class="hud" aria-live="polite"></div>
+<div id="banner" class="banner" hidden aria-live="polite"></div>
+<div id="dlg" class="dlg" hidden role="dialog" aria-live="polite"><div class="who"></div><div class="txt"></div><div class="opts"></div><div class="more">Далі ▸ Enter</div></div>
+<div id="screen" class="screen" hidden></div>
+</div>
+<div id="pad" class="pad" aria-hidden="true"><div class="stick"><div class="knob"></div></div><div class="pbtns"><button type="button" data-k="alt" hidden>Б</button><button type="button" data-k="act">Дія</button></div></div>
+<p class="help" id="help"></p>
+</div>
+<script>window.PG_META = {"num": "11", "hub": "prytchi-ihry.html", "next": "prytchi-ihra-12-khata.html"};</script>
+<script>/* Рушій ігор «Притчі в русі»: цикл гри, керування (клавіатура, миша, сенсор),
+   діалоги з вибором, банери, HUD, фінали з підрахунком знайдених, простий звук. */
+(function () {
+  "use strict";
+  const W = 960, H = 540;
+  const META = window.PG_META || {};
+  const $ = (s) => document.querySelector(s);
+  const stage = $("#stage"), cv = $("#cv"), ctx = cv.getContext("2d");
+  const hudEl = $("#hud"), bannerEl = $("#banner"), dlg = $("#dlg"), screenEl = $("#screen"), pad = $("#pad");
+  const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+
+  // ---------- сховище
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* без сховища гра працює далі */ } },
+  };
+
+  // ---------- полотно
+  let scale = 1;
+  function resize() {
+    const r = stage.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.max(1, Math.round(r.width * dpr));
+    cv.height = Math.max(1, Math.round(r.height * dpr));
+    scale = cv.width / W;
+  }
+  window.addEventListener("resize", resize);
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(stage);
+  resize();
+
+  // ---------- звук
+  let actx = null, muted = store.get("pg:muted", false);
+  const muteBtn = $("#mute");
+  function syncMute() { if (muteBtn) { muteBtn.textContent = muted ? "🔇" : "🔊"; muteBtn.setAttribute("aria-label", muted ? "Увімкнути звук" : "Вимкнути звук"); } }
+  syncMute();
+  if (muteBtn) muteBtn.addEventListener("click", () => { muted = !muted; store.set("pg:muted", muted); syncMute(); muteBtn.blur(); });
+  function ensureAudio() {
+    if (actx || muted) return;
+    try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { actx = null; }
+  }
+  function tone(freq, dur, type, vol, slide) {
+    if (muted || !actx) return;
+    const t0 = actx.currentTime;
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || "sine"; o.frequency.setValueAtTime(freq, t0);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(40, freq * slide), t0 + dur);
+    g.gain.setValueAtTime(vol || 0.12, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(actx.destination); o.start(t0); o.stop(t0 + dur + 0.02);
+  }
+  const SFX = {
+    pick: () => { tone(660, 0.09, "triangle", 0.1); setTimeout(() => tone(990, 0.1, "triangle", 0.08), 60); },
+    good: () => { tone(523, 0.12, "triangle"); setTimeout(() => tone(659, 0.12, "triangle"), 90); setTimeout(() => tone(784, 0.2, "triangle"), 180); },
+    bad: () => tone(220, 0.25, "sawtooth", 0.07, 0.6),
+    step: () => tone(140 + Math.random() * 40, 0.04, "square", 0.03),
+    bell: () => { tone(880, 0.6, "sine", 0.1); tone(1320, 0.5, "sine", 0.04); },
+    blip: () => tone(520, 0.05, "square", 0.04),
+    whoosh: () => tone(300, 0.35, "sine", 0.08, 2.5),
+    end: () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.25, "triangle", 0.09), i * 110)); },
+  };
+  function sfx(name, freq) { ensureAudio(); if (name === "note") tone(freq || 440, 0.22, "triangle", 0.12); else if (SFX[name]) SFX[name](); }
+
+  // ---------- введення
+  const keys = new Set();
+  const input = { x: 0, y: 0, act: false, actHeld: false, alt: false, altHeld: false, click: null, pointer: { x: -1, y: -1, down: false }, any: false };
+  const pressedQ = new Set();
+  const touchAxis = { x: 0, y: 0 }, touchBtn = { act: false, alt: false };
+  const CODE = {
+    ArrowLeft: "left", KeyA: "left", ArrowRight: "right", KeyD: "right", ArrowUp: "up", KeyW: "up", ArrowDown: "down", KeyS: "down",
+    Space: "act", Enter: "act", KeyE: "act", NumpadEnter: "act", KeyQ: "alt", ShiftLeft: "alt", ShiftRight: "alt",
+  };
+  window.addEventListener("keydown", (e) => {
+    ensureAudio();
+    if (dlgState.open) { dlgKey(e); return; }
+    if (screenState.open) { if (e.code === "Enter" || e.code === "Space") { const b = screenEl.querySelector("[data-primary]"); if (b && document.activeElement === document.body) { e.preventDefault(); b.click(); } } return; }
+    const k = CODE[e.code];
+    if (k) {
+      e.preventDefault();
+      if (!keys.has(k)) pressedQ.add(k);
+      keys.add(k);
+    }
+    if (/^Digit[1-9]$/.test(e.code)) pressedQ.add("n" + e.code.slice(5));
+  });
+  window.addEventListener("keyup", (e) => { const k = CODE[e.code]; if (k) keys.delete(k); });
+  window.addEventListener("blur", () => keys.clear());
+
+  function toGame(ev) {
+    const r = cv.getBoundingClientRect();
+    return { x: ((ev.clientX - r.left) / r.width) * W, y: ((ev.clientY - r.top) / r.height) * H };
+  }
+  cv.addEventListener("pointerdown", (ev) => { ensureAudio(); const p = toGame(ev); input.pointer = { x: p.x, y: p.y, down: true }; input._click = p; });
+  cv.addEventListener("pointermove", (ev) => { const p = toGame(ev); input.pointer.x = p.x; input.pointer.y = p.y; });
+  window.addEventListener("pointerup", () => { input.pointer.down = false; });
+
+  // сенсорний джойстик
+  const coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  function showPad() { if (pad && !pad.classList.contains("on")) pad.classList.add("on"); }
+  if (coarse) showPad();
+  window.addEventListener("touchstart", showPad, { passive: true, once: true });
+  if (pad) {
+    const stick = pad.querySelector(".stick"), knob = pad.querySelector(".knob");
+    let sid = null;
+    const setStick = (ev) => {
+      const r = stick.getBoundingClientRect();
+      let dx = ev.clientX - (r.left + r.width / 2), dy = ev.clientY - (r.top + r.height / 2);
+      const m = r.width / 2, d = Math.hypot(dx, dy);
+      if (d > m) { dx = (dx / d) * m; dy = (dy / d) * m; }
+      knob.style.transform = `translate(${dx}px, ${dy}px)`;
+      const nx = dx / m, ny = dy / m;
+      touchAxis.x = Math.abs(nx) < 0.22 ? 0 : nx; touchAxis.y = Math.abs(ny) < 0.22 ? 0 : ny;
+    };
+    stick.addEventListener("pointerdown", (ev) => { ensureAudio(); sid = ev.pointerId; stick.setPointerCapture(sid); setStick(ev); });
+    stick.addEventListener("pointermove", (ev) => { if (ev.pointerId === sid) setStick(ev); });
+    const rel = () => { sid = null; touchAxis.x = touchAxis.y = 0; knob.style.transform = ""; };
+    stick.addEventListener("pointerup", rel); stick.addEventListener("pointercancel", rel);
+    pad.querySelectorAll("button[data-k]").forEach((b) => {
+      const k = b.dataset.k;
+      b.addEventListener("pointerdown", (ev) => {
+        ev.preventDefault(); ensureAudio(); b.classList.add("down");
+        if (dlgState.open) { dlgAdvance(); return; }
+        if (screenState.open) { const p = screenEl.querySelector("[data-primary]"); if (p) p.click(); return; }
+        touchBtn[k] = true; pressedQ.add(k);
+      });
+      const up = () => { b.classList.remove("down"); touchBtn[k] = false; };
+      b.addEventListener("pointerup", up); b.addEventListener("pointercancel", up); b.addEventListener("pointerleave", up);
+    });
+  }
+
+  function pollInput() {
+    let x = (keys.has("right") ? 1 : 0) - (keys.has("left") ? 1 : 0);
+    let y = (keys.has("down") ? 1 : 0) - (keys.has("up") ? 1 : 0);
+    if (!x && !y) { x = touchAxis.x; y = touchAxis.y; }
+    const m = Math.hypot(x, y); if (m > 1) { x /= m; y /= m; }
+    input.x = x; input.y = y;
+    input.act = pressedQ.has("act"); input.alt = pressedQ.has("alt");
+    input.actHeld = keys.has("act") || touchBtn.act; input.altHeld = keys.has("alt") || touchBtn.alt;
+    input.num = 0; for (let i = 1; i <= 9; i++) if (pressedQ.has("n" + i)) input.num = i;
+    input.click = input._click || null; input._click = null;
+    input.any = pressedQ.size > 0 || !!input.click;
+    input.up = pressedQ.has("up"); input.down = pressedQ.has("down"); input.left = pressedQ.has("left"); input.right = pressedQ.has("right");
+    pressedQ.clear();
+  }
+  function clearInput() { keys.clear(); pressedQ.clear(); input._click = null; touchBtn.act = touchBtn.alt = false; }
+
+  // ---------- HUD і банер
+  let hudCache = "";
+  function hud(items) {
+    const html = (items || []).filter(Boolean).map(([k, v]) => `<span>${esc(k)}${v === undefined || v === "" ? "" : `<b>${esc(String(v))}</b>`}</span>`).join("");
+    if (html !== hudCache) { hudEl.innerHTML = html; hudCache = html; }
+  }
+  let bannerT = 0;
+  function banner(text, ms) {
+    bannerEl.textContent = text; bannerEl.hidden = false;
+    bannerEl.style.animation = "none"; void bannerEl.offsetWidth; bannerEl.style.animation = "";
+    clearTimeout(bannerT); bannerT = setTimeout(() => { bannerEl.hidden = true; }, ms || 2400);
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+  // ---------- діалоги
+  const dlgState = { open: false, queue: [], resolve: null, options: null, sel: 0, mode: "say" };
+  const dWho = dlg.querySelector(".who"), dTxt = dlg.querySelector(".txt"), dOpts = dlg.querySelector(".opts"), dMore = dlg.querySelector(".more");
+  function renderLine(who, text) { dWho.textContent = who || ""; dTxt.textContent = text; }
+  function say(lines, who) {
+    if (typeof lines === "string") lines = [[who || "", lines]];
+    lines = lines.map((l) => (typeof l === "string" ? [who || "", l] : l));
+    return new Promise((res) => {
+      clearInput();
+      dlgState.open = true; dlgState.mode = "say"; dlgState.queue = lines.slice(1); dlgState.resolve = res;
+      renderLine(lines[0][0], lines[0][1]); dOpts.innerHTML = ""; dMore.hidden = false; dlg.hidden = false;
+      sfx("blip");
+    });
+  }
+  function choose(text, options, who) {
+    return new Promise((res) => {
+      clearInput();
+      dlgState.open = true; dlgState.mode = "choose"; dlgState.resolve = res; dlgState.options = options; dlgState.sel = 0;
+      renderLine(who || "", text); dMore.hidden = true; dlg.hidden = false;
+      dOpts.innerHTML = "";
+      options.forEach((o, i) => {
+        const b = document.createElement("button");
+        b.className = "opt"; b.type = "button";
+        b.innerHTML = `<span class="k">${i + 1}</span><span>${esc(o)}</span>`;
+        b.addEventListener("click", (ev) => { ev.stopPropagation(); pickOpt(i); });
+        dOpts.appendChild(b);
+      });
+      markSel(); sfx("blip");
+    });
+  }
+  function markSel() { [...dOpts.children].forEach((b, i) => b.classList.toggle("sel", i === dlgState.sel)); }
+  function pickOpt(i) { closeDlg(); sfx("pick"); const r = dlgState.resolve; dlgState.resolve = null; r && r(i); }
+  function closeDlg() { dlgState.open = false; dlg.hidden = true; clearInput(); }
+  function dlgAdvance() {
+    if (dlgState.mode === "choose") { pickOpt(dlgState.sel); return; }
+    if (dlgState.queue.length) { const [w, t] = dlgState.queue.shift(); renderLine(w, t); sfx("blip"); return; }
+    closeDlg(); const r = dlgState.resolve; dlgState.resolve = null; r && r();
+  }
+  function dlgKey(e) {
+    if (dlgState.mode === "choose") {
+      const n = /^(Digit|Numpad)([1-9])$/.exec(e.code);
+      if (n) { const i = +n[2] - 1; if (i < dlgState.options.length) { e.preventDefault(); pickOpt(i); } return; }
+      if (e.code === "ArrowDown" || e.code === "KeyS") { e.preventDefault(); dlgState.sel = (dlgState.sel + 1) % dlgState.options.length; markSel(); return; }
+      if (e.code === "ArrowUp" || e.code === "KeyW") { e.preventDefault(); dlgState.sel = (dlgState.sel - 1 + dlgState.options.length) % dlgState.options.length; markSel(); return; }
+    }
+    if (e.code === "Enter" || e.code === "Space" || e.code === "KeyE" || e.code === "NumpadEnter") { e.preventDefault(); if (!e.repeat) dlgAdvance(); }
+  }
+  dlg.addEventListener("click", () => { if (dlgState.mode === "say") dlgAdvance(); });
+
+  // ---------- екрани
+  const screenState = { open: false };
+  function showScreen(html, onBind) {
+    screenEl.innerHTML = `<div class="card">${html}</div>`; screenEl.hidden = false; screenState.open = true; screenEl.scrollTop = 0;
+    clearInput();
+    if (onBind) onBind(screenEl);
+    const p = screenEl.querySelector("[data-primary]"); if (p) setTimeout(() => p.focus({ preventScroll: true }), 30);
+  }
+  function hideScreen() { screenEl.hidden = true; screenState.open = false; screenEl.innerHTML = ""; }
+
+  // ---------- малювання
+  const D = {
+    emoji(ch, x, y, size, o) {
+      o = o || {};
+      ctx.save(); ctx.translate(x, y);
+      if (o.rot) ctx.rotate(o.rot);
+      if (o.flip) ctx.scale(-1, 1);
+      if (o.sy) ctx.scale(1, o.sy);
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      ctx.font = `${Math.round(size)}px ${EMOJI_FONT}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillStyle = "#000"; // кольорові гліфи множаться на альфу заливки
+      ctx.fillText(ch, 0, size * 0.06);
+      ctx.restore();
+    },
+    text(str, x, y, o) {
+      o = o || {};
+      const size = o.size || 18;
+      ctx.save();
+      ctx.font = `${o.weight || 600} ${size}px ${o.display ? '"Unbounded","Arial Black",sans-serif' : '"Commissioner","Segoe UI",sans-serif'}`;
+      ctx.textAlign = o.align || "center"; ctx.textBaseline = o.baseline || "middle";
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      if (o.stroke) { ctx.lineWidth = o.strokeW || 4; ctx.strokeStyle = o.stroke; ctx.lineJoin = "round"; ctx.strokeText(str, x, y); }
+      ctx.fillStyle = o.color || "#fff"; ctx.fillText(str, x, y);
+      ctx.restore();
+    },
+    rr(x, y, w, h, r, fill, stroke, lw) {
+      ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h);
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = lw || 2; ctx.strokeStyle = stroke; ctx.stroke(); }
+    },
+    circle(x, y, r, fill, stroke, lw) {
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = lw || 2; ctx.strokeStyle = stroke; ctx.stroke(); }
+    },
+    shadow(x, y, w, a) { ctx.save(); ctx.globalAlpha = a == null ? 0.25 : a; ctx.fillStyle = "#000"; ctx.beginPath(); ctx.ellipse(x, y, w, w * 0.32, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore(); },
+    bubble(str, x, y, o) {
+      o = o || {};
+      ctx.save();
+      const size = o.size || 15;
+      ctx.font = `600 ${size}px "Commissioner","Segoe UI",sans-serif`;
+      const w = Math.min(ctx.measureText(str).width + 20, 360), h = size + 14;
+      let bx = Math.max(6, Math.min(W - w - 6, x - w / 2)), by = y - h - 10;
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      D.rr(bx, by, w, h, 10, o.bg || "rgba(255,255,255,0.95)");
+      ctx.beginPath(); ctx.moveTo(x - 6, by + h); ctx.lineTo(x + 6, by + h); ctx.lineTo(x, by + h + 8); ctx.fillStyle = o.bg || "rgba(255,255,255,0.95)"; ctx.fill();
+      ctx.fillStyle = o.color || "#1b2030"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(str, bx + w / 2, by + h / 2 + 1, w - 14);
+      ctx.restore();
+    },
+    bar(x, y, w, h, frac, fill, back) {
+      D.rr(x, y, w, h, h / 2, back || "rgba(0,0,0,0.35)");
+      D.rr(x, y, Math.max(h, w * Math.max(0, Math.min(1, frac))), h, h / 2, fill || "#f2c14e");
+    },
+  };
+
+  // актори
+  function actor(o) { return Object.assign({ x: 0, y: 0, vx: 0, vy: 0, size: 44, emoji: "🙂", flip: false, moving: false, phase: 0, speed: 180 }, o); }
+  function moveActor(a, dt, bounds, speedMul) {
+    const sp = a.speed * (speedMul == null ? 1 : speedMul);
+    const dx = input.x * sp * dt, dy = input.y * sp * dt;
+    a.moving = !!(input.x || input.y);
+    if (a.moving) { a.phase += dt * 10; if (input.x) a.flip = input.x > 0; }
+    let nx = a.x + dx, ny = a.y + dy;
+    if (bounds) { nx = clamp(nx, bounds.x0, bounds.x1); ny = clamp(ny, bounds.y0, bounds.y1); }
+    if (a.blocked && a.blocked(nx, a.y)) nx = a.x;
+    if (a.blocked && a.blocked(a.x, ny)) ny = a.y;
+    a.x = nx; a.y = ny;
+    if (a.moving && Math.floor(a.phase / 3.14) !== a._lastStep) { a._lastStep = Math.floor(a.phase / 3.14); if (a.stepSound !== false) sfx("step"); }
+  }
+  function drawActor(a, o) {
+    o = o || {};
+    const bob = a.moving ? Math.abs(Math.sin(a.phase)) * 4 : Math.sin(api.t * 2 + (a.x % 7)) * 1.2;
+    D.shadow(a.x, a.y + a.size * 0.42, a.size * 0.36);
+    D.emoji(a.emoji, a.x, a.y - bob, a.size, { flip: o.flip != null ? o.flip : a.flip, alpha: a.alpha, rot: a.rot });
+    if (a.label) D.text(a.label, a.x, a.y - a.size * 0.75 - bob, { size: 13, color: "#fff", stroke: "rgba(0,0,0,0.6)", strokeW: 4 });
+  }
+
+  // частинки
+  const parts = [];
+  function burst(x, y, what, n, o) {
+    o = o || {};
+    for (let i = 0; i < (n || 10); i++) {
+      const a = Math.random() * Math.PI * 2, s = (o.speed || 120) * (0.4 + Math.random());
+      parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - (o.up || 40), life: o.life || 0.9, t: 0, what, size: o.size || 16, g: o.g == null ? 200 : o.g });
+    }
+  }
+  function updParts(dt) {
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const p = parts[i]; p.t += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += p.g * dt;
+      if (p.t > p.life) parts.splice(i, 1);
+    }
+  }
+  function drawParts() {
+    for (const p of parts) {
+      const a = 1 - p.t / p.life;
+      if (p.what.length <= 2 || /\p{Extended_Pictographic}/u.test(p.what)) D.emoji(p.what, p.x, p.y, p.size, { alpha: a });
+      else D.circle(p.x, p.y, p.size / 4, p.what);
+    }
+  }
+
+  let shakeT = 0, shakeA = 0;
+  function shake(a, t) { shakeA = a || 6; shakeT = t || 0.3; }
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const wait = (s) => new Promise((r) => setTimeout(r, s * 1000));
+
+  // ---------- гра
+  let G = null, state = "intro", ended = false;
+  const api = {
+    W, H, ctx, input, D, t: 0, dt: 0,
+    say, choose, banner, hud, sfx, shake, burst, actor, moveActor, drawActor, wait,
+    clamp, dist, rand, pick, store,
+    get busy() { return dlgState.open || screenState.open || api.locked; },
+    locked: false,
+    end, restart,
+  };
+
+  function endingKey() { return "pg:end:" + (G && G.id); }
+  function found() { return store.get(endingKey(), []); }
+
+  function intro() {
+    state = "intro";
+    const controls = (G.controls || []).map((c) => `<li>${c}</li>`).join("");
+    showScreen(
+      `<span class="eyebrow">Гра ${esc(META.num || G.id)} · ${G.eyebrow ? esc(G.eyebrow) : `за притчею «${esc(G.parable)}»`}</span>
+       <h1>${esc(G.title)}</h1>
+       <p class="story">${esc(G.story)}</p>
+       ${G.goal ? `<p>${esc(G.goal)}</p>` : ""}
+       ${controls ? `<ul>${controls}</ul>` : ""}
+       <p class="muted">Фіналів у грі: ${Object.keys(G.endings).length}. Знайдено: ${found().length}.</p>
+       <div class="row"><button class="btn" data-primary type="button">Почати гру</button></div>`,
+      (el) => el.querySelector("[data-primary]").addEventListener("click", () => { ensureAudio(); hideScreen(); begin(); })
+    );
+  }
+  function begin() {
+    state = "play"; ended = false; api.locked = false; parts.length = 0; hud([]); bannerEl.hidden = true;
+    api.t = 0; G.init(api);
+    if (G.start) Promise.resolve(G.start(api)).catch(console.error);
+  }
+  function restart() { hideScreen(); closeDlgSilent(); begin(); }
+  function closeDlgSilent() { dlgState.open = false; dlg.hidden = true; dlgState.resolve = null; }
+
+  function end(letter) {
+    if (ended) return; ended = true; state = "end";
+    const e = G.endings[letter];
+    const got = new Set(found()); got.add(letter); store.set(endingKey(), [...got]);
+    const total = Object.keys(G.endings);
+    sfx("end");
+    const chips = total.map((k) => `<span class="${k === letter ? "now" : got.has(k) ? "got" : ""}">${k === letter || got.has(k) ? esc(k + ". " + G.endings[k].title) : esc(k + ". ???")}</span>`).join("");
+    const qs = (G.questions || []).map((q) => `<li>${esc(q)}</li>`).join("");
+    const next = META.next ? `<a class="btn ghost" href="${esc(META.next)}">Наступна гра →</a>` : "";
+    setTimeout(() => showScreen(
+      `<span class="eyebrow">Фінал ${esc(letter)} з ${total.length}</span>
+       <h1><span class="letter">${esc(letter)}</span>${esc(e.title)}</h1>
+       <p>${esc(e.text)}</p>
+       <h2>Висновок</h2>
+       <p class="moral">${esc(G.moral)}</p>
+       ${qs ? `<ul>${qs}</ul>` : ""}
+       <span class="eyebrow">Знайдені фінали: ${got.size} з ${total.length}</span>
+       <div class="ends">${chips}</div>
+       <div class="row"><button class="btn" data-primary type="button">Грати знову</button>${next}<a class="btn ghost" href="${esc(META.hub || "#")}">Усі ігри</a></div>`,
+      (el) => el.querySelector("[data-primary]").addEventListener("click", restart)
+    ), 500);
+  }
+
+  // ---------- цикл
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    pollInput();
+    if (G) {
+      if (state === "play" && !api.busy) { api.t += dt; api.dt = dt; G.update(dt, api); }
+      updParts(dt);
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      if (shakeT > 0) { shakeT -= dt; ctx.translate(rand(-shakeA, shakeA), rand(-shakeA, shakeA)); }
+      ctx.clearRect(-20, -20, W + 40, H + 40);
+      G.draw(ctx, api);
+      drawParts();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  window.PG = {
+    start(game) {
+      G = game; window.PG.game = game;
+      if (game.dlgTop) dlg.classList.add("top");
+      document.title = game.title;
+      if (pad) {
+        const a = pad.querySelector('[data-k="act"]'), b = pad.querySelector('[data-k="alt"]');
+        a.textContent = game.actLabel || "Дія";
+        if (game.altLabel) { b.textContent = game.altLabel; b.hidden = false; } else b.hidden = true;
+        if (game.noMove) pad.querySelector(".stick").style.visibility = "hidden";
+      }
+      const help = $("#help");
+      if (help && game.help) help.innerHTML = game.help;
+      G.init(api);
+      intro();
+      requestAnimationFrame(frame);
+    },
+    api,
+  };
+})();
+</script>
+<script>/* Гра 11 «98 перлин» — детектив за притчею «Намисто». */
+(function () {
+  const ROOMS = [
+    { n: "Покої Панни", x: 0, y: 50, w: 320, h: 230, c: "#e8c9d6" },
+    { n: "Сад", x: 640, y: 50, w: 320, h: 230, c: "#b9dba0" },
+    { n: "Кухня", x: 0, y: 300, w: 320, h: 240, c: "#efdcb8" },
+    { n: "Майстерня ювеліра", x: 640, y: 300, w: 320, h: 240, c: "#c9d3e6" },
+    { n: "Хол", x: 320, y: 50, w: 320, h: 490, c: "#e6dfd2" },
+  ];
+  const PEOPLE = {
+    panna: { e: "👸", x: 160, y: 175, n: "Панна" },
+    sister: { e: "👩", x: 780, y: 165, n: "Сестра Оля" },
+    friend: { e: "👱‍♀️", x: 150, y: 420, n: "Подруга Марта" },
+    maid: { e: "👩‍🦳", x: 480, y: 250, n: "Служниця" },
+    jeweler: { e: "👴", x: 810, y: 415, n: "Ювелір" },
+  };
+  const CLUES = [
+    { k: "thread", e: "🧵", x: 890, y: 235, t: "Розірвана нитка в саду. Чиясь намистина розсипалася?" },
+    { k: "pearls", e: "🦪", x: 260, y: 485, t: "Дві перлини на кухонному столі!" },
+    { k: "note", e: "🧾", x: 60, y: 110, t: "Чек ювеліра: «…намисто, ⬛⬛ перлин». Цифру залила пляма чорнила." },
+  ];
+  const PETAL_T = 22;
+  let S;
+
+  const game = {
+    id: "11", title: "98 перлин", parable: "Намисто",
+    story: "Панні подарували намисто з перлин. Якось вона їх перерахувала: 98. «Хтось поцупив дві! Сестри? Подруги? Зрадниці!» Довго журилася вона, зів’яла її краса, і так і не дізналася, що в намисті завжди було 98 перлин.",
+    goal: "Ти — детектив. Панна певна, що в неї вкрали дві перлини. Оглядай кімнати, допитуй людей, знайди правду, поки квітка у волоссі Панни не зів’яла.",
+    controls: ["Стрілки або WASD — ходити", "Пробіл або E — оглянути доказ або допитати людину", "Щоб висунути звинувачення, поговори з Панною"],
+    help: "<kbd>←↑→↓</kbd> ходити · <kbd>Пробіл</kbd> оглянути або допитати",
+    actLabel: "Допит",
+    endings: {
+      "А": { title: "Звинуватив невинну", text: "Справедливість, здавалося б, тріумфувала, і стрічка дружби розірвалася. А наступного дня Ювелір сказав: «Їх завжди було 98»." },
+      "Б": { title: "Правда", text: "Ти приніс Панні слова Ювеліра: перлин завжди було 98. Вона довго мовчала, а потім уперше за тиждень усміхнулася. Квітка у волоссі ожила." },
+      "В": { title: "Квітка зів’яла", text: "Поки тривало розслідування, Панна зачинилася в покоях і озлобилася на всіх. Остання пелюстка впала, а правди так ніхто і не сказав." },
+      "Г": { title: "Злочину не було", text: "Доказів правди ти не мав, але й винних не знайшов. «Може, нічого й не пропало?» — сказав ти. І Панна вирішила тішитися тим, що має." },
+    },
+    moral: "Нам часто здається, що хтось чогось недодав: часу, щастя, перлин. Не варто обманювати себе: щастя від самого початку повна чаша, і лише треба навчитися ним насолоджуватися.",
+    questions: ["Яких «двох перлин» вам бракує? А чи були вони взагалі?", "Кого ви звинувачували у своїх «пропажах»?", "Скільки пелюсток уже впало, поки ви шукали винного?"],
+
+    _s() { return S; },
+    init(api) {
+      S = { p: api.actor({ x: 480, y: 470, emoji: "🕵️", size: 40, speed: 175 }), found: new Set(), truth: false, petals: 6, petalT: PETAL_T, talked: {}, done: false, msg: "", msgT: 0, accusations: 0 };
+    },
+    async start(api) {
+      await api.say([["Панна", "Детективе! У моєму намисті було сто перлин, а тепер 98! Хтось поцупив дві. Сестра? Подруга? Зрадниці!"], ["", "Квітка у волоссі Панни в’яне з кожною хвилиною її розпачу."]]);
+    },
+
+    update(dt, api) {
+      if (S.done) return;
+      const p = S.p;
+      api.moveActor(p, dt, { x0: 20, x1: 940, y0: 70, y1: 520 });
+      S.msgT -= dt; S.petalT -= dt;
+      if (S.petalT <= 0) {
+        S.petals--; S.petalT = PETAL_T; api.sfx("bad");
+        if (S.petals <= 0) return wilted(api);
+        api.banner(api.pick(["Панна: «Це точно сестра! Вона завжди заздрила!»", "Панна: «Подруги — віроломні!»", "Панна зачиняється в покоях і плаче", "Панна: «Нікому більше не вірю!»"]) + " (пелюсток: " + S.petals + ")", 3000);
+      }
+      if (api.input.act) act(api);
+      api.hud([["Пелюсток", S.petals], ["Доказів", S.found.size + " з 3"], S.truth ? ["Правда", "відома"] : null]);
+    },
+
+    draw(ctx, api) {
+      ctx.fillStyle = "#3d3340"; ctx.fillRect(0, 0, 960, 540);
+      for (const r of ROOMS) { api.D.rr(r.x + 6, r.y + 6, r.w - 12, r.h - 12, 14, r.c); api.D.text(r.n, r.x + r.w / 2, r.y + 24, { size: 14, color: "#4a3a45", display: true }); }
+      api.D.emoji("🌹", 700, 110, 34); api.D.emoji("🌳", 920, 120, 50); api.D.emoji("🍲", 60, 380, 34); api.D.emoji("💎", 900, 380, 30); api.D.emoji("🛏️", 260, 120, 50); api.D.emoji("🪞", 560, 120, 40);
+      for (const c of CLUES) { const got = S.found.has(c.k); api.D.emoji(c.e, c.x, c.y + Math.sin(api.t * 3 + c.x) * (got ? 0 : 2), 30, { alpha: got ? 0.4 : 1 }); if (!got) api.D.text("?", c.x + 16, c.y - 16, { size: 14, color: "#c23b5b", display: true }); }
+      for (const k in PEOPLE) {
+        const q = PEOPLE[k];
+        api.D.shadow(q.x, q.y + 20, 15); api.D.emoji(q.e, q.x, q.y, 42);
+        api.D.text(q.n, q.x, q.y + 34, { size: 12, color: "#2e2430" });
+      }
+      // квітка Панни
+      const pn = PEOPLE.panna;
+      for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; if (i < S.petals) api.D.circle(pn.x + 28 + Math.cos(a) * 7, pn.y - 30 + Math.sin(a) * 7, 5, "#ff7aa8"); }
+      api.D.circle(pn.x + 28, pn.y - 30, 4, "#ffd54a");
+      api.drawActor(S.p);
+      if (S.msgT > 0) api.D.bubble(S.msg, S.p.x, S.p.y - 26, { size: 13 });
+    },
+  };
+
+  function msg(t) { S.msg = t; S.msgT = 3; }
+
+  async function act(api) {
+    const p = S.p;
+    for (const c of CLUES) if (Math.hypot(p.x - c.x, p.y - c.y) < 50) { if (!S.found.has(c.k)) { S.found.add(c.k); api.sfx("pick"); } await api.say([["Нотатки детектива", c.t]]); return; }
+    for (const k in PEOPLE) if (Math.hypot(p.x - PEOPLE[k].x, p.y - PEOPLE[k].y) < 58) return talk(api, k);
+  }
+
+  async function talk(api, k) {
+    const who = PEOPLE[k].n;
+    if (k === "panna") return panna(api);
+    if (k === "sister") {
+      const c = await api.choose("Ти мене підозрюєш? Питай.", ["Звідки розірвана нитка в саду?", "Ти заздриш сестрі?", "Що ти знаєш про намисто?"], who);
+      await api.say([[who, ["Це моє власне намистечко порвалося, коли я поливала троянди. Скляне, копійчане.", "Заздрю? Я її люблю. Хоч вона зараз і не вірить нікому.", "Знаю, що Ювелір нанизував його на замовлення. Щось там було з днем народження."][c]]]);
+    } else if (k === "friend") {
+      const c = await api.choose("Ой, детективе… Ви про перлини на кухні?", ["Звідки у тебе дві перлини?", "Ти була в покоях Панни?", "Хто міг украсти?"], who);
+      await api.say([[who, ["Це мої сережки! Застібка зламалася, ось я їх і поклала.", "Тиждень не була. Вона мене й на поріг не пускає.", "Ніхто. Але ж їй не поясниш…"][c]]]);
+    } else if (k === "maid") {
+      const c = await api.choose("Я прибираю тут двадцять років. Що вас цікавить?", ["Хто заходив до покоїв?", "Ти рахувала перлини?", "Звідки чек ювеліра?"], who);
+      await api.say([[who, ["Тільки я і сама Панна. Скриня завжди замкнена.", "Ніколи. Я до них і не торкаюся.", "Ювелір приніс його разом з намистом. Я ще тоді пляму чорнилом поставила, вибачте."][c]]]);
+    } else if (k === "jeweler") {
+      const c = await api.choose("Добрий день. Чим можу допомогти?", ["Хто міг украсти перлини Панни?", "Яке гарне у вас каміння!", "Скільки перлин ви нанизали на намисто Панни?"], who);
+      if (c === 2) { S.truth = true; api.sfx("good"); await api.say([[who, "Дев’яносто вісім. Так замовив її батько: по перлині на кожен місяць, відколи вона народилася. Хіба вона не знає?"]]); }
+      else await api.say([[who, ["Я ювелір, а не сторож. Питайте про те, що я знаю.", "Дякую! Але ви ж не по каміння прийшли."][c]]]);
+    }
+  }
+
+  async function panna(api) {
+    const c = await api.choose("Ну що, детективе? Хто винен?", ["Ще розслідую", "Сестра Оля", "Подруга Марта", "Служниця", "Злочину не було"], "Панна");
+    if (c === 0) return;
+    S.done = true; api.locked = true;
+    if (c >= 1 && c <= 3) {
+      await api.say([["Панна", "Я так і знала! Зрадниця!"], ["", "Двері грюкають. Стрічка дружби, яку плели роками, розірвана."]]);
+      api.locked = false; return api.end("А");
+    }
+    if (S.truth) {
+      await api.say([["Детектив", "Ювелір нанизав рівно 98 перлин. Ваш батько так замовив: по одній на кожен місяць вашого життя."], ["Панна", "…Отже, нічого не пропало. А я тиждень підозрювала всіх."]]);
+      api.locked = false; return api.end("Б");
+    }
+    await api.say([["Детектив", "Нитка — сестрина, перлини — подружині, у скриню ніхто не заходив. Може, нічого і не пропадало?"], ["Панна", "Може… Ну й нехай. Дев’яносто вісім — теж гарне число."]]);
+    api.locked = false; api.end("Г");
+  }
+
+  async function wilted(api) {
+    S.done = true; api.locked = true;
+    await api.say([["", "Остання пелюстка падає. Панна зачиняє двері покоїв і більше нікого не пускає."]]);
+    api.locked = false; api.end("В");
+  }
+
+  PG.start(game);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Гілка над проваллям</title>
+<meta name="description" content="Пригода в темряві за притчею «Атеїст».">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&family=Commissioner:wght@400;500;600;700&display=swap">
+<style>/* Макет: ігрова консоль — вузька шапка, сцена 16:9 по центру, під нею підказка керування.
+   Сторінка має світлу і темну тему; інтерфейс поверх сцени — завжди темне «скло», бо лежить на ігровому світі. */
+:root {
+  --bg: #eef1f6;
+  --surface: #ffffff;
+  --ink: #141a26;
+  --muted: #586174;
+  --line: #d5dbe5;
+  --accent: #2f5bd3;
+  --glass: rgba(14, 18, 30, 0.86);
+  --glass-ink: #f3f5fb;
+  --glass-muted: #b7bfd2;
+  --glass-line: rgba(255, 255, 255, 0.16);
+  --gold: #f2c14e;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-ui: "Commissioner", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Literata", Georgia, serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1018; --surface: #161b27; --ink: #e8ecf5; --muted: #9aa3b8; --line: #283043; --accent: #8fb0ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1018; --surface: #161b27; --ink: #e8ecf5; --muted: #9aa3b8; --line: #283043; --accent: #8fb0ff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-ui); padding-inline: 16px;
+  -webkit-tap-highlight-color: transparent; }
+button { font: inherit; }
+.page { max-width: 1180px; margin-inline: auto; padding-block: 10px 24px; display: grid; gap: 10px; }
+
+.top { display: flex; align-items: center; gap: 12px; min-height: 40px; }
+.top .back { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 0.9rem; white-space: nowrap; }
+.top .back:hover { text-decoration: underline; }
+.top .ttl { flex: 1; min-width: 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top .ttl .n { color: var(--muted); font-weight: 500; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.icon { background: var(--surface); border: 1px solid var(--line); color: var(--ink); border-radius: 10px;
+  min-width: 40px; height: 40px; cursor: pointer; font-size: 1.05rem; }
+.icon:focus-visible, .btn:focus-visible, .opt:focus-visible, .back:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.stage { position: relative; width: min(100%, calc((100svh - 130px) * 16 / 9)); aspect-ratio: 16 / 9; margin-inline: auto;
+  border-radius: 14px; overflow: hidden; background: #0b0e16; container-type: inline-size; user-select: none;
+  box-shadow: 0 10px 40px rgba(10, 16, 30, 0.25); touch-action: none; }
+#cv { display: block; width: 100%; height: 100%; }
+
+.hud { position: absolute; left: 10px; top: 10px; display: flex; flex-wrap: wrap; gap: 6px; max-width: 75%; pointer-events: none; }
+.hud span { background: var(--glass); color: var(--glass-ink); border-radius: 999px; padding: 4px 11px;
+  font-size: clamp(11px, 1.45cqw, 15px); font-weight: 500; white-space: nowrap; }
+.hud b { color: var(--gold); font-weight: 700; margin-left: 4px; font-variant-numeric: tabular-nums; }
+
+.banner { position: absolute; left: 50%; top: 12%; transform: translateX(-50%); background: var(--glass); color: var(--glass-ink);
+  border: 1px solid var(--glass-line); border-radius: 14px; padding: 10px 18px; font-family: var(--f-display);
+  font-size: clamp(13px, 2cqw, 22px); text-align: center; max-width: 80%; pointer-events: none; animation: pop .25s ease-out; }
+@keyframes pop { from { transform: translateX(-50%) scale(.92); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+
+.dlg { position: absolute; left: 3%; right: 3%; bottom: 4%; background: var(--glass); color: var(--glass-ink);
+  border: 1px solid var(--glass-line); border-radius: 16px; padding: 14px 18px 12px; display: grid; gap: 8px;
+  font-size: clamp(14px, 1.9cqw, 19px); line-height: 1.45; max-height: 70%; overflow: auto; z-index: 5; }
+.dlg.top { bottom: auto; top: 12%; }
+.dlg .who { font-family: var(--f-display); font-size: 0.8em; color: var(--gold); letter-spacing: .02em; }
+.dlg .who:empty { display: none; }
+.dlg .txt { font-family: var(--f-body); }
+.dlg .opts { display: grid; gap: 6px; }
+.dlg .opts:empty { display: none; }
+.opt { text-align: left; background: rgba(255,255,255,0.07); color: var(--glass-ink); border: 1px solid var(--glass-line);
+  border-radius: 10px; padding: 8px 12px; cursor: pointer; display: flex; gap: 10px; align-items: baseline; }
+.opt .k { color: var(--gold); font-family: var(--f-display); font-size: 0.8em; min-width: 1.2em; }
+.opt:hover, .opt.sel { background: rgba(242, 193, 78, 0.18); border-color: var(--gold); }
+.dlg .more { justify-self: end; font-size: 0.75em; color: var(--glass-muted); }
+
+.screen { position: absolute; inset: 0; background: rgba(9, 12, 20, 0.9); color: var(--glass-ink); overflow: auto; z-index: 8;
+  display: grid; place-items: center; padding: 4% 5%; }
+.screen[hidden] { display: none; }
+.card { width: min(100%, 680px); display: grid; gap: 12px; }
+.card .eyebrow { font-size: clamp(11px, 1.4cqw, 13px); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.card h1, .card h2 { font-family: var(--f-display); margin: 0; text-wrap: balance; line-height: 1.1; }
+.card h1 { font-size: clamp(22px, 4.6cqw, 46px); }
+.card h2 { font-size: clamp(18px, 3cqw, 30px); }
+.card p { margin: 0; line-height: 1.5; font-size: clamp(13px, 1.75cqw, 17px); }
+.card .story { font-family: var(--f-body); font-style: italic; color: #dfe4f0; border-left: 3px solid var(--gold); padding-left: 12px; }
+.card ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: clamp(13px, 1.7cqw, 16px); line-height: 1.45; }
+.card .moral { font-family: var(--f-body); font-size: clamp(14px, 2cqw, 19px); }
+.card .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.btn { background: var(--gold); color: #1a1405; border: 0; border-radius: 12px; padding: 10px 18px; font-weight: 700;
+  cursor: pointer; text-decoration: none; font-size: clamp(13px, 1.7cqw, 16px); display: inline-block; }
+.btn.ghost { background: transparent; color: var(--glass-ink); border: 1px solid var(--glass-line); }
+.ends { display: flex; flex-wrap: wrap; gap: 6px; }
+.ends span { border: 1px solid var(--glass-line); border-radius: 999px; padding: 4px 10px; font-size: clamp(11px, 1.45cqw, 14px); color: var(--glass-muted); }
+.ends span.got { border-color: var(--gold); color: var(--glass-ink); }
+.ends span.now { background: var(--gold); color: #1a1405; border-color: var(--gold); }
+.letter { display: inline-grid; place-items: center; width: 2.2em; height: 2.2em; border-radius: 50%; background: var(--gold); color: #1a1405;
+  font-family: var(--f-display); font-weight: 700; margin-right: 10px; vertical-align: middle; }
+
+.help { margin: 0; text-align: center; color: var(--muted); font-size: 0.875rem; }
+.help kbd { font-family: var(--f-ui); background: var(--surface); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px;
+  padding: 1px 6px; font-size: 0.8rem; color: var(--ink); }
+
+.pad { display: none; justify-content: space-between; align-items: center; gap: 16px; padding: 4px 6px; touch-action: none; user-select: none; }
+.pad.on { display: flex; }
+.stick { width: 120px; height: 120px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); position: relative; flex: none; }
+.knob { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: var(--accent); opacity: .85; }
+.pbtns { display: flex; gap: 12px; }
+.pbtns button { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  font-weight: 700; font-size: 0.68rem; line-height: 1.1; padding: 6px; touch-action: none; overflow-wrap: anywhere; hyphens: auto; }
+.pbtns button[data-k="act"] { background: var(--gold); color: #1a1405; border-color: var(--gold); }
+.pbtns button.down { transform: scale(.94); filter: brightness(.9); }
+.pbtns button[hidden] { display: none; }
+
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 560px) {
+  .page { padding-block: 4px; gap: 4px; }
+  .help { display: none; }
+  .stage { width: min(100%, calc((100svh - 56px) * 16 / 9)); }
+  .pad.on { position: fixed; left: 0; right: 0; bottom: 8px; padding-inline: 16px; pointer-events: none; z-index: 20; }
+  .pad.on .stick, .pad.on .pbtns button { pointer-events: auto; opacity: .75; }
+}
+@media (max-width: 700px) {
+  .dlg { position: fixed; left: 8px; right: 8px; bottom: 8px; max-height: 55svh; font-size: 15px; z-index: 30; }
+  .screen { position: fixed; z-index: 40; padding: 20px 16px; place-items: start center; }
+  .card h1 { font-size: 26px; } .card h2 { font-size: 20px; } .card p, .card ul { font-size: 15px; } .card .moral { font-size: 16px; }
+  .btn { font-size: 15px; }
+  .hud span { font-size: 11px; padding: 3px 8px; }
+  .banner { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .banner { animation: none; } }
+
+/* Головна сторінка ігор */
+.hub { display: grid; gap: 28px; padding-block: 16px 40px; max-width: 1080px; margin-inline: auto; }
+.hub header { display: grid; gap: 12px; }
+.hub .eyebrow { color: var(--accent); font-size: 0.8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.hub h1 { font-family: var(--f-display); font-size: clamp(2rem, 7vw, 3.6rem); margin: 0; line-height: 1.05; text-wrap: balance; }
+.hub .lede { font-family: var(--f-body); font-size: 1.1rem; line-height: 1.55; max-width: 44rem; margin: 0; }
+.hub h2 { font-size: 0.8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.tile { display: grid; grid-template-columns: 64px 1fr; gap: 4px 14px; padding: 14px; border-radius: 16px; background: var(--surface);
+  border: 1px solid var(--line); color: var(--ink); text-decoration: none; min-width: 0; transition: transform .15s, border-color .15s; }
+.tile:hover { transform: translateY(-2px); border-color: var(--accent); }
+.tile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.tile .art { grid-row: span 4; width: 64px; height: 64px; border-radius: 14px; display: grid; place-items: center; font-size: 34px; }
+.tile .num { font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tile h3 { margin: 0; font-family: var(--f-display); font-size: 1.05rem; font-weight: 600; line-height: 1.2; }
+.tile .genre { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+.tile .par { font-family: var(--f-body); font-style: italic; font-size: 0.9rem; color: var(--muted); }
+.tile .got { grid-column: 2; font-size: 0.8rem; color: var(--muted); }
+.tile .got b { color: var(--ink); }
+.hub .concl { font-family: var(--f-body); font-size: 1.05rem; line-height: 1.6; max-width: 44rem; display: grid; gap: 10px; }
+.hub .concl p { margin: 0; }
+.hub .foot { color: var(--muted); font-size: 0.85rem; }
+@media (prefers-reduced-motion: reduce) { .tile { transition: none; } .tile:hover { transform: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+<header class="top"><a class="back" href="prytchi-ihry.html">← Усі ігри</a>
+<div class="ttl"><span class="n">01</span>Гілка над проваллям</div>
+<button id="mute" class="icon" type="button" aria-label="Вимкнути звук">🔊</button></header>
+<div id="stage" class="stage">
+<canvas id="cv" aria-label="Ігрове поле: Гілка над проваллям"></canvas>
+<div id="hud" class="hud" aria-live="polite"></div>
+<div id="banner" class="banner" hidden aria-live="polite"></div>
+<div id="dlg" class="dlg" hidden role="dialog" aria-live="polite"><div class="who"></div><div class="txt"></div><div class="opts"></div><div class="more">Далі ▸ Enter</div></div>
+<div id="screen" class="screen" hidden></div>
+</div>
+<div id="pad" class="pad" aria-hidden="true"><div class="stick"><div class="knob"></div></div><div class="pbtns"><button type="button" data-k="alt" hidden>Б</button><button type="button" data-k="act">Дія</button></div></div>
+<p class="help" id="help"></p>
+</div>
+<script>window.PG_META = {"num": "01", "hub": "prytchi-ihry.html", "next": "prytchi-ihra-02-podvirya.html"};</script>
+<script>/* Рушій ігор «Притчі в русі»: цикл гри, керування (клавіатура, миша, сенсор),
+   діалоги з вибором, банери, HUD, фінали з підрахунком знайдених, простий звук. */
+(function () {
+  "use strict";
+  const W = 960, H = 540;
+  const META = window.PG_META || {};
+  const $ = (s) => document.querySelector(s);
+  const stage = $("#stage"), cv = $("#cv"), ctx = cv.getContext("2d");
+  const hudEl = $("#hud"), bannerEl = $("#banner"), dlg = $("#dlg"), screenEl = $("#screen"), pad = $("#pad");
+  const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+
+  // ---------- сховище
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* без сховища гра працює далі */ } },
+  };
+
+  // ---------- полотно
+  let scale = 1;
+  function resize() {
+    const r = stage.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.max(1, Math.round(r.width * dpr));
+    cv.height = Math.max(1, Math.round(r.height * dpr));
+    scale = cv.width / W;
+  }
+  window.addEventListener("resize", resize);
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(stage);
+  resize();
+
+  // ---------- звук
+  let actx = null, muted = store.get("pg:muted", false);
+  const muteBtn = $("#mute");
+  function syncMute() { if (muteBtn) { muteBtn.textContent = muted ? "🔇" : "🔊"; muteBtn.setAttribute("aria-label", muted ? "Увімкнути звук" : "Вимкнути звук"); } }
+  syncMute();
+  if (muteBtn) muteBtn.addEventListener("click", () => { muted = !muted; store.set("pg:muted", muted); syncMute(); muteBtn.blur(); });
+  function ensureAudio() {
+    if (actx || muted) return;
+    try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { actx = null; }
+  }
+  function tone(freq, dur, type, vol, slide) {
+    if (muted || !actx) return;
+    const t0 = actx.currentTime;
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || "sine"; o.frequency.setValueAtTime(freq, t0);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(40, freq * slide), t0 + dur);
+    g.gain.setValueAtTime(vol || 0.12, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(actx.destination); o.start(t0); o.stop(t0 + dur + 0.02);
+  }
+  const SFX = {
+    pick: () => { tone(660, 0.09, "triangle", 0.1); setTimeout(() => tone(990, 0.1, "triangle", 0.08), 60); },
+    good: () => { tone(523, 0.12, "triangle"); setTimeout(() => tone(659, 0.12, "triangle"), 90); setTimeout(() => tone(784, 0.2, "triangle"), 180); },
+    bad: () => tone(220, 0.25, "sawtooth", 0.07, 0.6),
+    step: () => tone(140 + Math.random() * 40, 0.04, "square", 0.03),
+    bell: () => { tone(880, 0.6, "sine", 0.1); tone(1320, 0.5, "sine", 0.04); },
+    blip: () => tone(520, 0.05, "square", 0.04),
+    whoosh: () => tone(300, 0.35, "sine", 0.08, 2.5),
+    end: () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.25, "triangle", 0.09), i * 110)); },
+  };
+  function sfx(name, freq) { ensureAudio(); if (name === "note") tone(freq || 440, 0.22, "triangle", 0.12); else if (SFX[name]) SFX[name](); }
+
+  // ---------- введення
+  const keys = new Set();
+  const input = { x: 0, y: 0, act: false, actHeld: false, alt: false, altHeld: false, click: null, pointer: { x: -1, y: -1, down: false }, any: false };
+  const pressedQ = new Set();
+  const touchAxis = { x: 0, y: 0 }, touchBtn = { act: false, alt: false };
+  const CODE = {
+    ArrowLeft: "left", KeyA: "left", ArrowRight: "right", KeyD: "right", ArrowUp: "up", KeyW: "up", ArrowDown: "down", KeyS: "down",
+    Space: "act", Enter: "act", KeyE: "act", NumpadEnter: "act", KeyQ: "alt", ShiftLeft: "alt", ShiftRight: "alt",
+  };
+  window.addEventListener("keydown", (e) => {
+    ensureAudio();
+    if (dlgState.open) { dlgKey(e); return; }
+    if (screenState.open) { if (e.code === "Enter" || e.code === "Space") { const b = screenEl.querySelector("[data-primary]"); if (b && document.activeElement === document.body) { e.preventDefault(); b.click(); } } return; }
+    const k = CODE[e.code];
+    if (k) {
+      e.preventDefault();
+      if (!keys.has(k)) pressedQ.add(k);
+      keys.add(k);
+    }
+    if (/^Digit[1-9]$/.test(e.code)) pressedQ.add("n" + e.code.slice(5));
+  });
+  window.addEventListener("keyup", (e) => { const k = CODE[e.code]; if (k) keys.delete(k); });
+  window.addEventListener("blur", () => keys.clear());
+
+  function toGame(ev) {
+    const r = cv.getBoundingClientRect();
+    return { x: ((ev.clientX - r.left) / r.width) * W, y: ((ev.clientY - r.top) / r.height) * H };
+  }
+  cv.addEventListener("pointerdown", (ev) => { ensureAudio(); const p = toGame(ev); input.pointer = { x: p.x, y: p.y, down: true }; input._click = p; });
+  cv.addEventListener("pointermove", (ev) => { const p = toGame(ev); input.pointer.x = p.x; input.pointer.y = p.y; });
+  window.addEventListener("pointerup", () => { input.pointer.down = false; });
+
+  // сенсорний джойстик
+  const coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  function showPad() { if (pad && !pad.classList.contains("on")) pad.classList.add("on"); }
+  if (coarse) showPad();
+  window.addEventListener("touchstart", showPad, { passive: true, once: true });
+  if (pad) {
+    const stick = pad.querySelector(".stick"), knob = pad.querySelector(".knob");
+    let sid = null;
+    const setStick = (ev) => {
+      const r = stick.getBoundingClientRect();
+      let dx = ev.clientX - (r.left + r.width / 2), dy = ev.clientY - (r.top + r.height / 2);
+      const m = r.width / 2, d = Math.hypot(dx, dy);
+      if (d > m) { dx = (dx / d) * m; dy = (dy / d) * m; }
+      knob.style.transform = `translate(${dx}px, ${dy}px)`;
+      const nx = dx / m, ny = dy / m;
+      touchAxis.x = Math.abs(nx) < 0.22 ? 0 : nx; touchAxis.y = Math.abs(ny) < 0.22 ? 0 : ny;
+    };
+    stick.addEventListener("pointerdown", (ev) => { ensureAudio(); sid = ev.pointerId; stick.setPointerCapture(sid); setStick(ev); });
+    stick.addEventListener("pointermove", (ev) => { if (ev.pointerId === sid) setStick(ev); });
+    const rel = () => { sid = null; touchAxis.x = touchAxis.y = 0; knob.style.transform = ""; };
+    stick.addEventListener("pointerup", rel); stick.addEventListener("pointercancel", rel);
+    pad.querySelectorAll("button[data-k]").forEach((b) => {
+      const k = b.dataset.k;
+      b.addEventListener("pointerdown", (ev) => {
+        ev.preventDefault(); ensureAudio(); b.classList.add("down");
+        if (dlgState.open) { dlgAdvance(); return; }
+        if (screenState.open) { const p = screenEl.querySelector("[data-primary]"); if (p) p.click(); return; }
+        touchBtn[k] = true; pressedQ.add(k);
+      });
+      const up = () => { b.classList.remove("down"); touchBtn[k] = false; };
+      b.addEventListener("pointerup", up); b.addEventListener("pointercancel", up); b.addEventListener("pointerleave", up);
+    });
+  }
+
+  function pollInput() {
+    let x = (keys.has("right") ? 1 : 0) - (keys.has("left") ? 1 : 0);
+    let y = (keys.has("down") ? 1 : 0) - (keys.has("up") ? 1 : 0);
+    if (!x && !y) { x = touchAxis.x; y = touchAxis.y; }
+    const m = Math.hypot(x, y); if (m > 1) { x /= m; y /= m; }
+    input.x = x; input.y = y;
+    input.act = pressedQ.has("act"); input.alt = pressedQ.has("alt");
+    input.actHeld = keys.has("act") || touchBtn.act; input.altHeld = keys.has("alt") || touchBtn.alt;
+    input.num = 0; for (let i = 1; i <= 9; i++) if (pressedQ.has("n" + i)) input.num = i;
+    input.click = input._click || null; input._click = null;
+    input.any = pressedQ.size > 0 || !!input.click;
+    input.up = pressedQ.has("up"); input.down = pressedQ.has("down"); input.left = pressedQ.has("left"); input.right = pressedQ.has("right");
+    pressedQ.clear();
+  }
+  function clearInput() { keys.clear(); pressedQ.clear(); input._click = null; touchBtn.act = touchBtn.alt = false; }
+
+  // ---------- HUD і банер
+  let hudCache = "";
+  function hud(items) {
+    const html = (items || []).filter(Boolean).map(([k, v]) => `<span>${esc(k)}${v === undefined || v === "" ? "" : `<b>${esc(String(v))}</b>`}</span>`).join("");
+    if (html !== hudCache) { hudEl.innerHTML = html; hudCache = html; }
+  }
+  let bannerT = 0;
+  function banner(text, ms) {
+    bannerEl.textContent = text; bannerEl.hidden = false;
+    bannerEl.style.animation = "none"; void bannerEl.offsetWidth; bannerEl.style.animation = "";
+    clearTimeout(bannerT); bannerT = setTimeout(() => { bannerEl.hidden = true; }, ms || 2400);
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+  // ---------- діалоги
+  const dlgState = { open: false, queue: [], resolve: null, options: null, sel: 0, mode: "say" };
+  const dWho = dlg.querySelector(".who"), dTxt = dlg.querySelector(".txt"), dOpts = dlg.querySelector(".opts"), dMore = dlg.querySelector(".more");
+  function renderLine(who, text) { dWho.textContent = who || ""; dTxt.textContent = text; }
+  function say(lines, who) {
+    if (typeof lines === "string") lines = [[who || "", lines]];
+    lines = lines.map((l) => (typeof l === "string" ? [who || "", l] : l));
+    return new Promise((res) => {
+      clearInput();
+      dlgState.open = true; dlgState.mode = "say"; dlgState.queue = lines.slice(1); dlgState.resolve = res;
+      renderLine(lines[0][0], lines[0][1]); dOpts.innerHTML = ""; dMore.hidden = false; dlg.hidden = false;
+      sfx("blip");
+    });
+  }
+  function choose(text, options, who) {
+    return new Promise((res) => {
+      clearInput();
+      dlgState.open = true; dlgState.mode = "choose"; dlgState.resolve = res; dlgState.options = options; dlgState.sel = 0;
+      renderLine(who || "", text); dMore.hidden = true; dlg.hidden = false;
+      dOpts.innerHTML = "";
+      options.forEach((o, i) => {
+        const b = document.createElement("button");
+        b.className = "opt"; b.type = "button";
+        b.innerHTML = `<span class="k">${i + 1}</span><span>${esc(o)}</span>`;
+        b.addEventListener("click", (ev) => { ev.stopPropagation(); pickOpt(i); });
+        dOpts.appendChild(b);
+      });
+      markSel(); sfx("blip");
+    });
+  }
+  function markSel() { [...dOpts.children].forEach((b, i) => b.classList.toggle("sel", i === dlgState.sel)); }
+  function pickOpt(i) { closeDlg(); sfx("pick"); const r = dlgState.resolve; dlgState.resolve = null; r && r(i); }
+  function closeDlg() { dlgState.open = false; dlg.hidden = true; clearInput(); }
+  function dlgAdvance() {
+    if (dlgState.mode === "choose") { pickOpt(dlgState.sel); return; }
+    if (dlgState.queue.length) { const [w, t] = dlgState.queue.shift(); renderLine(w, t); sfx("blip"); return; }
+    closeDlg(); const r = dlgState.resolve; dlgState.resolve = null; r && r();
+  }
+  function dlgKey(e) {
+    if (dlgState.mode === "choose") {
+      const n = /^(Digit|Numpad)([1-9])$/.exec(e.code);
+      if (n) { const i = +n[2] - 1; if (i < dlgState.options.length) { e.preventDefault(); pickOpt(i); } return; }
+      if (e.code === "ArrowDown" || e.code === "KeyS") { e.preventDefault(); dlgState.sel = (dlgState.sel + 1) % dlgState.options.length; markSel(); return; }
+      if (e.code === "ArrowUp" || e.code === "KeyW") { e.preventDefault(); dlgState.sel = (dlgState.sel - 1 + dlgState.options.length) % dlgState.options.length; markSel(); return; }
+    }
+    if (e.code === "Enter" || e.code === "Space" || e.code === "KeyE" || e.code === "NumpadEnter") { e.preventDefault(); if (!e.repeat) dlgAdvance(); }
+  }
+  dlg.addEventListener("click", () => { if (dlgState.mode === "say") dlgAdvance(); });
+
+  // ---------- екрани
+  const screenState = { open: false };
+  function showScreen(html, onBind) {
+    screenEl.innerHTML = `<div class="card">${html}</div>`; screenEl.hidden = false; screenState.open = true; screenEl.scrollTop = 0;
+    clearInput();
+    if (onBind) onBind(screenEl);
+    const p = screenEl.querySelector("[data-primary]"); if (p) setTimeout(() => p.focus({ preventScroll: true }), 30);
+  }
+  function hideScreen() { screenEl.hidden = true; screenState.open = false; screenEl.innerHTML = ""; }
+
+  // ---------- малювання
+  const D = {
+    emoji(ch, x, y, size, o) {
+      o = o || {};
+      ctx.save(); ctx.translate(x, y);
+      if (o.rot) ctx.rotate(o.rot);
+      if (o.flip) ctx.scale(-1, 1);
+      if (o.sy) ctx.scale(1, o.sy);
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      ctx.font = `${Math.round(size)}px ${EMOJI_FONT}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillStyle = "#000"; // кольорові гліфи множаться на альфу заливки
+      ctx.fillText(ch, 0, size * 0.06);
+      ctx.restore();
+    },
+    text(str, x, y, o) {
+      o = o || {};
+      const size = o.size || 18;
+      ctx.save();
+      ctx.font = `${o.weight || 600} ${size}px ${o.display ? '"Unbounded","Arial Black",sans-serif' : '"Commissioner","Segoe UI",sans-serif'}`;
+      ctx.textAlign = o.align || "center"; ctx.textBaseline = o.baseline || "middle";
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      if (o.stroke) { ctx.lineWidth = o.strokeW || 4; ctx.strokeStyle = o.stroke; ctx.lineJoin = "round"; ctx.strokeText(str, x, y); }
+      ctx.fillStyle = o.color || "#fff"; ctx.fillText(str, x, y);
+      ctx.restore();
+    },
+    rr(x, y, w, h, r, fill, stroke, lw) {
+      ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h);
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = lw || 2; ctx.strokeStyle = stroke; ctx.stroke(); }
+    },
+    circle(x, y, r, fill, stroke, lw) {
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = lw || 2; ctx.strokeStyle = stroke; ctx.stroke(); }
+    },
+    shadow(x, y, w, a) { ctx.save(); ctx.globalAlpha = a == null ? 0.25 : a; ctx.fillStyle = "#000"; ctx.beginPath(); ctx.ellipse(x, y, w, w * 0.32, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore(); },
+    bubble(str, x, y, o) {
+      o = o || {};
+      ctx.save();
+      const size = o.size || 15;
+      ctx.font = `600 ${size}px "Commissioner","Segoe UI",sans-serif`;
+      const w = Math.min(ctx.measureText(str).width + 20, 360), h = size + 14;
+      let bx = Math.max(6, Math.min(W - w - 6, x - w / 2)), by = y - h - 10;
+      if (o.alpha != null) ctx.globalAlpha = o.alpha;
+      D.rr(bx, by, w, h, 10, o.bg || "rgba(255,255,255,0.95)");
+      ctx.beginPath(); ctx.moveTo(x - 6, by + h); ctx.lineTo(x + 6, by + h); ctx.lineTo(x, by + h + 8); ctx.fillStyle = o.bg || "rgba(255,255,255,0.95)"; ctx.fill();
+      ctx.fillStyle = o.color || "#1b2030"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(str, bx + w / 2, by + h / 2 + 1, w - 14);
+      ctx.restore();
+    },
+    bar(x, y, w, h, frac, fill, back) {
+      D.rr(x, y, w, h, h / 2, back || "rgba(0,0,0,0.35)");
+      D.rr(x, y, Math.max(h, w * Math.max(0, Math.min(1, frac))), h, h / 2, fill || "#f2c14e");
+    },
+  };
+
+  // актори
+  function actor(o) { return Object.assign({ x: 0, y: 0, vx: 0, vy: 0, size: 44, emoji: "🙂", flip: false, moving: false, phase: 0, speed: 180 }, o); }
+  function moveActor(a, dt, bounds, speedMul) {
+    const sp = a.speed * (speedMul == null ? 1 : speedMul);
+    const dx = input.x * sp * dt, dy = input.y * sp * dt;
+    a.moving = !!(input.x || input.y);
+    if (a.moving) { a.phase += dt * 10; if (input.x) a.flip = input.x > 0; }
+    let nx = a.x + dx, ny = a.y + dy;
+    if (bounds) { nx = clamp(nx, bounds.x0, bounds.x1); ny = clamp(ny, bounds.y0, bounds.y1); }
+    if (a.blocked && a.blocked(nx, a.y)) nx = a.x;
+    if (a.blocked && a.blocked(a.x, ny)) ny = a.y;
+    a.x = nx; a.y = ny;
+    if (a.moving && Math.floor(a.phase / 3.14) !== a._lastStep) { a._lastStep = Math.floor(a.phase / 3.14); if (a.stepSound !== false) sfx("step"); }
+  }
+  function drawActor(a, o) {
+    o = o || {};
+    const bob = a.moving ? Math.abs(Math.sin(a.phase)) * 4 : Math.sin(api.t * 2 + (a.x % 7)) * 1.2;
+    D.shadow(a.x, a.y + a.size * 0.42, a.size * 0.36);
+    D.emoji(a.emoji, a.x, a.y - bob, a.size, { flip: o.flip != null ? o.flip : a.flip, alpha: a.alpha, rot: a.rot });
+    if (a.label) D.text(a.label, a.x, a.y - a.size * 0.75 - bob, { size: 13, color: "#fff", stroke: "rgba(0,0,0,0.6)", strokeW: 4 });
+  }
+
+  // частинки
+  const parts = [];
+  function burst(x, y, what, n, o) {
+    o = o || {};
+    for (let i = 0; i < (n || 10); i++) {
+      const a = Math.random() * Math.PI * 2, s = (o.speed || 120) * (0.4 + Math.random());
+      parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - (o.up || 40), life: o.life || 0.9, t: 0, what, size: o.size || 16, g: o.g == null ? 200 : o.g });
+    }
+  }
+  function updParts(dt) {
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const p = parts[i]; p.t += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += p.g * dt;
+      if (p.t > p.life) parts.splice(i, 1);
+    }
+  }
+  function drawParts() {
+    for (const p of parts) {
+      const a = 1 - p.t / p.life;
+      if (p.what.length <= 2 || /\p{Extended_Pictographic}/u.test(p.what)) D.emoji(p.what, p.x, p.y, p.size, { alpha: a });
+      else D.circle(p.x, p.y, p.size / 4, p.what);
+    }
+  }
+
+  let shakeT = 0, shakeA = 0;
+  function shake(a, t) { shakeA = a || 6; shakeT = t || 0.3; }
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const wait = (s) => new Promise((r) => setTimeout(r, s * 1000));
+
+  // ---------- гра
+  let G = null, state = "intro", ended = false;
+  const api = {
+    W, H, ctx, input, D, t: 0, dt: 0,
+    say, choose, banner, hud, sfx, shake, burst, actor, moveActor, drawActor, wait,
+    clamp, dist, rand, pick, store,
+    get busy() { return dlgState.open || screenState.open || api.locked; },
+    locked: false,
+    end, restart,
+  };
+
+  function endingKey() { return "pg:end:" + (G && G.id); }
+  function found() { return store.get(endingKey(), []); }
+
+  function intro() {
+    state = "intro";
+    const controls = (G.controls || []).map((c) => `<li>${c}</li>`).join("");
+    showScreen(
+      `<span class="eyebrow">Гра ${esc(META.num || G.id)} · ${G.eyebrow ? esc(G.eyebrow) : `за притчею «${esc(G.parable)}»`}</span>
+       <h1>${esc(G.title)}</h1>
+       <p class="story">${esc(G.story)}</p>
+       ${G.goal ? `<p>${esc(G.goal)}</p>` : ""}
+       ${controls ? `<ul>${controls}</ul>` : ""}
+       <p class="muted">Фіналів у грі: ${Object.keys(G.endings).length}. Знайдено: ${found().length}.</p>
+       <div class="row"><button class="btn" data-primary type="button">Почати гру</button></div>`,
+      (el) => el.querySelector("[data-primary]").addEventListener("click", () => { ensureAudio(); hideScreen(); begin(); })
+    );
+  }
+  function begin() {
+    state = "play"; ended = false; api.locked = false; parts.length = 0; hud([]); bannerEl.hidden = true;
+    api.t = 0; G.init(api);
+    if (G.start) Promise.resolve(G.start(api)).catch(console.error);
+  }
+  function restart() { hideScreen(); closeDlgSilent(); begin(); }
+  function closeDlgSilent() { dlgState.open = false; dlg.hidden = true; dlgState.resolve = null; }
+
+  function end(letter) {
+    if (ended) return; ended = true; state = "end";
+    const e = G.endings[letter];
+    const got = new Set(found()); got.add(letter); store.set(endingKey(), [...got]);
+    const total = Object.keys(G.endings);
+    sfx("end");
+    const chips = total.map((k) => `<span class="${k === letter ? "now" : got.has(k) ? "got" : ""}">${k === letter || got.has(k) ? esc(k + ". " + G.endings[k].title) : esc(k + ". ???")}</span>`).join("");
+    const qs = (G.questions || []).map((q) => `<li>${esc(q)}</li>`).join("");
+    const next = META.next ? `<a class="btn ghost" href="${esc(META.next)}">Наступна гра →</a>` : "";
+    setTimeout(() => showScreen(
+      `<span class="eyebrow">Фінал ${esc(letter)} з ${total.length}</span>
+       <h1><span class="letter">${esc(letter)}</span>${esc(e.title)}</h1>
+       <p>${esc(e.text)}</p>
+       <h2>Висновок</h2>
+       <p class="moral">${esc(G.moral)}</p>
+       ${qs ? `<ul>${qs}</ul>` : ""}
+       <span class="eyebrow">Знайдені фінали: ${got.size} з ${total.length}</span>
+       <div class="ends">${chips}</div>
+       <div class="row"><button class="btn" data-primary type="button">Грати знову</button>${next}<a class="btn ghost" href="${esc(META.hub || "#")}">Усі ігри</a></div>`,
+      (el) => el.querySelector("[data-primary]").addEventListener("click", restart)
+    ), 500);
+  }
+
+  // ---------- цикл
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    pollInput();
+    if (G) {
+      if (state === "play" && !api.busy) { api.t += dt; api.dt = dt; G.update(dt, api); }
+      updParts(dt);
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      if (shakeT > 0) { shakeT -= dt; ctx.translate(rand(-shakeA, shakeA), rand(-shakeA, shakeA)); }
+      ctx.clearRect(-20, -20, W + 40, H + 40);
+      G.draw(ctx, api);
+      drawParts();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  window.PG = {
+    start(game) {
+      G = game; window.PG.game = game;
+      if (game.dlgTop) dlg.classList.add("top");
+      document.title = game.title;
+      if (pad) {
+        const a = pad.querySelector('[data-k="act"]'), b = pad.querySelector('[data-k="alt"]');
+        a.textContent = game.actLabel || "Дія";
+        if (game.altLabel) { b.textContent = game.altLabel; b.hidden = false; } else b.hidden = true;
+        if (game.noMove) pad.querySelector(".stick").style.visibility = "hidden";
+      }
+      const help = $("#help");
+      if (help && game.help) help.innerHTML = game.help;
+      G.init(api);
+      intro();
+      requestAnimationFrame(frame);
+    },
+    api,
+  };
+})();
+</script>
+<script>/* Гра 01 «Гілка над проваллям» — пригода в темряві за притчею «Атеїст». */
+(function () {
+  const PATH = [[60, 480], [260, 470], [300, 360], [140, 300], [160, 180], [380, 140], [470, 260], [640, 300], [700, 170], [860, 110]];
+  const BRANCH = [[470, 260], [560, 420], [770, 470]]; // стежка Сумнівів
+  const HALF = 34;
+  const STONES = [[280, 410], [150, 240], [560, 285]];
+  let S;
+
+  function segDist(p, a, b) {
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const t = Math.max(0, Math.min(1, ((p.x - a[0]) * dx + (p.y - a[1]) * dy) / (dx * dx + dy * dy)));
+    return Math.hypot(p.x - (a[0] + t * dx), p.y - (a[1] + t * dy));
+  }
+  function lineDist(p, pts) { let m = 1e9; for (let i = 0; i < pts.length - 1; i++) m = Math.min(m, segDist(p, pts[i], pts[i + 1])); return m; }
+  function strokePath(ctx, pts, w, color) {
+    ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (const p of pts.slice(1)) ctx.lineTo(p[0], p[1]);
+    ctx.lineWidth = w; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = color; ctx.stroke();
+  }
+
+  const game = {
+    id: "01", title: "Гілка над проваллям", parable: "Атеїст",
+    story: "Атеїст зірвався у провалля і вчепився за гілку. «Боже, врятуй, і я повірю!» — «Добре, відпусти гілку». — «Та чи я божевільний?»",
+    goal: "Ніч, гірська стежка, видно лише крок уперед. Іди на світло Голосу. Сумніви шепочуть інше. Наприкінці доведеться вирішити, чи відпустити гілку.",
+    controls: ["Стрілки або WASD — іти", "Пробіл або E — покликати Голос: на мить стає світліше (3 рази)", "Зійдеш зі стежки — зірвешся і повернешся трохи назад"],
+    help: "<kbd>←↑→↓</kbd> іти · <kbd>Пробіл</kbd> покликати Голос",
+    actLabel: "Покликати",
+    endings: {
+      "А": { title: "Відпустив", text: "Ти розтиснув пальці і м’яко став на землю. Провалля було глибиною двадцять сантиметрів. Світанок застав тебе в долині." },
+      "Б": { title: "Тримався до кінця", text: "Ти тримався, доки не заніміли руки, і зісковзнув сам. Під ногами була земля, двадцять сантиметрів. Поруч жінка з копицею буркнула: «Так я і знала»." },
+      "В": { title: "Торгувався", text: "Ти вимагав гарантій, доки не зійшло сонце. Тоді побачив, що висиш над землею. Голос мовчав: торгуватися з вірою неможливо." },
+      "Г": { title: "Пішов за Сумнівами", text: "«Коротша» стежка завела в туман. Сумніви замовкли так само раптово, як і з’явилися: вести вони нікуди не збиралися." },
+    },
+    moral: "Ми спочатку віримо, що щось отримаємо, і лише потім отримуємо, ніколи навпаки. Віра — точний інструмент, який потребує тренування.",
+    questions: ["За яку «гілку» ви досі тримаєтеся?", "Чий голос у вашому житті звучить як Сумнів?", "Де ви «знали заздалегідь», що не вийде?"],
+
+    _s() { return S; },
+    init(api) {
+      S = {
+        mode: "walk",
+        p: api.actor({ x: 60, y: 480, emoji: "🚶", size: 34, speed: 115 }),
+        checkpoint: { x: 60, y: 480 }, slips: 0, calls: 3, glow: 0,
+        voiceDot: 0, voiceT: 0, events: {}, whisper: null, whisperT: 0, voice: null, voiceTxt: 0,
+        hang: null, reveal: 0, stumble: 0,
+      };
+    },
+
+    start(api) {
+      api.say([["Голос", "Ти на гірській стежці, і зараз ніч. Іди на моє світло. Не сходь зі стежки."]]);
+    },
+
+    update(dt, api) {
+      if (S.mode === "walk") walk(dt, api);
+      else if (S.mode === "hold") holdUpdate(dt, api);
+      S.glow = Math.max(0, S.glow - dt);
+      S.whisperT -= dt; S.voiceTxt -= dt; S.stumble = Math.max(0, S.stumble - dt);
+      api.hud([["Покликів", S.calls], ["Зривів", S.slips]]);
+    },
+
+    draw(ctx, api) {
+      if (S.mode === "walk" || S.mode === "fog") drawWalk(ctx, api);
+      else drawHang(ctx, api);
+    },
+  };
+
+  function trigger(key, fn) { if (!S.events[key]) { S.events[key] = true; fn(); } }
+
+  function walk(dt, api) {
+    const p = S.p;
+    api.moveActor(p, dt, { x0: 20, x1: 940, y0: 30, y1: 520 }, S.stumble > 0 ? 0.4 : 1);
+    if (api.input.act && S.calls > 0) { S.calls--; S.glow = 2.2; api.sfx("bell"); say(api, "Я тут. Іди вгору, до світла."); }
+
+    const onMain = lineDist(p, PATH) < HALF, onBranch = lineDist(p, BRANCH) < HALF;
+    if (!onMain && !onBranch) {
+      S.slips++; api.sfx("bad"); api.shake(8, 0.35);
+      api.banner("Камінці посипалися з-під ніг. Ти ледь втримався і повернувся назад.");
+      p.x = S.checkpoint.x; p.y = S.checkpoint.y;
+    }
+    // контрольні точки на основній стежці
+    for (let i = 0; i < PATH.length; i++) {
+      if (Math.hypot(p.x - PATH[i][0], p.y - PATH[i][1]) < 40 && onMain) S.checkpoint = { x: PATH[i][0], y: PATH[i][1] };
+    }
+    // каміння
+    for (const s of STONES) {
+      const d = Math.hypot(p.x - s[0], p.y - s[1]);
+      if (d < 95) trigger("warn" + s[0], () => say(api, "Обережно, попереду камінь."));
+      if (d < 20 && S.stumble <= 0) { S.stumble = 1.2; api.sfx("bad"); api.shake(4, 0.2); p.x -= (s[0] - p.x) * 1.2; p.y -= (s[1] - p.y) * 1.2; api.banner("Спіткнувся об камінь"); }
+    }
+    // події на шляху
+    if (Math.hypot(p.x - 300, p.y - 360) < 50) trigger("dbt1", () => whisper(api, "Нікого там немає. Це твоя уява."));
+    if (Math.hypot(p.x - 160, p.y - 180) < 50) trigger("silence", () => { api.banner("Голос замовк. Тиша."); S.silence = 6; });
+    if (Math.hypot(p.x - 400, p.y - 170) < 60) trigger("dbt2", () => whisper(api, "Праворуч і вниз — коротше! Тобі ж туди."));
+    if (Math.hypot(p.x - 470, p.y - 260) < 40) trigger("fork", () => say(api, "Вгору, до мене. Не вниз."));
+    if (S.silence) { S.silence -= dt; if (S.silence <= 0) { S.silence = 0; say(api, "Я нікуди не зникав. Іди далі."); } }
+    if (onBranch && !onMain && Math.hypot(p.x - 640, p.y - 455) < 60) trigger("dbt3", () => whisper(api, "Ще трохи, ще трошки…"));
+    if (Math.hypot(p.x - 770, p.y - 470) < 40) { S.mode = "fog"; api.locked = true; api.sfx("whoosh"); api.say([["", "Туман густішає. Стежка зникає. Шепіт стихає, і ти розумієш, що далі дороги немає."]]).then(() => { api.locked = false; api.end("Г"); }); }
+    // фінал основної стежки
+    if (Math.hypot(p.x - 860, p.y - 110) < 34 && S.mode === "walk") fall(api);
+
+    // світло Голосу біжить уперед
+    S.voiceT += dt;
+    if (S.voiceT > 5) { S.voiceT = 0; }
+  }
+
+  function say(api, t) { S.voice = t; S.voiceTxt = 3.2; }
+  function whisper(api, t) { S.whisper = t; S.whisperT = 3.5; api.sfx("whoosh"); }
+
+  async function fall(api) {
+    S.mode = "hang"; api.locked = true; api.sfx("bad"); api.shake(12, 0.5);
+    S.hang = { y: 0, grip: 1, woman: -80, line: "" };
+    await api.wait(0.9);
+    await api.say([["", "Камінь сповзає з-під ноги. Ти падаєш і в останню мить хапаєшся за гілку над проваллям."], ["Ти", "Боже, врятуй! Якщо врятуєш, повірю в Тебе!"], ["Голос", "Е ні, знаю я таких, як ти."], ["Ти", "Повірю, чесне слово!"], ["Голос", "Гаразд. Я врятую тебе. Відпусти гілку."]]);
+    await decide(api, false);
+  }
+
+  async function decide(api, bargained) {
+    const opts = bargained ? ["Відпустити гілку", "Ще поторгуватися"] : ["Відпустити гілку", "Триматися", "Спершу дай гарантії"];
+    const c = await api.choose("Голос чекає.", opts, "Голос");
+    if (c === 0) return letGo(api, "А");
+    if (bargained && c === 1) {
+      await api.say([["Ти", "А якщо там каміння? Дай знак! Дай мотузку!"], ["", "Голос мовчить. Небо на сході світлішає…"]]);
+      S.reveal = 0.001; await api.wait(2.2); api.locked = false; return api.end("В");
+    }
+    if (c === 2) {
+      await api.say([["Голос", "Спершу віра, потім результат. Можеш опустити одну ногу."]]);
+      return decide(api, true);
+    }
+    // тримається
+    await api.say([["", "Тримайся! Утримуй пробіл або кнопку, щоб не впасти. Відпусти, коли вирішиш."]]);
+    S.mode = "hold"; api.locked = false; S.holdT = 0;
+  }
+
+  function holdUpdate(dt, api) {
+    const h = S.hang; S.holdT += dt;
+    h.grip -= dt * (api.input.actHeld ? 0.075 : 0.5);
+    if (S.holdT > 2.5) h.woman = Math.min(300, h.woman + dt * 120);
+    if (S.holdT > 5 && !S.events.hay1) { S.events.hay1 = true; api.say([["Жінка з копицею", "Копице, перейди у стодолу!"], ["Жінка з копицею", "…Так я і знала."]]); }
+    if (api.input.actHeld) { S.heldOnce = true; S.relT = 0; } else if (S.heldOnce) S.relT = (S.relT || 0) + dt;
+    if (S.relT > 0.35 && h.grip > 0.15 && !S.events.release) { S.events.release = true; S.mode = "hang"; letGo(api, "А"); return; }
+    if (h.grip <= 0) { S.mode = "hang"; letGo(api, "Б"); }
+  }
+
+  async function letGo(api, letter) {
+    api.locked = true; api.sfx("whoosh");
+    S.hang.drop = 0.001;
+    await api.wait(0.9);
+    S.reveal = 0.001; api.sfx("good");
+    await api.wait(1.2);
+    await api.say(letter === "А"
+      ? [["", "Ти падаєш… на двадцять сантиметрів. Під ногами м’яка трава. Небо світлішає, і стає видно долину."]]
+      : [["", "Пальці розтискаються самі. Ти падаєш… на двадцять сантиметрів. Під ногами була земля весь цей час."]]);
+    api.locked = false; api.end(letter);
+  }
+
+  function drawWalk(ctx, api) {
+    const p = S.p;
+    ctx.fillStyle = "#1a2236"; ctx.fillRect(0, 0, 960, 540);
+    // провалля: тріщини
+    ctx.fillStyle = "#0e1424";
+    for (let i = 0; i < 18; i++) { const x = (i * 157) % 960, y = (i * 263) % 540; ctx.beginPath(); ctx.ellipse(x, y, 60, 22, i, 0, 7); ctx.fill(); }
+    strokePath(ctx, BRANCH, HALF * 2, "#3a3f4f");
+    strokePath(ctx, PATH, HALF * 2, "#4b5468");
+    strokePath(ctx, PATH, HALF * 2 - 16, "#5a6479");
+    // туман на кінці стежки Сумнівів
+    const fg = ctx.createRadialGradient(770, 470, 10, 770, 470, 120); fg.addColorStop(0, "rgba(200,205,220,0.6)"); fg.addColorStop(1, "rgba(200,205,220,0)");
+    ctx.fillStyle = fg; ctx.fillRect(600, 330, 340, 210);
+    for (const s of STONES) api.D.emoji("🪨", s[0], s[1], 26);
+    api.D.emoji("🌳", 905, 92, 56);
+    // світло Голосу попереду
+    const k = (api.t % 5) / 5; const target = nextPoint(p);
+    const vx = p.x + (target[0] - p.x) * (0.3 + k * 0.7), vy = p.y + (target[1] - p.y) * (0.3 + k * 0.7);
+    // темрява
+    const r = S.glow > 0 ? 280 : S.silence ? 80 : 130;
+    const g = ctx.createRadialGradient(p.x, p.y, r * 0.45, p.x, p.y, r);
+    g.addColorStop(0, "rgba(4,6,14,0)"); g.addColorStop(1, "rgba(4,6,14,0.93)");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 960, 540);
+    // світло Голосу і червоні вогники Сумнівів видно крізь темряву
+    if (!S.silence) {
+      const vg = ctx.createRadialGradient(vx, vy, 2, vx, vy, 26); vg.addColorStop(0, "rgba(255,220,120,0.95)"); vg.addColorStop(1, "rgba(255,220,120,0)");
+      ctx.fillStyle = vg; ctx.fillRect(vx - 30, vy - 30, 60, 60);
+    }
+    if (S.events.dbt2) {
+      for (let i = 0; i < 4; i++) {
+        const t = ((api.t * 0.4 + i / 4) % 1);
+        const x = 470 + (770 - 470) * t, y = 260 + (470 - 260) * Math.sin(t * Math.PI / 2);
+        const rg = ctx.createRadialGradient(x, y, 1, x, y, 16); rg.addColorStop(0, "rgba(255,90,90,0.8)"); rg.addColorStop(1, "rgba(255,90,90,0)");
+        ctx.fillStyle = rg; ctx.fillRect(x - 18, y - 18, 36, 36);
+      }
+    }
+    api.drawActor(p);
+    if (S.voiceTxt > 0 && S.voice) api.D.bubble("Голос: " + S.voice, p.x, p.y - 30, { bg: "rgba(255,226,140,0.95)" });
+    else if (S.whisperT > 0 && S.whisper) api.D.bubble("Сумнів: " + S.whisper, p.x, p.y - 30, { bg: "rgba(255,170,170,0.95)" });
+  }
+
+  function nextPoint(p) {
+    let best = 0, bd = 1e9;
+    for (let i = 0; i < PATH.length; i++) { const d = Math.hypot(p.x - PATH[i][0], p.y - PATH[i][1]); if (d < bd) { bd = d; best = i; } }
+    return PATH[Math.min(PATH.length - 1, best + 1)];
+  }
+
+  function drawHang(ctx, api) {
+    const h = S.hang || { grip: 1 };
+    const rv = S.reveal ? Math.min(1, (S.reveal += api.dt || 0.016) / 1.5) : 0;
+    const sky = ctx.createLinearGradient(0, 0, 0, 540);
+    sky.addColorStop(0, rv ? `rgb(${40 + rv * 150},${50 + rv * 120},${90 + rv * 110})` : "#0b1020"); sky.addColorStop(1, "#05070d");
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, 960, 540);
+    // скеля
+    ctx.fillStyle = "#2a3245"; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(380, 0); ctx.lineTo(360, 160); ctx.lineTo(330, 540); ctx.lineTo(0, 540); ctx.fill();
+    // гілка
+    ctx.strokeStyle = "#6b4b2a"; ctx.lineWidth = 12; ctx.lineCap = "round"; ctx.beginPath(); ctx.moveTo(350, 170); ctx.lineTo(520, 150); ctx.stroke();
+    api.D.emoji("🍃", 520, 140, 28);
+    const drop = h.drop ? Math.min(1, (h.drop += (api.dt || 0.016) * 3)) : 0;
+    const by = 230 + drop * 50;
+    // земля, яку видно лише на світанку
+    ctx.save(); ctx.globalAlpha = rv; ctx.fillStyle = "#3e6b3a"; ctx.fillRect(330, 300, 630, 240);
+    ctx.fillStyle = "#4f8a49"; ctx.fillRect(330, 300, 630, 14); ctx.restore();
+    if (!rv) { const dg = ctx.createLinearGradient(0, 280, 0, 540); dg.addColorStop(0, "rgba(0,0,0,0)"); dg.addColorStop(1, "rgba(0,0,0,0.9)"); ctx.fillStyle = dg; ctx.fillRect(330, 280, 630, 260); }
+    api.D.emoji("🧗", 480, by, 70, { flip: true });
+    if (rv) api.D.text("20 см", 600, 285, { size: 16, color: "#fff", stroke: "rgba(0,0,0,.6)" });
+    if (h.woman > -80) { api.D.emoji("👩‍🌾", 960 - h.woman, 270, 46); api.D.emoji("🌾", 960 - h.woman + 50, 280, 40); }
+    if (S.mode === "hold") {
+      api.D.text("Сила рук", 700, 60, { size: 16, color: "#fff" });
+      api.D.bar(620, 76, 160, 14, h.grip, h.grip > 0.3 ? "#f2c14e" : "#e05a4f");
+      api.D.text(api.input.actHeld ? "Тримаєшся…" : "Утримуй пробіл!", 700, 110, { size: 15, color: "#cfd6e6" });
+    }
+  }
+
+  PG.start(game);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1289 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>SPE Тренажер продажів</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Unbounded:wght@500;700&display=swap">
+<style>
+/* Layout: sticky progress bar on top, stage "staircase" rail on the left, working area on the right; rail becomes a horizontal strip on phones. */
+:root {
+  --bg: #EDF0F4;
+  --surface: #FFFFFF;
+  --surface-2: #F5F7FA;
+  --ink: #131B26;
+  --muted: #5A6574;
+  --line: #D8DEE6;
+  --accent: #1F4FD1;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E2E9FB;
+  --gold: #B07A00;
+  --gold-strong: #E0A400;
+  --gold-soft: #FBF0D2;
+  --rec: #D23A2A;
+  --rec-soft: #FBE4E1;
+  --ok: #1D8653;
+  --ok-soft: #DCF1E5;
+  --fill-bg: #FFEFB8;
+  --fill-ink: #573D00;
+  --shadow: 0 1px 2px rgba(19, 27, 38, .06), 0 4px 16px rgba(19, 27, 38, .06);
+  --f-display: "Unbounded", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --r: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1319; --surface: #161D26; --surface-2: #1C2531; --ink: #E6EBF2; --muted: #95A1B0; --line: #2A3543;
+    --accent: #7E9CFF; --accent-ink: #0A1022; --accent-soft: #1C2A4E;
+    --gold: #F2B632; --gold-strong: #F2B632; --gold-soft: #3A2E10;
+    --rec: #FF6D5C; --rec-soft: #3D1C18; --ok: #4CC88A; --ok-soft: #153526;
+    --fill-bg: #47380E; --fill-ink: #FFE6A0; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1319; --surface: #161D26; --surface-2: #1C2531; --ink: #E6EBF2; --muted: #95A1B0; --line: #2A3543;
+  --accent: #7E9CFF; --accent-ink: #0A1022; --accent-soft: #1C2A4E;
+  --gold: #F2B632; --gold-strong: #F2B632; --gold-soft: #3A2E10;
+  --rec: #FF6D5C; --rec-soft: #3D1C18; --ok: #4CC88A; --ok-soft: #153526;
+  --fill-bg: #47380E; --fill-ink: #FFE6A0; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+a { color: var(--accent); }
+
+/* ---------- top bar ---------- */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+.top-in { max-width: 1200px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; margin-right: auto; min-width: 0; }
+.brand-mark { width: 34px; height: 34px; flex: none; }
+.brand b { font-family: var(--f-display); font-weight: 700; font-size: 15px; letter-spacing: .01em; display: block; line-height: 1.1; }
+.brand small { color: var(--muted); font-size: 12px; }
+.stats { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.stat { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.stat .num { font-family: var(--f-mono); font-weight: 700; font-variant-numeric: tabular-nums; }
+.lvl { display: grid; gap: 4px; min-width: 170px; }
+.lvl-row { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; }
+.lvl-name { font-weight: 600; }
+.lvl-xp { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar { height: 8px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; }
+.bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-strong), var(--gold)); border-radius: 99px; transition: width .5s ease; }
+.ring { width: 34px; height: 34px; }
+.ring circle { fill: none; stroke-width: 4; }
+.ring .bg { stroke: var(--line); }
+.ring .fg { stroke: var(--ok); stroke-linecap: round; transition: stroke-dashoffset .5s ease; }
+.flame { width: 22px; height: 22px; }
+.flame path { fill: var(--rec); }
+.flame.off path { fill: var(--line); }
+
+/* ---------- shell ---------- */
+.shell { max-width: 1200px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 60px; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 24px; align-items: start; }
+.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 76px); display: grid; gap: 4px; }
+.rail-label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 10px 10px 4px; }
+.nav { display: grid; grid-template-columns: 30px minmax(0,1fr); align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; border: 1px solid transparent; background: none; text-align: left; width: 100%; }
+.nav:hover { background: var(--surface); }
+.nav[aria-current="page"] { background: var(--surface); border-color: var(--line); box-shadow: var(--shadow); }
+.nav .dot { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-family: var(--f-mono); font-weight: 700; font-size: 13px; background: var(--surface-2); border: 1px solid var(--line); color: var(--muted); }
+.nav[aria-current="page"] .dot { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.nav.done .dot { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.nav .t { font-weight: 600; font-size: 14px; line-height: 1.2; }
+.nav .s { font-size: 12px; color: var(--muted); display: block; }
+.nav .mini { height: 3px; border-radius: 3px; background: var(--line); margin-top: 5px; overflow: hidden; }
+.nav .mini i { display: block; height: 100%; background: var(--ok); }
+.nav svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+main { min-width: 0; display: grid; gap: 20px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; box-shadow: var(--shadow); min-width: 0; }
+.eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); font-weight: 600; }
+.h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(22px, 3.2vw, 30px); line-height: 1.15; letter-spacing: -.01em; }
+.h2 { font-family: var(--f-display); font-weight: 500; font-size: 18px; line-height: 1.25; }
+.lead { color: var(--muted); max-width: 64ch; margin: 8px 0 0; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 14px; line-height: 1.2; }
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.ghost { border-color: transparent; background: none; color: var(--muted); padding-inline: 8px; }
+.btn.ghost:hover { color: var(--ink); background: var(--surface-2); }
+.btn.small { padding: 6px 10px; font-size: 13px; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; flex: none; }
+
+/* ---------- home: staircase ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: end; }
+.stairs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; align-items: end; height: 190px; }
+.step { position: relative; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; background: none; border: 0; padding: 0; text-align: left; }
+.step .col { position: relative; border-radius: 8px 8px 3px 3px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; }
+.step .col i { position: absolute; left: 0; right: 0; bottom: 0; background: var(--ok); opacity: .85; transition: height .6s ease; }
+.step .col span { position: absolute; top: 6px; left: 8px; font-family: var(--f-mono); font-weight: 700; font-size: 13px; z-index: 1; }
+.step em { font-style: normal; font-size: 11.5px; line-height: 1.2; color: var(--muted); margin-top: 6px; overflow-wrap: anywhere; hyphens: auto; }
+.step:hover .col { border-color: var(--accent); }
+
+.form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin-top: 16px; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field.wide { grid-column: 1 / -1; }
+.field label { font-size: 13px; font-weight: 600; }
+.field small { color: var(--muted); font-size: 12px; }
+.field input { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface-2); }
+.field input:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+.note { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; background: var(--gold-soft); font-size: 13.5px; }
+.note.info { background: var(--accent-soft); }
+.note b { font-weight: 600; }
+
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 14px; }
+.rule { padding: 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); }
+.rule .pts { font-family: var(--f-mono); font-weight: 700; color: var(--gold); }
+.rule p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+
+/* ---------- stage ---------- */
+.stage-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+.checklist { display: grid; gap: 6px; min-width: 220px; font-size: 13px; }
+.check { display: grid; grid-template-columns: 18px minmax(0,1fr) auto; gap: 8px; align-items: center; }
+.check .box { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--line); display: grid; place-items: center; }
+.check.ok .box { background: var(--ok); border-color: var(--ok); }
+.check.ok .box::after { content: ""; width: 8px; height: 4px; border-left: 2px solid var(--surface); border-bottom: 2px solid var(--surface); transform: rotate(-45deg) translate(1px, -1px); }
+.check .n { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-top: 18px; overflow-x: auto; }
+.tab { padding: 10px 14px; border: 0; background: none; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab .c { font-family: var(--f-mono); font-size: 12px; margin-left: 6px; color: var(--muted); }
+
+.cards { display: grid; gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 12px; min-width: 0; }
+.card.done { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.card-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
+.card h3 { font-size: 17px; font-weight: 700; margin-top: 2px; }
+.what { margin: 0; color: var(--muted); font-size: 14px; max-width: 70ch; }
+.badge-ok { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--ok); background: var(--ok-soft); padding: 3px 8px; border-radius: 99px; white-space: nowrap; }
+.phrase { font-size: 17px; line-height: 1.6; padding: 14px 16px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); }
+.phrase mark { background: var(--fill-bg); color: var(--fill-ink); border-radius: 4px; padding: 0 3px; }
+.phrase mark.empty { opacity: .7; font-style: italic; }
+.phrase .cue { color: var(--muted); font-style: italic; font-size: .9em; }
+.phrase-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.ai-tag { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; color: var(--accent); background: var(--accent-soft); padding: 2px 6px; border-radius: 5px; margin-right: 6px; }
+.tip { font-size: 13px; color: var(--muted); border-left: 2px solid var(--gold-strong); padding-left: 10px; }
+
+/* recorder */
+.recbox { display: grid; gap: 10px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.recbtn { display: inline-flex; align-items: center; gap: 10px; padding: 9px 16px 9px 12px; border-radius: 99px; border: 1px solid var(--rec); background: var(--surface); color: var(--rec); font-weight: 700; font-size: 14px; }
+.recbtn .led { width: 12px; height: 12px; border-radius: 50%; background: var(--rec); }
+.recbtn.on { background: var(--rec); color: var(--surface); }
+.recbtn.on .led { background: var(--surface); border-radius: 3px; animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .35; } }
+.meter { display: inline-flex; gap: 3px; align-items: center; height: 22px; }
+.meter i { width: 4px; height: 4px; border-radius: 2px; background: var(--rec); transition: height .08s; }
+.timer { font-family: var(--f-mono); font-weight: 700; font-variant-numeric: tabular-nums; }
+.takes { display: grid; gap: 8px; }
+.take { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); }
+.take audio { width: 100%; height: 36px; min-width: 0; }
+.take .when { font-size: 12px; color: var(--muted); font-family: var(--f-mono); white-space: nowrap; }
+.take .heard { font-size: 11px; color: var(--ok); font-weight: 600; }
+.selfcheck { display: grid; gap: 4px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); }
+.selfcheck legend { font-size: 13px; font-weight: 600; padding: 0 4px; }
+.selfcheck label { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; cursor: pointer; }
+.selfcheck input { margin-top: 3px; accent-color: var(--ok); }
+.hint { font-size: 12.5px; color: var(--muted); }
+.upload { position: relative; overflow: hidden; }
+.upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+/* scenarios */
+.client { display: grid; grid-template-columns: 38px minmax(0,1fr); gap: 10px; align-items: start; }
+.avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-family: var(--f-display); font-size: 13px; }
+.bubble { background: var(--accent-soft); border-radius: 4px 14px 14px 14px; padding: 10px 14px; font-size: 16px; }
+.bubble small { display: block; color: var(--muted); font-size: 12px; margin-bottom: 2px; }
+.model { border-left: 3px solid var(--ok); }
+.rate { display: flex; gap: 8px; flex-wrap: wrap; }
+.rate .btn[aria-pressed="true"] { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+
+/* quiz */
+.q { display: grid; gap: 8px; }
+.q + .q { padding-top: 16px; border-top: 1px solid var(--line); }
+.q h4 { margin: 0; font-size: 15.5px; font-weight: 600; }
+.opts { display: grid; gap: 6px; }
+.opt { display: flex; gap: 10px; align-items: flex-start; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); cursor: pointer; font-size: 14.5px; }
+.opt input { margin-top: 4px; accent-color: var(--accent); }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); }
+.opt.wrong { border-color: var(--rec); background: var(--rec-soft); }
+.why { font-size: 13px; color: var(--muted); }
+.score { font-family: var(--f-display); font-size: 22px; }
+
+/* awards */
+.badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.bdg { display: grid; gap: 6px; justify-items: start; padding: 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-2); }
+.bdg svg { width: 44px; height: 44px; }
+.bdg .medal { fill: var(--line); }
+.bdg .medal-in { fill: var(--surface); }
+.bdg.got { background: var(--gold-soft); border-color: color-mix(in srgb, var(--gold) 40%, var(--line)); }
+.bdg.got .medal { fill: var(--gold-strong); }
+.bdg b { font-size: 14px; }
+.bdg span { font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+.levels { display: grid; gap: 6px; margin-top: 10px; }
+.level { display: grid; grid-template-columns: 70px minmax(0,1fr); gap: 10px; font-size: 13.5px; padding: 6px 10px; border-radius: 8px; }
+.level.cur { background: var(--gold-soft); font-weight: 600; }
+.level .x { font-family: var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.week { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 6px; margin-top: 12px; }
+.day { display: grid; gap: 4px; justify-items: center; font-size: 11px; color: var(--muted); }
+.day i { width: 100%; height: 56px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); position: relative; overflow: hidden; }
+.day i b { position: absolute; bottom: 0; left: 0; right: 0; background: var(--ok); }
+.day .v { font-family: var(--f-mono); color: var(--ink); }
+
+/* records & team */
+.lib-group { display: grid; gap: 8px; }
+.lib-group + .lib-group { margin-top: 18px; }
+.lib-group h3 { font-size: 14px; }
+.board { width: 100%; border-collapse: collapse; font-size: 14px; }
+.board th, .board td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); }
+.board th { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+.board td.n { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.board tr.me td { background: var(--gold-soft); }
+.tablewrap { overflow-x: auto; }
+.links { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+.links a { display: block; padding: 9px 12px; border-radius: 9px; border: 1px solid var(--line); background: var(--surface-2); text-decoration: none; color: var(--ink); font-size: 13.5px; }
+.links a:hover { border-color: var(--accent); }
+.empty-state { text-align: center; padding: 30px 10px; color: var(--muted); }
+
+/* toasts */
+.toasts { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 8px; z-index: 50; max-width: min(360px, calc(100vw - 32px)); }
+.toast { background: var(--ink); color: var(--bg); padding: 10px 14px; border-radius: 10px; font-size: 14px; box-shadow: var(--shadow); display: flex; gap: 10px; align-items: center; animation: tin .25s ease; }
+.toast .p { font-family: var(--f-mono); font-weight: 700; color: var(--gold-strong); }
+.toast.big { background: var(--gold-strong); color: #1E1500; }
+.toast.big .p { color: #1E1500; }
+@keyframes tin { from { transform: translateY(8px); opacity: 0; } }
+#fx { position: fixed; inset: 0; pointer-events: none; z-index: 60; width: 100%; height: 100%; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .rail { position: static; display: flex; overflow-x: auto; gap: 6px; padding-bottom: 4px; }
+  .rail-label { display: none; }
+  .nav { width: auto; flex: none; grid-template-columns: 26px auto; padding: 6px 10px 6px 6px; background: var(--surface); border-color: var(--line); }
+  .nav .dot { width: 26px; height: 26px; }
+  .nav .s, .nav .mini { display: none; }
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .stage-head { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .form { grid-template-columns: minmax(0, 1fr); }
+  .panel { padding: 16px; }
+  .card { padding: 14px; }
+  .lvl { min-width: 140px; }
+  .phrase { font-size: 16px; }
+  .take { grid-template-columns: minmax(0, 1fr) auto; }
+  .take .when { grid-column: 1 / -1; }
+  .stairs { height: 150px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 34 34" aria-hidden="true">
+        <rect width="34" height="34" rx="9" fill="var(--accent)"/>
+        <path d="M7 26h5v-5h5v-5h5v-5h5" stroke="var(--accent-ink)" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div><b>SPE Тренажер</b><small id="bizLabel">продажів</small></div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Розділи"></nav>
+  <main id="main"></main>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<canvas id="fx" hidden></canvas>
+
+<script>
+"use strict";
+/* =====================================================================
+   CONTENT — built from the "4.Техніки" sheet: 5 sales stages, techniques,
+   client situations and theory checks. {field} = value from "Мій бізнес";
+   {Field} = same value with a capital first letter. (…) = stage direction.
+   ===================================================================== */
+const FIELDS = [
+  { k: "company", label: "Назва бізнесу", ex: "Школа розвитку SPE", hint: "Як ви представляєтесь клієнту" },
+  { k: "product", label: "Продукт або послуга", ex: "тренінг «Налагодження продажів»", hint: "Що саме продаєте" },
+  { k: "client", label: "Хто ваш клієнт", ex: "власники та керівники малого бізнесу", hint: "У множині: «молоді мами», «власники СТО»" },
+  { k: "pain", label: "Проблема клієнта", ex: "менеджери не вміють закривати угоди", hint: "Біль, яку ви знімаєте" },
+  { k: "result", label: "Головний результат для клієнта", ex: "відділ продажів, що продає вдвічі більше", hint: "Що клієнт отримає" },
+  { k: "usp", label: "Ваша перевага", ex: "практичні вправи й супровід після навчання", hint: "Чому ви, а не конкуренти" },
+  { k: "proof", label: "Факт довіри", ex: "10 років на ринку і понад 30 тисяч учасників", hint: "Цифри, досвід, відомі клієнти" },
+  { k: "offer", label: "Чому купити саме зараз", ex: "цього тижня діє ціна раннього бронювання", hint: "Акція, дедлайн, бонус" },
+  { k: "price", label: "Ціна", ex: "1200 грн за заняття", hint: "Як ви її називаєте" },
+  { k: "name", label: "Ваше ім’я", ex: "Олена", hint: "Ім’я продавця" }
+];
+
+const STAGES = [
+{
+  id: "s1", stair: "Контакт", n: 1, title: "Перший контакт", short: "Привітання, увага, перше питання",
+  goal: "За перші секунди викликати довіру й отримати право на розмову. Головне правило: закінчувати питанням.",
+  techniques: [
+    { id: "t3in", group: "Вхідний дзвінок", title: "Техніка 3 секунд",
+      what: "Перші 3 секунди вирішують, чи слухатимуть вас далі. Назвіть компанію, себе, привітайтеся і зробіть паузу.",
+      tip: "Усмішку чути в голосі. Говоріть трохи повільніше, ніж хочеться.",
+      v: ["{Company}, мене звати {name}, доброго дня!.. (пауза)",
+          "Вітаю! {Company}, на зв’язку {name}. Чим можу допомогти?",
+          "Доброго дня! {Company}, {name}. Уважно Вас слухаю. (пауза)"] },
+    { id: "t16in", group: "Вхідний дзвінок", title: "Техніка 16 секунд",
+      what: "За 16 секунд ви представляєтесь, дізнаєтесь ім’я клієнта, показуєте, з чим допоможете, і обов’язково ставите питання.",
+      tip: "Хто питає, той веде розмову. Після питання мовчіть і слухайте.",
+      v: ["{Company}, мене звати {name}, доброго дня!.. (пауза) (якщо клієнт не представився:) Як я можу до Вас звертатися?.. Дуже приємно, (ім’я клієнта). Так, підкажу все щодо нашої пропозиції: {product}. Скажіть, що для Вас зараз найважливіше?",
+          "{Company}, {name}, доброго дня!.. (пауза) Як можу до Вас звертатися?.. (ім’я клієнта), із задоволенням зорієнтую Вас. До речі, {offer}. Що саме Вас цікавить у першу чергу?"] },
+    { id: "t3out", group: "Вихідний дзвінок", title: "Техніка 3 секунд",
+      what: "Що найважливіше сказати за перші 3 секунди? Ім’я клієнта, привітання, своє ім’я і назву компанії.",
+      tip: "Ім’я клієнта на самому початку — найкращий спосіб утримати увагу.",
+      v: ["(Ім’я клієнта), доброго дня!.. (пауза) Мене звати {name}. Це — {company}.",
+          "(Ім’я клієнта), вітаю!.. (пауза) {Name}, {company}. Маєте хвилинку?"] },
+    { id: "t16out", group: "Вихідний дзвінок", title: "Техніка 16 секунд",
+      what: "За 16 секунд: привітання, хто ви, цінна новина для клієнта і питання, яке запрошує до розмови.",
+      tip: "Новина має бути про клієнта, а не про вас.",
+      v: ["(Ім’я клієнта), доброго дня!.. (пауза) Мене звати {name}, це — {company}. (пауза) (Ім’я клієнта), телефоную з приємною новиною: {offer}. Наша пропозиція — {product}. Хочемо запросити Вас скористатися нею. Що скажете?",
+          "(Ім’я клієнта), вітаю!.. (пауза) {Name}, {company}. Ми допомагаємо, коли {client} стикаються з тим, що «{pain}». Скажіть, для Вас це зараз актуально?"] },
+    { id: "aida-a", group: "AIDA · Attention", title: "Увага: обіцянка цінності",
+      what: "Що ви обіцяєте клієнту і навіщо йому приділяти вам час? За 3–5 секунд влучіть у біль або дайте обіцянку.",
+      tip: "Сильні слова: «гарантую», «вже робили», «особисто обіцяю», «збільшити», «допомогти».",
+      v: ["Контактую з рекомендації (ім’я того, хто рекомендував). Нещодавно ми працювали разом, і результат — {result}.",
+          "Маю рішення саме для Вас: {client} часто стикаються з тим, що «{pain}». Ми вже не раз це вирішували.",
+          "Гарантую: після співпраці з нами Ви отримаєте результат — {result}.",
+          "Мушу повідомити: {offer}.",
+          "Можу забезпечити для Вас приємний старт: спершу спробуйте, а рішення ухвалите, коли побачите цінність для себе."] },
+    { id: "spin-s", group: "SPIN · Загальне питання", title: "Загальне питання",
+      what: "Питання, що відкриває розмову і показує: вам цікавий клієнт, а не лише продаж.",
+      tip: "Починайте з «Чи цікаво…», «Чи хотіли б…», «Наскільки актуально…».",
+      v: ["Наскільки актуально для Вас зараз питання «{pain}»?",
+          "Чи хотіли б Ви, щоб результат було видно вже з наступного місяця?",
+          "Скажіть, що для Вас зараз питання номер один у роботі?",
+          "Чи цікаво Вам було б мати такий результат: {result}?"] },
+    { id: "hooks", group: "Слова-зачіпки", title: "Слова, на які реагують",
+      what: "Слова, на які клієнт реагує особливо: «збільшити», «гарантовано», «без відриву від справ», «вирішити питання».",
+      tip: "Вплітайте 1–2 зачіпки в кожну фразу, а не всі одразу.",
+      v: ["Мова про те, щоб гарантовано отримати результат: {result}. І без відриву від Ваших справ.",
+          "Ми допомагаємо вирішити питання «{pain}» і вийти на зовсім інші показники.",
+          "{Usp} — саме тому наші клієнти отримують кращий результат."] }
+  ],
+  scenarios: [
+    { id: "c1a", client: "(Вхідний дзвінок. Клієнт мовчить після гудків.)", hint: "Техніка 16 секунд, вхідний дзвінок", model: "t16in" },
+    { id: "c1b", client: "Алло, слухаю.", hint: "Ви телефонуєте новому клієнту. Техніка 16 секунд", model: "t16out" },
+    { id: "c1c", client: "А хто Вам дав мій номер?", hint: "Увага через рекомендацію",
+      m: "Чесно скажу: контактую з рекомендації (ім’я). Він/вона вже працює з нами і порадив(-ла) Вас як людину, якій теж може бути корисно. Скажіть, наскільки актуальне для Вас питання «{pain}»?" }
+  ],
+  quiz: [
+    { q: "Що головне сказати за перші 3 секунди вихідного дзвінка?", a: ["Ім’я клієнта, привітання, своє ім’я і компанію", "Ціну і знижку", "Повний перелік послуг", "Запитати, чи є у клієнта 10 хвилин"], why: "Ім’я клієнта, привітання, пауза, хто ви і звідки. Більше нічого." },
+    { q: "Чим обов’язково закінчується техніка 16 секунд?", a: ["Питанням", "Ціною", "Прощанням", "Довгою паузою"], why: "Питання передає слово клієнту і робить розмову діалогом." },
+    { q: "Що означає перша «A» в моделі AIDA?", a: ["Attention — увага", "Action — дія", "Agreement — згода", "Argument — аргумент"], why: "Спершу треба привернути увагу обіцянкою або влучанням у біль." },
+    { q: "Яке питання SPIN ставлять першим?", a: ["Загальне (ситуаційне)", "Проблемне", "Поглиблююче", "Закриваюче"], why: "Загальне питання відкриває розмову, решта будуються на відповіді." }
+  ]
+},
+{
+  id: "s2", stair: "Потреба", n: 2, title: "Виявлення потреби", short: "Питання, біль, три «чому»",
+  goal: "Зрозуміти, що насправді болить клієнту, і зняти сумніви ще до того, як він їх озвучить.",
+  techniques: [
+    { id: "open", group: "Запитання", title: "Відкриті запитання",
+      what: "На них клієнт відповідає розгорнуто, а не «так» чи «ні». Саме з відповідей ви дізнаєтесь потребу.",
+      tip: "Починайте з «Що…», «Як…», «Розкажіть…». Уважно слухайте відповідь.",
+      v: ["Що для Вас найголовніше, коли Ви обираєте, з ким працювати?",
+          "Що б Ви хотіли покращити в першу чергу?",
+          "Чого Ви очікуєте від співпраці з нами?",
+          "Розкажіть, як Ви зараз вирішуєте питання «{pain}»?"] },
+    { id: "interest", group: "AIDA · Interest", title: "Проблема, яку ми вирішуємо",
+      what: "Яку біль ви тамуєте? Покажіть, що знаєте проблему клієнта і вже маєте рішення.",
+      tip: "Говоріть про проблему мовою клієнта, а не мовою продукту.",
+      v: ["Уже не вперше ми бачимо, що {client} стикаються з тим, що «{pain}». Саме тому {company} пропонує: {product}.",
+          "Ми знаємо, як досягти результату — {result}. {Usp}.",
+          "Ми могли б підібрати формат саме під Ваші задачі, щоб вирішити питання «{pain}» без зайвих витрат."] },
+    { id: "spin-p", group: "SPIN · Проблемне питання", title: "Проблемне питання",
+      what: "Допомагає клієнту самому назвати проблему. Коли він її проговорює, вона стає для нього реальною.",
+      tip: "Не тисніть. Запрошуйте подумати разом.",
+      v: ["Дуже часто проблема в тому, що «{pain}». Наскільки це знайомо Вам?",
+          "Давайте разом подумаємо: що найбільше заважає Вам отримати результат — {result}?",
+          "Чи згодні Ви, що насправді проблема зазвичай не в людях, а в системі?"] },
+    { id: "why3", group: "Обов’язкові питання", title: "Три «чому»",
+      what: "Три питання, на які продавець має відповісти миттєво: Чому я маю це купити? Чому у Вас? Чому зараз?",
+      tip: "Вивчіть ці відповіді напам’ять. Пауза тут коштує угоди.",
+      v: ["Чому варто: {result}. Чому у нас: {usp}, а ще — {proof}. Чому зараз: {offer}.",
+          "Ви отримуєте результат — {result}. З нами, бо {usp}. І саме зараз, бо {offer}."] },
+    { id: "doubts", group: "Профілактика сумнівів", title: "Відповідь до того, як спитали",
+      what: "Що робитимете, коли з’явиться сумнів? Краще відповісти на нього раніше, ніж клієнт його озвучить.",
+      tip: "Типові сумніви: надійність, ціна, «чи це нам потрібно», «чи продадуть те, що не треба».",
+      v: ["Багато хто питає, чи можна нам довіряти. Про надійність завжди говорить досвід: {proof}.",
+          "Звісно, є пропозиції дешевші. Але ми відповідаємо за результат: {result}. Є ціна, а є цінність.",
+          "Ми пропонуємо рішення лише після того, як зрозуміємо Ваші потреби. Тому спершу запитаю: що Ви хотіли б покращити насамперед?"] }
+  ],
+  scenarios: [
+    { id: "c2a", client: "Ну, розкажіть, що у Вас є.", hint: "Не презентуйте одразу, спершу питання",
+      m: "Залюбки. Щоб не забирати Ваш час зайвим, дозвольте спершу кілька питань. Що для Вас зараз найважливіше? І як Ви вирішуєте питання «{pain}»?" },
+    { id: "c2b", client: "А чим Ви кращі за інших?", hint: "Три «чому»", model: "why3" },
+    { id: "c2c", client: "Ми вже пробували щось подібне, не допомогло.", hint: "Interest + проблемне питання",
+      m: "Розумію, таке ми чуємо не вперше. Скажіть, а що саме тоді не спрацювало? (слухаємо) Саме тому в нас інакше: {usp}. Результат — {result}." }
+  ],
+  quiz: [
+    { q: "Яке з цих питань відкрите?", a: ["«Що для Вас найголовніше при виборі?»", "«Вам це підходить?»", "«Ви власник компанії?»", "«Надіслати Вам пропозицію?»"], why: "На відкрите питання не відповіси «так» чи «ні»." },
+    { q: "Три питання, на які продавець відповідає миттєво:", a: ["Чому купити? Чому у вас? Чому зараз?", "Скільки? Коли? Де?", "Хто? Що? Навіщо?", "Яка ціна? Яка знижка? Яка доставка?"], why: "Це ядро будь-якої аргументації." },
+    { q: "Етап Interest в AIDA — це…", a: ["Влучити в біль клієнта і показати рішення", "Назвати ціну", "Попросити оплату", "Розповісти історію компанії"], why: "Інтерес виникає, коли клієнт чує свою проблему." },
+    { q: "Профілактика сумнівів — це…", a: ["Відповісти на сумнів до того, як клієнт його озвучить", "Ігнорувати сумніви", "Одразу дати знижку", "Попросити клієнта не сумніватися"], why: "Озвучений вами сумнів знімається легше, ніж озвучений клієнтом." }
+  ]
+},
+{
+  id: "s3", stair: "Презентація", n: 3, title: "Презентація", short: "Гак, доларизація, ХПВ, бажання",
+  goal: "Отримати принципову згоду «мені це цікаво» і показати вигоду в цифрах та образах.",
+  techniques: [
+    { id: "hook", group: "Вбивання гака", title: "Принципова згода",
+      what: "Спочатку отримайте згоду, що клієнту це цікаво, а не розповідайте впорожню. Далі будуть лише нюанси.",
+      tip: "Чекайте на «так», перш ніж продовжувати.",
+      v: ["Скажіть, для Вас актуально — {result}? (чекаємо «так») Чудово, тоді покажу, як це працює.",
+          "Перш ніж розповідати, уточню: Вам цікаво вирішити питання «{pain}»? (так) Тоді коротко про головне."] },
+    { id: "dollar", group: "Доларизація", title: "Вигода в грошах",
+      what: "Усі вигоди переводимо в гроші. Клієнт має побачити, що купівля дешевша, ніж бездіяльність.",
+      tip: "Рахуйте разом із клієнтом, його цифрами.",
+      v: ["Давайте порахуємо. Якщо проблема «{pain}» забирає хоча б годину на день, це понад 20 годин на місяць. Скільки коштує ця година для Вас? А вкладення — {price}.",
+          "Ми якось рахували з одним клієнтом: уже за перший місяць він повернув вкладене. Давайте порахуємо і для Вас?",
+          "Пропоную разом подумати: скільки Ви втрачаєте щомісяця, поки «{pain}»? Порівняйте з ціною: {price}."] },
+    { id: "fab", group: "ХПВ", title: "Характеристика → Перевага → Вигода",
+      what: "Характеристика — що це. Перевага — чим краще. Вигода — що отримає саме цей клієнт.",
+      tip: "Кожну характеристику доводьте до слів «для Вас це означає…».",
+      v: ["{Usp}. Це означає, що Ви не залишаєтесь сам на сам із проблемою. А для Вас це — {result}.",
+          "Наша особливість: {usp}. Перевага в тому, що результат закріплюється. Ваша вигода — {result}."] },
+    { id: "desire", group: "AIDA · Desire", title: "Бажання",
+      what: "Як ви викликаєте бажання? Допоможіть клієнту уявити життя, де проблема вже вирішена.",
+      tip: "Малюйте картинку: «уявіть», «лише подумайте», «як Вам буде…».",
+      v: ["Уявіть собі, що питання «{pain}» уже вирішене. Що Ви робитимете з вивільненим часом?",
+          "Чи було б Вам приємно вже за місяць мати такий результат: {result}?",
+          "Наскільки комфортніше Вам працюватиметься, коли {client} побачать, що Ви вирішили це питання?"] },
+    { id: "spin-i", group: "SPIN · Поглиблююче питання", title: "Поглиблююче питання",
+      what: "Показує наслідки проблеми і підводить клієнта до думки, що діяти треба зараз.",
+      tip: "Спирайтеся на слова клієнта: «Як Ви сказали…», «Розуміючи з Ваших слів…».",
+      v: ["Як свідчить наша розмова, Вам важливо вирішити питання «{pain}». А Ви рахували, скільки воно коштує щомісяця?",
+          "Розуміючи з Ваших слів, що це важливо, чи розглядали Ви варіант почати вже цього місяця?",
+          "А чи думали Ви над тим, що буде за пів року, якщо нічого не змінювати?"] },
+    { id: "power", group: "Сили продажника", title: "Авторитет і відвертість",
+      what: "Сила авторитету: з ким ви вже працювали. Сила відвертості: «скажу чесно», «буду відвертий».",
+      tip: "Відвертість діє, коли ви чесно визнаєте, кому продукт НЕ підходить.",
+      v: ["Ми, до речі, вже працювали з такими компаніями, як (назва відомого клієнта). {Proof}.",
+          "Скажу чесно: це підходить не всім. Але якщо Вам важливий такий результат — {result}, то це саме те, що потрібно.",
+          "Буду з Вами відвертий(-а): ми не обіцяємо чудес. Ми обіцяємо систему. {Proof}."] }
+  ],
+  scenarios: [
+    { id: "c3a", client: "Ну добре, розкажіть коротко.", hint: "Вбивання гака, потім ХПВ",
+      m: "Скажіть, для Вас актуально — {result}? (чекаємо «так») Тоді коротко про головне: {usp}. Для Вас це означає результат, який видно в цифрах. До речі, {offer}." },
+    { id: "c3b", client: "А навіщо мені це?", hint: "Три «чому» + бажання",
+      m: "Уявіть, що питання «{pain}» уже вирішене. Саме це Ви отримуєте: {result}. У нас, бо {usp}. І саме зараз, бо {offer}." },
+    { id: "c3c", client: "Не думаю, що це для нас так уже важливо.", hint: "Доларизація", model: "dollar" }
+  ],
+  quiz: [
+    { q: "Доларизація означає…", a: ["Перевести вигоди клієнта в гроші", "Називати ціну в доларах", "Давати знижку", "Порівнювати ціни конкурентів"], why: "Гроші — найзрозуміліша мова вигоди." },
+    { q: "ХПВ — це…", a: ["Характеристика, перевага, вигода", "Ціна, якість, вартість", "Хто, порада, висновок", "Хвилинна презентація вголос"], why: "Від властивості продукту до вигоди конкретного клієнта." },
+    { q: "«Вбивання гака» на початку презентації — це…", a: ["Отримати принципову згоду, що клієнту це цікаво", "Розповісти все й одразу", "Перебити клієнта", "Назвати найнижчу ціну"], why: "Без згоди презентація — розповідь впорожню." },
+    { q: "Фраза «Скажу чесно…» використовує…", a: ["Силу відвертості", "Силу авторитету", "Доларизацію", "Вибір без вибору"], why: "Відвертість знижує захист і підвищує довіру." }
+  ]
+},
+{
+  id: "s4", stair: "Заперечення", n: 4, title: "Робота із запереченнями", short: "Ціль, контекст, альтернативи",
+  goal: "Перетворити «ні» на спільне завдання. Заперечення означає, що клієнт ще в розмові.",
+  techniques: [
+    { id: "obj-goal", group: "Перенести заперечення у ціль", title: "Заперечення → спільна ціль",
+      what: "«Не підходить час» стає завданням: «моя ціль — знайти час, який Вам підійде». Клієнт сам ставить вам задачу.",
+      tip: "Перепитайте своїми словами і чекайте на «так».",
+      v: ["Тобто, якщо я правильно Вас розумію, моє завдання — знайти час і формат, які Вам підійдуть? (так) Добре, давайте підберемо.",
+          "Правильно я розумію: якщо ми знайдемо, як вкластися в бюджет, питання буде вирішене?"] },
+    { id: "context", group: "Зміна контексту", title: "Майбутнє позитивне і минуле негативне",
+      what: "Перенесіть клієнта в майбутнє, де все вийшло, або нагадайте, скільки коштувала проблема в минулому.",
+      tip: "Майбутнє — щоб надихнути. Минуле — щоб показати ціну бездіяльності.",
+      v: ["Лише уявіть: минув місяць, і у Вас уже є результат — {result}. Як це змінить Вашу роботу?",
+          "Згадайте, скільки вже коштувала Вам проблема «{pain}». Скільки клієнтів і грошей пішло через неї?",
+          "Ціна справді важлива. Уточніть, будь ласка, з чим Ви порівнюєте нашу пропозицію?"] },
+    { id: "alts", group: "Профілактика альтернатив", title: "Чому не «нічого не робити»",
+      what: "У клієнта завжди є альтернативи: нічого не робити, зробити самому, знайти дешевше, почекати. Відповідайте на них заздалегідь.",
+      tip: "Погоджуйтеся з правом вибору, а потім показуйте наслідки.",
+      v: ["Звісно, можна нічого не змінювати. Але тоді проблема «{pain}» залишиться, і згодом на неї піде ще більше часу та грошей. Профілактика завжди дешевша за лікування.",
+          "Можна спробувати впоратися самотужки. Зазвичай ентузіазму вистачає на кілька тижнів, а потім рутина бере своє. Тут допомагає той, хто пройшов цей шлях багато разів: {proof}.",
+          "Звісно, десь можна знайти дешевше. Зверніть увагу, скільки часу компанія на ринку і хто за неї ручається. У нас — {proof}.",
+          "Почекати, поки проблема вирішиться сама? Може, й вирішиться, але потім повернеться. Вирішити на початку завжди легше."] },
+    { id: "translate", group: "Перекладач продажника", title: "Що насправді каже клієнт",
+      what: "«Я хочу подумати» = «Ви мене не переконали». «Я вже маю підрядника» = «Ви не дали аргументів змінити його».",
+      tip: "Відповідайте на справжню причину, а не на слова.",
+      v: ["Звісно, подумайте. А скажіть чесно: що саме Вас ще зупиняє — ціна, терміни чи щось інше? Хочу переконатися, що дав(-ла) Вам усю потрібну інформацію.",
+          "Чудово, що підрядник у Вас уже є, значить, Ви цінуєте якість. Чи є щось, що Ви хотіли б у нього покращити? Наші клієнти часто приходять від інших, бо {usp}."] }
+  ],
+  scenarios: [
+    { id: "c4a", client: "Це дуже дорого.", hint: "Не «дорого-дешево», а «доцільно-недоцільно»",
+      m: "Скажіть, будь ласка: якщо я покажу, що це окупиться і дасть результат — {result}, Ви погодитесь, що ціна співмірна? Питання ж не в «дорого чи дешево», а в «доцільно чи ні»." },
+    { id: "c4b", client: "Мені не цікаво.", hint: "Уточніть і зніміть напругу",
+      m: "Зовсім не цікаво чи трішки не цікаво? (усмішка) А що Вам було б цікаво зараз? Більшість наших клієнтів спершу відповідали так само, а тепер працюють з нами постійно." },
+    { id: "c4c", client: "Немає часу на це.", hint: "Притча про лісоруба",
+      m: "Знаєте притчу про лісоруба, який рубав тупою сокирою, бо не мав часу її нагострити? Правильне рішення не забирає час, воно його звільняє. Саме тому {result}." },
+    { id: "c4d", client: "Надішліть комерційну пропозицію, подивимось.", hint: "Домовтеся про наступний контакт",
+      m: "Із задоволенням надішлю. На яку пошту? І давайте одразу домовимось: я наберу Вас у четвер о 15:00, щоб почути враження. Зручно?" },
+    { id: "c4e", client: "Я подумаю.", hint: "Перекладач продажника", model: "translate" },
+    { id: "c4f", client: "Зараз не найкращі часи.", hint: "Зміна контексту",
+      m: "Розумію. Ще Генрі Форд казав: хто не розвивається в часи кризи, втрачає бізнес у час розквіту. Саме тому зараз діємо швидше: {offer}." }
+  ],
+  quiz: [
+    { q: "«Я хочу подумати» в перекладі продажника означає…", a: ["«Ви мене не переконали»", "«Я точно куплю завтра»", "«Мені не цікаво назавжди»", "«Надішліть пропозицію»"], why: "Шукайте справжню причину: що ще не з’ясовано?" },
+    { q: "Перенести заперечення у ціль — це…", a: ["Перетворити «не підходить час» на спільне завдання знайти зручний час", "Перенести дзвінок на інший день", "Погодитися з клієнтом і попрощатися", "Переконувати, поки клієнт не погодиться"], why: "Клієнт сам формулює вам задачу, яку ви вирішуєте." },
+    { q: "Клієнт каже «дорого». Найсильніша реакція:", a: ["Перевести розмову на доцільність і порахувати вигоду", "Одразу дати знижку", "Сказати, що в інших дорожче", "Промовчати"], why: "Знижка без обґрунтування знецінює продукт." },
+    { q: "«Почекати, поки проблема вирішиться сама» — це…", a: ["Альтернатива, яку варто профілактувати", "Добра порада клієнту", "Знак, що угода втрачена", "Привід для знижки"], why: "Покажіть, що проблема повернеться і коштуватиме дорожче." }
+  ],
+  links: [
+    ["Техніка Стандарт", "https://youtu.be/f28eOWetQx8"], ["Техніка Прецедент", "https://youtu.be/EbWSFANPw2o"],
+    ["Техніка Інший результат", "https://youtu.be/Lm_EH8C-fqU"], ["Апеляція до авторитетів", "https://youtu.be/DSlrS0vaf2w"],
+    ["Зміна контексту місця", "https://youtu.be/5Y5onKSYasM"], ["Інтерпретація наміру", "https://youtu.be/s5gsfwyeg0w"],
+    ["Запит на дозвіл", "https://youtu.be/yhEDJqGPEbo"], ["Техніка ЛПР", "https://youtu.be/8GJBlZfgnP4"],
+    ["Техніка Резюмування", "https://youtu.be/JSzlYaPAVwo"], ["Техніка Фіксацій", "https://youtu.be/lIEE4EhBxdY"],
+    ["Техніка Наскільки цікаво", "https://youtu.be/lcWTvQiOE7w"], ["«Ви звичайно можете…»", "https://youtu.be/oMQAARVs2hI"],
+    ["Пояснення своїх дій", "https://youtu.be/k2fsn6DM680"], ["«Звичайно, десь можна знайти дешевше…»", "https://youtu.be/86e4AQBUyAE"],
+    ["Помилка: зайва підказка клієнту", "https://youtu.be/GKQG-SV_Y1c"]
+  ]
+},
+{
+  id: "s5", stair: "Закриття", n: 5, title: "Закриття угоди", short: "Заклик, вибір, фіксація",
+  goal: "Перевести згоду в дію: оплату, підпис, завдаток. Без заклику до дії угоди немає.",
+  techniques: [
+    { id: "action", group: "AIDA · Action", title: "Заклик до дії",
+      what: "Чи є у вашій розмові заклик до дії? Підпишіть, залиште завдаток, заповніть форму: клієнт має знати наступний крок.",
+      tip: "Говоріть впевнено і стверджувально. Після заклику мовчіть.",
+      v: ["Тоді давайте оформимо: залиште, будь ласка, Ваші контакти, і я зарезервую для Вас місце.",
+          "Чи буде Вам зручно внести передоплату зараз, щоб зафіксувати умови? Нагадаю: {offer}.",
+          "Чудово, фіксуємо: {product}, {price}. Надсилаю реквізити?"] },
+    { id: "choice", group: "Вибір без вибору", title: "Вибір без вибору",
+      what: "Запропонуйте вибір між двома «так», а не між «так» і «ні».",
+      tip: "Обидва варіанти мають вести до угоди.",
+      v: ["Вам зручніше оплатити карткою чи на рахунок?",
+          "Почнемо з понеділка чи із середи?",
+          "Договір надіслати на пошту чи в месенджер?"] },
+    { id: "summary", group: "Резюмування і фіксація", title: "Підсумок перед угодою",
+      what: "Коротко повторіть, що клієнту важливо і що він отримує, і зафіксуйте згоду.",
+      tip: "Отримайте три маленькі «так» — і велике «так» прийде саме.",
+      v: ["Отже, підсумуємо: Вам важливо вирішити питання «{pain}», Ви хочете результат — {result}, і Вам підходить {product} за ціною {price}. Правильно? Тоді оформлюємо.",
+          "Давайте зафіксуємо, про що ми домовились: (пункти). Усе так? Тоді наступний крок — оплата."] },
+    { id: "foot", group: "Нога в дверях", title: "Маленький перший крок",
+      what: "Потроху нарощуйте прохання: спершу маленька згода, потім більша. Протилежність — «двері перед носом»: одразу найбільше, а потім поступка.",
+      tip: "Перший крок має бути легким для клієнта: тест, демо, пробне заняття.",
+      v: ["Давайте почнемо з малого: (пробне заняття / демо / тест). Якщо сподобається, рухаємось далі.",
+          "Пропоную для початку один крок: (перший крок). Без зобов’язань. Домовились?"] },
+    { id: "referral", group: "Відгук і рекомендація", title: "Після угоди",
+      what: "Задоволений клієнт — найкраща реклама. Попросіть відгук і рекомендацію одразу після угоди.",
+      tip: "Просіть конкретно: «кому з Ваших знайомих…».",
+      v: ["Дякую, що обрали {company}! Чи можете залишити кілька слів про нашу співпрацю? Можливо, хтось із Ваших знайомих теж хоче такий результат — {result}? Буду вдячний(-на) за рекомендацію."] }
+  ],
+  scenarios: [
+    { id: "c5a", client: "Ну, в принципі, підходить.", hint: "Фіксація + вибір без вибору",
+      m: "Чудово! Тоді фіксуємо: {product}, {price}. Вам зручніше оплатити карткою чи на рахунок?" },
+    { id: "c5b", client: "Мені треба порадитися з керівником.", hint: "Залучіть того, хто ухвалює рішення",
+      m: "Звісно. Хто ще бере участь у рішенні? Давайте домовимось про спільний дзвінок, щоб я одразу відповів(-ла) на всі питання. Вам зручніше завтра чи в четвер?" },
+    { id: "c5c", client: "Добре, оплачую. Дякую!", hint: "Відгук і рекомендація", model: "referral" }
+  ],
+  quiz: [
+    { q: "Чим закінчується модель AIDA?", a: ["Action — заклик до дії", "Attention — увага", "Analysis — аналіз", "Advice — порада"], why: "Без заклику до дії угоди немає." },
+    { q: "«Вам зручніше оплатити карткою чи на рахунок?» — це…", a: ["Вибір без вибору", "Доларизація", "Нога в дверях", "Відкрите питання"], why: "Обидва варіанти означають «так»." },
+    { q: "Техніка «Нога в дверях» — це…", a: ["Поступово нарощувати прохання", "Одразу просити максимум", "Не відпускати клієнта", "Прийти без запрошення"], why: "Одразу максимум — це «двері перед носом»." },
+    { q: "Що краще за питання «Коли Вам передзвонити?»", a: ["Самому запропонувати конкретний час", "Чекати, поки клієнт подзвонить", "Не передзвонювати", "Надіслати лист без дзвінка"], why: "Клієнт зазвичай не знає. Конкретний час дає домовленість." }
+  ]
+}
+];
+
+const LEVELS = [
+  [0, "Стажер"], [150, "Консультант"], [400, "Продавець"], [800, "Впевнений продавець"],
+  [1400, "Профі переговорів"], [2200, "Майстер продажів"], [3200, "Легенда продажів"]
+];
+const DAILY_GOAL = 60;
+const MIN_SEC = 3;
+const SELF_CHECK = [
+  "Говорив(-ла) впевнено, без «е-е» і пауз-паразитів",
+  "Дотримався(-лася) структури техніки",
+  "Закінчив(-ла) питанням або закликом до дії",
+  "Звучало природно, з усмішкою в голосі"
+];
+
+/* ===================================================================== STATE */
+const LS_KEY = "spe-trainer-v1";
+const EXAMPLE = Object.fromEntries(FIELDS.map(f => [f.k, f.ex]));
+function fresh() {
+  return { profile: { ...EXAMPLE }, isExample: true, xp: 0, log: {}, recAward: {}, recCount: 0, listenCount: 0, checkCount: 0,
+    tech: {}, quiz: {}, scen: {}, badges: {}, ai: {}, vi: {}, ui: { view: "home", tab: {} }, updated: 0 };
+}
+function hydrate(raw) {
+  const s = Object.assign(fresh(), raw || {});
+  s.ui = Object.assign({ view: "home", tab: {} }, s.ui || {});
+  s.ui.tab = s.ui.tab || {};
+  s.profile = Object.assign({}, EXAMPLE, s.profile || {});
+  return s;
+}
+let S = hydrate((() => { try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) { return null; } })());
+function persist() { try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch (e) {} }
+function save() { S.updated = Date.now(); persist(); cloudSave(); }
+
+/* ===================================================================== HELPERS */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const dayKey = (d = new Date()) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+const fmtSec = s => Math.floor(s / 60) + ":" + String(Math.floor(s % 60)).padStart(2, "0");
+const ICON = {
+  home: '<svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+  mic: '<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',
+  star: '<svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>',
+  team: '<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/></svg>',
+  shuffle: '<svg viewBox="0 0 24 24"><path d="M3 7h4l10 10h4M3 17h4l3-3M14 10l3-3h4M18 4l3 3-3 3M18 14l3 3-3 3"/></svg>',
+  copy: '<svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>',
+  spark: '<svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></svg>',
+  trash: '<svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  eye: '<svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>'
+};
+const allTech = () => STAGES.flatMap(s => s.techniques.map(t => ({ ...t, stage: s })));
+const techById = id => allTech().find(t => t.id === id);
+
+/* Fill a template with the business profile. html=true → marks + cues. */
+function fill(tpl, html) {
+  const P = S.profile;
+  const parts = String(tpl).split(/(\{[A-Za-z]+\})/g);
+  return parts.map(p => {
+    const m = p.match(/^\{([A-Za-z]+)\}$/);
+    if (m) {
+      const raw = m[1]; const key = raw.charAt(0).toLowerCase() + raw.slice(1);
+      const field = FIELDS.find(f => f.k === key);
+      let val = (P[key] || "").trim();
+      if (raw[0] !== raw[0].toLowerCase()) val = cap(val);
+      if (!html) return val || "[" + (field ? field.label.toLowerCase() : key) + "]";
+      if (!val) return '<mark class="empty">[' + esc(field ? field.label.toLowerCase() : key) + "]</mark>";
+      return "<mark>" + esc(val) + "</mark>";
+    }
+    return html ? esc(p).replace(/\(([^)]*)\)/g, '<span class="cue">($1)</span>') : p;
+  }).join("");
+}
+const cueOnly = s => esc(s).replace(/\(([^)]*)\)/g, '<span class="cue">($1)</span>');
+
+/* ===================================================================== PROGRESS / XP */
+function levelOf(xp) {
+  let i = 0; while (i + 1 < LEVELS.length && xp >= LEVELS[i + 1][0]) i++;
+  const next = LEVELS[i + 1];
+  return { i, name: LEVELS[i][1], base: LEVELS[i][0], next: next ? next[0] : null };
+}
+function streak() {
+  let n = 0; const d = new Date();
+  if (!(S.log[dayKey(d)] > 0)) d.setDate(d.getDate() - 1);
+  while (S.log[dayKey(d)] > 0) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function stageStatus(st) {
+  const techDone = st.techniques.filter(t => S.tech[t.id]).length;
+  const scenDone = st.scenarios.filter(c => S.scen[c.id]).length;
+  const quizBest = S.quiz[st.id] || 0;
+  const quizOk = quizBest >= st.quiz.length - 1;
+  const parts = st.techniques.length + st.scenarios.length + st.quiz.length;
+  const pct = (techDone + scenDone + Math.min(quizBest, st.quiz.length)) / parts;
+  return { techDone, scenDone, quizBest, quizOk, pct, complete: techDone === st.techniques.length && scenDone === st.scenarios.length && quizOk };
+}
+
+const BADGES = [
+  { id: "profile", t: "Свій бізнес", d: "Вписав(-ла) власний бізнес замість прикладу", ok: () => !S.isExample },
+  { id: "firstrec", t: "Перший голос", d: "Записав(-ла) першу фразу", ok: () => S.recCount >= 1 },
+  { id: "rec10", t: "Розігрівся", d: "10 записів", ok: () => S.recCount >= 10 },
+  { id: "rec50", t: "Голос продажу", d: "50 записів", ok: () => S.recCount >= 50 },
+  { id: "listen10", t: "Чую себе", d: "Прослухав(-ла) 10 своїх записів до кінця", ok: () => S.listenCount >= 10 },
+  { id: "judge", t: "Чесний суддя", d: "Оцінив(-ла) себе за 20 критеріями", ok: () => S.checkCount >= 20 },
+  { id: "quiz", t: "Відмінник", d: "Пройшов(-ла) перевірку етапу без помилок", ok: () => STAGES.some(s => (S.quiz[s.id] || 0) === s.quiz.length) },
+  { id: "streak3", t: "Три дні поспіль", d: "Тренувався(-лася) 3 дні без перерви", ok: () => streak() >= 3 },
+  { id: "streak7", t: "Тиждень практики", d: "7 днів без перерви", ok: () => streak() >= 7 },
+  ...STAGES.map(s => ({ id: "stage-" + s.id, t: "Етап " + s.n + ": " + s.title, d: "Усі техніки, ситуації та перевірка етапу", ok: () => stageStatus(s).complete })),
+  { id: "objections", t: "Приборкувач заперечень", d: "Відпрацював(-ла) всі ситуації із запереченнями", ok: () => STAGES[3].scenarios.every(c => S.scen[c.id]) },
+  { id: "full", t: "Повний цикл продажу", d: "Пройшов(-ла) всі 5 етапів", ok: () => STAGES.every(s => stageStatus(s).complete) }
+];
+
+function award(xp, why) {
+  const before = levelOf(S.xp).i;
+  S.xp += xp;
+  const k = dayKey(); const was = S.log[k] || 0; S.log[k] = was + xp;
+  toast(why, "+" + xp + " XP");
+  const after = levelOf(S.xp);
+  if (after.i > before) { toast("Новий рівень: " + after.name, "Рів. " + (after.i + 1), true); burst(); }
+  if (was < DAILY_GOAL && S.log[k] >= DAILY_GOAL) toast("Денну ціль виконано", DAILY_GOAL + " XP", true);
+  checkBadges();
+  save(); renderTop(); renderRail();
+}
+function checkBadges() {
+  let got = false;
+  for (const b of BADGES) {
+    if (!S.badges[b.id] && b.ok()) { S.badges[b.id] = Date.now(); toast("Бейдж: " + b.t, "★", true); got = true; }
+  }
+  if (got) burst();
+}
+
+/* ===================================================================== UI: TOP + RAIL */
+function renderTop() {
+  const L = levelOf(S.xp), st = streak(), todayXp = S.log[dayKey()] || 0;
+  const pct = L.next ? (S.xp - L.base) / (L.next - L.base) : 1;
+  const C = 2 * Math.PI * 13, dp = Math.min(1, todayXp / DAILY_GOAL);
+  $("#stats").innerHTML =
+    '<div class="stat" title="Серія днів поспіль"><svg class="flame' + (st ? "" : " off") + '" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 4 5 5.5 5 11a5 5 0 0 1-10 0c0-2.5 1.2-4 2.5-5 .2 1.8 1 2.8 2 3.2C11 8.5 11 5 12 2z"/></svg><span><span class="num">' + st + "</span> " + plural(st, "день", "дні", "днів") + "</span></div>" +
+    '<div class="stat" title="Денна ціль: ' + DAILY_GOAL + ' XP"><svg class="ring" viewBox="0 0 34 34" aria-hidden="true"><circle class="bg" cx="17" cy="17" r="13"/><circle class="fg" cx="17" cy="17" r="13" transform="rotate(-90 17 17)" stroke-dasharray="' + C + '" stroke-dashoffset="' + (C * (1 - dp)) + '"/></svg><span><span class="num">' + Math.min(todayXp, 999) + "/" + DAILY_GOAL + "</span> сьогодні</span></div>" +
+    '<div class="lvl"><div class="lvl-row"><span class="lvl-name">Рів. ' + (L.i + 1) + " · " + esc(L.name) + '</span><span class="lvl-xp">' + S.xp + (L.next ? " / " + L.next : "") + ' XP</span></div><div class="bar" role="progressbar" aria-label="Прогрес рівня" aria-valuenow="' + Math.round(pct * 100) + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + (pct * 100).toFixed(1) + '%"></i></div></div>';
+  $("#bizLabel").textContent = S.isExample ? "продажів" : (S.profile.company || "продажів");
+}
+function plural(n, a, b, c) { const m10 = n % 10, m100 = n % 100; if (m10 === 1 && m100 !== 11) return a; if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return b; return c; }
+
+function renderRail() {
+  const v = S.ui.view;
+  const item = (id, dot, t, s, extra = "", pct = null) =>
+    '<button class="nav' + extra + '" data-go="' + id + '"' + (v === id ? ' aria-current="page"' : "") + '><span class="dot">' + dot + '</span><span><span class="t">' + esc(t) + "</span>" + (s ? '<span class="s">' + esc(s) + "</span>" : "") + (pct !== null ? '<span class="mini"><i style="width:' + Math.round(pct * 100) + '%"></i></span>' : "") + "</span></button>";
+  let h = item("home", ICON.home, "Мій бізнес", "Дані й прогрес");
+  h += '<div class="rail-label">Етапи продажу</div>';
+  for (const st of STAGES) { const ss = stageStatus(st); h += item(st.id, ss.complete ? "✓" : st.n, st.title, st.short, ss.complete ? " done" : "", ss.pct); }
+  h += '<div class="rail-label">Практика</div>';
+  h += item("records", ICON.mic, "Мої записи", "Прослухати себе");
+  h += item("awards", ICON.star, "Досягнення", Object.keys(S.badges).length + " з " + BADGES.length + " бейджів");
+  if (cloud.db) h += item("team", ICON.team, "Рейтинг команди", "Хто тренується найбільше");
+  $("#rail").innerHTML = h;
+}
+
+function go(view) {
+  stopActiveRec();
+  S.ui.view = view; persist();
+  renderRail(); renderMain();
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+/* ===================================================================== UI: MAIN */
+function renderMain() {
+  const v = S.ui.view;
+  const st = STAGES.find(s => s.id === v);
+  if (st) return renderStage(st);
+  if (v === "records") return renderRecords();
+  if (v === "awards") return renderAwards();
+  if (v === "team" && cloud.db) return renderTeam();
+  S.ui.view = "home"; renderHome();
+}
+
+function nextStage() { return STAGES.find(s => !stageStatus(s).complete) || STAGES[0]; }
+
+function renderHome() {
+  const ns = nextStage();
+  const stairs = STAGES.map((s, i) => {
+    const ss = stageStatus(s);
+    return '<button class="step" data-go="' + s.id + '" aria-label="Етап ' + s.n + ": " + esc(s.title) + ", " + Math.round(ss.pct * 100) + '%"><div class="col" style="height:' + (28 + i * 18) + '%"><span>' + s.n + '</span><i style="height:' + Math.round(ss.pct * 100) + '%"></i></div><em>' + esc(s.stair) + "</em></button>";
+  }).join("");
+  const form = FIELDS.map(f =>
+    '<div class="field' + (f.k === "result" || f.k === "proof" ? " wide" : "") + '"><label for="f-' + f.k + '">' + esc(f.label) + '</label><input id="f-' + f.k + '" data-field="' + f.k + '" value="' + esc(S.profile[f.k]) + '" placeholder="' + esc(f.ex) + '" autocomplete="off"><small>' + esc(f.hint) + "</small></div>").join("");
+  $("#main").innerHTML =
+    '<section class="panel"><div class="hero"><div><div class="eyebrow">Сходи продажу · 5 етапів</div><h1 class="h1" style="margin-top:6px">Вчіться продавати своїм голосом</h1>' +
+    '<p class="lead">Впишіть свій бізнес нижче, і всі фрази на кожному етапі перебудуються під ваш продукт. Далі читайте вголос, записуйте, слухайте себе і заробляйте XP за реальну практику.</p>' +
+    '<div class="row" style="margin-top:16px"><button class="btn primary" data-go="' + ns.id + '">' + (S.recCount ? "Продовжити" : "Почати") + ": етап " + ns.n + " " + ICON.arrow + "</button></div></div>" +
+    '<div class="stairs">' + stairs + "</div></div></section>" +
+    '<section class="panel"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">Крок 1</div><h2 class="h2">Мій бізнес</h2></div>' +
+    '<button class="btn small" id="clearEx">' + (S.isExample ? "Очистити приклад" : "Показати приклад") + "</button></div>" +
+    (S.isExample ? '<div class="note" style="margin-top:12px"><span><b>Зараз заповнено приклад: Школа розвитку SPE.</b> Замініть його на свій бізнес, щоб фрази звучали про вас.</span></div>' : "") +
+    '<div class="form">' + form + "</div>" +
+    '<p class="hint" style="margin-top:12px">Пишіть так, щоб значення читалося всередині речення. Наприклад, клієнт: «власники кав’ярень», а не «Власник».</p></section>' +
+    '<section class="panel"><div class="eyebrow">Як заробляти XP</div><h2 class="h2">Бали лише за реальну практику</h2>' +
+    '<div class="rules">' +
+    rule("+15", "Запис фрази від " + MIN_SEC + " секунд. Раз на день за кожну техніку.") +
+    rule("+5", "Прослухати свій запис до кінця.") +
+    rule("+3", "За кожен критерій самоперевірки після запису.") +
+    rule("+20", "Ситуація: записати відповідь клієнту, звірити з еталоном і оцінити себе.") +
+    rule("+10", "За кожну нову правильну відповідь у перевірці етапу.") +
+    rule(DAILY_GOAL + " XP", "Денна ціль. Виконуйте її щодня, щоб тримати серію.") +
+    "</div></section>";
+}
+const rule = (p, t) => '<div class="rule"><div class="pts">' + p + "</div><p>" + esc(t) + "</p></div>";
+
+function renderStage(st) {
+  const ss = stageStatus(st);
+  const tab = S.ui.tab[st.id] || "tech";
+  const chk = (ok, label, n) => '<div class="check' + (ok ? " ok" : "") + '"><span class="box"></span><span>' + label + '</span><span class="n">' + n + "</span></div>";
+  let h = '<section class="panel"><div class="stage-head"><div><div class="eyebrow">Етап ' + st.n + " з 5</div>" +
+    '<h1 class="h1" style="margin-top:6px">' + esc(st.title) + '</h1><p class="lead">' + esc(st.goal) + "</p></div>" +
+    '<div class="checklist" aria-label="Умови проходження етапу">' +
+    chk(ss.techDone === st.techniques.length, "Записати кожну техніку", ss.techDone + "/" + st.techniques.length) +
+    chk(ss.scenDone === st.scenarios.length, "Відпрацювати ситуації", ss.scenDone + "/" + st.scenarios.length) +
+    chk(ss.quizOk, "Перевірка: мінімум " + (st.quiz.length - 1) + " з " + st.quiz.length, ss.quizBest + "/" + st.quiz.length) +
+    (ss.complete ? '<span class="badge-ok" style="justify-self:start;margin-top:4px">Етап пройдено</span>' : "") +
+    "</div></div>" +
+    '<div class="tabs" role="tablist">' +
+    tabBtn(st, "tech", "Техніки", st.techniques.length, tab) + tabBtn(st, "scen", "Ситуації з клієнтом", st.scenarios.length, tab) + tabBtn(st, "quiz", "Перевірка", st.quiz.length, tab) +
+    "</div></section>";
+  h += '<section class="cards" id="stageBody">';
+  if (tab === "tech") h += st.techniques.map(t => techCard(t)).join("") + (st.links ? linksPanel(st) : "");
+  else if (tab === "scen") h += st.scenarios.map(c => scenCard(st, c)).join("");
+  else h += quizPanel(st);
+  const ix = STAGES.indexOf(st);
+  h += '<div class="row" style="justify-content:space-between">' + (ix > 0 ? '<button class="btn ghost" data-go="' + STAGES[ix - 1].id + '">← ' + esc(STAGES[ix - 1].title) + "</button>" : "<span></span>") +
+    (ix < STAGES.length - 1 ? '<button class="btn" data-go="' + STAGES[ix + 1].id + '">' + esc(STAGES[ix + 1].title) + " →</button>" : "") + "</div>";
+  h += "</section>";
+  $("#main").innerHTML = h;
+  if (tab === "tech") st.techniques.forEach(t => renderTakes(t.id));
+  if (tab === "scen") st.scenarios.forEach(c => renderTakes(c.id));
+}
+const tabBtn = (st, id, label, n, cur) => '<button class="tab" role="tab" data-tab="' + id + '" data-stage="' + st.id + '" aria-selected="' + (cur === id) + '">' + label + '<span class="c">' + n + "</span></button>";
+
+function variantsOf(t) {
+  const base = t.v.map(v => ({ tpl: v }));
+  const ai = (S.ai[t.id] || []).map(v => ({ text: v, ai: true }));
+  return base.concat(ai);
+}
+function techCard(t) {
+  const vs = variantsOf(t);
+  const i = (S.vi[t.id] || 0) % vs.length;
+  const cur = vs[i];
+  const body = cur.ai ? '<span class="ai-tag">ШІ</span>' + cueOnly(cur.text) : fill(cur.tpl, true);
+  const done = !!S.tech[t.id];
+  return '<article class="card' + (done ? " done" : "") + '" id="card-' + t.id + '">' +
+    '<div class="card-top"><div><span class="tag">' + esc(t.group) + "</span><h3>" + esc(t.title) + "</h3></div>" + (done ? '<span class="badge-ok">Відпрацьовано</span>' : "") + "</div>" +
+    '<p class="what">' + esc(t.what) + "</p>" +
+    '<div class="phrase" id="ph-' + t.id + '">' + body + "</div>" +
+    '<div class="phrase-meta"><span>Варіант ' + (i + 1) + " з " + vs.length + '</span><span class="row">' +
+    (vs.length > 1 ? '<button class="btn ghost small" data-next="' + t.id + '">' + ICON.shuffle + "Інший варіант</button>" : "") +
+    '<button class="btn ghost small" data-copy="' + t.id + '">' + ICON.copy + "Копіювати</button>" +
+    (aiReady ? '<button class="btn ghost small" data-ai="' + t.id + '">' + ICON.spark + "Ще 3 від ШІ</button>" : "") +
+    "</span></div>" +
+    '<div class="tip">' + esc(t.tip) + "</div>" +
+    recBox(t.id, "tech", "Прочитайте фразу вголос своїми словами і запишіть себе") +
+    "</article>";
+}
+function recBox(key, kind, label) {
+  return '<div class="recbox" data-recbox="' + key + '"><div class="row">' + recControl(key, kind) + '<span class="hint">' + esc(label) + "</span></div>" +
+    '<div class="takes" id="takes-' + key + '"></div></div>';
+}
+function recControl(key, kind) {
+  if (micBlocked) {
+    return '<label class="btn upload">' + ICON.mic + 'Додати запис з диктофона<input type="file" accept="audio/*" capture data-upload="' + key + '" data-kind="' + kind + '"></label>';
+  }
+  return '<button class="recbtn" data-rec="' + key + '" data-kind="' + kind + '"><span class="led"></span><span class="lbl">Записати</span></button>';
+}
+
+function scenCard(st, c) {
+  const done = S.scen[c.id];
+  const model = c.model ? fill(techById(c.model).v[0], true) : fill(c.m, true);
+  const shown = revealed.has(c.id) || !!done;
+  return '<article class="card' + (done ? " done" : "") + '" id="card-' + c.id + '">' +
+    '<div class="card-top"><span class="tag">Підказка: ' + esc(c.hint) + "</span>" + (done ? '<span class="badge-ok">Відпрацьовано</span>' : "") + "</div>" +
+    '<div class="client"><div class="avatar" aria-hidden="true">КЛ</div><div class="bubble"><small>Клієнт</small>' + cueOnly(c.client) + "</div></div>" +
+    recBox(c.id, "scen", "1. Відповідайте вголос, як у реальній розмові") +
+    '<div class="row"><button class="btn small" data-reveal="' + c.id + '"' + (shown ? " hidden" : "") + ">" + ICON.eye + "2. Показати еталонну відповідь</button></div>" +
+    '<div' + (shown ? "" : " hidden") + ' id="model-' + c.id + '" style="display:grid;gap:10px"><div class="phrase model">' + model + "</div>" +
+    '<div><div class="hint" style="margin-bottom:6px">3. Наскільки ваша відповідь близька до еталону?</div><div class="rate">' +
+    ["Далеко", "Близько", "Навіть краще"].map((r, i) => '<button class="btn small" data-rate="' + c.id + '" data-v="' + i + '" aria-pressed="' + (done && done.rating === i) + '">' + r + "</button>").join("") +
+    "</div></div></div></article>";
+}
+
+function linksPanel(st) {
+  return '<article class="card"><div><span class="tag">Відеоуроки</span><h3>Техніки роботи із запереченнями</h3></div>' +
+    '<p class="what">Короткі відео з бази SPE. Перегляньте техніку, потім поверніться і запишіть свою версію.</p>' +
+    '<div class="links">' + st.links.map(([t, u]) => '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(t) + " ↗</a>").join("") + "</div></article>";
+}
+
+/* ----- quiz ----- */
+const quizRun = {}; // stageId -> {order:[[idx...]], answers:{}, checked:bool}
+function shuffled(n) { const a = [...Array(n).keys()]; for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function quizPanel(st) {
+  const run = quizRun[st.id] || (quizRun[st.id] = { order: st.quiz.map(q => shuffled(q.a.length)), answers: {}, checked: false });
+  let h = '<article class="card"><div class="card-top"><div><span class="tag">Перевірка теорії</span><h3>' + st.quiz.length + " питання про етап «" + esc(st.title) + "»</h3></div>" +
+    '<span class="hint">Найкращий результат: ' + (S.quiz[st.id] || 0) + "/" + st.quiz.length + "</span></div>";
+  st.quiz.forEach((q, qi) => {
+    h += '<fieldset class="q" style="border:0;padding:0;margin:0"><legend><h4>' + (qi + 1) + ". " + esc(q.q) + '</h4></legend><div class="opts">';
+    run.order[qi].forEach(ai => {
+      const sel = run.answers[qi] === ai;
+      let cls = "";
+      if (run.checked) { if (ai === 0) cls = " right"; else if (sel) cls = " wrong"; }
+      h += '<label class="opt' + cls + '"><input type="radio" name="q-' + st.id + "-" + qi + '" data-q="' + qi + '" data-a="' + ai + '" data-stage="' + st.id + '"' + (sel ? " checked" : "") + (run.checked ? " disabled" : "") + "><span>" + esc(q.a[ai]) + "</span></label>";
+    });
+    h += "</div>" + (run.checked ? '<div class="why">' + esc(q.why) + "</div>" : "") + "</fieldset>";
+  });
+  if (run.checked) {
+    const score = st.quiz.filter((q, qi) => run.answers[qi] === 0).length;
+    h += '<div class="row" style="justify-content:space-between"><span class="score">' + score + " з " + st.quiz.length + '</span><button class="btn" data-quizreset="' + st.id + '">Пройти ще раз</button></div>';
+  } else {
+    h += '<div class="row"><button class="btn primary" data-quizcheck="' + st.id + '">Перевірити</button><span class="hint" id="quizMsg"></span></div>';
+  }
+  return h + "</article>";
+}
+function checkQuiz(st) {
+  const run = quizRun[st.id];
+  if (Object.keys(run.answers).length < st.quiz.length) { const m = $("#quizMsg"); if (m) m.textContent = "Дайте відповідь на всі питання."; return; }
+  run.checked = true;
+  const score = st.quiz.filter((q, qi) => run.answers[qi] === 0).length;
+  const prev = S.quiz[st.id] || 0;
+  if (score > prev) {
+    S.quiz[st.id] = score;
+    award((score - prev) * 10 + (score === st.quiz.length ? 20 : 0), score === st.quiz.length ? "Перевірка без помилок" : "Новий рекорд перевірки");
+  } else { toast("Результат " + score + " з " + st.quiz.length + ". Рекорд: " + prev, "", false); }
+  renderStage(st);
+}
+
+/* ===================================================================== RECORDING */
+let micBlocked = false;
+let active = null; // {key, kind, mr, chunks, stream, t0, tick, ctx, raf}
+const revealed = new Set();
+const urls = new Map();
+
+async function startRec(key, kind) {
+  if (active) { const same = active.key === key; await stopActiveRec(); if (same) return; }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === "undefined") return blockMic();
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+  catch (e) { return blockMic(e && e.name === "NotAllowedError"); }
+  const types = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"];
+  const mime = types.find(m => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) || "";
+  let mr;
+  try { mr = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined); } catch (e) { stream.getTracks().forEach(t => t.stop()); return blockMic(); }
+  const a = { key, kind, mr, chunks: [], stream, t0: performance.now(), mime: mr.mimeType || mime || "audio/webm" };
+  active = a;
+  mr.ondataavailable = e => { if (e.data && e.data.size) a.chunks.push(e.data); };
+  a.done = new Promise(res => { mr.onstop = res; });
+  mr.start(250);
+  const btn = document.querySelector('[data-rec="' + key + '"]');
+  if (btn) {
+    btn.classList.add("on");
+    btn.querySelector(".lbl").innerHTML = 'Стоп <span class="timer">0:00</span>';
+    btn.insertAdjacentHTML("afterend", '<span class="meter" id="meter" aria-hidden="true">' + "<i></i>".repeat(8) + "</span>");
+  }
+  a.tick = setInterval(() => { const t = btn && btn.querySelector(".timer"); if (t) t.textContent = fmtSec((performance.now() - a.t0) / 1000); }, 250);
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    a.ctx = new AC(); const src = a.ctx.createMediaStreamSource(stream); const an = a.ctx.createAnalyser(); an.fftSize = 64; src.connect(an);
+    const buf = new Uint8Array(an.frequencyBinCount);
+    const loop = () => { an.getByteFrequencyData(buf); const bars = document.querySelectorAll("#meter i"); bars.forEach((b, i) => { const v = buf[2 + i * 2] / 255; b.style.height = (4 + v * 18) + "px"; }); a.raf = requestAnimationFrame(loop); };
+    loop();
+  } catch (e) {}
+}
+async function stopActiveRec() {
+  const a = active; if (!a) return;
+  active = null;
+  clearInterval(a.tick); cancelAnimationFrame(a.raf);
+  try { a.ctx && a.ctx.close(); } catch (e) {}
+  if (a.mr.state !== "inactive") a.mr.stop();
+  await a.done;
+  a.stream.getTracks().forEach(t => t.stop());
+  const dur = (performance.now() - a.t0) / 1000;
+  const blob = new Blob(a.chunks, { type: a.mime });
+  const btn = document.querySelector('[data-rec="' + a.key + '"]');
+  if (btn) { btn.classList.remove("on"); btn.querySelector(".lbl").textContent = "Записати ще"; }
+  const m = $("#meter"); if (m) m.remove();
+  await storeTake(a.key, a.kind, blob, dur);
+}
+function blockMic(denied) {
+  micBlocked = true;
+  toast(denied ? "Доступ до мікрофона заборонено. Можна додати запис з диктофона." : "Мікрофон недоступний у цьому вікні. Додайте запис з диктофона.", "", false);
+  document.querySelectorAll("[data-rec]").forEach(b => { b.outerHTML = recControl(b.dataset.rec, b.dataset.kind); });
+}
+async function storeTake(key, kind, blob, dur) {
+  if (dur < 1 || blob.size < 500) { toast("Запис надто короткий. Спробуйте ще раз.", "", false); return; }
+  const take = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), key, kind, ts: Date.now(), dur, blob, listened: false, checks: [] };
+  await putTake(take);
+  S.recCount++;
+  if (dur >= MIN_SEC) {
+    const k = dayKey();
+    if (kind === "tech") {
+      const first = !S.tech[key];
+      S.tech[key] = (S.tech[key] || 0) + 1;
+      if (S.recAward[key] !== k) { S.recAward[key] = k; award(15, first ? "Перший запис техніки" : "Щоденна практика техніки"); }
+      else { checkBadges(); save(); renderTop(); renderRail(); }
+      const card = document.getElementById("card-" + key);
+      if (card && first) { card.classList.add("done"); const top = card.querySelector(".card-top"); if (top && !top.querySelector(".badge-ok")) top.insertAdjacentHTML("beforeend", '<span class="badge-ok">Відпрацьовано</span>'); }
+    } else {
+      S.scenRec = S.scenRec || {}; S.scenRec[key] = true;
+      checkBadges(); save(); renderTop();
+      toast("Відповідь записано. Тепер звірте з еталоном.", "", false);
+    }
+  } else {
+    checkBadges(); save(); renderTop();
+    toast("Записано. XP нараховуються за записи від " + MIN_SEC + " секунд.", "", false);
+  }
+  renderTakes(key);
+}
+
+/* ----- storage of takes: IndexedDB, memory fallback ----- */
+let idbP = null; const memTakes = new Map();
+function idb() {
+  if (idbP) return idbP;
+  idbP = new Promise(res => {
+    try {
+      const r = indexedDB.open("spe-trainer", 1);
+      r.onupgradeneeded = () => r.result.createObjectStore("takes", { keyPath: "id" });
+      r.onsuccess = () => res(r.result); r.onerror = () => res(null); r.onblocked = () => res(null);
+    } catch (e) { res(null); }
+  });
+  return idbP;
+}
+async function putTake(t) {
+  const d = await idb();
+  if (!d) { memTakes.set(t.id, t); return; }
+  await new Promise(res => { try { const tx = d.transaction("takes", "readwrite"); tx.objectStore("takes").put(t); tx.oncomplete = res; tx.onerror = () => { memTakes.set(t.id, t); res(); }; } catch (e) { memTakes.set(t.id, t); res(); } });
+}
+async function allTakes() {
+  const d = await idb(); let arr = [...memTakes.values()];
+  if (d) arr = arr.concat(await new Promise(res => { try { const q = d.transaction("takes").objectStore("takes").getAll(); q.onsuccess = () => res(q.result || []); q.onerror = () => res([]); } catch (e) { res([]); } }));
+  return arr.sort((a, b) => b.ts - a.ts);
+}
+async function delTake(id) {
+  memTakes.delete(id);
+  const d = await idb(); if (d) await new Promise(res => { try { const tx = d.transaction("takes", "readwrite"); tx.objectStore("takes").delete(id); tx.oncomplete = res; tx.onerror = res; } catch (e) { res(); } });
+  if (urls.has(id)) { URL.revokeObjectURL(urls.get(id)); urls.delete(id); }
+}
+function urlFor(t) { if (!urls.has(t.id)) urls.set(t.id, URL.createObjectURL(t.blob)); return urls.get(t.id); }
+function takeRow(t, withDelete) {
+  const d = new Date(t.ts);
+  return '<div class="take"><span class="when">' + d.toLocaleDateString("uk-UA", { day: "2-digit", month: "2-digit" }) + " " + d.toLocaleTimeString("uk-UA", { hour: "2-digit", minute: "2-digit" }) + " · " + fmtSec(t.dur) + "</span>" +
+    '<audio controls preload="metadata" src="' + urlFor(t) + '" data-take="' + t.id + '"></audio>' +
+    (withDelete ? '<button class="btn ghost small" data-del="' + t.id + '" aria-label="Видалити запис">' + ICON.trash + "</button>" : (t.listened ? '<span class="heard">Прослухано</span>' : '<span class="heard" style="color:var(--muted)">Прослухайте</span>')) + "</div>";
+}
+async function renderTakes(key) {
+  const box = document.getElementById("takes-" + key); if (!box) return;
+  const list = (await allTakes()).filter(t => t.key === key).slice(0, 3);
+  if (!list.length) { box.innerHTML = ""; return; }
+  let h = list.map(t => takeRow(t, false)).join("");
+  const last = list[0];
+  if (last.kind === "tech" && last.dur >= MIN_SEC) {
+    h += '<fieldset class="selfcheck"><legend>Самоперевірка останнього запису (+3 XP за кожен пункт)</legend>' +
+      SELF_CHECK.map((c, i) => '<label><input type="checkbox" data-check="' + last.id + '" data-i="' + i + '"' + (last.checks[i] ? " checked disabled" : "") + "> " + esc(c) + "</label>").join("") + "</fieldset>";
+  }
+  box.innerHTML = h;
+}
+async function getTake(id) { return (await allTakes()).find(t => t.id === id); }
+
+/* ===================================================================== OTHER VIEWS */
+async function renderRecords() {
+  $("#main").innerHTML = '<section class="panel"><div class="eyebrow">Практика</div><h1 class="h1" style="margin-top:6px">Мої записи</h1><p class="lead">Слухайте себе з перервою в день: так помилки чути краще. Записи зберігаються лише в цьому браузері на цьому пристрої.</p></section><section class="panel" id="lib"><p class="hint">Завантаження…</p></section>';
+  const list = await allTakes();
+  const lib = $("#lib"); if (!lib || S.ui.view !== "records") return;
+  if (!list.length) { lib.innerHTML = '<div class="empty-state"><p>Тут з’являться ваші записи.</p><button class="btn primary" data-go="' + nextStage().id + '">Записати першу фразу</button></div>'; return; }
+  const groups = new Map();
+  for (const t of list) { if (!groups.has(t.key)) groups.set(t.key, []); groups.get(t.key).push(t); }
+  let h = "";
+  for (const [key, arr] of groups) {
+    const tech = techById(key); let title, sub;
+    if (tech) { title = tech.title; sub = "Етап " + tech.stage.n + " · " + tech.group; }
+    else { const st = STAGES.find(s => s.scenarios.some(c => c.id === key)); const c = st && st.scenarios.find(c => c.id === key); title = c ? "Ситуація: «" + c.client + "»" : "Запис"; sub = st ? "Етап " + st.n + " · Ситуація з клієнтом" : ""; }
+    h += '<div class="lib-group"><div><span class="tag">' + esc(sub) + "</span><h3>" + esc(title) + "</h3></div>" + arr.map(t => takeRow(t, true)).join("") + "</div>";
+  }
+  lib.innerHTML = h;
+}
+
+function renderAwards() {
+  const L = levelOf(S.xp);
+  const days = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - (6 - i)); return d; });
+  const max = Math.max(DAILY_GOAL, ...days.map(d => S.log[dayKey(d)] || 0));
+  const medal = '<svg viewBox="0 0 44 44" aria-hidden="true"><path class="medal" d="M22 3l5 4.2 6.5-.6 1.6 6.3 5.6 3.4-2.6 6 2.6 6-5.6 3.4-1.6 6.3-6.5-.6L22 41l-5-4.2-6.5.6-1.6-6.3-5.6-3.4 2.6-6-2.6-6 5.6-3.4 1.6-6.3 6.5.6z"/><circle class="medal-in" cx="22" cy="22" r="9"/></svg>';
+  $("#main").innerHTML =
+    '<section class="panel"><div class="eyebrow">Досягнення</div><h1 class="h1" style="margin-top:6px">Рівень ' + (L.i + 1) + ": " + esc(L.name) + "</h1>" +
+    '<p class="lead">Усього ' + S.xp + " XP · " + S.recCount + " " + plural(S.recCount, "запис", "записи", "записів") + " · серія " + streak() + " " + plural(streak(), "день", "дні", "днів") + "</p>" +
+    '<div class="week" aria-label="XP за останні 7 днів">' + days.map(d => { const v = S.log[dayKey(d)] || 0; return '<div class="day"><span class="v">' + v + '</span><i><b style="height:' + Math.round(v / max * 100) + '%"></b></i><span>' + d.toLocaleDateString("uk-UA", { weekday: "short" }) + "</span></div>"; }).join("") + "</div></section>" +
+    '<section class="panel"><h2 class="h2">Бейджі · ' + Object.keys(S.badges).length + " з " + BADGES.length + '</h2><div class="badges" style="margin-top:14px">' +
+    BADGES.map(b => '<div class="bdg' + (S.badges[b.id] ? " got" : "") + '">' + medal + "<b>" + esc(b.t) + "</b><span>" + esc(b.d) + "</span></div>").join("") + "</div></section>" +
+    '<section class="panel"><h2 class="h2">Рівні</h2><div class="levels">' +
+    LEVELS.map(([x, n], i) => '<div class="level' + (i === L.i ? " cur" : "") + '"><span class="x">' + x + " XP</span><span>" + (i + 1) + ". " + esc(n) + "</span></div>").join("") + "</div></section>";
+}
+
+/* ===================================================================== CLOUD (inside Claude only) */
+const cloud = { db: null, user: null, uid: null };
+let aiReady = false, sampleFn = null, boardRows = [], boardUnsub = null, cloudTimer = null;
+
+function cloudSave() {
+  if (!cloud.db) return;
+  clearTimeout(cloudTimer);
+  cloudTimer = setTimeout(async () => {
+    try {
+      await cloud.db.collection("data/users/" + cloud.uid).doc("progress").set({ state: JSON.parse(JSON.stringify(S)), t: Date.now() });
+      await cloud.db.doc("board/" + cloud.uid).set({
+        xp: S.xp, level: levelOf(S.xp).i + 1, streak: streak(), recs: S.recCount,
+        stages: STAGES.filter(s => stageStatus(s).complete).length,
+        biz: S.isExample ? "" : String(S.profile.company || "").slice(0, 60), t: Date.now()
+      });
+    } catch (e) {}
+  }, 2500);
+}
+async function initCloud() {
+  if (!window.claude || typeof window.claude.use !== "function") return;
+  claude.use("sample").then(s => { if (s) { sampleFn = s; aiReady = true; if (STAGES.some(st => st.id === S.ui.view)) renderMain(); } });
+  const [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+  if (!db || !user) return;
+  let uid = null; try { uid = await user.id(); } catch (e) {}
+  if (!uid) return;
+  Object.assign(cloud, { db, user, uid });
+  try {
+    const snap = await db.collection("data/users/" + uid).doc("progress").get();
+    const r = snap.exists ? snap.data() : null;
+    if (r && r.state && (r.state.xp || 0) > S.xp) { const ui = S.ui; S = hydrate(JSON.parse(JSON.stringify(r.state))); S.ui = ui; persist(); }
+  } catch (e) {}
+  boardUnsub = db.collection("board").orderBy("xp", "desc").limit(50).onSnapshot(snap => {
+    boardRows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (S.ui.view === "team") renderTeam();
+  }, () => {});
+  renderTop(); renderRail(); renderMain();
+  if (S.xp > 0) cloudSave();
+}
+async function renderTeam() {
+  const rows = boardRows;
+  let names = {};
+  try { names = await cloud.user.profiles(rows.map(r => r.id)); } catch (e) {}
+  if (S.ui.view !== "team") return;
+  const body = rows.length ? rows.map((r, i) => {
+    const p = names[r.id] || {};
+    const me = r.id === cloud.uid;
+    return '<tr' + (me ? ' class="me"' : "") + '><td class="n">' + (i + 1) + "</td><td>" + esc(p.name || (me ? "Ви" : "Учасник")) + (r.biz ? '<br><span class="hint">' + esc(r.biz) + "</span>" : "") + '</td><td class="n">' + (r.xp || 0) + '</td><td class="n">' + (r.level || 1) + '</td><td class="n">' + (r.streak || 0) + '</td><td class="n">' + (r.stages || 0) + "/5</td></tr>";
+  }).join("") : '<tr><td colspan="6" class="empty-state">Поки що порожньо. Запишіть першу фразу, і ви з’явитесь тут.</td></tr>';
+  $("#main").innerHTML = '<section class="panel"><div class="eyebrow">Команда</div><h1 class="h1" style="margin-top:6px">Рейтинг команди</h1><p class="lead">Усі, хто відкрив цей тренажер і тренується. Оновлюється наживо.</p></section>' +
+    '<section class="panel"><div class="tablewrap"><table class="board"><thead><tr><th>#</th><th>Учасник</th><th>XP</th><th>Рівень</th><th>Серія</th><th>Етапи</th></tr></thead><tbody>' + body + "</tbody></table></div></section>";
+}
+
+async function aiVariants(id, btn) {
+  const t = techById(id); if (!t || !sampleFn) return;
+  const P = S.profile;
+  const prompt = "Ти тренер з продажів. Напиши 3 нові варіанти фрази для техніки продажу, адаптовані під бізнес нижче.\n\n" +
+    "Етап продажу: " + t.stage.title + "\nТехніка: " + t.group + " — " + t.title + "\nСуть техніки: " + t.what + "\nПорада: " + t.tip +
+    "\nПриклади фраз:\n" + t.v.map(v => "- " + fill(v, false)).join("\n") +
+    "\n\nБізнес:\n" + FIELDS.map(f => "- " + f.label + ": " + (P[f.k] || "—")).join("\n") +
+    "\n\nВимоги: українська мова, звертання на «Ви», живою розмовною мовою, до 45 слів кожна, ремарки для продавця в круглих дужках. " +
+    "Відповідай лише JSON-масивом із 3 рядків.";
+  const label = btn.innerHTML; btn.disabled = true; btn.textContent = "Генерую…";
+  try {
+    const arr = await sampleFn.json(prompt);
+    const clean = Array.isArray(arr) ? arr.filter(x => typeof x === "string" && x.trim()).map(x => x.trim().slice(0, 500)).slice(0, 3) : [];
+    if (!clean.length) throw { code: "invalid_json" };
+    const base = t.v.length + (S.ai[id] || []).length;
+    S.ai[id] = (S.ai[id] || []).concat(clean).slice(-9);
+    S.vi[id] = Math.min(base, t.v.length + S.ai[id].length - clean.length);
+    save(); replaceCard(id);
+    toast("Додано " + clean.length + " нові варіанти", "", false);
+  } catch (e) {
+    if (e && e.code === "not_granted") { aiReady = false; renderMain(); return; }
+    toast(e && e.code === "rate_limited" ? "Забагато запитів. Спробуйте за хвилину." : "Не вдалося згенерувати. Спробуйте ще раз.", "", false);
+    btn.disabled = false; btn.innerHTML = label;
+  }
+}
+
+/* ===================================================================== TOASTS + FX */
+function toast(text, pts, big) {
+  const el = document.createElement("div");
+  el.className = "toast" + (big ? " big" : "");
+  el.innerHTML = (pts ? '<span class="p">' + esc(pts) + "</span>" : "") + "<span>" + esc(text) + "</span>";
+  $("#toasts").appendChild(el);
+  setTimeout(() => el.remove(), big ? 4200 : 2800);
+}
+function burst() {
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c = $("#fx"); c.hidden = false; const ctx = c.getContext("2d");
+  const W = c.width = innerWidth, H = c.height = innerHeight;
+  const cs = getComputedStyle(document.documentElement);
+  const cols = ["--gold-strong", "--accent", "--ok", "--rec"].map(v => cs.getPropertyValue(v).trim() || "#E0A400");
+  const ps = [...Array(90)].map(() => ({ x: W / 2, y: H * 0.35, vx: (Math.random() - .5) * 12, vy: -Math.random() * 10 - 3, r: Math.random() * 4 + 3, c: cols[Math.floor(Math.random() * cols.length)], a: Math.random() * 6 }));
+  let f = 0;
+  (function step() {
+    ctx.clearRect(0, 0, W, H);
+    ps.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += .35; p.a += .2; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); ctx.restore(); });
+    if (++f < 80) requestAnimationFrame(step); else { ctx.clearRect(0, 0, W, H); c.hidden = true; }
+  })();
+}
+
+/* ===================================================================== EVENTS */
+function replaceCard(id) {
+  const old = document.getElementById("card-" + id); if (!old) return;
+  const t = techById(id); old.outerHTML = techCard(t); renderTakes(id);
+}
+let typing = null;
+document.addEventListener("input", e => {
+  const f = e.target.dataset && e.target.dataset.field;
+  if (!f) return;
+  S.profile[f] = e.target.value;
+  if (S.isExample) { S.isExample = false; const n = $(".note"); if (n) n.remove(); const b = $("#clearEx"); if (b) b.textContent = "Показати приклад"; }
+  clearTimeout(typing);
+  typing = setTimeout(() => {
+    const filled = FIELDS.filter(x => (S.profile[x.k] || "").trim()).length;
+    if (filled >= 6 && !S.profileXp) { S.profileXp = true; award(20, "Профіль бізнесу заповнено"); }
+    else { checkBadges(); save(); renderTop(); }
+  }, 700);
+});
+document.addEventListener("change", async e => {
+  const t = e.target;
+  if (t.dataset.q !== undefined && t.dataset.stage) { quizRun[t.dataset.stage].answers[+t.dataset.q] = +t.dataset.a; return; }
+  if (t.dataset.check) {
+    const take = await getTake(t.dataset.check); if (!take) return;
+    const i = +t.dataset.i;
+    if (t.checked && !take.checks[i]) {
+      take.checks[i] = true; await putTake(take); t.disabled = true;
+      S.checkCount++; award(3, "Самоперевірка");
+    }
+    return;
+  }
+  if (t.dataset.upload) {
+    const file = t.files && t.files[0]; if (!file) return;
+    const dur = await audioDuration(file);
+    await storeTake(t.dataset.upload, t.dataset.kind, file, dur);
+    t.value = "";
+  }
+});
+function audioDuration(blob) {
+  return new Promise(res => {
+    const guess = blob.size / 16000; let doneFlag = false;
+    const finish = d => { if (doneFlag) return; doneFlag = true; URL.revokeObjectURL(u); res(d); };
+    const a = new Audio(); const u = URL.createObjectURL(blob);
+    a.preload = "metadata";
+    a.onloadedmetadata = () => finish(isFinite(a.duration) && a.duration > 0 ? a.duration : guess);
+    a.onerror = () => finish(guess);
+    setTimeout(() => finish(guess), 4000);
+    a.src = u;
+  });
+}
+document.addEventListener("ended", async e => {
+  const id = e.target.dataset && e.target.dataset.take; if (!id) return;
+  const take = await getTake(id); if (!take || take.listened) return;
+  take.listened = true; await putTake(take);
+  S.listenCount++; award(5, "Прослухали себе");
+  const h = e.target.parentElement.querySelector(".heard"); if (h) { h.textContent = "Прослухано"; h.style.color = ""; }
+}, true);
+document.addEventListener("click", async e => {
+  const el = e.target.closest("button, [data-go]"); if (!el) return;
+  const d = el.dataset;
+  if (d.go) return go(d.go);
+  if (d.tab) { S.ui.tab[d.stage] = d.tab; persist(); stopActiveRec(); return renderStage(STAGES.find(s => s.id === d.stage)); }
+  if (d.rec) return startRec(d.rec, d.kind);
+  if (d.next) { S.vi[d.next] = ((S.vi[d.next] || 0) + 1) % variantsOf(techById(d.next)).length; persist(); return replaceCard(d.next); }
+  if (d.copy) {
+    const t = techById(d.copy); const vs = variantsOf(t); const cur = vs[(S.vi[t.id] || 0) % vs.length];
+    const text = cur.ai ? cur.text : fill(cur.tpl, false);
+    try { await navigator.clipboard.writeText(text); toast("Фразу скопійовано", "", false); }
+    catch (err) { const r = document.createRange(); r.selectNodeContents($("#ph-" + t.id)); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Фразу виділено. Натисніть Ctrl+C", "", false); }
+    return;
+  }
+  if (d.ai) return aiVariants(d.ai, el);
+  if (d.reveal) { revealed.add(d.reveal); el.hidden = true; const m = document.getElementById("model-" + d.reveal); if (m) m.hidden = false; return; }
+  if (d.rate) {
+    const id = d.rate, v = +d.v;
+    if (!(S.scenRec && S.scenRec[id])) { toast("Спершу запишіть свою відповідь від " + MIN_SEC + " секунд", "", false); return; }
+    const first = !S.scen[id];
+    const k = dayKey();
+    const prevDay = S.scen[id] && S.scen[id].day;
+    S.scen[id] = { rating: v, day: k };
+    el.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b === el)));
+    if (first) award(20, "Ситуацію відпрацьовано");
+    else if (prevDay !== k) award(5, "Повторна практика ситуації");
+    else { save(); }
+    const card = document.getElementById("card-" + id);
+    if (card && first) card.classList.add("done");
+    const st = STAGES.find(s => s.id === S.ui.view); if (st && first) { const scroll = scrollY; renderStage(st); scrollTo(0, scroll); }
+    return;
+  }
+  if (d.quizcheck) return checkQuiz(STAGES.find(s => s.id === d.quizcheck));
+  if (d.quizreset) { delete quizRun[d.quizreset]; return renderStage(STAGES.find(s => s.id === d.quizreset)); }
+  if (d.del) { await delTake(d.del); return renderRecords(); }
+  if (el.id === "clearEx") {
+    if (S.isExample) { FIELDS.forEach(f => S.profile[f.k] = ""); S.isExample = false; }
+    else { S.profile = { ...EXAMPLE }; S.isExample = true; }
+    save(); renderTop(); renderHome();
+    const first = $("#f-company"); if (first && !S.isExample) first.focus();
+  }
+});
+addEventListener("pagehide", () => { if (active) stopActiveRec(); });
+
+/* ===================================================================== BOOT */
+renderTop(); renderRail(); renderMain();
+initCloud();
+</script>
+</body></html>

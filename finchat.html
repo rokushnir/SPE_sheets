@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Запитай Романа</title>
+  <meta name="description" content="Поставте запитання Роману Кушніру про гроші: бюджет, заощадження, кредити, інвестиції. Отримайте відповідь і практичні завдання під ваш запит.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg: #fbfaf6;
+  --bg-alt: #f1efe6;
+  --ink: #1d2a24;
+  --muted: #5c6b63;
+  --brand: #1f6b4f;
+  --brand-dark: #154c38;
+  --brand-soft: #e3f1ea;
+  --accent: #e0a526;
+  --card: #ffffff;
+  --line: #e2dfd3;
+  --user: #1f6b4f;
+  --user-ink: #ffffff;
+  --shadow: 0 12px 40px rgba(20, 40, 30, .14);
+  --radius: 18px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121815;
+    --bg-alt: #19211d;
+    --ink: #e8eee9;
+    --muted: #9fb0a6;
+    --brand: #3fa97f;
+    --brand-dark: #2e8c66;
+    --brand-soft: #1f3129;
+    --card: #1c2520;
+    --line: #2b3832;
+    --user: #2e8c66;
+    --shadow: 0 12px 40px rgba(0, 0, 0, .45);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121815;
+  --bg-alt: #19211d;
+  --ink: #e8eee9;
+  --muted: #9fb0a6;
+  --brand: #3fa97f;
+  --brand-dark: #2e8c66;
+  --brand-soft: #1f3129;
+  --card: #1c2520;
+  --line: #2b3832;
+  --user: #2e8c66;
+  --shadow: 0 12px 40px rgba(0, 0, 0, .45);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+}
+a { color: var(--brand); }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 .5em; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -.02em; }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; }
+h3 { font-size: 1.1rem; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+.muted { color: var(--muted); }
+.accent { color: var(--brand); }
+[hidden] { display: none !important; }
+
+/* Кнопки */
+.btn {
+  display: inline-flex; align-items: center; gap: .4em;
+  border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--brand); color: #fff; font: inherit; font-weight: 700;
+  padding: .7em 1.3em; text-decoration: none;
+  transition: background .2s, transform .1s;
+}
+.btn:hover { background: var(--brand-dark); }
+.btn:active { transform: scale(.97); }
+.btn--small { padding: .45em 1em; font-size: .9rem; }
+.btn--big { font-size: 1.1rem; padding: .85em 1.6em; }
+.btn--ghost { background: transparent; color: var(--brand); box-shadow: inset 0 0 0 2px var(--brand); }
+.btn--ghost:hover { background: var(--brand-soft); }
+
+/* Аватар */
+.avatar {
+  flex: none; display: inline-grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: #fff; font-weight: 800; font-size: .95rem;
+  background-size: cover; background-position: center;
+  border: 2px solid var(--accent);
+}
+.avatar--sm { width: 34px; height: 34px; font-size: .8rem; }
+.avatar--xs { width: 30px; height: 30px; font-size: .7rem; border-width: 1.5px; }
+
+/* Шапка */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.topbar__inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.nav { display: flex; align-items: center; gap: 20px; }
+.nav a { color: var(--ink); text-decoration: none; font-weight: 600; }
+@media (max-width: 640px) { .nav a { display: none; } }
+
+/* Перший екран */
+.hero { padding: 64px 0 48px; }
+.hero__inner { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+.eyebrow { color: var(--brand); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: .85rem; margin: 0 0 12px; }
+.lead { font-size: 1.15rem; color: var(--muted); max-width: 34em; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.hero__preview {
+  background: var(--card); border: 1px solid var(--line); border-radius: 24px;
+  padding: 22px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px;
+  transform: rotate(1.2deg);
+}
+@media (max-width: 860px) {
+  .hero { padding-top: 40px; }
+  .hero__inner { grid-template-columns: 1fr; }
+  .hero__preview { transform: none; }
+}
+
+/* Бульбашки (і для прев'ю, і для чату) */
+.bubble { max-width: 85%; padding: .65em .95em; border-radius: 16px; font-size: .97rem; overflow-wrap: anywhere; }
+.bubble--bot { background: var(--brand-soft); border-bottom-left-radius: 4px; align-self: flex-start; }
+.bubble--user { background: var(--user); color: var(--user-ink); border-bottom-right-radius: 4px; align-self: flex-end; }
+.bubble p { margin: 0 0 .5em; }
+.bubble p:last-child { margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: .85rem; padding: .35em .8em; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--brand); color: var(--brand); font-weight: 600; }
+.task-mini { align-self: flex-start; background: var(--bg-alt); border: 1px solid var(--line); border-radius: 12px; padding: .6em .9em; font-weight: 700; }
+
+/* Секції */
+.section { padding: 64px 0; }
+.section--alt { background: var(--bg-alt); }
+.steps { list-style: none; padding: 0; margin: 24px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.steps li { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+.steps p { margin: 0; color: var(--muted); }
+.steps__n { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #1d2a24; font-weight: 800; margin-bottom: 12px; }
+@media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+
+.task-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 24px; }
+.task-group { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+.task-group h3 { margin-bottom: 12px; }
+.task-group ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+
+/* Картка завдання */
+.task {
+  display: block; text-decoration: none; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 12px; padding: .7em .9em; background: var(--card);
+  transition: border-color .2s, transform .1s;
+}
+a.task:hover { border-color: var(--brand); transform: translateY(-1px); }
+.task strong { display: block; }
+.task small { display: block; color: var(--muted); margin-top: 2px; }
+.task__cta { display: inline-block; margin-top: 6px; font-size: .85rem; font-weight: 700; color: var(--brand); }
+.task--soon .task__cta { color: var(--muted); }
+
+.footer { padding: 32px 0; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); }
+
+/* Плаваюча кнопка */
+.launcher { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 50; display: flex; align-items: flex-end; gap: 12px; }
+.launcher__btn { position: relative; border: 0; padding: 0; background: none; cursor: pointer; border-radius: 50%; box-shadow: var(--shadow); }
+.launcher__btn .avatar { width: 64px; height: 64px; font-size: 1.2rem; border-width: 3px; }
+.launcher__dot { position: absolute; right: 2px; top: 2px; width: 14px; height: 14px; border-radius: 50%; background: #e5484d; border: 2px solid var(--bg); animation: pulse 1.8s infinite; }
+.launcher__teaser {
+  position: relative; background: var(--card); color: var(--ink); border: 1px solid var(--line);
+  border-radius: 16px 16px 4px 16px; padding: 12px 34px 12px 14px; box-shadow: var(--shadow);
+  max-width: 230px; font-weight: 600; cursor: pointer; animation: rise .35s ease-out;
+}
+.launcher__close { position: absolute; right: 6px; top: 4px; border: 0; background: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; line-height: 1; }
+body.chat-open .launcher { display: none; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.25); } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* Вікно чату */
+.chat {
+  position: fixed; right: 20px; bottom: 20px; z-index: 60;
+  width: 390px; height: min(640px, calc(100vh - 40px));
+  background: var(--bg); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; overflow: hidden; animation: rise .25s ease-out;
+}
+@media (max-width: 520px) {
+  .chat { inset: 0; width: auto; height: 100%; height: 100dvh; border-radius: 0; border: 0; }
+}
+.chat__head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--brand); color: #fff; }
+.chat__who { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.chat__who small { opacity: .85; }
+.chat__icon { border: 0; background: rgba(255,255,255,.15); color: #fff; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
+.chat__icon:hover { background: rgba(255,255,255,.28); }
+.chat__log { flex: 1; overflow-y: auto; padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+.msg { display: flex; gap: 8px; align-items: flex-end; animation: rise .25s ease-out; }
+.msg--user { justify-content: flex-end; }
+.msg .bubble { max-width: 80%; }
+.msg__spacer { width: 30px; flex: none; }
+.tasks-list { display: flex; flex-direction: column; gap: 8px; margin-left: 38px; max-width: calc(100% - 38px); animation: rise .25s ease-out; }
+.typing { display: inline-flex; gap: 4px; padding: .8em 1em; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: blink 1.2s infinite; }
+.typing i:nth-child(2) { animation-delay: .2s; }
+.typing i:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+.chat__choices { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 10px; max-height: 40%; overflow-y: auto; }
+.chat__choices:empty { display: none; }
+.choice {
+  border: 0; cursor: pointer; font: inherit; font-size: .92rem; font-weight: 600;
+  padding: .5em .95em; border-radius: 999px; background: var(--card); color: var(--brand);
+  box-shadow: inset 0 0 0 1.5px var(--brand); animation: rise .25s ease-out;
+}
+.choice:hover { background: var(--brand); color: #fff; }
+.chat__input { display: flex; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); background: var(--card); }
+.chat__input input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 999px; padding: .65em 1em; font: inherit; background: var(--bg); color: var(--ink); }
+.chat__input input:focus { outline: 2px solid var(--brand); outline-offset: -1px; }
+.chat__input button { border: 0; width: 42px; height: 42px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 1.05rem; cursor: pointer; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="#">
+        <span class="avatar avatar--sm" data-avatar></span>
+        <span data-name>Роман Кушнір</span>
+      </a>
+      <nav class="nav">
+        <a href="#how">Як це працює</a>
+        <a href="#tasks">Завдання</a>
+        <button class="btn btn--small" data-open-chat>Запитати</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero__inner">
+        <div class="hero__text">
+          <p class="eyebrow" data-tagline>Фінансова грамотність простими словами</p>
+          <h1>Маєте запитання про гроші? <span class="accent">Запитайте мене.</span></h1>
+          <p class="lead">Я, Роман Кушнір, відповідаю на запитання про бюджет, заощадження, кредити та інвестиції. Розкажіть, що вас цікавить, і я підберу практичні завдання саме для вас.</p>
+          <div class="hero__actions">
+            <button class="btn btn--big" data-open-chat>💬 Почати розмову</button>
+            <a class="btn btn--ghost" href="#tasks">Переглянути завдання</a>
+          </div>
+        </div>
+        <div class="hero__preview" aria-hidden="true">
+          <div class="bubble bubble--bot">Привіт! Я Роман 👋 Як до вас звертатися?</div>
+          <div class="bubble bubble--user">Олена</div>
+          <div class="bubble bubble--bot">Приємно, Олено! Що вас зараз найбільше цікавить?</div>
+          <div class="chips">
+            <span class="chip">💰 Бюджет</span><span class="chip">🐷 Заощадження</span><span class="chip">📈 Інвестиції</span>
+          </div>
+          <div class="bubble bubble--bot">Ось завдання, з якого варто почати 👇</div>
+          <div class="task-mini">📋 Мій бюджет на місяць</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap">
+        <h2>Як це працює</h2>
+        <ol class="steps">
+          <li><span class="steps__n">1</span><h3>Розкажіть про себе</h3><p>Хто ви: школяр, студент, працюєте, батьки чи вчитель. Так я краще підберу матеріали.</p></li>
+          <li><span class="steps__n">2</span><h3>Оберіть тему або спитайте своє</h3><p>Натискайте на готові варіанти або пишіть запитання своїми словами.</p></li>
+          <li><span class="steps__n">3</span><h3>Отримайте відповідь і завдання</h3><p>Коротке пояснення та посилання на практичні завдання, з якими тема стане зрозумілою.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="tasks">
+      <div class="wrap">
+        <h2>Завдання за темами</h2>
+        <p class="muted">Не знаєте, з чого почати? Відкрийте чат, і я підкажу.</p>
+        <div class="task-groups" data-task-groups></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">© <span data-year></span> <span data-name>Роман Кушнір</span>. Відповіді мають освітній характер і не є індивідуальною фінансовою порадою.</div>
+  </footer>
+
+  <!-- Плаваюча кнопка і вітальна підказка -->
+  <div class="launcher">
+    <div class="launcher__teaser" data-teaser hidden>
+      <button class="launcher__close" data-teaser-close aria-label="Закрити">×</button>
+      <span>Привіт! Маєте запитання про гроші? 🙂</span>
+    </div>
+    <button class="launcher__btn" data-open-chat aria-label="Відкрити чат">
+      <span class="avatar" data-avatar></span>
+      <span class="launcher__dot"></span>
+    </button>
+  </div>
+
+  <!-- Вікно чату -->
+  <section class="chat" data-chat hidden aria-label="Чат з Романом">
+    <header class="chat__head">
+      <span class="avatar" data-avatar></span>
+      <div class="chat__who">
+        <strong data-name>Роман Кушнір</strong>
+        <small>Фінансова грамотність · онлайн</small>
+      </div>
+      <button class="chat__icon" data-restart title="Почати спочатку" aria-label="Почати спочатку">↺</button>
+      <button class="chat__icon" data-close-chat title="Згорнути" aria-label="Згорнути чат">✕</button>
+    </header>
+    <div class="chat__log" data-log aria-live="polite"></div>
+    <div class="chat__choices" data-choices></div>
+    <form class="chat__input" data-form autocomplete="off">
+      <input type="text" data-input placeholder="Напишіть повідомлення…" aria-label="Повідомлення">
+      <button type="submit" aria-label="Надіслати">➤</button>
+    </form>
+  </section>
+
+  <script>
+/*
+ * ===== КОНТЕНТ =====
+ * Контент сайту: тут Роман редагує все без знання програмування.
+ *
+ *  - CONFIG   — ім'я, фото, контакти.
+ *  - ROLES    — хто прийшов у чат (від цього залежить, які завдання показувати).
+ *  - TOPICS   — теми, уточнювальне питання бота і коротка відповідь Романа.
+ *  - TASKS    — заздалегідь підготовлені завдання. Вставте посилання в поле url.
+ *  - FAQ      — відповіді на типові запитання, які люди пишуть своїми словами.
+ *
+ * Ключові слова (keywords) — це початки слів у нижньому регістрі:
+ * "кредит" спрацює на "кредит", "кредиту", "кредитна" тощо.
+ */
+
+window.CONFIG = {
+  name: "Роман Кушнір",
+  shortName: "Роман",
+  tagline: "Фінансова грамотність простими словами",
+  // Шлях до фото (наприклад "roman.jpg" у цій же папці). Порожньо — покажуться ініціали.
+  photo: "",
+  // Куди людина може написати, якщо бот не знайшов відповіді. Порожні поля не показуються.
+  contacts: {
+    telegram: "", // наприклад "https://t.me/username"
+    email: "",    // наприклад "hello@example.com"
+  },
+};
+
+window.ROLES = [
+  { id: "school",  label: "🎒 Школяр / школярка" },
+  { id: "student", label: "🎓 Студент / студентка" },
+  { id: "adult",   label: "💼 Працюю" },
+  { id: "parent",  label: "👨‍👩‍👧 Батьки" },
+  { id: "teacher", label: "🧑‍🏫 Вчитель / вчителька" },
+];
+
+window.TOPICS = {
+  budget: {
+    label: "💰 Особистий бюджет",
+    keywords: ["бюджет", "витрат", "доход", "зарплат", "стипенд", "кишенько", "облік", "не вистачає", "куди зника"],
+    question: {
+      text: "Ви вже записуєте свої доходи й витрати?",
+      options: [
+        { label: "Так, регулярно", reply: "Чудово, це вже більше, ніж робить більшість! Наступний крок — не просто записувати, а планувати: на початку місяця вирішити, скільки піде на кожну категорію, і в кінці порівняти план із фактом." },
+        { label: "Іноді", reply: "Розумію, звичка складна. Спробуйте лише 2 тижні записувати кожну витрату — навіть каву. Зазвичай після цього стає очевидно, куди «зникають» гроші." },
+        { label: "Ні, ніколи", reply: "Тоді почнемо з найпростішого: бюджет — це не обмеження, а план. Ви заздалегідь вирішуєте, на що підуть гроші, замість того щоб у кінці місяця дивуватися, куди вони ділися." },
+      ],
+    },
+  },
+  savings: {
+    label: "🐷 Заощадження і фінансова подушка",
+    keywords: ["заощад", "відклад", "накопич", "подушк", "резерв", "збер", "копит", "економ"],
+    question: {
+      text: "У вас є гроші, відкладені «на чорний день»?",
+      options: [
+        { label: "Так, на 3+ місяці", reply: "Супер — ви вже захищені від більшості несподіванок. Тепер можна думати, як змусити гроші працювати: депозити, ОВДП, інвестиції." },
+        { label: "Трохи є", reply: "Добрий початок! Орієнтир — подушка на 3–6 місяців звичайних витрат. Найпростіший спосіб її зібрати — автоматично відкладати фіксований відсоток у день, коли приходять гроші." },
+        { label: "Поки немає", reply: "Це нормально, з цього починають усі. Правило №1: спочатку заплати собі. Навіть 5–10% від кожного доходу, відкладені одразу, за рік перетворюються на відчутну суму." },
+      ],
+    },
+  },
+  credit: {
+    label: "💳 Кредити і борги",
+    keywords: ["кредит", "борг", "позик", "розстрочк", "мікрокредит", "іпотек", "відсотк", "переплат", "мфо"],
+    question: {
+      text: "Що зараз про вас?",
+      options: [
+        { label: "Думаю взяти кредит", reply: "Перш ніж підписувати, порахуйте реальну переплату — не ставку «від 0,01%», а загальну суму, яку ви віддасте. Банки в Україні зобов'язані показувати реальну річну процентну ставку. І головне питання: це покупка, без якої справді не можна, чи бажання «тут і зараз»?" },
+        { label: "Вже маю борги", reply: "Головне — не брати нові кредити, щоб гасити старі. Випишіть усі борги зі ставками і спочатку закривайте найдорожчий, а за рештою платіть мінімум. Це називається метод «лавини»." },
+        { label: "Просто цікаво", reply: "Кредит — це інструмент, як ніж: можна нарізати хліб, а можна порізатися. Добрий кредит допомагає заробляти або економити (освіта, обладнання), поганий — фінансує бажання, яке швидко мине." },
+      ],
+    },
+  },
+  invest: {
+    label: "📈 Інвестиції",
+    keywords: ["інвест", "акці", "облігац", "овдп", "депозит", "фонд", "крипт", "біткоїн", "дивіденд", "складн", "пасивн"],
+    question: {
+      text: "Який у вас досвід з інвестиціями?",
+      options: [
+        { label: "Ніякого", reply: "Почніть з основи: подушка безпеки → закриті дорогі борги → тільки тоді інвестиції. І найважливіше поняття — складний відсоток: коли дохід приносить новий дохід. Час тут важить більше, ніж сума." },
+        { label: "Є депозит", reply: "Депозит — надійний старт. Наступні кроки, які варто вивчити: ОВДП (державні облігації — дохід за ними для фізосіб не оподатковується) і диверсифікація — не тримати все в одному інструменті." },
+        { label: "Вже інвестую", reply: "Тоді ключові питання — диверсифікація, ваш горизонт і комісії. Порахуйте, скільки ви реально платите за обслуговування: 1–2% на рік здаються дрібницею, але за 20 років з'їдають значну частину результату." },
+      ],
+    },
+  },
+  cards: {
+    label: "🏦 Банки, картки і платежі",
+    keywords: ["картк", "банк", "рахун", "переказ", "кешбек", "ліміт", "комісі", "платіж", "онлайн"],
+    question: {
+      text: "Що вас цікавить у роботі з банком?",
+      options: [
+        { label: "Як обрати картку", reply: "Порівнюйте не рекламу, а умови: вартість обслуговування, комісії за перекази і зняття готівки, кешбек (і його обмеження). Дебетова картка — ваші гроші, кредитна — гроші банку. Це принципова різниця." },
+        { label: "Як не переплачувати", reply: "Зайдіть у застосунок банку і подивіться, які комісії ви сплатили за останні 3 місяці. Часто там сюрпризи: платні SMS, зняття з кредитного ліміту, перекази на картки інших банків." },
+        { label: "Як платити безпечно", reply: "Три правила: нікому не повідомляйте CVV і коди з SMS, встановіть ліміти на онлайн-платежі, і для покупок в інтернеті використовуйте окрему віртуальну картку з невеликою сумою." },
+      ],
+    },
+  },
+  fraud: {
+    label: "🛡 Захист від шахраїв",
+    keywords: ["шахра", "обман", "вкрал", "зламал", "дзвон", "служба безпеки", "cvv", "код з смс", "фішинг", "піраміда", "розвод"],
+    question: {
+      text: "Вам доводилося стикатися з шахраями?",
+      options: [
+        { label: "Так", reply: "Якщо гроші вже списали — одразу блокуйте картку через застосунок, дзвоніть у банк за номером на звороті картки і пишіть заяву в поліцію. Що швидше, то більше шансів." },
+        { label: "Ні, але боюся", reply: "Пам'ятайте головне: справжній банк ніколи не просить CVV, PIN чи код з SMS. Будь-який дзвінок «зі служби безпеки» з терміновістю і страхом — це сигнал покласти слухавку і передзвонити в банк самостійно." },
+      ],
+    },
+  },
+  tax: {
+    label: "🧾 Податки",
+    keywords: ["податк", "пдфо", "фоп", "декларац", "військовий збір", "єсв", "єдин"],
+    question: {
+      text: "Що саме хочете зрозуміти?",
+      options: [
+        { label: "Звідки податки в зарплаті", reply: "З офіційної зарплати роботодавець утримує податок на доходи фізичних осіб і військовий збір, а ще сплачує за вас єдиний соціальний внесок. Ці гроші формують бюджет і ваш майбутній пенсійний стаж." },
+        { label: "Податки з інвестицій", reply: "Дохід від депозитів і більшості інвестицій оподатковується, а от дохід від ОВДП для фізичних осіб звільнений від податку. Ставки час від часу змінюються — перевіряйте актуальні на сайті податкової." },
+        { label: "Податки для ФОП", reply: "Для ФОП ключове — обрати групу спрощеної системи під свій вид діяльності й дохід і не забувати про ЄСВ. Почніть з консультації в ЦНАП або на сайті tax.gov.ua — там є покрокові інструкції." },
+      ],
+    },
+  },
+  business: {
+    label: "🚀 Власна справа",
+    keywords: ["бізнес", "підприєм", "стартап", "заробит", "заробі", "собівартіст", "прибут", "продаж", "ціну"],
+    question: {
+      text: "На якому ви етапі?",
+      options: [
+        { label: "Є ідея", reply: "Перш ніж вкладати гроші — порахуйте юніт-економіку: скільки коштує зробити одну одиницю товару чи послуги, за скільки ви її продасте і скільки треба продати, щоб вийти в нуль." },
+        { label: "Вже щось продаю", reply: "Головне правило — розділяйте гроші бізнесу і особисті. Окремий рахунок, окремий облік, і платіть собі «зарплату», а не беріть з каси, коли захочеться." },
+      ],
+    },
+  },
+};
+
+/*
+ * Завдання. Поле url — посилання на готове завдання (Google Таблиця, документ, форма тощо).
+ * Якщо url порожній, бот покаже завдання з позначкою «посилання скоро буде».
+ * topic — тема або кілька тем: "budget" чи ["budget", "invest"].
+ * levels — для кого завдання; "all" означає для всіх.
+ */
+window.TASKS = [
+  // Готові сторінки цього сайту.
+  { id: "money-game",    topic: ["budget", "invest", "savings"], levels: ["all"], title: "Гра «Гроші» — заняття 1",        desc: "Активний дохід, інвестиційний капітал і пасивний дохід; бюджет на місяць і домашнє завдання.", url: "money.html" },
+  { id: "goals-ladder",  topic: "savings",  levels: ["all"],                   title: "Сходи до мети",                     desc: "Впишіть велику фінансову ціль — і вона розкладеться на кроки від «через 20 років» до «просто зараз».", url: "goals.html" },
+  { id: "goals-smart",   topic: ["savings", "business"], levels: ["all"],      title: "SMART-лабораторія",                 desc: "Перевірте, чи ваша ціль конкретна, вимірювана, досяжна і обмежена в часі.", url: "smart.html" },
+  // Заготовки: вставте посилання в url, коли завдання буде готове.
+  { id: "budget-month",  topic: "budget",   levels: ["all"],                   title: "Мій бюджет на місяць",                      desc: "Таблиця доходів і витрат: плануємо місяць і порівнюємо з фактом.", url: "" },
+  { id: "budget-503020", topic: "budget",   levels: ["student", "adult"],      title: "Правило 50/30/20",                          desc: "Розкладаємо дохід на потреби, бажання і заощадження.", url: "" },
+  { id: "budget-pocket", topic: "budget",   levels: ["school", "parent"],      title: "Кишенькові гроші",                          desc: "Як домовитися про кишенькові й навчитися ними керувати.", url: "" },
+  { id: "save-cushion",  topic: "savings",  levels: ["all"],                   title: "Скільки мені потрібно на подушку?",         desc: "Рахуємо свою фінансову подушку безпеки.", url: "" },
+  { id: "save-goal",     topic: "savings",  levels: ["all"],                   title: "Ціль накопичення за 6 місяців",             desc: "Ставимо ціль, ділимо на кроки і відстежуємо прогрес.", url: "" },
+  { id: "credit-cost",   topic: "credit",   levels: ["student", "adult", "parent", "teacher"], title: "Справжня ціна кредиту",       desc: "Рахуємо переплату і реальну річну ставку на прикладах.", url: "" },
+  { id: "credit-debts",  topic: "credit",   levels: ["adult", "parent"],       title: "План виходу з боргів",                      desc: "Метод «лавини» і «сніжної кулі»: обираємо свій.", url: "" },
+  { id: "invest-compound", topic: "invest", levels: ["all"],                   title: "Магія складного відсотка",                  desc: "Калькулятор: як ростуть гроші за 5, 10 і 20 років.", url: "" },
+  { id: "invest-compare",  topic: "invest", levels: ["student", "adult", "parent", "teacher"], title: "Депозит, ОВДП чи акції?", desc: "Порівнюємо дохідність, ризик і податки.", url: "" },
+  { id: "cards-choose",  topic: "cards",    levels: ["all"],                   title: "Обираємо банківську картку",                desc: "Порівняльна таблиця умов: комісії, кешбек, обслуговування.", url: "" },
+  { id: "fraud-cases",   topic: "fraud",    levels: ["all"],                   title: "Розпізнай шахрая",                          desc: "10 ситуацій: де обман, а де ні?", url: "" },
+  { id: "tax-salary",    topic: "tax",      levels: ["student", "adult", "teacher"], title: "Що відбувається з моєю зарплатою", desc: "Від суми «брудними» до суми на картці.", url: "" },
+  { id: "biz-unit",      topic: "business", levels: ["all"],                   title: "Бізнес-ідея в цифрах",                      desc: "Собівартість, ціна і точка беззбитковості.", url: "" },
+  { id: "teach-lesson",  topic: "budget",   levels: ["teacher"],               title: "Урок фінграмотності за 45 хвилин",          desc: "Готовий сценарій уроку з роздатковими матеріалами.", url: "" },
+];
+
+/*
+ * Відповіді на запитання, які люди пишуть самі.
+ * Бот шукає збіг ключових слів і показує відповідь + завдання з теми topic.
+ */
+window.FAQ = [
+  {
+    keywords: ["інфляці", "знецін", "дорожча", "ціни ростуть"],
+    topic: "invest",
+    answer: "Інфляція — це коли на ту саму суму з часом можна купити менше. Тому гроші, що просто лежать «під подушкою», щороку тихо втрачають вартість. Захист — тримати заощадження в інструментах, дохідність яких хоча б покриває інфляцію: депозити, ОВДП, диверсифіковані інвестиції.",
+  },
+  {
+    keywords: ["складн", "відсоток на відсоток", "капіталізац"],
+    topic: "invest",
+    answer: "Складний відсоток — це коли дохід додається до основної суми і наступного разу вже сам приносить дохід. Через це час важить більше за суму: хто почав відкладати у 20, часто має більше за того, хто почав у 35 і відкладав удвічі більше.",
+  },
+  {
+    keywords: ["скільки відклад", "скільки збер", "який відсоток відклад", "скільки треба відклад"],
+    topic: "savings",
+    answer: "Класичний орієнтир — 10–20% від кожного доходу. Але важливіше не відсоток, а регулярність: краще стабільно відкладати 5%, ніж раз на пів року 30%. Налаштуйте автоматичний переказ у день зарплати — і гроші відкладатимуться без зусиль волі.",
+  },
+  {
+    keywords: ["овдп", "облігац", "військові облігац"],
+    topic: "invest",
+    answer: "ОВДП — облігації внутрішньої державної позики: ви позичаєте гроші державі під відсоток. Це один із найнадійніших інструментів в Україні, а дохід за ними для фізичних осіб не оподатковується. Купити можна через банк або брокера, часто прямо в застосунку.",
+  },
+  {
+    keywords: ["депозит", "вклад"],
+    topic: "invest",
+    answer: "Депозит — найпростіший спосіб отримувати дохід на заощадження. Вклади фізичних осіб гарантує Фонд гарантування вкладів (актуальний ліміт перевіряйте на fg.gov.ua). Зважайте, що з доходу за депозитом утримують податки, тож порівнюйте ставки «після податків».",
+  },
+  {
+    keywords: ["кредитн картк", "пільгов", "грейс"],
+    topic: "credit",
+    answer: "Кредитна картка вигідна лише якщо ви повністю гасите борг у пільговий період — тоді відсотки не нараховуються. Якщо платити тільки мінімальний платіж, ставка зазвичай дуже висока, а борг тягнеться роками. І знімати готівку з кредитки майже завжди дорого.",
+  },
+  {
+    keywords: ["мікрокредит", "мфо", "до зарплат", "швидк гроші", "швидкий кредит"],
+    topic: "credit",
+    answer: "Кредити «до зарплати» — одні з найдорожчих: реальна річна ставка може сягати сотень відсотків. Якщо грошей бракує до зарплати регулярно, це сигнал не про брак кредиту, а про бюджет — давайте почнемо з нього.",
+  },
+  {
+    keywords: ["крипт", "біткоїн", "bitcoin", "токен"],
+    topic: "invest",
+    answer: "Криптовалюти дуже волатильні: за місяць ціна може змінитися на десятки відсотків в обидва боки. Якщо цікавить — вкладайте лише ту суму, втрату якої ви спокійно переживете, і лише після подушки безпеки. А обіцянки «гарантованого доходу» в крипті — майже завжди шахрайство.",
+  },
+  {
+    keywords: ["піраміда", "гарантован дохід", "гарантованого доходу", "пасивний дохід 30", "легкі гроші"],
+    topic: "fraud",
+    answer: "Ознаки фінансової піраміди: обіцяють високий «гарантований» дохід, просять залучати друзів, не можуть пояснити, звідки беруться гроші. Пам'ятайте: високий дохід завжди означає високий ризик. «Гарантованих» 30% на місяць не буває.",
+  },
+  {
+    keywords: ["дзвонил", "служба безпеки", "просять код", "cvv", "код з смс", "смс код"],
+    topic: "fraud",
+    answer: "Покладіть слухавку. Справжній банк ніколи не просить CVV, PIN або код з SMS. Передзвоніть у банк самостійно за номером на звороті картки. Якщо дані вже повідомили — терміново заблокуйте картку в застосунку.",
+  },
+  {
+    keywords: ["дитин", "сина", "доньк", "діти", "дітям"],
+    topic: "budget",
+    answer: "Найкраще навчання — практика: кишенькові гроші з чіткими правилами (сума, періодичність, на що можна витрачати), спільні походи в магазин з бюджетом і проста ціль накопичення. Важливо, щоб дитина мала право помилитися з невеликою сумою — це найдешевший урок.",
+  },
+  {
+    keywords: ["фінансова грамотніст", "фінграмотніст", "з чого почат"],
+    topic: "budget",
+    answer: "Фінансова грамотність починається з трьох звичок: знати, скільки заробляєш і витрачаєш (бюджет), спочатку платити собі (заощадження) і розуміти ціну боргу (кредити). Почніть з бюджету — це фундамент для всього іншого.",
+  },
+];
+</script>
+  <script>
+/*
+ * Чат-бот у стилі PatentBot: бот сам веде розмову — ставить прості запитання
+ * з готовими варіантами відповіді, а людина може будь-коли написати своє.
+ * Залежно від ролі та теми бот показує заздалегідь підготовлені завдання з data.js.
+ * Працює повністю в браузері, без сервера; розмова зберігається в localStorage.
+ */
+(() => {
+  const { CONFIG, ROLES, TOPICS, TASKS, FAQ } = window;
+  const STORE_KEY = "rk-finbot-v1";
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+  const chat = $("[data-chat]");
+  const log = $("[data-log]");
+  const choicesBox = $("[data-choices]");
+  const form = $("[data-form]");
+  const input = $("[data-input]");
+
+  /* ---------- Сховище ---------- */
+
+  const storage = {
+    get(key, area = localStorage) { try { return JSON.parse(area.getItem(key)); } catch { return null; } },
+    set(key, value, area = localStorage) { try { area.setItem(key, JSON.stringify(value)); } catch { /* приватний режим */ } },
+    remove(key) { try { localStorage.removeItem(key); } catch { /* ignore */ } },
+  };
+
+  const freshState = () => ({ name: "", role: null, step: "start", log: [] });
+  let state = storage.get(STORE_KEY) || freshState();
+  const save = () => storage.set(STORE_KEY, state);
+
+  /* ---------- Оформлення сторінки ---------- */
+
+  const initials = CONFIG.name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+  function paintAvatar(el) {
+    if (CONFIG.photo) {
+      el.style.backgroundImage = `url("${CONFIG.photo}")`;
+      el.textContent = "";
+    } else {
+      el.textContent = initials;
+    }
+  }
+  $$("[data-avatar]").forEach(paintAvatar);
+  $$("[data-name]").forEach((el) => (el.textContent = CONFIG.name));
+  $$("[data-tagline]").forEach((el) => (el.textContent = CONFIG.tagline));
+  $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
+
+  function taskCard(task) {
+    const el = document.createElement(task.url ? "a" : "div");
+    el.className = "task" + (task.url ? "" : " task--soon");
+    if (task.url) {
+      el.href = task.url;
+      el.target = "_blank";
+      el.rel = "noopener";
+    }
+    const title = document.createElement("strong");
+    title.textContent = "📋 " + task.title;
+    const desc = document.createElement("small");
+    desc.textContent = task.desc;
+    const cta = document.createElement("span");
+    cta.className = "task__cta";
+    cta.textContent = task.url ? "Відкрити завдання →" : "Посилання скоро буде";
+    el.append(title, desc, cta);
+    return el;
+  }
+
+  // Каталог завдань на головній сторінці, згрупований за темами.
+  const groups = $("[data-task-groups]");
+  Object.entries(TOPICS).forEach(([id, topic]) => {
+    const list = TASKS.filter((t) => [].concat(t.topic)[0] === id); // у каталозі — лише під першою темою
+    if (!list.length) return;
+    const box = document.createElement("div");
+    box.className = "task-group";
+    const h = document.createElement("h3");
+    h.textContent = topic.label;
+    const ul = document.createElement("ul");
+    list.forEach((t) => {
+      const li = document.createElement("li");
+      li.append(taskCard(t));
+      ul.append(li);
+    });
+    box.append(h, ul);
+    groups.append(box);
+  });
+
+  /* ---------- Відкриття / закриття ---------- */
+
+  const teaser = $("[data-teaser]");
+  let started = false;
+
+  function openChat() {
+    chat.hidden = false;
+    teaser.hidden = true;
+    document.body.classList.add("chat-open");
+    storage.set("rk-finbot-seen", true, sessionStorage);
+    if (!started) {
+      started = true;
+      if (state.log.length) {
+        state.log.forEach(renderEntry);
+        prompt(state.step);
+        scrollDown();
+      } else {
+        greet();
+      }
+    }
+    if (window.matchMedia("(min-width: 521px)").matches) input.focus();
+  }
+  function closeChat() {
+    chat.hidden = true;
+    document.body.classList.remove("chat-open");
+  }
+  $$("[data-open-chat]").forEach((b) => b.addEventListener("click", openChat));
+  $("[data-close-chat]").addEventListener("click", closeChat);
+  teaser.addEventListener("click", (e) => {
+    if (e.target.closest("[data-teaser-close]")) {
+      teaser.hidden = true;
+      storage.set("rk-finbot-seen", true, sessionStorage);
+    } else {
+      openChat();
+    }
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !chat.hidden) closeChat(); });
+  $("[data-restart]").addEventListener("click", () => {
+    gen++;
+    queue = Promise.resolve();
+    state = freshState();
+    save();
+    log.innerHTML = "";
+    clearChoices();
+    greet();
+  });
+
+  // Як у PatentBot: через кілька секунд бот сам «стукає» до відвідувача.
+  if (!storage.get("rk-finbot-seen", sessionStorage)) {
+    setTimeout(() => { if (chat.hidden) teaser.hidden = false; }, 4000);
+  }
+
+  /* ---------- Повідомлення ---------- */
+
+  const scrollDown = () => (log.scrollTop = log.scrollHeight);
+
+  function bubble(from, text) {
+    const b = document.createElement("div");
+    b.className = "bubble bubble--" + from;
+    text.split("\n\n").forEach((part) => {
+      const p = document.createElement("p");
+      p.textContent = part;
+      b.append(p);
+    });
+    return b;
+  }
+
+  function renderEntry(entry) {
+    if (entry.type === "tasks") {
+      const box = document.createElement("div");
+      box.className = "tasks-list";
+      entry.ids.map((id) => TASKS.find((t) => t.id === id)).filter(Boolean).forEach((t) => box.append(taskCard(t)));
+      log.append(box);
+      return;
+    }
+    if (entry.type === "contacts") {
+      const box = document.createElement("div");
+      box.className = "tasks-list";
+      contactLinks().forEach((c) => {
+        const a = document.createElement("a");
+        a.className = "task";
+        a.href = c.href;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.innerHTML = "<strong></strong><span class='task__cta'>Написати →</span>";
+        a.firstChild.textContent = c.label;
+        box.append(a);
+      });
+      log.append(box);
+      return;
+    }
+    const row = document.createElement("div");
+    row.className = "msg msg--" + entry.type;
+    if (entry.type === "bot") {
+      const av = document.createElement("span");
+      av.className = "avatar avatar--xs";
+      paintAvatar(av);
+      row.append(av);
+    }
+    row.append(bubble(entry.type, entry.text));
+    log.append(row);
+  }
+
+  function push(entry) {
+    state.log.push(entry);
+    save();
+    renderEntry(entry);
+    scrollDown();
+  }
+
+  // Усі репліки бота йдуть через чергу, щоб «друкування» не накладалося.
+  // gen змінюється при рестарті — тоді недоговорені старі репліки відкидаються.
+  let queue = Promise.resolve();
+  let gen = 0;
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  function enqueue(fn) {
+    const g = gen;
+    queue = queue.then(() => (g === gen ? fn(() => g === gen) : undefined));
+    return queue;
+  }
+
+  function typing() {
+    const row = document.createElement("div");
+    row.className = "msg msg--bot";
+    const av = document.createElement("span");
+    av.className = "avatar avatar--xs";
+    paintAvatar(av);
+    const b = document.createElement("div");
+    b.className = "bubble bubble--bot typing";
+    b.innerHTML = "<i></i><i></i><i></i>";
+    row.append(av, b);
+    log.append(row);
+    scrollDown();
+    return row;
+  }
+
+  function say(text) {
+    const fill = (s) => s.replaceAll("{name}", state.name || "друже");
+    return enqueue(async (alive) => {
+      const t = fill(text);
+      const dots = typing();
+      await wait(Math.min(400 + t.length * 12, 1600));
+      dots.remove();
+      if (alive()) push({ type: "bot", text: t });
+    });
+  }
+
+  function sayEntry(entry) {
+    return enqueue(async (alive) => {
+      await wait(300);
+      if (alive()) push(entry);
+    });
+  }
+
+  /* ---------- Варіанти відповіді ---------- */
+
+  let currentChoices = [];
+
+  function clearChoices() {
+    choicesBox.innerHTML = "";
+    currentChoices = [];
+  }
+
+  function offer(options) {
+    enqueue(() => {
+      clearChoices();
+      currentChoices = options;
+      options.forEach((opt) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "choice";
+        b.textContent = opt.label;
+        b.addEventListener("click", () => pick(opt));
+        choicesBox.append(b);
+      });
+      scrollDown();
+    });
+  }
+
+  function pick(opt) {
+    clearChoices();
+    push({ type: "user", text: opt.label });
+    opt.run();
+  }
+
+  function setStep(step) {
+    enqueue(() => {
+      state.step = step;
+      save();
+    });
+    prompt(step);
+  }
+
+  /* ---------- Сценарій ---------- */
+
+  function greet() {
+    say(`Привіт! Я ${CONFIG.name} 👋`);
+    say("Допомагаю розібратися з грошима — без складних слів. Відповім на ваші запитання і підберу практичні завдання саме під вас.");
+    say("Як до вас звертатися?");
+    setStep("askName");
+  }
+
+  const roleReplies = {
+    school: "Круто, що ви цікавитеся грошима вже зараз — це величезна перевага на все життя!",
+    student: "Студентські роки — ідеальний час, щоб навчитися керувати грошима: помилки ще недорогі.",
+    adult: "Чудово! Покажу, як змусити гроші працювати на вас, а не навпаки.",
+    parent: "Дуже ціную, коли батьки хочуть навчити дітей фінансової грамотності. Допоможу і вам, і їм.",
+    teacher: "Дякую, що несете фінансову грамотність у класи! Маю для вас і завдання для учнів, і готові сценарії.",
+  };
+
+  function onName(raw) {
+    const name = raw.trim().replace(/\s+/g, " ").slice(0, 40);
+    state.name = name.charAt(0).toUpperCase() + name.slice(1);
+    save();
+    say("{name}, приємно познайомитися! 🙂");
+    say("Розкажіть трохи про себе — так я підберу завдання, які підходять саме вам. Хто ви?");
+    setStep("askRole");
+  }
+
+  function onRole(roleId) {
+    state.role = roleId;
+    save();
+    say(roleReplies[roleId] || "Чудово!");
+    showMenu("Що вас зараз найбільше цікавить? Оберіть тему або просто напишіть своє запитання.");
+  }
+
+  function showMenu(text) {
+    say(text);
+    setStep("menu");
+  }
+
+  function startTopic(id) {
+    say(TOPICS[id].question.text);
+    setStep("topic:" + id);
+  }
+
+  function onTopicAnswer(id, option) {
+    say(option.reply);
+    showTasks(id);
+    afterAnswer();
+  }
+
+  function tasksFor(topicId) {
+    return TASKS.filter((t) => [].concat(t.topic).includes(topicId) && (t.levels.includes("all") || !state.role || t.levels.includes(state.role)));
+  }
+
+  function showTasks(topicId) {
+    const list = tasksFor(topicId);
+    if (!list.length) return;
+    say(list.length === 1 ? "Ось завдання, яке я підготував для вас 👇" : "Ось завдання, які я підготував для вас 👇");
+    sayEntry({ type: "tasks", ids: list.map((t) => t.id) });
+  }
+
+  function afterAnswer() {
+    say("Що далі, {name}?");
+    setStep("after");
+  }
+
+  function contactLinks() {
+    const out = [];
+    if (CONFIG.contacts.telegram) out.push({ label: "✈️ Telegram", href: CONFIG.contacts.telegram });
+    if (CONFIG.contacts.email) out.push({ label: "✉️ " + CONFIG.contacts.email, href: "mailto:" + CONFIG.contacts.email });
+    return out;
+  }
+
+  function goodbye() {
+    say("Дякую за розмову, {name}! Успіхів із завданнями 💪");
+    say("Повертайтеся, коли з'являться нові запитання — я тут.");
+    setStep("done");
+  }
+
+  /* ---------- Розпізнавання вільного тексту ---------- */
+
+  const norm = (s) => " " + s.toLowerCase().replace(/[’'`ʼ]/g, "'").replace(/[^\p{L}\p{N}' ]+/gu, " ").replace(/\s+/g, " ") + " ";
+
+  function score(text, keywords) {
+    // Ключове слово — це початок слова: шукаємо його після пробілу.
+    return keywords.reduce((n, k) => n + (text.includes(" " + k.toLowerCase()) ? 1 + k.length / 100 : 0), 0);
+  }
+
+  function bestMatch(text) {
+    let faq = null, faqScore = 0;
+    FAQ.forEach((f) => {
+      const s = score(text, f.keywords);
+      if (s > faqScore) { faq = f; faqScore = s; }
+    });
+    let topic = null, topicScore = 0;
+    Object.entries(TOPICS).forEach(([id, t]) => {
+      const s = score(text, t.keywords);
+      if (s > topicScore) { topic = id; topicScore = s; }
+    });
+    return { faq, faqScore, topic, topicScore };
+  }
+
+  function answerFree(raw) {
+    const text = norm(raw);
+
+    if (/ (дяку|спасиб|дзенкую)/.test(text)) {
+      say("Будь ласка! Радий допомогти 🙂");
+      setStep(state.name ? "after" : state.step);
+      return;
+    }
+    if (/ (привіт|добрий|вітаю|хай|hello|hi) /.test(text) && text.trim().split(" ").length <= 3) {
+      say("Привіт-привіт! 👋 Про що хочете поговорити?");
+      setStep("menu");
+      return;
+    }
+
+    const { faq, faqScore, topic, topicScore } = bestMatch(text);
+    if (faq && faqScore >= topicScore) {
+      say(faq.answer);
+      showTasks(faq.topic);
+      afterAnswer();
+      return;
+    }
+    if (topic) {
+      say(`Схоже, це про тему «${TOPICS[topic].label.replace(/^\S+\s/, "")}». Уточню одне:`);
+      startTopic(topic);
+      return;
+    }
+
+    say("Гарне запитання! Не хочу відповідати навмання 🙂");
+    if (contactLinks().length) {
+      say("Напишіть мені особисто — відповім, щойно зможу:");
+      sayEntry({ type: "contacts" });
+      say("А поки можете обрати одну з тем — можливо, відповідь уже там.");
+    } else {
+      say("Спробуйте переформулювати інакше або оберіть одну з тем — можливо, відповідь уже там.");
+    }
+    setStep("menu");
+  }
+
+  /* ---------- Кроки розмови ---------- */
+
+  const topicChoices = () => [
+    ...Object.entries(TOPICS).map(([id, t]) => ({ label: t.label, run: () => startTopic(id) })),
+    { label: "✍️ Своє запитання", run: askOwn },
+  ];
+
+  function askOwn() {
+    say("Напишіть запитання в полі нижче — своїми словами, як другу 🙂");
+    setStep("free");
+  }
+
+  // Що показати на кожному кроці (і при поверненні до збереженої розмови).
+  function prompt(step) {
+    if (step === "askName" || step === "free") {
+      offer(step === "free" ? [{ label: "↩️ До тем", run: () => showMenu("Оберіть тему:") }] : []);
+    } else if (step === "askRole") {
+      offer(ROLES.map((r) => ({ label: r.label, run: () => onRole(r.id) })));
+    } else if (step === "menu") {
+      offer(topicChoices());
+    } else if (step.startsWith("topic:")) {
+      const id = step.slice(6);
+      offer(TOPICS[id].question.options.map((o) => ({ label: o.label, run: () => onTopicAnswer(id, o) })));
+    } else if (step === "after") {
+      offer([
+        { label: "📚 Інша тема", run: () => showMenu("Яка тема цікавить?") },
+        { label: "✍️ Своє запитання", run: askOwn },
+        { label: "👋 Дякую, на сьогодні все", run: goodbye },
+      ]);
+    } else if (step === "done") {
+      offer([{ label: "📚 Повернутися до тем", run: () => showMenu("Із задоволенням! Яка тема цікавить?") }]);
+    } else {
+      greet();
+    }
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+
+    // Якщо людина надрукувала текст однієї з кнопок — вважаємо це натисканням.
+    const lower = text.toLowerCase();
+    const choice = currentChoices.find((c) => c.label.toLowerCase().replace(/^\P{L}+/u, "").startsWith(lower) && lower.length > 2);
+    if (choice) return pick(choice);
+
+    clearChoices();
+    push({ type: "user", text });
+    if (state.step === "askName") onName(text);
+    else answerFree(text);
+  });
+})();
+</script>
+</body>
+</html>
