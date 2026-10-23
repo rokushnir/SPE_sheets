@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Діагностика бізнесу — SPE</title>
+<meta name="description" content="Безкоштовна діагностика бізнесу за 7 хвилин: 7 зон, 21 питання, індекс системності і план, що прокачати першим. Від Романа Кушніра і SPE Consulting.">
+<meta property="og:title" content="Діагностика бізнесу за 7 хвилин">
+<meta property="og:description" content="Дізнайтеся, що гальмує ваш бізнес і що прокачати першим: стратегія, процеси, команда, продажі, маркетинг, фінанси і ваш власний час.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f3ee;
+    --card: #ffffff;
+    --soft: #efe9e0;
+    --line: #e2d9cc;
+    --ink: #1d1a16;
+    --muted: #6b6359;
+    --acc: #e2572b;
+    --acc-ink: #ffffff;
+    --acc-soft: #fbe3d9;
+    --good: #2e9d62;
+    --mid: #d99a1e;
+    --bad: #d9443a;
+    --shadow: 0 10px 30px rgba(40, 25, 10, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15130f;
+      --card: #201d18;
+      --soft: #2a2620;
+      --line: #3a342b;
+      --ink: #f3ede4;
+      --muted: #a89e90;
+      --acc: #ff7a4a;
+      --acc-ink: #1a0f08;
+      --acc-soft: #3b2418;
+      --good: #4cc483;
+      --mid: #f0b43c;
+      --bad: #ff6b5e;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15130f; --card: #201d18; --soft: #2a2620; --line: #3a342b; --ink: #f3ede4; --muted: #a89e90;
+    --acc: #ff7a4a; --acc-ink: #1a0f08; --acc-soft: #3b2418; --good: #4cc483; --mid: #f0b43c; --bad: #ff6b5e;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 17px; line-height: 1.55;
+  }
+  h1, h2, h3, .disp { font-family: "Unbounded", "Manrope", sans-serif; letter-spacing: -.01em; line-height: 1.15; }
+  h1 { font-size: clamp(30px, 6.4vw, 56px); margin: 0 0 18px; }
+  h2 { font-size: clamp(22px, 4vw, 32px); margin: 0 0 14px; }
+  h3 { font-size: 18px; margin: 0 0 8px; }
+  a { color: var(--acc); }
+  button { font: inherit; color: inherit; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+  .screen { display: none; padding: 28px 0 60px; animation: fade .45s ease; }
+  .screen.on { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; }
+  .brand { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 15px; display: flex; gap: 8px; align-items: center; }
+  .brand i { font-style: normal; background: var(--acc); color: var(--acc-ink); border-radius: 8px; padding: 3px 7px; font-size: 13px; }
+  .ghost { background: none; border: 1px solid var(--line); border-radius: 99px; padding: 6px 12px; cursor: pointer; font-size: 14px; color: var(--muted); }
+  .ghost:hover { border-color: var(--acc); color: var(--acc); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: var(--acc); color: var(--acc-ink); border: 0; border-radius: 16px;
+    padding: 17px 28px; font-weight: 800; font-size: 18px; cursor: pointer; text-decoration: none;
+    box-shadow: 0 8px 22px color-mix(in srgb, var(--acc) 35%, transparent);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn.sec { background: var(--soft); color: var(--ink); box-shadow: none; }
+  .btn.wide { width: 100%; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 24px; box-shadow: var(--shadow); }
+  .muted { color: var(--muted); }
+  .small { font-size: 14px; }
+  .tag { display: inline-block; background: var(--acc-soft); color: var(--acc); font-weight: 700; font-size: 13px; border-radius: 99px; padding: 5px 12px; margin-bottom: 14px; }
+
+  /* Hero */
+  .hero-lead { font-size: clamp(18px, 2.6vw, 21px); color: var(--muted); max-width: 640px; margin: 0 0 26px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 22px 0 34px; color: var(--muted); font-size: 15px; }
+  .hero-meta b { color: var(--ink); }
+  .zones-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; margin: 34px 0; }
+  .zone-chip { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .zone-chip .e { font-size: 24px; }
+  .zone-chip b { display: block; margin: 4px 0 2px; font-size: 15px; }
+  .zone-chip span { font-size: 13px; color: var(--muted); }
+  .quote { border-left: 4px solid var(--acc); padding: 6px 0 6px 18px; margin: 30px 0; font-size: 18px; }
+  .quote small { display: block; color: var(--muted); margin-top: 6px; font-size: 14px; }
+  .proof { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 26px 0; }
+  .proof div { background: var(--soft); border-radius: 16px; padding: 16px; }
+  .proof b { display: block; font-family: "Unbounded", sans-serif; font-size: 24px; color: var(--acc); }
+  .proof span { font-size: 14px; color: var(--muted); }
+
+  /* Intro form */
+  .field { margin: 0 0 22px; }
+  .field > label, .field > .lbl { display: block; font-weight: 700; margin-bottom: 8px; }
+  input[type=text], input[type=tel], textarea {
+    width: 100%; font: inherit; color: var(--ink); background: var(--card);
+    border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 15px; outline: none;
+  }
+  input:focus, textarea:focus { border-color: var(--acc); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    border: 1.5px solid var(--line); background: var(--card); border-radius: 99px;
+    padding: 9px 15px; cursor: pointer; font-size: 15px; transition: .15s;
+  }
+  .chip:hover { border-color: var(--acc); }
+  .chip.on { background: var(--acc); border-color: var(--acc); color: var(--acc-ink); font-weight: 700; }
+
+  /* Quiz */
+  .progress { display: flex; gap: 6px; margin: 4px 0 8px; }
+  .progress i { flex: 1; height: 6px; border-radius: 99px; background: var(--soft); overflow: hidden; position: relative; }
+  .progress i b { position: absolute; inset: 0; width: 0; background: var(--acc); border-radius: inherit; transition: width .4s; }
+  .qmeta { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--muted); margin-bottom: 22px; }
+  .qzone { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .qzone .e { font-size: 28px; }
+  .qzone b { font-family: "Unbounded", sans-serif; font-size: 15px; }
+  .qtext { font-family: "Unbounded", sans-serif; font-size: clamp(20px, 3.6vw, 27px); font-weight: 700; line-height: 1.25; margin: 0 0 22px; }
+  .opts { display: grid; gap: 10px; }
+  .opt {
+    text-align: left; background: var(--card); border: 1.5px solid var(--line); border-radius: 16px;
+    padding: 15px 18px; cursor: pointer; display: flex; gap: 14px; align-items: flex-start; font-size: 16px;
+    transition: border-color .15s, transform .15s, background .15s;
+  }
+  .opt:hover { border-color: var(--acc); transform: translateX(3px); }
+  .opt .k { flex: none; width: 28px; height: 28px; border-radius: 9px; background: var(--soft); display: grid; place-items: center; font-weight: 800; font-size: 14px; }
+  .opt.on { border-color: var(--acc); background: var(--acc-soft); }
+  .opt.on .k { background: var(--acc); color: var(--acc-ink); }
+  .opts.locked .opt:not(.on) { opacity: .5; }
+  .insight {
+    margin-top: 18px; background: var(--soft); border-radius: 18px; padding: 18px 20px;
+    display: none; animation: fade .35s ease;
+  }
+  .insight.on { display: block; }
+  .insight .who { display: flex; gap: 10px; align-items: center; font-weight: 800; font-size: 14px; margin-bottom: 6px; }
+  .ava { width: 34px; height: 34px; border-radius: 50%; background: var(--acc); color: var(--acc-ink); display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-size: 13px; flex: none; }
+  .qnav { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; }
+
+  .zone-done { text-align: center; padding: 40px 0; }
+  .zone-done .big { font-family: "Unbounded", sans-serif; font-size: 64px; font-weight: 800; }
+
+  /* Results */
+  .score-hero { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: center; }
+  @media (min-width: 720px) { .score-hero { grid-template-columns: 1.1fr 1fr; } }
+  .score-num { font-family: "Unbounded", sans-serif; font-weight: 800; font-size: clamp(64px, 14vw, 104px); line-height: 1; color: var(--acc); }
+  .score-num small { font-size: .35em; color: var(--muted); }
+  .level { display: inline-flex; gap: 8px; align-items: center; font-weight: 800; font-size: 20px; margin: 10px 0 8px; }
+  .ladder { display: flex; gap: 4px; margin: 14px 0 6px; }
+  .ladder div { flex: 1; text-align: center; font-size: 11px; color: var(--muted); }
+  .ladder div i { display: block; height: 8px; border-radius: 99px; background: var(--soft); margin-bottom: 5px; }
+  .ladder div.on i { background: var(--acc); }
+  .ladder div.on { color: var(--ink); font-weight: 800; }
+  .radar { width: 100%; max-width: 420px; display: block; margin: 0 auto; }
+  .radar text { font-family: "Manrope", sans-serif; font-size: 11px; fill: var(--ink); }
+  .bars { display: grid; gap: 12px; margin-top: 10px; }
+  .bar { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; }
+  .bar .t { font-weight: 700; font-size: 15px; }
+  .bar .v { font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 15px; }
+  .bar .track { grid-column: 1 / -1; height: 10px; border-radius: 99px; background: var(--soft); overflow: hidden; }
+  .bar .track i { display: block; height: 100%; width: 0; border-radius: inherit; transition: width .9s cubic-bezier(.2, .8, .2, 1); }
+  .section { margin-top: 30px; }
+  .root-cause { border: 2px solid var(--acc); background: var(--acc-soft); }
+  .weak { display: grid; gap: 16px; }
+  .weak .card { position: relative; }
+  .weak .num { position: absolute; top: 18px; right: 20px; font-family: "Unbounded", sans-serif; font-size: 13px; font-weight: 800; color: var(--muted); }
+  .weak .hd { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; padding-right: 60px; }
+  .weak .hd .e { font-size: 32px; }
+  .weak ol { margin: 8px 0 14px; padding-left: 22px; }
+  .weak li { margin-bottom: 6px; }
+  .weak .tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .weak .tools a { font-size: 14px; text-decoration: none; background: var(--soft); color: var(--ink); border-radius: 99px; padding: 6px 12px; }
+  .weak .tools a:hover { color: var(--acc); }
+  .service { margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--acc-soft); font-size: 15px; }
+  .service b { color: var(--acc); }
+  .pill { display: inline-block; font-size: 12px; font-weight: 800; border-radius: 99px; padding: 3px 10px; color: #fff; }
+
+  .calc .row { display: grid; grid-template-columns: 1fr auto; gap: 4px 14px; align-items: center; margin-bottom: 16px; }
+  .calc input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--acc); }
+  .calc .row b { font-family: "Unbounded", sans-serif; }
+  .loss { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 8px; }
+  .loss div { background: var(--soft); border-radius: 16px; padding: 16px; }
+  .loss b { display: block; font-family: "Unbounded", sans-serif; font-size: 22px; color: var(--acc); line-height: 1.2; }
+  .loss span { font-size: 13px; color: var(--muted); }
+
+  .letter { font-size: 17px; }
+  .letter p { margin: 0 0 12px; }
+  .sign { display: flex; gap: 12px; align-items: center; margin-top: 16px; }
+  .sign .ava { width: 46px; height: 46px; font-size: 16px; }
+
+  .offer { background: var(--ink); color: var(--bg); border: 0; }
+  .offer h2, .offer h3 { color: var(--bg); }
+  .offer .muted { color: color-mix(in srgb, var(--bg) 70%, transparent); }
+  .svc-list { display: grid; gap: 10px; margin: 18px 0 22px; }
+  .svc {
+    display: flex; gap: 12px; align-items: flex-start; text-align: left; cursor: pointer;
+    background: color-mix(in srgb, var(--bg) 8%, transparent); border: 1.5px solid color-mix(in srgb, var(--bg) 20%, transparent);
+    border-radius: 16px; padding: 14px 16px; color: var(--bg);
+  }
+  .svc .box { flex: none; width: 24px; height: 24px; border-radius: 7px; border: 2px solid color-mix(in srgb, var(--bg) 50%, transparent); display: grid; place-items: center; font-weight: 800; font-size: 14px; margin-top: 2px; }
+  .svc.on { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 18%, transparent); }
+  .svc.on .box { background: var(--acc); border-color: var(--acc); color: var(--acc-ink); }
+  .svc b { display: block; }
+  .svc span { font-size: 14px; opacity: .75; }
+  .svc .rec { display: inline-block; font-size: 11px; font-weight: 800; background: var(--acc); color: var(--acc-ink); border-radius: 99px; padding: 2px 8px; margin-left: 6px; vertical-align: 2px; }
+  .offer input[type=text], .offer input[type=tel], .offer textarea { background: var(--bg); color: var(--ink); border-color: transparent; }
+  .gift { display: flex; gap: 12px; align-items: flex-start; background: color-mix(in srgb, var(--acc) 20%, transparent); border-radius: 16px; padding: 14px 16px; margin: 0 0 18px; }
+  .gift .e { font-size: 26px; }
+  .send-ways { display: grid; gap: 10px; margin-top: 14px; }
+  .send-ways .btn { width: 100%; }
+  .ok { text-align: center; padding: 20px 0; }
+  .ok .e { font-size: 54px; }
+
+  .faq details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  .faq summary { cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  .faq summary::after { content: "+"; font-family: "Unbounded", sans-serif; color: var(--acc); }
+  .faq details[open] summary::after { content: "–"; }
+  .faq p { margin: 10px 0 0; color: var(--muted); }
+
+  .sticky-cta {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--line);
+    display: none;
+  }
+  .sticky-cta.on { display: block; }
+  .sticky-cta .wrap { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 0; }
+  .sticky-cta .btn { padding: 13px 20px; font-size: 16px; }
+  .toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 99px; font-size: 14px; z-index: 30; opacity: 0; transition: opacity .25s; pointer-events: none; }
+  .toast.on { opacity: 1; }
+  footer { padding: 30px 0 110px; color: var(--muted); font-size: 14px; text-align: center; }
+  @media (max-width: 520px) {
+    body { font-size: 16px; }
+    .card { padding: 18px; border-radius: 18px; }
+    .btn { padding: 15px 20px; font-size: 17px; }
+  }
+  @media print {
+    .top, .sticky-cta, .offer, .no-print, footer { display: none !important; }
+    .screen { display: none !important; }
+    #s-result { display: block !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><i>SPE</i> Діагностика бізнесу</div>
+    <button class="ghost" id="restart" hidden>↺ Почати заново</button>
+  </header>
+
+  <!-- 1. Вітання -->
+  <section class="screen on" id="s-hero">
+    <span class="tag">Безкоштовно · 7 хвилин · 21 питання</span>
+    <h1>Ваш бізнес працює на вас — чи ви на нього?</h1>
+    <p class="hero-lead">Чесна діагностика за 7 зонами бізнесу. Наприкінці — індекс системності, радар сильних і слабких місць і конкретний план: що прокачати першим, щоб бізнес приносив більше грошей і забирав менше вашого часу.</p>
+    <button class="btn" data-go="intro">Почати діагностику →</button>
+    <div class="hero-meta">
+      <span>⏱ <b>7 хвилин</b></span>
+      <span>📊 <b>Звіт одразу</b>, без реєстрації</span>
+      <span>🔒 Відповіді лишаються у вашому браузері</span>
+    </div>
+
+    <div class="zones-grid" id="zonesPreview"></div>
+
+    <div class="quote">«Добрий бізнес — це системний бізнес. Якщо компанія не може прожити без власника два тижні, у власника не бізнес, а дуже дорога робота.»<small>Роман Кушнір, засновник SPE</small></div>
+
+    <div class="proof">
+      <div><b>250+</b><span>компаній, яким ми допомогли систематизувати бізнес</span></div>
+      <div><b>1000+</b><span>проведених тренінгів для керівників і команд</span></div>
+      <div><b>21</b><span>книга Романа Кушніра про управління і розвиток</span></div>
+    </div>
+
+    <button class="btn" data-go="intro">Перевірити свій бізнес →</button>
+  </section>
+
+  <!-- 2. Знайомство -->
+  <section class="screen" id="s-intro">
+    <span class="tag">Крок 1 із 2 · Знайомство</span>
+    <h2>Кілька слів про ваш бізнес</h2>
+    <p class="muted">Так звіт буде точнішим: порівняємо ваш «симптом» із тим, що покаже діагностика.</p>
+    <div class="card">
+      <div class="field">
+        <label for="iName">Як до вас звертатися?</label>
+        <input type="text" id="iName" placeholder="Ваше ім'я" autocomplete="given-name">
+      </div>
+      <div class="field">
+        <span class="lbl">Сфера бізнесу</span>
+        <div class="chips" data-key="sphere"></div>
+      </div>
+      <div class="field">
+        <span class="lbl">Скільки людей у команді (разом із вами)?</span>
+        <div class="chips" data-key="team"></div>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <span class="lbl">Що зараз болить найбільше?</span>
+        <div class="chips" data-key="pain"></div>
+      </div>
+    </div>
+    <div class="qnav">
+      <button class="btn sec" data-go="hero">←</button>
+      <button class="btn" id="startQuiz">До питань →</button>
+    </div>
+  </section>
+
+  <!-- 3. Питання -->
+  <section class="screen" id="s-quiz">
+    <div class="progress" id="progress"></div>
+    <div class="qmeta"><span id="qCount"></span><span id="qZoneCount"></span></div>
+    <div class="qzone"><span class="e" id="qEmoji"></span><b id="qZone"></b></div>
+    <p class="qtext" id="qText"></p>
+    <div class="opts" id="qOpts"></div>
+    <div class="insight" id="qInsight">
+      <div class="who"><span class="ava">РК</span>Роман Кушнір</div>
+      <div id="qInsightText"></div>
+    </div>
+    <div class="qnav">
+      <button class="btn sec" id="qBack">←</button>
+      <button class="btn" id="qNext" disabled>Далі →</button>
+    </div>
+  </section>
+
+  <!-- 3а. Проміжний підсумок зони -->
+  <section class="screen" id="s-zone">
+    <div class="zone-done">
+      <div class="muted" id="zdLabel"></div>
+      <div class="big" id="zdEmoji"></div>
+      <h2 id="zdTitle"></h2>
+      <p class="muted" id="zdText" style="max-width:520px;margin:0 auto 24px"></p>
+      <button class="btn" id="zdNext">Наступна зона →</button>
+    </div>
+  </section>
+
+  <!-- 4. Результат -->
+  <section class="screen" id="s-result">
+    <span class="tag" id="rTag">Ваш результат</span>
+    <div class="card">
+      <div class="score-hero">
+        <div>
+          <div class="muted small">Індекс системності бізнесу</div>
+          <div class="score-num"><span id="rScore">0</span><small>/100</small></div>
+          <div class="level" id="rLevel"></div>
+          <div class="ladder" id="rLadder"></div>
+          <p id="rLevelText" style="margin:12px 0 0"></p>
+        </div>
+        <svg class="radar" id="rRadar" viewBox="-55 0 510 380" role="img" aria-label="Радар 7 зон бізнесу"></svg>
+      </div>
+    </div>
+
+    <div class="section card" id="rRoot"></div>
+
+    <div class="section">
+      <h2>Карта 7 зон</h2>
+      <div class="card"><div class="bars" id="rBars"></div></div>
+    </div>
+
+    <div class="section">
+      <h2>Що прокачати першим</h2>
+      <p class="muted">Три найслабші зони — саме вони зараз забирають у вас найбільше грошей і часу. Почніть із першої.</p>
+      <div class="weak" id="rWeak"></div>
+    </div>
+
+    <div class="section">
+      <h2>Скільки коштує хаос</h2>
+      <div class="card calc">
+        <p class="muted" style="margin-top:0">Порахуйте, скільки ви щороку «платите» за те, що робите роботу, яку могла б робити система або найманий працівник.</p>
+        <div class="row"><span>Годин на тиждень на операційну рутину</span><b id="cHoursV"></b><input type="range" id="cHours" min="0" max="60" step="1"></div>
+        <div class="row"><span>Скільки має коштувати година власника, грн</span><b id="cRateV"></b><input type="range" id="cRate" min="200" max="5000" step="100"></div>
+        <div class="row"><span>Яку частку рутини реально делегувати, %</span><b id="cShareV"></b><input type="range" id="cShare" min="10" max="90" step="5"></div>
+        <div class="loss">
+          <div><b id="cYear"></b><span>вартість вашого часу на рутині за рік</span></div>
+          <div><b id="cFree"></b><span>годин на рік, які можна повернути собі</span></div>
+          <div><b id="cWeeks"></b><span>робочих тижнів — на стратегію, сім'ю, відпочинок</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section card letter" id="rLetter"></div>
+
+    <!-- Пропозиція -->
+    <div class="section card offer" id="offer">
+      <span class="tag">Наступний крок</span>
+      <h2>Безкоштовний розбір вашої діагностики</h2>
+      <p class="muted">30 хвилин онлайн із консультантом SPE: розберемо ваш радар, назвемо 3 найдорожчі «дірки» і складемо план змін на 90 днів. Без продажу «в лоб» — якщо ми не зможемо допомогти, так і скажемо.</p>
+      <div class="gift"><span class="e">🎁</span><div><b>Бонус для тих, хто пройшов діагностику</b><br><span class="small">Персональна дорожня карта систематизації на 90 днів — у подарунок після розбору.</span></div></div>
+
+      <div id="offerForm">
+        <h3>Що вам зараз найважливіше?</h3>
+        <p class="muted small" style="margin-top:0">Ми вже позначили те, що радить діагностика. Змініть, якщо бачите інакше.</p>
+        <div class="svc-list" id="svcList"></div>
+        <div class="field">
+          <label for="fName">Ім'я</label>
+          <input type="text" id="fName" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="fPhone">Телефон або Telegram</label>
+          <input type="tel" id="fPhone" placeholder="+380… або @нік" autocomplete="tel">
+        </div>
+        <div class="field">
+          <span class="lbl">Де вам зручніше спілкуватися?</span>
+          <div class="chips" data-key="channel"></div>
+        </div>
+        <button class="btn wide" id="fSend">Записатися на безкоштовний розбір</button>
+        <p class="muted small" style="text-align:center;margin:10px 0 0">Ми зв'яжемося протягом робочого дня. Ваші відповіді діагностики підтягнуться в заявку автоматично.</p>
+      </div>
+      <div id="offerSend" hidden>
+        <h3>Залишився один крок</h3>
+        <p class="muted">Ваша заявка з результатами діагностики вже скопійована. Оберіть, куди її надіслати — і просто вставте повідомлення.</p>
+        <div class="send-ways" id="sendWays"></div>
+        <textarea id="leadText" rows="7" style="margin-top:14px" readonly></textarea>
+      </div>
+      <div id="offerOk" class="ok" hidden>
+        <div class="e">🤝</div>
+        <h3>Заявку отримано!</h3>
+        <p class="muted">Ми зв'яжемося з вами протягом робочого дня, щоб узгодити час розбору.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Як ми можемо допомогти</h2>
+      <div class="zones-grid" id="services"></div>
+    </div>
+
+    <div class="section faq card">
+      <h2>Часті запитання</h2>
+      <div id="faq"></div>
+    </div>
+
+    <div class="section no-print" style="display:flex;flex-wrap:wrap;gap:10px">
+      <button class="btn sec" id="rPrint">🖨 Зберегти звіт у PDF</button>
+      <button class="btn sec" id="rShare">↗ Поділитися з партнером</button>
+      <button class="btn sec" id="rAgain">↺ Пройти ще раз</button>
+    </div>
+  </section>
+</div>
+
+<div class="sticky-cta" id="sticky">
+  <div class="wrap">
+    <span class="small"><b>Безкоштовний розбір</b> вашого результату</span>
+    <button class="btn" id="stickyBtn">Записатися</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<footer class="wrap">SPE · Школа розвитку і консалтинг для бізнесу · <a href="https://www.spe.org.ua" target="_blank" rel="noopener">spe.org.ua</a></footer>
+
+<script>
+/* ===================== НАЛАШТУВАННЯ ===================== */
+const CONFIG = {
+  // Куди надходять заявки. Якщо webhook заповнений (наприклад, Google Apps Script,
+  // Make, Zapier), заявка надсилається туди автоматично POST-запитом у форматі JSON.
+  // Якщо порожній — клієнт сам надсилає повідомлення в обраний месенджер.
+  webhook: '',
+  phone: '+380675819591',            // для дзвінка і Viber
+  telegram: 'spe_lviv',              // нік у Telegram без @
+  email: 'info@spe.org.ua',
+  site: 'https://www.spe.org.ua',
+  metaPixelId: '',                   // ID пікселя Meta для реклами (необов'язково)
+  gaId: '',                          // ID Google Analytics 4, наприклад G-XXXX (необов'язково)
+};
+
+/* ===================== КОНТЕНТ ===================== */
+const SPHERES = ['Послуги', 'Торгівля', 'Виробництво', 'IT / digital', 'HoReCa', 'Освіта', 'Будівництво', 'Інше'];
+const TEAMS = ['Тільки я', '2–5', '6–15', '16–50', '50+'];
+const PAINS = [
+  { t: 'Немає часу, все тримається на мені', z: 'owner' },
+  { t: 'Продажі є, а грошей не видно', z: 'fin' },
+  { t: 'Команда не тягне / плинність', z: 'team' },
+  { t: 'Мало клієнтів, нестабільні продажі', z: 'sales' },
+  { t: 'Постійні пожежі і помилки', z: 'proc' },
+  { t: 'Не знаю, куди рости далі', z: 'strat' },
+  { t: 'Дорогий і непередбачуваний маркетинг', z: 'mkt' },
+];
+const CHANNELS = ['Telegram', 'Viber', 'Дзвінок'];
+
+const ZONES = [
+  {
+    id: 'owner', e: '👑', sh: 'Власник', t: 'Свобода власника', s: 'ваш час і делегування',
+    diag: {
+      low: 'Бізнес тримається на вас, як намет на одній жердині. Ви — головний продавець, контролер і пожежник одночасно. Це стеля зростання: компанія не стане більшою, ніж ваш робочий день.',
+      mid: 'Частину рутини ви вже віддали, але все ще працюєте «на фірмі» більше, ніж «над фірмою». Бракує системи делегування і контролю, яка працює без вашої постійної участі.',
+    },
+    steps: [
+      'Тиждень записуйте все, що робите, по 15 хвилин. Позначте: що можу робити тільки я, що може робити інший.',
+      'Порахуйте вартість своєї години — і перестаньте робити те, що коштує дешевше.',
+      'Делегуйте одне завдання на тиждень письмово: результат, термін, критерій якості, контрольна точка.',
+    ],
+    tools: [['rutyna.html', '⏱️ Самоорганізація керівника'], ['delehuvannia.html', '🎯 Делегування і контроль']],
+    svc: 'vyvilnennia',
+    q: [
+      { t: 'Якщо ви зникнете на 2 тижні без телефону — що буде з бізнесом?',
+        o: ['Усе зупиниться', 'Працюватиме, але з пожежами і дзвінками мені щодня', 'Працюватиме, частина показників просяде', 'Працюватиме як звичайно'],
+        i: 'Майкл Гербер називає це пасткою технаря: власник працює <b>в</b> бізнесі, а не <b>над</b> ним. Якщо компанія не живе без вас два тижні — у вас не бізнес, а дуже дорога робота з великою відповідальністю.' },
+      { t: 'Скільки годин на тиждень ви робите те, що міг би робити найманий працівник?',
+        o: ['Понад 30 годин', '15–30 годин', '5–15 годин', 'Менше 5 годин'],
+        i: 'У керівника три режими: працювати <b>на фірмі</b> (робити руками), <b>на фірму</b> (налагоджувати) і <b>над фірмою</b> (думати про стратегію). Кожна година «на фірмі» — це година, вкрадена в майбутнього бізнесу.' },
+      { t: 'Як ви передаєте завдання людям?',
+        o: ['Простіше і швидше зробити самому', 'Усно, потім перевіряю і часто переробляю', 'Ставлю завдання, але контроль хаотичний', 'Письмово: результат, термін, критерії, контрольні точки'],
+        i: '«Простіше самому» — найдорожча фраза в бізнесі. Завдання, яке ви 5 разів зробили самі, можна було один раз описати і більше ніколи до нього не повертатися.' },
+    ],
+  },
+  {
+    id: 'strat', e: '🧭', sh: 'Стратегія', t: 'Стратегія і модель', s: 'цілі, ніша, відмінність',
+    diag: {
+      low: 'Бізнес рухається «за течією»: цілі живуть у голові, клієнт — «усі, кому треба», а відрізняєтеся ви «якістю і сервісом», як і всі конкуренти. Без стратегії кожне рішення доводиться ухвалювати з нуля.',
+      mid: 'Напрям є, але він не перетворений на конкретні цифри, аватар клієнта і зрозумілу відмінність. Команда не завжди знає, куди саме ви її ведете.',
+    },
+    steps: [
+      'Запишіть 3 цілі компанії на рік у цифрах і покажіть їх команді.',
+      'Знайдіть 20% клієнтів, які дають 80% прибутку, і опишіть їх як аватар.',
+      'Сформулюйте одним реченням, чому купують саме у вас. Перевірте на 5 клієнтах.',
+    ],
+    tools: [['arkhitektura.html', '🏗️ Бізнес-архітектура'], ['model.html', '🧬 Бізнес-модель і цінності'], ['produkt.html', '📦 Продукт, USP і SWOT']],
+    svc: 'strategy',
+    q: [
+      { t: 'Цілі компанії на 1–3 роки — це…',
+        o: ['Якщо чесно, їх немає', 'Бажання «більше обороту»', 'Записані, але команда їх не знає', 'Записані в цифрах, команда їх знає і звіряється з ними'],
+        i: 'Припустімо, що гравітації не існує, і почнімо будувати космічний корабель! Так багато хто будує бізнес — без цілей. А бізнес-архітектура починається саме з цілей і місії: без них решта елементів не знає, куди рухатися.' },
+      { t: 'Хто ваш ідеальний клієнт?',
+        o: ['Усі, кому потрібен наш продукт', 'Загально: «малий бізнес», «жінки 25–45»', 'Є опис, але продажі його не використовують', 'Чіткий аватар, і ми знаємо 20% клієнтів, які дають 80% прибутку'],
+        i: 'Коли ви продаєте всім — ви не продаєте нікому. Принцип Парето в бізнесі працює безжально: 20% клієнтів дають 80% прибутку, а інші 20% — 80% проблем. Важливо знати і тих, і інших в обличчя.' },
+      { t: 'Чим ви відрізняєтеся від конкурентів?',
+        o: ['Якістю і сервісом', 'Переважно ціною', 'Відмінність є, але ми її не сформулювали', 'Є УТП одним реченням, і клієнти самі його повторюють'],
+        i: '«Якість і сервіс» пишуть усі — тому це не відмінність. Концепція їжака Джима Коллінза: шукайте перетин трьох кіл — у чому можете бути найкращими, що любите і що економічно вигідно.' },
+    ],
+  },
+  {
+    id: 'proc', e: '⚙️', sh: 'Процеси', t: 'Процеси і стандарти', s: 'чек-листи, регламенти, якість',
+    diag: {
+      low: 'Знання компанії живуть у головах людей. Кожен робить «як уміє», помилки повторюються, а новачків навчаєте ви особисто. Коли ключова людина піде — разом із нею піде і процес.',
+      mid: 'Частину процесів описано, але вони не стали звичкою: їх не оновлюють і виконують вибірково. Помилки «гасять», але не перетворюють на зміни в системі.',
+    },
+    steps: [
+      'Виберіть 3 процеси, через які проходять гроші: продаж, виконання замовлення, оплата.',
+      'Опишіть кожен як чек-лист на одну сторінку разом із тим, хто його виконує.',
+      'Кожну скаргу розбирайте за «5 чому» і змінюйте чек-лист, а не шукайте винного.',
+    ],
+    tools: [['protsesy.html', '⚙️ Чек-листи і бізнес-процеси'], ['yakist.html', '✅ Управління якістю'], ['navchannia.html', '🎓 Внутрішнє навчання']],
+    svc: 'system',
+    q: [
+      { t: 'Ключові процеси (продаж, виконання замовлення, обслуговування) описані?',
+        o: ['Ні, усе в головах', 'Частково, і вже застаріло', 'Основні описані, але виконують не всі', 'Є чек-листи і регламенти, за ними працюють і оновлюють'],
+        i: 'Система — це коли результат залежить від процесу, а не від настрою конкретної людини. Чек-лист на одну сторінку часто дає більше, ніж тритижневий тренінг.' },
+      { t: 'Новий працівник виходить на повну продуктивність за…',
+        o: ['Невідомо — без мене ніяк', '2–3 місяці, навчаю сам', 'Близько місяця, навчає старший колега', 'До 2 тижнів, за базою знань компанії'],
+        i: 'Добра «Азбука компанії» — цінності, оргструктура, бази потреб і заперечень клієнтів, типові ситуації — вивільняє до 80% часу керівника, який раніше йшов на навчання новачків.' },
+      { t: 'Коли трапляється помилка чи скарга клієнта…',
+        o: ['Шукаємо винного', 'Гасимо пожежу і забуваємо', 'Розбираємо, але висновки не фіксуємо', 'Розбираємо за «5 чому» і змінюємо процес'],
+        i: 'Едвард Демінг вважав, що 94% проблем створює система, а не люди. Покарати винного — швидко. Змінити процес так, щоб помилка не повторилася, — вигідно.' },
+    ],
+  },
+  {
+    id: 'team', e: '👥', sh: 'Команда', t: 'Команда і структура', s: 'оргструктура, КРІ, мотивація',
+    diag: {
+      low: 'У команді всі роблять усе, а відповідає — власник. Оплата не пов\'язана з результатом, тож люди продають свій час, а не результат. Найкращі йдуть, а «зручні» залишаються.',
+      mid: 'Структура і мотивація частково є, але посади перетинаються, а бонуси нараховуються «на око». Люди старанні, але не завжди розуміють, за що саме їм платять.',
+    },
+    steps: [
+      'Намалюйте оргструктуру з усіма функціями, навіть якщо зараз одна людина займає 5 посад.',
+      'Для кожної посади пропишіть 2–3 ключові завдання і один показник результату.',
+      'Переведіть хоча б частину оплати на КРІ: людина має бачити, за що отримує бонус.',
+    ],
+    tools: [['orgstruktura.html', '🗂️ Оргструктура і завдання посад'], ['kpi.html', '📊 Конструктор КРІ'], ['utrymannia.html', '🏆 Втримати найкращих']],
+    svc: 'system',
+    q: [
+      { t: 'Оргструктура вашої компанії…',
+        o: ['Немає, усі роблять усе', 'Є в моїй голові', 'Намальована, але функції суміщаються і плутаються', 'Прописана, у кожної посади 2–3 ключові завдання і відповідальний'],
+        i: 'Оргструктура — це не ієрархія, а карта відповідальності. Якщо за функцію відповідають «усі» — за неї не відповідає ніхто, і вона повертається до власника.' },
+      { t: 'Як ви платите людям?',
+        o: ['Фіксована ставка за присутність', 'Ставка плюс бонуси «на око»', 'Відсоток від продажів — тільки в продавців', 'Оплата за КРІ, прив\'язана до результатів кожної посади'],
+        i: 'Платите за час — отримуєте присутність. Платите за результат — отримуєте результат. Справедлива система КРІ знімає половину конфліктів через гроші ще до того, як вони виникнуть.' },
+      { t: 'Ваші найкращі працівники…',
+        o: ['Йдуть, і я не завжди розумію чому', 'Тримаються на особистій лояльності до мене', 'Залишаються, але не ростуть', 'Мають план розвитку і кар\'єрні сходинки'],
+        i: 'Ми часто даємо клієнтам те, чого не даємо працівникам: увагу, визнання, перспективу. Найкращі йдуть не через гроші, а коли перестають бачити своє майбутнє в компанії.' },
+    ],
+  },
+  {
+    id: 'sales', e: '🔻', sh: 'Продажі', t: 'Продажі', s: 'лунка, CRM, відділ продажів',
+    diag: {
+      low: 'Продажі тримаються на вас або на одному «зірковому» продавцеві. Конверсій ніхто не рахує, клієнти живуть у телефонах менеджерів. Піде продавець — піде і частина бізнесу.',
+      mid: 'Продажі йдуть, але ви не бачите, на якому етапі «протікає» лунка. Без цифр по кожному етапу неможливо зрозуміти, що підкрутити, щоб продавати більше без додаткової реклами.',
+    },
+    steps: [
+      'Розкладіть продаж на етапи: звернення → контакт → зустріч / КП → оплата.',
+      'Порахуйте конверсію кожного етапу за минулий місяць і знайдіть вузьке місце.',
+      'Перенесіть усіх клієнтів у CRM і пропишіть скрипт для найслабшого етапу.',
+    ],
+    tools: [['prodazhi.html', '🔻 Лунка продажів'], ['kliienty.html', '🤝 Клієнти: ABC, LTV, аватар'], ['trenazher-prodazhiv.html', '🎯 Тренажер продажів']],
+    svc: 'sales',
+    q: [
+      { t: 'Чи знаєте ви конверсії своєї лунки продажів (звернення → зустріч → оплата)?',
+        o: ['Ні', 'Приблизно', 'Знаємо загальну конверсію', 'Знаємо кожен етап і де вузьке місце'],
+        i: 'Лунка продажів — як шланг: можна лити більше води (реклами), а можна залатати дірки. Підняти конверсію одного етапу з 20% до 30% — це +50% продажів без жодної гривні на рекламу.' },
+      { t: 'Де живе ваша база клієнтів?',
+        o: ['У телефонах менеджерів і в моїй голові', 'В Excel чи блокноті', 'CRM є, але заповнюють неохоче', 'CRM з етапами, завданнями і нагадуваннями'],
+        i: 'База клієнтів — це актив компанії, а не особиста записна книжка менеджера. Якщо продавець може піти разом із клієнтами — вони не ваші.' },
+      { t: 'Від кого залежать продажі?',
+        o: ['Від мене — продаю переважно я', 'Від одного «зіркового» продавця', 'Від команди, але єдиного підходу немає', 'Від системи: скрипти, навчання, план і контроль'],
+        i: 'Таланти продають добре, а системи — стабільно. Мета не в тому, щоб знайти геніального продавця, а в тому, щоб звичайна людина за вашою системою продавала добре.' },
+    ],
+  },
+  {
+    id: 'mkt', e: '📣', sh: 'Маркетинг', t: 'Маркетинг і клієнти', s: 'канали, повторні продажі, біль',
+    diag: {
+      low: 'Клієнти приходять «самі» — сарафаном або з одного каналу. Ви не керуєте потоком і не знаєте, скільки коштує клієнт. А з тими, хто вже купив, майже не працюєте — хоча це найдешевші продажі.',
+      mid: 'Канали є, але їхню окупність ніхто не рахує, а повторні продажі залежать від акцій, а не від системи. Ви знаєте клієнта, але не настільки, щоб продукт змінювався під його біль.',
+    },
+    steps: [
+      'Для кожного каналу порахуйте вартість залучення клієнта (CAC) і його цінність (LTV).',
+      'Запустіть один сценарій повторного продажу для тих, хто вже купив.',
+      'Поговоріть із 10 клієнтами: що для них болить найбільше і чому вони обрали вас.',
+    ],
+    tools: [['marketynh.html', '📣 Маркетингова стратегія'], ['bil.html', '🩹 Біль клієнта'], ['tsina.html', '🏷️ Ціна, вартість, цінність']],
+    svc: 'sales',
+    q: [
+      { t: 'Звідки приходять ваші клієнти?',
+        o: ['Сарафан, ми цим не керуємо', 'Переважно з одного каналу', 'З кількох каналів, але вартість клієнта ми не рахуємо', 'З кількох каналів, і ми знаємо окупність кожного'],
+        i: 'Сарафан — чудово, але це погода, а не система. Бізнес, який залежить від одного каналу, — табуретка на одній нозі: одне оновлення алгоритму — і ви на підлозі.' },
+      { t: 'Як ви працюєте з тими, хто вже купив?',
+        o: ['Майже ніяк', 'Іноді нагадуємо про себе', 'Є знижки для постійних', 'Система: LTV, програма лояльності, допродажі'],
+        i: 'Продати існуючому клієнту в 5–7 разів дешевше, ніж залучити нового. Найбільші гроші бізнесу часто лежать не в рекламі, а в базі, з якою ніхто не працює.' },
+      { t: 'Наскільки добре ви знаєте біль свого клієнта?',
+        o: ['Думаємо, що знаємо', 'Інколи питаємо', 'Збираємо відгуки', 'Регулярно розпитуємо, і продукт змінюється під це'],
+        i: 'Людина купує не свердло, а дірку в стіні — а насправді полицю і затишок у домі. Чим точніше ви знаєте біль — його інтенсивність, тривалість, частоту, — тим легше продавати і тим менше доводиться знижувати ціну.' },
+    ],
+  },
+  {
+    id: 'fin', e: '💰', sh: 'Фінанси', t: 'Фінанси', s: 'облік, прибуток, фінмодель',
+    diag: {
+      low: 'Ви керуєте бізнесом за залишком на рахунку. Гроші бізнесу і особисті — в одній кишені, а прибуток видно «на око». Можна багато продавати і при цьому тихо збідніти — і дізнатися про це запізно.',
+      mid: 'Облік є, але він для податкової, а не для управління. Немає щомісячного «план / факт», точки беззбитковості і юніт-економіки — тож рішення про ціни, найм і розвиток ухвалюються інтуїтивно.',
+    },
+    steps: [
+      'Розділіть гроші бізнесу й особисті та призначте собі фіксовану «зарплату власника».',
+      'Зберіть управлінський звіт: доходи, змінні і постійні витрати, чистий прибуток за місяць.',
+      'Порахуйте юніт-економіку головного продукту і точку беззбитковості.',
+    ],
+    tools: [['oblik.html', '🧾 Облік і витрати'], ['biudzhet.html', '💼 Бюджети і показники'], ['yunit.html', '🧮 Фінансова деталізація']],
+    svc: 'finance',
+    q: [
+      { t: 'Скільки чистого прибутку бізнес заробив минулого місяця?',
+        o: ['Не знаю, дивлюся на залишок на рахунку', 'Приблизно, «на око»', 'Бухгалтер скаже через місяць', 'Знаю точно — є управлінський звіт'],
+        i: 'Оборот — для марнославства, прибуток — для здорового глузду, а гроші на рахунку — це реальність. Залишок на рахунку не дорівнює прибутку: там можуть лежати чужі передоплати і ваші майбутні податки.' },
+      { t: 'Гроші бізнесу і ваші особисті гроші…',
+        o: ['Одна кишеня', 'Розділяю, але беру, коли треба', 'Розділено, власник отримує фіксовану «зарплату»', 'Розділено, і є фонди: резерв, розвиток, дивіденди'],
+        i: 'Коли бізнес і сім\'я їдять з однієї тарілки, голодні обоє. Перший крок до фінансової системи — платити собі зарплату, як найманому директору, а прибуток ділити окремо.' },
+      { t: 'Чи є у вас фінансова модель і бюджет?',
+        o: ['Немає', 'Є план продажів', 'Є бюджет, але факт із планом порівнюємо рідко', 'Фінмодель, точка беззбитковості, юніт-економіка, план / факт щомісяця'],
+        i: 'Фінансова модель — це тренажер для рішень: що буде, якщо підняти ціну на 10%? Найняти ще одного менеджера? Відкрити друге місто? Краще помилитися в таблиці, ніж у житті.' },
+    ],
+  },
+];
+
+const SERVICES = {
+  vyvilnennia: { e: '⏳', t: 'Вивільнення часу власника', s: 'Аудит вашого часу, система делегування і контролю, налаштування роботи з асистентом. Мета — повернути вам 10–20 годин на тиждень.' },
+  system: { e: '⚙️', t: 'Систематизація бізнесу', s: 'Оргструктура, завдання посад, КРІ-мотивація, чек-листи ключових процесів і «Азбука компанії» для навчання новачків.' },
+  finance: { e: '📈', t: 'Фінансова модель і управлінський облік', s: 'Фінкодекс компанії, P&L, рух коштів, бюджет план / факт, юніт-економіка і точка беззбитковості — у зрозумілих таблицях.' },
+  sales: { e: '🔻', t: 'Система продажів і маркетингу', s: 'Лунка продажів, CRM, скрипти, навчання відділу продажів, маркетингова стратегія з окупністю каналів.' },
+  strategy: { e: '🧭', t: 'Стратегічна сесія', s: 'Цілі на 1–3 роки, бізнес-модель, аватар клієнта, УТП і план дій для команди — за один інтенсивний день.' },
+  learn: { e: '🎓', t: 'Навчання: Бізнес-інкубатор і Бізнес-клуб', s: 'Програма, за 4 місяці якої ви самі пропишете свій бізнес, і спільнота власників, які системно ростуть разом.' },
+};
+
+const LEVELS = [
+  { max: 25, e: '🌪️', t: 'Хаос', d: 'Бізнес живе в режимі виживання і тримається на вашому героїзмі. Хороша новина: на цьому етапі навіть прості зміни дають найбільший ефект.' },
+  { max: 45, e: '🔨', t: 'Ремесло', d: 'У вас є продукт і клієнти, але бізнес — це продовження вас. Ви впираєтеся в стелю власного часу: щоб рости, доведеться будувати систему.' },
+  { max: 65, e: '🧰', t: 'Керованість', d: 'Основа є: частина процесів працює, команда тягне. Але система нерівна — кілька слабких зон гальмують усю компанію і забирають ваш час.' },
+  { max: 85, e: '⚙️', t: 'Система', d: 'Бізнес працює як механізм, і ви вже більше «над фірмою», ніж «на фірмі». Наступний рівень — точне налаштування фінансів і підготовка до масштабу.' },
+  { max: 101, e: '🚀', t: 'Масштаб', d: 'Ви в числі небагатьох власників, чий бізнес готовий до тиражування. Тепер головне — стратегія, нові ринки і не втратити гнучкість.' },
+];
+
+const FAQ = [
+  ['Розбір справді безкоштовний?', 'Так. 30 хвилин онлайн: ми пояснюємо ваш результат і пропонуємо план. Якщо захочете піти далі — запропонуємо формат роботи, але рішення завжди за вами.'],
+  ['Чим консалтинг відрізняється від навчання?', 'На консалтингу ми разом із вами прописуємо систему саме для вашої компанії: структуру, процеси, КРІ, фінмодель. На навчанні ви опановуєте методи і впроваджуєте їх самі з підтримкою консультанта.'],
+  ['Мій бізнес маленький. Мені це потрібно?', 'Саме маленькому бізнесу система потрібна найбільше: поки команда невелика, впровадити її найпростіше і найдешевше. Що раніше — то менше болю під час росту.'],
+  ['Скільки триває систематизація?', 'Залежить від масштабу. Окремий напрям (наприклад, оргструктура чи фінмодель) — від 2 до 5 тижнів. Комплексна систематизація — від 3 до 6 місяців.'],
+  ['А якщо я не маю часу на впровадження?', 'Тоді вам точно до нас 🙂 Перше, що ми робимо, — вивільняємо ваш час, щоб на зміни було з чого брати ресурс.'],
+];
+
+/* ===================== ЛОГІКА ===================== */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const fmt = n => Math.round(n).toLocaleString('uk-UA');
+const QUESTIONS = ZONES.flatMap((z, zi) => z.q.map((q, qi) => ({ ...q, z, zi, qi })));
+const KEY = 'spe-diahnostyka-v1';
+
+let st = { screen: 'hero', name: '', sphere: '', team: '', pain: '', answers: {}, cur: 0, channel: 'Telegram', svc: null, sent: false, calc: null };
+try { Object.assign(st, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+
+/* --- Аналітика для реклами --- */
+function initTracking() {
+  if (CONFIG.metaPixelId) {
+    !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s) }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', CONFIG.metaPixelId); fbq('track', 'PageView');
+  }
+  if (CONFIG.gaId) {
+    const s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + CONFIG.gaId; document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); }; gtag('js', new Date()); gtag('config', CONFIG.gaId);
+  }
+}
+const FB_STD = { lead: 'Lead', complete: 'CompleteRegistration' };
+function track(name, data = {}) {
+  try {
+    if (window.fbq) FB_STD[name] ? fbq('track', FB_STD[name], data) : fbq('trackCustom', name, data);
+    if (window.gtag) gtag('event', name, data);
+  } catch (e) {}
+}
+
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2200);
+}
+
+function show(screen) {
+  st.screen = screen; save();
+  $$('.screen').forEach(s => s.classList.toggle('on', s.id === 's-' + screen));
+  $('#restart').hidden = screen === 'hero';
+  $('#sticky').classList.toggle('on', screen === 'result' && !st.sent);
+  window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  if (screen === 'quiz') renderQ();
+  if (screen === 'result') renderResult();
+}
+
+/* --- Вітання --- */
+$('#zonesPreview').innerHTML = ZONES.map(z => `<div class="zone-chip"><span class="e">${z.e}</span><b>${z.t}</b><span>${z.s}</span></div>`).join('');
+$$('[data-go]').forEach(b => b.onclick = () => {
+  if (b.dataset.go === 'intro') track('start_diagnostics');
+  show(b.dataset.go);
+});
+
+/* --- Знайомство --- */
+function chips(key, list) {
+  const box = $(`.chips[data-key="${key}"]`);
+  box.innerHTML = list.map(v => { const t = v.t || v; return `<button type="button" class="chip${st[key] === t ? ' on' : ''}">${esc(t)}</button>`; }).join('');
+  $$('.chip', box).forEach((c, i) => c.onclick = () => {
+    st[key] = list[i].t || list[i]; save();
+    $$('.chip', box).forEach(x => x.classList.toggle('on', x === c));
+  });
+}
+chips('sphere', SPHERES); chips('team', TEAMS); chips('pain', PAINS); chips('channel', CHANNELS);
+$('#iName').value = st.name;
+$('#iName').oninput = e => { st.name = e.target.value.trim(); save(); };
+$('#startQuiz').onclick = () => { show('quiz'); };
+
+/* --- Питання --- */
+$('#progress').innerHTML = ZONES.map(() => '<i><b></b></i>').join('');
+function renderQ() {
+  const q = QUESTIONS[st.cur];
+  const a = st.answers[st.cur];
+  $$('#progress i b').forEach((b, zi) => {
+    const done = QUESTIONS.filter(x => x.zi === zi && st.answers[QUESTIONS.indexOf(x)] !== undefined).length;
+    b.style.width = (done / 3 * 100) + '%';
+  });
+  $('#qCount').textContent = `Питання ${st.cur + 1} з ${QUESTIONS.length}`;
+  $('#qZoneCount').textContent = `Зона ${q.zi + 1} з ${ZONES.length}`;
+  $('#qEmoji').textContent = q.z.e;
+  $('#qZone').textContent = q.z.t;
+  $('#qText').textContent = q.t;
+  const opts = $('#qOpts');
+  opts.classList.toggle('locked', a !== undefined);
+  opts.innerHTML = q.o.map((o, i) => `<button type="button" class="opt${a === i ? ' on' : ''}"><span class="k">${'АБВГ'[i]}</span><span>${esc(o)}</span></button>`).join('');
+  $$('.opt', opts).forEach((b, i) => b.onclick = () => {
+    st.answers[st.cur] = i; save();
+    $$('.opt', opts).forEach(x => x.classList.toggle('on', x === b));
+    opts.classList.add('locked');
+    showInsight(q);
+    $('#qNext').disabled = false;
+    $$('#progress i b')[q.zi].style.width = (QUESTIONS.filter(x => x.zi === q.zi && st.answers[QUESTIONS.indexOf(x)] !== undefined).length / 3 * 100) + '%';
+  });
+  $('#qInsight').classList.remove('on');
+  if (a !== undefined) showInsight(q);
+  $('#qNext').disabled = a === undefined;
+  $('#qNext').textContent = st.cur === QUESTIONS.length - 1 ? 'Показати результат →' : 'Далі →';
+}
+function showInsight(q) {
+  $('#qInsightText').innerHTML = q.i;
+  $('#qInsight').classList.add('on');
+  if (window.innerWidth < 720) setTimeout(() => $('#qNext').scrollIntoView({ behavior: 'smooth', block: 'end' }), 60);
+}
+$('#qBack').onclick = () => {
+  if (st.cur === 0) return show('intro');
+  st.cur--; save(); renderQ(); window.scrollTo(0, 0);
+};
+$('#qNext').onclick = () => {
+  const q = QUESTIONS[st.cur];
+  if (st.cur === QUESTIONS.length - 1) { track('complete', { score: totalScore() }); return show('result'); }
+  if (q.qi === 2) return zoneDone(q.zi);
+  st.cur++; save(); renderQ(); window.scrollTo(0, 0);
+};
+
+function zoneScore(zi) {
+  let s = 0;
+  QUESTIONS.forEach((q, i) => { if (q.zi === zi) s += st.answers[i] || 0; });
+  return Math.round(s / 9 * 100);
+}
+const totalScore = () => Math.round(ZONES.reduce((a, _, zi) => a + zoneScore(zi), 0) / ZONES.length);
+const levelOf = s => LEVELS.find(l => s < l.max);
+const colorOf = v => v < 40 ? 'var(--bad)' : v < 70 ? 'var(--mid)' : 'var(--good)';
+
+function zoneDone(zi) {
+  const z = ZONES[zi], v = zoneScore(zi);
+  $('#zdLabel').textContent = `Зону ${zi + 1} з ${ZONES.length} пройдено`;
+  $('#zdEmoji').textContent = z.e;
+  $('#zdTitle').innerHTML = `${esc(z.t)}: <span style="color:${colorOf(v)}">${v}%</span>`;
+  $('#zdText').textContent = v < 40 ? 'Тут болить. Запам\'ятаймо — у звіті покажемо, з чого почати.'
+    : v < 70 ? 'Основа є, але є що підкрутити. Деталі — у звіті.'
+    : 'Сильна сторона! На неї можна спиратися під час змін.';
+  $('#zdNext').textContent = `Далі: ${ZONES[zi + 1].e} ${ZONES[zi + 1].t} →`;
+  show('zone');
+}
+$('#zdNext').onclick = () => { st.cur++; show('quiz'); };
+
+/* --- Результат --- */
+function radar(vals) {
+  const cx = 200, cy = 190, R = 130, n = vals.length;
+  const pt = (i, r) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
+  let g = '';
+  [.25, .5, .75, 1].forEach(k => g += `<polygon points="${vals.map((_, i) => pt(i, R * k).join(',')).join(' ')}" fill="none" stroke="var(--line)" stroke-width="1"/>`);
+  vals.forEach((_, i) => { const [x, y] = pt(i, R); g += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/>`; });
+  const poly = vals.map((v, i) => pt(i, R * Math.max(v, 4) / 100).join(',')).join(' ');
+  g += `<polygon points="${poly}" fill="color-mix(in srgb, var(--acc) 25%, transparent)" stroke="var(--acc)" stroke-width="2.5" stroke-linejoin="round"><animate attributeName="opacity" from="0" to="1" dur=".8s"/></polygon>`;
+  vals.forEach((v, i) => {
+    const [x, y] = pt(i, R * Math.max(v, 4) / 100);
+    g += `<circle cx="${x}" cy="${y}" r="4.5" fill="${colorOf(v)}" stroke="var(--card)" stroke-width="2"><title>${esc(ZONES[i].t)}: ${v}%</title></circle>`;
+    const [lx, ly] = pt(i, R + 24);
+    const anchor = Math.abs(lx - cx) < 10 ? 'middle' : lx > cx ? 'start' : 'end';
+    g += `<text x="${lx}" y="${ly - 4}" text-anchor="${anchor}" font-size="16">${ZONES[i].e}</text>`;
+    g += `<text x="${lx}" y="${ly + 12}" text-anchor="${anchor}" font-weight="700">${esc(ZONES[i].sh)} · ${v}%</text>`;
+  });
+  return g;
+}
+
+function countUp(el, to) {
+  const t0 = performance.now(), dur = 1100;
+  const step = t => { const k = Math.min(1, (t - t0) / dur); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+
+function weakZones() {
+  return ZONES.map((z, zi) => ({ z, zi, v: zoneScore(zi) })).sort((a, b) => a.v - b.v);
+}
+
+function recommendedSvc() {
+  const w = weakZones().slice(0, 2).map(x => x.z.svc);
+  const total = totalScore();
+  const set = new Set(w);
+  if (total < 45 && !set.has('vyvilnennia') && zoneScore(0) < 60) set.add('vyvilnennia');
+  return [...set];
+}
+
+function renderResult() {
+  const vals = ZONES.map((_, zi) => zoneScore(zi));
+  const total = totalScore();
+  const lvl = levelOf(total);
+  const name = st.name ? esc(st.name) : '';
+  $('#rTag').textContent = name ? `${st.name}, ваш результат` : 'Ваш результат';
+  countUp($('#rScore'), total);
+  $('#rLevel').innerHTML = `${lvl.e} Рівень: ${lvl.t}`;
+  $('#rLadder').innerHTML = LEVELS.map(l => `<div class="${l === lvl ? 'on' : ''}"><i></i>${l.t}</div>`).join('');
+  $('#rLevelText').textContent = lvl.d;
+  $('#rRadar').innerHTML = radar(vals);
+
+  // Симптом проти кореня
+  const ranked = weakZones();
+  const weakest = ranked[0];
+  const pain = PAINS.find(p => p.t === st.pain);
+  let root = '';
+  if (pain) {
+    const pz = ZONES.find(z => z.id === pain.z), pzi = ZONES.indexOf(pz), pv = vals[pzi];
+    if (pz === weakest.z || pv - weakest.v < 10) {
+      root = `<h3>🎯 Ваше відчуття підтвердилося</h3><p style="margin:0">Ви сказали, що болить «${esc(pain.t.toLowerCase())}», — і діагностика це підтверджує: зона <b>${pz.e} ${esc(pz.t)}</b> зараз одна з найслабших (${pv}%). Добре, що ви бачите проблему чесно: це половина рішення.</p>`;
+    } else {
+      root = `<h3>🔍 Симптом і корінь — у різних місцях</h3><p style="margin:0">Ви сказали, що болить «${esc(pain.t.toLowerCase())}». Але зона <b>${pz.e} ${esc(pz.t)}</b> у вас — ${pv}%, а найслабша — <b>${weakest.z.e} ${esc(weakest.z.t)}</b> (${weakest.v}%). Дуже часто те, що болить, — лише симптом. Лікувати симптом дорого і довго; лікувати корінь — швидше і дешевше. Саме це ми і розбираємо на консультації.</p>`;
+    }
+  } else {
+    root = `<h3>🎯 Головний важіль</h3><p style="margin:0">Найслабша зона — <b>${weakest.z.e} ${esc(weakest.z.t)}</b> (${weakest.v}%). Бізнес — це система, і він рухається зі швидкістю найслабшої ланки. Підтягніть її — і решта зон почне працювати краще.</p>`;
+  }
+  const rr = $('#rRoot'); rr.innerHTML = root; rr.classList.add('root-cause');
+
+  $('#rBars').innerHTML = ZONES.map((z, zi) => `<div class="bar"><span class="t">${z.e} ${esc(z.t)}</span><span class="v" style="color:${colorOf(vals[zi])}">${vals[zi]}%</span><span class="track"><i style="background:${colorOf(vals[zi])}" data-w="${vals[zi]}"></i></span></div>`).join('');
+  requestAnimationFrame(() => setTimeout(() => $$('#rBars i').forEach(i => i.style.width = Math.max(i.dataset.w, 2) + '%'), 50));
+
+  $('#rWeak').innerHTML = ranked.slice(0, 3).map(({ z, v }, k) => {
+    const svc = SERVICES[z.svc];
+    const status = v < 40 ? ['Критично', 'var(--bad)'] : v < 70 ? ['Потребує уваги', 'var(--mid)'] : ['Можна сильніше', 'var(--good)'];
+    return `<div class="card">
+      <span class="num">#${k + 1}</span>
+      <div class="hd"><span class="e">${z.e}</span><div><h3 style="margin:0">${esc(z.t)} — ${v}%</h3><span class="pill" style="background:${status[1]}">${status[0]}</span></div></div>
+      <p style="margin:0 0 6px"><b>Діагноз.</b> ${esc(v < 50 ? z.diag.low : z.diag.mid)}</p>
+      <b>Що зробити цього тижня:</b>
+      <ol>${z.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>
+      <div class="small muted">Безкоштовні робочі аркуші:</div>
+      <div class="tools">${z.tools.map(([f, t]) => `<a href="${f}" target="_blank" rel="noopener">${esc(t)}</a>`).join('')}</div>
+      <div class="service">${svc.e} Хочете, щоб це зробили разом із вами? <b>${esc(svc.t)}</b> — ${esc(svc.s)}</div>
+    </div>`;
+  }).join('');
+
+  // Калькулятор вартості хаосу
+  const ownerQ = QUESTIONS.findIndex(q => q.z.id === 'owner' && q.qi === 1);
+  if (!st.calc) st.calc = { h: [35, 22, 10, 3][st.answers[ownerQ] ?? 1], r: 800, s: 50 };
+  $('#cHours').value = st.calc.h; $('#cRate').value = st.calc.r; $('#cShare').value = st.calc.s;
+  calc();
+
+  // Лист від Романа
+  const w2 = ranked.slice(0, 2).map(x => `${x.z.e} ${esc(x.z.t.toLowerCase())}`).join(' і ');
+  const strong = ranked[ranked.length - 1];
+  $('#rLetter').innerHTML = `
+    <h2>${name ? name + ', ' : ''}кілька слів від мене</h2>
+    <p>Я проконсультував понад 250 компаній, і майже всі власники приходили з однаковою фразою: «Я втомився тягнути все на собі». Ваш результат — <b>${total} зі 100</b> — не вирок і не оцінка вас як підприємця. Це фотографія системи на сьогодні.</p>
+    <p>Ваша сильна сторона — <b>${strong.z.e} ${esc(strong.z.t.toLowerCase())}</b> (${strong.v}%). На неї ми спиратимемося. А найбільше грошей і часу зараз «витікає» через ${w2}.</p>
+    <p>Бізнес — як автомобіль: можна тиснути на газ сильніше (більше працювати, більше реклами), а можна нарешті зняти ручне гальмо. Ми допомагаємо саме з другим: прописуємо систему так, щоб бізнес працював без вашої постійної участі, а ви бачили цифри і мали час на стратегію і життя.</p>
+    <p>Запишіться на безкоштовний розбір — покажу, з чого почати саме у вашому випадку.</p>
+    <div class="sign"><span class="ava">РК</span><div><b>Роман Кушнір</b><br><span class="muted small">засновник SPE, бізнес-консультант, автор 21 книги</span></div></div>`;
+
+  // Послуги
+  const rec = recommendedSvc();
+  if (!st.svc) st.svc = rec.slice();
+  $('#svcList').innerHTML = Object.entries(SERVICES).map(([k, s]) => `<button type="button" class="svc${st.svc.includes(k) ? ' on' : ''}" data-k="${k}"><span class="box">✓</span><span><b>${s.e} ${esc(s.t)}${rec.includes(k) ? '<span class="rec">радимо</span>' : ''}</b><span>${esc(s.s)}</span></span></button>`).join('');
+  $$('#svcList .svc').forEach(b => b.onclick = () => {
+    const k = b.dataset.k;
+    st.svc = st.svc.includes(k) ? st.svc.filter(x => x !== k) : [...st.svc, k]; save();
+    b.classList.toggle('on');
+  });
+  $('#services').innerHTML = Object.values(SERVICES).map(s => `<div class="zone-chip"><span class="e">${s.e}</span><b>${esc(s.t)}</b><span>${esc(s.s)}</span></div>`).join('');
+  $('#faq').innerHTML = FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('');
+
+  $('#fName').value = st.fName || st.name || '';
+  $('#fPhone').value = st.fPhone || '';
+  $('#offerForm').hidden = st.sent; $('#offerOk').hidden = !st.sent; $('#offerSend').hidden = true;
+  save();
+}
+
+function calc() {
+  const h = +$('#cHours').value, r = +$('#cRate').value, s = +$('#cShare').value;
+  st.calc = { h, r, s }; save();
+  $('#cHoursV').textContent = h + ' год';
+  $('#cRateV').textContent = fmt(r) + ' ₴';
+  $('#cShareV').textContent = s + '%';
+  const yearH = h * 48;
+  $('#cYear').textContent = fmt(yearH * r) + ' ₴';
+  $('#cFree').textContent = fmt(yearH * s / 100);
+  $('#cWeeks').textContent = fmt(yearH * s / 100 / 40);
+}
+['#cHours', '#cRate', '#cShare'].forEach(id => $(id).oninput = calc);
+
+/* --- Заявка --- */
+function leadText() {
+  const total = totalScore(), lvl = levelOf(total);
+  const svc = (st.svc || []).map(k => SERVICES[k].t).join(', ') || '—';
+  const zones = ZONES.map((z, zi) => `${z.e} ${z.t}: ${zoneScore(zi)}%`).join('\n');
+  return `Вітаю! Пройшов(-ла) діагностику бізнесу і хочу записатися на безкоштовний розбір.
+
+Ім'я: ${st.fName || st.name || '—'}
+Контакт: ${st.fPhone || '—'} (зручно: ${st.channel})
+Сфера: ${st.sphere || '—'}, команда: ${st.team || '—'}
+Що болить: ${st.pain || '—'}
+
+Індекс системності: ${total}/100 (${lvl.t})
+${zones}
+
+Цікавить: ${svc}`;
+}
+
+$('#fName').oninput = e => { st.fName = e.target.value.trim(); save(); };
+$('#fPhone').oninput = e => { st.fPhone = e.target.value.trim(); save(); };
+
+$('#fSend').onclick = async () => {
+  if (!st.fPhone || st.fPhone.length < 4) { $('#fPhone').focus(); return toast('Залиште телефон або нік у Telegram'); }
+  const text = leadText();
+  track('lead', { score: totalScore() });
+  if (CONFIG.webhook) {
+    const payload = { name: st.fName || st.name, contact: st.fPhone, channel: st.channel, sphere: st.sphere, team: st.team, pain: st.pain, score: totalScore(), zones: Object.fromEntries(ZONES.map((z, zi) => [z.id, zoneScore(zi)])), services: st.svc, text, page: location.href, at: new Date().toISOString() };
+    $('#fSend').disabled = true; $('#fSend').textContent = 'Надсилаємо…';
+    try {
+      await fetch(CONFIG.webhook, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+      st.sent = true; save();
+      $('#offerForm').hidden = true; $('#offerOk').hidden = false; $('#sticky').classList.remove('on');
+      return;
+    } catch (e) {
+      $('#fSend').disabled = false; $('#fSend').textContent = 'Записатися на безкоштовний розбір';
+    }
+  }
+  // Без вебхука: клієнт надсилає повідомлення сам
+  $('#leadText').value = text;
+  try { await navigator.clipboard.writeText(text); } catch (e) {}
+  const tel = CONFIG.phone.replace(/[^\d+]/g, '');
+  const ways = [];
+  if (CONFIG.telegram) ways.push(['✈️ Надіслати в Telegram', `https://t.me/${CONFIG.telegram}`]);
+  if (CONFIG.phone) ways.push(['💜 Надіслати у Viber', `viber://chat?number=${encodeURIComponent(tel)}`]);
+  if (CONFIG.email) ways.push(['✉️ Надіслати на пошту', `mailto:${CONFIG.email}?subject=${encodeURIComponent('Діагностика бізнесу — запис на розбір')}&body=${encodeURIComponent(text)}`]);
+  if (CONFIG.phone) ways.push(['📞 Зателефонувати', `tel:${tel}`]);
+  const pref = { Telegram: 0, Viber: 1, 'Дзвінок': 3 }[st.channel] ?? 0;
+  $('#sendWays').innerHTML = ways.map(([t, h], i) => `<a class="btn${i === Math.min(pref, ways.length - 1) ? '' : ' sec'}" href="${h}" target="_blank" rel="noopener">${t}</a>`).join('');
+  $$('#sendWays a').forEach(a => a.addEventListener('click', () => { st.sent = true; save(); $('#sticky').classList.remove('on'); }));
+  $('#offerForm').hidden = true; $('#offerSend').hidden = false;
+  toast('Заявку скопійовано — вставте її в повідомлення');
+};
+$('#leadText').onclick = e => e.target.select();
+
+new IntersectionObserver(es => es.forEach(e => $('#sticky').classList.toggle('on', !e.isIntersecting && st.screen === 'result' && !st.sent))).observe($('#offer'));
+$('#stickyBtn').onclick = () => $('#offer').scrollIntoView({ behavior: 'smooth' });
+$('#rPrint').onclick = () => window.print();
+$('#rShare').onclick = async () => {
+  const text = `Пройшов діагностику бізнесу: індекс системності ${totalScore()}/100. Перевір і свій бізнес за 7 хвилин:`;
+  const url = location.href.split('#')[0];
+  if (navigator.share) { try { await navigator.share({ title: 'Діагностика бізнесу', text, url }); } catch (e) {} }
+  else { try { await navigator.clipboard.writeText(text + ' ' + url); toast('Посилання скопійовано'); } catch (e) {} }
+};
+function restart() {
+  if (!confirm('Почати діагностику заново? Поточні відповіді буде видалено.')) return;
+  st = { ...st, screen: 'hero', answers: {}, cur: 0, svc: null, sent: false, calc: null };
+  save(); show('intro');
+}
+$('#rAgain').onclick = restart;
+$('#restart').onclick = restart;
+
+initTracking();
+// Відновлення прогресу
+const allDone = Object.keys(st.answers).length === QUESTIONS.length;
+show(st.screen === 'result' && !allDone ? 'quiz' : st.screen === 'zone' ? 'quiz' : st.screen);
+</script>
+</body>
+</html>
