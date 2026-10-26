@@ -3,139 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Укриття скульптури зубрів</title>
-<meta name="description" content="Як закрити скульптуру зубрів 18 × 9 м: незалежний каркас, обшивка, негорюча вата, тент, вентиляція і мішки з піском. Інтерактивна схема з покроковим монтажем і орієнтовним розрахунком матеріалів.">
+<title>Відкриття скульптури зубрів</title>
+<meta name="description" content="Як накрити скульптуру зубрів 18 × 9 м до урочистого відкриття і ефектно зняти покривало: скидання з ферми (кабукі), підйом краном, стягування тросами, розсувна завіса. Анімація, розрахунок тканини, перевірка вітру і сценарій.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f4f2ee;
-    --card: #ffffff;
-    --soft: #ece8e1;
-    --line: #dcd5ca;
-    --ink: #1c1a17;
-    --muted: #6a645b;
-    --acc: #c4572a;
-    --acc-ink: #ffffff;
-    --grid: #e7e2da;
-
-    --c-sculpt: #8a6334;
-    --c-sculpt-line: #5c4020;
-    --c-plinth: #a8a29a;
-    --c-wrap: #8b5cf6;
-    --c-frame: #4a6b8a;
-    --c-osb: #c99a5b;
-    --c-wool: #e3c341;
-    --c-membrane: #3f7d5a;
-    --c-vent: #2f8fd1;
-    --c-bags: #b8a27a;
-    --c-gabion: #8c8a84;
-    --c-ground: #9b8f7c;
+    --bg: #f4f2ee; --card: #ffffff; --soft: #ece8e1; --line: #dcd5ca; --ink: #1c1a17; --muted: #6a645b;
+    --acc: #c4572a; --acc-ink: #ffffff;
+    --good: #2e8b57; --mid: #c98a12; --bad: #c8402f;
+    --c-sculpt: #8a6334; --c-sculpt-line: #5c4020; --c-plinth: #a8a29a;
+    --c-truss: #6b7480; --c-crane: #d9a21b; --c-rope: #3a332b; --c-ground: #9b8f7c; --sky: #e8eef3;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #151413;
-      --card: #1f1d1b;
-      --soft: #2a2724;
-      --line: #3a3632;
-      --ink: #f0ece6;
-      --muted: #a59d92;
-      --acc: #e8774a;
-      --acc-ink: #1a1410;
-      --grid: #2a2724;
-      --c-sculpt: #b88a52;
-      --c-sculpt-line: #e0b77f;
-      --c-plinth: #77726b;
-      --c-wrap: #a98bfa;
-      --c-frame: #7fa3c6;
-      --c-osb: #d6aa6c;
-      --c-wool: #e8cd5a;
-      --c-membrane: #5fae82;
-      --c-vent: #5bb2ec;
-      --c-bags: #c9b48c;
-      --c-gabion: #a3a19b;
-      --c-ground: #8a7f6d;
+      --bg: #151413; --card: #1f1d1b; --soft: #2a2724; --line: #3a3632; --ink: #f0ece6; --muted: #a59d92;
+      --acc: #e8774a; --acc-ink: #1a1410;
+      --good: #4fb07a; --mid: #e0a83a; --bad: #e46a58;
+      --c-sculpt: #b88a52; --c-sculpt-line: #e0b77f; --c-plinth: #77726b;
+      --c-truss: #9aa4b0; --c-crane: #e8b73a; --c-rope: #d8cfc2; --c-ground: #8a7f6d; --sky: #1c2228;
     }
   }
   :root[data-theme="dark"] {
     --bg: #151413; --card: #1f1d1b; --soft: #2a2724; --line: #3a3632; --ink: #f0ece6; --muted: #a59d92;
-    --acc: #e8774a; --acc-ink: #1a1410; --grid: #2a2724;
-    --c-sculpt: #b88a52; --c-sculpt-line: #e0b77f; --c-plinth: #77726b; --c-wrap: #a98bfa; --c-frame: #7fa3c6;
-    --c-osb: #d6aa6c; --c-wool: #e8cd5a; --c-membrane: #5fae82; --c-vent: #5bb2ec; --c-bags: #c9b48c;
-    --c-gabion: #a3a19b; --c-ground: #8a7f6d;
+    --acc: #e8774a; --acc-ink: #1a1410; --good: #4fb07a; --mid: #e0a83a; --bad: #e46a58;
+    --c-sculpt: #b88a52; --c-sculpt-line: #e0b77f; --c-plinth: #77726b;
+    --c-truss: #9aa4b0; --c-crane: #e8b73a; --c-rope: #d8cfc2; --c-ground: #8a7f6d; --sky: #1c2228;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font: 15px/1.55 Manrope, system-ui, -apple-system, "Segoe UI", sans-serif;
-  }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 Manrope, system-ui, -apple-system, "Segoe UI", sans-serif; }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
   h1 { font-size: clamp(24px, 4vw, 36px); line-height: 1.15; margin: 0 0 8px; letter-spacing: -.01em; }
   h2 { font-size: 20px; margin: 0 0 12px; }
   h3 { font-size: 15px; margin: 0 0 6px; }
   p { margin: 0 0 10px; }
-  .lead { color: var(--muted); max-width: 760px; font-size: 16px; }
+  .lead { color: var(--muted); max-width: 780px; font-size: 16px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
   .grid { display: grid; gap: 16px; }
   .top { grid-template-columns: 320px 1fr; margin-top: 20px; align-items: start; }
   @media (max-width: 900px) { .top { grid-template-columns: 1fr; } }
-  .two { grid-template-columns: 1.1fr .9fr; }
+  .two { grid-template-columns: 1fr 1fr; }
   @media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
-  .three { grid-template-columns: repeat(3, 1fr); }
-  @media (max-width: 760px) { .three { grid-template-columns: 1fr; } }
+  section { margin-top: 16px; }
 
-  .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--soft); padding: 4px; border-radius: 10px; }
-  .seg button {
-    border: 0; background: transparent; color: var(--ink); font: inherit; font-weight: 600; font-size: 13px;
-    padding: 8px 4px; border-radius: 7px; cursor: pointer; line-height: 1.2;
-  }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: var(--soft); padding: 4px; border-radius: 10px; }
+  .seg button { border: 0; background: transparent; color: var(--ink); font: inherit; font-weight: 600; font-size: 13px; padding: 9px 4px; border-radius: 7px; cursor: pointer; line-height: 1.2; }
   .seg button.on { background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,.12); color: var(--acc); }
-  .vdesc { color: var(--muted); font-size: 13px; margin: 8px 0 14px; min-height: 40px; }
-  .ctl { margin: 10px 0; }
+  .seg button small { display: block; font-weight: 500; color: var(--muted); font-size: 11px; }
+  .ctl { margin: 12px 0; }
   .ctl label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; }
   .ctl label span { color: var(--acc); font-variant-numeric: tabular-nums; }
   input[type=range] { width: 100%; accent-color: var(--acc); }
   .hint { font-size: 12px; color: var(--muted); }
-  .chk { display: flex; gap: 8px; align-items: center; font-size: 13px; margin-top: 8px; cursor: pointer; }
+  .chk { display: flex; gap: 8px; align-items: center; font-size: 13px; margin-top: 10px; cursor: pointer; }
   .chk input { accent-color: var(--acc); }
+  .colors { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .colors button { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--line); cursor: pointer; padding: 0; }
+  .colors button.on { outline: 3px solid var(--acc); outline-offset: 2px; }
 
-  .views { display: grid; gap: 16px; }
-  .vh { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
-  .vh h2 { margin: 0; font-size: 16px; }
-  .vh .hint { margin: 0; }
+  .stage-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .stage-h h2 { margin: 0; font-size: 17px; }
+  .btns { display: flex; gap: 8px; }
+  .btn { font: inherit; font-weight: 700; border: 1px solid var(--line); background: var(--soft); color: var(--ink); border-radius: 9px; padding: 8px 14px; cursor: pointer; }
+  .btn.primary { background: var(--acc); color: var(--acc-ink); border-color: var(--acc); }
+  .btn:disabled { opacity: .5; cursor: default; }
   svg { display: block; width: 100%; height: auto; }
   svg text { font-family: Manrope, system-ui, sans-serif; fill: var(--ink); }
-  svg .dim { stroke: var(--muted); stroke-width: .03; fill: none; }
-  svg .dimt { fill: var(--muted); font-weight: 700; }
-  svg [data-l] { transition: opacity .2s; }
-  svg.focusing [data-l]:not(.hl) { opacity: .12; }
-  svg [data-l] { cursor: help; }
+  .dim { stroke: var(--muted); stroke-width: .03; fill: none; }
+  .dimt { fill: var(--muted); font-weight: 700; }
+  .scrub { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .scrub input { flex: 1; }
 
-  .stepper { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-  .stepper button {
-    font: inherit; font-weight: 700; border: 1px solid var(--line); background: var(--soft); color: var(--ink);
-    border-radius: 8px; padding: 6px 12px; cursor: pointer;
-  }
-  .stepper button.primary { background: var(--acc); color: var(--acc-ink); border-color: var(--acc); }
-  .stepper input { flex: 1; min-width: 140px; }
-  .stepno { font-weight: 800; color: var(--acc); font-variant-numeric: tabular-nums; }
-  .stepcard { background: var(--soft); border-radius: 10px; padding: 12px 14px; min-height: 92px; }
-  .stepcard h3 { font-size: 16px; }
-
-  .legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
-  .legend li {
-    display: grid; grid-template-columns: 20px 18px 1fr; gap: 8px; align-items: start;
-    padding: 6px 8px; border-radius: 8px; cursor: pointer; font-size: 13px;
-  }
-  .legend li:hover { background: var(--soft); }
-  .legend li.off { opacity: .45; }
-  .legend li.na { display: none; }
-  .legend .sw { width: 18px; height: 18px; border-radius: 4px; margin-top: 1px; }
-  .legend b { display: block; font-size: 13px; }
-  .legend small { color: var(--muted); display: block; line-height: 1.4; }
-  .legend input { margin: 3px 0 0; accent-color: var(--acc); }
+  .mhead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .tag { font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 99px; background: var(--soft); color: var(--muted); }
+  .tag.rec { background: var(--acc); color: var(--acc-ink); }
+  .pc { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+  @media (max-width: 560px) { .pc { grid-template-columns: 1fr; } }
+  ul.list { margin: 0; padding-left: 18px; font-size: 14px; }
+  ul.list li { margin: 3px 0; }
+  .plus li::marker { content: "+  "; color: var(--good); font-weight: 800; }
+  .minus li::marker { content: "–  "; color: var(--bad); font-weight: 800; }
+  .need { margin-top: 10px; font-size: 14px; background: var(--soft); border-radius: 10px; padding: 10px 12px; }
 
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
@@ -146,180 +96,147 @@
   .kpi { background: var(--soft); border-radius: 10px; padding: 10px; }
   .kpi div { font-size: 11px; color: var(--muted); }
   .kpi b { font-size: 18px; font-variant-numeric: tabular-nums; }
+  .verdict { border-radius: 10px; padding: 10px 12px; font-size: 14px; margin-top: 10px; border-left: 4px solid; background: var(--soft); }
   .warn { border-left: 3px solid var(--acc); padding: 8px 12px; background: var(--soft); border-radius: 0 8px 8px 0; font-size: 13px; color: var(--muted); }
-  ul.list { margin: 0; padding-left: 18px; }
-  ul.list li { margin: 4px 0; }
-  .no li::marker { content: "✕  "; color: var(--acc); font-weight: 800; }
-  .yes li::marker { content: "✓  "; color: var(--c-membrane); font-weight: 800; }
-  section { margin-top: 16px; }
-  .dlist { margin: 10px 0 0; padding-left: 22px; font-size: 13px; columns: 2; column-gap: 16px; }
-  .dlist li { break-inside: avoid; margin-bottom: 4px; }
-  .dlist small { color: var(--muted); display: block; }
+
+  .tl { list-style: none; margin: 0; padding: 0; position: relative; }
+  .tl li { position: relative; padding: 0 0 14px 92px; min-height: 40px; }
+  .tl li::before { content: ""; position: absolute; left: 76px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--acc); }
+  .tl li::after { content: ""; position: absolute; left: 80px; top: 18px; bottom: 0; width: 2px; background: var(--line); }
+  .tl li:last-child::after { display: none; }
+  .tl .when { position: absolute; left: 0; top: 0; width: 68px; font-weight: 800; font-size: 13px; color: var(--acc); text-align: right; }
+  .tl b { display: block; }
+  .tl span { color: var(--muted); font-size: 14px; }
+  .roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+  .role { background: var(--soft); border-radius: 10px; padding: 10px 12px; font-size: 14px; }
+  .role b { display: block; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Як закрити скульптуру зубрів 18 × 9 м</h1>
-  <p class="lead">Скульптуру не обгортають щільно. Навколо неї ставлять окремий «будиночок», який її не торкається: каркас, обшивку, негорючий шар, тент і дах, а внизу — мішки з піском або габіони. Оберіть варіант укриття, змініть розміри й прогорніть етапи монтажу.</p>
+  <h1>Відкриття скульптури зубрів 18 × 9 м</h1>
+  <p class="lead">До церемонії скульптуру ховають під покривало, а в момент відкриття одним сигналом знімають його за кілька секунд. Для такої великої форми покривало не просто накидають: його вішають на ферму або кран, щоб тканина не зачепилась за роги й не розлетілась від вітру. Оберіть спосіб і натисніть «Відкрити».</p>
 
   <div class="grid top">
-    <!-- Панель керування -->
     <div class="card">
-      <h2>Варіант укриття</h2>
+      <h2>Спосіб відкриття</h2>
       <div class="seg" id="seg">
-        <button data-v="winter">Сезонне</button>
-        <button data-v="shrapnel">Протиуламкове</button>
-        <button data-v="heavy">Посилене</button>
+        <button data-m="drop">Скидання вниз<small>ферма + кабукі</small></button>
+        <button data-m="lift">Підйом угору<small>автокран</small></button>
+        <button data-m="pull">Стягування<small>тросами вбік</small></button>
+        <button data-m="curtain">Розсувна завіса<small>ферма + рейки</small></button>
       </div>
-      <p class="vdesc" id="vdesc"></p>
 
       <div class="ctl"><label>Ширина скульптури <span id="oW"></span></label><input type="range" id="W" min="10" max="24" step="0.5" value="18"></div>
       <div class="ctl"><label>Висота скульптури <span id="oH"></span></label><input type="range" id="H" min="5" max="12" step="0.5" value="9"></div>
-      <div class="ctl"><label>Глибина (товщина групи) <span id="oD"></span></label><input type="range" id="D" min="2" max="10" step="0.5" value="5"><div class="hint">Уточніть на місці: на схемі це умовна величина.</div></div>
-      <div class="ctl"><label>Зазор до скульптури <span id="oC"></span></label><input type="range" id="C" min="0.5" max="2" step="0.1" value="1"><div class="hint">Не менше 0,5 м — щоб обшивка не вдарила по бронзі, коли її пошкодить.</div></div>
-      <div class="ctl"><label>Ухил даху <span id="oP"></span></label><input type="range" id="P" min="10" max="35" step="1" value="20"><div class="hint">Від 15–20°, щоб не накопичувався сніг.</div></div>
-      <div class="ctl" id="baseCtl"><label>Висота мішків / габіонів <span id="oB"></span></label><input type="range" id="B" min="1" max="4" step="0.5" value="2"></div>
-      <label class="chk"><input type="checkbox" id="xray" checked> Бачити скульптуру крізь укриття</label>
+      <div class="ctl"><label>Глибина групи <span id="oD"></span></label><input type="range" id="D" min="2" max="10" step="0.5" value="5"><div class="hint">Уточніть на місці: це умовна величина.</div></div>
+      <div class="ctl"><label>Зазор до тканини <span id="oC"></span></label><input type="range" id="C" min="0.3" max="2" step="0.1" value="1"><div class="hint">Щоб тканина не торкалась рогів і не терлась об бронзу.</div></div>
+      <div class="ctl"><label>Вітер у день відкриття <span id="oV"></span></label><input type="range" id="V" min="0" max="16" step="1" value="5"><div class="hint">Пориви за прогнозом, м/с.</div></div>
+      <div class="ctl"><label>Колір покривала</label>
+        <div class="colors" id="colors"></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="xray"> Показати, що під тканиною</label>
     </div>
 
-    <!-- Креслення -->
-    <div class="views">
-      <div class="card">
-        <div class="vh"><h2>Фасад (вид з боку 18 м)</h2><p class="hint">Наведіть на елемент, щоб побачити назву</p></div>
-        <svg id="front" role="img" aria-label="Фасад укриття скульптури"></svg>
-      </div>
-      <div class="grid two">
-        <div class="card">
-          <div class="vh"><h2>Поперечний розріз</h2><p class="hint">Товщини шарів збільшено</p></div>
-          <svg id="section" role="img" aria-label="Поперечний розріз укриття"></svg>
-        </div>
-        <div class="card">
-          <div class="vh"><h2>Пиріг стіни</h2><p class="hint">Від скульптури назовні</p></div>
-          <svg id="detail" role="img" aria-label="Шари стіни укриття"></svg>
-          <ol class="dlist" id="dlist"></ol>
+    <div class="card">
+      <div class="stage-h">
+        <h2 id="stageTitle">Фасад</h2>
+        <div class="btns">
+          <button class="btn primary" id="open">▶ Відкрити</button>
+          <button class="btn" id="reset">↺ Накрити</button>
         </div>
       </div>
+      <svg id="stage" role="img" aria-label="Анімація відкриття скульптури"></svg>
+      <div class="scrub"><span>Накрито</span><input type="range" id="t" min="0" max="1" step="0.01" value="0" aria-label="Хід відкриття"><span>Відкрито</span></div>
     </div>
   </div>
 
-  <!-- Етапи і шари -->
-  <section class="grid two">
-    <div class="card">
-      <h2>Покроковий монтаж</h2>
-      <div class="stepper">
-        <button id="prev" aria-label="Попередній етап">←</button>
-        <button id="play" class="primary">▶ Показати</button>
-        <button id="next" aria-label="Наступний етап">→</button>
-        <input type="range" id="step" min="0" max="8" value="8" aria-label="Етап">
-        <span class="stepno" id="stepno"></span>
-      </div>
-      <div class="stepcard" id="stepcard"></div>
-    </div>
-    <div class="card">
-      <h2>Шари укриття</h2>
-      <p class="hint" style="margin-bottom:8px">Наведіть, щоб підсвітити на схемі. Галочка вмикає шар.</p>
-      <ul class="legend" id="legend"></ul>
-    </div>
-  </section>
+  <section class="card" id="method"></section>
 
-  <!-- Розрахунок -->
   <section class="card">
-    <h2>Орієнтовний розрахунок</h2>
+    <h2>Розрахунок для обраного способу</h2>
     <div class="kpis" id="kpis"></div>
     <table>
-      <thead><tr><th>Матеріал</th><th>Як рахували</th><th style="text-align:right">Кількість</th></tr></thead>
+      <thead><tr><th>Що потрібно</th><th>Як рахували</th><th style="text-align:right">Кількість</th></tr></thead>
       <tbody id="mat"></tbody>
     </table>
-    <p class="warn" style="margin-top:12px">Цифри — для першої оцінки й закупівлі з запасом. Конструкцію на вітер і сніг має порахувати інженер-конструктор (ДБН В.1.2-2 «Навантаження і впливи»), а укриття пам'ятки — погодити з органом охорони культурної спадщини.</p>
+    <div class="verdict" id="verdict"></div>
+    <p class="warn" style="margin-top:12px">Цифри орієнтовні. Ферму, кран і точки підвісу має підтвердити підрядник сцени чи такелажу, а з краном працюють лише кранівник і стропальник із допуском. Тканину беріть із вогнетривким просоченням і сертифікатом, бо поруч будуть люди.</p>
   </section>
 
-  <section class="grid three">
+  <section class="grid two">
     <div class="card">
-      <h2>Головні правила</h2>
-      <ul class="list yes">
-        <li>Каркас стоїть сам: не кріпиться і не спирається на скульптуру.</li>
-        <li>Зазор 0,5–1 м між бронзою та обшивкою — повітря й простір на деформацію.</li>
-        <li>Усе дерево — з антипіреном, вата — лише базальтова (негорюча).</li>
-        <li>Знизу й під гребенем даху — вентиляційні отвори з сіткою від птахів.</li>
-        <li>Двері або люк для огляду раз на місяць і після негоди.</li>
-      </ul>
+      <h2>Сценарій підготовки</h2>
+      <ol class="tl" id="tl"></ol>
     </div>
     <div class="card">
-      <h2>Чого не робити</h2>
-      <ul class="list no">
-        <li>Щільно обмотувати плівкою: під нею конденсат, корозія і плями на патині.</li>
-        <li>Клеїти скотч чи піну просто на поверхню скульптури.</li>
-        <li>Засипати піском чи класти мішки на саму скульптуру або тонкі деталі.</li>
-        <li>Робити плаский дах — сніг і вода продавлять обшивку.</li>
-        <li>Лишати укриття без баласту чи анкерів — 18-метрова стіна працює як вітрило.</li>
+      <h2>Хто що робить у момент відкриття</h2>
+      <div class="roles">
+        <div class="role"><b>Ведучий</b>Оголошує й веде відлік «три, два, один».</div>
+        <div class="role"><b>Координатор</b>Стоїть біля оператора, стежить за вітром і людьми, дає команду голосом або по рації.</div>
+        <div class="role"><b>Оператор</b>Натискає кнопку кабукі, керує краном або лебідкою. Має резервний ручний спуск.</div>
+        <div class="role"><b>Страхувальники</b>2–4 людини по кутах. Знімають тканину, якщо зачепилась, і за 1–2 хв відносять її.</div>
+        <div class="role"><b>Почесні гості</b>Тягнуть символічні стрічки. Стрічки ведуть до кнопки чи тросів, а не тримають саму тканину.</div>
+        <div class="role"><b>Фото й відео</b>Знають, з якого боку і в яку секунду знімати. Точки зйомки ставлять на репетиції.</div>
+      </div>
+      <h3 style="margin-top:16px">Типові помилки</h3>
+      <ul class="list minus">
+        <li>Накинути тканину просто на скульптуру: вона чіпляється за роги й не сповзає.</li>
+        <li>Не репетирувати повне знімання: перший раз має бути не перед гостями.</li>
+        <li>Забути про вітер: кілька сотень м² тканини — це вітрило.</li>
+        <li>Не мати плану Б: другий сигнал, ручний спуск, люди з жердинами.</li>
+        <li>Лишити тканину купою під скульптурою: на фото вона заважає.</li>
       </ul>
-    </div>
-    <div class="card">
-      <h2>Що найвразливіше</h2>
-      <p>У зубрів це <b>роги, вуха, хвости й ноги</b> — тонкі виступи, які відламуються першими. Їх окремо обгортають геотекстилем і м'якими матами з базальтової вати та фіксують стрічками, а не клеєм.</p>
-      <p>Постамент і шви між плитами закривають мішками з піском або габіонами по периметру укриття — вони беруть на себе уламки й вибухову хвилю знизу і водночас утримують каркас від вітру.</p>
     </div>
   </section>
 </div>
 
 <script>
-const LAYERS = [
-  { id: 'wrap', name: 'Обгортання вразливих деталей', color: '--c-wrap',
-    short: 'Геотекстиль + м\'які мати на рогах, вухах, хвостах',
-    step: 'Обгорніть тонкі деталі', text: 'Роги, вуха, хвости й ноги загортають у геотекстиль, поверх — м\'які мати з базальтової вати. Фіксують тканинними стрічками, без клею й скотчу на бронзі. Решту скульптури лишають відкритою для повітря.' },
-  { id: 'frame', name: 'Незалежний каркас', color: '--c-frame',
-    short: 'Рамне риштування або брус, ферми даху, баласт/анкери',
-    step: 'Поставте каркас', text: 'Довкола скульптури ставлять рамне риштування (або дерев\'яний каркас з бруса 100×100) із зазором до бронзи. Зверху — ферми двосхилого даху з кроком ~1,2 м. Каркас кріплять до анкерів у ґрунті або баластують, бо він не має торкатися скульптури.' },
-  { id: 'osb1', name: 'Внутрішня обшивка', color: '--c-osb',
-    short: 'OSB-3 або фанера 18 мм з антипіреном',
-    step: 'Зашийте каркас зсередини', text: 'Перший шар OSB-3 чи фанери 18 мм кріплять до каркаса з внутрішнього боку стін і даху. Плити обробляють антипіреном. Лишають дверний проріз для огляду.' },
-  { id: 'wool', name: 'Негорюча вата', color: '--c-wool',
-    short: 'Базальтова вата 100 мм між обшивками',
-    step: 'Закладіть вату', text: 'Між двома шарами обшивки — базальтова вата 100 мм. Вона негорюча, гасить дрібні уламки та вирівнює температуру, тож менше конденсату на бронзі.' },
-  { id: 'osb2', name: 'Зовнішня обшивка і дах', color: '--c-osb',
-    short: 'Другий шар OSB-3 / фанери, двосхилий дах',
-    step: 'Зашийте ззовні й накрийте дах', text: 'Другий шар плит із розбіжкою швів відносно першого. Дах — двосхилий, з ухилом від 15–20° і звисами, щоб сніг сповзав, а вода не текла по стінах.' },
-  { id: 'membrane', name: 'Тент / мембрана', color: '--c-membrane',
-    short: 'Негорючий ПВХ-тент або вітро-гідрозахисна мембрана',
-    step: 'Натягніть тент', text: 'Зовні — тент із ПВХ-тканини з антипіреном або вітро-гідрозахисна мембрана з напуском 15–20 см. Для сезонного варіанту тент натягують просто на каркас із дощатим дахом.' },
-  { id: 'vent', name: 'Вентиляція', color: '--c-vent',
-    short: 'Отвори знизу і під гребенем, сітка від птахів',
-    step: 'Зробіть вентиляцію', text: 'Холодне повітря заходить через ґрати знизу, тепле й вологе виходить під гребенем даху. Отвори закривають сіткою від птахів і козирками від дощу. Без вентиляції під укриттям утвориться конденсат.' },
-  { id: 'base', name: 'Мішки з піском / габіони', color: '--c-bags',
-    short: 'Захисна стінка по периметру низу',
-    step: 'Обкладіть низ', text: 'По периметру укриття, впритул до зовнішньої стіни, кладуть мішки з піском уперев\'язку (низ ширший за верх) або ставлять габіони, заповнені камінням. Вони захищають постамент і низ скульптури та слугують баластом проти вітру.' },
-];
-const SURVEY = { name: 'Обстеження', text: 'Фотофіксація й обміри скульптури, перевірка постаменту і ґрунту, погодження з власником і органом охорони культурної спадщини. Інженер рахує каркас на вітер і сніг, обирає анкери чи баласт.' };
-
-const VARIANTS = {
-  winter: { layers: ['frame', 'membrane', 'vent'], base: null,
-    desc: 'Від снігу, дощу й льоду на зиму. Каркас + тент + дах, без важкого захисту.' },
-  shrapnel: { layers: ['wrap', 'frame', 'osb1', 'wool', 'osb2', 'membrane', 'vent', 'base'], base: 'bags', hb: 2,
-    desc: 'Від уламків і вибухової хвилі. Дві обшивки з ватою між ними, тент і мішки з піском унизу.' },
-  heavy: { layers: ['wrap', 'frame', 'osb1', 'wool', 'osb2', 'membrane', 'vent', 'base'], base: 'gabions', hb: 3,
-    desc: 'Як протиуламкове, але замість мішків — габіони 1 м завтовшки й вищі, до 3–4 м.' },
-};
-
-const FW = 0.8;                 // ширина риштування, м
-const T = { osb1: 0.12, wool: 0.22, osb2: 0.12, membrane: 0.07 };   // візуальні товщини шарів, м
-const SHEET = 2.5 * 1.25;
-
-const st = { v: 'shrapnel', on: new Set(VARIANTS.shrapnel.layers), step: 99 };
 const $ = id => document.getElementById(id);
 const fmt = (n, d = 0) => n.toLocaleString('uk-UA', { minimumFractionDigits: d, maximumFractionDigits: d });
-const css = v => `var(${v})`;
+
+const COLORS = [
+  ['Синій', '#1f4fa3'], ['Жовтий', '#f2c230'], ['Бордовий', '#7b1f2b'], ['Білий', '#f4f1ea'], ['Чорний', '#22201d'], ['Зелений', '#2f6b45'],
+];
+
+const METHODS = {
+  drop: {
+    name: 'Скидання вниз (кабукі)', tag: 'Рекомендовано', rec: true,
+    how: 'Довкола скульптури ставлять сценічну алюмінієву ферму-«коробку», трохи вищу за зубрів. Покривало з чотирьох полотнищ висить на фермі на затискачах кабукі: електромагнітних, пневматичних або механічних із тросом. За сигналом усі затискачі одночасно відпускають тканину, і вона падає вниз за 1–2 секунди. Страхувальники одразу відносять її.',
+    plus: ['Найефектніше: скульптура «з’являється» миттєво', 'Тканина взагалі не торкається бронзи', 'Стандартна послуга сценічних підрядників', 'На фермі можна закріпити світло й банери'],
+    minus: ['Ферма видна на фото: її демонтують після церемонії або обтягують тканиною', 'Купа тканини внизу — треба швидко прибрати', 'Потрібен рівний майданчик під опори ферми'],
+    need: 'Ферма 30×30 або 40×40 см, баласт на опори, система кабукі (затискачі через 0,5 м), 4 полотнища тканини, оператор і 4 страхувальники.',
+  },
+  lift: {
+    name: 'Підйом угору краном', tag: 'Для відкритого майданчика',
+    how: 'Покривало шиють як «чохол» і підвішують до легкої рами-траверси над скульптурою. Траверса висить на гаку автокрана. За сигналом кран плавно піднімає чохол угору й відводить убік, і скульптура відкривається знизу вгору.',
+    plus: ['Урочисто й видно з усіх боків', 'Тканина йде вгору, а не падає купою', 'Довкола немає ферми, тож нічого не заважає фото після відкриття'],
+    minus: ['Потрібен кран із великою висотою гака — приблизно дві висоти скульптури', 'Кран дуже чутливий до вітру', 'Стріла крана видна на фото', 'Найдорожче: кран, кранівник, стропальник, допуск'],
+    need: 'Автокран із потрібною висотою гака й вильотом, траверса (рама з труб), чохол із кільцями зверху, кранівник, стропальник, 2 страхувальники з відтяжками.',
+  },
+  pull: {
+    name: 'Стягування тросами вбік', tag: 'Дешево, але ризиковано',
+    how: 'Над скульптурою ставлять гладку форму-«шатро» з легких дуг (труби ПВХ або алюміній), яка закриває роги й виступи. На неї накидають покривало, до заднього краю якого прив’язані троси. За сигналом команда або лебідка стягує тканину вбік. Почесні гості тягнуть символічні стрічки.',
+    plus: ['Найдешевше: ні ферми, ні крана', 'Гості фізично беруть участь', 'Простий монтаж напередодні'],
+    minus: ['Тканина такого розміру важка й може зачепитись за форму', 'Форму з дуг теж треба прибрати після відкриття', 'Повільніше: 3–6 секунд', 'Тканина треться об форму, можливі затримки'],
+    need: 'Каркас-шатро з дуг, гладке покривало (атлас або поліестер), 3–4 троси, команда з 8–12 людей або лебідка, 2 страхувальники з довгими жердинами.',
+  },
+  curtain: {
+    name: 'Розсувна завіса', tag: 'Якщо гості з одного боку',
+    how: 'Перед скульптурою ставлять фермовий портал із рейкою, як у театрі. Дві половини завіси розсуваються в боки мотором або вручну. Ззаду й з боків — нерухомі полотнища або нічого, якщо гості стоять лише спереду.',
+    plus: ['Театрально й керовано, можна відкривати повільно', 'Завісу можна закрити й відкрити ще раз для фото', 'Тканина не падає на землю'],
+    minus: ['Працює лише для глядачів з одного боку', 'Портал заввишки 10–12 м видно на фото', 'Потрібен мотор або 2 людини на шнурах'],
+    need: 'Фермовий портал (2 опори + верхня балка), рейка з бігунками, мотор або шнури, 2 половини завіси із запасом 1,5× на складки.',
+  },
+};
+
+const st = { m: 'drop', t: 0, color: COLORS[0][1], anim: null };
 
 function params() {
-  return { W: +$('W').value, H: +$('H').value, D: +$('D').value, c: +$('C').value, p: +$('P').value, hb: +$('B').value };
-}
-function activeLayers() { return VARIANTS[st.v].layers; }
-function visible(id) {
-  const act = activeLayers();
-  const idx = act.indexOf(id);
-  return idx >= 0 && st.on.has(id) && idx < st.step;
+  return { W: +$('W').value, H: +$('H').value, D: +$('D').value, c: +$('C').value, v: +$('V').value };
 }
 
-// --- геометрія ---
+// --- малювання ---
 function smooth(pts) {
   const n = pts.length;
   let d = `M${pts[0][0].toFixed(3)},${pts[0][1].toFixed(3)}`;
@@ -331,451 +248,294 @@ function smooth(pts) {
   }
   return d + 'Z';
 }
-// силует зубра в локальних координатах: x 0..9, y 0..8 вгору, голова праворуч
+// силует зубра: x 0..9, y 0..8 вгору, голова праворуч
 const BISON = [[1.4,0],[1.5,1.6],[1.0,2.6],[0.6,3.6],[0.7,4.6],[1.4,5.4],[2.8,6.2],[4.2,7.3],[5.4,7.9],[6.4,7.7],[7.2,6.9],[7.9,6.3],[8.5,6.0],[8.9,5.2],[9.0,4.2],[8.7,3.3],[8.1,2.9],[7.4,2.5],[7.0,1.6],[7.1,0],[6.2,0],[6.0,1.7],[5.0,2.0],[3.8,2.0],[2.8,1.8],[2.5,0]];
 const HORN = [[7.9,6.3],[7.8,7.1],[8.6,7.5],[8.25,7.0],[8.35,6.3]];
 const TAIL = [[0.75,4.4],[0.2,3.6],[0.15,2.4],[0.4,2.5],[0.5,3.5],[0.9,4.0]];
-
 function bisonPaths(ox, oy, sx, sy, flip) {
   const tr = pts => pts.map(([x, y]) => [ox + (flip ? 9 - x : x) * sx, -(oy + y * sy)]);
-  return { body: smooth(tr(BISON)), horn: smooth(tr(HORN)), tail: smooth(tr(TAIL)),
-    eye: [ox + (flip ? 9 - 8.35 : 8.35) * sx, -(oy + 5.1 * sy)] };
+  return { body: smooth(tr(BISON)), horn: smooth(tr(HORN)), tail: smooth(tr(TAIL)), eye: [ox + (flip ? 0.65 : 8.35) * sx, -(oy + 5.1 * sy)] };
 }
 
-const el = (tag, attrs = {}, kids = '') => `<${tag} ${Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ')}>${kids}</${tag}>`;
-const rect = (x, y, w, h, a = {}) => el('rect', { x: x.toFixed(3), y: (-(y + h)).toFixed(3), width: w.toFixed(3), height: h.toFixed(3), ...a });
-const line = (x1, y1, x2, y2, a = {}) => el('line', { x1: x1.toFixed(3), y1: (-y1).toFixed(3), x2: x2.toFixed(3), y2: (-y2).toFixed(3), ...a });
-const text = (x, y, s, a = {}) => el('text', { x: x.toFixed(3), y: (-y).toFixed(3), ...a }, s);
-const g = (id, kids, extra = {}) => el('g', { 'data-l': id, ...extra }, `<title>${titleOf(id)}</title>` + kids);
-function titleOf(id) {
-  if (id === 'sculpt') return 'Скульптура зубрів';
-  const L = LAYERS.find(l => l.id === id);
-  return L ? `${L.name}: ${L.short}` : '';
-}
+const el = (tag, a = {}, kids = '') => `<${tag} ${Object.entries(a).map(([k, v]) => `${k}="${v}"`).join(' ')}>${kids}</${tag}>`;
+const R = (x, y, w, h, a = {}) => el('rect', { x: x.toFixed(3), y: (-(y + h)).toFixed(3), width: Math.max(0, w).toFixed(3), height: Math.max(0, h).toFixed(3), ...a });
+const L = (x1, y1, x2, y2, a = {}) => el('line', { x1: x1.toFixed(3), y1: (-y1).toFixed(3), x2: x2.toFixed(3), y2: (-y2).toFixed(3), ...a });
+const T = (x, y, s, a = {}) => el('text', { x: x.toFixed(3), y: (-y).toFixed(3), ...a }, s);
 function dimH(x1, x2, y, label, fs) {
   const t = fs * 0.35;
-  return line(x1, y, x2, y, { class: 'dim' }) + line(x1, y - t, x1, y + t, { class: 'dim' }) + line(x2, y - t, x2, y + t, { class: 'dim' }) +
-    text((x1 + x2) / 2, y + fs * 0.3, label, { class: 'dimt', 'font-size': fs, 'text-anchor': 'middle' });
+  return L(x1, y, x2, y, { class: 'dim' }) + L(x1, y - t, x1, y + t, { class: 'dim' }) + L(x2, y - t, x2, y + t, { class: 'dim' }) +
+    T((x1 + x2) / 2, y + fs * 0.3, label, { class: 'dimt', 'font-size': fs, 'text-anchor': 'middle' });
 }
 function dimV(x, y1, y2, label, fs) {
-  const t = fs * 0.35, ym = (y1 + y2) / 2;
-  return line(x, y1, x, y2, { class: 'dim' }) + line(x - t, y1, x + t, y1, { class: 'dim' }) + line(x - t, y2, x + t, y2, { class: 'dim' }) +
-    el('text', { x: (x - fs * 0.35).toFixed(3), y: (-ym).toFixed(3), class: 'dimt', 'font-size': fs, 'text-anchor': 'middle',
-      transform: `rotate(-90 ${(x - fs * 0.35).toFixed(3)} ${(-ym).toFixed(3)})` }, label);
+  const t = fs * 0.35, ym = (y1 + y2) / 2, tx = x - fs * 0.35;
+  return L(x, y1, x, y2, { class: 'dim' }) + L(x - t, y1, x + t, y1, { class: 'dim' }) + L(x - t, y2, x + t, y2, { class: 'dim' }) +
+    el('text', { x: tx.toFixed(3), y: (-ym).toFixed(3), class: 'dimt', 'font-size': fs, 'text-anchor': 'middle', transform: `rotate(-90 ${tx.toFixed(3)} ${(-ym).toFixed(3)})` }, label);
+}
+// ґратчаста ферма між двома точками (горизонтальна або вертикальна)
+function truss(x1, y1, x2, y2, s = 0.35) {
+  const vert = x1 === x2, a = { stroke: 'var(--c-truss)', 'stroke-width': 0.05 }, d = { ...a, 'stroke-width': 0.025 };
+  const len = vert ? y2 - y1 : x2 - x1, n = Math.max(1, Math.round(len / (s * 2)));
+  let out = '';
+  if (vert) {
+    out += L(x1 - s / 2, y1, x1 - s / 2, y2, a) + L(x1 + s / 2, y1, x1 + s / 2, y2, a);
+    for (let i = 0; i < n; i++) out += L(x1 - s / 2, y1 + i * len / n, x1 + s / 2, y1 + (i + 1) * len / n, d);
+  } else {
+    out += L(x1, y1 - s / 2, x2, y1 - s / 2, a) + L(x1, y1 + s / 2, x2, y1 + s / 2, a);
+    for (let i = 0; i < n; i++) out += L(x1 + i * len / n, y1 - s / 2, x1 + (i + 1) * len / n, y1 + s / 2, d);
+  }
+  return out;
+}
+const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+
+function cloth(d, op) {
+  return `<path d="${d}" fill="${st.color}" fill-opacity="${op}" stroke="var(--c-rope)" stroke-opacity=".35" stroke-width="0.04"/>`;
+}
+function folds(x0, x1, yb, yt, n, op, wave = 0) {
+  let s = '';
+  for (let i = 1; i < n; i++) {
+    const x = x0 + (x1 - x0) * i / n;
+    s += `<path d="M${x.toFixed(3)},${(-yt).toFixed(3)} Q${(x + wave).toFixed(3)},${(-(yt + yb) / 2).toFixed(3)} ${x.toFixed(3)},${(-yb).toFixed(3)}" fill="none" stroke="#000" stroke-opacity="${(0.14 * op).toFixed(2)}" stroke-width="0.06"/>`;
+  }
+  return s;
 }
 
-function geom(P) {
-  const tw = ['osb1', 'wool', 'osb2', 'membrane'].reduce((s, k) => s + (visible(k) ? T[k] : 0), 0);
-  const base = VARIANTS[st.v].base;
-  const tb = 1;     // товщина стінки по низу, м
-  const Ws = P.W + 2 * (P.c + FW), Ds = P.D + 2 * (P.c + FW);
-  const Hw = P.H + P.c;
-  const rise = (Ds / 2 + 0.4) * Math.tan(P.p * Math.PI / 180);
-  return { tw, base, tb, Ws, Ds, Hw, rise };
-}
-
-const PATTERNS = `
-<defs>
-  <pattern id="pBags" width="1" height="0.4" patternUnits="userSpaceOnUse">
-    <rect width="1" height="0.4" fill="var(--c-bags)"/>
-    <rect x="0.04" y="0.04" width="0.92" height="0.32" rx="0.12" fill="none" stroke="var(--c-sculpt-line)" stroke-opacity=".35" stroke-width="0.03"/>
-  </pattern>
-  <pattern id="pGab" width="0.5" height="0.5" patternUnits="userSpaceOnUse">
-    <rect width="0.5" height="0.5" fill="var(--c-gabion)"/>
-    <circle cx="0.15" cy="0.17" r="0.11" fill="var(--soft)" fill-opacity=".5"/><circle cx="0.37" cy="0.36" r="0.1" fill="var(--soft)" fill-opacity=".4"/>
-    <path d="M0 0H0.5V0.5" fill="none" stroke="var(--ink)" stroke-opacity=".5" stroke-width="0.025"/>
-  </pattern>
-  <pattern id="pWool" width="0.3" height="0.3" patternUnits="userSpaceOnUse">
-    <rect width="0.3" height="0.3" fill="var(--c-wool)"/>
-    <path d="M0 0.15 Q0.075 0 0.15 0.15 T0.3 0.15" fill="none" stroke="var(--ink)" stroke-opacity=".35" stroke-width="0.02"/>
-  </pattern>
-</defs>`;
-
-// --- фасад ---
-function drawFront(P, G) {
+function draw() {
+  const P = params(), m = st.m, t = st.t, e = ease(t);
   const fs = 0.55;
-  const x0 = -(P.c + FW), x1 = P.W + P.c + FW;
-  const xo0 = x0 - G.tw, xo1 = x1 + G.tw;
-  const showBase = visible('base') && G.base;
-  const bx0 = xo0 - (showBase ? G.tb : 0), bx1 = xo1 + (showBase ? G.tb : 0);
-  const top = G.Hw + G.rise + 0.4;
-  const vx = bx0 - 2.2, vw = (bx1 + 1.2) - vx, vy = -(top + 1.6), vh = top + 1.6 + 1.8;
-  const svg = $('front');
+  const x0 = -P.c, x1 = P.W + P.c, Ht = P.H + P.c;     // габарит покривала
+  const op = $('xray').checked ? 0.45 : 1;
+  const top = m === 'lift' ? 2 * Ht + 5 : Ht + 2.4;
+  const right = (m === 'lift' || m === 'pull') ? x1 + 9 : x1 + 2;
+  const vx = x0 - 2.4, vy = -(top + 0.6), vw = right - vx, vh = top + 0.6 + 1.9;
+  const svg = $('stage');
   svg.setAttribute('viewBox', `${vx.toFixed(2)} ${vy.toFixed(2)} ${vw.toFixed(2)} ${vh.toFixed(2)}`);
-  const xr = $('xray').checked;
-  let s = PATTERNS;
 
-  // земля
-  s += rect(vx, -1.8, vw, 1.8, { fill: 'var(--soft)' }) + line(vx, 0, vx + vw, 0, { stroke: 'var(--c-ground)', 'stroke-width': 0.06 });
+  let s = R(vx, 0, vw, top + 0.6, { fill: 'var(--sky)' });
+  s += R(vx, -1.9, vw, 1.9, { fill: 'var(--soft)' }) + L(vx, 0, vx + vw, 0, { stroke: 'var(--c-ground)', 'stroke-width': 0.06 });
 
   // скульптура
   const ph = P.H / 9, sx = P.W / 18, sy = (P.H - ph) / 8;
-  const a = bisonPaths(0, ph, sx, sy, false), b = bisonPaths(P.W / 2, ph, sx, sy, true);
   const fill = 'fill="var(--c-sculpt)" stroke="var(--c-sculpt-line)" stroke-width="0.05" stroke-linejoin="round"';
-  let sc = rect(-0.3, 0, P.W + 0.6, ph, { fill: 'var(--c-plinth)', stroke: 'var(--c-sculpt-line)', 'stroke-width': 0.04 });
-  [a, b].forEach(q => {
-    sc += `<path d="${q.tail}" ${fill}/><path d="${q.body}" ${fill}/><path d="${q.horn}" fill="var(--soft)" stroke="var(--c-sculpt-line)" stroke-width="0.05"/>` +
-      `<circle cx="${q.eye[0]}" cy="${q.eye[1]}" r="${0.12 * sx}" fill="var(--c-sculpt-line)"/>`;
+  s += R(-0.3, 0, P.W + 0.6, ph, { fill: 'var(--c-plinth)', stroke: 'var(--c-sculpt-line)', 'stroke-width': 0.04 });
+  [bisonPaths(0, ph, sx, sy, false), bisonPaths(P.W / 2, ph, sx, sy, true)].forEach(q => {
+    s += `<path d="${q.tail}" ${fill}/><path d="${q.body}" ${fill}/><path d="${q.horn}" fill="var(--soft)" stroke="var(--c-sculpt-line)" stroke-width="0.05"/><circle cx="${q.eye[0]}" cy="${q.eye[1]}" r="${0.12 * sx}" fill="var(--c-sculpt-line)"/>`;
   });
-  s += g('sculpt', sc);
 
-  // обгортання вразливих деталей
-  if (visible('wrap')) {
-    let w = '';
-    [[8.3, 6.3, 1.5], [0.4, 3.4, 1.2]].forEach(([lx, ly, r]) => {
-      [lx * sx, P.W - lx * sx].forEach(cx => {
-        w += el('ellipse', { cx: cx.toFixed(3), cy: (-(ph + ly * sy)).toFixed(3), rx: (r * sx).toFixed(3), ry: (r * sy).toFixed(3),
-          fill: 'var(--c-wrap)', 'fill-opacity': .22, stroke: 'var(--c-wrap)', 'stroke-width': 0.07, 'stroke-dasharray': '0.25 0.15' });
-      });
-    });
-    s += g('wrap', w);
-  }
-
-  // каркас
-  if (visible('frame')) {
-    let f = '';
-    const span = x1 - x0, bays = Math.max(2, Math.round(span / 2.5)), bw = span / bays;
-    const levels = Math.max(2, Math.round(G.Hw / 2)), lh = G.Hw / levels;
-    const sw = 0.06, col = 'var(--c-frame)';
-    for (let i = 0; i <= bays; i++) f += line(x0 + i * bw, 0, x0 + i * bw, G.Hw, { stroke: col, 'stroke-width': sw });
-    for (let j = 0; j <= levels; j++) f += line(x0, j * lh, x1, j * lh, { stroke: col, 'stroke-width': sw });
-    for (let i = 0; i < bays; i += 2) for (let j = 0; j < levels; j++)
-      f += line(x0 + i * bw, j * lh, x0 + (i + 1) * bw, (j + 1) * lh, { stroke: col, 'stroke-width': 0.035 });
-    // ферми даху (у фасаді — стійки під схилом)
-    f += line(x0, G.Hw + G.rise, x1, G.Hw + G.rise, { stroke: col, 'stroke-width': sw });
-    const tn = Math.ceil(span / 1.2);
-    for (let i = 0; i <= tn; i++) f += line(x0 + i * span / tn, G.Hw, x0 + i * span / tn, G.Hw + G.rise, { stroke: col, 'stroke-width': 0.03 });
-    s += g('frame', f);
-  }
-
-  // обшивка
-  const shOp = xr ? 0.42 : 0.96;
-  if (visible('osb1') || visible('osb2')) {
-    const id = visible('osb2') ? 'osb2' : 'osb1';
-    let o = rect(xo0, 0, xo1 - xo0, G.Hw, { fill: 'var(--c-osb)', 'fill-opacity': shOp, stroke: 'var(--c-osb)', 'stroke-width': 0.05 });
-    for (let x = xo0 + 1.25; x < xo1 - 0.1; x += 1.25) o += line(x, 0, x, G.Hw, { stroke: 'var(--c-sculpt-line)', 'stroke-opacity': .25, 'stroke-width': 0.02 });
-    for (let y = 2.5; y < G.Hw; y += 2.5) o += line(xo0, y, xo1, y, { stroke: 'var(--c-sculpt-line)', 'stroke-opacity': .25, 'stroke-width': 0.02 });
-    if (visible('osb2')) o += rect(xo0 - 0.4, G.Hw, xo1 - xo0 + 0.8, G.rise, { fill: 'var(--c-osb)', 'fill-opacity': Math.min(1, shOp + .1), stroke: 'var(--c-sculpt-line)', 'stroke-width': 0.04 });
-    // двері для огляду
-    o += rect(P.W / 2 + 2.2, 0, 1.4, 2.2, { fill: 'var(--card)', 'fill-opacity': .85, stroke: 'var(--ink)', 'stroke-width': 0.05 });
-    o += text(P.W / 2 + 2.9, 2.5, 'двері', { 'font-size': fs * 0.75, 'text-anchor': 'middle' });
-    s += g(id, o);
-  }
-  if (visible('membrane')) {
-    const op = xr ? 0.28 : 0.92;
-    let m = rect(xo0, 0, xo1 - xo0, G.Hw, { fill: 'var(--c-membrane)', 'fill-opacity': op, stroke: 'var(--c-membrane)', 'stroke-width': 0.08 });
-    m += rect(xo0 - 0.4, G.Hw, xo1 - xo0 + 0.8, G.rise, { fill: 'var(--c-membrane)', 'fill-opacity': Math.min(1, op + .15), stroke: 'var(--c-membrane)', 'stroke-width': 0.08 });
-    for (let x = xo0 + 1.5; x < xo1; x += 1.5) m += line(x, G.Hw, x, G.Hw + G.rise, { stroke: 'var(--card)', 'stroke-opacity': .35, 'stroke-width': 0.03 });
-    s += g('membrane', m);
-  }
-  if (visible('vent')) {
-    let v = '';
-    const lowY = showBase ? P.hb + 0.3 : 0.4;
-    for (let x = xo0 + 1.5; x < xo1 - 1.5; x += 4) {
-      [[lowY, x], [G.Hw - 0.9, x + 2]].forEach(([y, xx]) => {
-        if (xx > xo1 - 1.5) return;
-        v += rect(xx, y, 1, 0.5, { fill: 'var(--card)', stroke: 'var(--c-vent)', 'stroke-width': 0.06 });
-        for (let k = 1; k < 4; k++) v += line(xx + 0.05, y + k * 0.125, xx + 0.95, y + k * 0.125, { stroke: 'var(--c-vent)', 'stroke-width': 0.035 });
-      });
+  if (m === 'drop') {
+    const Tt = Ht + 0.5;
+    s += truss(x0 - 0.2, 0, x0 - 0.2, Tt) + truss(x1 + 0.2, 0, x1 + 0.2, Tt) + truss(x0 - 0.4, Tt, x1 + 0.4, Tt);
+    s += R(x0 - 0.8, 0, 1.2, 0.25, { fill: 'var(--c-truss)' }) + R(x1 - 0.4, 0, 1.2, 0.25, { fill: 'var(--c-truss)' });
+    // падіння: верх тканини опускається з прискоренням, унизу збирається купа
+    const fall = clamp(t * t * 1.15);
+    const pile = 0.25 + 0.55 * fall;
+    const yt = Math.max(pile, Ht + 0.3 - (Ht + 0.3) * fall);
+    const spread = 0.6 * fall;
+    s += cloth(`M${x0 - spread},0 L${x0},${-yt} L${x1},${-yt} L${x1 + spread},0 Z`, op);
+    s += folds(x0, x1, 0, yt, Math.round((x1 - x0) / 1.2), op, 0.2 + fall * 0.6);
+    for (let i = 0; i <= 12; i++) {
+      const x = x0 + (x1 - x0) * i / 12;
+      s += R(x - 0.08, Tt - 0.45, 0.16, 0.25, { fill: t > 0 ? 'var(--good)' : 'var(--bad)' });
     }
-    s += g('vent', v);
-  }
-  if (showBase) {
-    const fillP = G.base === 'gabions' ? 'url(#pGab)' : 'url(#pBags)';
-    const dx0 = P.W / 2 + 2.0, dx1 = P.W / 2 + 3.8;  // прохід до дверей
-    const h = P.hb;
-    let bb = rect(bx0, 0, dx0 - bx0, h, { fill: fillP, stroke: 'var(--c-sculpt-line)', 'stroke-width': 0.04 }) +
-             rect(dx1, 0, bx1 - dx1, h, { fill: fillP, stroke: 'var(--c-sculpt-line)', 'stroke-width': 0.04 });
-    s += g('base', bb);
+    s += T(x1 + 0.6, Tt + 0.6, 'затискачі кабукі', { 'font-size': fs * 0.8, 'text-anchor': 'end', fill: 'var(--muted)' });
   }
 
-  // розміри
-  s += dimH(0, P.W, -1.1, `${fmt(P.W, 1)} м — скульптура`, fs);
-  s += dimV(bx0 - 0.9, 0, P.H, `${fmt(P.H, 1)} м`, fs);
-  s += dimH(xo0, xo1, top + 0.7, `${fmt(xo1 - xo0, 1)} м — укриття`, fs);
-  s += dimV(bx1 + 0.7, 0, G.Hw + G.rise, `${fmt(G.Hw + G.rise, 1)} м`, fs);
+  if (m === 'lift') {
+    const cx = x1 + 5.5, tipX = P.W / 2, tipY = 2 * Ht + 4.2;
+    s += R(cx - 1.6, 0.4, 4.6, 1.3, { fill: 'var(--c-crane)', rx: 0.2 }) + R(cx + 1.6, 1.7, 1.2, 1.0, { fill: 'var(--c-crane)' });
+    [cx - 1.0, cx + 0.4, cx + 2.4].forEach(wx => s += el('circle', { cx: wx, cy: -0.45, r: 0.45, fill: 'var(--c-rope)' }));
+    s += L(cx - 2.4, 0, cx - 2.4, 0.7, { stroke: 'var(--c-crane)', 'stroke-width': 0.2 }) + L(cx + 3.2, 0, cx + 3.2, 0.7, { stroke: 'var(--c-crane)', 'stroke-width': 0.2 });
+    s += L(cx, 1.8, tipX, tipY, { stroke: 'var(--c-crane)', 'stroke-width': 0.5, 'stroke-linecap': 'round' });
+    const lift = e * (Ht + 2.5);
+    const sw = (x1 - x0) * (1 - 0.15 * e);              // чохол трохи збирається
+    const cx0 = (x0 + x1) / 2 - sw / 2, cx1 = cx0 + sw;
+    const yTop = Ht + 0.6 + lift, yBot = lift + (0.15 + 0.25 * e);
+    s += L(tipX, tipY, tipX, yTop + 1.6, { stroke: 'var(--c-rope)', 'stroke-width': 0.05 });
+    s += L(tipX, yTop + 1.6, cx0 + 0.6, yTop + 0.25, { stroke: 'var(--c-rope)', 'stroke-width': 0.04 }) + L(tipX, yTop + 1.6, cx1 - 0.6, yTop + 0.25, { stroke: 'var(--c-rope)', 'stroke-width': 0.04 });
+    s += R(cx0 + 0.3, yTop, sw - 0.6, 0.25, { fill: 'var(--c-truss)' });          // траверса
+    s += cloth(`M${cx0},${-yBot} L${cx0 + 0.3},${-yTop} L${cx1 - 0.3},${-yTop} L${cx1},${-yBot} Q${(cx0 + cx1) / 2},${-(yBot - 0.5)} ${cx0},${-yBot} Z`, op);
+    s += folds(cx0, cx1, yBot, yTop, Math.round(sw / 1.4), op, 0.3 * e);
+    s += T(tipX, tipY + 0.5, `гак ≥ ${fmt(2 * Ht + 4)} м`, { 'font-size': fs * 0.85, 'text-anchor': 'middle', fill: 'var(--muted)' });
+  }
+
+  if (m === 'pull') {
+    const formTop = Ht;
+    const form = `M${x0},0 L${x0},${-(formTop - 1.6)} Q${x0},${-formTop} ${x0 + 2},${-formTop} L${x1 - 2},${-formTop} Q${x1},${-formTop} ${x1},${-(formTop - 1.6)} L${x1},0`;
+    s += `<path d="${form}" fill="none" stroke="var(--c-truss)" stroke-width="0.08" stroke-dasharray="0.3 0.15"/>`;
+    for (let x = x0 + 2; x < x1 - 1; x += 2.5) s += L(x, 0, x, formTop, { stroke: 'var(--c-truss)', 'stroke-width': 0.04, 'stroke-dasharray': '0.2 0.2' });
+    // тканина з'їжджає праворуч і збирається в складки
+    const dx = e * (x1 - x0 + 1.5);
+    const cx0 = x0 + dx, cx1 = x1 + dx * 0.25;
+    if (cx0 < cx1 - 0.3) {
+      const hL = formTop * (1 - 0.15 * e);
+      s += cloth(`M${cx0},0 L${cx0 + 0.3},${-(hL - 1.4)} Q${cx0 + 0.4},${-hL} ${cx0 + 2},${-hL} L${Math.max(cx0 + 2.1, cx1 - 2)},${-formTop} Q${cx1 + 0.2},${-formTop} ${cx1 + 0.2},${-(formTop - 1.6)} L${cx1 + 0.2 + e * 1.2},0 Z`, op);
+      s += folds(cx0, cx1, 0, hL - 0.4, Math.max(2, Math.round((cx1 - cx0) / 1.1)), op, 0.5 + e);
+    }
+    const px = x1 + 2.2 + e * 2.8;
+    for (let i = 0; i < 3; i++) {
+      const ay = formTop * (0.85 - i * 0.3);
+      s += L(cx1 + 0.2, ay, px + i * 1.3, 1.1, { stroke: 'var(--c-rope)', 'stroke-width': 0.05 });
+      const hx = px + i * 1.3 + 0.3, b = { stroke: 'var(--c-rope)', 'stroke-width': 0.12, 'stroke-linecap': 'round' };
+      s += el('circle', { cx: (hx + 0.35).toFixed(2), cy: -1.75, r: 0.22, fill: 'var(--c-rope)' }) + L(hx + 0.3, 1.5, hx, 0.6, b) +
+           L(hx, 0.6, hx - 0.3, 0, b) + L(hx, 0.6, hx + 0.35, 0, b) + L(hx + 0.25, 1.3, hx - 0.25, 1.1, b);
+    }
+  }
+
+  if (m === 'curtain') {
+    const Tt = Ht + 0.5;
+    s += truss(x0 - 0.2, 0, x0 - 0.2, Tt) + truss(x1 + 0.2, 0, x1 + 0.2, Tt) + truss(x0 - 0.4, Tt, x1 + 0.4, Tt);
+    s += L(x0, Tt - 0.35, x1, Tt - 0.35, { stroke: 'var(--c-rope)', 'stroke-width': 0.08 });
+    const half = (x1 - x0) / 2, bunch = 1.0;
+    const w = half - (half - bunch) * e;
+    const yt = Tt - 0.4;
+    s += cloth(`M${x0},0 L${x0},${-yt} L${x0 + w},${-yt} L${x0 + w},0 Z`, op) + folds(x0, x0 + w, 0, yt, Math.round(w / 0.5), op);
+    s += cloth(`M${x1 - w},0 L${x1 - w},${-yt} L${x1},${-yt} L${x1},0 Z`, op) + folds(x1 - w, x1, 0, yt, Math.round(w / 0.5), op);
+  }
+
+  // конфеті після відкриття
+  if (t > 0.7) {
+    const k = (t - 0.7) / 0.3, cols = ['#1f4fa3', '#f2c230', '#c4572a', '#2e8b57'];
+    for (let i = 0; i < 46; i++) {
+      const rx = x0 + ((i * 37) % 100) / 100 * (x1 - x0);
+      const ry = top - 0.5 - k * ((i * 53) % 100) / 100 * (top - 1);
+      s += R(rx, ry, 0.22, 0.12, { fill: cols[i % 4], transform: `rotate(${(i * 47) % 180} ${rx.toFixed(2)} ${(-ry).toFixed(2)})` });
+    }
+  }
+
+  s += dimH(0, P.W, -1.2, `${fmt(P.W, 1)} м`, fs);
+  s += dimV(x0 - 1.4, 0, P.H, `${fmt(P.H, 1)} м`, fs);
   svg.innerHTML = s;
-}
-
-// --- поперечний розріз ---
-function drawSection(P, G) {
-  const fs = 0.5;
-  const showBase = visible('base') && G.base;
-  const xl = -(P.c + FW), xr = P.D + P.c + FW;
-  const top = G.Hw + G.rise + 0.6;
-  const vx = xl - G.tw - (showBase ? G.tb + 0.4 : 0) - 1.4;
-  const vw = xr + G.tw + (showBase ? G.tb + 0.4 : 0) + 1.0 - vx;
-  const vy = -(top + 1.2), vh = top + 1.2 + 1.6;
-  const svg = $('section');
-  svg.setAttribute('viewBox', `${vx.toFixed(2)} ${vy.toFixed(2)} ${vw.toFixed(2)} ${vh.toFixed(2)}`);
-  let s = PATTERNS;
-  s += rect(vx, -1.6, vw, 1.6, { fill: 'var(--soft)' }) + line(vx, 0, vx + vw, 0, { stroke: 'var(--c-ground)', 'stroke-width': 0.06 });
-
-  // скульптура в перерізі
-  const ph = P.H / 9, bh = P.H - ph;
-  const pts = [[0.15,0],[0.2,0.25],[0.05,0.45],[0.1,0.75],[0.3,0.95],[0.5,1],[0.7,0.95],[0.9,0.75],[0.95,0.45],[0.8,0.25],[0.85,0],[0.62,0],[0.6,0.22],[0.4,0.22],[0.38,0]]
-    .map(([x, y]) => [x * P.D, -(ph + y * bh)]);
-  let sc = rect(-0.2, 0, P.D + 0.4, ph, { fill: 'var(--c-plinth)', stroke: 'var(--c-sculpt-line)', 'stroke-width': 0.04 });
-  sc += `<path d="${smooth(pts)}" fill="var(--c-sculpt)" stroke="var(--c-sculpt-line)" stroke-width="0.05"/>`;
-  sc += `<path d="M${0.32 * P.D},${-(ph + 0.93 * bh)} q${-0.25 * P.D},${-0.06 * bh} ${-0.2 * P.D},${-0.14 * bh} M${0.68 * P.D},${-(ph + 0.93 * bh)} q${0.25 * P.D},${-0.06 * bh} ${0.2 * P.D},${-0.14 * bh}" fill="none" stroke="var(--c-sculpt-line)" stroke-width="0.12" stroke-linecap="round"/>`;
-  s += g('sculpt', sc);
-
-  if (visible('wrap')) {
-    s += g('wrap', el('ellipse', { cx: (P.D / 2).toFixed(3), cy: (-(ph + 0.95 * bh)).toFixed(3), rx: (0.55 * P.D).toFixed(3), ry: (0.12 * bh + 0.4).toFixed(3),
-      fill: 'var(--c-wrap)', 'fill-opacity': .22, stroke: 'var(--c-wrap)', 'stroke-width': 0.07, 'stroke-dasharray': '0.25 0.15' }));
-  }
-
-  // зазор
-  s += dimH(-P.c, 0, 0.6 * ph + 0.9, '', fs);
-  s += text(-P.c / 2, 1.0 + 0.6 * ph + 0.35, 'зазор', { 'font-size': fs * 0.7, 'text-anchor': 'middle', fill: 'var(--muted)' });
-
-  const col = 'var(--c-frame)';
-  if (visible('frame')) {
-    let f = '';
-    const levels = Math.max(2, Math.round(G.Hw / 2)), lh = G.Hw / levels;
-    [[xl, xl + FW], [xr - FW, xr]].forEach(([a, b]) => {
-      f += line(a, 0, a, G.Hw, { stroke: col, 'stroke-width': 0.07 }) + line(b, 0, b, G.Hw, { stroke: col, 'stroke-width': 0.07 });
-      for (let j = 0; j <= levels; j++) f += line(a, j * lh, b, j * lh, { stroke: col, 'stroke-width': 0.05 });
-      for (let j = 0; j < levels; j++) f += line(a, j * lh, b, (j + 1) * lh, { stroke: col, 'stroke-width': 0.03 });
-      f += rect(a - 0.15, -0.05, b - a + 0.3, 0.12, { fill: col });      // опорні башмаки
-    });
-    // ферма
-    const ridge = G.Hw + G.rise - 0.4 * Math.tan(P.p * Math.PI / 180);
-    const xm = P.D / 2;
-    f += line(xl, G.Hw, xr, G.Hw, { stroke: col, 'stroke-width': 0.07 });
-    f += line(xl, G.Hw, xm, ridge, { stroke: col, 'stroke-width': 0.07 }) + line(xr, G.Hw, xm, ridge, { stroke: col, 'stroke-width': 0.07 });
-    f += line(xm, G.Hw, xm, ridge, { stroke: col, 'stroke-width': 0.04 });
-    f += line((xl + xm) / 2, G.Hw, xm, ridge, { stroke: col, 'stroke-width': 0.03 }) + line((xr + xm) / 2, G.Hw, xm, ridge, { stroke: col, 'stroke-width': 0.03 });
-    f += line((xl + xm) / 2, G.Hw, (xl + xm) / 2, (G.Hw + ridge) / 2, { stroke: col, 'stroke-width': 0.03 }) +
-         line((xr + xm) / 2, G.Hw, (xr + xm) / 2, (G.Hw + ridge) / 2, { stroke: col, 'stroke-width': 0.03 });
-    // анкери
-    f += line(xl + 0.1, 0, xl + 0.1, -1.0, { stroke: col, 'stroke-width': 0.05, 'stroke-dasharray': '0.15 0.08' }) +
-         line(xr - 0.1, 0, xr - 0.1, -1.0, { stroke: col, 'stroke-width': 0.05, 'stroke-dasharray': '0.15 0.08' });
-    s += g('frame', f);
-  }
-
-  // шари стіни та даху
-  let off = 0;
-  const tanp = Math.tan(P.p * Math.PI / 180);
-  const fillOf = { osb1: 'var(--c-osb)', wool: 'url(#pWool)', osb2: 'var(--c-osb)', membrane: 'var(--c-membrane)' };
-  ['osb1', 'wool', 'osb2', 'membrane'].forEach(k => {
-    if (!visible(k)) return;
-    const t = T[k];
-    let w = rect(xl - off - t, 0, t, G.Hw + 0.02, { fill: fillOf[k], stroke: 'var(--card)', 'stroke-width': 0.01 }) +
-            rect(xr + off, 0, t, G.Hw + 0.02, { fill: fillOf[k], stroke: 'var(--card)', 'stroke-width': 0.01 });
-    // скат даху: смуга над попередніми шарами, звис 0,4 м
-    const hx = xl - off - 0.4, xm = P.D / 2, cos = Math.cos(P.p * Math.PI / 180);
-    const ye = G.Hw + off / cos - 0.4 * tanp, yr = ye + (xm - hx) * tanp, n = t / cos;
-    const poly = [[hx, ye], [xm, yr], [2 * xm - hx, ye], [2 * xm - hx, ye + n], [xm, yr + n], [hx, ye + n]];
-    w += `<polygon points="${poly.map(([x, y]) => `${x.toFixed(3)},${(-y).toFixed(3)}`).join(' ')}" fill="${fillOf[k]}" stroke="var(--card)" stroke-width="0.01"/>`;
-    s += g(k, w);
-    off += t;
-  });
-
-  // мішки / габіони
-  if (showBase) {
-    const xo0 = xl - off, xo1 = xr + off, tb = G.tb, h = P.hb;
-    const fillP = G.base === 'gabions' ? 'url(#pGab)' : 'url(#pBags)';
-    let b;
-    if (G.base === 'gabions') {
-      b = rect(xo0 - tb, 0, tb, h, { fill: fillP, stroke: 'var(--ink)', 'stroke-width': 0.04 }) + rect(xo1, 0, tb, h, { fill: fillP, stroke: 'var(--ink)', 'stroke-width': 0.04 });
-    } else {
-      const topT = tb * 0.5;
-      const pl = [[xo0 - tb, 0], [xo0, 0], [xo0, h], [xo0 - topT, h]], pr = [[xo1, 0], [xo1 + tb, 0], [xo1 + topT, h], [xo1, h]];
-      b = [pl, pr].map(pp => `<polygon points="${pp.map(([x, y]) => `${x.toFixed(3)},${(-y).toFixed(3)}`).join(' ')}" fill="${fillP}" stroke="var(--c-sculpt-line)" stroke-width="0.04"/>`).join('');
-    }
-    s += g('base', b);
-  }
-
-  // вентиляція: потік повітря
-  if (visible('vent')) {
-    const yIn = (showBase ? P.hb : 0) + 0.4;
-    const ridge = G.Hw + G.rise;
-    const xm = P.D / 2;
-    let v = `<path d="M${(xl - off - 0.9).toFixed(2)},${(-yIn).toFixed(2)} L${(xl + FW + 0.2).toFixed(2)},${(-yIn).toFixed(2)} Q${(-P.c * 0.5).toFixed(2)},${(-G.Hw * 0.6).toFixed(2)} ${(xm - 0.4).toFixed(2)},${(-(ridge - 0.9)).toFixed(2)} L${(xm).toFixed(2)},${(-(ridge + 0.8)).toFixed(2)}" fill="none" stroke="var(--c-vent)" stroke-width="0.08" stroke-dasharray="0.3 0.18"/>`;
-    v += `<path d="M${(xm - 0.25).toFixed(2)},${(-(ridge + 0.5)).toFixed(2)} L${xm.toFixed(2)},${(-(ridge + 0.85)).toFixed(2)} L${(xm + 0.25).toFixed(2)},${(-(ridge + 0.5)).toFixed(2)}" fill="none" stroke="var(--c-vent)" stroke-width="0.08"/>`;
-    v += rect(xm - 0.7, ridge - 0.05, 1.4, 0.35, { fill: 'var(--card)', stroke: 'var(--c-vent)', 'stroke-width': 0.06 });
-    v += text(xl - off - 0.9, yIn + 0.25, 'повітря', { 'font-size': fs * 0.7, fill: 'var(--c-vent)' });
-    s += g('vent', v);
-  }
-
-  s += dimH(0, P.D, -0.9, `${fmt(P.D, 1)} м`, fs);
-  s += dimV(vx + 0.6, 0, G.Hw + G.rise, `${fmt(G.Hw + G.rise, 1)} м`, fs);
-  s += text(P.D / 2, G.Hw + G.rise + 1.1, `ухил ${P.p}°`, { 'font-size': fs, 'text-anchor': 'middle', class: 'dimt' });
-  svg.innerHTML = s;
-}
-
-// --- пиріг стіни ---
-function drawDetail(P, G) {
-  const rows = [
-    { id: 'sculpt', name: 'Скульптура (бронза)', t: '—', w: 1.0 },
-    { id: 'wrap', name: 'Обгортання деталей', t: 'геотекстиль + мати', w: 0.5, only: 'wrap' },
-    { id: 'gap', name: 'Повітряний зазор', t: `${fmt(P.c, 1)} м`, w: 1.2 },
-    { id: 'frame', name: 'Каркас (риштування)', t: '0,7–1 м', w: 1.3 },
-    { id: 'osb1', name: 'OSB-3 / фанера', t: '18 мм', w: 0.5 },
-    { id: 'wool', name: 'Базальтова вата', t: '100 мм', w: 0.8 },
-    { id: 'osb2', name: 'OSB-3 / фанера', t: '18 мм', w: 0.5 },
-    { id: 'membrane', name: 'Тент / мембрана', t: 'ПВХ, негорючий', w: 0.35 },
-    { id: 'base', name: G.base === 'gabions' ? 'Габіони' : 'Мішки з піском', t: G.base === 'gabions' ? '1 м' : '0,5–1 м', w: 1.3 },
-  ];
-  const shown = rows.filter(r => r.id === 'sculpt' || r.id === 'gap' || (visible(r.id) && (r.id !== 'base' || G.base)));
-  const H = 5, labW = 0;
-  let x = 0, s = PATTERNS, labels = '', list = '';
-  const total = shown.reduce((a, r) => a + r.w, 0);
-  const fillOf = { sculpt: 'var(--c-sculpt)', wrap: 'var(--c-wrap)', gap: 'var(--bg)', frame: 'var(--card)', osb1: 'var(--c-osb)', wool: 'url(#pWool)', osb2: 'var(--c-osb)', membrane: 'var(--c-membrane)', base: G.base === 'gabions' ? 'url(#pGab)' : 'url(#pBags)' };
-  shown.forEach((r, i) => {
-    let k = el('rect', { x: x.toFixed(3), y: 0, width: r.w.toFixed(3), height: H, fill: fillOf[r.id], stroke: 'var(--line)', 'stroke-width': 0.03,
-      'fill-opacity': r.id === 'wrap' ? .5 : 1 });
-    if (r.id === 'frame') {
-      k += el('line', { x1: x + 0.1, y1: 0, x2: x + 0.1, y2: H, stroke: 'var(--c-frame)', 'stroke-width': 0.12 }) +
-           el('line', { x1: x + r.w - 0.1, y1: 0, x2: x + r.w - 0.1, y2: H, stroke: 'var(--c-frame)', 'stroke-width': 0.12 });
-      for (let y = 0.2; y < H; y += 1.6) k += el('line', { x1: x + 0.1, y1: y, x2: x + r.w - 0.1, y2: y + 1.4, stroke: 'var(--c-frame)', 'stroke-width': 0.06 });
-    }
-    if (r.id === 'gap') k += el('text', { x: x + r.w / 2, y: H / 2, 'font-size': 0.32, 'text-anchor': 'middle', fill: 'var(--muted)', transform: `rotate(-90 ${x + r.w / 2} ${H / 2})` }, 'повітря');
-    s += r.id === 'gap' ? k : g(r.id, k);
-    labels += el('line', { x1: (x + r.w / 2).toFixed(3), y1: H + 0.1, x2: (x + r.w / 2).toFixed(3), y2: H + 0.35, stroke: 'var(--muted)', 'stroke-width': 0.03 });
-    labels += el('text', { x: (x + r.w / 2).toFixed(3), y: H + 0.75, 'font-size': 0.45, 'text-anchor': 'middle', fill: 'var(--acc)', 'font-weight': 800 }, i + 1);
-    list += `<li><b>${r.name}</b><small>${r.t}</small></li>`;
-    x += r.w;
-  });
-  const svg = $('detail');
-  svg.setAttribute('viewBox', `-0.2 -0.2 ${total + labW + 0.4} ${H + 1.2}`);
-  svg.innerHTML = s + labels;
-  $('dlist').innerHTML = list;
+  $('t').value = t;
 }
 
 // --- розрахунок ---
-function materials(P, G) {
-  const rad = P.p * Math.PI / 180;
-  const Hw = G.Hw;
-  const wall = 2 * (G.Ws + G.Ds) * Hw + G.Ds * G.rise;
-  const roof = 2 * (G.Ws + 0.8) * ((G.Ds / 2 + 0.4) / Math.cos(rad));
-  const env = wall + roof;
+function calc() {
+  const P = params(), m = st.m;
+  const Ws = P.W + 2 * P.c, Ds = P.D + 2 * P.c, Ht = P.H + P.c, per = 2 * (Ws + Ds);
+  const gsm = 0.2;   // кг/м², вогнетривкий поліестер / габардин
   const rows = [];
-  const has = id => activeLayers().includes(id) && st.on.has(id);
-  if (has('wrap')) rows.push(['Геотекстиль і базальтові мати на деталі', '4 зони × 2 зубри, ~4–6 м² кожна', `≈ ${fmt(8 * 5)} м²`]);
-  if (has('frame')) {
-    rows.push(['Рамне риштування', `периметр ${fmt(2 * (G.Ws + G.Ds), 1)} м × висота ${fmt(Hw, 1)} м`, `${fmt(2 * (G.Ws + G.Ds) * Hw)} м²`]);
-    rows.push(['Ферми даху', `крок 1,2 м по довжині ${fmt(G.Ws, 1)} м`, `${Math.ceil(G.Ws / 1.2) + 1} шт`]);
+  const add = (a, b, c) => rows.push([a, b, c]);
+  let area;
+  if (m === 'drop') {
+    area = per * (Ht + 0.3) * 1.08;
+    const towers = 2 * (Math.ceil(Ws / 6) + 1) + 2 * Math.max(0, Math.ceil(Ds / 6) - 1);
+    add('Тканина (4 полотнища)', `периметр ${fmt(per, 1)} м × висота ${fmt(Ht + 0.3, 1)} м + 8 % на шви й підгин`, `${fmt(area)} м²`);
+    add('Ферма — верхній пояс', 'по периметру', `${fmt(per, 1)} м`);
+    add('Ферма — опори з баластом', `кути + проміжні через ~6 м, висота ${fmt(Ht + 0.5, 1)} м`, `${towers} шт`);
+    add('Затискачі кабукі', 'через 0,5 м по периметру', `${Math.ceil(per / 0.5)} шт`);
+    add('Обважнення низу (ланцюг у кишені)', '~1 кг/м, щоб полотнище не парусило', `${fmt(per)} м`);
+    add('Люди', 'оператор + страхувальники по кутах', '5 осіб');
+  } else if (m === 'lift') {
+    area = (Ws * Ds + per * Ht) * 1.1;
+    const frame = Ws * 2 * 8;
+    add('Тканина-чохол', `верх ${fmt(Ws * Ds)} м² + боки ${fmt(per * Ht)} м², +10 %`, `${fmt(area)} м²`);
+    add('Траверса (рама з труб)', `${fmt(Ws, 1)} × ${fmt(Ds, 1)} м, ~8 кг/м`, `≈ ${fmt(frame)} кг`);
+    add('Вантаж на гаку', 'чохол + траверса + стропи', `≈ ${fmt(area * gsm + frame + 60)} кг`);
+    add('Висота гака', '2 × висота чохла + стропи й запас', `≥ ${fmt(2 * Ht + 4)} м`);
+    add('Виліт стріли', 'кран стоїть ~4 м від краю скульптури', `≈ ${fmt(Ds / 2 + 6)} м`);
+    add('Люди', 'кранівник, стропальник, 2 на відтяжках', '4 особи');
+  } else if (m === 'pull') {
+    area = (Ws * Ds + per * Ht) * 1.15;
+    const force = area * gsm * 9.81 * 0.6 + 400;   // тертя + запас на зачіпання, Н
+    add('Тканина (гладка, атлас або поліестер)', 'верх + боки, +15 % на звиси', `${fmt(area)} м²`);
+    add('Форма-шатро з дуг', `дуги через 1,5 м по довжині ${fmt(Ws, 1)} м`, `${Math.ceil(Ws / 1.5) + 1} дуг`);
+    add('Зусилля стягування', 'тертя тканини об форму + запас на зачіпання', `≈ ${fmt(force / 9.81)} кгс`);
+    add('Команда на тросах', '~20 кгс на людину, не менше 6', `${Math.max(6, Math.ceil(force / 196))} осіб`);
+    add('Троси', `4 шт по ${fmt(Ws + 10)} м`, `${fmt(4 * (Ws + 10))} м`);
+  } else {
+    area = Ws * (Ht + 0.3) * 1.5;
+    add('Завіса (дві половини)', `${fmt(Ws, 1)} × ${fmt(Ht + 0.3, 1)} м × 1,5 на складки`, `${fmt(area)} м²`);
+    add('Бокові нерухомі полотнища', 'якщо скульптуру видно збоку', `${fmt(2 * Ds * Ht)} м²`);
+    add('Фермовий портал', `2 опори по ${fmt(Ht + 0.5, 1)} м + балка ${fmt(Ws + 0.8, 1)} м`, `${fmt(2 * (Ht + 0.5) + Ws + 0.8, 1)} м`);
+    add('Рейка з бігунками', 'бігунок через 0,3 м', `${Math.ceil(Ws / 0.3)} шт`);
+    add('Люди', 'оператор мотора або 2 на шнурах + 2 страхувальники', '4 особи');
   }
-  const sheets = Math.ceil(env * 1.1 / SHEET);
-  if (has('osb1')) rows.push(['OSB-3 / фанера 18 мм, внутрішній шар', `стіни ${fmt(wall)} м² + дах ${fmt(roof)} м², +10 %, лист 2,5×1,25`, `${sheets} листів`]);
-  if (has('wool')) rows.push(['Базальтова вата 100 мм', `${fmt(env)} м² + 5 %`, `${fmt(env * 1.05)} м² (${fmt(env * 0.105, 1)} м³)`]);
-  if (has('osb2')) rows.push(['OSB-3 / фанера 18 мм, зовнішній шар + дах', 'так само, шви з розбіжкою', `${sheets} листів`]);
-  if (has('osb1') || has('osb2')) rows.push(['Антипірен для деревини', '~0,3 л/м² на дві сторони плит', `≈ ${fmt(env * (has('osb1') && has('osb2') ? 2 : 1) * 0.3 * 2)} л`]);
-  if (has('membrane')) rows.push(['Тент ПВХ з антипіреном / мембрана', `${fmt(env)} м² + 15 % на напуски`, `${fmt(env * 1.15)} м²`]);
-  if (has('vent')) rows.push(['Вентиляційні ґрати з сіткою', 'низ + під гребенем, ~1 % площі підлоги', `${fmt(G.Ws * G.Ds * 0.01, 1)} м²`]);
-  if (has('base') && G.base) {
-    const Pm = 2 * (G.Ws + G.Ds) + 4 * G.tb;
-    if (G.base === 'bags') {
-      const vol = Pm * P.hb * (G.tb * 0.75);
-      rows.push(['Мішки з піском (50×30 см)', `периметр ${fmt(Pm, 1)} м × ${fmt(P.hb, 1)} м × сер. ${fmt(G.tb * 0.75, 2)} м; ~40 шт/м³`, `≈ ${fmt(vol * 40)} шт`]);
-      rows.push(['Пісок', `${fmt(vol, 1)} м³ × 1,6 т/м³`, `≈ ${fmt(vol * 1.6)} т`]);
-    } else {
-      const vol = Pm * P.hb * G.tb;
-      rows.push(['Габіони 2×1×1 м', `периметр ${fmt(Pm, 1)} м × ${fmt(P.hb, 1)} м × 1 м`, `≈ ${Math.ceil(vol / 2)} шт`]);
-      rows.push(['Камінь / щебінь для заповнення', `${fmt(vol, 1)} м³ × 1,7 т/м³`, `≈ ${fmt(vol * 1.7)} т`]);
-    }
-  }
+  const mass = area * gsm;
+  rows.splice(1, 0, ['Маса тканини', '~200 г/м², вогнетривкий поліестер або габардин', `≈ ${fmt(mass)} кг`]);
   $('mat').innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td class="hint">${r[1]}</td><td class="n">${r[2]}</td></tr>`).join('');
 
-  // навантаження (дуже орієнтовно): вітер ~0,6 кПа, сніг ~1,6 кПа (Київ)
-  const Af = G.Ws * (Hw + G.rise);
-  const wind = Af * 0.6, snow = G.Ws * G.Ds * 1.6;
+  // вітер на фасад: F = 0,5·ρ·v²·Cf·A
+  const F = 0.5 * 1.225 * P.v * P.v * 1.3 * Ws * Ht;
+  const time = { drop: '1–2 с', lift: '15–30 с', pull: '3–6 с', curtain: '5–15 с' }[m];
   $('kpis').innerHTML = [
-    ['Габарит укриття', `${fmt(G.Ws, 1)} × ${fmt(G.Ds, 1)} м`],
-    ['Висота до гребеня', `${fmt(Hw + G.rise, 1)} м`],
-    ['Вітер на фасад, ≈', `${fmt(wind / 9.81)} т`],
-    ['Сніг на дах, ≈', `${fmt(snow / 9.81)} т`],
+    ['Площа тканини', `${fmt(area)} м²`],
+    ['Маса тканини', `${fmt(mass)} кг`],
+    ['Час відкриття', time],
+    ['Вітер на фасад', `${fmt(F / 9.81)} кгс`],
   ].map(([a, b]) => `<div class="kpi"><div>${a}</div><b>${b}</b></div>`).join('');
+  const lim = m === 'lift' ? [6, 9] : [8, 11];
+  let col, txt;
+  if (P.v <= lim[0]) { col = 'var(--good)'; txt = `<b>Вітер ${P.v} м/с — можна.</b> Тримайте обважнений низ і страхувальників по кутах.`; }
+  else if (P.v <= lim[1]) { col = 'var(--mid)'; txt = `<b>Вітер ${P.v} м/с — ризиковано.</b> Тканина парусить із силою ≈ ${fmt(F / 9.81)} кгс. Додайте обважнення, закріпіть низ до моменту сигналу і майте план Б.`; }
+  else { col = 'var(--bad)'; txt = `<b>Вітер ${P.v} м/с — не відкривати цим способом.</b> ${m === 'lift' ? 'Піднімати краном легкий великий вантаж при такому вітрі небезпечно.' : 'Покривало може зірвати або закрутити.'} План Б: зняти тканину заздалегідь, а на церемонії перерізати стрічку або відкрити меншу символічну завісу.`; }
+  $('verdict').style.borderColor = col;
+  $('verdict').innerHTML = txt;
 }
 
-// --- етапи ---
-function renderStep() {
-  const act = activeLayers();
-  const n = Math.min(st.step, act.length);
-  $('step').max = act.length;
-  $('step').value = n;
-  $('stepno').textContent = `${n} / ${act.length}`;
-  let html;
-  if (n === 0) html = `<h3>0. ${SURVEY.name}</h3><p>${SURVEY.text}</p>`;
-  else {
-    const L = LAYERS.find(l => l.id === act[n - 1]);
-    let t = L.text;
-    if (L.id === 'base' && VARIANTS[st.v].base === 'gabions') t = 'По периметру ставлять габіони 2×1×1 м у 2–4 яруси, заповнюють камінням або щебенем. Перед дверима лишають прохід із зламом, щоб уламки не залітали напряму.';
-    html = `<h3>${n}. ${L.step}</h3><p>${t}</p>`;
-  }
-  $('stepcard').innerHTML = html;
+function renderMethod() {
+  const M = METHODS[st.m];
+  $('method').innerHTML = `<div class="mhead"><h2 style="margin:0">${M.name}</h2><span class="tag ${M.rec ? 'rec' : ''}">${M.tag}</span></div>
+    <p style="margin-top:10px">${M.how}</p>
+    <div class="pc"><div><h3>Плюси</h3><ul class="list plus">${M.plus.map(x => `<li>${x}</li>`).join('')}</ul></div>
+    <div><h3>Мінуси</h3><ul class="list minus">${M.minus.map(x => `<li>${x}</li>`).join('')}</ul></div></div>
+    <div class="need"><b>Що потрібно:</b> ${M.need}</div>`;
+  $('stageTitle').textContent = M.name;
+  const montage = { drop: 'Монтаж ферми й навішування полотнищ на кабукі', lift: 'Огляд майданчика під кран, збирання траверси, накидання чохла', pull: 'Збирання форми-шатра з дуг і накидання тканини', curtain: 'Монтаж порталу й рейки, навішування завіси' }[st.m];
+  const TL = [
+    ['−4 тиж', 'Вибір способу і замовлення', 'Підрядник сцени чи крана, тканина з вогнетривким просоченням, погодження майданчика.'],
+    ['−2 тиж', 'Пошиття і проба', 'Шиють полотнища з кишенею під обважнення. Перевіряють на фрагменті, як тканина проходить повз роги.'],
+    ['−2 дні', montage, 'Монтаж напередодні. На ніч — охорона й огородження.'],
+    ['−1 день', 'Генеральна репетиція', 'Повне відкриття і знову накривання. Ставлять точки для фото, перевіряють сигнал і резервний спуск.'],
+    ['Ранок', 'Перевірка вітру', 'Дивляться фактичний вітер і прогноз. Якщо вітер понад межу — переходять на план Б.'],
+    ['−15 хв', 'Готовність', 'Зона 5 м довкола огороджена, люди на місцях, рації на зв’язку.'],
+    ['0:00', 'Відкриття', 'Ведучий: «Три, два, один!» — сигнал, покривало знімається, музика, оплески, фото.'],
+    ['+5 хв', 'Прибирання', 'Тканину складають і відносять, щоб не заважала фото. Ферму чи кран прибирають після заходу.'],
+  ];
+  $('tl').innerHTML = TL.map(([w, b, s]) => `<li><span class="when">${w}</span><b>${b}</b><span>${s}</span></li>`).join('');
 }
 
-function renderLegend() {
-  const act = activeLayers();
-  $('legend').innerHTML = LAYERS.map(L => {
-    const inV = act.includes(L.id);
-    let name = L.name;
-    if (L.id === 'base' && VARIANTS[st.v].base === 'gabions') name = 'Габіони з камінням';
-    if (L.id === 'base' && VARIANTS[st.v].base === 'bags') name = 'Мішки з піском';
-    const sw = L.id === 'base' ? (VARIANTS[st.v].base === 'gabions' ? '--c-gabion' : '--c-bags') : L.color;
-    return `<li data-id="${L.id}" class="${inV ? '' : 'na'} ${st.on.has(L.id) ? '' : 'off'}">
-      <input type="checkbox" ${st.on.has(L.id) ? 'checked' : ''} aria-label="${name}">
-      <span class="sw" style="background:${css(sw)}"></span>
-      <span><b>${name}</b><small>${L.short}</small></span></li>`;
-  }).join('');
-}
-
-function render() {
+function update() {
   const P = params();
   $('oW').textContent = `${fmt(P.W, 1)} м`; $('oH').textContent = `${fmt(P.H, 1)} м`; $('oD').textContent = `${fmt(P.D, 1)} м`;
-  $('oC').textContent = `${fmt(P.c, 1)} м`; $('oP').textContent = `${P.p}°`; $('oB').textContent = `${fmt(P.hb, 1)} м`;
-  $('baseCtl').style.display = VARIANTS[st.v].base ? '' : 'none';
-  const G = geom(P);
-  drawFront(P, G); drawSection(P, G); drawDetail(P, G); materials(P, G); renderStep();
+  $('oC').textContent = `${fmt(P.c, 1)} м`; $('oV').textContent = `${P.v} м/с`;
+  draw(); calc();
 }
 
-function setVariant(v) {
-  st.v = v;
-  st.on = new Set(VARIANTS[v].layers);
-  st.step = 99;
-  if (VARIANTS[v].hb) $('B').value = VARIANTS[v].hb;
-  document.querySelectorAll('#seg button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
-  $('vdesc').textContent = VARIANTS[v].desc;
-  renderLegend(); render();
+function setMethod(m) {
+  stop(); st.m = m; st.t = 0;
+  document.querySelectorAll('#seg button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+  renderMethod(); update();
+}
+function stop() { if (st.anim) cancelAnimationFrame(st.anim); st.anim = null; $('open').disabled = false; }
+function animate(dur) {
+  stop(); $('open').disabled = true;
+  const t0 = performance.now(), from = st.t;
+  const step = now => {
+    st.t = clamp(from + (now - t0) / dur);
+    draw();
+    if (st.t < 1) st.anim = requestAnimationFrame(step); else stop();
+  };
+  st.anim = requestAnimationFrame(step);
 }
 
-// --- події ---
-document.querySelectorAll('#seg button').forEach(b => b.addEventListener('click', () => { stopPlay(); setVariant(b.dataset.v); }));
-['W', 'H', 'D', 'C', 'P', 'B', 'xray'].forEach(id => $(id).addEventListener('input', render));
-$('step').addEventListener('input', e => { stopPlay(); st.step = +e.target.value; render(); });
-$('prev').addEventListener('click', () => { stopPlay(); st.step = Math.max(0, Math.min(st.step, activeLayers().length) - 1); render(); });
-$('next').addEventListener('click', () => { stopPlay(); st.step = Math.min(activeLayers().length, st.step + 1); render(); });
-let timer = null;
-function stopPlay() { if (timer) { clearInterval(timer); timer = null; $('play').textContent = '▶ Показати'; } }
-$('play').addEventListener('click', () => {
-  if (timer) return stopPlay();
-  st.step = 0; render();
-  $('play').textContent = '⏸ Пауза';
-  timer = setInterval(() => {
-    if (st.step >= activeLayers().length) return stopPlay();
-    st.step++; render();
-  }, 1600);
+$('colors').innerHTML = COLORS.map(([n, c], i) => `<button style="background:${c}" data-c="${c}" title="${n}" aria-label="${n}" class="${i ? '' : 'on'}"></button>`).join('');
+$('colors').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  st.color = b.dataset.c;
+  document.querySelectorAll('#colors button').forEach(x => x.classList.toggle('on', x === b));
+  draw();
 });
-$('legend').addEventListener('click', e => {
-  const li = e.target.closest('li'); if (!li) return;
-  const id = li.dataset.id;
-  if (st.on.has(id)) st.on.delete(id); else st.on.add(id);
-  renderLegend(); render();
+document.querySelectorAll('#seg button').forEach(b => b.addEventListener('click', () => setMethod(b.dataset.m)));
+['W', 'H', 'D', 'C', 'V'].forEach(id => $(id).addEventListener('input', update));
+$('xray').addEventListener('change', draw);
+$('t').addEventListener('input', e => { stop(); st.t = +e.target.value; draw(); });
+$('open').addEventListener('click', () => {
+  if (st.t >= 1) st.t = 0;
+  animate({ drop: 1600, lift: 3200, pull: 2600, curtain: 2600 }[st.m]);
 });
-function focusLayer(id) {
-  ['front', 'section', 'detail'].forEach(sid => {
-    const svg = $(sid);
-    svg.classList.toggle('focusing', !!id);
-    svg.querySelectorAll('[data-l]').forEach(n => n.classList.toggle('hl', n.dataset.l === id));
-  });
-}
-$('legend').addEventListener('mouseover', e => { const li = e.target.closest('li'); if (li) focusLayer(li.dataset.id); });
-$('legend').addEventListener('mouseleave', () => focusLayer(null));
+$('reset').addEventListener('click', () => { stop(); st.t = 0; draw(); });
 
-setVariant('shrapnel');
+setMethod('drop');
 </script>
 </body>
 </html>
