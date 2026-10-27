@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SPE Академія — інтерактивні курси</title>
+<meta name="description" content="SPE Академія: інтерактивні курси Романа Кушніра — тайм-менеджмент, фінансова грамотність, ораторське мистецтво, систематизація бізнесу, управління колективом. Сам обираєш дедлайн від 2 до 20 днів: встигнеш — гроші повертаються.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Згенеровано з kursy/akademiia.html — правити там і запускати node kursy/build.mjs */
+  :root {
+    --bg: #ececec; --paper: #f7f7f7; --surface: #ffffff; --text: #1f1f22; --muted: #66666d; --faint: #9a9aa1; --line: #e2e2e4;
+    --brand: #1f1f22; --hi: #f57c00; --ok: #1f9a43;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .07); --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121214; --paper: #1a1a1d; --surface: #232327; --text: #ededf0; --muted: #a5a5ad; --faint: #75757d; --line: #303035; --brand: #ededf0;
+      --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121214; --paper: #1a1a1d; --surface: #232327; --text: #ededf0; --muted: #a5a5ad; --faint: #75757d; --line: #303035; --brand: #ededf0;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--hi); outline-offset: 2px; }
+  .wrap { width: min(1100px, 100% - 32px); margin: 0 auto; padding: 0 0 60px; }
+  h1, h2, h3 { font-family: "Unbounded", sans-serif; line-height: 1.12; text-wrap: balance; }
+  h1 { font-size: clamp(30px, 5.4vw, 58px); margin: 12px 0 16px; }
+  h2 { font-size: clamp(22px, 3.4vw, 32px); margin: 0 0 18px; }
+  h3 { font-size: 18px; margin: 0 0 6px; }
+  .kicker { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 800; }
+  .lead { font-size: 19px; color: var(--muted); max-width: 640px; margin: 0 0 24px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  section { margin-top: 28px; }
+  .sheet { background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(20px, 4vw, 44px); }
+  .btn { display: inline-block; border-radius: 12px; padding: 14px 22px; font-weight: 700; font-size: 17px; text-decoration: none; border: 1px solid var(--line); background: var(--surface); color: var(--text); }
+  .btn.main { background: var(--brand); color: var(--bg); border-color: var(--brand); }
+  .btn:hover { transform: translateY(-1px); }
+  .cta { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; }
+  .brand i { font-style: normal; width: 36px; height: 36px; border-radius: 10px; background: var(--brand); color: var(--bg); display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-size: 12px; }
+  .top nav { display: flex; gap: 18px; font-size: 14px; font-weight: 600; flex-wrap: wrap; justify-content: flex-end; }
+  .top nav a { color: var(--muted); text-decoration: none; }
+  .top nav a:hover { color: var(--text); }
+
+  .hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 30px; align-items: center; background: var(--paper); border-radius: 28px; box-shadow: var(--shadow); padding: clamp(24px, 5vw, 60px); margin-top: 0; overflow: hidden; }
+  .stack { position: relative; height: 360px; }
+  .stack a { position: absolute; width: 74%; height: 64px; border-radius: 18px; padding: 0 18px; color: #fff; text-decoration: none; box-shadow: 0 18px 40px rgba(0,0,0,.18); display: flex; gap: 12px; align-items: center; transition: transform .25s; }
+  .stack a:hover { transform: translateX(-8px) rotate(0deg) !important; z-index: 9; }
+  .stack a span { font-size: 34px; }
+  .stack a b { font-family: "Unbounded", sans-serif; font-size: 15px; line-height: 1.2; }
+  .strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .strip div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+  .strip b { display: block; font-family: "Unbounded", sans-serif; font-size: 30px; }
+  .strip span { color: var(--muted); font-size: 14px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
+  .card { --accent: #888; background: var(--paper); border-radius: 22px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; text-decoration: none; color: var(--text); transition: transform .2s, box-shadow .2s; border: 1px solid transparent; }
+  .card:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .card-top { background: var(--accent); color: #fff; padding: 20px 22px 18px; display: flex; flex-wrap: wrap-reverse; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card-top .em { font-size: 44px; line-height: 1; }
+  .card-top h3 { font-size: 20px; margin: 10px 0 0; }
+  .card-top .meta { font-size: 12px; background: rgba(255,255,255,.18); border-radius: 999px; padding: 3px 10px; white-space: nowrap; font-weight: 700; }
+  .card-body { padding: 18px 22px 22px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .card-body .hook { font-weight: 700; font-size: 15px; margin: 0; }
+  .card-body ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; color: var(--muted); }
+  .card-body li { display: flex; gap: 8px; }
+  .card-body li::before { content: "✓"; color: var(--accent); font-weight: 800; }
+  .card-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .st { font-size: 13px; font-weight: 700; border-radius: 999px; padding: 4px 10px; background: var(--surface); border: 1px solid var(--line); }
+  .st.go { border-color: var(--accent); color: var(--accent); }
+  .st.ok { border-color: var(--ok); color: var(--ok); }
+  .more { font-weight: 800; color: var(--accent); }
+  .pbar { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+  .pbar i { display: block; height: 100%; background: var(--accent); }
+
+  .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .how div { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+  .how .n { font-family: "Unbounded", sans-serif; color: var(--hi); font-size: 14px; }
+  .how b { display: block; font-size: 17px; margin: 6px 0; }
+  .how p { margin: 0; color: var(--muted); font-size: 15px; }
+  .prices { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 18px; }
+  .prices div { text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 6px; }
+  .prices b { display: block; font-family: "Unbounded", sans-serif; font-size: 20px; }
+  .prices span { font-size: 13px; color: var(--muted); }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  .compare div { border-radius: 18px; padding: 18px; }
+  .compare .bad { background: var(--surface); border: 1px solid var(--line); }
+  .compare .good { background: var(--brand); color: var(--bg); }
+  .compare ul { margin: 8px 0 0; padding-left: 18px; }
+
+  .author { display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: start; }
+  .ava { width: 220px; aspect-ratio: 1; border-radius: 28px; background: linear-gradient(135deg, #f57c00, #be123c 50%, #1d4ed8); color: #fff; display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-size: 64px; overflow: hidden; }
+  .ava img { width: 100%; height: 100%; object-fit: cover; }
+  .proof { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0; }
+  .proof div { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+  .proof b { display: block; font-family: "Unbounded", sans-serif; font-size: 26px; color: var(--hi); }
+  .proof span { font-size: 13px; color: var(--muted); }
+  .books { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .books span { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 6px 10px; font-size: 13px; }
+  .quote { border-left: 4px solid var(--hi); padding: 4px 0 4px 16px; font-size: 18px; font-style: italic; margin: 16px 0 0; }
+  .faq details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  .faq summary { font-weight: 700; cursor: pointer; font-size: 16px; }
+  .faq p { margin: 8px 0 0; color: var(--muted); }
+  .contacts { display: flex; flex-wrap: wrap; gap: 10px; }
+  footer { text-align: center; color: var(--faint); font-size: 13px; margin-top: 30px; }
+
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: 1fr; }
+    .stack { height: 360px; }
+    .stack a { width: 88%; }
+    .strip { grid-template-columns: 1fr 1fr; }
+    .how, .compare { grid-template-columns: 1fr; }
+    .prices { grid-template-columns: repeat(3, 1fr); }
+    .author { grid-template-columns: 1fr; }
+    .ava { width: 140px; font-size: 44px; }
+    .proof { grid-template-columns: 1fr; }
+    .top nav a.opt-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#"><i>SPE</i><span>Академія</span></a>
+    <nav><a href="#courses">Курси</a><a href="#how">Як це працює</a><a class="opt-nav" href="#author">Автор</a><a class="opt-nav" href="#contacts">Контакти</a></nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="kicker">SPE Академія · інтерактивні курси Романа Кушніра</div>
+      <h1>Навчання, яке ти нарешті доведеш до кінця</h1>
+      <p class="lead">Пʼять практичних курсів про час, гроші, слово, бізнес і людей. Ти сам ставиш собі дедлайн і заставу. Встигаєш — курс для тебе безкоштовний.</p>
+      <div class="cta"><a class="btn main" href="#courses">Обрати курс</a><a class="btn" href="#how">Як це працює</a></div>
+    </div>
+    <div class="stack" id="stack"></div>
+  </div>
+
+  <section class="strip" id="strip"></section>
+
+  <section id="courses">
+    <div class="kicker">Курси</div>
+    <h2>Обери, що прокачати першим</h2>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="sheet" id="how">
+    <div class="kicker">Формат</div>
+    <h2>Платиш, тільки якщо здаєшся</h2>
+    <p class="lead">Більшість онлайн-курсів купують і не проходять. Гроші вже сплачено, тож поспішати нікуди — і курс лежить у закладках роками. Ми перевернули цю модель.</p>
+    <div class="how">
+      <div><span class="n">01</span><b>Обираєш термін</b><p>Від 2 до 20 днів. Що коротший термін, то менша сума: ти зацікавлений(-а) вчитися швидко.</p></div>
+      <div><span class="n">02</span><b>Сума блокується</b><p>Гроші не списуються, а лише резервуються на картці. Відкривається перший урок, решта — по черзі.</p></div>
+      <div><span class="n">03</span><b>Встиг — 100% повертаються</b><p>Пройшов(-ла) фінальний урок до дедлайну — блокування знімається. Не встиг — сума списується.</p></div>
+    </div>
+    <div class="prices" id="prices"></div>
+    <div class="compare">
+      <div class="bad"><b>Звичайний онлайн-курс</b><ul><li>Платиш одразу і назавжди</li><li>Усі уроки відкриті — «подивлюсь потім»</li><li>Немає дедлайну — немає фінішу</li></ul></div>
+      <div class="good"><b>Курс SPE Академії</b><ul><li>Платиш, тільки якщо не дотримав слова</li><li>Уроки відкриваються по черзі, після завдання</li><li>Дедлайн, графік темпу і фініш</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sheet" id="author">
+    <div class="author">
+      <div class="ava" id="ava"></div>
+      <div>
+        <div class="kicker">Автор курсів</div>
+        <h2 id="aName" style="margin-bottom:6px"></h2>
+        <p class="muted" id="aRole" style="margin:0"></p>
+        <div class="proof" id="aProof"></div>
+        <p id="aBio"></p>
+        <div class="books" id="aBooks"></div>
+        <p class="quote" id="aQuote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet faq">
+    <div class="kicker">Питання</div>
+    <h2>Часті питання</h2>
+    <details><summary>Чому максимум 20 днів?</summary><p>Банк дозволяє тримати блокування на картці не довше 30 днів, тож довший термін неможливий. А 20 днів вистачає на будь-який курс у спокійному темпі.</p></details>
+    <details><summary>Що буде, якщо я не встигну?</summary><p>Заблокована сума списується. Але доступ до матеріалів залишається: курс можна пройти до кінця для себе.</p></details>
+    <details><summary>Скільки часу на день треба?</summary><p>Кожен курс — 30 підуроків приблизно по 15 хвилин: відео і завдання. За 10 днів це близько 45 хвилин на день.</p></details>
+    <details><summary>Чи можна подивитися курс до оплати?</summary><p>Так. На сторінці кожного курсу є програма і безкоштовний пробний підурок.</p></details>
+    <details><summary>Чи підходять курси підліткам?</summary><p>Тайм-менеджмент, фінансова грамотність і ораторське мистецтво написані так, щоб їх могли пройти школярі й студенти. Систематизація бізнесу та управління колективом — для підприємців і керівників.</p></details>
+  </section>
+
+  <section class="sheet" id="contacts">
+    <div class="kicker">Контакти</div>
+    <h2>Питання про курси чи навчання для команди?</h2>
+    <div class="contacts" id="cts"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+// Дані автора — спільні для головної сторінки і всіх курсів. photo — шлях до фото (поки порожньо — ініціали).
+const AUTHOR = {
+  name: 'Роман Кушнір',
+  initials: 'РК',
+  photo: '',
+  org: 'SPE школа розвитку',
+  role: 'Засновник SPE — школи розвитку і консалтингу для бізнесу, бізнес-консультант, автор 21 книги',
+  proof: [['21', 'книга про управління і розвиток'], ['250+', 'компаній, яким SPE допомогла систематизувати бізнес'], ['1000+', 'проведених тренінгів для керівників і команд']],
+  bio: 'За робочими зошитами і щоденниками SPE вчаться школярі Campus 13, підприємці «Бізнес-інкубатора» і керівники курсу «Суперкерівник». Кожен курс тут зібраний із цих матеріалів: мінімум води, максимум вправ, після яких щось змінюється у твоєму житті чи бізнесі.',
+  books: ['Поведінка людини у формулах і моделях (Коло, 2017)', 'Історії і притчі для особистісного зростання (Коло, 2013)', 'Щоденники успіху'],
+  quote: 'Добрий бізнес — це системний бізнес. Якщо компанія не може прожити без власника два тижні, у власника не бізнес, а дуже дорога робота.',
+  contacts: { telegram: 'spe_lviv', email: 'info@spe.org.ua', site: 'https://www.spe.org.ua', phone: '+380675819591' },
+};
+
+const COURSES = [
+ {
+  "key": "spe-kurs-taim-v1",
+  "file": "kurs-taim-menedzhment.html",
+  "title": "Тайм-менеджмент",
+  "emoji": "⏳",
+  "accent": "#f57c00",
+  "card": "Як встигати головне і не вигоряти: цілі, пріоритети, хронофаги, план дня.",
+  "hook": "У тебе ті самі 24 години, що й у тих, хто встигає все. Різниця — у системі.",
+  "outcomes": [
+   "Маєш одну велику ціль, розкладену на сходи від 20 років до «просто зараз»",
+   "Формулюєш цілі за SMART — з цифрою і датою",
+   "Знаєш свій коефіцієнт прогресу і де найбільший розрив"
+  ],
+  "lessons": 10,
+  "steps": 30,
+  "q": 24,
+  "lessonTitles": [
+   "Сходи до мети X / Y",
+   "SMART-ціль",
+   "Сходинки пріоритетів",
+   "Коефіцієнт прогресу",
+   "Проактивність",
+   "Хронофаги",
+   "Ранок і звички",
+   "Матриця Ейзенхауера",
+   "План дня 1–3–5 і тиждень 80/20",
+   "ЕКГ, 10 000 годин і фінал"
+  ]
+ },
+ {
+  "key": "spe-kurs-finansy-v1",
+  "file": "kurs-finansova-hramotnist.html",
+  "title": "Фінансова грамотність",
+  "emoji": "💰",
+  "accent": "#15803d",
+  "card": "Гроші як гра з правилами: бюджет, капітал, складні відсотки і власний фінансовий план.",
+  "hook": "Гроші — це гра. Більшість грає в неї все життя, так і не дізнавшись правил.",
+  "outcomes": [
+   "Розумієш правила гри «Гроші»: активний дохід, капітал і пасивний дохід",
+   "Знаєш, куди йде кожна гривня, і ведеш бюджет",
+   "Відкладаєш відсоток від кожного доходу ще до витрат"
+  ],
+  "lessons": 10,
+  "steps": 30,
+  "q": 18,
+  "lessonTitles": [
+   "Навіщо тобі гроші",
+   "Гра «Гроші»: АД, ІК, ПД",
+   "Пʼять кроків гри",
+   "Мій бюджет",
+   "Складні відсотки",
+   "Капітал і його рівні",
+   "Активи і пасиви",
+   "Думки про гроші",
+   "Фінансова ціль і план на 5 років",
+   "Інвестиційний план і фінал"
+  ]
+ },
+ {
+  "key": "spe-kurs-oratorstvo-v1",
+  "file": "kurs-oratorske-mystetstvo.html",
+  "title": "Ораторське мистецтво",
+  "emoji": "🎤",
+  "accent": "#7c3aed",
+  "card": "Виступати без паніки: стан, увага залу, історії, структура 20/60/20 і відповіді на запитання.",
+  "hook": "Тебе слухатимуть не тому, що ти говориш довго, а тому, що від тебе неможливо відірватися.",
+  "outcomes": [
+   "Маєш план Б на кожен свій страх і ритуал перед виходом",
+   "Знаєш своє колесо оратора і що тренувати першим",
+   "Вмієш привернути увагу словом, голосом і рухом"
+  ],
+  "lessons": 10,
+  "steps": 30,
+  "q": 19,
+  "lessonTitles": [
+   "Страх і колесо оратора",
+   "Як тебе сприймають",
+   "Стан перед виступом",
+   "Привернути увагу",
+   "Утримати увагу",
+   "Історії та самопрезентація",
+   "Формула 20 / 60 / 20",
+   "Відповіді на запитання",
+   "Як ставити запитання",
+   "Імпровізація і фінал"
+  ]
+ },
+ {
+  "key": "spe-kurs-biznes-v1",
+  "file": "kurs-systematyzatsiia-biznesu.html",
+  "title": "Систематизація бізнесу",
+  "emoji": "🏗️",
+  "accent": "#1d4ed8",
+  "card": "Бізнес, який працює без вас: архітектура, клієнти, лунка продажів, процеси, KPI і бюджети.",
+  "hook": "Якщо компанія не може прожити без власника два тижні — у власника не бізнес, а дуже дорога робота.",
+  "outcomes": [
+   "Бачите свій бізнес як систему з 11 елементів і знаєте слабкі вузли",
+   "Маєте місію, цілі й «концепцію їжака»",
+   "Знаєте своїх клієнтів: 20/80, ABC і пожиттєву цінність"
+  ],
+  "lessons": 10,
+  "steps": 30,
+  "q": 20,
+  "lessonTitles": [
+   "Бізнес — жива система",
+   "Цілі і концепція їжака",
+   "Бізнес-модель і цінності",
+   "Клієнти",
+   "Куди йде кожна гривня",
+   "Лунка продажів",
+   "Маркетинг як система",
+   "Чек-листи і процеси",
+   "Оргструктура і KPI",
+   "Бюджет і фінал"
+  ]
+ },
+ {
+  "key": "spe-kurs-kolektyv-v1",
+  "file": "kurs-upravlinnia-kolektyvom.html",
+  "title": "Управління колективом",
+  "emoji": "👥",
+  "accent": "#be123c",
+  "card": "Стати суперкерівником: стиль, делегування, наради, добір, утримання найкращих і зміни.",
+  "hook": "Усі проблеми колективу завжди стосуються керівника. І це хороша новина: значить, ви можете їх вирішити.",
+  "outcomes": [
+   "Знаєте свій стиль управління і код за Адізесом",
+   "Працюєте більше «над фірмою», ніж «на фірмі»",
+   "Будуєте добір від аватара працівника до новака"
+  ],
+  "lessons": 10,
+  "steps": 30,
+  "q": 22,
+  "lessonTitles": [
+   "Стиль управління",
+   "Самоорганізація керівника",
+   "Добір людей",
+   "Комунікація і наради",
+   "Делегування і контроль",
+   "Втримати найкращих",
+   "Внутрішнє навчання",
+   "Банк ідей",
+   "Звільнення",
+   "Монстр змін і фінал"
+  ]
+ }
+];
+(() => {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const price = (d) => Math.round(45 * (1000 / 45) ** ((d - 2) / 18) / 5) * 5;
+  const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c; };
+  const read = (k) => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } };
+
+  $('#stack').innerHTML = COURSES.map((c, i) => `<a href="${c.file}" style="background:${c.accent};top:${i * 72}px;left:${i % 2 ? 22 : 4}%;transform:rotate(${[-3, 2, -1, 3, -2][i]}deg);z-index:${i}"><span>${c.emoji}</span><b>${esc(c.title)}</b></a>`).join('');
+  const steps = COURSES.reduce((a, c) => a + c.steps, 0), lessons = COURSES.reduce((a, c) => a + c.lessons, 0);
+  $('#strip').innerHTML = [[COURSES.length, 'курсів'], [lessons, 'уроків'], [steps, 'відео-підуроків із завданнями'], ['0 ₴', 'якщо встигнеш до дедлайну']].map(([b, s]) => `<div><b>${b}</b><span>${s}</span></div>`).join('');
+
+  $('#grid').innerHTML = COURSES.map((c) => {
+    const s = read(c.key);
+    let st = '<span class="st">Не розпочато</span>', bar = '';
+    if (s && s.paid) {
+      const n = s.n || Object.keys(s.done || {}).length, t = s.total || c.steps;
+      if (s.finishedAt) st = `<span class="st ok">${s.finishedAt <= s.deadline ? 'Пройдено вчасно ✓' : 'Пройдено'}</span>`;
+      else if (Date.now() > s.deadline) st = '<span class="st">Термін минув</span>';
+      else { const d = Math.ceil((s.deadline - Date.now()) / 864e5); st = `<span class="st go">${n} з ${t} · ще ${d} ${plural(d, 'день', 'дні', 'днів')}</span>`; }
+      bar = `<div class="pbar"><i style="width:${n / t * 100}%"></i></div>`;
+    }
+    return `<a class="card" href="${c.file}" style="--accent:${c.accent}">
+      <div class="card-top"><div><div class="em">${c.emoji}</div><h3>${esc(c.title)}</h3></div><span class="meta">${c.lessons} уроків · ${c.steps} відео</span></div>
+      <div class="card-body"><p class="hook">${esc(c.card)}</p><ul>${c.outcomes.map((o) => `<li>${esc(o)}</li>`).join('')}</ul>${bar}
+      <div class="card-foot">${st}<span class="more">Детальніше →</span></div></div></a>`;
+  }).join('');
+
+  $('#prices').innerHTML = [2, 5, 10, 14, 20].map((d) => `<div><b>${price(d)} ₴</b><span>${d} ${plural(d, 'день', 'дні', 'днів')}</span></div>`).join('');
+
+  const A = AUTHOR;
+  $('#ava').innerHTML = A.photo ? `<img src="${esc(A.photo)}" alt="${esc(A.name)}">` : esc(A.initials);
+  $('#aName').textContent = A.name; $('#aRole').textContent = A.role;
+  $('#aProof').innerHTML = A.proof.map(([b, s]) => `<div><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('');
+  $('#aBio').textContent = A.bio;
+  $('#aBooks').innerHTML = A.books.map((b) => `<span>📘 ${esc(b)}</span>`).join('');
+  $('#aQuote').textContent = `«${A.quote}»`;
+  const C = A.contacts, links = [];
+  if (C.telegram) links.push([`https://t.me/${C.telegram}`, '✈️ Telegram']);
+  if (C.phone) links.push([`tel:${C.phone}`, `📞 ${C.phone}`]);
+  if (C.email) links.push([`mailto:${C.email}`, `✉️ ${C.email}`]);
+  if (C.site) links.push([C.site, `🌐 ${C.site.replace(/^https?:\/\/(www\.)?/, '')}`]);
+  $('#cts').innerHTML = links.map(([h, t]) => `<a class="btn" href="${esc(h)}" target="_blank" rel="noopener">${esc(t)}</a>`).join('');
+  $('#foot').textContent = `${A.org} · ${A.name}`;
+})();
+</script>
+</body>
+</html>
