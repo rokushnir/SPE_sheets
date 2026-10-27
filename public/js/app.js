@@ -623,7 +623,7 @@ async function requestTurn(req) {
     await sleep(250);
   }
   for (const q of result.questions) {
-    const m = { who: q.who, text: q.text, mood: "thinking", to: "player", q: true };
+    const m = { who: q.who, text: q.text, mood: "thinking", to: "player", q: true, block: q.block };
     state.transcript.push(m);
     $("feed").append(bubble(m));
     scrollFeed();
