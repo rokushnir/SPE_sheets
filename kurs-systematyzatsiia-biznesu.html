@@ -1,0 +1,1129 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Курс «Систематизація бізнесу» — SPE Академія</title>
+<meta name="description" content="Інтерактивний курс Романа Кушніра «Систематизація бізнесу». Бізнес, який працює без вас: архітектура, клієнти, лунка продажів, процеси, KPI і бюджети. 10 уроків, 30 відео-підуроків. Обираєш термін від 2 до 20 днів: встигнеш — гроші повертаються.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Згенеровано з kursy/engine.html — правити там і запускати node kursy/build.mjs */
+  :root {
+    --accent: #1d4ed8;
+    --bg: #ececec; --paper: #f7f7f7; --surface: #ffffff; --text: #1f1f22; --muted: #66666d; --faint: #9a9aa1; --line: #e2e2e4;
+    --on-accent: #ffffff; --ok: #1f9a43; --no: #e5484d;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .07); --radius: 18px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121214; --paper: #1a1a1d; --surface: #232327; --text: #ededf0; --muted: #a5a5ad; --faint: #75757d; --line: #303035;
+      --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121214; --paper: #1a1a1d; --surface: #232327; --text: #ededf0; --muted: #a5a5ad; --faint: #75757d; --line: #303035;
+    --shadow: 0 12px 30px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+  :root {
+    --accent-2: color-mix(in srgb, var(--accent) 82%, #000);
+    --accent-t: color-mix(in srgb, var(--accent) 80%, var(--text));
+    --soft: color-mix(in srgb, var(--accent) 12%, var(--surface));
+    --soft-2: color-mix(in srgb, var(--accent) 28%, var(--surface));
+    --ok-soft: color-mix(in srgb, var(--ok) 14%, var(--surface));
+    --no-soft: color-mix(in srgb, var(--no) 14%, var(--surface));
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  a { color: var(--accent-t); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .wrap { width: min(1040px, 100% - 32px); margin: 0 auto; padding: 0 0 80px; }
+  .sheet { background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(18px, 4vw, 40px); }
+  .sheet + .sheet, .sheet + .lessons, section + section { margin-top: 24px; }
+  h1, h2, h3 { font-family: "Unbounded", sans-serif; line-height: 1.15; text-wrap: balance; }
+  h1 { font-size: clamp(26px, 4.6vw, 44px); margin: 10px 0 14px; }
+  h2 { font-size: clamp(20px, 3.2vw, 28px); margin: 0 0 16px; }
+  h3 { font-size: 17px; margin: 0 0 8px; }
+  .kicker { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-t); font-weight: 800; }
+  .lead { font-size: 18px; color: var(--muted); max-width: 680px; margin: 0 0 20px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .hidden { display: none !important; }
+
+  /* ---------- Навігація ---------- */
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-weight: 800; }
+  .brand i { font-style: normal; width: 36px; height: 36px; border-radius: 10px; background: var(--text); color: var(--bg); display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-size: 12px; }
+  .top nav { display: flex; gap: 16px; font-size: 14px; font-weight: 600; flex-wrap: wrap; justify-content: flex-end; }
+  .top nav a { color: var(--muted); text-decoration: none; }
+  .top nav a:hover { color: var(--text); }
+
+  /* ---------- Продаж ідеї ---------- */
+  .hero { display: grid; grid-template-columns: 1.35fr 1fr; gap: 28px; align-items: center; background: var(--paper); border-radius: 26px; box-shadow: var(--shadow); padding: clamp(22px, 5vw, 52px); position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; right: -120px; top: -120px; width: 380px; height: 380px; border-radius: 50%; background: var(--soft); }
+  .hero > * { position: relative; }
+  .cover { background: var(--accent); color: var(--on-accent); border-radius: 22px; padding: 26px; min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 24px 50px color-mix(in srgb, var(--accent) 35%, transparent); transform: rotate(2deg); }
+  .cover .em { font-size: 64px; line-height: 1; }
+  .cover b { font-family: "Unbounded", sans-serif; font-size: 26px; display: block; line-height: 1.15; }
+  .cover small { opacity: .85; }
+  .cover .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .cover .facts div { background: rgba(255, 255, 255, .16); border-radius: 12px; padding: 8px 10px; font-size: 12px; }
+  .cover .facts strong { display: block; font-family: "Unbounded", sans-serif; font-size: 20px; }
+  .cta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pains { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .pain { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .pain .ic { font-size: 28px; }
+  .pain b { display: block; margin: 6px 0 4px; }
+  .pain p { margin: 0; color: var(--muted); font-size: 14px; }
+  .answer { margin-top: 16px; font-size: 17px; font-weight: 600; }
+  .outs { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+  .outs li { display: flex; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; font-weight: 600; }
+  .outs li::before { content: "✓"; flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font-size: 14px; }
+  .prog { display: grid; gap: 8px; counter-reset: p; }
+  .prog details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+  .prog summary { list-style: none; display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; cursor: pointer; }
+  .prog summary::-webkit-details-marker { display: none; }
+  .prog .n { width: 44px; height: 44px; border-radius: 12px; background: var(--soft-2); display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-weight: 700; }
+  .prog summary small { display: block; color: var(--muted); font-size: 13px; }
+  .prog summary .tg { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .prog ul { margin: 0; padding: 0 16px 14px 72px; color: var(--muted); font-size: 14px; }
+  .who { display: flex; flex-wrap: wrap; gap: 8px; }
+  .who span { background: var(--soft); border-radius: 999px; padding: 8px 14px; font-weight: 600; font-size: 14px; }
+  .author { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: start; }
+  .ava { width: 180px; aspect-ratio: 1; border-radius: 24px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--on-accent); display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-size: 54px; overflow: hidden; }
+  .ava img { width: 100%; height: 100%; object-fit: cover; }
+  .proof { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 16px 0; }
+  .proof div { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+  .proof b { display: block; font-family: "Unbounded", sans-serif; font-size: 24px; color: var(--accent-t); }
+  .proof span { font-size: 13px; color: var(--muted); }
+  .quote { border-left: 4px solid var(--accent); padding: 4px 0 4px 16px; font-size: 17px; font-style: italic; margin: 14px 0 0; }
+  .books { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .books span { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 6px 10px; font-size: 13px; }
+  .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
+  .how div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; position: relative; }
+  .how b { display: block; font-size: 16px; margin: 6px 0 4px; }
+  .how p { margin: 0; font-size: 14px; color: var(--muted); }
+  .how .st { font-family: "Unbounded", sans-serif; font-size: 13px; color: var(--accent-t); }
+  .faq details { border-bottom: 1px solid var(--line); padding: 12px 0; }
+  .faq summary { font-weight: 700; cursor: pointer; }
+  .faq p { margin: 8px 0 0; color: var(--muted); }
+
+  .counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 0 0 18px; }
+  .count { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .count b { font-family: "Unbounded", sans-serif; font-size: 26px; color: var(--accent-t); display: block; line-height: 1.1; }
+  .count span { font-size: 13px; color: var(--muted); }
+  .skip { margin-top: 18px; border-left: 4px solid var(--accent); background: var(--soft); border-radius: 0 12px 12px 0; padding: 12px 16px; font-weight: 600; }
+
+  /* ---------- Правила ---------- */
+  .rules { counter-reset: r; list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 10px; }
+  .rules li { counter-increment: r; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px 12px 54px; position: relative; }
+  .rules li::before { content: counter(r); position: absolute; left: 14px; top: 12px; width: 28px; height: 28px; border-radius: 50%; background: var(--soft-2); display: grid; place-items: center; font-weight: 800; font-size: 14px; }
+  .rules li b { display: block; }
+  .agree { display: flex; gap: 12px; align-items: flex-start; background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 12px 14px; cursor: pointer; margin-top: 10px; }
+  .agree:has(input:checked) { border-color: var(--ok); background: var(--ok-soft); }
+  .agree input { width: 22px; height: 22px; accent-color: var(--ok); margin: 1px 0 0; flex: none; }
+
+  /* ---------- Вибір терміну ---------- */
+  .pick { display: grid; grid-template-columns: 1.1fr 1fr; gap: 22px; align-items: start; }
+  .price-box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .days-out { font-family: "Unbounded", sans-serif; font-size: 44px; line-height: 1; }
+  .days-out small { font-size: 16px; color: var(--muted); }
+  .price-out { font-family: "Unbounded", sans-serif; font-size: 34px; color: var(--accent-t); margin-top: 6px; }
+  input[type=range] { width: 100%; accent-color: var(--accent); margin: 14px 0 6px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: 4px 11px; font-size: 13px; font-weight: 600; }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .pace { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .pace b { color: var(--text); }
+  .chart { width: 100%; height: auto; display: block; overflow: visible; }
+  .chart text { font-family: "Inter", sans-serif; fill: var(--muted); font-size: 11px; }
+  .chart .grid { stroke: var(--line); }
+  .chart .ln { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+  .chart .ar { fill: var(--soft); }
+  .chart .pt { fill: var(--accent); stroke: var(--surface); stroke-width: 3; }
+  .chart .lbl { fill: var(--text); font-weight: 800; font-size: 13px; }
+  .chart .ideal { stroke: var(--faint); stroke-dasharray: 5 5; fill: none; stroke-width: 1.5; }
+  .chart .fact { stroke: var(--accent); fill: none; stroke-width: 3; }
+  .chart .now { stroke: var(--no); stroke-width: 1.5; }
+  .chart .nowt { fill: var(--no); font-weight: 700; }
+  .chart .v { fill: var(--text); font-weight: 700; }
+
+  .btn { border-radius: 12px; padding: 11px 18px; font-weight: 700; background: var(--surface); border: 1px solid var(--line); text-decoration: none; color: var(--text); display: inline-block; }
+  .btn:hover:not(:disabled) { border-color: var(--accent); }
+  .btn.main { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .btn.main:hover:not(:disabled) { background: var(--accent-2); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn.big { font-size: 18px; padding: 15px 22px; width: 100%; margin-top: 14px; }
+  .btn.lg { font-size: 17px; padding: 14px 22px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+  /* ---------- Панель курсу ---------- */
+  .status { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .stat span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+  .stat b { display: block; font-family: "Unbounded", sans-serif; font-size: 22px; line-height: 1.2; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .bar { height: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; overflow: hidden; margin: 18px 0 6px; position: relative; }
+  .bar i { display: block; height: 100%; background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 65%, #fff), var(--accent)); border-radius: 999px; transition: width .5s; }
+  .bar em { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--text); opacity: .55; }
+  .bar-legend { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); gap: 8px; flex-wrap: wrap; }
+  .banner { border-radius: 14px; padding: 14px 16px; font-weight: 600; margin-top: 16px; }
+  .banner.ok { background: var(--ok-soft); border: 1px solid var(--ok); }
+  .banner.no { background: var(--no-soft); border: 1px solid var(--no); }
+  .banner.warn { background: var(--soft); border: 1px solid var(--accent); }
+
+  /* ---------- Уроки ---------- */
+  .lessons { display: grid; gap: 14px; margin-top: 24px; }
+  .lesson { background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .lesson-head { display: grid; grid-template-columns: 52px 1fr auto; gap: 14px; align-items: center; padding: 16px 20px; }
+  .ln-num { width: 52px; height: 52px; border-radius: 14px; background: var(--soft-2); display: grid; place-items: center; font-family: "Unbounded", sans-serif; font-size: 20px; font-weight: 700; }
+  .lesson.done .ln-num { background: var(--ok); color: #fff; }
+  .lesson.cur .ln-num { background: var(--accent); color: var(--on-accent); }
+  .lesson.locked { opacity: .62; }
+  .lesson.locked .ln-num { background: var(--line); }
+  .lesson-head b { display: block; font-size: 17px; }
+  .lesson-head small { color: var(--muted); font-size: 13px; }
+  .dots { display: flex; gap: 5px; }
+  .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+  .dots i.d { background: var(--ok); }
+  .dots i.c { background: var(--accent); }
+  .lesson-body { padding: 0 20px 20px; display: grid; gap: 10px; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+  .step-head { display: flex; gap: 10px; align-items: center; width: 100%; background: none; border: 0; padding: 12px 14px; text-align: left; font-weight: 700; }
+  .step-head .tag { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .step.locked .step-head { color: var(--faint); cursor: default; }
+  .step.done .step-head .ic { color: var(--ok); }
+  .step-body { padding: 0 16px 18px; border-top: 1px dashed var(--line); }
+  .ftag { display: inline-block; background: var(--no-soft); color: var(--no); border: 1px solid var(--no); border-radius: 999px; font-size: 11px; font-weight: 800; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; white-space: nowrap; }
+
+  .video { margin: 16px 0 12px; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #1f1f22; position: relative; }
+  .video iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .video .ph { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: #f3f3f5; padding: 20px; gap: 6px; background: radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--accent) 45%, #1f1f22), #1f1f22 70%); }
+  .video .ph b { font-family: "Unbounded", sans-serif; font-size: clamp(16px, 2.6vw, 22px); }
+  .video .ph span { font-size: 13px; opacity: .75; }
+  .video .play { width: 64px; height: 64px; border-radius: 50%; background: var(--accent); margin: 0 auto 8px; display: grid; place-items: center; font-size: 26px; color: #fff; }
+  .theory { font-size: 15px; }
+  .theory p { margin: 8px 0; }
+  .theory ul, .theory ol { margin: 6px 0; padding-left: 20px; }
+  .task { margin-top: 14px; border: 2px solid var(--soft-2); border-radius: 14px; padding: 14px; background: var(--paper); }
+  .task.wait { opacity: .5; pointer-events: none; filter: grayscale(.6); }
+  .task-title { font-weight: 800; margin: 0 0 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .task-title .k { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; background: var(--soft-2); border-radius: 6px; padding: 2px 7px; }
+  .q { margin: 12px 0 6px; font-weight: 700; }
+  .opts { display: grid; gap: 6px; }
+  .opt { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 12px; }
+  .opt.on { border-color: var(--accent); background: var(--soft); font-weight: 600; }
+  .opt.right { border-color: var(--ok); background: var(--ok-soft); }
+  .opt.wrong { border-color: var(--no); background: var(--no-soft); }
+  .why { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+  .field { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 12px; min-width: 0; }
+  .field.bad { border-color: var(--no); background: var(--no-soft); }
+  .field.good { border-color: var(--ok); }
+  select.field { appearance: auto; }
+  label.fl { display: block; font-weight: 600; font-size: 14px; margin: 10px 0 4px; }
+  label.fl small { font-weight: 400; color: var(--muted); }
+  .cls { display: grid; gap: 8px; }
+  .cls-row { display: grid; gap: 6px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 12px; }
+  .cls-row.right { border-color: var(--ok); background: var(--ok-soft); }
+  .cls-row.wrong { border-color: var(--no); background: var(--no-soft); }
+  .seg { display: flex; flex-wrap: wrap; gap: 5px; }
+  .seg button { border: 1px solid var(--line); background: var(--paper); border-radius: 8px; padding: 4px 10px; font-size: 13px; font-weight: 600; }
+  .seg button.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .ord { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  .ord li { display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: center; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 7px 10px; }
+  .ord li.right { border-color: var(--ok); background: var(--ok-soft); }
+  .ord li.wrong { border-color: var(--no); background: var(--no-soft); }
+  .ord .n { font-weight: 800; color: var(--accent-t); }
+  .ord .mv { display: flex; gap: 4px; }
+  .ord .mv button { border: 1px solid var(--line); background: var(--paper); border-radius: 8px; width: 34px; height: 30px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 96px 96px; gap: 6px 8px; align-items: center; }
+  .grid2 .h, .grid3 .h { font-size: 12px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+  .grid3 { display: grid; grid-template-columns: 1.2fr 110px 1.4fr; gap: 6px 8px; align-items: center; }
+  .legend { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin: 0 4px 0 8px; }
+  .feedback { margin-top: 10px; font-weight: 600; min-height: 1.5em; }
+  .feedback.ok { color: var(--ok); }
+  .feedback.no { color: var(--no); }
+  .check-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+  .watched { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; cursor: pointer; }
+  .watched input { width: 20px; height: 20px; accent-color: var(--ok); }
+
+  dialog { border: 0; border-radius: var(--radius); padding: 0; width: min(760px, 100% - 24px); background: var(--paper); color: var(--text); box-shadow: 0 30px 80px rgba(0,0,0,.3); }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  .dlg { padding: clamp(16px, 4vw, 28px); max-height: 86vh; overflow: auto; }
+  .dlg-top { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+  .x { border: 0; background: var(--surface); width: 36px; height: 36px; border-radius: 50%; font-size: 18px; flex: none; }
+  .toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(120px); background: var(--text); color: var(--bg); padding: 11px 18px; border-radius: 12px; font-weight: 600; transition: transform .3s; z-index: 50; max-width: calc(100% - 32px); }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  footer { text-align: center; color: var(--faint); font-size: 13px; margin-top: 30px; }
+  footer a { color: var(--muted); }
+  footer button { background: none; border: 0; color: var(--faint); text-decoration: underline; font-size: 13px; }
+  .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; }
+    .cover { min-height: 0; transform: none; }
+    .author { grid-template-columns: 1fr; }
+    .ava { width: 120px; font-size: 38px; }
+    .how { grid-template-columns: 1fr; }
+    .pick { grid-template-columns: 1fr; }
+    .top nav a.opt-nav { display: none; }
+    .lesson-head { grid-template-columns: 44px 1fr; padding: 14px; }
+    .ln-num { width: 44px; height: 44px; font-size: 17px; }
+    .lesson-head .dots { grid-column: 2; }
+    .lesson-body { padding: 0 12px 14px; }
+    .grid3 { grid-template-columns: 1fr 90px; }
+    .grid3 .w3 { grid-column: 1 / -1; }
+    .grid2 { grid-template-columns: 1fr 70px 70px; }
+    .prog summary { grid-template-columns: 40px 1fr; }
+    .prog summary .tg { grid-column: 2; }
+    .prog .n { width: 40px; height: 40px; }
+    .prog ul { padding-left: 34px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="akademiia.html"><i>SPE</i><span>Академія</span></a>
+    <nav><a href="akademiia.html#courses">← Усі курси</a><a class="opt-nav" href="#program">Програма</a><a class="opt-nav" href="#author">Автор</a><a href="#format">Як це працює</a></nav>
+  </header>
+
+  <!-- ===== Продаж ідеї курсу ===== -->
+  <div id="sales">
+    <section class="hero">
+      <div>
+        <div class="kicker" id="hKicker"></div>
+        <h1 id="hHook"></h1>
+        <p class="lead" id="hLead"></p>
+        <div class="cta"><a class="btn main lg" href="#format">Хочу пройти курс</a><a class="btn lg" href="#program">Подивитись програму</a></div>
+      </div>
+      <div class="cover" id="cover"></div>
+    </section>
+
+    <section class="sheet">
+      <div class="kicker">Знайомо?</div>
+      <h2 id="painsTitle">Якщо хоч одне про тебе — цей курс для тебе</h2>
+      <div class="pains" id="pains"></div>
+    </section>
+
+    <section class="sheet">
+      <div class="kicker">Результат</div>
+      <h2>Після курсу ти</h2>
+      <ul class="outs" id="outs"></ul>
+      <p class="quote" id="cQuote"></p>
+      <div style="margin-top:18px"><div class="kicker" style="margin-bottom:8px">Для кого</div><div class="who" id="who"></div></div>
+    </section>
+
+    <section class="sheet" id="program">
+      <div class="kicker">Програма</div>
+      <h2>10 уроків — від розуміння до власного плану</h2>
+      <div class="counts" id="counts"></div>
+      <div class="prog" id="prog"></div>
+      <div class="row" style="margin-top:16px"><button class="btn" type="button" data-demo>👀 Спробувати один підурок безкоштовно</button></div>
+    </section>
+
+    <section class="sheet" id="author">
+      <div class="author">
+        <div class="ava" id="ava"></div>
+        <div>
+          <div class="kicker">Автор курсу</div>
+          <h2 id="aName" style="margin-bottom:6px"></h2>
+          <p class="muted" id="aRole" style="margin:0"></p>
+          <div class="proof" id="aProof"></div>
+          <p id="aBio"></p>
+          <div class="books" id="aBooks"></div>
+          <p class="quote" id="aQuote"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== Формат, правила і вибір терміну (до оплати) ===== -->
+  <div id="pre">
+    <section class="sheet" id="format">
+      <div class="kicker">Формат</div>
+      <h2>Платиш, тільки якщо здаєшся</h2>
+      <p class="lead">Більшість онлайн-курсів купують і не проходять. Тут навпаки: ти даєш собі слово і дедлайн, а гроші лише страхують це слово.</p>
+      <div class="how">
+        <div><span class="st">01</span><b>Обираєш термін</b><p>Від 2 до 20 днів. Що коротший термін, то менша сума: від 45 до 1000 ₴.</p></div>
+        <div><span class="st">02</span><b>Сума блокується</b><p>Гроші не списуються, а лише резервуються на картці. Відкривається перший урок.</p></div>
+        <div><span class="st">03</span><b>Встиг — 100% повертаються</b><p>Пройдеш фінальний урок до дедлайну — блокування знімається. Курс для тебе безкоштовний.</p></div>
+      </div>
+      <div class="skip">Не готовий(-а) по-справжньому вчитися? Тоді чесно — гортай далі. Цей курс для тих, хто дотримує слова, яке дав собі.</div>
+    </section>
+
+    <section class="sheet" id="rules">
+      <div class="kicker">Крок 1</div>
+      <h2>Правила курсу</h2>
+      <ol class="rules">
+        <li><b>Ти обираєш термін: від 2 до 20 днів.</b>Що коротший термін — то менша сума: ти зацікавлений(-а) вчитися швидко, і ми це винагороджуємо. Що довший — то сума більша.</li>
+        <li><b>Гроші не списуються, а блокуються.</b>Після натискання «Оплатити» сума резервується на твоїй картці й лежить там до кінця терміну.</li>
+        <li><b>Встигнеш — блокування знімається повністю.</b>Пройди фінальний урок до дедлайну, і 100% суми залишаються в тебе. Курс виходить безкоштовним.</li>
+        <li><b>Не встигнеш — сума списується.</b>Якщо до дедлайну фінальний урок не завершено, заблоковані гроші списуються. Без продовжень і винятків. Матеріали курсу залишаються відкритими.</li>
+        <li><b>Чому максимум 20 днів, а не місяць.</b>Банк дозволяє тримати блокування на картці не довше 30 днів, тому довший термін неможливий.</li>
+        <li><b>Уроки відкриваються по черзі.</b>Подивися відео, виконай завдання — і тільки тоді відкриється наступний підурок. Наперед завдань ти не побачиш.</li>
+        <li><b>Деякі завдання треба виконати правильно з першого разу.</b>Вони позначені <span class="ftag">з першої спроби</span>. Помилка — пауза 3 хвилини, перегляд відео і нова спроба.</li>
+        <li><b>Дедлайн рахується від моменту оплати.</b>Тобто з точністю до хвилини: обрав(-ла) 5 днів о 19:40 — дедлайн через 5 днів о 19:40.</li>
+      </ol>
+      <div class="row">
+        <button class="btn" type="button" data-demo>👀 Спробувати приклад завдання наперед</button>
+        <span class="muted small">Щоб чесно знати, на що підписуєшся.</span>
+      </div>
+      <label class="agree"><input type="checkbox" id="agree1"><span>Я прочитав(-ла) правила і погоджуюсь з ними.</span></label>
+      <label class="agree"><input type="checkbox" id="agree2"><span>Я розумію: якщо не пройду фінальний урок до дедлайну, заблокована сума буде списана.</span></label>
+    </section>
+
+    <section class="sheet" id="pickSec">
+      <div class="kicker">Крок 2</div>
+      <h2>За скільки днів ти пройдеш курс?</h2>
+      <div class="pick">
+        <div>
+          <svg class="chart" id="priceChart" viewBox="0 0 560 280" role="img" aria-label="Графік: сума блокування залежно від кількості днів"></svg>
+          <p class="muted small">Сума росте з кожним днем: 2 дні — 45 ₴, 10 днів — 180 ₴, 20 днів — 1000 ₴.</p>
+        </div>
+        <div class="price-box">
+          <div class="days-out"><span id="daysOut">5</span> <small id="daysWord">днів</small></div>
+          <input type="range" id="days" min="2" max="20" step="1" value="5" aria-label="Кількість днів">
+          <div class="chips" id="chips"></div>
+          <div class="muted small" style="margin-top:14px">Сума блокування</div>
+          <div class="price-out" id="priceOut">75 ₴</div>
+          <div class="pace" id="paceOut"></div>
+          <button class="btn main big" type="button" id="payBtn" disabled>Оплатити 75 ₴</button>
+          <p class="muted small" id="payNote" style="margin:8px 0 0">Спершу погодься з правилами вище.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sheet faq">
+      <div class="kicker">Питання</div>
+      <h2>Часті питання</h2>
+      <details><summary>Що буде, якщо я не встигну?</summary><p>Заблокована сума списується — це ціна невиконаного слова. Але доступ до курсу залишається: ти можеш пройти його до кінця для себе.</p></details>
+      <details><summary>Чи можна продовжити термін?</summary><p>Ні. Саме в цьому сила формату: дедлайн справжній. Тому обирай термін чесно — з запасом на звичайне життя.</p></details>
+      <details><summary>Скільки часу на день треба?</summary><p>Один підурок — це відео і завдання приблизно на 15 хвилин. Калькулятор вище показує твій темп на день для обраного терміну.</p></details>
+      <details><summary>Чи можна пройти одразу кілька курсів?</summary><p>Так. Кожен курс — окремий дедлайн і окрема застава. Але радимо починати з одного.</p></details>
+    </section>
+  </div>
+
+  <!-- ===== Курс (після оплати) ===== -->
+  <div id="course" class="hidden">
+    <section class="sheet">
+      <div class="kicker">Твій курс</div>
+      <h2 id="courseTitle"></h2>
+      <div class="status">
+        <div class="stat"><span>Залишилось часу</span><b id="left">—</b></div>
+        <div class="stat"><span>Заблоковано</span><b id="held">—</b></div>
+        <div class="stat"><span>Дедлайн</span><b id="dl" style="font-size:16px">—</b></div>
+        <div class="stat"><span>З першої спроби</span><b id="ft">—</b></div>
+      </div>
+      <div class="bar" aria-label="Прогрес курсу"><i id="barFill" style="width:0"></i><em id="barTime" title="Скільки часу минуло"></em></div>
+      <div class="bar-legend"><span id="barTxt"></span><span>риска — скільки терміну вже минуло</span></div>
+      <div id="banner"></div>
+      <h3 style="margin-top:22px">Графік темпу</h3>
+      <svg class="chart" id="paceChart" viewBox="0 0 560 240" role="img" aria-label="Графік: плановий і фактичний темп проходження"></svg>
+      <p class="muted small">Пунктир — рівномірний план до дедлайну. Кольорова лінія — твій факт. Будь над пунктиром.</p>
+    </section>
+    <div class="lessons" id="lessons"></div>
+  </div>
+
+  <footer>
+    <span id="fName"></span> · <a href="akademiia.html">SPE Академія — усі курси</a><br>
+    <button type="button" id="resetBtn">Почати курс заново (для тесту)</button>
+  </footer>
+</div>
+
+<dialog id="demo"><div class="dlg">
+  <div class="dlg-top"><div><div class="kicker" id="demoKicker"></div><h2 style="margin:4px 0 0">Так виглядає підурок</h2></div><button class="x" type="button" data-close aria-label="Закрити">✕</button></div>
+  <div id="demoBody"></div>
+</div></dialog>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= АВТОР (спільний для всіх курсів, kursy/author.js) ================= */
+// Дані автора — спільні для головної сторінки і всіх курсів. photo — шлях до фото (поки порожньо — ініціали).
+const AUTHOR = {
+  name: 'Роман Кушнір',
+  initials: 'РК',
+  photo: '',
+  org: 'SPE школа розвитку',
+  role: 'Засновник SPE — школи розвитку і консалтингу для бізнесу, бізнес-консультант, автор 21 книги',
+  proof: [['21', 'книга про управління і розвиток'], ['250+', 'компаній, яким SPE допомогла систематизувати бізнес'], ['1000+', 'проведених тренінгів для керівників і команд']],
+  bio: 'За робочими зошитами і щоденниками SPE вчаться школярі Campus 13, підприємці «Бізнес-інкубатора» і керівники курсу «Суперкерівник». Кожен курс тут зібраний із цих матеріалів: мінімум води, максимум вправ, після яких щось змінюється у твоєму житті чи бізнесі.',
+  books: ['Поведінка людини у формулах і моделях (Коло, 2017)', 'Історії і притчі для особистісного зростання (Коло, 2013)', 'Щоденники успіху'],
+  quote: 'Добрий бізнес — це системний бізнес. Якщо компанія не може прожити без власника два тижні, у власника не бізнес, а дуже дорога робота.',
+  contacts: { telegram: 'spe_lviv', email: 'info@spe.org.ua', site: 'https://www.spe.org.ua', phone: '+380675819591' },
+};
+
+/* ================= КОНТЕНТ КУРСУ (kursy/courses/*.js) =================
+   yt — ID відео на YouTube (те, що після watch?v=). Поки порожньо — показується заглушка.
+   task.type: quiz | calc | classify | order | write | ratio | rows | funnel
+   first: true — завдання треба зробити правильно з першої спроби; final: true — фінальний урок. */
+// Курс «Систематизація бізнесу» — за робочим зошитом «Бізнес-інкубатор» (arkhitektura, model, kliienty, yunit, prodazhi, marketynh, protsesy, orgstruktura, kpi, biudzhet).
+const COURSE = {
+  key: 'spe-kurs-biznes-v1',
+  file: 'kurs-systematyzatsiia-biznesu.html',
+  title: 'Систематизація бізнесу',
+  emoji: '🏗️',
+  accent: '#1d4ed8',
+  card: 'Бізнес, який працює без вас: архітектура, клієнти, лунка продажів, процеси, KPI і бюджети.',
+  hook: 'Якщо компанія не може прожити без власника два тижні — у власника не бізнес, а дуже дорога робота.',
+  lead: 'За 10 уроків ви подивитеся на свій бізнес як на систему: знайдете слабкі вузли, порахуєте клієнтів, лунку і точку беззбитковості, пропишете перші процеси, KPI і бюджет — і звільните собі час для роботи «над фірмою».',
+  pains: [
+    ['🧯', 'Усе тримається на вас', 'Без вас не продають, не вирішують і не відвантажують. Відпустка — тільки з телефоном.'],
+    ['🔁', 'Ті самі помилки щомісяця', 'Нові люди повторюють старі помилки, бо ніде не записано, як правильно.'],
+    ['🕳️', 'Клієнти «губляться»', 'Реклама працює, заявки є, а продажів мало — і незрозуміло, де дірка.'],
+    ['🤷', '«Здається, заробляємо»', 'Немає бюджету й показників, рішення приймаються на відчуттях.'],
+  ],
+  outcomes: [
+    'Бачите свій бізнес як систему з 11 елементів і знаєте слабкі вузли',
+    'Маєте місію, цілі й «концепцію їжака»',
+    'Знаєте своїх клієнтів: 20/80, ABC і пожиттєву цінність',
+    'Рахуєте точку беззбитковості, ціну ліда і клієнта',
+    'Знаходите вузьке місце в лунці продажів',
+    'Пишете чек-листи, процеси і KPI, за якими 9 з 10 людей працюють правильно',
+  ],
+  forWhom: ['Власникам малого й середнього бізнесу', 'Підприємцям, які застрягли в операційці', 'Керівникам напрямів, які будують систему'],
+  demo: '5.1',
+  quote: 'Добрий бізнес — це системний бізнес.',
+  lessons: [
+    { t: 'Бізнес — жива система', s: '11 елементів бізнес-архітектури', steps: [
+      { t: 'Система, а не набір справ', yt: '', theory: `<p>Успішний бізнес — це завжди система, усі вузли якої взаємодіють між собою. Подивіться на свою чесно — як на батьківських зборах, де хочуть допомогти дитині, а не виправдати її.</p><p>Тест власника: чи проживе компанія два тижні без вас?</p>`,
+        task: { type: 'quiz', qs: [
+          { q: 'Компанія не може прожити без власника два тижні. Що це означає?', o: ['Власник дуже цінний', 'Це не бізнес, а дуже дорога робота власника', 'Так у всіх'], a: 1 },
+          { q: 'Що означає «системний бізнес»?', o: ['Багато програм і таблиць', 'Усі вузли взаємодіють і працюють без ручного керування', 'Великий офіс'], a: 1 },
+        ] } },
+      { t: 'Зрілість архітектури', yt: '', theory: `<p>Оцініть кожен з елементів бізнес-архітектури: яку оцінку хочете мати через рік і де ви зараз (1 — хаос, 10 — описано і працює без вас).</p>`,
+        task: { type: 'ratio', head: 'Елемент', rows: ['Цілі / місія', 'Продукт', 'Працівники (внутрішній клієнт)', 'Цільова аудиторія', 'Клієнти', 'Системи', 'Структури', 'Стратегії', 'Моделі', 'Коло зростання', 'Взаємодія всього переліченого'], cols: ['Ціль', 'Зараз'], max: 10, minMax: 10,
+          ask: 'Зрілість = Σ зараз / Σ ціль', k: 'З', good: 'Сильна система — тепер тримайте її в тонусі.', bad: 'Елементи з найменшим З — ваші перші проєкти систематизації.' } },
+      { t: 'Слабкі вузли', yt: '', theory: `<p>Візьміть три елементи з найменшою зрілістю. Саме з них почнеться систематизація.</p>`,
+        task: { type: 'write', fields: [{ l: 'Слабкий вузол 1 і що в ньому болить', min: 10 }, { l: 'Слабкий вузол 2 і що в ньому болить', min: 10 }, { l: 'Слабкий вузол 3 і що в ньому болить', min: 10 }] } },
+    ] },
+    { t: 'Цілі і концепція їжака', s: 'Куди росте компанія — вшир чи вглиб', steps: [
+      { t: 'Концепція їжака', yt: '', theory: `<p>Випишіть напрями, якими займаєтесь. Для кожного перевірте три кола: <b>1.</b> можемо стати найкращими, <b>2.</b> маємо пристрасть, <b>3.</b> економічно вигідно. На перетині всіх трьох — ваш їжак, на якому варто зосередитись.</p>`,
+        task: { type: 'quiz', qs: [
+          { q: 'Напрям приносить гроші, ви його любите, але ніколи не станете в ньому найкращими. Це їжак?', o: ['Так', 'Ні — потрібні всі три кола'], a: 1 },
+          { q: 'Навіщо потрібна концепція їжака?', o: ['Щоб робити все одразу', 'Щоб зосередитись на напрямі, де збігаються сила, пристрасть і гроші', 'Для презентацій'], a: 1 },
+        ] } },
+      { t: 'Вшир чи вглиб', yt: '', theory: `<p>Можна рости вшир — більше клієнтів, менше зиску з кожного. А можна вглиб — менше клієнтів, більше зиску з кожного. Порахуйте обидва сценарії, перш ніж обирати.</p>`,
+        task: { type: 'calc', first: true, q: 'Зараз: 100 клієнтів на місяць, чек 1 000 ₴, собівартість 700 ₴ (прибуток 30 000 ₴). Сценарій «вглиб»: клієнтів на 20% менше, ціна на 20% вища, собівартість та сама. Який прибуток на місяць?', ans: 40000, tol: 1, unit: '₴' } },
+      { t: 'Місія і цілі', yt: '', theory: `<p>Архітектура починається з цілей і місії. Без них решта елементів не знає, куди рухатись.</p>`,
+        task: { type: 'write', fields: [
+          { l: 'Місія — заради чого існує компанія (одне речення)', min: 15 }, { l: 'Ціль через рік', sub: 'з цифрою', test: 'num', min: 8 },
+          { l: 'Ціль через 3 роки', sub: 'з цифрою', test: 'num', min: 8 }, { l: 'Наш їжак — напрям для фокусу', min: 6 } ] } },
+    ] },
+    { t: 'Бізнес-модель і цінності', s: 'Що, для кого і за якими правилами', steps: [
+      { t: 'B2B, B2D, B2C', yt: '', theory: `<p>Кому ви продаєте? <b>B2B</b> — бізнесам, <b>B2D</b> — дистрибʼюторам і посередникам, <b>B2C</b> — людям. Без розуміння свого клієнта — з описом «всі» чи «середній клас» — бізнесу не буде.</p>`,
+        task: { type: 'classify', q: 'Який це сегмент?', cats: ['B2B', 'B2D', 'B2C'], items: [
+          { t: 'Кавʼярня продає каву перехожим', c: 2 }, { t: 'Виробник меблів постачає мережі магазинів для перепродажу', c: 1 }, { t: 'IT-компанія робить CRM для клінік', c: 0 },
+          { t: 'Онлайн-курс для студентів', c: 2 }, { t: 'Пекарня возить хліб у ресторани', c: 0 }, { t: 'Фабрика продає оптовикам, які розвозять по регіонах', c: 1 } ] } },
+      { t: 'Цінності, які працюють', yt: '', theory: `<p>Цінності компанії — це те, що допомагає працівникам приймати рішення в умовах невизначеності чи сумніву. Про цінності не треба говорити — їх треба транслювати. Найкращий спосіб — історії компанії.</p>`,
+        task: { type: 'quiz', qs: [
+          { q: 'Для чого цінності компанії?', o: ['Для сторінки «Про нас»', 'Щоб працівники приймали рішення, коли є сумнів', 'Щоб були як у конкурентів'], a: 1 },
+          { q: 'Як найкраще транслювати цінності?', o: ['Повісити плакат', 'Через історії компанії і реальні рішення', 'Говорити про них на кожній нараді'], a: 1 },
+          { q: 'Яка цільова аудиторія описана правильно?', o: ['«Всі»', '«Від 18 до 25 років»', '«Власниці салонів краси в обласних центрах з 2–5 майстрами»'], a: 2 },
+        ] } },
+      { t: 'Моя модель', yt: '', theory: `<p>Опишіть головний продукт і цінність так, щоб працівники написали б на 100% те саме.</p>`,
+        task: { type: 'write', fields: [
+          { l: 'Головний продукт', min: 5 }, { l: 'Цільова аудиторія — кого можна впізнати', min: 15 },
+          { l: 'Цінність компанії і як вона допомагає вирішити сумнів', min: 15 }, { l: 'Історія компанії, яка транслює цю цінність', min: 15 } ] } },
+    ] },
+    { t: 'Клієнти', s: '20/80, ABC і пожиттєва цінність', steps: [
+      { t: 'Пожиттєва цінність клієнта', yt: '', theory: `<p>LTV — сума, яку клієнт вклав у вашу компанію за весь час співпраці. Дрібними вкладами здобуваються великі статки.</p>`,
+        task: { type: 'calc', q: 'Клієнт за 2 роки купив тричі: 1 200 ₴, 800 ₴ і 3 500 ₴. Яка його пожиттєва цінність?', ans: 5500, tol: 0, unit: '₴' } },
+      { t: 'Червоні прапорці', yt: '', theory: `<p>Бізнес, який не вибирає своїх клієнтів, гине. Клієнт — це ваш зовнішній працівник: позитивний добір, оцінка, а іноді й «звільнення».</p>`,
+        task: { type: 'classify', q: 'Червоний прапорець чи нормальна поведінка?', cats: ['🚩 Прапорець', 'Нормально'], items: [
+          { t: 'Обмовляє ваших колег по «цеху»', c: 0 }, { t: 'Чітко знає, чого хоче, і ставить дедлайн', c: 1 }, { t: 'Сам не знає, чого хоче', c: 0 },
+          { t: 'Зневажливо говорить про конкурентів', c: 0 }, { t: 'Просить договір і рахунок', c: 1 }, { t: 'Тяжко розлучається з грошима і торгується за кожну дрібницю', c: 0 } ] } },
+      { t: 'ABC і 20/80', yt: '', theory: `<p>ABC-аналіз: <b>A</b> — клієнти, які дають 80% виручки, <b>B</b> — наступні 15%, <b>C</b> — решта 5%. Окремо випишіть 20% клієнтів, які створюють 80% проблем, — і відмовтесь від них.</p>`,
+        task: { type: 'quiz', first: true, qs: [
+          { q: 'Скільки виручки дає група A?', o: ['5%', '15%', '80%'], a: 2 },
+          { q: 'Що робити з 20% клієнтів, які створюють 80% проблем?', o: ['Давати знижки', 'Відмовитись від них', 'Нічого'], a: 1 },
+          { q: 'Кому приділяти найбільше уваги?', o: ['Групі A', 'Групі C', 'Усім однаково'], a: 0 },
+        ] } },
+    ] },
+    { t: 'Куди йде кожна гривня', s: 'Юніт-економіка і точка беззбитковості', steps: [
+      { t: 'Точка беззбитковості', yt: '', theory: `<p>Скільки одиниць треба продати за місяць, щоб покрити постійні витрати: <b>постійні витрати ÷ (ціна − змінні витрати на одиницю)</b>.</p>`,
+        task: { type: 'calc', q: 'Постійні витрати — 60 000 ₴ на місяць. Ціна — 500 ₴, змінні витрати на одиницю — 300 ₴. Скільки одиниць треба продати, щоб вийти в нуль?', ans: 300, tol: 0, unit: 'од.' } },
+      { t: 'Постійні чи змінні', yt: '', theory: `<p><b>Постійні</b> витрати не залежать від кількості продажів. <b>Змінні</b> ростуть з кожною проданою одиницею.</p>`,
+        task: { type: 'classify', q: 'Постійна чи змінна витрата?', cats: ['Постійна', 'Змінна'], items: [
+          { t: 'Оренда приміщення', c: 0 }, { t: 'Сировина на кожен виріб', c: 1 }, { t: 'Зарплата адміністратора', c: 0 }, { t: 'Пакування', c: 1 }, { t: 'Комісія банку з кожної оплати', c: 1 }, { t: 'Бухгалтер на аутсорсі', c: 0 } ] } },
+      { t: 'Правила оптимізації', yt: '', theory: `<p>Розкладіть ціну на складові — і побачите, що оптимізувати, що прибрати і що перекласти на покупця. <b>Бійтеся великих (понад 20%) статей витрат, які не деталізовані.</b> І закладайте стратегічний запас на майбутні періоди.</p>`,
+        task: { type: 'quiz', qs: [
+          { q: 'Яку статтю витрат деталізувати першою?', o: ['Найменшу', 'Будь-яку понад 20% ціни', 'Ту, що подобається'], a: 1 },
+          { q: 'Що ще можна зробити з частиною витрат?', o: ['Перекласти на покупця, якщо це чесно і зрозуміло', 'Приховати', 'Ігнорувати'], a: 0 },
+        ] } },
+    ] },
+    { t: 'Лунка продажів', s: 'Де губляться клієнти', steps: [
+      { t: 'Знайди вузьке місце', yt: '', theory: `<p>Лунка продажів — від 5 до 15 етапів. Один клієнт не може перебувати на двох етапах одночасно. Впишіть, скільки клієнтів пройшло кожен етап за місяць (свої цифри або приклад) — і знайдіть, де найбільші втрати.</p>`,
+        task: { type: 'funnel', unit: 'Клієнтів', stages: ['Звернення', 'Відповіли', 'Виявили потребу', 'Отримали пропозицію', 'Оплатили'], ph: [400, 320, 200, 150, 30],
+          ask: 'На якому етапі найбільші втрати (найменша конверсія)?', okMsg: 'Покращення саме тут дасть найбільший приріст продажів.' } },
+      { t: 'СПУН-питання', yt: '', theory: `<p>Щоб зрозуміти потребу, питання йдуть у порядку: <b>ситуативні</b> — про факти, <b>проблемні</b> — про труднощі, <b>уточнюючі</b> — про наслідки, <b>направляючі</b> — про цінність рішення.</p>`,
+        task: { type: 'order', q: 'Розстав питання до клієнта в правильному порядку.', hint: 'Від фактів — до цінності рішення.', items: [
+          '«Скільки у вас зараз менеджерів з продажу?»', '«Що найбільше заважає їм закривати угоди?»', '«Скільки грошей ви втрачаєте через це щомісяця?»', '«Якби ця проблема зникла, що б це дало компанії?»'] } },
+      { t: 'Характеристика → вигода', yt: '', theory: `<p>ХПВ: <b>характеристика</b> (що це), <b>перевага</b> (чим краще), <b>вигода</b> (що отримує клієнт). Клієнти купують вигоду.</p>`,
+        task: { type: 'classify', q: 'Характеристика, перевага чи вигода?', cats: ['Характеристика', 'Перевага', 'Вигода'], items: [
+          { t: 'Батарея на 5 000 мА·год', c: 0 }, { t: 'Працює вдвічі довше, ніж звичайні', c: 1 }, { t: 'Ви не шукаєте розетку весь день у дорозі', c: 2 },
+          { t: 'Корпус з алюмінію', c: 0 }, { t: 'Міцніший за пластик', c: 1 }, { t: 'Не доведеться купувати новий після падіння', c: 2 } ] } },
+    ] },
+    { t: 'Маркетинг як система', s: 'Канали, ціна ліда і клієнта', steps: [
+      { t: 'Ціна ліда', yt: '', theory: `<p>Усе, що не можете описати і порахувати, — не контролюєте. <b>Ціна ліда = бюджет ÷ кількість лідів</b>. <b>Ціна клієнта = бюджет ÷ кількість клієнтів</b>.</p>`,
+        task: { type: 'calc', q: 'На рекламу в Instagram пішло 6 000 ₴, прийшло 120 заявок. Яка ціна ліда?', ans: 50, tol: 0, unit: '₴' } },
+      { t: 'Ціна клієнта', yt: '', theory: `<p>Лід — ще не клієнт. Порівнюйте канали за ціною клієнта, а не ліда.</p>`,
+        task: { type: 'calc', first: true, q: 'З тих самих 120 заявок за 6 000 ₴ купили 15. Яка ціна одного клієнта?', ans: 400, tol: 0, unit: '₴' } },
+      { t: 'Мої канали', yt: '', theory: `<p>Випишіть канали, бюджет на місяць і ціль у клієнтах. Графік покаже, куди йдуть гроші.</p>`,
+        task: { type: 'rows', cols: ['Канал', 'Бюджет ₴/міс', 'Ціль: клієнтів і відповідальний'], ph: [['Instagram', '6000', '15 клієнтів, Олена'], ['Google Ads', '8000', '20 клієнтів, Андрій'], ['Партнерка', '2000', '5 клієнтів, я']],
+          mult: 1, unit: '₴/міс', min: 3, total: (t) => `Разом: <b>${Math.round(t).toLocaleString('uk-UA')} ₴ на місяць</b>. Через місяць порівняйте ціну клієнта в кожному каналі.`, okMsg: (n) => `Каналів у стратегії: ${n} ✓` } },
+    ] },
+    { t: 'Чек-листи і процеси', s: 'Щоб 9 з 10 робили правильно', steps: [
+      { t: 'Коли потрібен чек-лист', yt: '', theory: `<p>Майже до кожної дії, яка робиться бодай двічі, варто прописати чек-лист: це займе 2–5 хвилин і зекономить чимало часу й грошей. Усе, що робиться регулярно, — бізнес-процес. <b>Добре прописаний процес — такий, слідуючи якому, 9 із 10 працівників зроблять усе правильно.</b></p>`,
+        task: { type: 'quiz', qs: [
+          { q: 'Коли варто прописати чек-лист?', o: ['Для дії, яку роблять бодай двічі', 'Тільки для складних проєктів', 'Ніколи — це бюрократія'], a: 0 },
+          { q: 'Як перевірити, що процес прописано добре?', o: ['Він довгий', 'Нова людина пройшла його без запитань', 'Його затвердив директор'], a: 1 },
+        ] } },
+      { t: 'Збери процес', yt: '', theory: `<p>Процес — це не просто список: кожен крок має виконавця, шаблон і контрольну точку. Ось процес «Обробка заявки», але кроки перемішались.</p>`,
+        task: { type: 'order', q: 'Розстав кроки процесу по порядку.', hint: 'Від появи заявки — до контрольної точки.', items: [
+          'Заявка надходить у CRM автоматично', 'Менеджер дзвонить протягом 15 хвилин', 'Виявляє потребу за скриптом СПУН', 'Надсилає пропозицію за шаблоном', 'Через 2 дні — контрольний дзвінок'] } },
+      { t: 'Мій чек-лист', yt: '', theory: `<p>Візьміть дію, на якій найчастіше помиляються у вашій компанії, і пропишіть чек-лист з пʼяти пунктів.</p>`,
+        task: { type: 'write', fields: [{ l: 'Назва чек-листа', ph: 'Відкриття магазину зранку' }, { l: 'Пункт 1' }, { l: 'Пункт 2' }, { l: 'Пункт 3' }, { l: 'Пункт 4' }, { l: 'Пункт 5' }] } },
+    ] },
+    { t: 'Оргструктура і KPI', s: 'Хто за що відповідає і за що отримує гроші', steps: [
+      { t: 'Завдання посади', yt: '', theory: `<p>Завдання посади мають складатися з 4–8 слів, не містити якісних величин (швидко, якісно, добре, вчасно) і не зачіпати чужу спеціалізацію.</p>`,
+        task: { type: 'classify', q: 'Добре чи погано сформульоване завдання посади?', cats: ['Добре', 'Погано'], items: [
+          { t: 'Обробляти всі вхідні заявки протягом 15 хвилин', c: 0 }, { t: 'Швидко і якісно працювати з клієнтами', c: 1 }, { t: 'Вести облік залишків на складі щопʼятниці', c: 0 },
+          { t: 'Робити все, що скаже директор', c: 1 }, { t: 'Добре вести соцмережі', c: 1 }, { t: 'Публікувати 3 пости на тиждень за контент-планом', c: 0 } ] } },
+      { t: 'Справедлива оплата', yt: '', theory: `<p>Справедлива оплата — середнє з пʼяти чесних відповідей: скільки така робота має коштувати; що пропонує ринок; скільки хоче спеціаліст; скільки вам комфортно платити; скільки ви маєте змогу платити.</p>`,
+        task: { type: 'calc', q: 'Відповіді: 20 000, 18 000, 25 000, 17 000 і 20 000 ₴. Яка справедлива оплата?', ans: 20000, tol: 0, unit: '₴' } },
+      { t: 'Порахуй KPI', yt: '', theory: `<p>KPI посади — 3–4 завдання з вагами, що разом дають 100%. Підсумок = Σ (вага × виконання).</p>`,
+        task: { type: 'calc', first: true, q: 'Ваги завдань: 50%, 30% і 20%. Виконання: 100%, 80% і 50%. Який підсумковий KPI?', ans: 84, tol: 0, unit: '%' } },
+    ] },
+    { t: 'Бюджет і фінал', s: 'План, факт, відхилення', steps: [
+      { t: 'Відхилення план / факт', yt: '', theory: `<p>Немає бюджету — немає діяльності в компанії. План, факт і відхилення — три колонки, які перетворюють «здається, заробляємо» на управлінські рішення. <b>Відхилення = (факт − план) ÷ план × 100%</b>.</p>`,
+        task: { type: 'calc', q: 'План виручки — 200 000 ₴, факт — 170 000 ₴. Яке відхилення у відсотках? (з мінусом)', ans: -15, tol: 0, unit: '%' } },
+      { t: 'Мій план систематизації', yt: '', theory: `<p>Описати насамперед варто те, що займає найбільше часу, що ви плануєте делегувати, що робите регулярно і від чого залежить успіх.</p>`,
+        task: { type: 'write', fields: [
+          { l: 'Перша система, яку опишу', ph: 'Обробка заявок', min: 6 }, { l: 'Хто стане власником цього процесу', min: 3 },
+          { l: 'Дата, до якої процес буде прописаний', type: 'date', test: 'future' }, { l: 'Скільки годин на тиждень це мені звільнить', sub: 'з цифрою', test: 'num', min: 1 } ] } },
+      { t: 'Фінальний тест', yt: '', theory: `<p>Останній крок. Тест — <b>з першої спроби</b>. Склали — курс завершено, блокування знімається.</p>`,
+        task: { type: 'quiz', first: true, final: true, qs: [
+          { q: 'Що таке концепція їжака?', o: ['Напрям, де збігаються «можемо бути найкращими», пристрасть і вигода', 'Захист від конкурентів', 'Скорочення витрат'], a: 0 },
+          { q: 'Постійні витрати 40 000 ₴, ціна 400 ₴, змінні 200 ₴. Точка беззбитковості?', o: ['100 од.', '200 од.', '400 од.'], a: 1 },
+          { q: 'Порівнювати рекламні канали краще за…', o: ['ціною ліда', 'ціною клієнта', 'кількістю лайків'], a: 1 },
+          { q: 'Добре прописаний процес — це коли…', o: ['9 з 10 працівників зроблять усе правильно', 'його затвердили', 'він на 20 сторінок'], a: 0 },
+          { q: 'Яке завдання посади сформульовано правильно?', o: ['Якісно обслуговувати клієнтів', 'Відповідати на заявки протягом 15 хвилин', 'Робити все вчасно'], a: 1 },
+          { q: 'Група A в ABC-аналізі дає…', o: ['80% виручки', '15% виручки', '5% виручки'], a: 0 },
+        ] } },
+    ] },
+  ],
+};
+
+(() => {
+  'use strict';
+  const LESSONS = COURSE.lessons;
+  const MIN_D = 2, MAX_D = 20, P_MIN = 45, P_MAX = 1000, COOL = 3 * 60 * 1000;
+  const REACT = ['мушу', 'не можу', 'якби', 'змуси', 'нічого не вдієш', 'такий я', 'така я', 'доведеться', 'бісить', 'немає часу', 'не маю часу', 'винн', 'дратує'];
+
+  const FLAT = []; LESSONS.forEach((L, li) => L.steps.forEach((st, si) => FLAT.push(Object.assign(st, { id: `${li + 1}.${si + 1}`, li, si, gi: FLAT.length }))));
+  const TOTAL = FLAT.length;
+
+  /* ---------- Стан ---------- */
+  const KEY = COURSE.key;
+  const blank = () => ({ days: 5, paid: 0, deadline: 0, price: 0, done: {}, doneAt: {}, fails: {}, cool: {}, watched: {}, data: {}, finishedAt: 0, open: null });
+  let S;
+  try { S = Object.assign(blank(), JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) { S = blank(); }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(Object.assign(S, { total: TOTAL, n: FLAT.filter((st) => S.done[st.id]).length }))); } catch (e) { /* без збереження */ } };
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const num = (v) => parseFloat(String(v).replace(',', '.').replace('−', '-').replace(/\s/g, ''));
+  const fmt = (n, d = 2) => (Math.round(n * 10 ** d) / 10 ** d).toLocaleString('uk-UA');
+  const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c; };
+  const price = (d) => Math.round(P_MIN * (P_MAX / P_MIN) ** ((d - MIN_D) / (MAX_D - MIN_D)) / 5) * 5;
+  function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 2600); }
+
+  /* ================= Продаж ідеї ================= */
+  let nQ = 0, nTasks = 0, nEx = 0, nFirst = 0;
+  FLAT.forEach((st) => {
+    const k = st.task;
+    if (k.type === 'quiz') nQ += k.qs.length; else if (k.type === 'write' || k.type === 'rows') nEx++; else nTasks++;
+    if (k.first) nFirst++;
+  });
+  (function sales() {
+    $('#hKicker').textContent = `${COURSE.emoji} Інтерактивний курс · ${COURSE.title}`;
+    $('#hHook').textContent = COURSE.hook;
+    $('#hLead').textContent = COURSE.lead;
+    $('#cover').innerHTML = `<div class="em">${COURSE.emoji}</div><div><small>Курс Романа Кушніра</small><b>${esc(COURSE.title)}</b>
+      <div class="facts"><div><strong>${LESSONS.length}</strong>уроків</div><div><strong>${TOTAL}</strong>відео-підуроків</div><div><strong>2–20</strong>днів — обираєш сам(а)</div><div><strong>0 ₴</strong>якщо встигнеш</div></div></div>`;
+    $('#pains').innerHTML = COURSE.pains.map(([ic, b, p]) => `<div class="pain"><div class="ic">${ic}</div><b>${esc(b)}</b><p>${esc(p)}</p></div>`).join('');
+    $('#outs').innerHTML = COURSE.outcomes.map((o) => `<li>${esc(o)}</li>`).join('');
+    $('#who').innerHTML = COURSE.forWhom.map((o) => `<span>${esc(o)}</span>`).join('');
+    const items = [[LESSONS.length, 'уроків'], [TOTAL, 'підуроків з відео'], [nQ, 'тестових питань'], [nTasks, 'завдань: розрахунки, графіки, сортування'], [nEx, 'практичних вправ про твоє життя'], [nFirst, 'завдання з першої спроби']];
+    $('#counts').innerHTML = items.map(([n, t]) => `<div class="count"><b>${n}</b><span>${t}</span></div>`).join('');
+    $('#prog').innerHTML = LESSONS.map((L, i) => `<details${i === 0 ? ' open' : ''}><summary><span class="n">${i + 1}</span><span><b>${esc(L.t)}</b><small>${esc(L.s)}</small></span><span class="tg">${L.steps.length} підуроки${L.steps.some((s) => s.task.first) ? ' · <span class="ftag">з першої спроби</span>' : ''}</span></summary>
+      <ul>${L.steps.map((s) => `<li>${esc(s.t)}</li>`).join('')}</ul></details>`).join('');
+    const A = AUTHOR;
+    $('#ava').innerHTML = A.photo ? `<img src="${esc(A.photo)}" alt="${esc(A.name)}">` : esc(A.initials);
+    $('#aName').textContent = A.name; $('#aRole').textContent = A.role;
+    $('#aProof').innerHTML = A.proof.map(([b, s]) => `<div><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('');
+    $('#aBio').textContent = A.bio;
+    $('#aBooks').innerHTML = A.books.map((b) => `<span>📘 ${esc(b)}</span>`).join('');
+    $('#aQuote').textContent = `«${A.quote}»`;
+    $('#cQuote').innerHTML = COURSE.quote ? `«${esc(COURSE.quote)}» <span class="muted small">— з робочого зошита SPE</span>` : '';
+    $('#fName').textContent = `${A.org} · ${A.name} · курс «${COURSE.title}»`;
+    $('#demoKicker').textContent = `Приклад наперед · підурок ${COURSE.demo}`;
+  })();
+
+  /* ================= Вибір терміну ================= */
+  const CHIPS = [2, 3, 5, 7, 10, 14, 20];
+  function priceChart(d) {
+    const W = 560, H = 280, l = 44, r = 16, t = 34, b = 34;
+    const x = (v) => l + (v - MIN_D) / (MAX_D - MIN_D) * (W - l - r);
+    const y = (v) => t + (1 - v / P_MAX) * (H - t - b);
+    let g = '';
+    [0, 250, 500, 750, 1000].forEach((v) => { g += `<line class="grid" x1="${l}" x2="${W - r}" y1="${y(v)}" y2="${y(v)}"/><text x="${l - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`; });
+    [2, 5, 10, 15, 20].forEach((v) => { g += `<text x="${x(v)}" y="${H - b + 18}" text-anchor="middle">${v} дн.</text>`; });
+    const pts = []; for (let v = MIN_D; v <= MAX_D; v += 0.25) pts.push(`${x(v).toFixed(1)},${y(P_MIN * (P_MAX / P_MIN) ** ((v - MIN_D) / (MAX_D - MIN_D))).toFixed(1)}`);
+    const area = `M${x(MIN_D)},${y(0)} L${pts.join(' L')} L${x(MAX_D)},${y(0)} Z`;
+    const px = x(d), py = y(price(d)), anchor = d > 16 ? 'end' : d < 5 ? 'start' : 'middle';
+    $('#priceChart').innerHTML = `${g}<path class="ar" d="${area}"/><polyline class="ln" points="${pts.join(' ')}"/>
+      <line class="grid" x1="${px}" x2="${px}" y1="${py}" y2="${y(0)}" stroke-dasharray="3 4"/>
+      <circle class="pt" cx="${px}" cy="${py}" r="8"/><text class="lbl" x="${px}" y="${py - 16}" text-anchor="${anchor}">${d} ${plural(d, 'день', 'дні', 'днів')} = ${price(d)} ₴</text>`;
+  }
+  function renderPick() {
+    const d = S.days, p = price(d);
+    $('#days').value = d; $('#daysOut').textContent = d; $('#daysWord').textContent = plural(d, 'день', 'дні', 'днів');
+    $('#priceOut').textContent = `${p} ₴`;
+    const perDay = TOTAL / d;
+    $('#paceOut').innerHTML = `Темп: <b>${fmt(perDay, 1)} ${plural(Math.ceil(perDay), 'підурок', 'підуроки', 'підуроків')} на день</b> · ≈ <b>${Math.round(perDay * 15)} хв</b> щодня.<br>Встигнеш — ${p} ₴ повертаються на картку повністю.`;
+    $('#chips').innerHTML = CHIPS.map((c) => `<button type="button" class="chip${c === d ? ' on' : ''}" data-d="${c}">${c} дн. · ${price(c)} ₴</button>`).join('');
+    priceChart(d);
+    const ok = $('#agree1').checked && $('#agree2').checked;
+    $('#payBtn').disabled = !ok; $('#payBtn').textContent = `Оплатити ${p} ₴`;
+    $('#payNote').textContent = ok ? 'Сума блокується на картці, а не списується. Дедлайн стартує одразу після оплати.' : 'Спершу погодься з обома пунктами правил вище.';
+  }
+  $('#days').addEventListener('input', (e) => { S.days = +e.target.value; save(); renderPick(); });
+  $('#chips').addEventListener('click', (e) => { const b = e.target.closest('[data-d]'); if (!b) return; S.days = +b.dataset.d; save(); renderPick(); });
+  $('#agree1').addEventListener('change', renderPick);
+  $('#agree2').addEventListener('change', renderPick);
+  $('#payBtn').addEventListener('click', () => {
+    // Справжньої оплати поки немає: натискання вважаємо зобовʼязанням і «блокуванням» суми.
+    const now = Date.now();
+    Object.assign(S, { paid: now, deadline: now + S.days * 864e5, price: price(S.days) });
+    save(); show(); window.scrollTo({ top: $('#course').offsetTop - 10, behavior: 'smooth' });
+    toast(`${S.price} ₴ заблоковано. Годинник пішов — встигни за ${S.days} ${plural(S.days, 'день', 'дні', 'днів')}!`);
+  });
+
+  /* ================= Курс ================= */
+  const isDone = (st) => !!S.done[st.id];
+  const unlocked = (st) => st.gi === 0 || isDone(FLAT[st.gi - 1]);
+  const doneCount = () => FLAT.filter(isDone).length;
+  const current = () => FLAT.find((st) => !isDone(st));
+
+  function show() {
+    const paid = !!S.paid;
+    $('#pre').classList.toggle('hidden', paid);
+    $('#sales').classList.toggle('hidden', paid);
+    $('#course').classList.toggle('hidden', !paid);
+    if (paid) { renderLessons(); tick(); } else renderPick();
+  }
+
+  function fmtLeft(ms) {
+    if (ms <= 0) return '0 хв';
+    const d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4), s = Math.floor(ms % 6e4 / 1e3);
+    return d ? `${d} д ${h} год ${m} хв` : `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+  const fmtDate = (ts) => new Date(ts).toLocaleString('uk-UA', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+
+  function tick() {
+    if (!S.paid) return;
+    const now = S.finishedAt || Date.now(), left = S.deadline - now, n = doneCount();
+    const timeShare = Math.min(1, Math.max(0, (now - S.paid) / (S.deadline - S.paid)));
+    $('#courseTitle').textContent = `${COURSE.emoji} ${COURSE.title} за ${S.days} ${plural(S.days, 'день', 'дні', 'днів')}`;
+    $('#left').textContent = S.finishedAt ? 'Завершено ✓' : fmtLeft(left);
+    $('#held').textContent = S.finishedAt && S.finishedAt <= S.deadline ? `0 ₴ (повернено ${S.price} ₴)` : `${S.price} ₴`;
+    $('#dl').textContent = fmtDate(S.deadline);
+    const firstSteps = FLAT.filter((st) => st.task.first), firstOk = firstSteps.filter((st) => isDone(st) && !S.fails[st.id]).length;
+    $('#ft').textContent = `${firstOk} з ${firstSteps.length}`;
+    $('#barFill').style.width = `${n / TOTAL * 100}%`;
+    $('#barTime').style.left = `calc(${timeShare * 100}% - 1px)`;
+    $('#barTxt').textContent = `${n} з ${TOTAL} підуроків · ${Math.round(n / TOTAL * 100)}%`;
+    let ban = '';
+    if (S.finishedAt && S.finishedAt <= S.deadline) ban = `<div class="banner ok">🎉 Курс пройдено ${fmtDate(S.finishedAt)} — на ${fmtLeft(S.deadline - S.finishedAt)} раніше дедлайну. Блокування ${S.price} ₴ знято, гроші залишаються в тебе. Ти дотримав(-ла) слова! <a href="akademiia.html#courses">Обрати наступний курс →</a></div>`;
+    else if (S.finishedAt) ban = `<div class="banner warn">Курс пройдено ${fmtDate(S.finishedAt)}, але вже після дедлайну, тому ${S.price} ₴ списано. Головне — ти дійшов(-ла) до кінця.</div>`;
+    else if (left <= 0) ban = `<div class="banner no">⏰ Термін минув, фінальний урок не завершено. Заблоковані ${S.price} ₴ списано за правилами курсу. Матеріали залишаються відкритими — пройди до кінця для себе.</div>`;
+    else {
+      const need = Math.ceil(timeShare * TOTAL);
+      if (n < need) ban = `<div class="banner warn">Ти відстаєш від плану на ${need - n} ${plural(need - n, 'підурок', 'підуроки', 'підуроків')}. Щоб устигнути, потрібно ${fmt((TOTAL - n) / Math.max(left / 864e5, 0.01), 1)} підуроків на день.</div>`;
+    }
+    if ($('#banner').innerHTML !== ban) $('#banner').innerHTML = ban;
+    paceChart(now);
+  }
+
+  function paceChart(now) {
+    const W = 560, H = 240, l = 40, r = 16, t = 16, b = 32, span = S.deadline - S.paid;
+    const x = (ts) => l + Math.min(1, Math.max(0, (ts - S.paid) / span)) * (W - l - r);
+    const y = (v) => t + (1 - v / TOTAL) * (H - t - b);
+    let g = '';
+    [0, 10, 20, 30].forEach((v) => { g += `<line class="grid" x1="${l}" x2="${W - r}" y1="${y(v)}" y2="${y(v)}"/><text x="${l - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`; });
+    const stepD = S.days <= 7 ? 1 : S.days <= 14 ? 2 : 5;
+    for (let d = 0; d <= S.days; d += stepD) g += `<text x="${x(S.paid + d * 864e5)}" y="${H - b + 18}" text-anchor="middle">${d === 0 ? 'старт' : d + ' дн.'}</text>`;
+    const done = FLAT.filter(isDone).map((st) => S.doneAt[st.id] || now).sort((a, c) => a - c);
+    const pts = [`${x(S.paid)},${y(0)}`];
+    done.forEach((ts, i) => { pts.push(`${x(ts)},${y(i)}`, `${x(ts)},${y(i + 1)}`); });
+    pts.push(`${x(Math.min(now, S.deadline))},${y(done.length)}`);
+    const nx = x(now);
+    $('#paceChart').innerHTML = `${g}<line class="ideal" x1="${x(S.paid)}" y1="${y(0)}" x2="${x(S.deadline)}" y2="${y(TOTAL)}"/>
+      <line class="now" x1="${nx}" x2="${nx}" y1="${t}" y2="${y(0)}"/><text class="nowt" x="${Math.min(nx + 4, W - r - 40)}" y="${t + 10}">${S.finishedAt ? 'фініш' : 'зараз'}</text>
+      <polyline class="fact" points="${pts.join(' ')}"/><circle class="pt" cx="${x(Math.min(now, S.deadline))}" cy="${y(done.length)}" r="6"/>`;
+  }
+  setInterval(() => { if (S.paid) { tick(); refreshCooldowns(); } }, 1000);
+
+  function renderLessons() {
+    const cur = current();
+    if (S.open == null || !unlocked(FLAT.find((st) => st.id === S.open) || FLAT[0])) S.open = cur ? cur.id : null;
+    const box = $('#lessons'); box.innerHTML = '';
+    LESSONS.forEach((L, li) => {
+      const steps = FLAT.filter((st) => st.li === li);
+      const lDone = steps.every(isDone), lOpen = unlocked(steps[0]), lCur = !lDone && lOpen;
+      const el = document.createElement('section');
+      el.className = `lesson${lDone ? ' done' : lCur ? ' cur' : lOpen ? '' : ' locked'}`;
+      const nDone = steps.filter(isDone).length;
+      el.innerHTML = `<div class="lesson-head"><div class="ln-num">${lDone ? '✓' : lOpen ? li + 1 : '🔒'}</div>
+        <div><b>Урок ${li + 1}. ${esc(L.t)}</b><small>${lOpen ? esc(L.s) + ` · ${nDone} з ${steps.length}` : `відкриється після уроку ${li} · ${steps.length} підуроки`}</small></div>
+        <div class="dots">${steps.map((st) => `<i class="${isDone(st) ? 'd' : cur && cur.id === st.id ? 'c' : ''}"></i>`).join('')}</div></div>`;
+      if (lOpen) {
+        const body = document.createElement('div'); body.className = 'lesson-body';
+        steps.forEach((st) => body.appendChild(stepCard(st, cur)));
+        el.appendChild(body);
+      }
+      box.appendChild(el);
+    });
+  }
+
+  function stepCard(st, cur) {
+    const el = document.createElement('div');
+    const open = unlocked(st), dn = isDone(st);
+    el.className = `step${dn ? ' done' : open ? '' : ' locked'}`;
+    el.dataset.step = st.id;
+    if (!open) { el.innerHTML = `<div class="step-head"><span class="ic">🔒</span> Підурок ${st.id}<span class="tag">відкриється після ${FLAT[st.gi - 1].id}</span></div>`; return el; }
+    const head = document.createElement('button'); head.type = 'button'; head.className = 'step-head';
+    head.innerHTML = `<span class="ic">${dn ? '✓' : '▶'}</span> ${st.id}. ${esc(st.t)}${st.task.first ? '<span class="ftag">з першої спроби</span>' : ''}<span class="tag">${dn ? 'виконано' : cur && cur.id === st.id ? 'зараз' : ''}</span>`;
+    head.addEventListener('click', () => { S.open = S.open === st.id ? '' : st.id; save(); renderLessons(); });
+    el.appendChild(head);
+    if (S.open === st.id) el.appendChild(stepBody(st, { onPass: () => pass(st) }));
+    return el;
+  }
+
+  function stepBody(st, opt) {
+    const sandbox = !!opt.sandbox, dn = !sandbox && isDone(st);
+    const body = document.createElement('div'); body.className = 'step-body';
+    const vid = st.yt ? `<iframe src="https://www.youtube-nocookie.com/embed/${esc(st.yt)}?rel=0" title="${esc(st.t)}" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>`
+      : `<div class="ph"><div class="play">▶</div><b>${esc(st.t)}</b><span>Відео Романа Кушніра до підуроку ${st.id}</span></div>`;
+    body.innerHTML = `<div class="video">${vid}</div><div class="theory">${st.theory}</div>`;
+    const watched = sandbox || dn || S.watched[st.id];
+    const task = document.createElement('div'); task.className = `task${watched ? '' : ' wait'}`;
+    if (!dn && !sandbox) {
+      const w = document.createElement('label'); w.className = 'watched';
+      w.innerHTML = `<input type="checkbox"${watched ? ' checked' : ''}> Я переглянув(-ла) відео — показати завдання`;
+      w.querySelector('input').addEventListener('change', (e) => { S.watched[st.id] = e.target.checked; save(); task.classList.toggle('wait', !e.target.checked); });
+      body.appendChild(w);
+    }
+    body.appendChild(task);
+    renderTask(st, task, { sandbox, done: dn, onPass: opt.onPass });
+    return body;
+  }
+
+  const KIND = { quiz: 'Тест', calc: 'Порахуй', classify: 'Розсортуй', order: 'Упорядкуй', write: 'Вправа', ratio: 'Графік', rows: 'Вправа + графік', funnel: 'Графік + аналіз' };
+
+  function renderTask(st, box, ctx) {
+    const k = st.task;
+    box.innerHTML = `<div class="task-title"><span class="k">${KIND[k.type]}</span>${k.q ? esc(k.q) : k.type === 'quiz' ? 'Дай відповідь на всі питання' : k.type === 'write' ? 'Заповни всі поля' : ''}${k.first ? '<span class="ftag">з першої спроби</span>' : ''}</div>`;
+    const inner = document.createElement('div'); box.appendChild(inner);
+    const foot = document.createElement('div'); foot.className = 'check-row';
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'btn main'; btn.textContent = 'Перевірити';
+    const fb = document.createElement('div'); fb.className = 'feedback';
+    foot.appendChild(btn); box.appendChild(foot); box.appendChild(fb);
+    if (!ctx.sandbox) btn.dataset.cool = st.id;
+    const data = ctx.sandbox ? {} : (S.data[st.id] = S.data[st.id] || {});
+    const persist = () => { if (!ctx.sandbox) save(); };
+    const checker = BUILD[k.type](st, inner, data, persist, ctx.done);
+    if (ctx.done) { btn.remove(); fb.className = 'feedback ok'; fb.textContent = '✓ Виконано'; if (checker.reveal) checker.reveal(); return; }
+    btn.addEventListener('click', () => {
+      if (!ctx.sandbox && S.cool[st.id] > Date.now()) return;
+      const res = checker.check();
+      if (res.ok) {
+        fb.className = 'feedback ok'; fb.textContent = res.msg || 'Правильно! ✓';
+        btn.disabled = true;
+        if (ctx.sandbox) { fb.textContent += ' Так виглядає кожен підурок курсу.'; return; }
+        setTimeout(() => ctx.onPass(), 900);
+      } else {
+        fb.className = 'feedback no'; fb.textContent = res.msg || 'Є помилки — виправ і перевір ще раз.';
+        if (k.first && !ctx.sandbox && !res.incomplete) {
+          S.fails[st.id] = (S.fails[st.id] || 0) + 1; S.cool[st.id] = Date.now() + COOL; S.watched[st.id] = false; save();
+          fb.textContent = 'Помилка в завданні «з першої спроби». Переглянь відео ще раз — нова спроба через 3 хвилини.';
+          if (checker.reset) checker.reset();
+          box.classList.add('wait'); const w = box.parentElement.querySelector('.watched input'); if (w) w.checked = false;
+          refreshCooldowns();
+        }
+      }
+    });
+    refreshCooldowns();
+  }
+
+  function refreshCooldowns() {
+    document.querySelectorAll('[data-cool]').forEach((b) => {
+      const until = S.cool[b.dataset.cool] || 0, left = until - Date.now();
+      if (left > 0) { b.disabled = true; b.textContent = `Нова спроба через ${Math.floor(left / 6e4)}:${String(Math.floor(left % 6e4 / 1e3)).padStart(2, '0')}`; }
+      else if (b.textContent.startsWith('Нова')) { b.disabled = false; b.textContent = 'Перевірити'; }
+    });
+  }
+
+  /* ---------- Типи завдань ---------- */
+  const seg = (cats, val) => `<div class="seg">${cats.map((c, i) => `<button type="button" data-v="${i}" class="${val === i ? 'on' : ''}">${esc(c)}</button>`).join('')}</div>`;
+  const dis = (done) => (done ? ' disabled' : '');
+  const BUILD = {
+    quiz(st, el, data, persist, done) {
+      const qs = st.task.qs; data.a = data.a || {};
+      el.innerHTML = qs.map((q, i) => `<div class="qq" data-i="${i}"><div class="q">${i + 1}. ${esc(q.q)}</div><div class="opts">${q.o.map((o, j) => `<button type="button" class="opt${data.a[i] === j ? ' on' : ''}" data-j="${j}">${esc(o)}</button>`).join('')}</div><p class="why hidden"></p></div>`).join('');
+      el.addEventListener('click', (e) => {
+        const b = e.target.closest('.opt'); if (!b || done) return;
+        const qq = b.closest('.qq'), i = +qq.dataset.i; data.a[i] = +b.dataset.j; persist();
+        qq.querySelectorAll('.opt').forEach((x) => { x.classList.toggle('on', x === b); x.classList.remove('right', 'wrong'); });
+      });
+      const mark = () => qs.forEach((q, i) => {
+        const qq = el.querySelector(`.qq[data-i="${i}"]`); qq.querySelectorAll('.opt').forEach((x) => x.classList.remove('right', 'wrong'));
+        const ch = qq.querySelector(`.opt[data-j="${data.a[i]}"]`); if (ch) ch.classList.add(data.a[i] === q.a ? 'right' : 'wrong');
+        const why = qq.querySelector('.why'); if (q.why && data.a[i] === q.a) { why.textContent = q.why; why.classList.remove('hidden'); }
+      });
+      return {
+        check() {
+          if (qs.some((q, i) => data.a[i] == null)) return { ok: false, incomplete: true, msg: 'Дай відповідь на всі питання.' };
+          mark(); const bad = qs.filter((q, i) => data.a[i] !== q.a).length;
+          return bad ? { ok: false, msg: `Неправильних відповідей: ${bad}. Подумай ще раз.` } : { ok: true, msg: `Усі відповіді правильні ✓` };
+        },
+        reset() { data.a = {}; persist(); el.querySelectorAll('.opt').forEach((x) => x.classList.remove('on', 'right', 'wrong')); },
+        reveal() { mark(); },
+      };
+    },
+    calc(st, el, data, persist, done) {
+      const k = st.task;
+      el.innerHTML = `<div class="row"><input class="field" style="max-width:200px" inputmode="decimal" placeholder="Відповідь" value="${esc(data.v || '')}"${dis(done)}><b>${esc(k.unit)}</b></div><p class="why hidden"></p>`;
+      const inp = el.querySelector('input');
+      inp.addEventListener('input', () => { data.v = inp.value; persist(); inp.classList.remove('bad', 'good'); });
+      const after = () => { if (k.after) { const w = el.querySelector('.why'); w.textContent = k.after(k.ans); w.classList.remove('hidden'); } };
+      return {
+        check() {
+          const v = num(inp.value); if (!isFinite(v)) return { ok: false, incomplete: true, msg: 'Впиши число.' };
+          const ok = Math.abs(v - k.ans) <= k.tol; inp.classList.add(ok ? 'good' : 'bad');
+          if (ok) after();
+          return ok ? { ok: true, msg: `Правильно: ${fmt(k.ans)} ${k.unit} ✓` } : { ok: false, msg: 'Не сходиться. Перевір формулу з теорії вище.' };
+        },
+        reset() { inp.value = ''; data.v = ''; persist(); },
+        reveal() { inp.classList.add('good'); after(); },
+      };
+    },
+    classify(st, el, data, persist, done) {
+      const k = st.task; data.c = data.c || {};
+      el.innerHTML = `<div class="cls">${k.items.map((it, i) => `<div class="cls-row" data-i="${i}"><div>${esc(it.t)}</div>${seg(k.cats, data.c[i])}</div>`).join('')}</div>`;
+      el.addEventListener('click', (e) => {
+        const b = e.target.closest('.seg button'); if (!b || done) return;
+        const row = b.closest('.cls-row'), i = +row.dataset.i; data.c[i] = +b.dataset.v; persist();
+        row.querySelectorAll('.seg button').forEach((x) => x.classList.toggle('on', x === b)); row.classList.remove('right', 'wrong');
+      });
+      const mark = () => k.items.forEach((it, i) => el.querySelector(`.cls-row[data-i="${i}"]`).classList.add(data.c[i] === it.c ? 'right' : 'wrong'));
+      return {
+        check() {
+          if (k.items.some((it, i) => data.c[i] == null)) return { ok: false, incomplete: true, msg: 'Розсортуй усі пункти.' };
+          el.querySelectorAll('.cls-row').forEach((r) => r.classList.remove('right', 'wrong')); mark();
+          const bad = k.items.filter((it, i) => data.c[i] !== it.c).length;
+          return bad ? { ok: false, msg: `Помилок: ${bad}. Червоні рядки — неправильно.` } : { ok: true, msg: 'Усе розсортовано правильно ✓' };
+        },
+        reset() { data.c = {}; persist(); el.querySelectorAll('.seg button').forEach((x) => x.classList.remove('on')); el.querySelectorAll('.cls-row').forEach((r) => r.classList.remove('right', 'wrong')); },
+        reveal() { mark(); },
+      };
+    },
+    order(st, el, data, persist, done) {
+      const k = st.task, n = k.items.length;
+      if (!data.o || data.o.length !== n) {
+        let o; do { o = [...Array(n).keys()].sort(() => Math.random() - .5); } while (o.every((v, i) => v === i));
+        data.o = o; persist();
+      }
+      const draw = (marked) => {
+        el.innerHTML = `<ol class="ord">${data.o.map((v, p) => `<li class="${marked ? (v === p ? 'right' : 'wrong') : ''}"><span class="n">${p + 1}</span><span>${esc(k.items[v])}</span>${done ? '' : `<span class="mv"><button type="button" data-up="${p}" aria-label="Вище"${p === 0 ? ' disabled' : ''}>↑</button><button type="button" data-dn="${p}" aria-label="Нижче"${p === n - 1 ? ' disabled' : ''}>↓</button></span>`}</li>`).join('')}</ol>`;
+      };
+      if (done) data.o = [...Array(n).keys()];
+      draw(done);
+      el.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-up],[data-dn]'); if (!b) return;
+        const p = +(b.dataset.up ?? b.dataset.dn), q = b.dataset.up != null ? p - 1 : p + 1;
+        [data.o[p], data.o[q]] = [data.o[q], data.o[p]]; persist(); draw(false);
+      });
+      return {
+        check() { draw(true); const bad = data.o.filter((v, i) => v !== i).length; return bad ? { ok: false, msg: `Не на своєму місці: ${bad}. ${k.hint || 'Подумай про логіку ланцюжка.'}` } : { ok: true, msg: 'Порядок правильний ✓' }; },
+      };
+    },
+    write(st, el, data, persist, done) {
+      const f = st.task.fields; data.f = data.f || {};
+      el.innerHTML = f.map((x, i) => `<label class="fl" for="w${st.id}-${i}">${esc(x.l)}${x.sub ? ` <small>(${esc(x.sub)})</small>` : ''}</label>
+        <input class="field" id="w${st.id}-${i}" data-i="${i}" type="${x.type === 'date' ? 'date' : 'text'}" maxlength="200" placeholder="${esc(x.ph || '')}" value="${esc(data.f[i] || '')}"${dis(done)}>`).join('');
+      el.addEventListener('input', (e) => { const i = e.target.dataset.i; if (i == null) return; data.f[i] = e.target.value; e.target.classList.remove('bad', 'good'); persist(); });
+      return {
+        check() {
+          let msg = '', ok = true;
+          f.forEach((x, i) => {
+            const v = (data.f[i] || '').trim(), inp = el.querySelector(`[data-i="${i}"]`);
+            let err = '';
+            if (x.type === 'date') { if (!v) err = 'Обери дату.'; else if (x.test === 'future' && new Date(v) <= new Date()) err = 'Дата має бути в майбутньому.'; }
+            else if (v.length < (x.min || 3)) err = `«${x.l}»: напиши трохи детальніше.`;
+            else if (x.test === 'num' && !/\d/.test(v)) err = `«${x.l}»: додай цифру — інакше результат не виміряти.`;
+            else if (x.test === 'noReact') { const w = REACT.find((r) => v.toLowerCase().includes(r)); if (w) err = `«${v}» — тут є реактивне «${w}». Переформулюй як рішення.`; }
+            inp.classList.add(err ? 'bad' : 'good');
+            if (err && ok) { ok = false; msg = err; }
+          });
+          return ok ? { ok: true, msg: 'Вправу виконано ✓ Збережено у твоєму браузері.' } : { ok: false, incomplete: true, msg };
+        },
+      };
+    },
+    // Дві колонки чисел по рядках, згрупований стовпчиковий графік і загальне співвідношення Σ2 / Σ1, яке людина рахує сама.
+    ratio(st, el, data, persist, done) {
+      const k = st.task, rows = k.rows; data.e = data.e || {}; data.f = data.f || {};
+      el.innerHTML = `<div class="grid2"><span class="h">${esc(k.head || '')}</span><span class="h">${esc(k.cols[0])}</span><span class="h">${esc(k.cols[1])}</span>
+        ${rows.map((s, i) => `<span>${esc(s)}</span><input class="field" inputmode="decimal" data-e="${i}" value="${esc(data.e[i] || '')}"${dis(done)}><input class="field" inputmode="decimal" data-f="${i}" value="${esc(data.f[i] || '')}"${dis(done)}>`).join('')}</div>
+        <svg class="chart" viewBox="0 0 560 220" style="margin-top:14px" role="img" aria-label="Графік: ${esc(k.cols[0])} і ${esc(k.cols[1])}"></svg>
+        <p class="legend"><i style="background:var(--soft-2)"></i>${esc(k.cols[0])} <i style="background:var(--accent)"></i>${esc(k.cols[1])}</p>
+        <label class="fl">${esc(k.ask)} <small>(до сотих)</small></label><input class="field" style="max-width:160px" inputmode="decimal" data-k value="${esc(data.k || '')}"${dis(done)}>`;
+      const svg = el.querySelector('svg');
+      const draw = () => {
+        const W = 560, H = 220, l = 34, b = 46, t = 10, vals = rows.map((s, i) => [num(data.e[i]) || 0, num(data.f[i]) || 0]);
+        const mx = Math.max(k.minMax || 4, ...vals.flat()), bw = (W - l) / rows.length, y = (v) => t + (1 - v / mx) * (H - t - b);
+        let g = ''; [0, mx / 2, mx].forEach((v) => { g += `<line class="grid" x1="${l}" x2="${W}" y1="${y(v)}" y2="${y(v)}"/><text x="${l - 6}" y="${y(v) + 4}" text-anchor="end">${fmt(v, 1)}</text>`; });
+        vals.forEach(([e, f], i) => {
+          const x0 = l + i * bw + bw * .18, w = bw * .3;
+          g += `<rect x="${x0}" y="${y(e)}" width="${w}" height="${y(0) - y(e)}" rx="3" fill="var(--soft-2)"/><rect x="${x0 + w + 2}" y="${y(f)}" width="${w}" height="${y(0) - y(f)}" rx="3" fill="var(--accent)"/>`;
+          g += `<text x="${l + i * bw + bw / 2}" y="${H - b + 16}" text-anchor="middle">${esc(rows[i].split(' ')[0].slice(0, 12))}</text><text class="v" x="${l + i * bw + bw / 2}" y="${H - b + 32}" text-anchor="middle">${esc(k.k)} ${e ? fmt(f / e) : '—'}</text>`;
+        });
+        svg.innerHTML = g;
+      };
+      draw();
+      el.addEventListener('input', (e) => {
+        const d = e.target.dataset; if (d.e != null) data.e[d.e] = e.target.value; else if (d.f != null) data.f[d.f] = e.target.value; else if (d.k != null) data.k = e.target.value;
+        e.target.classList.remove('bad', 'good'); persist(); draw();
+      });
+      return {
+        check() {
+          const e = rows.map((s, i) => num(data.e[i])), f = rows.map((s, i) => num(data.f[i]));
+          if (e.some((v) => !isFinite(v) || v < 0) || f.some((v) => !isFinite(v) || v < 0)) return { ok: false, incomplete: true, msg: 'Заповни обидві колонки для кожного рядка (можна 0).' };
+          const se = e.reduce((a, c) => a + c, 0), sf = f.reduce((a, c) => a + c, 0);
+          if (k.sumMax && (se > k.sumMax || sf > k.sumMax)) return { ok: false, incomplete: true, msg: k.sumMsg };
+          if (k.max && [...e, ...f].some((v) => v > k.max)) return { ok: false, incomplete: true, msg: `Оцінки — від 0 до ${k.max}.` };
+          if (!se) return { ok: false, incomplete: true, msg: `Перша колонка не може бути вся нулями.` };
+          const K = sf / se, kv = num(data.k), inp = el.querySelector('[data-k]');
+          if (!isFinite(kv)) return { ok: false, incomplete: true, msg: 'Порахуй і впиши загальний показник.' };
+          const ok = Math.abs(kv - K) <= 0.011; inp.classList.add(ok ? 'good' : 'bad');
+          return ok ? { ok: true, msg: `Правильно: ${k.k} = ${fmt(K)}. ${K >= 0.9 ? k.good : k.bad}` } : { ok: false, msg: `Не сходиться: Σ ${k.cols[1]} = ${fmt(sf, 1)}, Σ ${k.cols[0]} = ${fmt(se, 1)}. Поділи друге на перше.` };
+        },
+      };
+    },
+    // Таблиця «назва — число — дія» зі стовпчиками «число × mult» і підсумком.
+    rows(st, el, data, persist, done) {
+      const k = st.task;
+      data.r = (data.r || k.ph.map(() => ['', '', ''])).map((r) => (Array.isArray(r) ? r : [r.n || '', r.m || '', r.h || '']));
+      const draw = () => {
+        el.innerHTML = `<div class="grid3">${k.cols.map((c, i) => `<span class="h${i === 2 ? ' w3' : ''}">${esc(c)}</span>`).join('')}
+          ${data.r.map((r, i) => [0, 1, 2].map((j) => `<input class="field${j === 2 ? ' w3' : ''}" data-r="${i}" data-j="${j}"${j === 1 ? ' inputmode="decimal"' : ''} placeholder="${esc((k.ph[i] || k.ph[k.ph.length - 1])[j])}" value="${esc(r[j])}"${dis(done)}>`).join('')).join('')}</div>
+          ${done ? '' : `<button type="button" class="btn" data-add style="margin-top:8px">＋ Ще рядок</button>`}
+          <svg class="chart" viewBox="0 0 560 ${data.r.length * 34 + 16}" style="margin-top:14px" role="img" aria-label="Графік: ${esc(k.unit)}"></svg><p class="small" data-tot></p>`;
+        bars();
+      };
+      const bars = () => {
+        const svg = el.querySelector('svg'), rows = data.r.map((r) => [r[0] || '—', (num(r[1]) || 0) * k.mult]);
+        const mx = Math.max(1, ...rows.map((r) => r[1])), l = 150, W = 560, span = W - l - 120;
+        svg.innerHTML = rows.map(([n, h], i) => { const w = Math.max(2, h / mx * span); return `<text x="${l - 8}" y="${i * 34 + 22}" text-anchor="end">${esc(n.slice(0, 22))}</text><rect x="${l}" y="${i * 34 + 8}" height="20" rx="4" width="${w}" fill="var(--accent)"/><text class="v" x="${l + w + 6}" y="${i * 34 + 22}">${fmt(h, 0)} ${esc(k.unit)}</text>`; }).join('');
+        const tot = rows.reduce((a, r) => a + r[1], 0);
+        el.querySelector('[data-tot]').innerHTML = tot ? k.total(tot) : '';
+      };
+      draw();
+      el.addEventListener('input', (e) => { const d = e.target.dataset; if (d.r == null) return; data.r[d.r][d.j] = e.target.value; persist(); bars(); });
+      el.addEventListener('click', (e) => { if (e.target.closest('[data-add]')) { data.r.push(['', '', '']); persist(); draw(); } });
+      return {
+        check() {
+          const full = data.r.filter((r) => r[0].trim().length >= 2 && num(r[1]) > 0 && r[2].trim().length >= 3);
+          return full.length >= k.min ? { ok: true, msg: k.okMsg(full.length) } : { ok: false, incomplete: true, msg: `Потрібно щонайменше ${k.min} заповнених рядки: ${k.cols.join(', ').toLowerCase()}.` };
+        },
+      };
+    },
+    // Лунка: етапи з кількістю, конверсії рахуються самі; треба знайти етап з найменшою конверсією.
+    funnel(st, el, data, persist, done) {
+      const k = st.task, n = k.stages.length; data.v = data.v || {};
+      el.innerHTML = `<div class="grid2" style="grid-template-columns:1fr 110px 90px"><span class="h">Етап</span><span class="h">${esc(k.unit)}</span><span class="h">Конверсія</span>
+        ${k.stages.map((s, i) => `<span>${esc(s)}</span><input class="field" inputmode="numeric" data-v="${i}" placeholder="${k.ph[i]}" value="${esc(data.v[i] || '')}"${dis(done)}><b data-c="${i}">—</b>`).join('')}</div>
+        <svg class="chart" viewBox="0 0 560 ${n * 34 + 10}" style="margin-top:14px" role="img" aria-label="Графік лунки"></svg>
+        <label class="fl">${esc(k.ask)}</label><select class="field" style="max-width:320px" data-w${dis(done)}><option value="">— обери етап —</option>${k.stages.slice(1).map((s, i) => `<option value="${i + 1}"${String(data.w) === String(i + 1) ? ' selected' : ''}>${esc(s)}</option>`).join('')}</select>`;
+      const svg = el.querySelector('svg');
+      const vals = () => k.stages.map((s, i) => num(data.v[i]));
+      const draw = () => {
+        const v = vals(), mx = Math.max(1, ...v.filter(isFinite));
+        svg.innerHTML = v.map((x, i) => { const w = isFinite(x) ? Math.max(4, x / mx * 540) : 4; return `<rect x="${(560 - w) / 2}" y="${i * 34 + 4}" width="${w}" height="26" rx="6" fill="var(--accent)" opacity="${1 - i * 0.1}"/><text class="v" x="280" y="${i * 34 + 22}" text-anchor="middle" style="fill:#fff">${esc(k.stages[i])}${isFinite(x) ? ' · ' + fmt(x, 0) : ''}</text>`; }).join('');
+        v.forEach((x, i) => { el.querySelector(`[data-c="${i}"]`).textContent = i && isFinite(x) && v[i - 1] > 0 ? `${fmt(x / v[i - 1] * 100, 0)}%` : i ? '—' : '100%'; });
+      };
+      draw();
+      el.addEventListener('input', (e) => { const d = e.target.dataset; if (d.v != null) { data.v[d.v] = e.target.value; persist(); draw(); } });
+      el.addEventListener('change', (e) => { if (e.target.dataset.w != null) { data.w = e.target.value; persist(); e.target.classList.remove('bad', 'good'); } });
+      return {
+        check() {
+          const v = vals();
+          if (v.some((x) => !isFinite(x) || x < 0)) return { ok: false, incomplete: true, msg: 'Заповни кількість на кожному етапі.' };
+          if (v.some((x, i) => i && x > v[i - 1])) return { ok: false, incomplete: true, msg: 'На кожному наступному етапі не може бути більше, ніж на попередньому.' };
+          if (!v[0]) return { ok: false, incomplete: true, msg: 'Перший етап не може бути нулем.' };
+          if (!data.w) return { ok: false, incomplete: true, msg: 'Обери етап з найбільшими втратами.' };
+          const conv = v.map((x, i) => (i ? (v[i - 1] ? x / v[i - 1] : 1) : 2)), minC = Math.min(...conv);
+          const sel = el.querySelector('[data-w]'), ok = conv[+data.w] <= minC + 1e-9;
+          sel.classList.add(ok ? 'good' : 'bad');
+          return ok ? { ok: true, msg: `Так, вузьке місце — «${k.stages[+data.w]}» (${fmt(minC * 100, 0)}%). ${k.okMsg}` } : { ok: false, msg: 'Ні, там конверсія не найменша. Подивись на колонку «Конверсія».' };
+        },
+      };
+    },
+  };
+
+  function pass(st) {
+    if (isDone(st)) return;
+    S.done[st.id] = true; S.doneAt[st.id] = Date.now();
+    if (st.task.final) S.finishedAt = Date.now();
+    const nx = current(); S.open = nx ? nx.id : st.id; save();
+    renderLessons(); tick();
+    if (st.task.final) { celebrate(); toast(S.finishedAt <= S.deadline ? `Курс завершено! ${S.price} ₴ розблоковано 🎉` : 'Курс завершено. Ти дійшов(-ла) до кінця!'); return; }
+    if (nx) {
+      toast(nx.li !== st.li ? `Урок ${st.li + 1} пройдено! Відкрито урок ${nx.li + 1} 🔓` : `Відкрито підурок ${nx.id} 🔓`);
+      const el = document.querySelector(`[data-step="${nx.id}"]`); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function celebrate() {
+    const c = document.createElement('canvas'); c.className = 'confetti'; document.body.appendChild(c);
+    const x = c.getContext('2d'), W = c.width = innerWidth, H = c.height = innerHeight;
+    const col = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const ps = Array.from({ length: 160 }, () => ({ x: Math.random() * W, y: -20 - Math.random() * H / 2, v: 2 + Math.random() * 4, r: Math.random() * 6, c: [col, '#ffc94d', '#1f9a43', '#ffffff'][Math.floor(Math.random() * 4)] }));
+    let f = 0; (function loop() { x.clearRect(0, 0, W, H); ps.forEach((p) => { p.y += p.v; p.x += Math.sin((f + p.r * 10) / 20); x.fillStyle = p.c; x.fillRect(p.x, p.y, 7, 11); }); if (++f < 220) requestAnimationFrame(loop); else c.remove(); })();
+  }
+
+  /* ---------- Приклад наперед ---------- */
+  const dlg = $('#demo');
+  document.querySelectorAll('[data-demo]').forEach((b) => b.addEventListener('click', () => {
+    const body = $('#demoBody'); body.innerHTML = '';
+    body.appendChild(stepBody(FLAT.find((st) => st.id === COURSE.demo), { sandbox: true }));
+    dlg.showModal();
+  }));
+  dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.closest('[data-close]')) dlg.close(); });
+
+  $('#resetBtn').addEventListener('click', () => {
+    if (!confirm('Скинути весь прогрес і оплату курсу в цьому браузері?')) return;
+    S = blank(); save(); $('#agree1').checked = false; $('#agree2').checked = false; show(); window.scrollTo({ top: 0 });
+  });
+
+  show();
+})();
+</script>
+</body>
+</html>
