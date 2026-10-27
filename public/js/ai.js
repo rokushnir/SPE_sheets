@@ -62,7 +62,7 @@ export async function detectProvider() {
 
 async function viaClaude(prompt, signal) {
   try {
-    return await sample.json(prompt, { cache: false, signal, effort: "low" });
+    return await sample.json(prompt, { cache: false, signal, effort: "medium" });
   } catch (e) {
     const code = e?.code || "upstream_error";
     if (code === "cancelled") throw e;

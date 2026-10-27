@@ -403,16 +403,25 @@ function nextTopics(covered, avoid) {
   return fresh.length ? fresh : order;
 }
 
-function makeQuestions(topics, ctx, isFinal) {
+function makeQuestions(topics, ctx, isFinal, category, first = []) {
   if (isFinal || !topics.length) {
     const q = choose("final.q", D.FINAL_QUESTIONS, ([who, text]) => ({ who, text }));
     return q ? [q] : [];
   }
-  const out = [];
+  const out = [...first];
   for (const block of topics) {
-    if (out.length === 2) break;
-    const q = choose(`q.${block}`, D.QUESTIONS[block], ([who, text]) =>
-      out.some((x) => x.who === who) ? null : { who, text, block },
+    if (out.length >= 2) break;
+    if (out.some((x) => x.block === block)) continue;
+    // Питання під галузь ідеї звучать раніше за загальні.
+    const pool = [
+      ...(D.CATEGORY_QUESTIONS[category]?.[block] || []).map((it) => ({ it, pref: true })),
+      ...D.QUESTIONS[block].map((it) => ({ it })),
+    ];
+    const q = choose(
+      `q.${block}`,
+      pool,
+      ({ it: [who, text] }) => (out.some((x) => x.who === who) ? null : { who, text, block }),
+      (x) => x.pref,
     );
     if (!q) continue;
     const lead = pickText(`lead.${q.who}`, D.LEADINS[q.who], ctx);
@@ -424,6 +433,118 @@ function makeQuestions(topics, ctx, isFinal) {
 function makeHint(questions) {
   const block = questions[0]?.block || "final";
   return pickText(`hint.${block}`, D.HINTS[block] || D.HINTS.final, {}) || "";
+}
+
+// ---------- модель бізнесу: що вже зрозуміло, а що треба уточнити ----------
+
+const MODEL_RULES = {
+  kind: {
+    applies: (cat) => cat === "general" || cat === "digital",
+    read: (t) => (/(послуг|сервіс|робот[ау] для|для людей роблю|вигул|навча|ремонт|прибира|консульт)/i.test(t) ? "service" : /(товар|річ|виріб|вироби|продукт|продаю|продаватиму)/i.test(t) ? "goods" : null),
+  },
+  make: {
+    applies: (cat) => cat === "general" || cat === "craft" || cat === "tech",
+    read: (t) =>
+      /(перепрод|купую готов|купуватиму готов|закуп\p{L}* готов|оптом|з китаю|aliexpress)/iu.test(t)
+        ? "resale"
+        : /(сам[аи]?(?!\p{L})|власноруч|своїми руками|роблю|робитиму|печу|пекти|шию|шити|перешива|друку|вирощ|готую|готувати|варити|плести|в'яза|виготовл|збирати)/iu.test(t)
+          ? "own"
+          : null,
+  },
+  where: {
+    applies: () => true,
+    read: (t) =>
+      /(онлайн|інстаграм|instagram|тікток|tiktok|телеграм|telegram|сайт|доставк|olx|prom|маркетплейс)/i.test(t)
+        ? "online"
+        : /(наживо|в школі|у школі|на перерв|ярмар|точк|біля|кіоск|на ринку|в парку|у парку|в під'їзд|сусід)/i.test(t)
+          ? "offline"
+          : null,
+  },
+  repeat: {
+    applies: () => true,
+    read: (t) =>
+      /(щодня|щотижня|регуляр|підписк|постійн|кожного дня|кожен день|раз на тиждень|абонемент|щоранку)/i.test(t)
+        ? "regular"
+        : /(разов|один раз|на подарунок|раз на рік|на свято|на випускний|на день народж)/i.test(t)
+          ? "once"
+          : null,
+  },
+  payer: {
+    applies: (cat, idea) => /(кафе|магазин|офіс|компан|ресторан|кав'ярн|бізнес)/i.test(idea),
+    read: (t) => (/(кафе купу|магазин купу|компані|бізнесам|оптом для|постача\p{L}* в кафе|договір з)/iu.test(t) ? "b2b" : /(людям|покупц|школяр|однокласник|сусід|батьк|студент)/i.test(t) ? "b2c" : null),
+  },
+  monetization: {
+    applies: (cat) => cat === "digital",
+    read: (t) => (/підписк/i.test(t) ? "subscription" : /реклам/i.test(t) ? "ads" : /(платн|разов|покупк|ціна|коштуватиме|за \d)/i.test(t) ? "paid" : null),
+  },
+  team: {
+    applies: (cat) => cat === "service",
+    read: (t) => (/(сам[аи]?(?!\p{L})|самотужки|з другом|з подругою|команд|помічник|брат|сестр|годин на тиждень)/iu.test(t) ? "team" : null),
+  },
+};
+const MODEL_ORDER = ["kind", "monetization", "make", "where", "payer", "repeat", "team"];
+
+function businessModel(idea, texts, category) {
+  const all = [idea, ...texts].join("\n");
+  const out = {};
+  for (const key of MODEL_ORDER) {
+    const rule = MODEL_RULES[key];
+    if (!rule.applies(category, idea || "")) continue;
+    out[key] = rule.read(all);
+  }
+  return out;
+}
+
+// Уточнювальні питання про те, чого ще не зрозуміло. Формулювання під галузь — першими.
+// Які уточнення вже звучали в цьому засіданні (кожне ставимо лише раз).
+function askedClarifiers(transcript) {
+  const asked = new Set();
+  const qs = transcript.filter((m) => m.q).map((m) => m.text);
+  for (const key of MODEL_ORDER) {
+    const cores = [...D.CLARIFY[key].questions, ...Object.values(D.CLARIFY_BY_CAT[key] || {}).flat()].map(([, t]) => t);
+    if (qs.some((q) => cores.some((c) => q.includes(c)))) asked.add(key);
+  }
+  return asked;
+}
+
+function clarifyQuestions(model, limit, category, ctx, already) {
+  const out = [];
+  for (const key of MODEL_ORDER) {
+    if (out.length >= limit) break;
+    if (!(key in model) || model[key] || already.has(key)) continue;
+    const c = D.CLARIFY[key];
+    const pool = [
+      ...(D.CLARIFY_BY_CAT[key]?.[category] || []).map((it) => ({ it, pref: true })),
+      ...c.questions.map((it) => ({ it })),
+    ];
+    const q = choose(
+      `clarify.${key}`,
+      pool,
+      ({ it: [who, text] }) => (out.some((x) => x.who === who) ? null : { who, text, block: c.block }),
+      (x) => x.pref,
+    );
+    if (!q) continue;
+    const lead = pickText("clarify.lead", D.CLARIFY_LEADS, ctx);
+    out.push({ ...q, text: lead ? `${lead} ${q.text}` : q.text });
+  }
+  return out;
+}
+
+function quoteOf(answer) {
+  const words = String(answer).trim().replace(/[.!?…]+$/, "").split(/\s+/);
+  return words.length > 7 ? words.slice(0, 7).join(" ") + "…" : words.join(" ");
+}
+
+// Перепитування з цитатою, коли відповідь розмита.
+// Питають про те, про що гравець говорив; якщо тема незрозуміла — про те, що питали.
+function followUp(answer, asked, ctx) {
+  if (String(answer).trim().length < 8) return null;
+  const block = detectBlocks(answer)[0] || asked?.block;
+  if (!block) return null;
+  const who = asked && asked.block === block ? asked.who : BLOCK[block].owner;
+  const open = pickText("follow.open", D.FOLLOWUP.opens, { ...ctx, quote: quoteOf(answer) });
+  const tail = pickText(`follow.${block}`, D.FOLLOWUP.tails[block], ctx);
+  return open && tail ? { who, text: `${open} ${tail}`, block } : null;
 }
 
 // ---------- довіра ----------
@@ -494,6 +615,9 @@ export function offlineTurn(state) {
   let quality = 1;
   let trust = Object.fromEntries(DIRECTOR_IDS.map((id) => [id, 0]));
   let askedNow = [];
+  let firstQuestions = [];
+  const modelBefore = businessModel(state.idea, playerTexts.slice(0, -1), category);
+  const modelNow = businessModel(state.idea, playerTexts, category);
 
   if (action === "pitch") {
     const pitch = playerTexts[0] || state.idea || "";
@@ -561,7 +685,25 @@ export function offlineTurn(state) {
       }
     }
 
-    // 4. Віхи бізнес-карти.
+    // 4. Гравець уточнив модель бізнесу — директор пояснює, що з цього випливає.
+    for (const key of MODEL_ORDER) {
+      const value = modelNow[key];
+      if (!value || modelBefore[key] || messages.length >= 4) continue;
+      const last = messages[messages.length - 1]?.who;
+      const insight = choose(`clarified.${value}`, D.CLARIFIED[value], ([who, mood, text]) => (who === last ? null : { who, mood, to: "player", text }));
+      if (insight) {
+        messages.push(insight);
+        break;
+      }
+    }
+
+    // 5. Розмита відповідь — перепитати, процитувавши гравця.
+    if (g.tier <= 1 && !isFinal) {
+      const f = followUp(answer, askedNow.find((q) => q.who === first) || askedNow[0], ctx);
+      if (f) firstQuestions.push(f);
+    }
+
+    // 6. Віхи бізнес-карти.
     const before = (state.covered || []).length;
     for (const mark of [8, 5]) {
       if (before < mark && covered.size >= mark) {
@@ -611,10 +753,21 @@ export function offlineTurn(state) {
     if (f) messages.push(f);
   }
 
+  // Поки модель бізнесу неясна, перші питання — уточнювальні.
+  const round = Number(state.round) || 0;
+  if (!isFinal && round <= 3 && firstQuestions.length < 2) {
+    const room = action === "pitch" ? 2 : 1;
+    for (const q of clarifyQuestions(modelNow, room, category, ctx, askedClarifiers(transcript))) {
+      if (firstQuestions.length >= 2 || firstQuestions.some((x) => x.who === q.who)) continue;
+      firstQuestions.push(q);
+    }
+  }
   const questions = makeQuestions(
     nextTopics(covered, askedNow.map((q) => q.block).filter((b) => covered.has(b))),
     ctx,
     isFinal || covered.size === BLOCK_IDS.length,
+    category,
+    firstQuestions,
   );
   const hint = makeHint(questions);
   saveMemory();
