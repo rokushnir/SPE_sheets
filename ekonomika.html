@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Економіка мого бізнесу</title>
+<meta name="description" content="Калькулятор економічної моделі для підлітків: обери напрям бізнесу, порахуй CapEx, постійні й змінні OpEx, собівартість, дохід, прибуток, рентабельність, точку беззбитковості й окупність — з діаграмами та коментарем експерта.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f1f2f4;
+    --surface: #ffffff;
+    --surface-2: #f6f7f9;
+    --text: #15181d;
+    --muted: #5d6470;
+    --faint: #98a0aa;
+    --line: #e2e5ea;
+    --accent: #2a78d6;
+    --accent-soft: #e4effc;
+    --accent-text: #1d5fae;
+    --ok: #16884a;
+    --ok-soft: #dcf4e5;
+    --warn: #b87400;
+    --warn-soft: #fff1d6;
+    --no: #d33a3a;
+    --no-soft: #fde4e4;
+    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+    --s5: #e87ba4; --s6: #008300; --s7: #6250d6; --s8: #e34948;
+    --s-other: #a9afb8;
+    --shadow: 0 10px 28px rgba(20, 30, 50, .07);
+    --radius: 18px;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111316; --surface: #1b1e23; --surface-2: #23272d; --text: #eef0f3; --muted: #a8afb9; --faint: #78818c; --line: #30353d;
+      --accent: #3987e5; --accent-soft: #16304f; --accent-text: #8cc0ff;
+      --ok: #3cc46b; --ok-soft: #163a24; --warn: #f0a92a; --warn-soft: #3d2d0e; --no: #f06262; --no-soft: #432020;
+      --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+      --s-other: #6b727c; --shadow: 0 10px 28px rgba(0, 0, 0, .35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111316; --surface: #1b1e23; --surface-2: #23272d; --text: #eef0f3; --muted: #a8afb9; --faint: #78818c; --line: #30353d;
+    --accent: #3987e5; --accent-soft: #16304f; --accent-text: #8cc0ff;
+    --ok: #3cc46b; --ok-soft: #163a24; --warn: #f0a92a; --warn-soft: #3d2d0e; --no: #f06262; --no-soft: #432020;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --s-other: #6b727c; --shadow: 0 10px 28px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  .wrap { width: min(1080px, 100% - 32px); margin-inline: auto; padding: 40px 0 80px; }
+  h1, h2, h3 { font-family: "Unbounded", "Inter", sans-serif; margin: 0; line-height: 1.15; }
+  h1 { font-size: clamp(28px, 6vw, 46px); font-weight: 800; }
+  h1 span { color: var(--accent); }
+  .kicker { font-size: 12px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; color: var(--accent-text); }
+  .lead { color: var(--muted); max-width: 680px; margin: 12px 0 0; font-size: 16px; }
+  header { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+  .tools { display: flex; gap: 8px; flex-wrap: wrap; }
+  button { font: inherit; cursor: pointer; }
+  .btn { border: 1.5px solid var(--line); background: var(--surface); color: var(--text); border-radius: 12px; padding: 9px 14px; font-weight: 700; font-size: 14px; }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .section { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-top: 22px; }
+  .sec-head { display: flex; gap: 14px; align-items: center; margin-bottom: 6px; }
+  .num { flex: none; width: 38px; height: 38px; border-radius: 11px; background: var(--accent); color: #fff; display: grid; place-items: center; font: 800 16px "Unbounded"; }
+  .sec-head h2 { font-size: clamp(18px, 3.4vw, 22px); }
+  .hint { color: var(--muted); margin: 6px 0 16px; font-size: 14px; }
+  .formula { display: inline-block; background: var(--surface-2); border-radius: 8px; padding: 2px 8px; font-weight: 700; font-size: 13px; color: var(--accent-text); }
+
+  /* Вибір бізнесу */
+  .groups { display: grid; gap: 16px; }
+  .group-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--faint); margin-bottom: 8px; }
+  .biz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .biz { text-align: left; border: 2px solid var(--line); background: var(--surface-2); border-radius: 14px; padding: 12px; color: var(--text); display: flex; gap: 10px; align-items: center; transition: transform .15s, border-color .15s; min-height: 62px; }
+  .biz:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .biz.on { border-color: var(--accent); background: var(--accent-soft); }
+  .biz .e { font-size: 26px; line-height: 1; }
+  .biz b { font-size: 13.5px; line-height: 1.25; }
+  .chosen { margin-top: 16px; padding: 14px 16px; border-radius: 14px; background: var(--accent-soft); color: var(--accent-text); font-weight: 600; font-size: 14px; }
+
+  /* Списки витрат */
+  .list { display: grid; gap: 6px; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) 132px 66px 34px; gap: 8px; align-items: center; }
+  .row.var { grid-template-columns: minmax(0, 1fr) 110px 128px 110px 60px 34px; }
+  .row.prod { grid-template-columns: minmax(0, 1fr) 110px 120px 96px 120px 34px; }
+  .row.headrow { font-size: 11.5px; font-weight: 800; color: var(--faint); text-transform: uppercase; letter-spacing: .5px; }
+  .row.headrow > span:not(:first-child) { text-align: right; }
+  input, select { font: inherit; width: 100%; min-width: 0; border: 1.5px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 10px; padding: 8px 10px; }
+  input:focus, select:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+  input[type=number] { text-align: right; font-variant-numeric: tabular-nums; }
+  select { padding: 8px 6px; font-size: 13px; }
+  .cell { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 14px; }
+  .share { text-align: right; font-size: 13px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .del { border: 0; background: transparent; color: var(--faint); font-size: 20px; line-height: 1; border-radius: 8px; height: 34px; }
+  .del:hover { color: var(--no); background: var(--no-soft); }
+  .total { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; padding: 12px 16px; border-radius: 12px; background: var(--text); color: var(--bg); font-weight: 800; }
+  .total b { font: 800 18px "Unbounded"; font-variant-numeric: tabular-nums; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .chips-label { width: 100%; font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  .chip { border: 1.5px dashed var(--line); background: transparent; color: var(--muted); padding: 5px 10px; border-radius: 99px; font-size: 12.5px; font-weight: 600; }
+  .chip:hover { border-color: var(--accent); color: var(--accent-text); border-style: solid; }
+  .add { margin-top: 8px; border: 1.5px dashed var(--accent); background: transparent; color: var(--accent-text); padding: 8px 14px; border-radius: 10px; font-weight: 700; font-size: 13.5px; }
+
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+  .donut-box { background: var(--surface-2); border-radius: 14px; padding: 16px; }
+  .donut-box h3 { font-size: 13px; margin-bottom: 10px; }
+  .donut-wrap { position: relative; width: 190px; margin: 0 auto; }
+  .donut-wrap svg { display: block; width: 100%; height: auto; }
+  .donut-center { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; pointer-events: none; }
+  .donut-center b { display: block; font: 800 15px "Unbounded"; }
+  .donut-center span { font-size: 11px; color: var(--muted); }
+  .legend { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 5px; font-size: 12.5px; }
+  .legend li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+  .legend i { width: 10px; height: 10px; border-radius: 3px; }
+  .legend span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .legend em { font-style: normal; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .seg path { transition: opacity .15s; }
+  .seg:hover path { opacity: .8; }
+
+  .bar { display: flex; height: 26px; border-radius: 8px; overflow: hidden; gap: 2px; background: var(--surface); }
+  .bar > div { min-width: 2px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; }
+  .bar-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+  .bar-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+
+  /* Показники */
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+  .stat { background: var(--surface-2); border-radius: 14px; padding: 14px 16px; border: 2px solid transparent; }
+  .stat .lbl { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+  .stat .val { font: 800 22px "Unbounded"; margin-top: 6px; font-variant-numeric: tabular-nums; word-break: break-word; }
+  .stat .sub { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .stat.hero { border-color: var(--accent); background: var(--accent-soft); }
+  .stat.good { border-color: var(--ok); background: var(--ok-soft); }
+  .stat.mid { border-color: var(--warn); background: var(--warn-soft); }
+  .stat.bad { border-color: var(--no); background: var(--no-soft); }
+  .tag { display: inline-block; font-size: 11.5px; font-weight: 800; padding: 2px 8px; border-radius: 99px; margin-top: 8px; background: var(--surface); }
+  .stat.good .tag { color: var(--ok); } .stat.mid .tag { color: var(--warn); } .stat.bad .tag { color: var(--no); }
+  .big-profit { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; padding: 22px; border-radius: 16px; border: 2px solid var(--ok); background: var(--ok-soft); }
+  .big-profit.bad { border-color: var(--no); background: var(--no-soft); }
+  .big-profit .v { font: 800 clamp(28px, 7vw, 44px) "Unbounded"; font-variant-numeric: tabular-nums; }
+  .big-profit .lbl { font-weight: 800; font-size: 14px; }
+  .calc-lines { display: grid; gap: 4px; font-size: 14px; min-width: 240px; }
+  .calc-lines div { display: flex; justify-content: space-between; gap: 18px; font-variant-numeric: tabular-nums; }
+  .calc-lines div.sum { border-top: 1.5px solid currentColor; padding-top: 4px; font-weight: 800; }
+
+  /* Графіки */
+  .chart { position: relative; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .chart .grid line { stroke: var(--line); stroke-width: 1; }
+  .chart text { fill: var(--muted); font: 600 11px "Inter", sans-serif; }
+  .chart .lbl-strong { fill: var(--text); font-weight: 800; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+  .tip { position: absolute; pointer-events: none; background: var(--text); color: var(--bg); padding: 8px 10px; border-radius: 10px; font-size: 12.5px; line-height: 1.45; white-space: nowrap; transform: translate(-50%, calc(-100% - 12px)); opacity: 0; transition: opacity .1s; z-index: 5; font-variant-numeric: tabular-nums; }
+  .tip.show { opacity: 1; }
+  .tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+  .charts-2 { display: grid; gap: 22px; }
+  .chart-title { font-weight: 800; font-size: 14px; margin-bottom: 4px; }
+  .chart-sub { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .legend-row { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+  .legend-row i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: 3px; }
+
+  /* Коментар */
+  .comment-btn { width: 100%; padding: 18px; border-radius: 16px; border: 0; background: linear-gradient(135deg, var(--accent), #6250d6); color: #fff; font: 800 17px "Unbounded"; box-shadow: var(--shadow); }
+  .comment-btn:hover { filter: brightness(1.05); }
+  .tips { display: grid; gap: 10px; margin-top: 16px; }
+  .tipcard { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; padding: 14px 16px; border-radius: 14px; background: var(--surface-2); border-left: 5px solid var(--faint); }
+  .tipcard.bad { border-left-color: var(--no); background: var(--no-soft); }
+  .tipcard.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+  .tipcard.good { border-left-color: var(--ok); background: var(--ok-soft); }
+  .tipcard.info { border-left-color: var(--accent); background: var(--accent-soft); }
+  .tipcard .ico { font-size: 22px; line-height: 1; }
+  .tipcard b { display: block; margin-bottom: 2px; }
+  .tipcard p { margin: 0; font-size: 14px; color: var(--muted); }
+  .tipcard .lvl { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; }
+  .tipcard.bad .lvl { color: var(--no); } .tipcard.warn .lvl { color: var(--warn); } .tipcard.good .lvl { color: var(--ok); } .tipcard.info .lvl { color: var(--accent-text); }
+  .live { font-size: 12.5px; color: var(--muted); margin-top: 10px; text-align: center; }
+
+  .sticky { position: sticky; bottom: 12px; z-index: 20; margin-top: 22px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; pointer-events: none; }
+  .sticky > div { pointer-events: auto; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; background: #15181d; color: #fff; border: 1px solid rgba(255,255,255,.12); border-radius: 99px; padding: 10px 20px; font-size: 13px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,.25); font-variant-numeric: tabular-nums; }
+  .sticky b { color: inherit; }
+  .sticky .p-ok { color: #6be39a; } .sticky .p-no { color: #ff8b8b; }
+  footer { margin-top: 30px; text-align: center; color: var(--faint); font-size: 12.5px; }
+
+  @media (max-width: 860px) {
+    .split { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .wrap { width: calc(100% - 32px); padding-top: 24px; }
+    .section { padding: 18px 14px; }
+    .row.headrow { display: none; }
+    .row, .row.var, .row.prod { grid-template-columns: repeat(6, minmax(0, 1fr)); background: var(--surface-2); padding: 10px; border-radius: 12px; gap: 6px; }
+    .row > .nm { grid-column: 1 / -2; }
+    .row > .del { grid-column: -2 / -1; }
+    .row > .f2 { grid-column: span 3; }
+    .row > .f3 { grid-column: span 2; }
+    .row > .f6 { grid-column: span 6; }
+    .row [data-lab]::before { content: attr(data-lab); display: block; font-size: 10.5px; font-weight: 700; color: var(--faint); text-align: left; margin-bottom: 2px; }
+    .biz-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .stat { padding: 12px; }
+    .stat .val { font-size: 17px; }
+    .sticky > div { border-radius: 16px; gap: 10px; }
+  }
+  @media print {
+    .tools, .chips, .add, .del, .sticky, .comment-btn { display: none !important; }
+    body { background: #fff; }
+    .section { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <div>
+      <div class="kicker">SPE · Як запустити свій проект</div>
+      <h1>Економіка <span>мого бізнесу</span></h1>
+      <p class="lead">Обери напрям — і отримаєш готовий шаблон витрат. Зміни цифри під свою ідею, і сторінка одразу порахує собівартість, прибуток, рентабельність, точку беззбитковості й термін окупності.</p>
+    </div>
+    <div class="tools">
+      <button class="btn" id="resetBtn" type="button">↺ Скинути шаблон</button>
+      <button class="btn" id="printBtn" type="button">🖨 Друк</button>
+    </div>
+  </header>
+
+  <!-- 1. Напрям -->
+  <section class="section">
+    <div class="sec-head"><div class="num">1</div><h2>Обери напрям бізнесу</h2></div>
+    <p class="hint">Шаблон — це лише стартові цифри. Усе можна змінити, видалити або додати своє.</p>
+    <div class="groups" id="bizGroups"></div>
+    <div class="chosen" id="chosen"></div>
+  </section>
+
+  <!-- 2. CapEx -->
+  <section class="section">
+    <div class="sec-head"><div class="num">2</div><h2>CapEx — стартові вкладення</h2></div>
+    <p class="hint">Капітальні витрати — це те, що купуєш <b>один раз</b>, щоб бізнес узагалі запрацював: ремонт, обладнання, перший запас товару, сайт.</p>
+    <div class="split">
+      <div>
+        <div class="list" id="capexList"></div>
+        <button class="add" type="button" data-add="capex">+ Додати свою статтю</button>
+        <div class="chips" id="capexChips"></div>
+        <div class="total"><span>РАЗОМ CapEx</span><b id="capexTotal">0</b></div>
+      </div>
+      <div class="donut-box"><h3>Структура CapEx</h3><div id="capexDonut"></div></div>
+    </div>
+  </section>
+
+  <!-- 3. OpEx постійні -->
+  <section class="section">
+    <div class="sec-head"><div class="num">3</div><h2>OpEx — постійні витрати</h2></div>
+    <p class="hint">Платиш <b>щомісяця</b>, навіть якщо не продав нічого: оренда, комунальні, зарплата, реклама, підписки, податок ЄСВ.</p>
+    <div class="list" id="fixedList"></div>
+    <button class="add" type="button" data-add="fixed">+ Додати свою статтю</button>
+    <div class="chips" id="fixedChips"></div>
+    <div class="total"><span>РАЗОМ постійні на місяць</span><b id="fixedTotal">0</b></div>
+  </section>
+
+  <!-- 4. Товари -->
+  <section class="section">
+    <div class="sec-head"><div class="num">4</div><h2>Товари і послуги</h2></div>
+    <p class="hint">Що саме продаєш: ціна, скільки коштує <b>закупівля або матеріали</b> на одну одиницю і скільки плануєш продати за місяць. Можна додати скільки завгодно позицій.</p>
+    <div class="list" id="prodList"></div>
+    <button class="add" type="button" data-add="products">+ Додати товар / послугу</button>
+    <div class="stats" style="margin-top:16px" id="prodStats"></div>
+  </section>
+
+  <!-- 5. OpEx змінні -->
+  <section class="section">
+    <div class="sec-head"><div class="num">5</div><h2>OpEx — змінні витрати</h2></div>
+    <p class="hint">Ростуть разом із продажами: пакування, доставка, відсоток майстру, комісія банку, податок. Обери, як рахується стаття: <b>грн за 1 продаж</b> чи <b>% від виручки</b>. Закупівля / матеріали з блоку 4 теж додаються сюди автоматично.</p>
+    <div class="list" id="varList"></div>
+    <button class="add" type="button" data-add="variable">+ Додати свою статтю</button>
+    <div class="chips" id="varChips"></div>
+    <div class="total"><span>РАЗОМ змінні на місяць</span><b id="varTotal">0</b></div>
+  </section>
+
+  <!-- 6. Структура OpEx -->
+  <section class="section">
+    <div class="sec-head"><div class="num">6</div><h2>Частка кожної витрати</h2></div>
+    <p class="hint">Куди йдуть гроші щомісяця. Найбільші шматки — перші кандидати на економію.</p>
+    <div class="split">
+      <div>
+        <div class="chart-title">Постійні vs змінні</div>
+        <div class="bar" id="fvBar"></div>
+        <div class="bar-legend" id="fvLegend"></div>
+        <div class="chart-title" style="margin-top:22px">З чого складається середня ціна одиниці</div>
+        <div class="chart-sub" id="priceSub"></div>
+        <div class="bar" id="priceBar"></div>
+        <div class="bar-legend" id="priceLegend"></div>
+      </div>
+      <div class="donut-box"><h3>Структура OpEx за місяць</h3><div id="opexDonut"></div></div>
+    </div>
+  </section>
+
+  <!-- 7. Собівартість -->
+  <section class="section">
+    <div class="sec-head"><div class="num">7</div><h2>Собівартість</h2></div>
+    <p class="hint"><span class="formula">Собівартість 1 од. = (постійні + змінні) ÷ кількість продажів</span></p>
+    <div class="stats" id="costStats"></div>
+  </section>
+
+  <!-- 8. Дохід і прибуток -->
+  <section class="section">
+    <div class="sec-head"><div class="num">8</div><h2>Дохід і прибуток</h2></div>
+    <p class="hint"><span class="formula">Прибуток = Дохід − OpEx (постійні + змінні)</span></p>
+    <div class="stats" id="revStats" style="margin-bottom:14px"></div>
+    <div class="big-profit" id="profitBox"></div>
+  </section>
+
+  <!-- 9. Рентабельність і беззбитковість -->
+  <section class="section">
+    <div class="sec-head"><div class="num">9</div><h2>Рентабельність, беззбитковість, окупність</h2></div>
+    <p class="hint"><span class="formula">Точка беззбитковості = постійні ÷ (ціна − змінні на 1 од.)</span> <span class="formula">Окупність = CapEx ÷ прибуток за місяць</span></p>
+    <div class="stats" id="kpiStats"></div>
+  </section>
+
+  <!-- 10. Графіки -->
+  <section class="section">
+    <div class="sec-head"><div class="num">10</div><h2>Графіки</h2></div>
+    <div class="charts-2">
+      <div>
+        <div class="chart-title">Точка беззбитковості</div>
+        <div class="chart-sub">Скільки продажів на місяць потрібно, щоб дохід покрив усі витрати. Наведи на графік.</div>
+        <div class="legend-row">
+          <span><i style="background:var(--s1)"></i>Дохід</span>
+          <span><i style="background:var(--s2)"></i>Усі витрати</span>
+          <span><i style="background:var(--faint)"></i>Постійні витрати</span>
+        </div>
+        <div class="chart" id="bepChart"></div>
+      </div>
+      <div>
+        <div class="chart-title">Окупність CapEx</div>
+        <div class="chart-sub">Накопичений результат: стартуєш у мінусі на суму CapEx і щомісяця додаєш прибуток.</div>
+        <div class="chart" id="payChart"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Коментар -->
+  <section class="section">
+    <div class="sec-head"><div class="num">11</div><h2>Коментар експерта</h2></div>
+    <p class="hint">Натисни — і отримаєш 5–10 порад, на що звернути увагу в першу чергу. Коментар оновлюється разом із цифрами.</p>
+    <button class="comment-btn" id="commentBtn" type="button">💬 Отримати коментар</button>
+    <div class="tips" id="tips"></div>
+    <div class="live" id="liveNote" hidden>Змінюй цифри вище — поради оновлюються в реальному часі.</div>
+  </section>
+
+  <div class="sticky"><div id="stickyBar"></div></div>
+  <footer>Дані зберігаються лише у твоєму браузері.</footer>
+</main>
+
+<script>
+(() => {
+  /* ===== КАТАЛОГИ: потенційні типи витрат ===== */
+  const CAT = {
+    capex: ['Ремонт приміщення', 'Меблі', 'Обладнання', 'Інструменти', 'Ноутбук / комп\'ютер', 'Телефон для бізнесу', 'Касовий термінал (ПРРО)', 'Вивіска і брендинг', 'Розробка сайту / застосунку', 'Стартовий запас товару', 'Стартовий запас матеріалів', 'Реєстрація ФОП і дозволи', 'Депозит за оренду', 'Рекламна кампанія на старт', 'Ліцензії на програми', 'Посуд та інвентар', 'Фото і відео для соцмереж', 'Навчання і сертифікати', 'Кондиціонер / освітлення', 'Транспорт (велосипед, самокат)'],
+    fixed: ['Оренда', 'Комунальні послуги', 'Зарплата працівника', 'Зарплата собі', 'Інтернет і зв\'язок', 'Реклама в соцмережах', 'Бухгалтер', 'Підписки на сервіси', 'Хостинг і домен', 'Онлайн-запис / CRM', 'Охорона / сигналізація', 'Прибирання', 'Страхування', 'ЄСВ (ФОП)', 'Обслуговування обладнання', 'Резерв на непередбачене'],
+    variable: [['Матеріали на 1 продаж', 'u'], ['Пакування', 'u'], ['Доставка', 'u'], ['Одноразові витратні', 'u'], ['Реклама за 1 клієнта', 'u'], ['Відсоток майстру', 'p'], ['Еквайринг (комісія банку)', 'p'], ['Комісія маркетплейсу', 'p'], ['Єдиний податок', 'p'], ['Повернення і брак', 'p'], ['Списання продуктів', 'p'], ['Бонуси і знижки', 'p']]
+  };
+
+  /* ===== ШАБЛОНИ БІЗНЕСІВ =====
+     capex: [назва, грн]; fixed: [назва, грн/міс]; variable: [назва, значення, 'u' грн за 1 од. | 'p' % виручки];
+     products: [назва, ціна, закупівля/матеріали на 1 од., кількість на місяць] */
+  const GROUPS = [
+    ['Краса', ['nails', 'cosmo', 'barber']],
+    ['Їжа і кава', ['bakery', 'cafe', 'cinema']],
+    ['Перепродаж', ['cases', 'clothes']],
+    ['Ремонт', ['bikes', 'tech']],
+    ['Цифрові', ['digital', 'apps', 'sites', 'saas']],
+    ['Дозвілля і простір', ['quest', 'library']],
+    ['Інше', ['custom']]
+  ];
+  const BIZ = {
+    nails: { e: '💅', n: 'Манікюрний салон', kind: 'service', unit: 'процедура',
+      capex: [['Ремонт і облаштування кабінету', 40000], ['Манікюрний стіл і крісла', 18000], ['Лампа, фрезер, витяжка', 15000], ['Стерилізатор (сухожар)', 7000], ['Стартовий запас гель-лаків', 12000], ['Вивіска і фото для Instagram', 6000], ['Реєстрація ФОП і документи', 1500]],
+      fixed: [['Оренда кабінету', 12000], ['Комунальні послуги', 2500], ['Інтернет і зв\'язок', 400], ['Реклама в Instagram', 4000], ['Онлайн-запис / CRM', 600], ['ЄСВ (ФОП)', 1900], ['Прибирання і хімія', 1200]],
+      variable: [['Відсоток майстру', 40, 'p'], ['Одноразові (пилки, рукавички)', 25, 'u'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Манікюр з покриттям', 650, 90, 120], ['Педикюр', 800, 110, 50], ['Нарощування', 1100, 180, 30]],
+      tip: 'У б\'юті-сфері все вирішують постійні клієнти: порахуй, скільки людей мають повертатися щомісяця, щоб виконати план.' },
+    cosmo: { e: '🧴', n: 'Косметичний салон', kind: 'service', unit: 'процедура',
+      capex: [['Ремонт кабінету', 60000], ['Косметологічна кушетка', 20000], ['Апарат для доглядів', 45000], ['Лампа-лупа і стерилізатор', 12000], ['Стартовий запас косметики', 25000], ['Навчання і сертифікати', 15000], ['Вивіска і брендинг', 8000]],
+      fixed: [['Оренда', 15000], ['Комунальні послуги', 3000], ['Реклама в соцмережах', 6000], ['Зв\'язок і CRM', 900], ['ЄСВ (ФОП)', 1900], ['Прання рушників, прибирання', 2000], ['Бухгалтер', 1500]],
+      variable: [['Відсоток майстру', 35, 'p'], ['Одноразові витратні', 60, 'u'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Чистка обличчя', 1200, 200, 40], ['Догляд / пілінг', 900, 180, 50], ['Масаж обличчя', 700, 60, 30]],
+      tip: 'Дороге обладнання окупається лише за повного запису. Перевір, скільки процедур на день реально може зробити один майстер.' },
+    barber: { e: '✂️', n: 'Стрижки / барбершоп', kind: 'service', unit: 'стрижка',
+      capex: [['Барберські крісла (2 шт.)', 30000], ['Дзеркала і консолі', 12000], ['Машинки, тримери, ножиці', 15000], ['Мийка для голови', 8000], ['Ремонт і світло', 35000], ['Вивіска і брендинг', 7000]],
+      fixed: [['Оренда', 14000], ['Комунальні послуги', 2500], ['Реклама в соцмережах', 3500], ['Онлайн-запис / CRM', 600], ['ЄСВ (ФОП)', 1900], ['Музика і підписки', 300], ['Прибирання', 1000]],
+      variable: [['Відсоток майстру', 40, 'p'], ['Косметика (шампунь, віск)', 30, 'u'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Чоловіча стрижка', 450, 0, 250], ['Стрижка + борода', 650, 0, 80], ['Дитяча стрижка', 300, 0, 60]],
+      tip: 'Стрижка — повторювана послуга кожні 3–5 тижнів. Програма лояльності тут працює краще, ніж реклама.' },
+    bakery: { e: '🥐', n: 'Випічка', kind: 'production', unit: 'виріб',
+      capex: [['Конвекційна духова шафа', 25000], ['Планетарний міксер', 12000], ['Форми, деко, інвентар', 6000], ['Холодильник', 15000], ['Пакування з логотипом (перша партія)', 4000], ['Фото і сторінка в Instagram', 3000], ['Санітарна книжка і документи', 1500]],
+      fixed: [['Оренда кухні (погодинно)', 4000], ['Комунальні (світло, газ)', 3000], ['Реклама в соцмережах', 2500], ['Інтернет і зв\'язок', 400], ['ЄСВ (ФОП)', 1900], ['Мийні засоби', 500]],
+      variable: [['Пакування', 15, 'u'], ['Доставка', 10, 'u'], ['Списання продуктів', 3, 'p'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Круасан', 55, 18, 400], ['Торт (1 кг)', 750, 280, 30], ['Набір печива', 180, 60, 80]],
+      tip: 'Випічка швидко псується: те, що не продав сьогодні, — прямий збиток. Починай з передзамовлень.' },
+    cases: { e: '📱', n: 'Перепродаж чохлів', kind: 'resale', unit: 'товар',
+      capex: [['Стартова партія чохлів', 15000], ['Лайтбокс і штатив для фото', 2500], ['Стелаж / органайзер', 2000], ['Оформлення Instagram і сайту', 3000], ['Реєстрація ФОП', 1500], ['Рекламна кампанія на старт', 3000]],
+      fixed: [['Реклама в соцмережах', 3000], ['Інтернет і зв\'язок', 400], ['ЄСВ (ФОП)', 1900], ['Підписки (Canva, CRM)', 500], ['Бухгалтер онлайн', 500]],
+      variable: [['Пакування', 12, 'u'], ['Доставка за рахунок продавця', 25, 'u'], ['Комісія маркетплейсу', 12, 'p'], ['Повернення і брак', 3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Силіконовий чохол', 350, 90, 80], ['Чохол-книжка', 500, 150, 30], ['Захисне скло', 250, 40, 60]],
+      tip: 'У перепродажі легко скопіювати твій асортимент. Твоя перевага — швидкість, сервіс і вибір моделей, яких немає в інших.' },
+    clothes: { e: '👕', n: 'Перепродаж одягу', kind: 'resale', unit: 'річ',
+      capex: [['Перша партія одягу', 30000], ['Вішаки, стійка, манекен', 5000], ['Світло і лайтбокс для фото', 4000], ['Відпарювач', 3000], ['Реєстрація ФОП', 1500], ['Брендовані пакети', 2500]],
+      fixed: [['Оренда кутка в шоурумі', 6000], ['Реклама в Instagram / TikTok', 5000], ['Інтернет і зв\'язок', 400], ['ЄСВ (ФОП)', 1900], ['Підписки на сервіси', 500], ['Бухгалтер', 500]],
+      variable: [['Пакування', 20, 'u'], ['Доставка', 40, 'u'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Повернення і брак', 5, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Футболка / лонгслів', 450, 150, 80], ['Худі / светр', 900, 320, 40], ['Джинси', 800, 280, 30]],
+      tip: 'Одяг, що не продався за сезон, втрачає ціну. Плануй розпродажі й не заморожуй усі гроші в одній партії.' },
+    bikes: { e: '🚲', n: 'Ремонт велосипедів', kind: 'service', unit: 'ремонт',
+      capex: [['Ремонтний стенд', 6000], ['Набір інструментів', 15000], ['Компресор / насос', 4000], ['Стартовий запас запчастин', 15000], ['Облаштування майстерні', 12000], ['Вивіска', 3000]],
+      fixed: [['Оренда гаража / майстерні', 6000], ['Комунальні послуги', 1200], ['Реклама в соцмережах', 2000], ['Інтернет і зв\'язок', 400], ['ЄСВ (ФОП)', 1900], ['Утилізація і прибирання', 300]],
+      variable: [['Мастила, витратні', 30, 'u'], ['Дорога до клієнта', 15, 'u'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['ТО велосипеда', 700, 50, 40], ['Заміна камери / покришки', 250, 120, 80], ['Налаштування гальм і перемикачів', 350, 20, 50]],
+      tip: 'Ремонт велосипедів — сезонний: взимку замовлень може бути в 3–4 рази менше. Порахуй, чи вистачить запасу на холодні місяці.' },
+    tech: { e: '🔧', n: 'Ремонт техніки', kind: 'service', unit: 'ремонт',
+      capex: [['Паяльна станція', 12000], ['Мікроскоп', 15000], ['Набір викруток та інструментів', 6000], ['Сепаратор / прес для екранів', 10000], ['Стартовий запас запчастин', 25000], ['Робоче місце майстра', 15000], ['Вивіска', 5000]],
+      fixed: [['Оренда острівця в ТЦ', 10000], ['Комунальні послуги', 1000], ['Реклама в соцмережах', 3000], ['Інтернет і зв\'язок', 500], ['ЄСВ (ФОП)', 1900], ['Програми для діагностики', 600]],
+      variable: [['Витратні (флюс, клей, плівка)', 40, 'u'], ['Гарантійні повернення', 4, 'p'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Заміна екрана', 2500, 1400, 25], ['Заміна батареї', 1200, 550, 30], ['Чистка / діагностика', 400, 20, 40]],
+      tip: 'У ремонті техніки довіра важливіша за ціну: гарантія і відгуки приводять клієнтів безкоштовно.' },
+    digital: { e: '🎨', n: 'Цифрові продукти', kind: 'digital', unit: 'продаж',
+      capex: [['Ноутбук / планшет', 30000], ['Ліцензії на програми (рік)', 6000], ['Мікрофон і світло', 5000], ['Лендинг (розробка)', 8000], ['Реєстрація ФОП', 1500]],
+      fixed: [['Підписки на сервіси', 1500], ['Хостинг і домен', 300], ['Реклама в соцмережах', 6000], ['Інтернет і зв\'язок', 400], ['ЄСВ (ФОП)', 1900], ['Email-розсилка', 500]],
+      variable: [['Комісія платформи (Etsy, Gumroad)', 10, 'p'], ['Платіжна система', 2, 'p'], ['Повернення коштів', 2, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Шаблони для Instagram', 300, 0, 60], ['Гайд / чекліст PDF', 200, 0, 80], ['Міні-курс', 1500, 0, 15]],
+      tip: 'Цифровий товар не має закупівлі, тож головна витрата — реклама. Рахуй, скільки коштує залучити одного покупця.' },
+    apps: { e: '📲', n: 'Мобільні додатки', kind: 'digital', unit: 'платіж',
+      capex: [['Розробка MVP (фрилансери)', 60000], ['Дизайн інтерфейсу', 15000], ['Акаунти App Store / Google Play', 5000], ['Ноутбук і тестові телефони', 35000], ['Юридичні документи і ФОП', 3000]],
+      fixed: [['Сервери і бекенд', 2500], ['Реклама і залучення', 10000], ['Розробник на підтримці', 12000], ['Аналітика і підписки', 1200], ['ЄСВ (ФОП)', 1900], ['Інтернет і зв\'язок', 400]],
+      variable: [['Комісія App Store / Google Play', 15, 'p'], ['Хмарні ресурси на користувача', 3, 'u'], ['Повернення коштів', 2, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Підписка на місяць', 150, 0, 150], ['Річна підписка', 1200, 0, 10], ['Внутрішні покупки', 60, 0, 100]],
+      tip: 'У додатках більшість користувачів не платить. Дізнайся, який відсоток з тих, хто встановив, стає платником.' },
+    sites: { e: '🌐', n: 'Сайти на замовлення', kind: 'service', unit: 'проєкт',
+      capex: [['Ноутбук', 35000], ['Другий монітор', 7000], ['Ліцензії і шаблони (рік)', 5000], ['Власний сайт-портфоліо', 3000], ['Навчання і курси', 8000], ['Реєстрація ФОП', 1500]],
+      fixed: [['Підписки (Figma, Webflow, ШІ)', 2000], ['Хостинг для демо', 300], ['Реклама і біржі фрилансу', 2500], ['Інтернет і зв\'язок', 500], ['ЄСВ (ФОП)', 1900], ['Коворкінг', 3000]],
+      variable: [['Дизайнер-субпідрядник', 20, 'p'], ['Комісія біржі', 10, 'p'], ['Хостинг і домен для клієнта', 600, 'u'], ['Банківська комісія', 1, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Лендинг', 8000, 0, 3], ['Сайт-візитка', 12000, 0, 2], ['Підтримка сайту (міс.)', 2000, 0, 5]],
+      tip: 'Коли замовлень мало, кожен клієнт — це великий шматок доходу. Абонентська підтримка сайтів дає стабільні гроші щомісяця.' },
+    saas: { e: '🧩', n: 'Онлайн-сервіси (SaaS)', kind: 'digital', unit: 'підписка',
+      capex: [['Розробка платформи', 50000], ['Дизайн і брендинг', 10000], ['Ноутбук', 30000], ['Юридичні документи', 3000], ['Рекламна кампанія на старт', 8000]],
+      fixed: [['Сервери і хмара', 3000], ['API та сторонні сервіси', 2000], ['Реклама в соцмережах', 8000], ['Підтримка клієнтів', 6000], ['ЄСВ (ФОП)', 1900], ['Підписки на інструменти', 1500]],
+      variable: [['Платіжна система', 3, 'p'], ['Хмарні ресурси на клієнта', 15, 'u'], ['Повернення коштів', 2, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Тариф Basic', 200, 0, 120], ['Тариф Pro', 500, 0, 40], ['Тариф Team', 1500, 0, 8]],
+      tip: 'У сервісах із підпискою головне — щоб клієнти не йшли. Втрата навіть 10% клієнтів щомісяця швидко «з\'їдає» ріст.' },
+    cafe: { e: '☕', n: 'Кав\'ярня', kind: 'production', unit: 'чек',
+      capex: [['Кавомашина і кавомолка', 120000], ['Ремонт і меблі', 90000], ['Холодильна вітрина', 35000], ['Посуд та інвентар', 15000], ['Касовий термінал (ПРРО)', 10000], ['Вивіска і брендинг', 15000], ['Стартовий запас продуктів', 15000]],
+      fixed: [['Оренда', 30000], ['Комунальні послуги', 7000], ['Зарплата бариста', 36000], ['Реклама в соцмережах', 5000], ['Каса і інтернет', 1200], ['ЄСВ (ФОП)', 1900], ['Сервіс кавомашини', 1500], ['Бухгалтер', 2000]],
+      variable: [['Стаканчики, кришки, серветки', 6, 'u'], ['Списання продуктів', 3, 'p'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Кава (капучино, лате)', 75, 18, 1800], ['Десерт', 110, 55, 400], ['Чай / лимонад', 70, 12, 300]],
+      tip: 'Кав\'ярня живе з потоку людей: 1800 кав на місяць — це 60 на день. Постій біля обраного місця годину й порахуй перехожих.' },
+    cinema: { e: '🎬', n: 'Кав\'ярня з кінозалом', kind: 'production', unit: 'чек',
+      capex: [['Ремонт і звукоізоляція', 150000], ['Кавомашина', 120000], ['Проєктор і екран', 60000], ['Крісла і пуфи для залу', 50000], ['Акустика', 40000], ['Ліцензії на перший рік', 20000], ['Посуд та інвентар', 15000]],
+      fixed: [['Оренда', 45000], ['Комунальні послуги', 10000], ['Персонал', 50000], ['Реклама в соцмережах', 8000], ['Ліцензії на показ фільмів', 6000], ['Каса і інтернет', 1500], ['ЄСВ (ФОП)', 1900]],
+      variable: [['Стаканчики і пакети для попкорну', 8, 'u'], ['Списання продуктів', 3, 'p'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Квиток на сеанс', 200, 0, 400], ['Кава / напій', 80, 18, 1500], ['Попкорн / снек', 90, 25, 500]],
+      tip: 'Кінозал заповнений лише ввечері та у вихідні. Подумай, чим заробляти вдень: дитячі покази, оренда залу для подій.' },
+    quest: { e: '🗝️', n: 'Квест-кімната', kind: 'service', unit: 'гра',
+      capex: [['Ремонт і декорації', 150000], ['Електроніка і замки', 60000], ['Сценарій і гейм-дизайн', 20000], ['Відеонагляд і звук', 25000], ['Меблі для лаунжу', 15000], ['Вивіска і сайт бронювання', 15000]],
+      fixed: [['Оренда приміщення', 25000], ['Комунальні послуги', 5000], ['Зарплата адміністратора', 18000], ['Реклама в соцмережах', 8000], ['Онлайн-бронювання', 800], ['ЄСВ (ФОП)', 1900], ['Ремонт реквізиту', 2000]],
+      variable: [['Витратні (батарейки, вода)', 40, 'u'], ['Комісія агрегатора', 10, 'p'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Квест у будні', 1400, 0, 30], ['Квест у вихідні', 1800, 0, 30], ['День народження (пакет)', 4000, 500, 4]],
+      tip: 'Квест проходять один раз, тож клієнти не повертаються. Плануй новий сценарій кожні 1–2 роки і заклади це у витрати.' },
+    library: { e: '📚', n: 'Публічна бібліотека', kind: 'service', unit: 'відвідування',
+      capex: [['Ремонт і меблі (стелажі, крісла)', 80000], ['Стартовий фонд книг', 40000], ['Ноутбук і облік книг', 20000], ['Світло і затишок', 15000], ['Настільні ігри', 10000], ['Вивіска', 6000]],
+      fixed: [['Оренда', 18000], ['Комунальні послуги', 4000], ['Зарплата адміністратора', 15000], ['Поповнення фонду книг', 3000], ['Реклама і події', 3000], ['Інтернет і зв\'язок', 500], ['ЄСВ (ФОП)', 1900]],
+      variable: [['Чай / кава для гостей', 15, 'u'], ['Знос і втрата книг', 2, 'p'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Абонемент на місяць', 300, 0, 80], ['Разове відвідування', 100, 0, 300], ['Платна подія (клуб, лекція)', 250, 30, 100]],
+      tip: 'Бібліотека рідко заробляє на самих книгах. Гроші приносять події, клуби, оренда простору і партнерства з бізнесом.' },
+    custom: { e: '✏️', n: 'Свій бізнес', kind: 'service', unit: 'продаж',
+      capex: [['Обладнання', 10000], ['Стартовий запас матеріалів', 5000], ['Реєстрація ФОП і дозволи', 1500], ['Рекламна кампанія на старт', 3000]],
+      fixed: [['Оренда', 5000], ['Реклама в соцмережах', 2000], ['Інтернет і зв\'язок', 400], ['ЄСВ (ФОП)', 1900], ['Підписки на сервіси', 300], ['Резерв на непередбачене', 1000]],
+      variable: [['Пакування', 10, 'u'], ['Доставка', 30, 'u'], ['Еквайринг (комісія банку)', 1.3, 'p'], ['Єдиний податок', 5, 'p']],
+      products: [['Товар 1', 500, 200, 50], ['Товар 2', 300, 100, 40], ['Товар 3', 1000, 400, 10]],
+      tip: 'Опиши свій бізнес одним реченням: що продаєш, кому і чому купуватимуть саме в тебе. Від цього залежать усі цифри.' }
+  };
+
+  /* ===== СТАН ===== */
+  const KEY = 'ekonomika-v1';
+  let S;
+  const fromPreset = id => {
+    const b = BIZ[id];
+    return {
+      biz: id,
+      capex: b.capex.map(([n, v]) => ({ n, v })),
+      fixed: b.fixed.map(([n, v]) => ({ n, v })),
+      variable: b.variable.map(([n, v, m]) => ({ n, v, m })),
+      products: b.products.map(([n, p, c, q]) => ({ n, p, c, q })),
+      showTips: false
+    };
+  };
+  try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
+  if (!S || !BIZ[S.biz] || !Array.isArray(S.capex)) S = fromPreset('nails');
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  let dirty = false;
+
+  /* ===== ФОРМАТУВАННЯ ===== */
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const num = v => { const x = parseFloat(String(v).replace(',', '.')); return isFinite(x) ? x : 0; };
+  const fmt = (n, d = 0) => (isFinite(n) ? n : 0).toLocaleString('uk-UA', { maximumFractionDigits: d, minimumFractionDigits: 0 });
+  const uah = n => fmt(Math.round(n)) + ' грн';
+  const pct = (n, d = 1) => isFinite(n) ? fmt(n * 100, d) + '%' : '—';
+  const short = n => { const a = Math.abs(n); return a >= 1e6 ? fmt(n / 1e6, 1) + ' млн' : a >= 1e3 ? fmt(n / 1e3, a >= 1e5 ? 0 : 1) + ' тис' : fmt(n); };
+  const months = m => { if (!isFinite(m) || m <= 0) return '—'; if (m < 1) return 'менше місяця'; const r = Math.round(m * 10) / 10; return fmt(r, 1) + ' міс.'; };
+  const SER = ['--s1', '--s2', '--s3', '--s4', '--s5', '--s6', '--s7', '--s8'];
+
+  /* ===== РОЗРАХУНОК ===== */
+  function model() {
+    const capex = S.capex.reduce((a, r) => a + num(r.v), 0);
+    const fixed = S.fixed.reduce((a, r) => a + num(r.v), 0);
+    const prods = S.products.map(r => ({ n: r.n, p: num(r.p), c: num(r.c), q: Math.max(0, num(r.q)) }));
+    const Q = prods.reduce((a, r) => a + r.q, 0);
+    const rev = prods.reduce((a, r) => a + r.p * r.q, 0);
+    const direct = prods.reduce((a, r) => a + r.c * r.q, 0);
+    const varRows = S.variable.map(r => {
+      const v = num(r.v);
+      return { n: r.n, m: r.m, v, month: r.m === 'p' ? v / 100 * rev : v * Q };
+    });
+    const varU = varRows.filter(r => r.m === 'u').reduce((a, r) => a + r.v, 0);
+    const varP = varRows.filter(r => r.m === 'p').reduce((a, r) => a + r.v, 0) / 100;
+    const varTotal = direct + varRows.reduce((a, r) => a + r.month, 0);
+    const opex = fixed + varTotal;
+    const profit = rev - opex;
+    const avgP = Q ? rev / Q : 0;
+    const avgDirect = Q ? direct / Q : 0;
+    const avgVar = Q ? varTotal / Q : 0;
+    const unitMargin = avgP - avgVar;
+    const bep = unitMargin > 0 ? fixed / unitMargin : Infinity;
+    const bepRev = isFinite(bep) ? bep * avgP : Infinity;
+    const payback = profit > 0 ? capex / profit : Infinity;
+    return {
+      capex, fixed, prods, Q, rev, direct, varRows, varU, varP, varTotal, opex, profit, avgP, avgDirect, avgVar, unitMargin, bep, bepRev, payback,
+      n: prods.length, avgQ: prods.length ? Q / prods.length : 0,
+      fullUnit: Q ? opex / Q : 0, fixedUnit: Q ? fixed / Q : 0,
+      margin: rev ? (rev - varTotal) / rev : 0,
+      ros: rev ? profit / rev : 0,
+      roc: opex ? profit / opex : 0,
+      roi: capex ? profit * 12 / capex : Infinity,
+      safety: Q && isFinite(bep) ? (Q - bep) / Q : -Infinity
+    };
+  }
+
+  /* ===== ВИБІР БІЗНЕСУ ===== */
+  function renderBiz() {
+    $('bizGroups').innerHTML = GROUPS.map(([g, ids]) => `
+      <div><div class="group-title">${g}</div><div class="biz-grid">
+        ${ids.map(id => `<button type="button" class="biz${S.biz === id ? ' on' : ''}" data-biz="${id}"><span class="e">${BIZ[id].e}</span><b>${BIZ[id].n}</b></button>`).join('')}
+      </div></div>`).join('');
+    const b = BIZ[S.biz];
+    $('chosen').innerHTML = `${b.e} Обрано: <b>${b.n}</b>. ${esc(b.tip)}`;
+  }
+  $('bizGroups').addEventListener('click', e => {
+    const btn = e.target.closest('[data-biz]');
+    if (!btn) return;
+    const id = btn.dataset.biz;
+    if (id === S.biz && !dirty) return;
+    if (dirty && !confirm('Завантажити шаблон «' + BIZ[id].n + '»? Твої поточні цифри буде замінено.')) return;
+    const show = S.showTips;
+    S = fromPreset(id); S.showTips = show; dirty = false;
+    renderAll();
+  });
+
+  /* ===== СПИСКИ ===== */
+  const LISTS = {
+    capex: { el: 'capexList', head: ['Стаття', 'Сума, грн', 'Частка', ''] },
+    fixed: { el: 'fixedList', head: ['Стаття', 'грн / місяць', 'Частка OpEx', ''] },
+    variable: { el: 'varList', head: ['Стаття', 'Значення', 'Як рахується', 'За місяць', 'Частка', ''] },
+    products: { el: 'prodList', head: ['Товар / послуга', 'Ціна, грн', 'Закупівля / матер.', 'Шт / міс.', 'Виручка / міс.', ''] }
+  };
+  function rowHtml(kind, r, i) {
+    const nm = `<input class="nm" data-k="${kind}" data-i="${i}" data-f="n" value="${esc(r.n)}" placeholder="Назва" aria-label="Назва">`;
+    const del = `<button type="button" class="del" data-del="${kind}" data-i="${i}" aria-label="Видалити">×</button>`;
+    const inp = (f, v, lab, cls = 'f3', step = 'any') => `<label class="${cls}" data-lab="${lab}"><input type="number" min="0" step="${step}" inputmode="decimal" data-k="${kind}" data-i="${i}" data-f="${f}" value="${v}" aria-label="${lab}"></label>`;
+    if (kind === 'capex' || kind === 'fixed')
+      return `<div class="row">${nm}${inp('v', r.v, kind === 'capex' ? 'Сума, грн' : 'грн / міс.', 'f3')}<div class="share f3" data-lab="Частка" data-share="${kind}-${i}"></div>${del}</div>`;
+    if (kind === 'variable')
+      return `<div class="row var">${nm}${inp('v', r.v, r.m === 'p' ? '%' : 'грн', 'f2')}<label class="f2" data-lab="Як рахується"><select data-k="variable" data-i="${i}" data-f="m"><option value="u"${r.m === 'u' ? ' selected' : ''}>грн за 1 продаж</option><option value="p"${r.m === 'p' ? ' selected' : ''}>% від виручки</option></select></label><div class="cell f2" data-lab="За місяць" data-month="${i}"></div><div class="share f2" data-lab="Частка" data-share="variable-${i}"></div>${del}</div>`;
+    return `<div class="row prod">${nm}${inp('p', r.p, 'Ціна, грн', 'f2')}${inp('c', r.c, 'Закупівля / матер.', 'f2')}${inp('q', r.q, 'Шт / міс.', 'f2', '1')}<div class="cell f6" data-lab="Виручка / міс." data-prev="${i}"></div>${del}</div>`;
+  }
+  function renderList(kind) {
+    const L = LISTS[kind];
+    const cols = L.head.map(h => `<span>${h}</span>`).join('');
+    let extra = '';
+    if (kind === 'variable') extra = `<div class="row var" style="opacity:.85"><div style="font-weight:600;padding-left:10px" class="nm">📦 Закупівля / матеріали (з блоку 4)</div><div class="cell f2" data-lab="Значення">авто</div><div class="cell f2" data-lab="Як рахується" style="font-weight:500;color:var(--muted)">за товарами</div><div class="cell f2" data-lab="За місяць" id="directCell"></div><div class="share f2" data-lab="Частка" data-share="direct"></div><span></span></div>`;
+    $(L.el).innerHTML = `<div class="row headrow${kind === 'variable' ? ' var' : kind === 'products' ? ' prod' : ''}">${cols}</div>` + extra + S[kind].map((r, i) => rowHtml(kind, r, i)).join('');
+    if (kind !== 'products') renderChips(kind);
+  }
+  function renderChips(kind) {
+    const have = new Set(S[kind].map(r => r.n.trim().toLowerCase()));
+    const items = CAT[kind].map(x => Array.isArray(x) ? x : [x]).filter(([n]) => !have.has(n.toLowerCase()));
+    const el = $(kind === 'capex' ? 'capexChips' : kind === 'fixed' ? 'fixedChips' : 'varChips');
+    el.innerHTML = items.length ? `<div class="chips-label">Можливі статті — натисни, щоб додати:</div>` + items.map(([n, m]) => `<button type="button" class="chip" data-chip="${kind}" data-n="${esc(n)}" data-m="${m || ''}">+ ${esc(n)}</button>`).join('') : '';
+  }
+  function focusLast(kind, f) {
+    const els = document.querySelectorAll(`#${LISTS[kind].el} input[data-f="${f}"]`);
+    if (els.length) { els[els.length - 1].focus(); els[els.length - 1].select(); }
+  }
+  document.addEventListener('click', e => {
+    const chip = e.target.closest('[data-chip]');
+    if (chip) {
+      const k = chip.dataset.chip;
+      S[k].push(k === 'variable' ? { n: chip.dataset.n, v: 0, m: chip.dataset.m || 'u' } : { n: chip.dataset.n, v: 0 });
+      dirty = true; renderList(k); recalc(); focusLast(k, 'v'); return;
+    }
+    const add = e.target.closest('[data-add]');
+    if (add) {
+      const k = add.dataset.add;
+      S[k].push(k === 'products' ? { n: 'Товар ' + (S.products.length + 1), p: 0, c: 0, q: 0 } : k === 'variable' ? { n: '', v: 0, m: 'u' } : { n: '', v: 0 });
+      dirty = true; renderList(k); recalc(); focusLast(k, k === 'products' ? 'p' : 'v');
+      if (k !== 'products') { const n = document.querySelectorAll(`#${LISTS[k].el} input[data-f="n"]`); n[n.length - 1].focus(); }
+      return;
+    }
+    const del = e.target.closest('[data-del]');
+    if (del) {
+      const k = del.dataset.del;
+      S[k].splice(+del.dataset.i, 1);
+      dirty = true; renderList(k); recalc();
+    }
+  });
+  document.addEventListener('input', e => {
+    const t = e.target;
+    if (!t.dataset || !t.dataset.k) return;
+    const r = S[t.dataset.k][+t.dataset.i];
+    if (!r) return;
+    r[t.dataset.f] = t.dataset.f === 'n' || t.dataset.f === 'm' ? t.value : t.value === '' ? '' : num(t.value);
+    dirty = true;
+    if (t.dataset.f === 'm') {
+      const lab = t.closest('.row').querySelector('[data-f="v"]').closest('label');
+      lab.dataset.lab = t.value === 'p' ? '%' : 'грн';
+    }
+    recalc();
+  });
+  document.addEventListener('change', e => {
+    const t = e.target;
+    if (t.dataset && t.dataset.f === 'n' && t.dataset.k !== 'products') renderChips(t.dataset.k);
+  });
+
+  /* ===== ДІАГРАМИ ===== */
+  function donut(elId, items, total, centerLabel) {
+    const el = $(elId);
+    let list = items.filter(x => x.v > 0).sort((a, b) => b.v - a.v);
+    if (list.length > 8) {
+      const rest = list.slice(7).reduce((a, x) => a + x.v, 0);
+      list = list.slice(0, 7).concat([{ n: 'Інше', v: rest, other: true }]);
+    }
+    const R = 90, r = 58, cx = 100, cy = 100;
+    let a0 = -Math.PI / 2, paths = '';
+    const sum = list.reduce((a, x) => a + x.v, 0);
+    list.forEach((x, i) => {
+      x.col = x.other ? 'var(--s-other)' : `var(${SER[i]})`;
+      const frac = x.v / sum, a1 = a0 + frac * Math.PI * 2;
+      const big = a1 - a0 > Math.PI ? 1 : 0;
+      const p = (rad, ang) => `${cx + rad * Math.cos(ang)},${cy + rad * Math.sin(ang)}`;
+      const d = frac >= .9999
+        ? `M${cx - R},${cy}A${R},${R} 0 1 1 ${cx + R},${cy}A${R},${R} 0 1 1 ${cx - R},${cy}M${cx - r},${cy}A${r},${r} 0 1 0 ${cx + r},${cy}A${r},${r} 0 1 0 ${cx - r},${cy}Z`
+        : `M${p(R, a0)}A${R},${R} 0 ${big} 1 ${p(R, a1)}L${p(r, a1)}A${r},${r} 0 ${big} 0 ${p(r, a0)}Z`;
+      paths += `<g class="seg" data-tt="${esc(x.n)}: ${uah(x.v)} · ${pct(x.v / sum)}"><path d="${d}" fill="${x.col}" stroke="var(--surface-2)" stroke-width="2" fill-rule="evenodd"/></g>`;
+      a0 = a1;
+    });
+    if (!list.length) paths = `<circle cx="100" cy="100" r="74" fill="none" stroke="var(--line)" stroke-width="32"/>`;
+    el.innerHTML = `<div class="donut-wrap chart"><svg viewBox="0 0 200 200" role="img" aria-label="${centerLabel}">${paths}</svg>
+      <div class="donut-center"><div><b>${short(total)}</b><span>${centerLabel}</span></div></div><div class="tip"></div></div>
+      <ul class="legend">${list.map(x => `<li><i style="background:${x.col}"></i><span title="${esc(x.n)}">${esc(x.n)}</span><em>${pct(x.v / sum, 0)}</em></li>`).join('')}</ul>`;
+    const wrap = el.querySelector('.donut-wrap'), tip = wrap.querySelector('.tip');
+    wrap.querySelectorAll('.seg').forEach(g => {
+      g.addEventListener('mousemove', ev => {
+        const b = wrap.getBoundingClientRect();
+        tip.textContent = g.dataset.tt; tip.style.left = (ev.clientX - b.left) + 'px'; tip.style.top = (ev.clientY - b.top) + 'px'; tip.classList.add('show');
+      });
+      g.addEventListener('mouseleave', () => tip.classList.remove('show'));
+    });
+  }
+  function stackBar(barId, legId, parts) {
+    const tot = parts.reduce((a, x) => a + Math.max(0, x.v), 0) || 1;
+    $(barId).innerHTML = parts.filter(x => x.v > 0).map(x => `<div style="flex:${x.v / tot};background:${x.col}" title="${esc(x.n)}: ${uah(x.v)}">${x.v / tot > .1 ? pct(x.v / tot, 0) : ''}</div>`).join('');
+    $(legId).innerHTML = parts.map(x => `<span><i style="background:${x.col}"></i>${esc(x.n)}: <b>${uah(x.v)}</b> (${pct(Math.max(0, x.v) / tot, 0)})</span>`).join('');
+  }
+  const chartW = el => Math.max(300, Math.round(el.clientWidth || 720));
+  function niceMax(v) {
+    if (v <= 0) return 1;
+    const p = Math.pow(10, Math.floor(Math.log10(v))), f = v / p;
+    return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
+  }
+  function attachHover(el, W, padL, padR, xMax, toX, lines) {
+    const svg = el.querySelector('svg'), tip = el.querySelector('.tip'), cross = svg.querySelector('.cross');
+    const move = ev => {
+      const b = svg.getBoundingClientRect();
+      const px = (ev.clientX - b.left) / b.width * W;
+      let x = Math.max(0, Math.min(xMax, (px - padL) / (W - padL - padR) * xMax));
+      const info = lines(x);
+      x = info.x;
+      const sx = toX(x);
+      cross.setAttribute('x1', sx); cross.setAttribute('x2', sx); cross.style.opacity = 1;
+      tip.innerHTML = info.html;
+      tip.style.left = Math.max(80, Math.min(b.width - 80, sx / W * b.width)) + 'px';
+      tip.style.top = (ev.clientY - b.top) + 'px';
+      tip.classList.add('show');
+    };
+    svg.addEventListener('mousemove', move);
+    svg.addEventListener('touchmove', ev => { move(ev.touches[0]); }, { passive: true });
+    svg.addEventListener('mouseleave', () => { tip.classList.remove('show'); cross.style.opacity = 0; });
+  }
+  function bepChart(m) {
+    const el = $('bepChart');
+    const W = chartW(el), H = Math.round(Math.max(260, Math.min(320, W * .5))), pl = 56, pr = 14, pt = 18, pb = 42;
+    const target = isFinite(m.bep) ? Math.max(m.Q * 1.3, m.bep * 1.6) : m.Q * 1.5;
+    const xMax = niceMax(Math.max(target, 10));
+    const rev = x => m.avgP * x, cost = x => m.fixed + m.avgVar * x;
+    const yMax = niceMax(Math.max(rev(xMax), cost(xMax), 1));
+    const X = x => pl + x / xMax * (W - pl - pr), Y = y => pt + (1 - y / yMax) * (H - pt - pb);
+    let g = '<g class="grid">';
+    for (let i = 0; i <= 5; i++) { const y = yMax * i / 5; g += `<line x1="${pl}" x2="${W - pr}" y1="${Y(y)}" y2="${Y(y)}"/><text x="${pl - 8}" y="${Y(y) + 4}" text-anchor="end">${short(y)}</text>`; }
+    for (let i = 0; i <= 5; i++) { const x = xMax * i / 5; g += `<text x="${X(x)}" y="${H - pb + 18}" text-anchor="middle">${fmt(x)}</text>`; }
+    g += `</g><text x="${W - pr}" y="${H - 4}" text-anchor="end">продажів на місяць (${esc(BIZ[S.biz].unit)})</text>`;
+    let zones = '';
+    const b = Math.min(isFinite(m.bep) ? m.bep : xMax, xMax);
+    zones += `<polygon points="${X(0)},${Y(rev(0))} ${X(b)},${Y(rev(b))} ${X(b)},${Y(cost(b))} ${X(0)},${Y(cost(0))}" fill="var(--no)" opacity=".12"/>`;
+    if (isFinite(m.bep) && m.bep < xMax) zones += `<polygon points="${X(b)},${Y(rev(b))} ${X(xMax)},${Y(rev(xMax))} ${X(xMax)},${Y(cost(xMax))}" fill="var(--ok)" opacity=".15"/>`;
+    const lines = `
+      <line x1="${X(0)}" y1="${Y(m.fixed)}" x2="${X(xMax)}" y2="${Y(m.fixed)}" stroke="var(--faint)" stroke-width="2" stroke-dasharray="5 5"/>
+      <line x1="${X(0)}" y1="${Y(cost(0))}" x2="${X(xMax)}" y2="${Y(cost(xMax))}" stroke="var(--s2)" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="${X(0)}" y1="${Y(0)}" x2="${X(xMax)}" y2="${Y(rev(xMax))}" stroke="var(--s1)" stroke-width="2.5" stroke-linecap="round"/>`;
+    let marks = '';
+    if (m.Q > 0 && m.Q <= xMax) {
+      marks += `<line x1="${X(m.Q)}" x2="${X(m.Q)}" y1="${pt}" y2="${H - pb}" stroke="var(--text)" stroke-width="1.5" stroke-dasharray="3 4" opacity=".55"/>
+        <text x="${X(m.Q) + 6}" y="${pt + 12}" class="lbl-strong">твій план: ${fmt(m.Q)}</text>`;
+    }
+    if (isFinite(m.bep) && m.bep <= xMax) {
+      const lx = X(m.bep), ly = Y(rev(m.bep));
+      const anchor = lx > W - 200 ? 'end' : 'start', dx = anchor === 'end' ? -12 : 12;
+      const bepTxt = W < 500 ? `Беззбитковість: ${fmt(Math.ceil(m.bep))}` : `Точка беззбитковості: ${fmt(Math.ceil(m.bep))} шт.`;
+      marks += `<circle cx="${lx}" cy="${ly}" r="6" fill="var(--text)" stroke="var(--surface)" stroke-width="2"/>
+        <text x="${lx + dx}" y="${ly + 22}" text-anchor="${anchor}" class="lbl-strong">${bepTxt}</text>`;
+    }
+    const cross = `<line class="cross" x1="0" x2="0" y1="${pt}" y2="${H - pb}" stroke="var(--muted)" stroke-width="1" style="opacity:0"/>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Графік точки беззбитковості">${g}${zones}${lines}${marks}${cross}<rect x="${pl}" y="${pt}" width="${W - pl - pr}" height="${H - pt - pb}" fill="transparent"/></svg><div class="tip"></div>`;
+    attachHover(el, W, pl, pr, xMax, X, x => {
+      x = Math.round(x);
+      const p = rev(x) - cost(x);
+      return { x, html: `<b>${fmt(x)} продажів</b><br><i style="background:var(--s1)"></i>Дохід: ${uah(rev(x))}<br><i style="background:var(--s2)"></i>Витрати: ${uah(cost(x))}<br>${p >= 0 ? '✅ Прибуток' : '❌ Збиток'}: ${uah(p)}` };
+    });
+  }
+  function payChart(m) {
+    const el = $('payChart');
+    const W = chartW(el), H = Math.round(Math.max(240, Math.min(280, W * .45))), pl = 56, pr = 14, pt = 18, pb = 42;
+    const M = isFinite(m.payback) ? Math.min(60, Math.max(12, Math.ceil(m.payback * 1.5))) : 24;
+    const cum = t => -m.capex + m.profit * t;
+    const vals = [cum(0), cum(M), 0];
+    const lo = Math.min(...vals), hi = Math.max(...vals);
+    const span = niceMax((hi - lo) || 1), step = span / 5;
+    const yMin = Math.floor(lo / step) * step, yMax = Math.max(yMin + step, Math.ceil(hi / step) * step);
+    const X = t => pl + t / M * (W - pl - pr), Y = y => pt + (1 - (y - yMin) / (yMax - yMin)) * (H - pt - pb);
+    let g = '<g class="grid">';
+    for (let y = yMin; y <= yMax + 1e-6; y += step) g += `<line x1="${pl}" x2="${W - pr}" y1="${Y(y)}" y2="${Y(y)}"/><text x="${pl - 8}" y="${Y(y) + 4}" text-anchor="end">${short(y)}</text>`;
+    const tStep = M <= 12 ? 2 : M <= 24 ? 3 : M <= 36 ? 6 : 12;
+    for (let t = 0; t <= M; t += tStep) g += `<text x="${X(t)}" y="${H - pb + 18}" text-anchor="middle">${t}</text>`;
+    g += `</g><text x="${W - pr}" y="${H - 4}" text-anchor="end">місяці роботи</text>`;
+    const zero = `<line x1="${pl}" x2="${W - pr}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--text)" stroke-width="1.5" opacity=".6"/>`;
+    const col = m.profit > 0 ? 'var(--s3)' : 'var(--s8)';
+    const area = `<polygon points="${X(0)},${Y(0)} ${X(0)},${Y(cum(0))} ${X(M)},${Y(cum(M))} ${X(M)},${Y(0)}" fill="${col}" opacity=".12"/>`;
+    const line = `<line x1="${X(0)}" y1="${Y(cum(0))}" x2="${X(M)}" y2="${Y(cum(M))}" stroke="${col}" stroke-width="2.5" stroke-linecap="round"/>`;
+    let marks = `<circle cx="${X(0)}" cy="${Y(cum(0))}" r="5" fill="${col}" stroke="var(--surface)" stroke-width="2"/><text x="${X(0) + 10}" y="${Y(cum(0)) + (cum(0) < 0 ? -10 : 16)}" class="lbl-strong">старт: −${short(m.capex)}</text>`;
+    if (isFinite(m.payback) && m.payback <= M) {
+      const anchor = X(m.payback) > W - 160 ? 'end' : 'start';
+      marks += `<circle cx="${X(m.payback)}" cy="${Y(0)}" r="6" fill="var(--text)" stroke="var(--surface)" stroke-width="2"/><text x="${X(m.payback) + (anchor === 'end' ? -10 : 10)}" y="${Y(0) - 12}" text-anchor="${anchor}" class="lbl-strong">окупність: ${months(m.payback)}</text>`;
+    } else {
+      marks += `<text x="${W / 2}" y="${pt + 16}" text-anchor="middle" class="lbl-strong">${m.profit > 0 ? 'Не окупається за ' + M + ' міс.' : 'Бізнес у збитку — вкладення не повертаються'}</text>`;
+    }
+    const cross = `<line class="cross" x1="0" x2="0" y1="${pt}" y2="${H - pb}" stroke="var(--muted)" stroke-width="1" style="opacity:0"/>`;
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Графік окупності">${g}${area}${zero}${line}${marks}${cross}<rect x="${pl}" y="${pt}" width="${W - pl - pr}" height="${H - pt - pb}" fill="transparent"/></svg><div class="tip"></div>`;
+    attachHover(el, W, pl, pr, M, X, t => {
+      t = Math.round(t);
+      const v = cum(t);
+      return { x: t, html: `<b>Місяць ${t}</b><br>Накопичено: ${uah(v)}<br>${v >= 0 ? '✅ Вкладення повернулися' : 'Ще повернути: ' + uah(-v)}` };
+    });
+  }
+
+  /* ===== ПОКАЗНИКИ ===== */
+  const stat = (lbl, val, sub = '', cls = '', tag = '') => `<div class="stat ${cls}"><div class="lbl">${lbl}</div><div class="val">${val}</div>${sub ? `<div class="sub">${sub}</div>` : ''}${tag ? `<span class="tag">${tag}</span>` : ''}</div>`;
+  const grade = (v, good, mid, hiGood = true) => hiGood ? (v >= good ? 'good' : v >= mid ? 'mid' : 'bad') : (v <= good ? 'good' : v <= mid ? 'mid' : 'bad');
+  const gradeTag = { good: '👍 добре', mid: '⚠ на межі', bad: '❗ ризиковано' };
+
+  function recalc() {
+    const m = model();
+    const unit = BIZ[S.biz].unit;
+    // частки
+    $('capexTotal').textContent = uah(m.capex);
+    S.capex.forEach((r, i) => { const c = document.querySelector(`[data-share="capex-${i}"]`); if (c) c.textContent = m.capex ? pct(num(r.v) / m.capex, 0) : '—'; });
+    $('fixedTotal').textContent = uah(m.fixed);
+    S.fixed.forEach((r, i) => { const c = document.querySelector(`[data-share="fixed-${i}"]`); if (c) c.textContent = m.opex ? pct(num(r.v) / m.opex, 0) : '—'; });
+    m.varRows.forEach((r, i) => {
+      const c = document.querySelector(`[data-month="${i}"]`); if (c) c.textContent = uah(r.month);
+      const s = document.querySelector(`[data-share="variable-${i}"]`); if (s) s.textContent = m.opex ? pct(r.month / m.opex, 0) : '—';
+    });
+    if ($('directCell')) $('directCell').textContent = uah(m.direct);
+    const ds = document.querySelector('[data-share="direct"]'); if (ds) ds.textContent = m.opex ? pct(m.direct / m.opex, 0) : '—';
+    $('varTotal').textContent = uah(m.varTotal);
+    m.prods.forEach((r, i) => { const c = document.querySelector(`[data-prev="${i}"]`); if (c) c.innerHTML = `${uah(r.p * r.q)}<div style="font-size:11.5px;font-weight:500;color:${r.p - r.c > 0 ? 'var(--muted)' : 'var(--no)'}">націнка ${uah(r.p - r.c)} / шт.</div>`; });
+
+    // товари
+    $('prodStats').innerHTML =
+      stat('Позицій у меню', fmt(m.n)) +
+      stat('Усього продажів за місяць', fmt(m.Q) + ' шт.', `≈ ${fmt(m.Q / 30, 1)} на день`) +
+      stat('Середня кількість на позицію', fmt(m.avgQ, 1) + ' шт.', 'кількість ÷ позиції') +
+      stat('Середня ціна', uah(m.avgP), 'зважена: виручка ÷ кількість', 'hero') +
+      stat('Середня закупівля / матеріали', uah(m.avgDirect), 'на 1 продаж');
+
+    // діаграми
+    donut('capexDonut', S.capex.map(r => ({ n: r.n || 'Без назви', v: num(r.v) })), m.capex, 'CapEx');
+    donut('opexDonut', S.fixed.map(r => ({ n: r.n || 'Без назви', v: num(r.v) }))
+      .concat([{ n: 'Закупівля / матеріали', v: m.direct }])
+      .concat(m.varRows.map(r => ({ n: r.n || 'Без назви', v: r.month }))), m.opex, 'OpEx / міс.');
+    stackBar('fvBar', 'fvLegend', [{ n: 'Постійні', v: m.fixed, col: 'var(--s1)' }, { n: 'Змінні', v: m.varTotal, col: 'var(--s2)' }]);
+    $('priceSub').textContent = `Середня ціна ${uah(m.avgP)} за ${unit}: скільки з неї йде на витрати і скільки лишається тобі.`;
+    const pu = m.Q ? m.profit / m.Q : 0;
+    stackBar('priceBar', 'priceLegend', [
+      { n: 'Змінні', v: m.avgVar, col: 'var(--s2)' },
+      { n: 'Постійні', v: m.fixedUnit, col: 'var(--s1)' },
+      { n: pu >= 0 ? 'Прибуток' : 'Збиток', v: Math.abs(pu), col: pu >= 0 ? 'var(--ok)' : 'var(--no)' }
+    ]);
+
+    // собівартість
+    $('costStats').innerHTML =
+      stat('Змінна собівартість 1 од.', uah(m.avgVar), 'закупівля + змінні ÷ кількість') +
+      stat('Постійні на 1 од.', uah(m.fixedUnit), 'постійні ÷ кількість') +
+      stat('Повна собівартість 1 од.', uah(m.fullUnit), `при ${fmt(m.Q)} продажах на місяць`, 'hero') +
+      stat('Середня ціна', uah(m.avgP), m.avgP > m.fullUnit ? `вище собівартості на ${uah(m.avgP - m.fullUnit)}` : `нижче собівартості на ${uah(m.fullUnit - m.avgP)}`, m.avgP > m.fullUnit ? 'good' : 'bad') +
+      stat('Маржа з 1 продажу', uah(m.unitMargin), 'ціна − змінні: покриває постійні', m.unitMargin > 0 ? '' : 'bad');
+
+    // дохід і прибуток
+    $('revStats').innerHTML =
+      stat('Дохід (виручка) за місяць', uah(m.rev), `${fmt(m.Q)} × ${uah(m.avgP)}`, 'hero') +
+      stat('OpEx за місяць', uah(m.opex), `постійні ${short(m.fixed)} + змінні ${short(m.varTotal)}`) +
+      stat('Собівартість одиниці', uah(m.fullUnit), 'повна') +
+      stat('Дохід за рік', uah(m.rev * 12));
+    const pb = $('profitBox');
+    pb.className = 'big-profit' + (m.profit > 0 ? '' : ' bad');
+    pb.innerHTML = `<div><div class="lbl">${m.profit > 0 ? '✅ ПРИБУТОК за місяць' : '❌ ЗБИТОК за місяць'}</div><div class="v">${uah(m.profit)}</div><div class="lbl" style="font-weight:600">за рік: ${uah(m.profit * 12)}</div></div>
+      <div class="calc-lines"><div><span>Дохід</span><b>${uah(m.rev)}</b></div><div><span>− Постійні</span><span>${uah(m.fixed)}</span></div><div><span>− Змінні</span><span>${uah(m.varTotal)}</span></div><div class="sum"><span>= Прибуток</span><span>${uah(m.profit)}</span></div></div>`;
+
+    // KPI
+    const gRos = grade(m.ros, .2, .08), gMar = grade(m.margin, .5, .3), gSaf = grade(m.safety, .3, .15);
+    const gPay = isFinite(m.payback) ? grade(m.payback, 12, 24, false) : 'bad';
+    $('kpiStats').innerHTML =
+      stat('Рентабельність продажів', pct(m.ros), 'прибуток ÷ дохід', gRos, gradeTag[gRos]) +
+      stat('Маржинальність', pct(m.margin), '(дохід − змінні) ÷ дохід', gMar, gradeTag[gMar]) +
+      stat('Рентабельність витрат', pct(m.roc), 'прибуток ÷ OpEx', grade(m.roc, .25, .1), gradeTag[grade(m.roc, .25, .1)]) +
+      stat('Точка беззбитковості', isFinite(m.bep) ? fmt(Math.ceil(m.bep)) + ' шт./міс.' : 'недосяжна', isFinite(m.bep) ? `або ${uah(m.bepRev)} виручки · ≈ ${fmt(m.bep / 30, 1)} на день` : 'ціна не покриває змінні витрати', isFinite(m.bep) ? gSaf : 'bad', isFinite(m.bep) ? gradeTag[gSaf] : gradeTag.bad) +
+      stat('Запас міцності', isFinite(m.safety) ? pct(m.safety, 0) : '—', isFinite(m.bep) ? (m.Q >= m.bep ? `продажі можуть впасти на ${fmt(Math.floor(m.Q - m.bep))} шт.` : `не вистачає ${fmt(Math.ceil(m.bep - m.Q))} шт. до нуля`) : '', isFinite(m.safety) ? gSaf : 'bad', gradeTag[isFinite(m.safety) ? gSaf : 'bad']) +
+      stat('Окупність CapEx', months(m.payback), isFinite(m.payback) ? `≈ ${fmt(m.payback / 12, 1)} року` : 'прибутку немає — не окупається', gPay, gradeTag[gPay]) +
+      stat('Рентабельність інвестицій (рік)', isFinite(m.roi) ? pct(m.roi, 0) : '—', 'річний прибуток ÷ CapEx', isFinite(m.roi) ? grade(m.roi, 1, .5) : '', isFinite(m.roi) ? gradeTag[grade(m.roi, 1, .5)] : '');
+
+    bepChart(m);
+    payChart(m);
+
+    $('stickyBar').innerHTML = `<span>Дохід <b>${short(m.rev)}</b></span><span>OpEx <b>${short(m.opex)}</b></span><span class="${m.profit > 0 ? 'p-ok' : 'p-no'}">Прибуток <b>${short(m.profit)}</b></span><span>Беззбитковість <b>${isFinite(m.bep) ? fmt(Math.ceil(m.bep)) + ' шт.' : '—'}</b></span><span>Окупність <b>${months(m.payback)}</b></span>`;
+
+    if (S.showTips) renderTips(m);
+    save();
+  }
+
+  /* ===== КОМЕНТАР ЕКСПЕРТА ===== */
+  function advice(m) {
+    const t = [];
+    const add = (lvl, w, ico, title, text) => t.push({ lvl, w, ico, title, text });
+    const b = BIZ[S.biz];
+    const months_ = isFinite(m.payback) ? Math.ceil(m.payback) : null;
+
+    if (m.Q <= 0 || m.rev <= 0) add('bad', 100, '🛑', 'Немає продажів', 'Додай товари чи послуги з ціною і кількістю — без цього модель нічого не покаже.');
+    if (m.profit <= 0 && m.rev > 0) add('bad', 95, '📉', 'Бізнес працює у збиток', `Щомісяця ти втрачаєш ${uah(-m.profit)}. Потрібно або підняти ціну, або продавати більше, або скоротити найбільшу витрату.`);
+    if (m.unitMargin <= 0 && m.Q > 0) add('bad', 94, '🔻', 'Кожен продаж збитковий', `Змінні витрати на одиницю (${uah(m.avgVar)}) більші за середню ціну (${uah(m.avgP)}). Що більше продаєш — то більше втрачаєш.`);
+    m.prods.forEach(p => { if (p.q > 0 && p.p > 0 && p.c >= p.p) add('bad', 90, '🏷️', `«${p.n}» продається в мінус`, `Закупівля / матеріали (${uah(p.c)}) не менші за ціну (${uah(p.p)}). Перегляни ціну або постачальника.`); });
+
+    if (m.rev > 0 && m.margin < .3 && m.unitMargin > 0) add('bad', 85, '⚖️', 'Дуже низька маржинальність', `Лише ${pct(m.margin, 0)} виручки лишається на покриття постійних витрат. Будь-яке подорожчання закупівлі чи знижка одразу «з'їдає» прибуток.`);
+    else if (m.rev > 0 && m.margin < .5 && m.unitMargin > 0) add('warn', 55, '⚖️', 'Маржинальність на межі', `${pct(m.margin, 0)} — працювати можна, але мало простору для знижок і помилок. Шукай, як підняти середній чек.`);
+
+    if (isFinite(m.bep) && m.Q > 0 && m.profit > 0) {
+      const spare = m.Q - m.bep;
+      if (spare <= 2 || m.safety < .1) add('bad', 88, '🎯', 'Одна-дві продажі вирішують усе', `Ти лише на ${fmt(Math.max(0, Math.floor(spare)))} продажі вище точки беззбитковості. Якщо прийде на 1–2 клієнти менше, бізнес опиниться в мінусі.`);
+      else if (m.safety < .2) add('warn', 70, '🎯', 'Малий запас міцності', `Продажі можуть впасти лише на ${pct(m.safety, 0)} (${fmt(Math.floor(spare))} шт.), перш ніж почнуться збитки. Невдалий місяць — і ти в мінусі.`);
+      else if (m.safety >= .4) add('good', 20, '🛡️', 'Хороший запас міцності', `Продажі можуть впасти на ${pct(m.safety, 0)}, і ти все одно не підеш у мінус.`);
+    }
+    if (isFinite(m.bep) && m.Q > 0 && m.bep > m.Q) add('bad', 80, '🎯', 'План нижчий за точку беззбитковості', `Щоб вийти в нуль, треба ${fmt(Math.ceil(m.bep))} продажів на місяць, а ти плануєш ${fmt(m.Q)}. Не вистачає ${fmt(Math.ceil(m.bep - m.Q))}.`);
+
+    if (months_ && months_ > 36) add('bad', 84, '⏳', 'Дуже довгий термін окупності', `Вкладення повернуться лише за ${months_} міс. (≈ ${fmt(months_ / 12, 1)} року). Чи простоїть бізнес стільки без змін? Чи вистачить тобі грошей і терпіння?`);
+    else if (months_ && months_ > 18) add('warn', 65, '⏳', 'Довга окупність', `${months_} міс. до повернення CapEx. Подумай, що з обладнання можна орендувати, купити б/в або відкласти на потім.`);
+    else if (months_ && months_ <= 6) add('good', 25, '🚀', 'Швидка окупність', `Вкладення повертаються за ${months(m.payback)} Перевір, чи не надто оптимістичні цифри продажів — це найчастіша помилка.`);
+
+    if (m.rev > 0 && m.capex / m.rev > 6) add('bad', 78, '🏗️', 'Висока капіталомісткість при низьких доходах', `CapEx дорівнює ${fmt(m.capex / m.rev, 1)} місячних виручок. Ти вкладаєш багато, а заробляєш мало — почни з меншого формату і перевір попит.`);
+    else if (m.rev > 0 && m.capex / m.rev > 3) add('warn', 45, '🏗️', 'Відчутні стартові вкладення', `CapEx = ${fmt(m.capex / m.rev, 1)} місячних виручок. Перевір, без чого можна обійтися на старті (MVP).`);
+
+    if (m.opex > 0 && m.fixed / m.opex > .6) add('warn', 68, '🧱', 'Високі постійні витрати', `${pct(m.fixed / m.opex, 0)} усіх витрат — постійні. У слабкий місяць їх однаково треба платити. Шукай, що можна зробити змінним (відсоток замість ставки, погодинна оренда).`);
+    const rent = S.fixed.filter(r => /оренд/i.test(r.n)).reduce((a, r) => a + num(r.v), 0);
+    if (m.rev > 0 && rent / m.rev > .2) add('warn', 60, '🏠', 'Оренда забирає забагато', `Оренда = ${pct(rent / m.rev, 0)} виручки. Зазвичай здорова частка — до 10–15%. Можливо, менше приміщення або інша локація?`);
+
+    if (m.rev > 0 && m.n > 1) {
+      const top = m.prods.slice().sort((a, b) => b.p * b.q - a.p * a.q)[0];
+      const sh = top.p * top.q / m.rev;
+      if (sh > .7) add('warn', 58, '🧺', 'Залежність від одного товару', `«${top.n}» дає ${pct(sh, 0)} доходу. Якщо попит на нього впаде — впаде весь бізнес.`);
+    }
+    if (m.n === 1) add('info', 40, '🧺', 'Лише одна позиція', 'Додай 2–3 товари чи послуги: супутні продажі піднімають середній чек майже без додаткових витрат.');
+
+    const has = re => S.fixed.concat(S.variable).some(r => re.test(r.n) && num(r.v) > 0);
+    if (!has(/реклам|маркет|залуч|просув/i)) add('warn', 62, '📣', 'Немає витрат на рекламу', 'Звідки прийдуть клієнти? Навіть сарафанне радіо треба запустити. Заклади хоча б невеликий бюджет на соцмережі.');
+    if (!has(/податок|єсв/i)) add('warn', 57, '🧾', 'Не враховано податки', 'Додай єдиний податок (≈5% виручки для ФОП 3 групи) та ЄСВ. Інакше прибуток на папері буде більший, ніж у реальності.');
+    if (!has(/зарплат|персонал|майстр|бариста|адміністр|розробник|підтримк/i)) add('info', 50, '🙋', 'Ти не платиш собі зарплату', 'Твоя праця теж коштує грошей. Додай «Зарплата собі» в постійні витрати — тоді побачиш, чи бізнес справді прибутковий, чи ти просто працюєш безкоштовно.');
+    if (!has(/резерв|непередбач/i)) add('info', 30, '🧯', 'Немає резерву', 'Заклади 5–10% на непередбачене: поломки, штрафи, подорожчання. Краще мати запас, ніж закривати дірки в бюджеті.');
+
+    if (m.Q > 0) {
+      const perDay = m.Q / 26;
+      add('info', 42, '📅', 'Перевір реальність плану', `${fmt(m.Q)} продажів на місяць — це ≈ ${fmt(perDay, 1)} на кожен робочий день. Чи вистачить на це рук, часу, місця і клієнтів?`);
+    }
+    if (m.profit > 0 && m.ros >= .2) add('good', 22, '💚', 'Здорова рентабельність', `${pct(m.ros, 0)} з кожної гривні виручки — твій прибуток. Тепер перевір ці цифри на реальних клієнтах.`);
+    if (b.kind === 'resale') add('info', 35, '📦', 'Гроші в запасах', 'У перепродажі гроші «заморожуються» в товарі. Закуповуй невеликими партіями і рахуй, як швидко товар продається.');
+    if (b.kind === 'digital') add('info', 34, '📊', 'Вартість залучення клієнта', `Поділи рекламний бюджет на кількість покупців. Якщо залучення коштує більше за маржу з продажу (${uah(m.unitMargin)}), реклама працює в мінус.`);
+    add('info', 33, '💡', 'Порада для твого напряму', b.tip);
+    add('info', 10, '🔁', 'Порахуй три сценарії', 'Песимістичний (продажі −30%), реалістичний і оптимістичний. Якщо бізнес виживає в песимістичному — у тебе хороша модель.');
+
+    t.sort((a, b) => b.w - a.w);
+    return t.slice(0, 10);
+  }
+  function renderTips(m) {
+    const L = { bad: 'Критично', warn: 'Увага', good: 'Сильна сторона', info: 'Порада' };
+    $('tips').innerHTML = advice(m).map((x, i) => `<div class="tipcard ${x.lvl}"><div class="ico">${x.ico}</div><div><span class="lvl">${i + 1}. ${L[x.lvl]}</span><b>${esc(x.title)}</b><p>${esc(x.text)}</p></div></div>`).join('');
+    $('liveNote').hidden = false;
+    $('commentBtn').textContent = '🔄 Оновити коментар';
+  }
+  $('commentBtn').addEventListener('click', () => { S.showTips = true; recalc(); $('tips').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+
+  $('resetBtn').addEventListener('click', () => {
+    if (!confirm('Повернути стартові цифри шаблону «' + BIZ[S.biz].n + '»?')) return;
+    const show = S.showTips; S = fromPreset(S.biz); S.showTips = show; dirty = false; renderAll();
+  });
+  $('printBtn').addEventListener('click', () => window.print());
+
+  function renderAll() {
+    renderBiz();
+    ['capex', 'fixed', 'products', 'variable'].forEach(renderList);
+    if (!S.showTips) { $('tips').innerHTML = ''; $('liveNote').hidden = true; $('commentBtn').textContent = '💬 Отримати коментар'; }
+    recalc();
+  }
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { const m = model(); bepChart(m); payChart(m); }, 150); });
+  dirty = JSON.stringify(fromPreset(S.biz).capex) !== JSON.stringify(S.capex);
+  renderAll();
+})();
+</script>
+</body>
+</html>
