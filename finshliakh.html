@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фінансовий шлях</title>
+<meta name="description" content="Модель особистого фінансового шляху: дохід і витрати за віком, два сценарії (спершу капітал або спершу мрії), цілі на графіку, структура активів за віком і автоматичний фінансовий та інвестиційний план.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f3ef;
+  --surface: #fcfcfb;
+  --surface-2: #f0efea;
+  --line: #dddcd5;
+  --text: #0b0b0b;
+  --text-2: #52514e;
+  --muted: #7a7974;
+  --accent: #2a78d6;
+  --accent-ink: #ffffff;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4;
+  --good: #1f8a4c; --bad: #c8373a;
+  --grid: rgba(0,0,0,.07);
+  --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 18px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121211; --surface: #1a1a19; --surface-2: #232321; --line: #34332f;
+    --text: #f0efec; --text-2: #c3c2b7; --muted: #8f8e86;
+    --accent: #3987e5; --accent-ink: #ffffff;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181;
+    --good: #3fb36f; --bad: #e66767; --grid: rgba(255,255,255,.08);
+    --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121211; --surface: #1a1a19; --surface-2: #232321; --line: #34332f;
+  --text: #f0efec; --text-2: #c3c2b7; --muted: #8f8e86;
+  --accent: #3987e5; --accent-ink: #ffffff;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181;
+  --good: #3fb36f; --bad: #e66767; --grid: rgba(255,255,255,.08);
+  --shadow: none;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--text); font: 500 15px/1.5 Manrope, system-ui, sans-serif; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 80px; }
+h1, h2, h3 { font-family: Unbounded, Manrope, sans-serif; font-weight: 700; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(26px, 4.5vw, 42px); }
+h2 { font-size: clamp(19px, 2.6vw, 24px); }
+h3 { font-size: 15px; font-weight: 500; }
+p { margin: 0; }
+.lead { color: var(--text-2); max-width: 760px; margin-top: 10px; font-size: 16px; }
+header.top { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
+button, .btn { font: 700 14px Manrope, sans-serif; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text); padding: 9px 14px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.steps { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 22px; }
+.steps a { text-decoration: none; color: var(--text-2); font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.steps a b { color: var(--accent); margin-right: 4px; }
+section.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; margin-bottom: 18px; box-shadow: var(--shadow); }
+.sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.sec-head .num { font-family: Unbounded; color: var(--accent); font-size: 13px; display: block; margin-bottom: 4px; }
+.hint { color: var(--muted); font-size: 13px; }
+.grid { display: grid; gap: 14px; }
+.g4 { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+label.f { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700; color: var(--text-2); }
+label.f .row { display: flex; gap: 8px; align-items: center; }
+input[type=number], input[type=text], select { font: 700 15px Manrope, sans-serif; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; width: 100%; min-width: 0; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.role { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.role button { text-align: left; padding: 14px 16px; border-radius: 14px; display: flex; gap: 12px; align-items: flex-start; font-weight: 600; }
+.role button .ic { font-size: 26px; line-height: 1; }
+.role button b { display: block; font-family: Unbounded; font-weight: 500; font-size: 15px; margin-bottom: 2px; }
+.role button span.d { color: var(--text-2); font-size: 13px; }
+.role button[aria-pressed=true] { border: 2px solid var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--surface)); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 18px; }
+.kpi { background: var(--surface-2); border-radius: 14px; padding: 14px; }
+.kpi .l { font-size: 12px; color: var(--text-2); font-weight: 700; }
+.kpi .v { font-family: Unbounded; font-size: 21px; margin-top: 4px; }
+.kpi .s { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+.chart-box { position: relative; height: 380px; }
+.chart-box.sm { height: 300px; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--text-2); font-weight: 700; margin: 6px 0 10px; }
+.legend .dash { display: inline-block; width: 18px; border-top: 2px dashed var(--muted); margin-right: 6px; vertical-align: 4px; }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 10px; padding: 3px; gap: 2px; }
+.seg button { border: 0; background: transparent; padding: 6px 12px; font-size: 13px; }
+.seg button[aria-pressed=true] { background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.scen { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 14px; }
+.scen > div { border-radius: 14px; padding: 14px 16px; background: var(--surface-2); border-left: 4px solid var(--s1); }
+.scen > div.b { border-left-color: var(--s2); }
+.scen b { font-family: Unbounded; font-weight: 500; }
+.scen p { color: var(--text-2); font-size: 14px; margin-top: 4px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 8px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-size: 12px; color: var(--text-2); font-weight: 800; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tscroll { overflow-x: auto; }
+.goals td input { padding: 6px 8px; font-size: 14px; }
+.goals td.e input { width: 52px; text-align: center; }
+.goals td.c input { width: 130px; }
+.goals td.a input, .goals td.y input { width: 70px; }
+.goals .del { padding: 4px 9px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 4px; }
+.chips button { font-size: 13px; padding: 6px 10px; border-radius: 999px; }
+.tag { font-size: 12px; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); white-space: nowrap; }
+.tag.late { color: var(--bad); }
+.tag.ok { color: var(--good); }
+.struct { display: grid; grid-template-columns: minmax(240px, 320px) 1fr; gap: 22px; align-items: start; }
+@media (max-width: 760px) { .struct { grid-template-columns: 1fr; } }
+.donut-box { position: relative; height: 240px; }
+.donut-c { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; text-align: center; }
+.donut-c .v { font-family: Unbounded; font-size: 18px; }
+.donut-c .l { font-size: 12px; color: var(--text-2); font-weight: 700; }
+.alloc-list { display: grid; gap: 8px; margin-top: 12px; }
+.alloc-list div { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }
+.alloc-list span.n { font-variant-numeric: tabular-nums; font-weight: 800; }
+.age-slider { display: flex; align-items: center; gap: 12px; margin: 6px 0 14px; flex-wrap: wrap; }
+.age-slider input { flex: 1; min-width: 180px; }
+.age-slider .big { font-family: Unbounded; font-size: 20px; min-width: 96px; }
+details { margin-top: 12px; }
+summary { cursor: pointer; font-weight: 800; color: var(--text-2); }
+.plan { display: grid; gap: 16px; }
+.plan h3 { margin-bottom: 6px; font-family: Unbounded; font-weight: 500; font-size: 16px; }
+.plan ol, .plan ul { margin: 6px 0 0; padding-left: 20px; }
+.plan li { margin: 4px 0; }
+.note { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; font-size: 14px; color: var(--text-2); }
+.skill { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.badge-bonus { font-family: Unbounded; font-size: 15px; color: var(--good); }
+.ret td input { width: 80px; padding: 5px 8px; font-size: 14px; }
+footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 30px; }
+@media print {
+  body { background: #fff; }
+  .toolbar, .steps, .chips, button, details, #s-inputs, #s-goals .chips { display: none !important; }
+  section.card { box-shadow: none; break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Фінансовий шлях</h1>
+      <p class="lead">Впиши кілька цифр про себе — і модель покаже, як змінюватимуться твій дохід, витрати й капітал до кінця життя. Порівняй два шляхи: «спершу капітал» і «спершу мрії», додай свої цілі й отримай готовий фінансовий та інвестиційний план.</p>
+    </div>
+    <div class="toolbar">
+      <button id="btnExample">Приклад</button>
+      <button id="btnPin" title="Запам'ятати поточний капітал (сценарій А), щоб порівняти зі змінами">📌 Зафіксувати варіант</button>
+      <button id="btnReset">Очистити</button>
+      <button class="primary" onclick="window.print()">🖨 Друк / PDF</button>
+    </div>
+  </header>
+
+  <nav class="steps">
+    <a href="#s-inputs"><b>1</b>Про мене</a>
+    <a href="#s-goals"><b>2</b>Мрії й цілі</a>
+    <a href="#s-path"><b>3</b>Два шляхи</a>
+    <a href="#s-flow"><b>4</b>Дохід і витрати</a>
+    <a href="#s-struct"><b>5</b>Структура активів</a>
+    <a href="#s-plan"><b>6</b>Мій план</a>
+  </nav>
+
+  <!-- 1 -->
+  <section class="card" id="s-inputs">
+    <div class="sec-head"><div><span class="num">Крок 1</span><h2>Про мене</h2></div><p class="hint">Усі суми — у сьогоднішніх гривнях. Інфляцію модель враховує сама.</p></div>
+
+    <div class="role" id="role">
+      <button type="button" data-role="employee" aria-pressed="true"><span class="ic">👔</span><span><b>Найманий працівник</b><span class="d">Дохід стабільно росте до ~50 років, далі вирівнюється.</span></span></button>
+      <button type="button" data-role="entrepreneur" aria-pressed="false"><span class="ic">🚀</span><span><b>Підприємець</b><span class="d">Спершу дохід нижчий, потім росте «гачком» — разом із масштабом бізнесу.</span></span></button>
+    </div>
+
+    <div class="grid g4">
+      <label class="f">Ім'я<input type="text" id="name" placeholder="Як тебе звати?"></label>
+      <label class="f">Мій вік<input type="number" id="age" min="14" max="80" step="1"></label>
+      <label class="f">Вік заслуженого відпочинку<input type="number" id="retireAge" min="30" max="90" step="1"></label>
+      <label class="f">Горизонт плану (до якого віку)<input type="number" id="lifeAge" min="50" max="100" step="1"></label>
+      <label class="f">Дохід на місяць, ₴<input type="number" id="income" min="0" step="1000"></label>
+      <label class="f">Витрати на місяць, ₴<input type="number" id="expenses" min="0" step="1000"></label>
+      <label class="f">Капітал уже зараз, ₴<input type="number" id="capital" step="10000"></label>
+      <label class="f">Бажаний пасивний дохід на відпочинку, ₴/міс<input type="number" id="passive" min="0" step="1000"></label>
+      <label class="f" id="growWrap">Наскільки зараз росте мій дохід, % на рік<input type="number" id="growth" min="0" max="40" step="1"></label>
+      <label class="f" id="bizWrap" hidden>Масштаб бізнесу, до якого йду
+        <select id="bizScale">
+          <option value="small">Малий бізнес (дохід ×4)</option>
+          <option value="medium">Середній бізнес (дохід ×12)</option>
+          <option value="large">Великий бізнес (дохід ×35)</option>
+        </select>
+      </label>
+      <label class="f">Рівень витрат, після якого вони майже не ростуть, ₴/міс<input type="number" id="satur" min="0" step="10000"></label>
+      <label class="f">Інфляція, % на рік<input type="number" id="inflation" min="0" max="50" step="0.5"></label>
+    </div>
+
+    <h3 style="margin:22px 0 10px;font-family:Unbounded">Досвід інвестування</h3>
+    <div class="skill">
+      <label class="f">Уже вклав(-ла) годин у навчання інвестуванню<input type="number" id="hours" min="0" step="50"></label>
+      <label class="f">Плануєш годин на рік далі<input type="number" id="hoursYear" min="0" step="10"></label>
+      <label class="f">Ставлення до ризику
+        <select id="risk">
+          <option value="cons">Обережне — спокій важливіший</option>
+          <option value="mod">Помірне — баланс</option>
+          <option value="agg">Сміливе — готовий(-а) до гойдалок</option>
+        </select>
+      </label>
+      <div class="kpi"><div class="l">Бонус до дохідності від досвіду</div><div class="badge-bonus" id="bonusNow">+0%</div><div class="s" id="bonusLater"></div></div>
+    </div>
+    <p class="hint" style="margin-top:10px">Кожні 1000 годин навчання інвестуванню додають ≈3% річних до дохідності портфеля (статистика Романа Кушніра). Бонус діє на активні інвестиції (акції, бізнес, нерухомість) і обмежений +9%.</p>
+
+    <details>
+      <summary>Дохідність класів активів і запас (можна змінити)</summary>
+      <div class="tscroll" style="margin-top:10px">
+      <table class="ret" id="retTable"></table>
+      </div>
+      <div class="grid g4" style="margin-top:12px">
+        <label class="f">Резерв, місяців витрат<input type="number" id="reserveM" min="0" max="36" step="1"></label>
+        <label class="f">Податок на інвестиційний дохід, %<input type="number" id="tax" min="0" max="50" step="0.5"></label>
+        <label class="f">Ставка вилучення на відпочинку, % на рік<input type="number" id="wr" min="2" max="15" step="0.5"></label>
+        <label class="f">Ставка кредиту, якщо грошей не вистачає, %<input type="number" id="loan" min="0" max="80" step="1"></label>
+      </div>
+    </details>
+  </section>
+
+  <!-- 2 -->
+  <section class="card" id="s-goals">
+    <div class="sec-head"><div><span class="num">Крок 2</span><h2>Мрії й цілі</h2></div><p class="hint">Сума — у сьогоднішніх цінах. «Років» — скільки років поспіль витрата повторюється (діти, навчання).</p></div>
+    <div class="tscroll">
+      <table class="goals">
+        <thead><tr><th></th><th>Ціль</th><th>У віці</th><th class="n">Сума, ₴</th><th>Років</th><th title="Ціль відбувається у свій час в обох сценаріях">Не відкладати</th><th>Шлях А</th><th>Шлях Б</th><th></th></tr></thead>
+        <tbody id="goalRows"></tbody>
+      </table>
+    </div>
+    <div class="chips" id="presets"></div>
+    <p class="hint">Познач «Не відкладати» для подій, які не переносять (весілля, народження дитини). Решту цілей шлях А переносить, доки капітал не дозволить їх без шкоди для пасивного доходу.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="card" id="s-path">
+    <div class="sec-head"><div><span class="num">Крок 3</span><h2>Два шляхи — паралельно</h2></div><p class="hint">Капітал у сьогоднішніх гривнях. Наведи на графік, щоб побачити рік.</p></div>
+    <div class="scen">
+      <div><b>А · Спершу капітал</b><p>Відкладаєш, гроші роблять гроші. Мрії — коли капітал уже дає пасивний дохід і має «зайве» понад нього.</p></div>
+      <div class="b"><b>Б · Спершу мрії</b><p>Кожну ціль реалізуєш у свій час. Живеш яскравіше раніше, але капіталу стає менше, а інколи — борг.</p></div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="seg" id="capRange" style="margin-bottom:6px"><button type="button" data-r="work" aria-pressed="true">До відпочинку + 5 років</button><button type="button" data-r="all" aria-pressed="false">Увесь горизонт</button></div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--s1)"></i>А · Спершу капітал</span>
+      <span><i class="dot" style="background:var(--s2)"></i>Б · Спершу мрії</span>
+      <span><i class="dash"></i>Капітал для пасивного доходу</span>
+      <span id="pinLegend" hidden><i class="dash" style="border-color:var(--s3)"></i>Зафіксований варіант</span>
+      <span>● цілі: синя — шлях А, помаранчева — шлях Б</span>
+    </div>
+    <div class="chart-box"><canvas id="chCap" aria-label="Капітал за віком у двох сценаріях"></canvas></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="card" id="s-flow">
+    <div class="sec-head"><div><span class="num">Крок 4</span><h2>Дохід і витрати за віком</h2></div><p class="hint" id="flowHint"></p></div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--s3)"></i>Дохід на місяць</span>
+      <span><i class="dot" style="background:var(--s5)"></i>Витрати на місяць</span>
+      <span><i class="dash"></i>Поріг насичення витрат</span>
+    </div>
+    <div class="chart-box sm"><canvas id="chFlow" aria-label="Дохід і витрати за віком"></canvas></div>
+    <p class="note" style="margin-top:12px" id="flowNote"></p>
+  </section>
+
+  <!-- 5 -->
+  <section class="card" id="s-struct">
+    <div class="sec-head"><div><span class="num">Крок 5</span><h2>Інвестиційний план: структура активів</h2></div>
+      <div class="seg" id="structMode"><button type="button" data-m="share" aria-pressed="true">Частки, %</button><button type="button" data-m="sum" aria-pressed="false">Суми, ₴</button></div>
+    </div>
+    <p class="hint" style="margin-bottom:8px">Структура за шляхом А. З віком частка ризикових активів зменшується, а резерв і надійні інструменти — ростуть.</p>
+    <div class="legend" id="assetLegend"></div>
+    <div class="chart-box sm"><canvas id="chStruct" aria-label="Структура активів за віком"></canvas></div>
+
+    <div class="age-slider">
+      <span class="hint">Подивитись на вік:</span>
+      <input type="range" id="ageView" min="20" max="90" step="1">
+      <span class="big" id="ageViewLbl"></span>
+    </div>
+    <div class="struct">
+      <div>
+        <div class="donut-box"><canvas id="chDonut" aria-label="Структура активів у вибраному віці"></canvas>
+          <div class="donut-c"><span class="v" id="donutV"></span><span class="l">капітал (шлях А)</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="alloc-list" id="allocList"></div>
+        <p class="note" style="margin-top:14px" id="allocNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="card" id="s-plan">
+    <div class="sec-head"><div><span class="num">Крок 6</span><h2 id="planTitle">Мій фінансовий та інвестиційний план</h2></div><p class="hint">Формується автоматично з твоїх даних.</p></div>
+    <div class="plan" id="plan"></div>
+    <h3 style="margin:18px 0 8px;font-family:Unbounded;font-weight:500">Віхи кожні 5 років</h3>
+    <div class="tscroll"><table id="milestones"></table></div>
+    <details>
+      <summary>Як рахує модель</summary>
+      <div class="note" style="margin-top:10px">
+        <p><b>Дохід найманого працівника</b> росте за кривою кар'єри: швидко на старті, пік близько 50 років, далі рівно. Швидкість зростання задаєш ти.</p>
+        <p style="margin-top:6px"><b>Дохід підприємця</b> перші 2–3 роки нижчий (становлення бізнесу), потім росте S-кривою до обраного масштабу (×4, ×12 або ×35 від сьогоднішнього).</p>
+        <p style="margin-top:6px"><b>Витрати</b> ростуть разом із доходом, але повільніше (еластичність 0,8). Коли досягають порогу насичення, далі майже не ростуть — дохід їх обганяє.</p>
+        <p style="margin-top:6px"><b>Дохідність</b> — зважена за структурою активів, мінус інфляція й податок, плюс бонус досвіду (3% за кожні 1000 годин, до +9%, лише на активні інвестиції). Від'ємний капітал — це кредит під обрану ставку.</p>
+        <p style="margin-top:6px"><b>Капітал для пасивного доходу</b> = бажаний пасивний дохід × 12 ÷ ставка вилучення. Після віку відпочинку зарплати немає: витрати покриває капітал.</p>
+        <p style="margin-top:6px"><b>Шлях А</b> переносить «відкладні» цілі на перший рік, коли після покупки капітал не менший за капітал для пасивного доходу. <b>Шлях Б</b> реалізує кожну ціль у запланованому віці.</p>
+      </div>
+    </details>
+  </section>
+
+  <footer>Модель — навчальна, не є інвестиційною порадою. Дані зберігаються лише у твоєму браузері. © SPE · Роман Кушнір</footer>
+</div>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const KEY = 'spe-finshliakh-v1';
+
+const ASSETS = [
+  { k: 'res',  name: 'Резерв',                cls: '--s1', ex: 'картка, скарбничка, депозит до запитання (UAH, USD, EUR)' },
+  { k: 'cons', name: 'Консервативні',         cls: '--s2', ex: 'ОВДП, депозити, НПФ, накопичувальне страхування' },
+  { k: 'mod',  name: 'Помірковані',           cls: '--s3', ex: 'ETF на S&P 500, акції USA/UA, ПІФ і КІФ' },
+  { k: 'agg',  name: 'Агресивні',             cls: '--s4', ex: 'частки в бізнесі, товари, криптовалюта, IPO' },
+  { k: 're',   name: 'Нерухомість',           cls: '--s5', ex: 'квартира чи комерція під оренду, земля' },
+];
+
+const PRESETS = [
+  { e: '✈️', n: 'Поїздка до Австралії', d: 2, c: 180000, y: 1, f: false },
+  { e: '💍', n: 'Весілля', d: 2, c: 400000, y: 1, f: true },
+  { e: '👶', n: 'Народження і виховання дитини', d: 4, c: 120000, y: 18, f: true },
+  { e: '🚗', n: 'Автомобіль', d: 5, c: 600000, y: 1, f: false },
+  { e: '🏠', n: 'Власний будинок', d: 10, c: 4000000, y: 1, f: false },
+  { e: '🏢', n: 'Квартира', d: 7, c: 2500000, y: 1, f: false },
+  { e: '🎓', n: 'Освіта дитини', d: 20, c: 250000, y: 4, f: true },
+  { e: '🛠', n: 'Ремонт', d: 12, c: 400000, y: 1, f: false },
+  { e: '🌍', n: 'Навколосвітня подорож', d: 25, c: 500000, y: 1, f: false },
+  { e: '🌊', n: 'Будиночок біля моря', d: 28, c: 3000000, y: 1, f: false },
+];
+
+const DEFAULTS = {
+  role: 'employee', name: '', age: 28, retireAge: 60, lifeAge: 90,
+  income: 45000, expenses: 32000, capital: 100000, passive: 50000,
+  growth: 9, bizScale: 'medium', satur: 150000, inflation: 8,
+  hours: 100, hoursYear: 50, risk: 'mod',
+  reserveM: 6, tax: 19.5, wr: 6, loan: 25,
+  ret: { res: 10, cons: 15, mod: 13, agg: 20, re: 11 },
+  goals: [],
+  pin: null,
+};
+const EXAMPLE_GOALS = age => [
+  { e: '✈️', n: 'Поїздка до Австралії', a: age + 1, c: 180000, y: 1, f: false },
+  { e: '💍', n: 'Весілля', a: age + 2, c: 400000, y: 1, f: true },
+  { e: '👶', n: 'Народження і виховання дитини', a: age + 4, c: 120000, y: 18, f: true },
+  { e: '🚗', n: 'Автомобіль', a: age + 6, c: 600000, y: 1, f: false },
+  { e: '🏠', n: 'Власний будинок', a: age + 12, c: 4000000, y: 1, f: false },
+  { e: '🌍', n: 'Навколосвітня подорож', a: age + 27, c: 500000, y: 1, f: false },
+];
+
+let S = load();
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) { const o = JSON.parse(raw); return { ...structuredClone(DEFAULTS), ...o, ret: { ...DEFAULTS.ret, ...(o.ret || {}) } }; }
+  } catch (e) {}
+  const s = structuredClone(DEFAULTS); s.goals = EXAMPLE_GOALS(s.age); s.name = ''; return s;
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+/* ---------- formatting ---------- */
+const nf = new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 0 });
+function money(v, short = true) {
+  if (!isFinite(v)) return '—';
+  const a = Math.abs(v), sg = v < 0 ? '−' : '';
+  if (!short || a < 10000) return sg + nf.format(Math.round(a)) + ' ₴';
+  if (a < 1e6) return sg + nf.format(Math.round(a / 1000)) + ' тис ₴';
+  if (a < 1e9) return sg + (a / 1e6).toLocaleString('uk-UA', { maximumFractionDigits: a < 1e7 ? 2 : 1 }) + ' млн ₴';
+  return sg + (a / 1e9).toLocaleString('uk-UA', { maximumFractionDigits: 2 }) + ' млрд ₴';
+}
+const pct = v => (v * 100).toLocaleString('uk-UA', { maximumFractionDigits: 1 }) + '%';
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const yrs = n => { n = Math.round(n); const m10 = n % 10, m100 = n % 100; return n + ' ' + (m10 === 1 && m100 !== 11 ? 'рік' : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) ? 'роки' : 'років'); };
+
+/* ---------- model ---------- */
+function incomeAt(a, p) {
+  const t = a - p.age;
+  if (a >= p.retireAge) return 0;
+  if (p.role === 'employee') {
+    const x0 = Math.max(0, p.age - 20), x = Math.max(0, a - 20), peak = 30;
+    if (x0 >= peak) return p.income * Math.pow(0.995, t);
+    const g0 = p.growth / 100;
+    const b1 = g0 / (1 - x0 / peak), b2 = b1 / (2 * peak);
+    const f = xx => { const xc = Math.min(xx, peak); return b1 * xc - b2 * xc * xc; };
+    return p.income * Math.exp(f(x) - f(x0));
+  }
+  const sc = { small: [4, 7, 0.5], medium: [12, 11, 0.4], large: [35, 14, 0.35] }[p.bizScale] || [12, 9, 0.5];
+  const [M, tm, k] = sc;
+  const L = tt => 1 / (1 + Math.exp(-k * (tt - tm)));
+  const growth = 1 + (M - 1) * (L(t) - L(0)) / (1 - L(0));
+  const dip = 1 - 0.35 * Math.exp(-t / 2) * (t < 0.5 ? 0.6 : 1);
+  return p.income * growth * dip;
+}
+function expensesAt(a, inc, p) {
+  if (a >= p.retireAge) return p.passive;
+  const ratio = Math.max(inc, 1) / Math.max(p.income, 1);
+  let e = p.expenses * Math.pow(ratio, 0.8);
+  const S = Math.max(p.satur, p.expenses);
+  if (e > S) e = S * Math.pow(e / S, 0.25);
+  return Math.max(e, p.expenses * 0.9);
+}
+function skillBonus(a, p) {
+  const h = p.hours + p.hoursYear * Math.max(0, Math.min(a, p.retireAge + 10) - p.age);
+  return Math.min(0.09, 0.03 * h / 1000);
+}
+function allocation(a, cap, monthlyExp, p) {
+  const out = { res: 0, cons: 0, mod: 0, agg: 0, re: 0 };
+  if (cap <= 0) return out;
+  const reserve = Math.min(cap, p.reserveM * monthlyExp);
+  out.res = reserve / cap;
+  const rest = 1 - out.res;
+  const K = { cons: 95, mod: 115, agg: 135 }[p.risk];
+  const aggShare = { cons: 0.15, mod: 0.3, agg: 0.45 }[p.risk];
+  const growth = clamp((K - a) / 100, 0.1, 0.9);
+  const reShare = 0.45 * clamp((cap - 1.5e6) / 4e6, 0, 1);
+  out.mod = rest * growth * (1 - aggShare);
+  out.agg = rest * growth * aggShare;
+  out.re = rest * (1 - growth) * reShare;
+  out.cons = rest * (1 - growth) * (1 - reShare);
+  return out;
+}
+function realRet(nom, infl) { return (1 + nom / 100) / (1 + infl / 100) - 1; }
+function portfolioReturn(alloc, a, p) {
+  let r = 0;
+  for (const A of ASSETS) r += alloc[A.k] * realRet(p.ret[A.k], p.inflation);
+  r += (alloc.mod + alloc.agg + alloc.re) * skillBonus(a, p);
+  return r > 0 ? r * (1 - p.tax / 100) : r;
+}
+
+function simulate(p) {
+  const fiCap = p.passive * 12 / (p.wr / 100);
+  const loanR = realRet(p.loan, p.inflation);
+  const goals = p.goals.filter(g => g.c > 0 && g.a >= p.age && g.a <= p.lifeAge).map((g, i) => ({ ...g, i, y: Math.max(1, Math.round(g.y || 1)) }));
+  const rows = [];
+  const runs = { A: { cap: p.capital, done: {}, fi: null, broke: null }, B: { cap: p.capital, done: {}, fi: null, broke: null } };
+  for (let a = p.age; a <= p.lifeAge; a++) {
+    const inc = incomeAt(a, p), exp = expensesAt(a, inc, p);
+    const row = { a, inc, exp, sav: (inc - exp) * 12, bonus: skillBonus(a, p) };
+    for (const key of ['A', 'B']) {
+      const R = runs[key];
+      let spend = 0; const events = [];
+      for (const g of goals) {
+        let start = R.done[g.i];
+        if (start === undefined) {
+          let go = false;
+          if (key === 'B' || g.f) go = a >= g.a;
+          else if (a >= g.a) {
+            const total = g.c * g.y;
+            go = R.cap + row.sav - total >= fiCap;
+          }
+          if (go) { R.done[g.i] = a; start = a; events.push(g); }
+        }
+        if (start !== undefined && a < start + g.y) spend += g.c;
+      }
+      const alloc = allocation(a, R.cap, exp, p);
+      const r = R.cap > 0 ? portfolioReturn(alloc, a, p) : loanR;
+      const flow = row.sav - spend;
+      const gain = R.cap * r + flow * (r > 0 ? r / 2 : 0);
+      row[key] = { cap: R.cap, alloc, r, spend, events, gain, flow };
+      if (R.fi === null && R.cap >= fiCap) R.fi = a;
+      if (R.broke === null && a >= p.retireAge && R.cap < 0) R.broke = a;
+      R.cap = R.cap + flow + gain;
+    }
+    rows.push(row);
+  }
+  const res = { rows, fiCap, goals };
+  for (const key of ['A', 'B']) { res[key] = runs[key]; }
+  return res;
+}
+
+/* ---------- inputs ---------- */
+const NUM = ['age','retireAge','lifeAge','income','expenses','capital','passive','growth','satur','inflation','hours','hoursYear','reserveM','tax','wr','loan'];
+const SEL = ['bizScale','risk'];
+function fillInputs() {
+  $('#name').value = S.name || '';
+  NUM.forEach(k => $('#' + k).value = S[k]);
+  SEL.forEach(k => $('#' + k).value = S[k]);
+  document.querySelectorAll('#role button').forEach(b => b.setAttribute('aria-pressed', b.dataset.role === S.role));
+  $('#bizWrap').hidden = S.role !== 'entrepreneur';
+  $('#growWrap').hidden = S.role !== 'employee';
+  renderRetTable(); renderGoals();
+}
+function readNum(id, v) { const n = parseFloat(String(v).replace(',', '.')); return isFinite(n) ? n : DEFAULTS[id]; }
+NUM.forEach(k => $('#' + k).addEventListener('input', e => { S[k] = readNum(k, e.target.value); sanitize(); update(); }));
+SEL.forEach(k => $('#' + k).addEventListener('change', e => { S[k] = e.target.value; update(); }));
+$('#name').addEventListener('input', e => { S.name = e.target.value; update(); });
+document.querySelectorAll('#role button').forEach(b => b.addEventListener('click', () => {
+  S.role = b.dataset.role; fillInputs(); update();
+}));
+function sanitize() {
+  S.age = clamp(Math.round(S.age), 14, 85);
+  S.retireAge = clamp(Math.round(S.retireAge), S.age + 1, 95);
+  S.lifeAge = clamp(Math.round(S.lifeAge), S.retireAge + 1, 105);
+  S.wr = Math.max(0.5, S.wr);
+}
+function renderRetTable() {
+  const t = $('#retTable');
+  t.innerHTML = '<thead><tr><th>Клас активів</th><th>Приклади</th><th class="n">Дохідність, % у ₴</th><th class="n">Реальна (мінус інфляція)</th></tr></thead><tbody>' +
+    ASSETS.map(A => `<tr><td><i class="dot" style="background:var(${A.cls})"></i>${A.name}</td><td class="hint">${A.ex}</td><td class="n"><input type="number" step="0.5" data-k="${A.k}" value="${S.ret[A.k]}"></td><td class="n" data-real="${A.k}"></td></tr>`).join('') + '</tbody>';
+  t.querySelectorAll('input').forEach(i => i.addEventListener('input', () => { S.ret[i.dataset.k] = readNum('x', i.value) || 0; update(); }));
+}
+function updateRealCells() {
+  document.querySelectorAll('[data-real]').forEach(td => td.textContent = pct(realRet(S.ret[td.dataset.real], S.inflation)));
+}
+
+/* goals */
+function renderGoals(sim) {
+  const tb = $('#goalRows');
+  if (!sim) {
+    tb.innerHTML = S.goals.map((g, i) => `<tr data-i="${i}">
+      <td class="e"><input type="text" data-f="e" value="${g.e || '⭐'}" maxlength="4" aria-label="Значок"></td>
+      <td><input type="text" data-f="n" value="${(g.n || '').replace(/"/g, '&quot;')}" aria-label="Назва цілі"></td>
+      <td class="a"><input type="number" data-f="a" value="${g.a}" min="14" max="105" aria-label="Вік"></td>
+      <td class="c"><input type="number" data-f="c" value="${g.c}" step="10000" min="0" aria-label="Сума"></td>
+      <td class="y"><input type="number" data-f="y" value="${g.y || 1}" min="1" max="40" aria-label="Років"></td>
+      <td style="text-align:center"><input type="checkbox" data-f="f" ${g.f ? 'checked' : ''} aria-label="Не відкладати"></td>
+      <td data-ra></td><td data-rb></td>
+      <td><button class="del" title="Видалити" aria-label="Видалити">✕</button></td></tr>`).join('') ||
+      '<tr><td colspan="9" class="hint">Додай першу ціль кнопками нижче.</td></tr>';
+    tb.querySelectorAll('tr[data-i]').forEach(tr => {
+      const i = +tr.dataset.i;
+      tr.querySelectorAll('input').forEach(inp => inp.addEventListener(inp.type === 'checkbox' ? 'change' : 'input', () => {
+        const f = inp.dataset.f, g = S.goals[i];
+        if (f === 'f') g.f = inp.checked;
+        else if (f === 'e' || f === 'n') g[f] = inp.value;
+        else g[f] = readNum('x', inp.value) || 0;
+        update(false);
+      }));
+      tr.querySelector('.del').addEventListener('click', () => { S.goals.splice(i, 1); renderGoals(); update(); });
+    });
+    return;
+  }
+  tb.querySelectorAll('tr[data-i]').forEach(tr => {
+    const i = +tr.dataset.i, g = S.goals[i];
+    const a = sim.A.done[i], b = sim.B.done[i];
+    const cell = (v, base) => v === undefined ? '<span class="tag late">не встигає</span>' : v > base ? `<span class="tag late">${v} (+${v - base})</span>` : `<span class="tag ok">${v}</span>`;
+    tr.querySelector('[data-ra]').innerHTML = g.c > 0 ? cell(a, g.a) : '';
+    tr.querySelector('[data-rb]').innerHTML = g.c > 0 ? cell(b, g.a) : '';
+  });
+}
+$('#presets').innerHTML = PRESETS.map((p, i) => `<button type="button" data-i="${i}">${p.e} ${p.n}</button>`).join('') + '<button type="button" data-i="-1">➕ Своя ціль</button>';
+$('#presets').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const i = +b.dataset.i;
+  const g = i < 0 ? { e: '⭐', n: 'Моя ціль', a: S.age + 3, c: 200000, y: 1, f: false } : { e: PRESETS[i].e, n: PRESETS[i].n, a: S.age + PRESETS[i].d, c: PRESETS[i].c, y: PRESETS[i].y, f: PRESETS[i].f };
+  S.goals.push(g); S.goals.sort((x, y) => x.a - y.a); renderGoals(); update();
+});
+
+/* ---------- charts ---------- */
+Chart.defaults.font.family = 'Manrope, system-ui, sans-serif';
+Chart.defaults.font.weight = 600;
+let chCap, chFlow, chStruct, chDonut, structMode = 'share', capRange = 'work', SIM;
+
+const goalMarkers = {
+  id: 'goalMarkers',
+  afterDatasetsDraw(chart) {
+    if (!SIM) return;
+    const { ctx, scales: { x, y }, chartArea } = chart;
+    ctx.save();
+    ctx.font = '15px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+    const draw = (key, color, off) => {
+      SIM.goals.forEach(g => {
+        const at = SIM[key].done[g.i]; if (at === undefined) return;
+        const idx = at - SIM.rows[0].a, row = SIM.rows[idx]; if (!row || idx >= chart.data.labels.length) return;
+        const px = x.getPixelForValue(idx), py = y.getPixelForValue(row[key].cap);
+        if (py < chartArea.top - 2 || py > chartArea.bottom + 2) return;
+        ctx.beginPath(); ctx.arc(px, py, 5, 0, Math.PI * 2);
+        ctx.fillStyle = color; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = css('--surface'); ctx.stroke();
+        ctx.fillText(g.e || '⭐', px, py - 8 - off);
+      });
+    };
+    draw('B', css('--s2'), 0); draw('A', css('--s1'), 0);
+    ctx.restore();
+  }
+};
+
+function baseOpts(yFmt) {
+  const grid = css('--grid'), ink = css('--text-2');
+  return {
+    responsive: true, maintainAspectRatio: false, animation: { duration: 250 },
+    interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { display: false }, tooltip: { backgroundColor: css('--surface'), titleColor: css('--text'), bodyColor: css('--text'), borderColor: css('--line'), borderWidth: 1, padding: 10, boxPadding: 4, usePointStyle: true } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: ink, maxRotation: 0, autoSkipPadding: 14 }, border: { color: css('--line') } },
+      y: { grid: { color: grid }, border: { display: false }, ticks: { color: ink, callback: yFmt } },
+    },
+    elements: { point: { radius: 0, hoverRadius: 5 }, line: { borderWidth: 2, tension: 0.25 } },
+  };
+}
+
+function makeCharts() {
+  [chCap, chFlow, chStruct, chDonut].forEach(c => c && c.destroy());
+  chCap = new Chart($('#chCap'), { type: 'line', data: { labels: [], datasets: [] }, options: baseOpts(v => money(v)), plugins: [goalMarkers] });
+  chCap.options.plugins.tooltip.callbacks = {
+    title: it => `Вік ${it[0].label}`,
+    label: it => ` ${it.dataset.label}: ${money(it.raw)}`,
+    afterBody: it => {
+      const row = SIM && SIM.rows[it[0].dataIndex]; if (!row) return '';
+      const ev = [];
+      row.A.events.forEach(g => ev.push(`А: ${g.e} ${g.n}`)); row.B.events.forEach(g => ev.push(`Б: ${g.e} ${g.n}`));
+      return ev.length ? ['', ...ev] : '';
+    }
+  };
+  chFlow = new Chart($('#chFlow'), { type: 'line', data: { labels: [], datasets: [] }, options: baseOpts(v => money(v)) });
+  chFlow.options.plugins.tooltip.callbacks = { title: it => `Вік ${it[0].label}`, label: it => ` ${it.dataset.label}: ${money(it.raw)}` };
+  const so = baseOpts(v => structMode === 'share' ? v + '%' : money(v));
+  so.scales.y.stacked = true; so.scales.x.stacked = true;
+  so.elements.line.tension = 0.2; so.elements.line.borderWidth = 1.5;
+  so.plugins.tooltip.callbacks = { title: it => `Вік ${it[0].label}`, label: it => ` ${it.dataset.label}: ${structMode === 'share' ? Math.round(it.raw) + '%' : money(it.raw)}` };
+  so.plugins.tooltip.itemSort = (a, b) => b.datasetIndex - a.datasetIndex;
+  so.onClick = (e, els) => { if (els.length) { $('#ageView').value = SIM.rows[els[0].index].a; renderAgeView(); } };
+  chStruct = new Chart($('#chStruct'), { type: 'line', data: { labels: [], datasets: [] }, options: so });
+  chDonut = new Chart($('#chDonut'), { type: 'doughnut', data: { labels: ASSETS.map(a => a.name), datasets: [{ data: [], borderWidth: 2, borderColor: css('--surface') }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '68%', animation: { duration: 250 }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: it => ` ${it.label}: ${Math.round(it.raw)}%` } } } } });
+}
+
+function drawCharts(sim) {
+  const labels = sim.rows.map(r => r.a);
+  const s1 = css('--s1'), s2 = css('--s2'), s3 = css('--s3'), s5 = css('--s5'), muted = css('--muted');
+  const capMax = capRange === 'work' ? Math.min(S.lifeAge, S.retireAge + 5) : S.lifeAge;
+  const cr = sim.rows.filter(r => r.a <= capMax), cl = cr.map(r => r.a);
+  chCap.data.labels = cl;
+  chCap.data.datasets = [
+    { label: 'А · Спершу капітал', data: cr.map(r => r.A.cap), borderColor: s1, backgroundColor: s1 },
+    { label: 'Б · Спершу мрії', data: cr.map(r => r.B.cap), borderColor: s2, backgroundColor: s2 },
+    { label: 'Капітал для пасивного доходу', data: cl.map(() => sim.fiCap), borderColor: muted, borderDash: [6, 5], borderWidth: 1.5, backgroundColor: muted, pointHoverRadius: 0 },
+  ];
+  if (S.pin && S.pin.length) chCap.data.datasets.push({ label: 'Зафіксований варіант', data: cl.map(a => { const p = S.pin.find(x => x[0] === a); return p ? p[1] : null; }), borderColor: s3, backgroundColor: s3, borderDash: [3, 3], borderWidth: 1.5 });
+  $('#pinLegend').hidden = !(S.pin && S.pin.length);
+  chCap.update();
+
+  chFlow.data.labels = labels;
+  chFlow.data.datasets = [
+    { label: 'Дохід', data: sim.rows.map(r => r.inc), borderColor: s3, backgroundColor: s3 },
+    { label: 'Витрати', data: sim.rows.map(r => r.exp), borderColor: s5, backgroundColor: s5 },
+    { label: 'Поріг насичення', data: labels.map(() => Math.max(S.satur, S.expenses)), borderColor: muted, borderDash: [6, 5], borderWidth: 1.5, backgroundColor: muted, pointHoverRadius: 0 },
+  ];
+  chFlow.update();
+
+  chStruct.data.labels = labels;
+  chStruct.data.datasets = ASSETS.map(A => {
+    const c = css(A.cls);
+    return { label: A.name, data: sim.rows.map(r => { const v = r.A.alloc[A.k]; return structMode === 'share' ? v * 100 : Math.max(0, r.A.cap) * v; }),
+      fill: true, borderColor: css('--surface'), borderWidth: 1.5, backgroundColor: c, pointBackgroundColor: c };
+  });
+  chStruct.options.scales.y.max = structMode === 'share' ? 100 : undefined;
+  chStruct.update();
+  $('#assetLegend').innerHTML = ASSETS.map(A => `<span><i class="dot" style="background:var(${A.cls})"></i>${A.name}</span>`).join('');
+}
+
+/* ---------- age view ---------- */
+function renderAgeView() {
+  if (!SIM) return;
+  const sl = $('#ageView');
+  sl.min = SIM.rows[0].a; sl.max = SIM.rows[SIM.rows.length - 1].a;
+  let a = clamp(+sl.value || S.age, +sl.min, +sl.max); sl.value = a;
+  const row = SIM.rows[a - SIM.rows[0].a];
+  $('#ageViewLbl').textContent = yrs(a);
+  const cap = row.A.cap, al = row.A.alloc;
+  chDonut.data.datasets[0].data = ASSETS.map(A => al[A.k] * 100);
+  chDonut.data.datasets[0].backgroundColor = ASSETS.map(A => css(A.cls));
+  chDonut.data.datasets[0].borderColor = css('--surface');
+  chDonut.update();
+  $('#donutV').textContent = money(cap);
+  $('#allocList').innerHTML = cap <= 0 ? '<div class="hint">У цьому віці капіталу немає — спершу сформуй резерв.</div>' :
+    ASSETS.map(A => `<div><span><i class="dot" style="background:var(${A.cls})"></i><b>${A.name}</b> <span class="hint">· ${A.ex}</span></span><span class="n">${Math.round(al[A.k] * 100)}% · ${money(cap * al[A.k])}</span></div>`).join('');
+  const save = row.A.flow / 12;
+  const invest = allocation(a, Math.max(cap, 1), row.exp, S);
+  const growth = invest.mod + invest.agg;
+  $('#allocNote').innerHTML = a >= S.retireAge
+    ? `На відпочинку капітал працює на тебе: щомісяця можна знімати ≈ <b>${money(Math.max(0, cap) * S.wr / 100 / 12)}</b> (${S.wr}% на рік). Очікувана реальна дохідність портфеля — <b>${pct(row.A.r)}</b>.`
+    : save > 0
+      ? `У ${yrs(a)} шлях А дозволяє відкладати ≈ <b>${money(save)}/міс</b>. Спершу доповнюй резерв до ${S.reserveM} міс. витрат (${money(S.reserveM * row.exp)}), далі ділі внески: ${Math.round(growth * 100)}% — у зростання (помірковані + агресивні), решту — у надійні інструменти й нерухомість. Очікувана реальна дохідність після податку — <b>${pct(row.A.r)}</b>, з них бонус досвіду — ${pct(row.bonus)}.`
+      : `У ${yrs(a)} витрати разом із цілями більші за дохід — капітал зменшується. Перевір цілі цього періоду або збільш дохід.`;
+}
+$('#ageView').addEventListener('input', renderAgeView);
+document.querySelectorAll('#capRange button').forEach(b => b.addEventListener('click', () => {
+  capRange = b.dataset.r;
+  document.querySelectorAll('#capRange button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  update(false);
+}));
+document.querySelectorAll('#structMode button').forEach(b => b.addEventListener('click', () => {
+  structMode = b.dataset.m;
+  document.querySelectorAll('#structMode button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  makeCharts(); update(false);
+}));
+
+/* ---------- KPIs, plan ---------- */
+function kpis(sim) {
+  const last = sim.rows[sim.rows.length - 1];
+  const atRet = sim.rows.find(r => r.a === S.retireAge) || last;
+  const k = (l, v, s, c) => `<div class="kpi"><div class="l">${c ? `<i class="dot" style="background:var(${c})"></i>` : ''}${l}</div><div class="v">${v}</div><div class="s">${s || ''}</div></div>`;
+  const fiTxt = R => R.fi === null ? 'не досягає' : (R.fi === S.age ? 'вже зараз' : `у ${R.fi}`);
+  const lateA = sim.goals.filter(g => (sim.A.done[g.i] ?? 999) > g.a).length;
+  $('#kpis').innerHTML =
+    k('Капітал для пасивного доходу', money(sim.fiCap), `${money(S.passive)}/міс при ${S.wr}% на рік`) +
+    k('Фінансова свобода · А', fiTxt(sim.A), sim.A.fi !== null ? `через ${yrs(sim.A.fi - S.age)}` : 'збільш відкладання або дохід', '--s1') +
+    k('Фінансова свобода · Б', fiTxt(sim.B), sim.B.fi !== null ? `через ${yrs(sim.B.fi - S.age)}` : 'мрії з’їдають капітал', '--s2') +
+    k(`Капітал у ${S.retireAge} · А`, money(atRet.A.cap), `пасивно ≈ ${money(Math.max(0, atRet.A.cap) * S.wr / 1200)}/міс`, '--s1') +
+    k(`Капітал у ${S.retireAge} · Б`, money(atRet.B.cap), `пасивно ≈ ${money(Math.max(0, atRet.B.cap) * S.wr / 1200)}/міс`, '--s2') +
+    k('Цілі, що переносяться в А', String(lateA) + ' з ' + sim.goals.length, sim.B.broke ? `у Б гроші закінчуються в ${sim.B.broke}` : (sim.A.broke ? `у А гроші закінчуються в ${sim.A.broke}` : `капітал вистачає до ${S.lifeAge}`));
+}
+
+function plan(sim) {
+  const nm = (S.name || '').trim();
+  $('#planTitle').textContent = nm ? `Фінансовий та інвестиційний план: ${nm}` : 'Мій фінансовий та інвестиційний план';
+  const r0 = sim.rows[0], r5 = sim.rows[Math.min(5, sim.rows.length - 1)];
+  const saveRate = r0.inc > 0 ? r0.sav / 12 / r0.inc : 0;
+  const better = (sim.A.fi ?? 999) <= (sim.B.fi ?? 999) ? 'A' : 'B';
+  const atRet = sim.rows.find(r => r.a === S.retireAge) || sim.rows[sim.rows.length - 1];
+  const gap = sim.fiCap - atRet.A.cap;
+  const needMore = (() => {
+    if (gap <= 0) return 0;
+    const n = S.retireAge - S.age, r = Math.max(0.001, r0.A.r || 0.03);
+    return gap * r / (Math.pow(1 + r, n) - 1) / 12;
+  })();
+  const role = S.role === 'employee' ? 'найманого працівника' : 'підприємця';
+  const bonusEnd = skillBonus(S.retireAge, S);
+  const goalsTxt = sim.goals.length ? sim.goals.map(g => {
+    const a = sim.A.done[g.i], b = sim.B.done[g.i];
+    const ytxt = g.y > 1 ? ` (${money(g.c)} × ${yrs(g.y)})` : ` (${money(g.c)})`;
+    return `<li>${g.e || '⭐'} <b>${g.n}</b>${ytxt}: шлях Б — у ${b ?? '—'}, шлях А — ${a === undefined ? 'не встигає до ' + S.lifeAge : a > g.a ? `у ${a}, на ${yrs(a - g.a)} пізніше` : `у ${a}, вчасно`}.</li>`;
+  }).join('') : '<li>Цілей ще немає — додай їх у кроці 2.</li>';
+  const ages = [S.age, Math.round((S.age + S.retireAge) / 2), S.retireAge - 1, S.retireAge + 5].filter((v, i, arr) => v >= S.age && v <= S.lifeAge && arr.indexOf(v) === i);
+  const structTxt = ages.map(a => {
+    const row = sim.rows[a - S.age]; if (!row) return '';
+    const al = row.A.alloc;
+    return `<li><b>${yrs(a)}</b> — капітал ${money(row.A.cap)}: ${ASSETS.map(A => `${A.name.toLowerCase()} ${Math.round(al[A.k] * 100)}%`).join(', ')}.</li>`;
+  }).join('');
+  $('#plan').innerHTML = `
+    <div>
+      <h3>1. Де я зараз</h3>
+      <ul>
+        <li>Вік ${S.age}, модель доходу — ${role}. Дохід ${money(S.income)}/міс, витрати ${money(S.expenses)}/міс, капітал ${money(S.capital)}.</li>
+        <li>Зараз відкладаю ≈ <b>${pct(Math.max(0, saveRate))}</b> доходу (${money(r0.sav / 12)}/міс). За 5 років дохід стане ≈ ${money(r5.inc)}/міс, витрати ≈ ${money(r5.exp)}/міс.</li>
+        <li>Мета — пасивний дохід ${money(S.passive)}/міс з ${S.retireAge} років. Для цього потрібен капітал <b>${money(sim.fiCap)}</b>.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>2. Фінансовий план</h3>
+      <ol>
+        <li>Сформувати резерв на ${S.reserveM} міс. витрат: <b>${money(S.reserveM * S.expenses)}</b>.</li>
+        <li>Щомісяця відкладати не менше ${money(Math.max(0, r0.sav / 12))}${needMore > 0 ? ` і знайти ще <b>${money(needMore)}/міс</b> — тоді капітал до ${S.retireAge} років дійде до цілі` : ' — цього вистачає, щоб до віку відпочинку зібрати капітал для пасивного доходу'}.</li>
+        <li>Тримати витрати нижче порогу ${money(Math.max(S.satur, S.expenses))}/міс: усе, що дохід дає понад нього, — в інвестиції.</li>
+        <li>Інвестувати в знання: ${S.hoursYear} год на рік підніме бонус дохідності з ${pct(skillBonus(S.age, S))} до ${pct(bonusEnd)}.</li>
+        <li>${better === 'A' ? 'Шлях А дає фінансову свободу раніше' : 'Різниця між шляхами невелика'}: ${sim.A.fi !== null ? `А — у ${sim.A.fi}` : 'А — не досягає'}, ${sim.B.fi !== null ? `Б — у ${sim.B.fi}` : 'Б — не досягає'}. Можна поєднувати: «не відкладати» лише найважливіші події.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>3. Мрії й цілі на шкалі життя</h3>
+      <ul>${goalsTxt}</ul>
+    </div>
+    <div>
+      <h3>4. Інвестиційний план — структура активів</h3>
+      <ul>${structTxt}</ul>
+      <p class="hint" style="margin-top:6px">Профіль ризику — ${ { cons: 'обережний', mod: 'помірний', agg: 'сміливий' }[S.risk]}. Щороку переглядай портфель і повертай частки до плану (ребалансування).</p>
+    </div>`;
+
+  const ms = sim.rows.filter(r => (r.a - S.age) % 5 === 0 || r.a === S.retireAge);
+  $('#milestones').innerHTML = `<thead><tr><th>Вік</th><th class="n">Дохід/міс</th><th class="n">Витрати/міс</th><th class="n">Відкладаю/міс</th><th class="n">Капітал А</th><th class="n">Капітал Б</th><th>Події</th></tr></thead><tbody>` +
+    ms.map(r => {
+      const ev = sim.goals.filter(g => { const b = sim.B.done[g.i]; return b !== undefined && b > r.a - 5 && b <= r.a; }).map(g => g.e).join(' ');
+      return `<tr><td><b>${r.a}</b>${r.a === S.retireAge ? ' 🌴' : ''}</td><td class="n">${money(r.inc)}</td><td class="n">${money(r.exp)}</td><td class="n">${money(r.sav / 12)}</td><td class="n">${money(r.A.cap)}</td><td class="n">${money(r.B.cap)}</td><td>${ev}</td></tr>`;
+    }).join('') + '</tbody>';
+}
+
+function flowText(sim) {
+  const peak = sim.rows.filter(r => r.a < S.retireAge).reduce((m, r) => r.inc > m.inc ? r : m, sim.rows[0]);
+  const satRow = sim.rows.find(r => r.a < S.retireAge && r.exp >= Math.max(S.satur, S.expenses) * 0.98);
+  $('#flowHint').textContent = S.role === 'employee' ? 'Крива кар’єри найманого працівника' : 'S-крива підприємця: спершу нижче, потім «гачок» угору';
+  $('#flowNote').innerHTML = `Пік доходу — у ${peak.a} років: ≈ <b>${money(peak.inc)}/міс</b>. ` +
+    (satRow ? `З ${satRow.a} років витрати впираються в поріг ${money(Math.max(S.satur, S.expenses))}/міс і майже перестають рости — дохід їх обганяє, і з’являється простір для інвестицій. ` : 'Витрати ще не доходять до порогу насичення — ростуть разом із доходом. ') +
+    `Після ${S.retireAge} років зарплати немає — витрати (${money(S.passive)}/міс) покриває капітал.`;
+}
+
+/* ---------- main update ---------- */
+let rt = 0;
+function update(rerenderGoals = false) {
+  sanitize();
+  if (rerenderGoals) renderGoals();
+  save();
+  cancelAnimationFrame(rt);
+  rt = requestAnimationFrame(() => {
+    SIM = simulate(S);
+    $('#bonusNow').textContent = '+' + pct(skillBonus(S.age, S));
+    $('#bonusLater').textContent = `у ${S.retireAge} років: +${pct(skillBonus(S.retireAge, S))}`;
+    updateRealCells();
+    renderGoals(SIM);
+    drawCharts(SIM);
+    kpis(SIM); flowText(SIM); plan(SIM);
+    renderAgeView();
+  });
+}
+
+$('#btnExample').addEventListener('click', () => {
+  S = structuredClone(DEFAULTS); S.name = 'Олена'; S.goals = EXAMPLE_GOALS(S.age);
+  fillInputs(); $('#ageView').value = S.age + 10; update();
+});
+$('#btnReset').addEventListener('click', () => {
+  if (!confirm('Очистити всі дані й цілі?')) return;
+  S = structuredClone(DEFAULTS); fillInputs(); update();
+});
+$('#btnPin').addEventListener('click', () => {
+  if (S.pin) { S.pin = null; $('#btnPin').textContent = '📌 Зафіксувати варіант'; }
+  else { S.pin = SIM.rows.map(r => [r.a, Math.round(r.A.cap)]); $('#btnPin').textContent = '✕ Прибрати фіксацію'; }
+  update();
+});
+
+const mq = matchMedia('(prefers-color-scheme: dark)');
+mq.addEventListener && mq.addEventListener('change', () => { makeCharts(); update(); });
+
+fillInputs();
+if (S.pin) $('#btnPin').textContent = '✕ Прибрати фіксацію';
+$('#ageView').value = S.age + 10;
+makeCharts();
+update();
+})();
+</script>
+</body>
+</html>
