@@ -1,0 +1,1317 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Мапа ринку</title>
+<meta name="description" content="Напиши біль чи потребу клієнта, і сторінка сама намалює ринок як карту: твій ринок у центрі, сусідні ринки (інші способи вирішити проблему) довкола, ніші, підніші й продукти всередині. З орієнтовною місткістю кожного ринку і твоєю часткою.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ececec; --paper: #f7f7f7; --surface: #ffffff; --text: #1f1f22; --muted: #64646b; --faint: #9a9aa1; --line: #e2e2e4;
+    --sky: #1fb5f0; --sky-2: #0090e0; --navy: #0b5f95; --soft: #dff3fd; --soft-2: #eef8fe;
+    --pain: #f0365a; --pain-soft: #ffe4e9; --ok: #1f9d47; --ok-soft: #e2f6e8; --warn: #e69100; --warn-soft: #fff3dc; --me: #f08a24;
+    --shadow: 0 12px 30px rgba(0,0,0,.07); --radius: 18px; color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1316; --paper: #161b1f; --surface: #1f262c; --text: #e9eef2; --muted: #a6b0b8; --faint: #6f7a83; --line: #2c353c;
+      --sky: #2bbdf5; --sky-2: #1592d8; --navy: #8fd3fa; --soft: #12324a; --soft-2: #132630;
+      --pain: #ff6b85; --pain-soft: #3b1d26; --ok: #3fc46a; --ok-soft: #173322; --warn: #f5b13d; --warn-soft: #3a2c12; --me: #ffa04d;
+      --shadow: 0 12px 30px rgba(0,0,0,.35); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1316; --paper: #161b1f; --surface: #1f262c; --text: #e9eef2; --muted: #a6b0b8; --faint: #6f7a83; --line: #2c353c;
+    --sky: #2bbdf5; --sky-2: #1592d8; --navy: #8fd3fa; --soft: #12324a; --soft-2: #132630;
+    --pain: #ff6b85; --pain-soft: #3b1d26; --ok: #3fc46a; --ok-soft: #173322; --warn: #f5b13d; --warn-soft: #3a2c12; --me: #ffa04d;
+    --shadow: 0 12px 30px rgba(0,0,0,.35); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  a { color: var(--sky-2); }
+  h1, h2, h3, .disp { font-family: "Unbounded", "Inter", sans-serif; letter-spacing: -.01em; }
+  .wrap { width: min(1080px, 100% - 32px); margin: 0 auto; padding: 18px 0 60px; }
+  .sheet { background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 24px; margin-bottom: 18px; }
+  @media (max-width: 560px) { .sheet { padding: 18px 16px; } }
+  .topline { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; }
+  .topline a { font-weight: 600; text-decoration: none; color: var(--muted); }
+  .topline a:hover { color: var(--sky-2); }
+  h1 { font-size: clamp(24px, 4.4vw, 36px); margin: 14px 0 6px; line-height: 1.12; }
+  .lead { color: var(--muted); margin: 0 0 16px; max-width: 760px; }
+  .pain-box { background: var(--surface); border: 2px solid var(--sky); border-radius: 16px; padding: 14px; }
+  .pain-box label { font-weight: 800; display: block; margin-bottom: 6px; font-size: 16px; }
+  .pain-row { display: flex; gap: 10px; }
+  @media (max-width: 620px) { .pain-row { flex-direction: column; } }
+  .pain-row textarea { flex: 1; min-height: 56px; resize: vertical; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--paper); font-size: 16px; }
+  .btn { border: 0; background: var(--sky); color: #fff; font-weight: 800; border-radius: 12px; padding: 11px 18px; font-size: 15px; }
+  .btn:hover { background: var(--sky-2); }
+  .btn-big { font-size: 16px; padding: 14px 20px; white-space: nowrap; }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1.5px solid var(--line); }
+  .btn-ghost:hover { background: var(--soft-2); }
+  .btn-sm { padding: 6px 11px; font-size: 13px; border-radius: 9px; font-weight: 700; }
+  .btn:focus-visible, .chip:focus-visible, .field:focus-visible, textarea:focus-visible { outline: 3px solid color-mix(in srgb, var(--sky) 55%, transparent); outline-offset: 2px; }
+  .ex { margin-top: 12px; }
+  .ex p { margin: 0 0 6px; font-size: 13px; color: var(--muted); font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; font-size: 13.5px; font-weight: 600; text-align: left; }
+  .chip:hover { border-color: var(--sky); }
+  .chip[aria-pressed="true"] { background: var(--sky); border-color: var(--sky); color: #fff; }
+  .biz-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 12px; align-items: end; }
+  .biz-row label { font-size: 13px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 4px; }
+  .field { width: 100%; background: var(--surface); border: 1.5px solid var(--line); border-radius: 11px; padding: 10px 12px; }
+
+  .sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+  .num { background: var(--sky); color: #fff; font-family: "Unbounded", sans-serif; font-weight: 700; border-radius: 12px; width: 44px; height: 44px; display: grid; place-items: center; flex: none; }
+  .sec-head h2 { font-size: 19px; margin: 0; flex: 1; min-width: 200px; line-height: 1.25; }
+  .sec-head h2 small { display: block; font: 500 13px/1.4 "Inter", sans-serif; color: var(--muted); margin-top: 3px; }
+  .tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .seg { display: inline-flex; border: 1.5px solid var(--line); border-radius: 11px; overflow: hidden; background: var(--surface); }
+  .seg button { border: 0; background: none; padding: 7px 12px; font-weight: 700; font-size: 13px; }
+  .seg button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+  :root[data-theme="dark"] .seg button[aria-pressed="true"] { color: #0f1316; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .seg button[aria-pressed="true"] { color: #0f1316; } }
+
+  /* зрозумів так */
+  .got { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+  .got-ico { font-size: 40px; line-height: 1; width: 64px; height: 64px; border-radius: 16px; display: grid; place-items: center; background: var(--soft); }
+  .got-type { display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 6px; background: var(--pain-soft); color: var(--pain); }
+  .got h3 { margin: 4px 0 4px; font-size: 20px; line-height: 1.25; }
+  .got p { margin: 0; color: var(--muted); font-size: 14px; }
+  .alt { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+  .alt select { width: auto; padding: 6px 10px; font-size: 13px; }
+  .ways { margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+  .way { display: flex; gap: 10px; align-items: center; background: var(--surface); border: 1.5px solid var(--line); border-radius: 12px; padding: 8px 10px; text-align: left; font-size: 13.5px; }
+  .way:hover { border-color: var(--sky); }
+  .way .sw { width: 14px; height: 30px; border-radius: 5px; flex: none; border: 1px solid rgba(0,0,0,.15); }
+  .way b { display: block; font-size: 14px; }
+  .way small { color: var(--muted); }
+  .way.me { border-color: var(--me); box-shadow: inset 0 0 0 1px var(--me); }
+  .notice { margin-top: 14px; border-radius: 12px; padding: 11px 14px; background: var(--soft-2); border-left: 4px solid var(--sky); font-size: 14px; }
+  .notice.ok { background: var(--ok-soft); border-color: var(--ok); }
+  .notice.warn { background: var(--warn-soft); border-color: var(--warn); }
+  .notice:empty { display: none; }
+
+  /* карта */
+  .crumbs { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 14px; margin-bottom: 10px; min-height: 30px; }
+  .crumbs button { border: 0; background: var(--surface); border-radius: 8px; padding: 5px 10px; font-weight: 700; }
+  .crumbs button:hover { background: var(--soft); }
+  .crumbs span { color: var(--faint); }
+  .crumbs .tip { color: var(--muted); font-size: 13px; margin-left: auto; }
+  .map-box { position: relative; border-radius: 16px; overflow: hidden; background: #cfe8f3; border: 1px solid var(--line); }
+  .map-box svg { display: block; width: 100%; height: auto; aspect-ratio: 1000 / 680; user-select: none; -webkit-user-select: none; }
+  .map-box svg [data-m] { cursor: pointer; }
+  .map-box .empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 20px; color: #2d566b; font-weight: 700; font-size: 17px; }
+  .map-box .empty[hidden] { display: none; }
+  .map-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+  .map-legend i { display: inline-block; vertical-align: -2px; margin-right: 5px; }
+  .lg-c { width: 16px; height: 12px; border: 2px solid #6b5a48; background: #f6dcb8; border-radius: 3px; }
+  .lg-r { width: 16px; height: 12px; border: 1px solid #fff; background: #e6b980; border-radius: 3px; }
+  .lg-d { width: 16px; height: 12px; border: 1.5px dashed #8a7360; border-radius: 3px; }
+  .lg-p { width: 9px; height: 9px; border-radius: 50%; background: #3d3226; border: 2px solid #fff; box-shadow: 0 0 0 1px #3d3226; }
+
+  /* розбір країни */
+  .tree { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+  .tree-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .tree-head h3 { margin: 0; font-size: 18px; flex: 1; min-width: 200px; }
+  .tree-head h3 small { display: block; font: 500 13px/1.4 "Inter", sans-serif; color: var(--muted); }
+  .badge { display: inline-block; font-size: 11px; font-weight: 800; border-radius: 6px; padding: 2px 7px; background: var(--soft); color: var(--navy); text-transform: uppercase; letter-spacing: .04em; vertical-align: 2px; }
+  .badge.me { background: var(--me); color: #fff; }
+  .mtabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; scrollbar-width: thin; }
+  .mtab { flex: none; border: 1.5px solid var(--line); background: var(--paper); border-radius: 10px; padding: 6px 10px; font-weight: 700; font-size: 13px; white-space: nowrap; }
+  .mtab[aria-pressed="true"] { border-color: var(--navy); box-shadow: inset 0 -3px 0 var(--navy); }
+  .mtab .dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; border: 1px solid rgba(0,0,0,.25); }
+  .niches { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-top: 12px; }
+  .niche { border-radius: 12px; padding: 10px 12px; border: 1.5px solid var(--line); background: var(--paper); }
+  .niche.sel { border-color: var(--navy); }
+  .niche > button { border: 0; background: none; padding: 0; font-weight: 800; font-size: 15px; text-align: left; display: flex; gap: 8px; align-items: center; width: 100%; }
+  .niche > button i { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+  .sub { margin-top: 7px; font-size: 13.5px; }
+  .sub > b { font-weight: 700; }
+  .sub.sel > b { color: var(--sky-2); }
+  .prods { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+  .prod { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 2px 9px; font-size: 12.5px; }
+  .prod:hover { border-color: var(--me); }
+  .prod.mine { background: var(--me); color: #fff; border-color: var(--me); font-weight: 700; }
+  .prod.here { border-style: dashed; background: none; color: var(--faint); }
+  .prod.here.mine { color: #fff; background: var(--me); border-style: solid; }
+  .add-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; font-size: 13px; color: var(--muted); }
+  .add-row select { width: auto; padding: 6px 10px; font-size: 13px; }
+
+  /* місткість */
+  .formula { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 12px; font-size: 14px; }
+  .formula span { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; }
+  .formula em { font-style: normal; color: var(--faint); }
+  .formula .res { background: var(--navy); color: #fff; border-color: var(--navy); }
+  :root[data-theme="dark"] .formula .res { color: #0f1316; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .formula .res { color: #0f1316; } }
+  .pop { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; font-size: 14px; }
+  .pop .field { width: 150px; padding: 7px 10px; }
+  .ctable { width: 100%; border-collapse: separate; border-spacing: 0 6px; }
+  .ctable th { text-align: left; font-size: 12px; color: var(--muted); font-weight: 600; padding: 0 6px; }
+  .ctable td { padding: 0 4px; vertical-align: middle; }
+  .ctable td:first-child { font-weight: 700; padding-left: 0; }
+  .ctable .field { padding: 7px 9px; text-align: right; min-width: 70px; }
+  .ctable .field.ov { border-color: var(--sky); background: var(--soft-2); }
+  .ctable tr.me td:first-child { color: var(--me); }
+  .ctable .out { text-align: right; font-weight: 800; white-space: nowrap; }
+  .ctable .out small { display: block; font-weight: 500; color: var(--muted); font-size: 11.5px; }
+  @media (max-width: 720px) {
+    .ctable thead { display: none; }
+    .ctable tr { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; background: var(--surface); border-radius: 12px; padding: 10px; margin-bottom: 8px; }
+    .ctable td { padding: 0; }
+    .ctable td:first-child, .ctable td.out { grid-column: 1 / -1; }
+    .ctable td[data-l]::before { content: attr(data-l); display: block; font-size: 11px; color: var(--muted); font-weight: 600; }
+    .ctable .out { text-align: left; }
+  }
+  .bars { margin-top: 14px; display: flex; flex-direction: column; gap: 7px; }
+  .bar-row { display: grid; grid-template-columns: 190px 1fr 130px; gap: 10px; align-items: center; font-size: 13.5px; }
+  .bar-row .lbl { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-row .trk { background: var(--line); border-radius: 6px; height: 16px; overflow: hidden; }
+  .bar-row .trk i { display: block; height: 100%; border-radius: 6px; transition: width .5s; }
+  .bar-row .v { text-align: right; font-weight: 800; }
+  @media (max-width: 620px) { .bar-row { grid-template-columns: 1fr 100px; } .bar-row .trk { grid-column: 1 / -1; grid-row: 2; } }
+  .total { margin-top: 12px; font-size: 14px; }
+
+  /* частка */
+  .mine-rows { display: flex; flex-direction: column; gap: 6px; }
+  .mrow { display: grid; grid-template-columns: 1.6fr 1fr 1fr 120px 34px; gap: 8px; align-items: center; }
+  .mrow .field { padding: 8px 10px; }
+  .mrow .sum { text-align: right; font-weight: 800; }
+  .mrow .x { border: 0; background: none; color: var(--faint); font-size: 18px; border-radius: 8px; height: 32px; }
+  .mrow .x:hover { color: var(--pain); background: var(--pain-soft); }
+  .mhead { font-size: 12px; color: var(--muted); font-weight: 600; }
+  @media (max-width: 620px) { .mrow { grid-template-columns: 1fr 1fr; } .mrow .nmf { grid-column: 1 / -1; } .mhead { display: none; } }
+  .link { background: none; border: 0; color: var(--sky-2); font-weight: 700; padding: 6px 0; text-decoration: underline; text-underline-offset: 3px; }
+  .share-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px; align-items: start; }
+  @media (max-width: 760px) { .share-wrap { grid-template-columns: 1fr; } }
+  .stat { background: var(--surface); border-radius: 14px; padding: 14px 16px; border: 1px solid var(--line); }
+  .stat + .stat { margin-top: 10px; }
+  .stat small { color: var(--muted); display: block; font-size: 12.5px; }
+  .stat b { font-family: "Unbounded", sans-serif; font-size: 22px; display: block; margin: 2px 0; }
+  .grids { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .grid100 { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; width: 170px; }
+  .grid100 i { aspect-ratio: 1; border-radius: 3px; background: var(--line); position: relative; overflow: hidden; }
+  .grid100 i b { position: absolute; inset: 0 auto 0 0; background: var(--me); }
+  .grid100 i.full { background: var(--me); }
+  .gcap { text-align: center; font-size: 12.5px; color: var(--muted); margin-top: 6px; max-width: 170px; }
+
+  .passport { background: var(--surface); border-radius: 14px; border: 1px solid var(--line); padding: 16px 18px; }
+  .passport dl { display: grid; grid-template-columns: 220px 1fr; gap: 6px 14px; margin: 0; }
+  .passport dt { color: var(--muted); font-size: 13px; font-weight: 600; }
+  .passport dd { margin: 0; font-weight: 600; }
+  @media (max-width: 620px) { .passport dl { grid-template-columns: 1fr; } .passport dd { margin-bottom: 6px; } }
+  .foot { text-align: center; color: var(--muted); font-size: 13px; margin-top: 10px; }
+  .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%) translateY(20px); background: #1f1f22; color: #fff; padding: 10px 16px; border-radius: 12px; font-weight: 600; font-size: 14px; opacity: 0; pointer-events: none; transition: .25s; z-index: 50; max-width: calc(100% - 32px); }
+  .toast.on { opacity: 1; transform: translateX(-50%); }
+  .after { display: none; }
+  body.has-map .after { display: block; }
+
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+
+  @media print {
+    @page { size: A4; margin: 9mm; }
+    :root { --bg: #fff; --paper: #fff; --surface: #fff; --text: #111; --muted: #555; --line: #ccc; --shadow: none; color-scheme: light; }
+    body { font-size: 10.5px; background: #fff; }
+    .wrap { width: 100%; padding: 0; display: flex; flex-direction: column; }
+    .sheet { padding: 6px 0 8px; margin: 0 0 6px; box-shadow: none; border-bottom: 1px solid #ddd; border-radius: 0; break-inside: auto; }
+    .passport, .got, .stat, .bar-row, .ctable tr { break-inside: avoid; }
+    .wrap { display: block !important; }
+    .noprint, .ex, .btn, .link, .alt, .crumbs, .tree, .tools, .toast, .mrow .x, .foot, .seg button[aria-pressed="false"] { display: none !important; }
+    #top { order: 0; } #sMap { order: 1; } #sPass { order: 2; } #sGot { order: 3; } #sCap { order: 4; } #sShare { order: 5; }
+    h1 { font-size: 18px; margin: 2px 0; }
+    .lead { display: none; }
+    .pain-box { border: 0; padding: 0; }
+    .pain-row textarea, .field { border: 0; padding: 0; background: none; min-height: 0; font-weight: 600; resize: none; -webkit-appearance: none; appearance: none; }
+    .sec-head { margin-bottom: 4px; }
+    .sec-head h2 { font-size: 13px; }
+    .sec-head h2 small { font-size: 9.5px; }
+    .num { width: 26px; height: 26px; font-size: 11px; border-radius: 7px; }
+    .got-ico { width: 36px; height: 36px; font-size: 22px; }
+    .got h3 { font-size: 13px; }
+    .ways { margin-top: 6px; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+    .way { padding: 3px 6px; font-size: 9.5px; }
+    .way b { font-size: 10px; }
+    .way .sw { height: 18px; width: 9px; }
+    .notice { padding: 4px 8px; margin-top: 4px; font-size: 9.5px; }
+    .map-box { break-inside: avoid; }
+    .ctable { border-spacing: 0 1px; }
+    .formula { margin-bottom: 4px; font-size: 10px; }
+    .formula span { padding: 2px 6px; }
+    .pop { margin-bottom: 4px; }
+    .bars { margin-top: 4px; gap: 3px; }
+    .bar-row { grid-template-columns: 150px 1fr 100px; }
+    .bar-row .trk { height: 9px; }
+    .share-wrap { grid-template-columns: 1fr 1fr; margin-top: 6px; gap: 10px; }
+    .stat { padding: 6px 10px; }
+    .stat b { font-size: 15px; }
+    .grid100 { width: 120px; gap: 2px; }
+    .gcap { max-width: 120px; font-size: 9px; }
+    .passport { padding: 8px 10px; }
+    .passport dl { grid-template-columns: 150px 1fr; gap: 3px 10px; }
+    .passport dt { font-size: 10px; }
+    .after { display: block !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1. Біль -->
+  <header class="sheet" id="top">
+    <div class="topline noprint"><a href="start-rynok.html">← Заняття 05 «Ринок і ніша»</a><a href="karta-rynku.html">Конструктор «Карта ринку» →</a></div>
+    <h1>🗺️ Мапа ринку</h1>
+    <p class="lead">Напиши, що болить твоєму клієнту або чого він хоче, і я сам намалюю ринок як карту. У центрі буде твій ринок, а довкола сусіди: інші способи, якими клієнт може вирішити ту саму проблему. Усередині кожної країни є ніші (області), підніші (райони) і конкретні продукти (міста).</p>
+    <div class="pain-box">
+      <label for="pain">Який біль, потреба чи бажання в клієнта?</label>
+      <div class="pain-row">
+        <textarea id="pain" maxlength="200" placeholder="Напр.: хочу схуднути до літа / нудно на вихідних / боюся завалити НМТ"></textarea>
+        <button class="btn btn-big noprint" type="button" id="draw">🖌️ Намалювати ринок</button>
+      </div>
+      <div class="biz-row">
+        <div><label for="biz">Твій бізнес чи продукт <span style="font-weight:500">(можна не писати, тоді знайдеш себе на карті сам)</span></label><input class="field" id="biz" maxlength="100" placeholder="Напр.: студія спортивних танців"></div>
+        <button class="btn btn-ghost btn-sm noprint" type="button" id="findMe" style="height:42px">⭐ Знайти мене</button>
+      </div>
+      <div class="ex">
+        <p>Приклади болю клієнта, натисни на будь-який:</p>
+        <div class="chips" id="examples"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Як я зрозумів -->
+  <section class="sheet after" id="sGot">
+    <div class="sec-head"><div class="num">01</div><h2>Ось як я зрозумів запит клієнта<small>Під ним усі способи, якими клієнт може це вирішити. Кожен спосіб — це окремий ринок, тобто країна на карті</small></h2></div>
+    <div class="got" id="got"></div>
+    <div class="ways" id="ways"></div>
+    <div class="notice" id="gotNote"></div>
+  </section>
+
+  <!-- 3. Карта -->
+  <section class="sheet after" id="sMap">
+    <div class="sec-head">
+      <div class="num">02</div>
+      <h2>Карта ринку<small>Натисни на країну, щоб наблизити, а потім на область. Під картою повний розбір вибраної країни: ніші, підніші, продукти</small></h2>
+      <div class="tools">
+        <div class="seg" id="sizeMode" role="group" aria-label="Розмір країн"><button type="button" data-sm="equal">Твій у центрі</button><button type="button" data-sm="cap">За місткістю</button></div>
+        <button class="btn btn-sm btn-ghost" type="button" id="reshuffle" title="Інакше намалювати кордони">🎲</button>
+      </div>
+    </div>
+    <div class="crumbs" id="crumbs"></div>
+    <div class="map-box"><svg id="map" viewBox="0 0 1000 680" role="img" aria-label="Карта ринку"></svg><div class="empty" id="mapEmpty">Напиши біль клієнта вгорі, і тут з'явиться карта</div></div>
+    <div class="map-legend"><span><i class="lg-c"></i>країна — ринок</span><span><i class="lg-r"></i>область — ніша</span><span><i class="lg-d"></i>район — підніша</span><span><i class="lg-p"></i>місто — продукт</span><span>⭐ — ти</span></div>
+    <div class="tree" id="tree"></div>
+    <div class="notice" id="mapNote"></div>
+  </section>
+
+  <!-- 4. Місткість -->
+  <section class="sheet after" id="sCap">
+    <div class="sec-head">
+      <div class="num">03</div>
+      <h2>Місткість ринків<small>Я підставив орієнтовні числа для кожного ринку. Перевір і зміни на свої: змінені поля підсвічуються</small></h2>
+      <div class="tools"><div class="seg" id="capPer" role="group" aria-label="Період"><button type="button" data-cp="month">за місяць</button><button type="button" data-cp="year">за рік</button></div></div>
+    </div>
+    <div class="formula"><span>👥 клієнтів</span><em>×</em><span>🔁 покупок на одного</span><em>×</em><span>💳 середній чек</span><em>=</em><span class="res">місткість</span></div>
+    <div class="pop">
+      <label for="pop"><b>Де продаєш:</b></label>
+      <div class="seg" id="popSeg"></div>
+      <input class="field" id="pop" inputmode="numeric" aria-label="Кількість жителів">
+      <span style="color:var(--muted)">жителів</span>
+      <button class="btn btn-sm btn-ghost noprint" type="button" id="resetCap">↺ Повернути орієнтири</button>
+    </div>
+    <div style="overflow-x:auto"><table class="ctable"><thead><tr><th>Ринок</th><th id="thN">Клієнтів за місяць</th><th id="thF">Покупок на 1 за місяць</th><th>Середній чек, ₴</th><th style="text-align:right">Місткість</th></tr></thead><tbody id="cbody"></tbody></table></div>
+    <div class="bars" id="bars"></div>
+    <div class="total" id="total"></div>
+    <div class="notice" id="capNote"></div>
+  </section>
+
+  <!-- 5. Частка -->
+  <section class="sheet after" id="sShare">
+    <div class="sec-head">
+      <div class="num">04</div>
+      <h2>Моя частка ринку<small>Скільки продаватимеш і за якою ціною, а потім порівняй з ринком</small></h2>
+      <div class="tools"><div class="seg" id="myPer" role="group" aria-label="Період продажів"><button type="button" data-mp="month">за місяць</button><button type="button" data-mp="year">за рік</button></div></div>
+    </div>
+    <div class="mine-rows" id="mine"></div>
+    <button class="link noprint" type="button" id="addMine">+ ще один продукт</button>
+    <div class="share-wrap"><div id="shareStats"></div><div class="grids" id="grids"></div></div>
+    <div class="notice" id="shareNote"></div>
+  </section>
+
+  <!-- 6. Паспорт -->
+  <section class="sheet after" id="sPass">
+    <div class="sec-head"><div class="num">05</div><h2>Паспорт ринку</h2><div class="tools"><button class="btn btn-sm" type="button" onclick="window.print()">🖨️ Друк / PDF</button></div></div>
+    <div class="passport" id="passport"></div>
+  </section>
+
+  <p class="foot noprint">Числа місткості — орієнтири для навчання, не статистика. Усе зберігається тільки в цьому браузері.</p>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const cap = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ===================================================================== БІБЛІОТЕКА РИНКІВ
+     id | Назва | емодзі | як інакше вирішити | ніші («Ніша: підніша(продукт, продукт), підніша; …») */
+  const RAW = [
+`sport|Спорт|🏃|позайматися спортом|Бойові мистецтва: Бокс(групові тренування, персональні тренування, дитячий бокс), Карате, Дзюдо, ММА, Тхеквондо; Танці: Спортивні(спортивні бальні танці, брейкінг, черлідинг), Соціальні(сальса, бачата, свінг), Сучасні(хіп-хоп, контемпорарі, k-pop), Народні(український народний танець, ірландські танці), Класичні(балет, підготовка до хореографічного училища); Гімнастика й акробатика: Художня гімнастика, Акробатика, Аеробіка, Батут, Паркур; Фітнес: Тренажерний зал(абонемент, персональний тренер), Групові програми(пілатес, стретчинг, кросфіт), Йога; Ігрові види: Футбол(секція, аматорська ліга), Баскетбол, Волейбол, Теніс, Падел; Водні види: Плавання(навчання плаванню, абонемент у басейн), Аквааеробіка, Сапи й серфінг`,
+`spa|СПА й релакс|🧖|розслабити тіло: масаж, сауна, СПА|Масаж: Класичний(загальний масаж, масаж спини), Спортивний, Масаж голови, Лімфодренажний; Лазні: Сауна, Хамам, Баня з чаном; СПА-програми: Для двох, Детокс-день, Флоатинг; Тиша й дихання: Сольова кімната, Медитаційна студія, Звукова терапія`,
+`beauty|Краса й догляд|💅|зробити процедуру краси|Нігті: Манікюр(класичний манікюр, апаратний манікюр, покриття гель-лак, дизайн нігтів), Педикюр, Нарощування нігтів; Волосся: Жіночі стрижки, Барбершоп(чоловіча стрижка, стрижка бороди), Фарбування, Зачіски на свято, Плетіння кіс; Обличчя: Косметолог(чистка обличчя, догляд за шкірою підлітка), Брови й вії(ламінування брів, нарощування вій), Макіяж(вечірній макіяж, макіяж на випускний); Тіло: Епіляція, Засмага, Тату й пірсинг`,
+`cosmetics|Косметика для дому|🧴|купити косметику й доглядати себе самому|Догляд за шкірою: Засоби від акне, Зволоження, Сонцезахист; Декоративна: Тональні засоби, Помади й блиски, Лаки для нігтів; Парфуми: Парфуми, Розпиви, Аромати для дому; Натуральна: Мило ручної роботи, Бальзами для губ, Бомбочки для ванни; Волосся: Шампуні й маски, Стайлінг`,
+`health|Здоров'я|🩺|подбати про здоров'я|Лікарі: Сімейний лікар, Стоматологія(профгігієна, брекети), Офтальмолог(перевірка зору, лінзи); Аптеки: Ліки, Вітаміни; Обстеження: Аналізи, Чекап; Відновлення: Фізіотерапія, Остеопат, Корекція постави; Харчування: Нутриціолог, Спортивне харчування(протеїн, батончики)`,
+`psy|Психологія й розвиток себе|🧠|поговорити з психологом або попрацювати над собою|Психолог: Індивідуальний(онлайн-консультація, зустріч у кабінеті), Підлітковий, Сімейний, Групова терапія; Коучинг: Лайф-коуч, Профорієнтація; Практики: Медитація, Дихальні практики, Арт-терапія; Самодопомога: Застосунки(медитація, щоденник настрою), Книжки про себе, Подкасти про психологію; Підтримка: Гарячі лінії, Групи підтримки`,
+`edu|Навчання й курси|📚|піти на курс, тренінг чи до репетитора|Шкільні предмети: Репетитори(математика, англійська, українська мова, фізика), Підготовка до НМТ(групи, індивідуально, онлайн-курс), Олімпіади; Мови: Англійська(групи, розмовний клуб, носій мови), Польська, Німецька, Іспанська; Навички майбутнього: Програмування(Python, вебсайти, створення ігор, робототехніка), Дизайн, Монтаж відео, Фінансова грамотність; Soft skills: Ораторське мистецтво, Лідерство, Тайм-менеджмент, Дебати; Хобі-курси: Кулінарні майстер-класи, Фотографія, Музика`,
+`content|Контент і медіа|📺|подивитися, послухати чи почитати цікаве|Відео: YouTube(влоги, навчальні відео), TikTok, Стримінгові сервіси(фільми, серіали, аніме); Аудіо: Музика, Подкасти, Аудіокниги; Читання: Книжки(паперові, електронні), Комікси й манга, Журнали; Онлайн-навчання: Безкоштовні курси, Навчальні застосунки`,
+`creative|Творчість і хобі|🎨|створити щось своїми руками|Малювання: Студія живопису, Скетчинг, Діджитал-арт; Ремесла: Кераміка(гончарний круг, ліплення), Свічки, В'язання й шиття, Ювелірка й біжутерія; Музика: Гітара, Вокал, Барабани, Діджеїнг; Фото й відео: Мобільна фотографія, Зйомка відео; Набори для творчості: Розмальовки за номерами, Набори для вишивки, Алмазна мозаїка`,
+`fun|Розваги|🎉|піти розважитися|Кіно й театр: Кінотеатр(прем'єри, нічні сеанси), Театр, Стендап; Ігри в компанії: Настільні ігри(антикафе, ігротека, турніри), Квест-кімнати(жахастик, детектив, квест для компанії), Лазертаг, Пейнтбол, Боулінг, Більярд; Активні розваги: Батутний парк, Скалодром, Картинг, Мотузковий парк; Клуби за інтересами: Книжковий клуб, Кіноклуб; Події: Концерти, Фестивалі, Вечірки`,
+`games|Відеоігри й кіберспорт|🎮|пограти у відеоігри|Ігри: Для ПК, Консольні, Мобільні; Де грати: Комп'ютерний клуб(година гри, нічний пакет), VR-арена, Вдома; Кіберспорт: Турніри, Тренування з тренером(CS2, Dota 2, Valorant), Команди; Стримінг: Стрими, Донати; Покупки в іграх: Скіни, Підписки, Ігрова валюта`,
+`friends|Спільноти й знайомства|🤝|знайти своїх людей у спільноті|Клуби: Дебатний клуб, Клуби за інтересами, Скаути й пластуни; Волонтерство: Волонтерські проєкти, Допомога тваринам; Онлайн-спільноти: Discord-сервери, Telegram-чати; Молодіжні простори: Молодіжні хаби, Коворкінги для підлітків; Табори й вишколи: Табори лідерства, Вишколи`,
+`events|Свята й події|🎈|влаштувати свято чи подію|Дні народження: Дитячі(аніматори, шоу бульбашок, наукове шоу, аквагрим), Підліткові вечірки, Дорослі ювілеї; Фото й відео: Фотосесії(сімейна фотосесія, фотосесія для соцмереж, лав-сторі), Відеозйомка, Фотобудка; Декор: Повітряні кульки, Фотозони, Оформлення залу; Великі події: Випускні, Весілля, Корпоративи; Ведучі й музика: Ведучий, Діджей, Живий гурт`,
+`gifts|Подарунки|🎁|подарувати щось|Речі: Сувеніри, Подарунки з фото(фотокнига, чашка з фото, пазл з фото), Гаджети; Враження: Сертифікати на враження, Майстер-класи, Квести; Квіти й солодке: Букети, Солодкі бокси, Букети з полуниці; Хендмейд: Свічки ручної роботи, Листівки, Прикраси ручної роботи; Сервіс: Пакування подарунків, Організація сюрпризу, Доставка подарунка`,
+`kava|Кава й кав'ярні|☕|посидіти в кав'ярні чи взяти каву з собою|Кава з собою: Кавові кіоски, Кава-автомати, Кава на заправці; Кав'ярні: Спешелті(спешелті-кав'ярня, фільтр-кава, альтернативні методи), Мережеві кав'ярні, Кав'ярня-пекарня, Котокафе; Чай і напої: Чайні, Бабл-ті(класичний бабл-ті, фруктовий бабл-ті), Какао й гарячий шоколад; Кава додому: Зерно й мелена кава, Капсули, Кавоварки; Кавове навчання: Курси бариста, Каппінги`,
+`food_out|Їжа в закладах|🍽️|поїсти в ресторані чи кафе|Ресторани: Українська кухня, Італійська кухня, Азійська кухня(суші, рамен, вок), Стейк-хаус; Фастфуд: Бургерні, Піцерії(піца на дровах, піца по шматочку), Шаурма, Хот-доги; Здорова їжа: Боули й салати, Смузі-бари, Веган-кафе; Солодке: Кондитерські, Морозиво, Вафлі й млинці; Їдальні: Шкільна їдальня, Бізнес-ланчі`,
+`delivery|Доставка й їжа з собою|🛵|замовити доставку або взяти їжу з собою|Доставка з закладів: Піца, Суші, Бургери; Раціони: Здорові раціони(на тиждень, для схуднення, для спортсменів), Ланч-бокси(ланч-бокс на день, перекус у школу); Їжа з собою: Кулінарія супермаркету, Стрітфуд, Пекарні з собою; Набори для готування: Кіт-бокси з рецептами, Набори для барбекю`,
+`home_cook|Готування вдома|🍳|приготувати вдома, навіть з того, що є|З того що є: Рецепти із залишків, Сніданки за 5 хвилин, Заморозка на потім; Напівфабрикати: Вареники й пельмені, Готове тісто, Соуси й заправки; Кухонне приладдя: Посуд, Аерогрилі й мультиварки, Блендери; Навчитися готувати: Кулінарні курси, Кулінарні блоги, Кулінарні книжки`,
+`groceries|Продукти харчування|🛒|спеціально піти в магазин і купити те, що хочеш|Супермаркети: Великі мережі, Магазин біля дому, Онлайн-замовлення продуктів; Свіже: Овочі й фрукти, М'ясо й риба, Молочні продукти; Фермерське й крафтове: Фермерський сир(молодий сир, витриманий сир), Мед, Хліб на заквасці; Снеки й солодощі: Чипси й снеки, Шоколад і цукерки, Корисні снеки; Напої: Вода й соки, Енергетики, Чай і кава`,
+`bakery|Випічка й десерти|🧁|купити щось солоденьке|Торти: Торти на замовлення(бенто-торт, дитячий торт, весільний торт), Торти з вітрини, Муси; Дрібна випічка: Капкейки, Макаруни, Печиво, Круасани; Хліб: Хліб на заквасці, Багети, Бездріжджовий хліб; Особливі: Без цукру, Без глютену, Веганські десерти`,
+`fashion|Одяг і стиль|👕|оновити гардероб|Одяг: Мас-маркет, Секонд-хенд і вінтаж, Український дизайн, Спортивний одяг, Шкільна форма; Взуття: Кросівки(оригінальні кросівки, кастом кросівок), Класичне взуття, Догляд за взуттям; Аксесуари: Сумки й рюкзаки, Біжутерія, Кепки й шапки, Чохли для телефонів; Перепродаж: Ресейл кросівок, Онлайн-барахолки; Сервіс: Пошиття на замовлення, Ремонт одягу, Принти на футболках`,
+`tech|Гаджети й техніка|📱|купити нову техніку чи полагодити стару|Продаж: Смартфони, Ноутбуки й ПК, Аксесуари(чохли, навушники, зарядки, захисне скло); Ремонт: Ремонт телефонів(заміна екрана, заміна батареї, ремонт після води), Ремонт ноутбуків, Ремонт консолей; Вживана техніка: Викуп техніки, Відновлена техніка; Налаштування: Збирання ПК, Розумний дім, Налаштування для батьків`,
+`digital|Цифрові послуги|💻|замовити цифрову послугу|Сайти: Лендінги(лендінг для малого бізнесу, сайт-візитка), Інтернет-магазини; Соцмережі: SMM, Створення контенту, Таргетована реклама; Дизайн: Логотипи, Обкладинки й прев'ю, Презентації; Відео: Монтаж, Анімація; Застосунки й боти: Telegram-боти, Мобільні застосунки`,
+`pets|Тварини|🐶|подбати про улюбленця|Догляд: Грумінг, Вигул собак(разовий вигул, абонемент на місяць), Перетримка; Здоров'я: Ветклініка, Ветаптека; Корм і товари: Корми, Іграшки й ласощі, Одяг для тварин; Навчання: Кінолог, Дресирування цуценят; Тварини: Розплідники, Притулки`,
+`home|Дім і затишок|🏠|зробити вдома чисто й затишно|Прибирання: Клінінг(генеральне прибирання, прибирання після ремонту), Хімчистка меблів, Миття вікон; Ремонт: Майстер на годину, Дизайн інтер'єру; Декор: Рослини, Свічки й аромати(ароматичні свічки, дифузори), Постери й картини, Текстиль; Порядок: Організація простору, Системи зберігання`,
+`kids|Діти й сім'я|🧸|доручити дитину надійним людям|Догляд: Няні, Продовжений день, Супровід на гуртки; Розвиток: Розвивальні заняття, Логопед, Підготовка до школи; Товари: Іграшки, Дитячий одяг, Книжки для дітей; Дозвілля: Дитячі кімнати, Майстер-класи для дітей`,
+`transport|Пересування|🛴|дістатися куди треба|Таксі: Звичайне таксі, Дитяче таксі; Громадський транспорт: Автобуси й трамваї, Електрички; Прокат: Прокат самокатів, Прокат велосипедів(велосипед на годину, велосипед на день); Власний транспорт: Велосипеди, Електросамокати, Ремонт велосипедів`,
+`travel|Подорожі й табори|✈️|кудись поїхати й змінити обстановку|Подорожі: Тури, Вихідні в іншому місті, Походи в гори; Табори: Мовні табори, Спортивні табори, IT-табори; Житло: Готелі, Хостели, Глемпінг; Екскурсії: Міські екскурсії, Квест-екскурсії`,
+`nature|Природа й прогулянки|🌳|вийти на природу (часто безкоштовно)|Прогулянки: Парки, Набережні, Ліс; Активний відпочинок: Пікніки, Велопрогулянки, Риболовля; Сад і город: Дача, Кімнатні рослини; Спостереження: Зоопарк, Ботанічний сад, Обсерваторія`,
+`money|Гроші й фінанси|💳|розібратися з грошима|Банківські послуги: Картки для підлітків, Скарбнички в застосунку; Інвестиції: Депозити, ОВДП, Акції й фонди; Заробіток: Підробіток, Фриланс; Навчання: Курси фінграмотності, Книжки про гроші`,
+  ];
+  /* Конкретні продукти (міста) для підніш, де їх немає в RAW: «ринок:Підніша=продукт, продукт» */
+  const PROD = `
+sport:Карате=групи для дітей, підготовка до поясів, змагання
+sport:Дзюдо=групи для початківців, літні збори
+sport:ММА=тренування для підлітків, персональні тренування
+sport:Тхеквондо=групи, атестація на пояс
+sport:Художня гімнастика=секція для дівчат, купальники й предмети
+sport:Акробатика=дитяча акробатика, акро-йога
+sport:Аеробіка=степ-аеробіка, танцювальна аеробіка
+sport:Батут=заняття на батуті, батутний фітнес
+sport:Паркур=групи паркуру, воркаут-майданчик
+sport:Йога=хатха-йога, йога для підлітків, онлайн-йога
+sport:Баскетбол=секція, стрітбол 3х3
+sport:Волейбол=секція, пляжний волейбол
+sport:Теніс=групове заняття, оренда корту
+sport:Падел=оренда корту, тренування з тренером
+sport:Аквааеробіка=групове заняття, аквааеробіка для мам
+sport:Сапи й серфінг=прокат сапа, урок серфінгу
+spa:Спортивний=масаж після тренування, відновлення м'язів
+spa:Масаж голови=масаж голови 30 хвилин, масаж обличчя
+spa:Лімфодренажний=апаратний масаж, ручний масаж
+spa:Сауна=фінська сауна на годину, сауна з басейном
+spa:Хамам=хамам з пілінгом, мильний масаж
+spa:Баня з чаном=чан на компанію, баня з віником
+spa:Для двох=СПА-побачення, сертифікат для пари
+spa:Детокс-день=програма на день, обгортання
+spa:Флоатинг=сеанс 60 хвилин, абонемент
+spa:Сольова кімната=сеанс 40 хвилин, дитячий сеанс
+spa:Медитаційна студія=групова медитація, курс медитації
+spa:Звукова терапія=співочі чаші, гонг-медитація
+beauty:Педикюр=класичний педикюр, апаратний педикюр, покриття
+beauty:Нарощування нігтів=гель, корекція нарощених
+beauty:Жіночі стрижки=стрижка кінчиків, модельна стрижка, укладка
+beauty:Фарбування=омбре, тонування, яскраві пасма
+beauty:Зачіски на свято=зачіска на випускний, локони
+beauty:Плетіння кіс=афрокоси, брейди, косички на свято
+beauty:Епіляція=воскова, лазерна, шугаринг
+beauty:Засмага=солярій, моментальна засмага
+beauty:Тату й пірсинг=мінітату, пірсинг вуха, тимчасові тату
+cosmetics:Засоби від акне=гель для вмивання, точковий засіб, патчі
+cosmetics:Зволоження=крем для обличчя, сироватка, тканинні маски
+cosmetics:Сонцезахист=крем SPF 50, стік для обличчя
+cosmetics:Тональні засоби=тональний крем, консилер, кушон
+cosmetics:Помади й блиски=блиск для губ, тінт, рідка помада
+cosmetics:Лаки для нігтів=звичайний лак, гель-лак для дому
+cosmetics:Парфуми=туалетна вода, міні-парфуми
+cosmetics:Розпиви=пробник 5 мл, набір пробників
+cosmetics:Аромати для дому=спрей для дому, саше
+cosmetics:Мило ручної роботи=мило з травами, мило-подарунок
+cosmetics:Бальзами для губ=бальзам у стіку, скраб для губ
+cosmetics:Бомбочки для ванни=бомбочка, набір бомбочок
+cosmetics:Шампуні й маски=шампунь, маска для волосся, сухий шампунь
+cosmetics:Стайлінг=лак для волосся, гель, термозахист
+health:Сімейний лікар=огляд, довідка для школи, щеплення
+health:Ліки=від застуди, знеболювальні
+health:Вітаміни=вітамін D, мультивітаміни
+health:Аналізи=загальний аналіз крові, аналіз на вітаміни
+health:Чекап=чекап для підлітка, чекап для спортсмена
+health:Фізіотерапія=курс процедур, електростимуляція
+health:Остеопат=сеанс остеопатії
+health:Корекція постави=ЛФК, корсет, заняття з реабілітологом
+health:Нутриціолог=консультація, план харчування
+psy:Підлітковий=консультація для підлітка, профілактика булінгу
+psy:Сімейний=консультація для батьків і дітей
+psy:Групова терапія=група для підлітків, група підтримки тривоги
+psy:Лайф-коуч=сесія коучингу, програма на 3 місяці
+psy:Профорієнтація=тест профорієнтації, консультація з вибору професії
+psy:Медитація=курс медитації, застосунок
+psy:Дихальні практики=заняття з диханням, онлайн-курс
+psy:Арт-терапія=групове заняття, майстер-клас малювання емоцій
+psy:Книжки про себе=книжки про емоції, книжки про звички
+psy:Подкасти про психологію=підписка на подкаст
+psy:Гарячі лінії=лінія для дітей і молоді, онлайн-чат
+psy:Групи підтримки=група за інтересами, онлайн-зустрічі
+edu:Олімпіади=підготовка до олімпіади, літня школа
+edu:Польська=групові заняття, підготовка до сертифіката
+edu:Німецька=групи, індивідуально
+edu:Іспанська=групи, розмовний клуб
+edu:Дизайн=графічний дизайн, Figma для підлітків
+edu:Монтаж відео=монтаж на телефоні, монтаж для YouTube
+edu:Фінансова грамотність=курс для підлітків, гра «Гроші»
+edu:Ораторське мистецтво=курс виступів, клуб спікерів
+edu:Лідерство=табір лідерства, тренінг
+edu:Тайм-менеджмент=курс, планер
+edu:Дебати=дебатний клуб, турнір
+edu:Кулінарні майстер-класи=піца своїми руками, суші-клас
+edu:Фотографія=курс мобільної фотографії, фотопрогулянка
+edu:Музика=уроки гітари, уроки вокалу
+content:TikTok=розважальні відео, навчальні відео
+content:Музика=підписка на стримінг, концертні записи
+content:Подкасти=розважальні подкасти, освітні подкасти
+content:Аудіокниги=підписка, окрема книга
+content:Комікси й манга=манга томами, вебкомікси
+content:Журнали=підлітковий журнал, науково-популярний журнал
+content:Безкоштовні курси=Prometheus, курси на YouTube
+content:Навчальні застосунки=застосунок для мов, застосунок з математики
+creative:Студія живопису=майстер-клас олією, абонемент
+creative:Скетчинг=скетчбук, курс скетчингу
+creative:Діджитал-арт=курс Procreate, графічний планшет
+creative:Свічки=майстер-клас свічок, набір для свічок
+creative:В'язання й шиття=курс шиття, набір для в'язання
+creative:Ювелірка й біжутерія=браслети з бісеру, майстер-клас прикрас
+creative:Гітара=уроки гітари, прокат гітари
+creative:Вокал=уроки вокалу, студія звукозапису
+creative:Барабани=уроки барабанів, репетиційна база
+creative:Діджеїнг=курс діджеїнгу, оренда пульта
+creative:Мобільна фотографія=курс, штатив і світло
+creative:Зйомка відео=курс відеозйомки, оренда камери
+creative:Розмальовки за номерами=картина за номерами
+creative:Набори для вишивки=набір хрестиком, набір бісером
+creative:Алмазна мозаїка=набір мозаїки
+fun:Театр=вистава, молодіжний театр
+fun:Стендап=відкритий мікрофон, концерт коміка
+fun:Лазертаг=гра на годину, день народження з лазертагом
+fun:Пейнтбол=гра для компанії, дитячий пейнтбол
+fun:Боулінг=доріжка на годину, турнір
+fun:Більярд=стіл на годину
+fun:Батутний парк=година стрибків, вечірка в батутному парку
+fun:Скалодром=разове відвідування, секція скелелазіння
+fun:Картинг=заїзд 10 хвилин, гонка для компанії
+fun:Мотузковий парк=траса для підлітків, сімейний квиток
+fun:Книжковий клуб=зустріч клубу, підписка на книжку місяця
+fun:Кіноклуб=перегляд з обговоренням
+fun:Концерти=квиток на концерт, фан-зона
+fun:Фестивалі=квиток на фестиваль, кемпінг на фестивалі
+fun:Вечірки=вечірка для підлітків, тематична вечірка
+games:Для ПК=купівля гри, бойовий пропуск
+games:Консольні=купівля гри, підписка на консоль
+games:Мобільні=безкоштовні ігри з покупками, преміум-версія
+games:VR-арена=година у VR, VR-квест
+games:Вдома=оренда консолі, ігрові вечори з друзями
+games:Турніри=внесок за участь, глядацький квиток
+games:Команди=шкільна кіберкоманда, ліга
+games:Стрими=підписка на стримера
+games:Донати=донат стримеру
+games:Скіни=скін для персонажа, кейси
+games:Підписки=ігрова підписка на місяць
+games:Ігрова валюта=поповнення валюти
+friends:Дебатний клуб=зустрічі клубу, турніри
+friends:Клуби за інтересами=клуб аніме, клуб настолок, клуб науки
+friends:Скаути й пластуни=гурток, табір
+friends:Волонтерські проєкти=шкільний проєкт, благодійний ярмарок
+friends:Допомога тваринам=волонтерство в притулку, вигул безпритульних
+friends:Discord-сервери=сервер за інтересами, преміум-підписка
+friends:Telegram-чати=міський чат підлітків, чат за хобі
+friends:Молодіжні хаби=вільний простір, заходи хабу
+friends:Коворкінги для підлітків=місце на день, навчальна зона
+friends:Табори лідерства=зміна табору
+friends:Вишколи=вишкіл на вихідні
+events:Підліткові вечірки=вечірка під ключ, тематична вечірка
+events:Дорослі ювілеї=банкет, сценарій ювілею
+events:Відеозйомка=відео свята, кліп-привітання
+events:Фотобудка=фотобудка на годину, друк фото
+events:Повітряні кульки=букет з кульок, цифри з фольги
+events:Фотозони=оренда фотозони, фотозона під ключ
+events:Оформлення залу=декор столів, квіткове оформлення
+events:Випускні=організація випускного, фото й відео випускного
+events:Весілля=організатор весілля, декор
+events:Корпоративи=корпоратив під ключ, тімбілдинг
+events:Ведучий=ведучий свята, ведучий для дітей
+events:Діджей=діджей на вечір, обладнання
+events:Живий гурт=кавер-гурт, акустичний дует
+gifts:Сувеніри=магніти, листівки з містом
+gifts:Гаджети=навушники, павербанк, смарт-годинник
+gifts:Сертифікати на враження=політ на повітряній кулі, майстер-клас, СПА
+gifts:Майстер-класи=гончарний, кулінарний, малювання
+gifts:Квести=квест у подарунок, квест-побачення
+gifts:Букети=букет квітів, квіти в коробці
+gifts:Солодкі бокси=бокс солодощів, бокс з макарунами
+gifts:Букети з полуниці=полуниця в шоколаді, фруктовий букет
+gifts:Свічки ручної роботи=свічка в банці, набір свічок
+gifts:Листівки=листівка ручної роботи, поп-ап листівка
+gifts:Прикраси ручної роботи=браслет, сережки, кулон з ім'ям
+gifts:Пакування подарунків=пакування в крафт, подарункова коробка
+gifts:Організація сюрпризу=сюрприз-побачення, флешмоб-привітання
+gifts:Доставка подарунка=кур'єр з подарунком, анонімна доставка
+kava:Кавові кіоски=американо з собою, капучино, раф
+kava:Кава-автомати=кава за 20 ₴, гарячий шоколад з автомата
+kava:Кава на заправці=кава й хот-дог
+kava:Мережеві кав'ярні=лате, сезонний напій, сендвіч
+kava:Кав'ярня-пекарня=кава й круасан, сніданок
+kava:Котокафе=година з котами, кава й десерт
+kava:Чайні=чайна церемонія, листовий чай
+kava:Какао й гарячий шоколад=какао з маршмелоу, гарячий шоколад
+kava:Зерно й мелена кава=пачка зерна 250 г, мелена кава
+kava:Капсули=капсули 10 шт, капсульна машина
+kava:Кавоварки=гейзерна кавоварка, ріжкова кавоварка, френч-прес
+kava:Курси бариста=базовий курс, латте-арт
+kava:Каппінги=дегустація кави
+food_out:Українська кухня=борщ і вареники, бізнес-ланч
+food_out:Італійська кухня=паста, різото, тірамісу
+food_out:Стейк-хаус=стейк, бургер з яловичини
+food_out:Бургерні=класичний бургер, смеш-бургер, картопля фрі
+food_out:Шаурма=шаурма класична, шаурма в лаваші
+food_out:Хот-доги=французький хот-дог, данський хот-дог
+food_out:Боули й салати=поке-боул, салат цезар
+food_out:Смузі-бари=смузі, фреш, смузі-боул
+food_out:Веган-кафе=веган-бургер, рослинне молоко
+food_out:Кондитерські=тістечко, еклер
+food_out:Морозиво=ріжок, джелато на вагу
+food_out:Вафлі й млинці=бельгійські вафлі, млинці з начинкою
+food_out:Шкільна їдальня=комплексний обід, буфет
+food_out:Бізнес-ланчі=перше й друге, ланч з напоєм
+delivery:Піца=піца 30 см, комбо
+delivery:Суші=сет роллів, поке
+delivery:Бургери=бургер-комбо
+delivery:Кулінарія супермаркету=готові салати, гриль-курка
+delivery:Стрітфуд=хот-дог, шаурма, картопля
+delivery:Пекарні з собою=пиріжки, круасани
+delivery:Кіт-бокси з рецептами=набір на 3 вечері
+delivery:Набори для барбекю=маринований шашлик, набір для гриля
+home_cook:Рецепти із залишків=омлет з усього, суп з того, що є
+home_cook:Сніданки за 5 хвилин=вівсянка, тости, сирники
+home_cook:Заморозка на потім=заморожені котлети, суп-набір
+home_cook:Вареники й пельмені=заморожені вареники, пельмені
+home_cook:Готове тісто=листкове тісто, тісто для піци
+home_cook:Соуси й заправки=кетчуп, соус песто
+home_cook:Посуд=сковорідка, набір каструль
+home_cook:Аерогрилі й мультиварки=аерогриль, мультиварка
+home_cook:Блендери=блендер для смузі
+home_cook:Кулінарні курси=онлайн-курс, майстер-клас для підлітків
+home_cook:Кулінарні блоги=відеорецепти
+home_cook:Кулінарні книжки=книга рецептів, книга для дітей
+groceries:Великі мережі=великий закуп на тиждень, власна марка магазину
+groceries:Магазин біля дому=хліб і молоко, швидкі покупки
+groceries:Онлайн-замовлення продуктів=доставка за годину, кошик на тиждень
+groceries:Овочі й фрукти=сезонні фрукти, овочевий набір
+groceries:М'ясо й риба=курка, фарш, червона риба
+groceries:Молочні продукти=молоко, йогурт, сир кисломолочний
+groceries:Мед=мед у банці, стільниковий мед
+groceries:Хліб на заквасці=житній, пшеничний
+groceries:Чипси й снеки=чипси, сухарики, попкорн
+groceries:Шоколад і цукерки=плитка шоколаду, коробка цукерок
+groceries:Корисні снеки=горіхи, протеїнові батончики, фрукти сушені
+groceries:Вода й соки=вода, сік, лимонад
+groceries:Енергетики=енергетичний напій
+groceries:Чай і кава=чай у пакетиках, розчинна кава
+bakery:Торти з вітрини=шматочок торта, медовик, наполеон
+bakery:Муси=мусовий торт, муси в стаканчиках
+bakery:Капкейки=набір 6 капкейків, капкейки з написами
+bakery:Макаруни=набір макарунів, макаруни-подарунок
+bakery:Печиво=вівсяне печиво, печиво з передбаченнями
+bakery:Круасани=класичний круасан, круасан з начинкою
+bakery:Хліб на заквасці=житній хліб, хліб з насінням
+bakery:Багети=французький багет
+bakery:Бездріжджовий хліб=цільнозерновий хліб
+bakery:Без цукру=десерти на стевії, протеїнове печиво
+bakery:Без глютену=безглютеновий хліб, брауні без глютену
+bakery:Веганські десерти=веган-чізкейк, енергетичні кульки
+fashion:Мас-маркет=джинси, футболки, худі
+fashion:Секонд-хенд і вінтаж=вінтажні куртки, секонд на вагу
+fashion:Український дизайн=худі українського бренду, вишиванка
+fashion:Спортивний одяг=легінси, спортивний костюм
+fashion:Шкільна форма=піджак, сорочка, спідниця
+fashion:Класичне взуття=туфлі, лофери
+fashion:Догляд за взуттям=чистка кросівок, засоби для догляду
+fashion:Сумки й рюкзаки=шкільний рюкзак, шопер
+fashion:Біжутерія=сережки, браслети
+fashion:Кепки й шапки=кепка, шапка-біні
+fashion:Чохли для телефонів=силіконовий чохол, чохол з принтом
+fashion:Ресейл кросівок=лімітовані кросівки, перевірка оригінальності
+fashion:Онлайн-барахолки=продаж своїх речей, обмін
+fashion:Пошиття на замовлення=сукня на випускний, костюм
+fashion:Ремонт одягу=підшити джинси, замінити замок
+fashion:Принти на футболках=футболка з принтом, худі з написом
+tech:Смартфони=новий смартфон, смартфон у розстрочку
+tech:Ноутбуки й ПК=ноутбук для навчання, ігровий ПК
+tech:Ремонт ноутбуків=чистка від пилу, заміна клавіатури
+tech:Ремонт консолей=чистка консолі, ремонт джойстика
+tech:Викуп техніки=продати старий телефон, обмін з доплатою
+tech:Відновлена техніка=відновлений айфон, б/у ноутбук
+tech:Збирання ПК=ігровий ПК під ключ, апгрейд
+tech:Розумний дім=розумна лампа, розумна розетка
+tech:Налаштування для батьків=батьківський контроль, налаштування телефону
+digital:Інтернет-магазини=магазин на конструкторі, магазин в Instagram
+digital:SMM=ведення Instagram, ведення TikTok
+digital:Створення контенту=фото для соцмереж, рілси
+digital:Таргетована реклама=реклама в Instagram, реклама в TikTok
+digital:Логотипи=логотип, фірмовий стиль
+digital:Обкладинки й прев'ю=прев'ю для YouTube, обкладинка для подкасту
+digital:Презентації=презентація для школи, пітч-дек
+digital:Монтаж=монтаж рілс, монтаж відео для YouTube
+digital:Анімація=анімований логотип, мультфільм
+digital:Telegram-боти=бот для запису, бот-магазин
+digital:Мобільні застосунки=застосунок на конструкторі
+pets:Грумінг=стрижка собаки, купання, стрижка кігтів
+pets:Перетримка=перетримка вдома, готель для тварин
+pets:Ветклініка=огляд, щеплення, стерилізація
+pets:Ветаптека=засоби від бліх, вітаміни
+pets:Корми=сухий корм, вологий корм
+pets:Іграшки й ласощі=іграшка-пищалка, ласощі
+pets:Одяг для тварин=комбінезон, шлейка
+pets:Кінолог=заняття з кінологом, курс слухняності
+pets:Дресирування цуценят=група для цуценят
+pets:Розплідники=породисте цуценя, кошеня
+pets:Притулки=взяти тварину, донат притулку
+home:Хімчистка меблів=хімчистка дивана, хімчистка килима
+home:Миття вікон=миття вікон, миття балкона
+home:Майстер на годину=повісити полиці, зібрати меблі
+home:Дизайн інтер'єру=дизайн кімнати, 3D-візуалізація
+home:Рослини=монстера, сукуленти, догляд за рослинами
+home:Постери й картини=постер, картина на замовлення
+home:Текстиль=плед, подушки, штори
+home:Організація простору=розхламлення кімнати, консультація
+home:Системи зберігання=органайзери, коробки для речей
+kids:Няні=няня на вечір, няня на день
+kids:Продовжений день=група продовженого дня
+kids:Супровід на гуртки=супровід дитини, підвезення
+kids:Розвивальні заняття=заняття для дошкільнят, ментальна арифметика
+kids:Логопед=заняття з логопедом
+kids:Підготовка до школи=курс для майбутніх першокласників
+kids:Іграшки=конструктори, настільні ігри
+kids:Дитячий одяг=одяг для школи, костюми на свято
+kids:Книжки для дітей=книжки-картинки, енциклопедії
+kids:Дитячі кімнати=година в ігровій кімнаті, день народження
+kids:Майстер-класи для дітей=кулінарний, науковий, творчий
+transport:Звичайне таксі=поїздка містом, трансфер в аеропорт
+transport:Дитяче таксі=поїздка з кріслом, супровід дитини
+transport:Автобуси й трамваї=разовий проїзд, проїзний
+transport:Електрички=квиток, абонемент
+transport:Прокат самокатів=поїздка за хвилину, підписка
+transport:Велосипеди=міський велосипед, гірський велосипед
+transport:Електросамокати=купівля самоката, самокат у розстрочку
+transport:Ремонт велосипедів=заміна камери, сезонне ТО
+travel:Тури=тур на море, автобусний тур
+travel:Вихідні в іншому місті=поїздка на вихідні, квитки й житло
+travel:Походи в гори=похід з гідом, прокат спорядження
+travel:Мовні табори=англійський табір, табір за кордоном
+travel:Спортивні табори=футбольний табір, танцювальний табір
+travel:IT-табори=табір програмування, робототехніка
+travel:Готелі=номер на ніч, готель з басейном
+travel:Хостели=ліжко в хостелі
+travel:Глемпінг=будиночок на природі
+travel:Міські екскурсії=пішохідна екскурсія, екскурсія на велосипедах
+travel:Квест-екскурсії=квест містом, нічна екскурсія
+nature:Парки=прогулянка, атракціони в парку
+nature:Набережні=прогулянка, прокат катамарана
+nature:Ліс=прогулянка лісом, екостежка
+nature:Пікніки=пікнік-набір, оренда альтанки
+nature:Велопрогулянки=велоекскурсія, маршрут вихідного дня
+nature:Риболовля=платна рибалка, вудка й спорядження
+nature:Дача=город, шашлики на дачі
+nature:Кімнатні рослини=вазон, міні-сад
+nature:Зоопарк=квиток, контактний зоопарк
+nature:Ботанічний сад=квиток, оранжерея
+nature:Обсерваторія=нічне спостереження, лекція про космос
+money:Картки для підлітків=дитяча картка, віртуальна картка
+money:Скарбнички в застосунку=банка на мрію, автоматичне відкладання
+money:Депозити=депозит на 3 місяці, депозит на рік
+money:ОВДП=облігації через застосунок
+money:Акції й фонди=індексний фонд, акції компаній
+money:Підробіток=роздавати листівки, допомога в кав'ярні
+money:Фриланс=дизайн на замовлення, переклади
+money:Курси фінграмотності=курс для підлітків, гра «Гроші»
+money:Книжки про гроші=«Найбагатша людина у Вавилоні», «Тато багатий, тато бідний»
+`;
+  /* Орієнтири місткості для міста: [% жителів, що купують за місяць, покупок на 1 за місяць, середній чек ₴] */
+  const CAPDEF = {
+    sport: [8, 8, 150], spa: [3, 1, 700], beauty: [20, 1.2, 450], cosmetics: [30, 1, 350], health: [25, 1, 600], psy: [2, 3, 800],
+    edu: [6, 6, 300], content: [40, 1, 200], creative: [4, 3, 300], fun: [25, 1.5, 300], games: [15, 3, 200], friends: [5, 1, 150],
+    events: [3, 1, 2500], gifts: [15, 1, 600], kava: [45, 8, 80], food_out: [50, 3, 350], delivery: [30, 3, 400], home_cook: [60, 4, 300],
+    groceries: [95, 20, 350], bakery: [35, 3, 200], fashion: [30, 1, 1500], tech: [10, 1, 3000], digital: [1, 1, 5000], pets: [15, 2, 500],
+    home: [8, 1, 1500], kids: [5, 8, 300], transport: [50, 10, 40], travel: [5, 1, 8000], nature: [20, 2, 100], money: [5, 1, 100], diy: [30, 4, 0],
+  };
+
+  /* ===================================================================== ПОТРЕБИ
+     k — початки слів, за якими я впізнаю запит; m — ринки (перший = найчастіший «твій»); diy — «зробити самому», без грошей */
+  const NEEDS = [
+    { e: '💪', t: 'Схуднути й бути у формі', type: 'бажання', k: ['схуд', 'ваг', 'жир', 'фігур', 'струнк', 'накач', "м'яз", 'прес', 'форм', 'спорт', 'трену', 'товст', 'кілогр', 'пляж'], m: ['sport', 'health', 'home_cook', 'delivery', 'spa', 'nature', 'beauty'], diy: 'Самостійно вдома|🏠|зробити все самому, без грошей|Тренування вдома: Відео-тренування(тренування 15 хвилин, розтяжка, йога з YouTube), Застосунки з тренуваннями, Біг надворі; Харчування: Підрахунок калорій, Готувати самому, Вода й сон; Мотивація: Челендж з друзями, Щоденник прогресу' },
+    { e: '🦴', t: 'Позбутися болю в спині чи шиї', type: 'біль', k: ['спин', 'шия', 'шиї', 'постав', 'сколіо', 'поперек', 'сутул', 'суглоб', 'колін'], m: ['health', 'spa', 'sport', 'home', 'psy'], diy: 'Самостійно|🏠|позайматися самому|Вправи: Зарядка для спини, Розтяжка, Планка; Звички: Перерви від телефону, Правильна поза за партою, Сон на зручній подушці; Речі: Ортопедична подушка, Зручний стілець, Рюкзак з рівною спинкою' },
+    { e: '🧘', t: 'Заспокоїтися, зняти стрес і втому', type: 'біль', k: ['стрес', 'тривог', 'нерв', 'втом', 'вигор', 'спок', 'заспок', 'розслаб', 'відпоч', 'перезаряд', 'безсон', 'напруг', 'паніч', 'депрес', 'сумн', 'плач', 'вигоря'], m: ['psy', 'spa', 'sport', 'nature', 'kava', 'content', 'creative', 'travel', 'fun'], diy: 'Самостійно|🏠|впоратися самому|Тиша: Сон, Прогулянка без телефону, Ванна; Практики: Дихання 4-7-8, Медитація із застосунком, Щоденник; Люди: Розмова з другом, Час з родиною, Обійми з улюбленцем' },
+    { e: '🥳', t: 'Не нудьгувати, весело провести час', type: 'потреба', k: ['нудн', 'нудьг', 'розваг', 'вихідн', 'дозвіл', 'весел', 'цікав', 'чим зайнят', 'тус', 'канікул', 'кайф'], m: ['fun', 'games', 'content', 'creative', 'events', 'friends', 'nature', 'sport', 'food_out'], diy: 'Безкоштовно|🆓|розважитися без грошей|Вдома: Настільні ігри з родиною, Фільм-вечір, Готування разом; Надворі: Прогулянка містом, Пікнік, Велопрогулянка; З друзями: Вечірка вдома, Спільний челендж, Футбол у дворі' },
+    { e: '🫂', t: 'Знайти друзів, не бути самотнім', type: 'біль', k: ['самот', 'друз', 'дружб', 'спілку', 'знайом', 'компані', 'поговор', 'нема з ким', 'нікому', 'своїх людей', 'спільнот', 'стосунк', 'дівчин', 'хлопц'], m: ['friends', 'sport', 'fun', 'games', 'edu', 'psy', 'events', 'travel'], diy: 'Самостійно|🏠|знайти людей без грошей|Школа: Однокласники, Шкільні гуртки, Шкільне самоврядування; Сусідство: Двір, Сусіди-однолітки; Онлайн: Тематичні чати, Ігри з голосовим чатом' },
+    { e: '🎓', t: 'Краще вчитися, скласти іспит, вступити', type: 'біль', k: ['іспит', 'нмт', 'зно', 'оцін', 'вчит', 'навч', 'матем', 'контрол', 'школ', 'вступ', 'предмет', 'двійк', 'завал', 'домашк', 'олімпіад', 'фізик', 'хімі', 'історі', 'універ', 'бал'], m: ['edu', 'content', 'psy', 'friends', 'kids', 'tech'], diy: 'Самостійно|🏠|вчитися самому|Матеріали: Підручники, Збірники тестів, Конспекти друзів; Онлайн безкоштовно: Відеоуроки, Тренажери НМТ, Освітні платформи; Звички: Розклад підготовки, Помодоро, Навчання в групі з однокласниками' },
+    { e: '🗣️', t: 'Вивчити іноземну мову', type: 'бажання', k: ['англ', 'мов', 'польськ', 'німец', 'іспан', 'франц', 'розмовл', 'english', 'іноземн'], m: ['edu', 'content', 'travel', 'friends', 'games', 'digital'], diy: 'Самостійно|🏠|вчити мову самому|Застосунки: Застосунки для мов, Картки слів; Контент мовою: Серіали з субтитрами, Пісні, Ігри англійською; Практика: Листування з іноземцями, Мовний обмін' },
+    { e: '😋', t: 'Смачно поїсти, втамувати голод', type: 'потреба', k: ['голод', 'їст', 'поїс', 'смачн', 'обід', 'вечер', 'снідан', 'їж', 'перекус', 'страв', 'піц', 'бургер', 'солодк', 'десерт', 'шаурм', 'суші'], m: ['food_out', 'delivery', 'home_cook', 'groceries', 'bakery', 'kava'], diy: '' },
+    { e: '⏱️', t: 'Зекономити час, усе встигати', type: 'біль', k: ['час', 'встиг', 'швидк', 'зайнят', 'поспіш', 'запіз', 'рутин', 'побут', 'не встига'], m: ['delivery', 'home', 'transport', 'digital', 'kids', 'food_out', 'home_cook'], diy: 'Самостійно|🏠|організувати себе самому|Планування: Список справ, Календар, Матриця Ейзенхауера; Автоматизація: Нагадування, Шаблони; Делегування: Домовитися з родиною, Обмін послугами з друзями' },
+    { e: '💄', t: 'Гарно виглядати й подобатися собі', type: 'бажання', k: ['гарн', 'вигляд', 'крас', 'стил', 'образ', 'зачіс', 'нігт', 'манік', 'шкір', 'прищ', 'акне', 'макіяж', 'одяг', 'модн', 'випускн', 'подобат', 'стриж'], m: ['beauty', 'fashion', 'cosmetics', 'sport', 'health', 'events'], diy: 'Самостійно|🏠|доглядати себе самому|Догляд: Вмивання й крем, Маски своїми руками, Сон і вода; Стиль: Перебрати гардероб, Обмін одягом з подругами, Зачіска за відео; Навички: Макіяж за туторіалом, Манікюр удома' },
+    { e: '🎁', t: 'Порадувати близьку людину', type: 'бажання', k: ['подар', 'порад', 'сюрприз', 'річниц', 'мам', 'тато', 'бабус', 'вчител', 'кохан', 'день народж', '8 берез', '14 лют', 'привіта'], m: ['gifts', 'events', 'bakery', 'fun', 'creative', 'spa', 'food_out', 'beauty'], diy: 'Своїми руками|✂️|зробити подарунок самому|Зробити: Листівка, Фотоколаж, Випічка вдома; Подарувати час: Сніданок у ліжко, Прогулянка разом, Допомога по дому; Слова: Лист, Відеопривітання' },
+    { e: '🎈', t: 'Влаштувати свято, яке запам’ятається', type: 'потреба', k: ['свят', 'вечірк', 'випускн', 'весілл', 'організ', 'ювіле', 'корпорат', 'день народж', 'відсвятк'], m: ['events', 'food_out', 'fun', 'bakery', 'gifts', 'kids', 'travel'], diy: 'Самостійно|🏠|влаштувати свято самому|Місце: Вдома, На природі, У дворі; Їжа: Готуємо разом, Кожен приносить страву; Розваги: Плейлист, Ігри й конкурси, Фотозона своїми руками' },
+    { e: '🎨', t: 'Самовиразитися, творити', type: 'бажання', k: ['творч', 'малюв', 'музик', 'співа', 'гітар', 'самовираж', 'блог', 'створ', 'відео', 'мистец', 'танц', 'вірш', 'сцен'], m: ['creative', 'content', 'edu', 'sport', 'fashion', 'digital', 'events'], diy: 'Самостійно|🏠|творити самому|Вдома: Малювати за відео, Співати під караоке, Писати вірші; Онлайн: Свій блог, Монтаж на телефоні; З друзями: Свій гурт, Спільний челендж' },
+    { e: '💰', t: 'Заробити свої гроші', type: 'бажання', k: ['грош', 'зароб', 'дохід', 'кишеньк', 'підробіт', 'фриланс', 'інвест', 'заощад', 'накопич', 'бюджет', 'купити собі', 'роботу'], m: ['money', 'edu', 'digital', 'fashion', 'pets', 'events'], diy: 'Підробіток|🧰|заробити самому|Послуги сусідам: Вигул собак, Догляд за рослинами, Допомога з технікою; Навчання інших: Репетиторство молодших, Уроки гри на інструменті; Продаж: Хендмейд, Перепродаж речей, Випічка на замовлення' },
+    { e: '📱', t: 'Щоб техніка працювала', type: 'біль', k: ['телефон', 'розбив', 'екран', 'злама', 'ноутбук', 'комп', 'гаджет', 'батаре', 'заряд', 'гальм', 'вірус', 'вайфай', 'інтернет', 'айфон', 'смартфон', 'навушн'], m: ['tech', 'digital', 'money', 'gifts'], diy: 'Самостійно|🛠️|полагодити самому|Налаштування: Очистити пам’ять, Перевстановити застосунки, Оновлення; Ремонт за відео: Заміна скла, Заміна батареї; Позичити: Старий телефон родичів, Обмін з друзями' },
+    { e: '🐾', t: 'Щоб улюбленець був щасливий', type: 'потреба', k: ['собак', 'кіт', 'кот', 'кішк', 'тварин', 'улюблен', 'цуцен', 'кошен', 'корм', 'вигул', 'папуг', "хом'я", 'пес'], m: ['pets', 'home', 'travel', 'kids', 'friends'], diy: 'Самостійно|🏠|подбати самому|Догляд: Вигулювати самому, Розчісувати, Готувати корм; Навчання: Дресирування за відео; Допомога: Попросити сусідів, Обмін з друзями-власниками' },
+    { e: '🛴', t: 'Швидко й зручно дістатися', type: 'потреба', k: ['дістат', 'доїх', 'транспорт', 'пробк', 'далеко', 'самокат', 'велосип', 'таксі', 'автобус', 'маршрут', 'пішки', 'їхати', 'добират'], m: ['transport', 'sport', 'delivery', 'tech'], diy: 'Самостійно|🚶|дістатися без грошей|Пішки: Ходити пішки, Біг; Разом: Підвезти з батьками друзів, Спільний велосипед; Не їхати: Онлайн замість поїздки' },
+    { e: '🕯️', t: 'Чисто й затишно вдома', type: 'потреба', k: ['прибир', 'безлад', 'порядок', 'затиш', 'ремонт', 'кімнат', 'дім', 'квартир', "інтер'єр", 'чист', 'бруд'], m: ['home', 'creative', 'gifts', 'cosmetics', 'delivery'], diy: 'Самостійно|🧹|зробити самому|Прибирання: Розхламлення, Прибирання по 15 хвилин, Розподіл обов’язків; Декор своїми руками: Гірлянди, Постери, Рослини з живців' },
+    { e: '🧭', t: 'Подорожувати, змінити обстановку', type: 'бажання', k: ['подорож', 'поїха', 'відпуст', 'табір', 'море', 'гори', 'мандр', 'екскурс', 'інше місто', 'за кордон', 'обстановк'], m: ['travel', 'nature', 'fun', 'events', 'sport', 'edu', 'transport'], diy: 'Самостійно|🎒|подорожувати без турагенції|Своїм ходом: Поїздка потягом, Похід з наметом, Велопохід; Поруч: Сусіднє місто, Нові райони свого міста; Онлайн: Віртуальні тури, Фільми про країни' },
+    { e: '🩺', t: 'Бути здоровим, не хворіти', type: 'біль', k: ['хвор', 'застуд', 'лікар', 'зуб', 'зір', 'очі', 'здоров', 'імунітет', 'вітамін', 'кашл', 'температур', 'аптек', 'алергі', 'болить', 'біль'], m: ['health', 'sport', 'home_cook', 'spa', 'groceries', 'psy'], diy: 'Самостійно|🏠|подбати про себе самому|Звички: Сон 8 годин, Вода, Прогулянки; Харчування: Овочі й фрукти, Менше солодкого; Профілактика: Чистити зуби, Перерви від екрана' },
+    { e: '🧸', t: 'Зайняти дитину, поки батьки на роботі', type: 'потреба', k: ['дитин', 'дитя', 'нян', 'після школ', 'гурт', 'садок', 'малюк', 'батьк', 'молодш'], m: ['kids', 'sport', 'edu', 'creative', 'fun', 'games', 'content'], diy: 'Своєю родиною|👨‍👩‍👧|впоратися родиною|Родина: Бабусі й дідусі, Старші брати й сестри; Сусіди: Обмін з іншими батьками; Вдома: Розклад справ для дитини, Настільні ігри' },
+    { e: '🦁', t: 'Стати впевненим у собі', type: 'біль', k: ['впевнен', 'сором', 'страх', 'боюс', 'боїт', 'виступ', 'публічн', 'комплекс', 'невпевн', 'самооцін'], m: ['psy', 'edu', 'sport', 'beauty', 'friends', 'creative', 'fashion'], diy: 'Самостійно|🏠|рости самому|Практика: Виступ перед дзеркалом, Відео про себе, Маленькі виклики щодня; Читання: Книжки про впевненість, Історії людей; Підтримка: Друг, що підбадьорює, Ментор' },
+    { e: '📈', t: 'Знайти більше клієнтів для бізнесу', type: 'біль', k: ['клієнт', 'продаж', 'реклам', 'бізнес', 'сайт', 'інстаграм', 'просуван', 'покупц', 'замовлен'], m: ['digital', 'edu', 'content', 'events', 'money'], diy: 'Самостійно|🏠|просувати самому|Соцмережі: Свій Instagram, TikTok-відео, Відгуки клієнтів; Сарафанне радіо: Рекомендації, Знижка за друга; Офлайн: Листівки, Ярмарки' },
+    { e: '⚡', t: 'Бути бадьорим і мати енергію', type: 'потреба', k: ['бадьор', 'сонн', 'енерг', 'прокин', 'кав', 'сил нема', 'немає сил', 'млявіст', 'спати хоч'], m: ['kava', 'sport', 'health', 'groceries', 'food_out', 'spa'], diy: 'Самостійно|🏠|додати енергії самому|Сон: Лягати раніше, Без телефону перед сном; Рух: Зарядка, Прогулянка вранці; Їжа: Сніданок, Вода' },
+  ];
+  const EXAMPLES = ['хочу схуднути до літа', 'нудно на вихідних', 'боюся завалити НМТ з математики', 'болить спина після школи', 'втомився, хочу перезарядитися', 'хочу гарно виглядати на випускному', 'немає з ким поговорити', 'розбив екран телефону', 'не знаю, що подарувати мамі', 'немає часу готувати', 'хочу заробити свої гроші', 'хочу вільно говорити англійською', 'нема сил зранку прокинутися', 'нікому вигуляти собаку'];
+
+  function splitTop(s) { const out = []; let d = 0, cur = ''; for (const ch of s) { if (ch === '(') d++; if (ch === ')') d--; if (ch === ',' && d === 0) { out.push(cur); cur = ''; } else cur += ch; } out.push(cur); return out.map((x) => x.trim()).filter(Boolean); }
+  function parseNiches(str) {
+    return String(str || '').split(';').map((s) => s.trim()).filter(Boolean).map((seg) => {
+      const i = seg.indexOf(':'), name = (i < 0 ? seg : seg.slice(0, i)).trim();
+      const subs = i < 0 ? [] : splitTop(seg.slice(i + 1)).map((x) => { const m = x.match(/^([^()]+?)\s*(?:\((.*)\))?$/) || [x, x, '']; return { name: cap(m[1].trim()), products: m[2] ? m[2].split(',').map((p) => cap(p.trim())).filter(Boolean) : [] }; });
+      return { name: cap(name), subs };
+    });
+  }
+  const LIB = {}, LIB_ORDER = [];
+  RAW.forEach((line) => { const [id, name, emoji, way, niches] = line.split('|'); LIB[id] = { id, name, emoji, way, niches: parseNiches(niches) }; LIB_ORDER.push(id); });
+  PROD.split('\n').map((l) => l.trim()).filter(Boolean).forEach((l) => {
+    const m = l.match(/^([a-z_]+):(.+?)=(.+)$/); if (!m || !LIB[m[1]]) return;
+    LIB[m[1]].niches.forEach((n) => n.subs.forEach((s) => { if (s.name === m[2] && !s.products.length) s.products = splitTop(m[3]).map(cap); }));
+  });
+
+  /* ===================================================================== РОЗПІЗНАВАННЯ */
+  const norm = (s) => String(s || '').toLowerCase().replace(/[’`ʼ]/g, "'");
+  const toks = (s) => norm(s).split(/[^a-zа-яіїєґ0-9']+/).filter(Boolean);
+  const stem = (w) => (w.length >= 5 ? w.slice(0, 4) : w);
+  function scoreNeeds(text) {
+    const t = ' ' + norm(text) + ' ', tk = toks(text);
+    return NEEDS.map((n, i) => {
+      let s = 0;
+      n.k.forEach((k) => { if (k.includes(' ')) { if (t.includes(k)) s += 2; } else if (tk.some((w) => w.startsWith(k))) s += k.length >= 4 ? 1.3 : 1; });
+      return { i, s };
+    }).sort((a, b) => b.s - a.s);
+  }
+  /* шукаю, де на карті людина: ринок › ніша › підніша › продукт */
+  function locate(text, onlyIds, noProducts) {
+    const tk = toks(text).filter((w) => w.length >= 3).map(stem); if (!tk.length) return null;
+    const hit = (str) => { const ws = toks(str).filter((w) => w.length >= 3).map(stem); let c = 0; tk.forEach((t) => { if (ws.some((w) => w === t || (t.length >= 4 && (w.startsWith(t) || t.startsWith(w)) && w.length >= 4))) c++; }); return c; };
+    let best = null;
+    const consider = (sc, loc) => { if (sc > 0 && (!best || sc > best.sc)) best = Object.assign({ sc }, loc); };
+    (onlyIds || LIB_ORDER).forEach((id) => {
+      const L = id === 'diy' ? diyLib() : LIB[id]; if (!L) return;
+      const mh = hit(L.name);
+      L.niches.forEach((n) => {
+        const nh = hit(n.name);
+        consider(nh * 1.4 + mh * .5, { id, n: n.name, s: n.subs[0] ? n.subs[0].name : null, p: null });
+        n.subs.forEach((s) => {
+          const sh = hit(s.name);
+          consider(sh * 2 + nh * .6 + mh * .4, { id, n: n.name, s: s.name, p: null });
+          if (!noProducts) s.products.forEach((p) => consider(hit(p) * 3 + sh * .8 + nh * .4 + mh * .3, { id, n: n.name, s: s.name, p }));
+        });
+      });
+      consider(mh * 1.2, { id, n: null, s: null, p: null });
+    });
+    return best;
+  }
+
+  /* ===================================================================== СТАН */
+  const KEY = 'mapaRynku.v1';
+  const blank = () => ({ pain: '', biz: '', needIdx: null, center: null, neighbors: [], my: null, pop: 300000, ov: { month: {}, year: {} }, capPer: 'month', sizeMode: 'equal', seed: 0, myPer: 'month', mine: [{ name: '', q: '', p: '' }] });
+  let S; try { S = Object.assign(blank(), JSON.parse(localStorage.getItem(KEY) || 'null') || {}); } catch (e) { S = blank(); }
+  if (!S.ov || !S.ov.month) S.ov = { month: {}, year: {} };
+  let saveT; function save() { clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* без збереження */ } }, 200); }
+  const Sel = { m: 0, n: -1, s: -1, depth: 0 };
+  let MK = [];
+
+  function diyLib() {
+    const n = NEEDS[S.needIdx]; if (!n || !n.diy) return null;
+    const [name, emoji, way, niches] = n.diy.split('|');
+    return { id: 'diy', name, emoji, way, niches: parseNiches(niches) };
+  }
+  function getLib(id) { return id === 'diy' ? diyLib() : LIB[id]; }
+  function buildMK() {
+    MK = [S.center, ...S.neighbors].map(getLib).filter(Boolean).map((L) => ({ id: L.id, name: L.name, emoji: L.emoji, way: L.way, niches: L.niches.map((n) => ({ name: n.name, on: true, subs: n.subs.map((s) => ({ name: s.name, on: true, products: s.products })) })) }));
+  }
+
+  function build(needIdx, keepCenter) {
+    S.needIdx = needIdx;
+    const n = NEEDS[needIdx];
+    let center = n.m[0];
+    const found = S.biz.trim() ? locate(S.biz) : null;
+    if (found && found.sc >= 1.5) center = found.id;
+    else if (keepCenter && S.center && S.center !== 'diy') center = S.center;
+    else { const pm = locate(S.pain, n.m, true); if (pm && pm.sc >= 1.4) center = pm.id; }
+    S.center = center;
+    S.neighbors = n.m.filter((id) => id !== center);
+    if (n.diy) S.neighbors.push('diy');
+    S.my = found && found.sc >= 1.5 && found.n ? { id: found.id, n: found.n, s: found.s, p: found.p } : (S.my && S.my.id === center ? S.my : null);
+    Sel.m = 0; Sel.n = -1; Sel.s = -1; Sel.depth = 0;
+    buildMK(); renderEverything(true);
+  }
+
+  /* ===================================================================== ЧИСЛА */
+  const nf0 = new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 0 });
+  const nf1 = new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 1 });
+  const num = (v) => { const x = parseFloat(String(v ?? '').replace(/[\s  ]/g, '').replace(',', '.')); return isFinite(x) ? x : 0; };
+  function money(v) { if (!v) return '0 ₴'; if (v >= 1e9) return nf1.format(v / 1e9) + ' млрд ₴'; if (v >= 1e6) return nf1.format(v / 1e6) + ' млн ₴'; return nf0.format(Math.round(v)) + ' ₴'; }
+  function pct(v) { if (!isFinite(v) || v <= 0) return '0%'; if (v < 0.01) return '< 0,01%'; if (v < 1) return new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 2 }).format(v) + '%'; return nf1.format(v) + '%'; }
+  const fmtNum = (v) => (Number.isInteger(v) ? nf0.format(v) : nf1.format(v));
+  /* параметри місткості ринку для поточного періоду: орієнтир або змінене людиною */
+  function capParams(id) {
+    const d = CAPDEF[id] || [5, 1, 300], per = S.capPer, pop = num(S.pop) || 0;
+    let n = Math.round(pop * d[0] / 100), f = d[1], c = d[2];
+    if (per === 'year') { n = Math.round(n * 2.5); f = Math.round(f * 12 / 2.5 * 10) / 10; }
+    const o = S.ov[per][id] || {};
+    return { n: o.n ?? n, f: o.f ?? f, c: o.c ?? c, ovN: o.n != null, ovF: o.f != null, ovC: o.c != null };
+  }
+  function capPeriod(id) { const p = capParams(id); return num(p.n) * num(p.f) * num(p.c); }
+  function capYear(id) { const v = capPeriod(id); return S.capPer === 'year' ? v : v * 12; }
+  const perWord = () => (S.capPer === 'year' ? 'рік' : 'міс');
+  const capShown = (id) => (S.capPer === 'year' ? capYear(id) : capYear(id) / 12);
+
+  /* ===================================================================== ГЕОМЕТРІЯ */
+  function hash(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function rng(seed) { let a = seed || 1; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function clipHalf(poly, a, b, c) { const out = []; const n = poly.length; for (let i = 0; i < n; i++) { const P = poly[i], Q = poly[(i + 1) % n]; const dp = a * P[0] + b * P[1] - c, dq = a * Q[0] + b * Q[1] - c; if (dp <= 0) out.push(P); if ((dp < 0 && dq > 0) || (dp > 0 && dq < 0)) { const t = dp / (dp - dq); out.push([P[0] + t * (Q[0] - P[0]), P[1] + t * (Q[1] - P[1])]); } } return out; }
+  function area(p) { let s = 0; for (let i = 0; i < p.length; i++) { const a = p[i], b = p[(i + 1) % p.length]; s += a[0] * b[1] - b[0] * a[1]; } return Math.abs(s) / 2; }
+  function centroid(p) { let x = 0, y = 0, s = 0; for (let i = 0; i < p.length; i++) { const a = p[i], b = p[(i + 1) % p.length], f = a[0] * b[1] - b[0] * a[1]; x += (a[0] + b[0]) * f; y += (a[1] + b[1]) * f; s += f; } if (Math.abs(s) < 1e-9) { const m = p.reduce((acc, q) => [acc[0] + q[0], acc[1] + q[1]], [0, 0]); return [m[0] / p.length, m[1] / p.length]; } return [x / (3 * s), y / (3 * s)]; }
+  function bbox(p) { let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity; p.forEach(([x, y]) => { if (x < x0) x0 = x; if (y < y0) y0 = y; if (x > x1) x1 = x; if (y > y1) y1 = y; }); return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 }; }
+  function inPoly(pt, p) { let c = false; for (let i = 0, j = p.length - 1; i < p.length; j = i++) { const [xi, yi] = p[i], [xj, yj] = p[j]; if (((yi > pt[1]) !== (yj > pt[1])) && (pt[0] < (xj - xi) * (pt[1] - yi) / (yj - yi) + xi)) c = !c; } return c; }
+  function segDist(p, a, b) { const dx = b[0] - a[0], dy = b[1] - a[1], l = dx * dx + dy * dy; let t = l ? ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l : 0; t = Math.max(0, Math.min(1, t)); const x = a[0] + t * dx - p[0], y = a[1] + t * dy - p[1]; return Math.sqrt(x * x + y * y); }
+  function edgeDist(pt, p) { let d = Infinity; for (let i = 0; i < p.length; i++) d = Math.min(d, segDist(pt, p[i], p[(i + 1) % p.length])); return d; }
+  function pole(p) {
+    if (!p || p.length < 3) return { p: [0, 0], r: 0 };
+    const b = bbox(p); let best = centroid(p), br = inPoly(best, p) ? edgeDist(best, p) : -1, step = Math.max(b.w, b.h) / 12;
+    const scan = (cx, cy, half) => { for (let x = cx - half; x <= cx + half; x += step) for (let y = cy - half; y <= cy + half; y += step) { const q = [x, y]; if (!inPoly(q, p)) continue; const d = edgeDist(q, p); if (d > br) { br = d; best = q; } } };
+    scan(b.x + b.w / 2, b.y + b.h / 2, Math.max(b.w, b.h) / 2);
+    for (let k = 0; k < 2; k++) { const h = step; step /= 4; scan(best[0], best[1], h); }
+    return { p: best, r: Math.max(0, br) };
+  }
+  function powerCells(sites, w, bound) { return sites.map((si, i) => { let p = bound; for (let j = 0; j < sites.length && p.length; j++) { if (j === i) continue; const sj = sites[j]; p = clipHalf(p, 2 * (sj[0] - si[0]), 2 * (sj[1] - si[1]), sj[0] * sj[0] + sj[1] * sj[1] - si[0] * si[0] - si[1] * si[1] - w[j] + w[i]); } return p.length >= 3 ? p : []; }); }
+  function relax(sites, targets, bound, pinned, iters) {
+    const A = area(bound), tSum = targets.reduce((a, b) => a + b, 0), w = sites.map(() => 0);
+    let cells = powerCells(sites, w, bound);
+    for (let it = 0; it < iters; it++) {
+      cells.forEach((c, i) => { const a = c.length ? area(c) : 0, at = A * targets[i] / tSum; if (!pinned[i] && a > 0) { const ce = centroid(c); sites[i] = [sites[i][0] * .4 + ce[0] * .6, sites[i][1] * .4 + ce[1] * .6]; } w[i] += Math.max(-A / 25, Math.min(A / 25, (at - a) * .7)); });
+      const mw = w.reduce((a, b) => a + b, 0) / w.length; for (let i = 0; i < w.length; i++) w[i] -= mw;
+      cells = powerCells(sites, w, bound);
+    }
+    return cells;
+  }
+  function makeBlob(r) { const N = 120, ph = [r() * 6.3, r() * 6.3, r() * 6.3, r() * 6.3], pts = []; for (let i = 0; i < N; i++) { const t = i / N * Math.PI * 2, k = 1 + .07 * Math.sin(3 * t + ph[0]) + .05 * Math.sin(5 * t + ph[1]) + .03 * Math.sin(8 * t + ph[2]) + .015 * Math.sin(13 * t + ph[3]); pts.push([500 + Math.cos(t) * 440 * k, 345 + Math.sin(t) * 290 * k]); } return pts; }
+  function subdivide(poly, k, seedStr, iters) {
+    if (!poly.length || k <= 0) return []; if (k === 1) return [poly];
+    const r = rng(hash(seedStr)), b = bbox(poly), pts = []; let g = 0;
+    while (pts.length < k && g++ < 4000) { const q = [b.x + r() * b.w, b.y + r() * b.h]; if (inPoly(q, poly)) pts.push(q); }
+    const c = centroid(poly); while (pts.length < k) pts.push([c[0] + (r() - .5) * 4, c[1] + (r() - .5) * 4]);
+    return relax(pts, pts.map(() => 1), poly, pts.map(() => false), iters);
+  }
+  function wob(x, y) { const A = 4.2; return [x + A * (Math.sin(x * .047 + y * .021 + 1.3) + .6 * Math.sin(y * .083 - x * .032 + .4) + .35 * Math.sin(x * .19 + y * .13)), y + A * (Math.sin(y * .043 - x * .026 + 2.1) + .6 * Math.sin(x * .077 + y * .035 + 3.3) + .35 * Math.sin(y * .21 - x * .11))]; }
+  function pathOf(poly) { if (!poly || poly.length < 3) return ''; let d = ''; for (let i = 0; i < poly.length; i++) { const a = poly[i], b = poly[(i + 1) % poly.length], len = Math.hypot(b[0] - a[0], b[1] - a[1]), n = Math.max(1, Math.ceil(len / 3.5)); for (let k = 0; k < n; k++) { const q = wob(a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n); d += (d ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1); } } return d + 'Z'; }
+
+  /* ===================================================================== РОЗКЛАДКА */
+  const HUES = [28, 205, 140, 268, 345, 176, 48, 300, 95, 225, 8, 120, 250, 60];
+  function colorOf(i, j, light) { const h = HUES[i % HUES.length]; if (j == null) return `hsl(${h} ${i === 0 ? 72 : 48}% ${light ?? (i === 0 ? 80 : 84)}%)`; const L = [74, 80, 69, 77, 72, 82][j % 6] - (i === 0 ? 2 : 0); return `hsl(${h} ${i === 0 ? 66 : 44}% ${L}%)`; }
+  let LAY = null;
+  function computeLayout() {
+    const M = MK; if (!M.length) return null;
+    const r = rng(hash('world' + S.seed + '|' + M.map((m) => m.id).join('|'))), blob = makeBlob(r), n = M.length;
+    const sites = [[500, 345]], off = r() * Math.PI * 2;
+    for (let i = 1; i < n; i++) { const a = off + (i - 1) * 2 * Math.PI / (n - 1) + (r() - .5) * .5; sites.push([500 + Math.cos(a) * 300 * (.85 + r() * .2), 345 + Math.sin(a) * 195 * (.85 + r() * .2)]); }
+    const caps = M.map((m) => capYear(m.id));
+    let targets;
+    if (S.sizeMode === 'cap' && caps.some((v) => v > 0)) { const mx = Math.max(...caps); targets = caps.map((v) => Math.max(v, mx / 30)); }
+    else targets = M.map((_, i) => (i === 0 ? (n <= 3 ? 1.5 : n <= 6 ? 2.2 : 2.8) : 1));
+    const cells = n === 1 ? [blob] : relax(sites, targets, blob, M.map((_, i) => i === 0 && S.sizeMode !== 'cap'), 50);
+    const countries = M.map((m, i) => {
+      const poly = cells[i];
+      const rc = subdivide(poly, m.niches.length, 'n' + S.seed + m.name + m.niches.length, 22);
+      const regions = m.niches.map((niche, j) => {
+        const rp = rc[j] || [], dc = subdivide(rp, niche.subs.length, 's' + S.seed + m.name + niche.name + niche.subs.length, 14);
+        const districts = niche.subs.map((sub, s) => {
+          const dp = dc[s] || [], pl = pole(dp), cities = [], rr = rng(hash('p' + m.name + niche.name + sub.name));
+          sub.products.forEach((name, pi) => {
+            let pt = null;
+            if (pi === 0 && pl.r > 0) pt = pl.p;
+            else if (dp.length) { const b = bbox(dp); for (let g = 0; g < 60 && !pt; g++) { const c = [b.x + rr() * b.w, b.y + rr() * b.h]; if (inPoly(c, dp) && edgeDist(c, dp) > Math.min(6, pl.r * .5) && cities.every((o) => Math.hypot(o.pt[0] - c[0], o.pt[1] - c[1]) > Math.min(14, pl.r))) pt = c; } }
+            if (!pt && pl.r > 0) pt = [pl.p[0] + (rr() - .5) * pl.r, pl.p[1] + (rr() - .5) * pl.r];
+            if (pt) cities.push({ name, pt });
+          });
+          return { s, poly: dp, pole: pl, cities };
+        });
+        return { j, poly: rp, pole: pole(rp), districts };
+      });
+      return { i, poly, pole: pole(poly), regions, cap: caps[i] };
+    });
+    return { blob, countries };
+  }
+
+  /* ===================================================================== МАЛЮВАННЯ */
+  const svg = $('#map');
+  let vb = [0, 0, 1000, 680], zAnim = 0;
+  const unitsPerPx = () => vb[2] / (svg.getBoundingClientRect().width || 900);
+  function wrapL(t, n, max = 3) { const w = String(t).split(/\s+/), lines = ['']; w.forEach((x) => { const l = lines[lines.length - 1]; if ((l + ' ' + x).trim().length > n && l) lines.push(x); else lines[lines.length - 1] = (l + ' ' + x).trim(); }); if (lines.length > max) { lines.length = max; lines[max - 1] = lines[max - 1].replace(/.?$/, '…'); } return lines; }
+  function myLoc() {
+    if (!S.my || !MK.length) return null;
+    const mi = MK.findIndex((m) => m.id === S.my.id); if (mi < 0) return null;
+    const j = MK[mi].niches.findIndex((n) => n.name === S.my.n); if (j < 0) return { mi, j: -1, s: -1, p: null };
+    const s = MK[mi].niches[j].subs.findIndex((x) => x.name === S.my.s);
+    return { mi, j, s, p: S.my.p };
+  }
+  function seaSvg() { let w = ''; const r = rng(77); for (let i = 0; i < 26; i++) { const x = r() * 980, y = r() * 660; w += `<path d="M${x.toFixed(0)} ${y.toFixed(0)}q6 -5 12 0t12 0" fill="none" stroke="#a9d3e6" stroke-width="1.4" stroke-linecap="round"/>`; } return `<rect x="-2000" y="-2000" width="5000" height="5000" fill="#cfe8f3"/>${w}`; }
+  function renderMap(animate) {
+    LAY = computeLayout();
+    $('#mapEmpty').hidden = !!LAY;
+    if (!LAY) { svg.innerHTML = seaSvg(); return; }
+    let h = seaSvg() + `<path d="${pathOf(LAY.blob.map(([x, y]) => [x + 4, y + 6]))}" fill="#9cc6d8" opacity=".7"/>`;
+    LAY.countries.forEach((c) => {
+      if (!c.poly.length) return; const m = MK[c.i];
+      h += `<path d="${pathOf(c.poly)}" fill="${colorOf(c.i)}" data-m="${c.i}"><title>${esc(m.emoji + ' ' + m.name)}</title></path>`;
+      c.regions.forEach((r, k) => {
+        if (!r.poly.length) return;
+        h += `<path d="${pathOf(r.poly)}" fill="${colorOf(c.i, k)}" stroke="rgba(255,255,255,.9)" stroke-width="1.1" vector-effect="non-scaling-stroke" data-m="${c.i}" data-n="${r.j}"><title>${esc(m.niches[r.j].name)} — ніша ринку «${esc(m.name)}»</title></path>`;
+        r.districts.forEach((d) => { if (d.poly.length) h += `<path d="${pathOf(d.poly)}" fill="transparent" stroke="rgba(80,58,38,.38)" stroke-width=".9" stroke-dasharray="3 3" vector-effect="non-scaling-stroke" data-m="${c.i}" data-n="${r.j}" data-s="${d.s}"><title>${esc(m.niches[r.j].subs[d.s].name)} — ${esc(m.niches[r.j].name)}</title></path>`; });
+      });
+    });
+    LAY.countries.forEach((c) => { if (c.poly.length) h += `<path d="${pathOf(c.poly)}" fill="none" stroke="#6b5a48" stroke-width="${c.i === 0 ? 2.6 : 1.9}" stroke-linejoin="round" vector-effect="non-scaling-stroke" pointer-events="none"/>`; });
+    h += `<path d="${pathOf(LAY.blob)}" fill="none" stroke="#3d6e8a" stroke-width="2.2" vector-effect="non-scaling-stroke" pointer-events="none"/><g id="hl" pointer-events="none"></g><g id="labels" pointer-events="none" font-family="Inter, system-ui, sans-serif"></g>`;
+    svg.innerHTML = h;
+    zoomTo(targetVB(), animate);
+  }
+  function renderLabels() {
+    const g = $('#labels', svg), hl = $('#hl', svg); if (!g || !LAY) return;
+    const k = unitsPerPx(); let h = '', hh = '';
+    const T = (x, y, lines, size, fill, weight, italic) => { const lh = size * 1.12, y0 = y - (lines.length - 1) * lh / 2 + size * .35; return `<text x="${x.toFixed(1)}" y="${y0.toFixed(1)}" font-size="${size.toFixed(2)}" text-anchor="middle" fill="${fill}" font-weight="${weight}"${italic ? ' font-style="italic"' : ''} style="paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:${(size * .22).toFixed(2)}px;stroke-linejoin:round">${lines.map((l, i) => `<tspan x="${x.toFixed(1)}" dy="${i ? lh.toFixed(2) : 0}">${esc(l)}</tspan>`).join('')}</text>`; };
+    const fit = (lines, r, base, min) => { const mx = Math.max(...lines.map((l) => l.length), 3); const f = Math.min(base * k, (2.3 * r) / (mx * .56), (1.7 * r) / (lines.length * 1.15)); return f >= min * k ? f : 0; };
+    const loc = myLoc();
+    LAY.countries.forEach((c) => {
+      const m = MK[c.i], here = Sel.depth >= 1 && Sel.m === c.i;
+      if (!here && c.poly.length) {
+        const lines = wrapL(m.emoji + ' ' + m.name, 14), f = fit(lines, c.pole.r, c.i === 0 ? 19 : 15, 8);
+        if (f) {
+          h += T(c.pole.p[0], c.pole.p[1] - f * .45, lines, f, '#3a2d20', 800);
+          const cv = capShown(m.id);
+          h += T(c.pole.p[0], c.pole.p[1] + f * (lines.length > 1 ? 1.15 : .75), [cv ? '≈ ' + money(cv) + '/' + perWord() : 'безкоштовно'], f * .6, '#0b5f95', 700);
+        }
+      }
+      if (!here) return;
+      c.regions.forEach((r) => {
+        if (!r.poly.length) return; const niche = m.niches[r.j];
+        if (Sel.depth === 2 && Sel.n === r.j) {
+          r.districts.forEach((d) => { if (!d.poly.length) return; const lines = wrapL(niche.subs[d.s].name, 14), f = fit(lines, d.pole.r, 12, 6.5); if (f) h += T(d.pole.p[0], d.pole.p[1] + Math.max(d.cities.length ? -d.pole.r * .45 : 0, -f * 1.6), lines, f, '#5a4632', 700, true); });
+        } else { const lines = wrapL(niche.name, 14), f = fit(lines, r.pole.r, 14, 7); if (f) h += T(r.pole.p[0], r.pole.p[1], lines, f, '#3a2d20', 700); }
+        r.districts.forEach((d) => d.cities.forEach((ct) => {
+          if (loc && loc.mi === c.i && loc.j === r.j && loc.s === d.s && loc.p === ct.name) return;
+          h += `<circle cx="${ct.pt[0].toFixed(1)}" cy="${ct.pt[1].toFixed(1)}" r="${(2.8 * k).toFixed(2)}" fill="#3d3226" stroke="#fff" stroke-width="${(1.2 * k).toFixed(2)}"/>`;
+          if (Sel.depth === 2 && Sel.n === r.j) h += `<text x="${(ct.pt[0] + 5 * k).toFixed(1)}" y="${(ct.pt[1] + 3.5 * k).toFixed(1)}" font-size="${(10.5 * k).toFixed(2)}" fill="#2a2018" font-weight="600" style="paint-order:stroke;stroke:rgba(255,255,255,.9);stroke-width:${(2.4 * k).toFixed(2)}px">${esc(ct.name)}</text>`;
+        }));
+      });
+    });
+    if (loc && loc.j >= 0) {
+      const reg = LAY.countries[loc.mi] && LAY.countries[loc.mi].regions.find((r) => r.j === loc.j);
+      const dis = reg && (reg.districts.find((d) => d.s === loc.s) || reg.districts[0]);
+      if (reg) {
+        const ct = dis && dis.cities.find((x) => x.name === loc.p), pt = ct ? ct.pt : dis ? dis.pole.p : reg.pole.p, z = 13 * k;
+        const star = Array.from({ length: 10 }, (_, i) => { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? z * .45 : z; return (pt[0] + Math.cos(a) * rr).toFixed(2) + ',' + (pt[1] + Math.sin(a) * rr).toFixed(2); }).join(' ');
+        h += `<polygon points="${star}" fill="#f08a24" stroke="#fff" stroke-width="${(1.6 * k).toFixed(2)}" stroke-linejoin="round"/>`;
+        const sh = share(), label = 'Ти тут' + (loc.p ? ': ' + loc.p : '') + (sh.my && sh.cap ? ' · ' + pct(sh.my / sh.cap * 100) : '');
+        const fs = 11.5 * k, tw = label.length * fs * .56 + 12 * k, x = pt[0] + z + 4 * k, y = pt[1] - fs * .9;
+        h += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${tw.toFixed(1)}" height="${(fs * 1.7).toFixed(1)}" rx="${(fs * .5).toFixed(1)}" fill="#f08a24"/><text x="${(x + 6 * k).toFixed(1)}" y="${(y + fs * 1.18).toFixed(1)}" font-size="${fs.toFixed(2)}" fill="#fff" font-weight="800">${esc(label)}</text>`;
+      }
+    }
+    if (Sel.depth === 0) {
+      const n = NEEDS[S.needIdx];
+      h += `<text x="22" y="34" font-size="13" fill="#2d566b" font-weight="700" letter-spacing=".08em">МАТЕРИК ПОТРЕБИ</text>`;
+      wrapL(n ? '«' + n.t + '»' : '', 34).forEach((l, i) => { h += `<text x="22" y="${56 + i * 20}" font-size="16" fill="#1f4457" font-family="Unbounded, sans-serif" font-weight="700">${esc(l)}</text>`; });
+      h += `<g transform="translate(948 626)" opacity=".75"><circle r="22" fill="none" stroke="#2d566b" stroke-width="1.2"/><path d="M0 -20 L5 0 L0 20 L-5 0Z" fill="#2d566b"/><text y="-26" text-anchor="middle" font-size="11" fill="#2d566b" font-weight="800">Пн</text></g>`;
+    }
+    if (Sel.depth >= 1) {
+      const c = LAY.countries[Sel.m], r = c && Sel.n >= 0 && c.regions.find((x) => x.j === Sel.n);
+      if (r && r.poly.length) hh += `<path d="${pathOf(r.poly)}" fill="none" stroke="#0b5f95" stroke-width="2.6" vector-effect="non-scaling-stroke"/>`;
+      const d = r && Sel.s >= 0 && r.districts.find((x) => x.s === Sel.s);
+      if (d && d.poly.length) hh += `<path d="${pathOf(d.poly)}" fill="rgba(31,181,240,.18)" stroke="#1fb5f0" stroke-width="2" stroke-dasharray="5 3" vector-effect="non-scaling-stroke"/>`;
+    }
+    g.innerHTML = h; hl.innerHTML = hh;
+  }
+  function targetVB() {
+    if (!LAY || Sel.depth === 0) return [0, 0, 1000, 680];
+    const c = LAY.countries[Sel.m]; if (!c || !c.poly.length) return [0, 0, 1000, 680];
+    let poly = c.poly; if (Sel.depth === 2) { const r = c.regions.find((x) => x.j === Sel.n); if (r && r.poly.length) poly = r.poly; }
+    const b = bbox(poly), ar = 1000 / 680; let w = Math.max(b.w * 1.18, 130), h = Math.max(b.h * 1.18, 130 / ar);
+    if (w / h > ar) h = w / ar; else w = h * ar;
+    return [b.x + b.w / 2 - w / 2, b.y + b.h / 2 - h / 2, w, h];
+  }
+  function zoomTo(t, animate) {
+    cancelAnimationFrame(zAnim);
+    const from = vb.slice(), t0 = performance.now(), dur = (animate && !reduce) ? 520 : 0;
+    const step = (now) => { const u = dur ? Math.min(1, (now - t0) / dur) : 1, e = u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; vb = from.map((v, i) => v + (t[i] - v) * e); svg.setAttribute('viewBox', vb.map((v) => v.toFixed(2)).join(' ')); if (u < 1) zAnim = requestAnimationFrame(step); else renderLabels(); };
+    if (dur) { const l = $('#labels', svg); if (l) l.innerHTML = ''; zAnim = requestAnimationFrame(step); } else step(t0);
+  }
+  function setView(m, n, s, depth) { Sel.m = m; Sel.n = n; Sel.s = s; Sel.depth = depth; zoomTo(targetVB(), true); renderCrumbs(); renderTree(); }
+  svg.addEventListener('click', (e) => {
+    if (!LAY) return;
+    const t = e.target.closest('[data-m]');
+    if (!t) { if (Sel.depth === 2) setView(Sel.m, Sel.n, -1, 1); else if (Sel.depth === 1) setView(Sel.m, -1, -1, 0); return; }
+    const m = +t.dataset.m, n = t.dataset.n != null ? +t.dataset.n : -1, s = t.dataset.s != null ? +t.dataset.s : -1;
+    if (Sel.depth === 0 || Sel.m !== m || n < 0) return setView(m, -1, -1, 1);
+    if (Sel.depth === 1 || Sel.n !== n) return setView(m, n, -1, 2);
+    setView(m, n, s, 2);
+  });
+  let rsT; addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(renderLabels, 150); });
+  function renderCrumbs() {
+    const el = $('#crumbs'); if (!MK.length) { el.innerHTML = ''; return; }
+    const m = MK[Sel.m];
+    let h = `<button type="button" data-cr="0">🌍 Материк</button>`;
+    if (Sel.depth >= 1 && m) h += `<span>›</span><button type="button" data-cr="1">${esc(m.emoji + ' ' + m.name)}</button>`;
+    if (Sel.depth >= 2 && m && m.niches[Sel.n]) h += `<span>›</span><button type="button" data-cr="2">${esc(m.niches[Sel.n].name)}</button>`;
+    if (Sel.depth >= 2 && Sel.s >= 0 && m && m.niches[Sel.n] && m.niches[Sel.n].subs[Sel.s]) h += `<span>›</span><b style="padding:5px 4px">${esc(m.niches[Sel.n].subs[Sel.s].name)}</b>`;
+    h += `<span class="tip">${Sel.depth === 0 ? 'натисни на країну' : Sel.depth === 1 ? 'натисни на область' : 'клік по морю — назад'}</span>`;
+    el.innerHTML = h;
+  }
+  $('#crumbs').addEventListener('click', (e) => { const b = e.target.closest('[data-cr]'); if (!b) return; const d = +b.dataset.cr; if (d === 0) setView(Sel.m, -1, -1, 0); else if (d === 1) setView(Sel.m, -1, -1, 1); else setView(Sel.m, Sel.n, -1, 2); });
+
+  /* ===================================================================== РОЗБІР КРАЇНИ */
+  function renderTree() {
+    const el = $('#tree'); if (!MK.length) { el.innerHTML = ''; return; }
+    if (Sel.m >= MK.length) Sel.m = 0;
+    const mi = Sel.m, m = MK[mi], isMe = mi === 0, loc = myLoc();
+    let h = '<div class="mtabs" role="group" aria-label="Країни на карті">' + MK.map((x, i) => `<button type="button" class="mtab" data-mtab="${i}" aria-pressed="${i === mi}"><span class="dot" style="background:${colorOf(i)}"></span>${esc(x.emoji + ' ' + x.name)}${i === 0 ? ' · твій' : ''}</button>`).join('') + '</div>';
+    const cv = capShown(m.id);
+    h += `<div class="tree-head"><h3>${esc(m.emoji + ' ' + m.name)} ${isMe ? '<span class="badge me">твій ринок</span>' : '<span class="badge">сусідній ринок</span>'}<small>${isMe ? 'Тут ти продаєш' : 'Тут клієнт вирішує ту саму проблему інакше: ' + esc(m.way)} · ${m.niches.length} ніш · місткість ≈ ${cv ? money(cv) + '/' + perWord() : 'гроші не платять, але клієнти йдуть сюди'}</small></h3>`;
+    if (!isMe) h += `<button class="btn btn-sm" type="button" data-center="${mi}">⭐ Це мій ринок</button><button class="btn btn-sm btn-ghost" type="button" data-rm="${mi}">Прибрати з карти</button>`;
+    h += '</div><div class="niches">';
+    m.niches.forEach((n, j) => {
+      h += `<div class="niche${Sel.n === j ? ' sel' : ''}"><button type="button" data-zn="${j}"><i style="background:${colorOf(mi, j)}"></i>${esc(n.name)}</button>`;
+      n.subs.forEach((s, si) => {
+        h += `<div class="sub${Sel.n === j && Sel.s === si ? ' sel' : ''}"><b>${esc(s.name)}</b>`;
+        h += `<div class="prods">${s.products.map((p) => { const mine = loc && loc.mi === mi && loc.j === j && loc.s === si && loc.p === p; return `<button type="button" class="prod${mine ? ' mine' : ''}" data-me="${j},${si}" data-p="${esc(p)}" title="Це я">${mine ? '⭐ ' : ''}${esc(p)}</button>`; }).join('')}<button type="button" class="prod here${loc && loc.mi === mi && loc.j === j && loc.s === si && !loc.p ? ' mine' : ''}" data-me="${j},${si}" data-p="" title="Я тут, але мого продукту немає в списку">${loc && loc.mi === mi && loc.j === j && loc.s === si && !loc.p ? '⭐ я тут' : '+ я тут'}</button></div></div>`;
+      });
+      h += '</div>';
+    });
+    h += '</div>';
+    const missing = LIB_ORDER.filter((id) => !MK.some((x) => x.id === id));
+    h += `<div class="add-row noprint">Ще один спосіб вирішити проблему: <select class="field" id="addM"><option value="">+ додати сусідній ринок…</option>${missing.map((id) => `<option value="${id}">${esc(LIB[id].emoji + ' ' + LIB[id].name)}</option>`).join('')}</select></div>`;
+    el.innerHTML = h;
+  }
+  $('#tree').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.mtab != null) return setView(+b.dataset.mtab, -1, -1, 1);
+    if (b.dataset.zn != null) return setView(Sel.m, +b.dataset.zn, -1, 2);
+    if (b.dataset.center != null) return makeCenter(+b.dataset.center);
+    if (b.dataset.rm != null) { const id = MK[+b.dataset.rm].id; S.neighbors = S.neighbors.filter((x) => x !== id); Sel.m = 0; Sel.depth = 0; Sel.n = Sel.s = -1; buildMK(); renderEverything(true); return; }
+    if (b.dataset.me != null) {
+      const [j, si] = b.dataset.me.split(',').map(Number), m = MK[Sel.m], p = b.dataset.p || null;
+      const loc = myLoc();
+      if (loc && loc.mi === Sel.m && loc.j === j && loc.s === si && loc.p === p) { S.my = null; renderEverything(false); return; }
+      S.my = { id: m.id, n: m.niches[j].name, s: m.niches[j].subs[si].name, p };
+      if (Sel.m !== 0) { makeCenter(Sel.m, true); }
+      else { Sel.n = j; Sel.s = si; Sel.depth = 2; renderEverything(true); }
+      toast('⭐ Твоє місто: ' + (p || m.niches[j].subs[si].name));
+    }
+  });
+  $('#tree').addEventListener('change', (e) => { if (e.target.id === 'addM' && e.target.value) { S.neighbors.push(e.target.value); buildMK(); renderEverything(true); toast('Нова сусідня країна на карті'); } });
+  function makeCenter(mi, keepMy) {
+    const id = MK[mi].id, old = S.center;
+    S.neighbors = S.neighbors.filter((x) => x !== id); if (old) S.neighbors.unshift(old);
+    S.center = id; if (!keepMy && S.my && S.my.id !== id) S.my = null;
+    buildMK();
+    const loc = myLoc();
+    Sel.m = 0; Sel.n = loc ? loc.j : -1; Sel.s = loc ? loc.s : -1; Sel.depth = loc && loc.j >= 0 ? 2 : 1;
+    renderEverything(true);
+  }
+
+  /* ===================================================================== «ЯК Я ЗРОЗУМІВ» */
+  function renderGot() {
+    const n = NEEDS[S.needIdx]; if (!n) { $('#got').innerHTML = ''; $('#ways').innerHTML = ''; return; }
+    const sc = scoreNeeds(S.pain).filter((x) => x.s > 0 && x.i !== S.needIdx).slice(0, 3);
+    let h = `<div class="got-ico">${n.e}</div><div><span class="got-type">${esc(n.type)} клієнта</span><h3>${esc(n.t)}</h3><p>${S.pain.trim() ? `Ти написав: «${esc(S.pain.trim())}».` : ''} Людина не купує продукт заради продукту. Їй треба <b>${esc(n.t.charAt(0).toLowerCase() + n.t.slice(1))}</b>, і це можна зробити ${MK.length} способами.</p>`;
+    h += `<div class="alt noprint">${sc.length ? 'Або ти мав на увазі: ' + sc.map((x) => `<button type="button" class="chip" data-need="${x.i}">${NEEDS[x.i].e} ${esc(NEEDS[x.i].t)}</button>`).join('') : ''} <select class="field" id="needSel" aria-label="Обрати іншу потребу"><option value="">інша потреба…</option>${NEEDS.map((x, i) => `<option value="${i}">${x.e} ${esc(x.t)}</option>`).join('')}</select></div></div>`;
+    $('#got').innerHTML = h;
+    $('#ways').innerHTML = MK.map((m, i) => `<button type="button" class="way${i === 0 ? ' me' : ''}" data-way="${i}"><span class="sw" style="background:${colorOf(i)}"></span><span><b>${esc(m.emoji + ' ' + m.name)}</b><small>${i === 0 ? 'твій ринок · ' : ''}${esc(m.way)}</small></span></button>`).join('');
+    const loc = myLoc();
+    const note = $('#gotNote');
+    if (loc && loc.j >= 0) { note.className = 'notice ok'; note.innerHTML = `⭐ Я знайшов тебе на карті: <b>${esc(MK[loc.mi].name)}</b> › ${esc(MK[loc.mi].niches[loc.j].name)}${loc.s >= 0 ? ' › ' + esc(MK[loc.mi].niches[loc.j].subs[loc.s].name) : ''}${loc.p ? ' › <b>' + esc(loc.p) + '</b>' : ''}. Не там? Обери своє місто в розборі під картою.`; }
+    else { note.className = 'notice'; note.innerHTML = `💡 Твій ринок у центрі: <b>${esc(MK[0].emoji + ' ' + MK[0].name)}</b>. Якщо твій бізнес в іншій країні, відкрий її під картою і натисни «⭐ Це мій ринок». Можна також вписати бізнес угорі й натиснути «Знайти мене». Сусідня країна «${esc((MK.find((m) => m.id === 'diy') || {}).name || 'Самостійно')}» нічого не коштує клієнту, але теж забирає його в тебе.`; }
+  }
+  $('#got').addEventListener('click', (e) => { const b = e.target.closest('[data-need]'); if (b) build(+b.dataset.need, false); });
+  $('#got').addEventListener('change', (e) => { if (e.target.id === 'needSel' && e.target.value !== '') build(+e.target.value, false); });
+  $('#ways').addEventListener('click', (e) => { const b = e.target.closest('[data-way]'); if (!b) return; setView(+b.dataset.way, -1, -1, 1); $('#sMap').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); });
+
+  /* ===================================================================== МІСТКІСТЬ */
+  const POPS = [['Село', 3000], ['Містечко', 30000], ['Місто', 300000], ['Київ', 3000000], ['Україна', 35000000]];
+  $('#popSeg').innerHTML = POPS.map(([t, v]) => `<button type="button" data-pop="${v}">${t}</button>`).join('');
+  $('#popSeg').addEventListener('click', (e) => { const b = e.target.closest('[data-pop]'); if (!b) return; S.pop = +b.dataset.pop; $('#pop').value = nf0.format(S.pop); afterCap(true); });
+  $('#pop').addEventListener('input', () => { S.pop = num($('#pop').value); afterCap(false); });
+  $('#pop').addEventListener('blur', () => { $('#pop').value = nf0.format(num(S.pop)); });
+  $('#capPer').addEventListener('click', (e) => { const b = e.target.closest('[data-cp]'); if (!b) return; S.capPer = b.dataset.cp; afterCap(true); });
+  $('#resetCap').addEventListener('click', () => { S.ov = { month: {}, year: {} }; afterCap(true); toast('Повернув орієнтовні числа'); });
+  function renderCapTable() {
+    const body = $('#cbody');
+    $('#thN').textContent = 'Клієнтів за ' + (S.capPer === 'year' ? 'рік' : 'місяць');
+    $('#thF').textContent = 'Покупок на 1 за ' + (S.capPer === 'year' ? 'рік' : 'місяць');
+    body.innerHTML = MK.map((m, i) => { const p = capParams(m.id); return `<tr class="${i === 0 ? 'me' : ''}"><td>${esc(m.emoji + ' ' + m.name)}${i === 0 ? ' <span class="badge me">твій</span>' : ''}</td>
+      <td data-l="Клієнтів"><input class="field${p.ovN ? ' ov' : ''}" data-cap="${m.id},n" inputmode="numeric" value="${fmtNum(num(p.n))}"></td>
+      <td data-l="Покупок на 1"><input class="field${p.ovF ? ' ov' : ''}" data-cap="${m.id},f" inputmode="decimal" value="${fmtNum(num(p.f))}"></td>
+      <td data-l="Чек, ₴"><input class="field${p.ovC ? ' ov' : ''}" data-cap="${m.id},c" inputmode="decimal" value="${fmtNum(num(p.c))}"></td>
+      <td class="out" data-out="${m.id}"></td></tr>`; }).join('');
+    renderCapOut();
+  }
+  function renderCapOut() {
+    MK.forEach((m) => { const el = $(`[data-out="${m.id}"]`); if (!el) return; const y = capYear(m.id); el.innerHTML = y ? `${money(S.capPer === 'year' ? y : y / 12)}<small>${S.capPer === 'year' ? money(y / 12) + ' за міс' : money(y) + ' за рік'}</small>` : '<small>гроші не платять,<br>але клієнти йдуть сюди</small>'; });
+    const rows = MK.map((m, i) => ({ m, i, v: capShown(m.id) })).sort((a, b) => b.v - a.v), mx = Math.max(1, ...rows.map((r) => r.v));
+    $('#bars').innerHTML = `<p style="margin:0 0 2px;font-size:13px;color:var(--muted)">Порівняння ринків, місткість за ${S.capPer === 'year' ? 'рік' : 'місяць'}</p>` + rows.map((r) => `<div class="bar-row"><span class="lbl">${esc(r.m.emoji + ' ' + r.m.name)}</span><span class="trk"><i style="width:${r.v ? Math.max(1.5, r.v / mx * 100) : 0}%;background:${r.i === 0 ? 'var(--me)' : colorOf(r.i, null, 62)}"></i></span><span class="v">${r.v ? money(r.v) : '0 ₴'}</span></div>`).join('');
+    const tot = MK.reduce((s, m) => s + capShown(m.id), 0), mine = capShown(MK[0].id);
+    $('#total').innerHTML = `Увесь материк потреби (усі способи разом) ≈ <b>${money(tot)}</b> за ${S.capPer === 'year' ? 'рік' : 'місяць'}. Твій ринок — <b>${pct(mine / (tot || 1) * 100)}</b> від нього.`;
+    const big = rows.filter((r) => r.i !== 0 && r.v > mine);
+    const note = $('#capNote');
+    note.className = 'notice'; note.innerHTML = big.length ? `💡 Сусіди ${big.slice(0, 3).map((r) => '«' + esc(r.m.name) + '»').join(', ')} більші за твій ринок. Подумай, як переманити звідти хоча б кілька клієнтів: що ти робиш краще, зручніше чи дешевше? Увімкни на карті «За місткістю», і розмір країн покаже, хто тут великий.` : '💡 Твій ринок найбільший на цьому материку. Головні конкуренти тут — гравці всередині твоєї країни, а не сусіди.';
+  }
+  $('#cbody').addEventListener('input', (e) => {
+    const t = e.target; if (!t.dataset.cap) return;
+    const [id, k] = t.dataset.cap.split(','); const o = S.ov[S.capPer][id] = S.ov[S.capPer][id] || {}; o[k] = num(t.value); t.classList.add('ov');
+    renderCapOut(); afterCapLight();
+  });
+  function afterCapLight() { if (S.sizeMode === 'cap') { clearTimeout(afterCapLight.t); afterCapLight.t = setTimeout(() => renderMap(false), 300); } else renderLabels(); renderShare(); renderPassport(); renderTreeHeadOnly(); save(); }
+  function renderTreeHeadOnly() { /* підпис місткості в розборі */ const sm = $('#tree .tree-head small'); if (sm) renderTree(); }
+  function afterCap(full) { renderSeg(); if (full) renderCapTable(); else renderCapOut(); afterCapLight(); }
+
+  /* ===================================================================== ЧАСТКА */
+  function myYear() { const v = S.mine.reduce((s, r) => s + num(r.q) * num(r.p), 0); return S.myPer === 'year' ? v : v * 12; }
+  function share() { return { my: myYear(), cap: MK[0] ? capYear(MK[0].id) : 0, all: MK.reduce((s, m) => s + capYear(m.id), 0) }; }
+  function renderMine() {
+    const per = S.myPer === 'year' ? 'за рік' : 'за місяць';
+    $('#mine').innerHTML = `<div class="mrow mhead"><span>Мій продукт</span><span>Продажів ${per}</span><span>Ціна, ₴</span><span style="text-align:right">Виручка</span><span></span></div>` +
+      S.mine.map((r, i) => `<div class="mrow"><input class="field nmf" data-mi="${i},name" value="${esc(r.name)}" placeholder="${esc(i === 0 ? (S.my && S.my.p) || S.biz || 'Мій продукт' : 'Ще продукт')}" aria-label="Продукт"><input class="field" data-mi="${i},q" inputmode="numeric" value="${esc(r.q)}" placeholder="50" aria-label="Продажів ${per}"><input class="field" data-mi="${i},p" inputmode="decimal" value="${esc(r.p)}" placeholder="300" aria-label="Ціна"><span class="sum" data-msum="${i}"></span><button type="button" class="x" data-mdelr="${i}" aria-label="Прибрати рядок" ${S.mine.length < 2 ? 'hidden' : ''}>×</button></div>`).join('');
+    S.mine.forEach((r, i) => { $(`[data-msum="${i}"]`).textContent = money(num(r.q) * num(r.p)); });
+  }
+  $('#mine').addEventListener('input', (e) => { const t = e.target; if (!t.dataset.mi) return; const [i, k] = t.dataset.mi.split(','); S.mine[+i][k] = t.value; const el = $(`[data-msum="${i}"]`); if (el) el.textContent = money(num(S.mine[+i].q) * num(S.mine[+i].p)); renderShare(); renderPassport(); renderLabels(); save(); });
+  $('#mine').addEventListener('click', (e) => { const b = e.target.closest('[data-mdelr]'); if (!b) return; S.mine.splice(+b.dataset.mdelr, 1); renderMine(); renderShare(); save(); });
+  $('#addMine').addEventListener('click', () => { if (S.mine.length >= 8) return; S.mine.push({ name: '', q: '', p: '' }); renderMine(); save(); });
+  $('#myPer').addEventListener('click', (e) => { const b = e.target.closest('[data-mp]'); if (!b) return; S.myPer = b.dataset.mp; renderSeg(); renderMine(); renderShare(); renderPassport(); renderLabels(); save(); });
+  function grid(p, caption) { let h = '<div><div class="grid100" aria-hidden="true">'; for (let i = 0; i < 100; i++) { const f = Math.max(0, Math.min(1, p - i)); h += f >= 1 ? '<i class="full"></i>' : f > 0 ? `<i><b style="width:${(f * 100).toFixed(0)}%"></b></i>` : '<i></i>'; } return h + `</div><div class="gcap">${caption}</div></div>`; }
+  function renderShare() {
+    if (!MK.length) return;
+    const sh = share(), p = sh.cap ? sh.my / sh.cap * 100 : 0, pa = sh.all ? sh.my / sh.all * 100 : 0;
+    let h = `<div class="stat"><small>Моя виручка</small><b>${money(sh.my)} / рік</b><small>${money(sh.my / 12)} на місяць</small></div>`;
+    h += `<div class="stat"><small>Місткість мого ринку «${esc(MK[0].name)}»</small><b>${money(sh.cap)} / рік</b></div>`;
+    h += `<div class="stat" style="border-color:var(--me)"><small>Моя частка ринку = виручка ÷ місткість</small><b style="color:var(--me)">${sh.my && sh.cap ? pct(p) : '—'}</b>${sh.my && sh.all ? `<small>Від усього материка потреби: ${pct(pa)}</small>` : ''}</div>`;
+    $('#shareStats').innerHTML = h;
+    $('#grids').innerHTML = sh.my && sh.cap ? grid(p, `Увесь ринок = 100 клітинок.<br>Твоє: <b>${pct(p)}</b>`) + (p < 1 ? grid(p * 100, `Під лупою: уся сітка = 1% ринку.<br>Твоє: ${nf1.format(Math.min(100, p * 100))} клітинок`) : '') : '';
+    const note = $('#shareNote');
+    if (!sh.my) { note.className = 'notice'; note.innerHTML = '💡 Впиши, скільки разів за місяць ти реально продаси свій продукт і за якою ціною. Краще менше, але правда.'; }
+    else if (p > 30) { note.className = 'notice warn'; note.innerHTML = `⚠️ ${pct(p)} — дуже багато для нового бізнесу. Перевір числа або зменш «Де продаєш»: можливо, ти продаєш не на всю країну, а на своє місто чи район.`; }
+    else { note.className = 'notice ok'; note.innerHTML = `✅ Твоя частка ${pct(p)}. Решта ринку — твій простір для росту: глибше у своїй ніші, у сусідні райони чи на сусідні ринки-країни.`; }
+  }
+
+  /* ===================================================================== ПАСПОРТ */
+  function renderPassport() {
+    if (!MK.length) return;
+    const n = NEEDS[S.needIdx], loc = myLoc(), sh = share();
+    let h = '<dl>';
+    h += `<dt>Біль / потреба клієнта</dt><dd>${esc(S.pain.trim() || '—')}${n ? ` <span style="color:var(--muted)">→ ${esc(n.t)}</span>` : ''}</dd>`;
+    if (S.biz.trim()) h += `<dt>Мій бізнес</dt><dd>${esc(S.biz)}</dd>`;
+    h += `<dt>Мій ринок</dt><dd>${esc(MK[0].emoji + ' ' + MK[0].name)} · ≈ ${money(sh.cap)}/рік</dd>`;
+    h += `<dt>Ніші мого ринку</dt><dd>${esc(MK[0].niches.map((x) => x.name).join(', '))}</dd>`;
+    h += `<dt>Моє місце</dt><dd>${loc && loc.j >= 0 ? `⭐ ${esc(MK[loc.mi].niches[loc.j].name)}${loc.s >= 0 ? ' › ' + esc(MK[loc.mi].niches[loc.j].subs[loc.s].name) : ''}${loc.p ? ' › ' + esc(loc.p) : ''}` : '<span style="color:var(--faint)">не вибрано</span>'}</dd>`;
+    h += `<dt>Сусідні ринки (як ще)</dt><dd>${MK.slice(1).map((m) => `${esc(m.emoji + ' ' + m.name)} <span style="color:var(--muted)">(${esc(m.way)}${capYear(m.id) ? ', ≈ ' + money(capYear(m.id)) + '/рік' : ''})</span>`).join('; ')}</dd>`;
+    h += `<dt>Увесь материк потреби</dt><dd>≈ ${money(sh.all)}/рік · ${esc(nf0.format(num(S.pop)))} жителів</dd>`;
+    h += `<dt>Мої продажі й частка</dt><dd>${sh.my ? `${money(sh.my)}/рік · <b style="color:var(--me)">${pct(sh.my / (sh.cap || 1) * 100)}</b> мого ринку` : '<span style="color:var(--faint)">крок 04</span>'}</dd>`;
+    $('#passport').innerHTML = h + '</dl>';
+  }
+
+  /* ===================================================================== ЗАГАЛЬНЕ */
+  function renderSeg() {
+    $$('#sizeMode [data-sm]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.sm === S.sizeMode));
+    $$('#capPer [data-cp]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.cp === S.capPer));
+    $$('#myPer [data-mp]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.mp === S.myPer));
+    $$('#popSeg [data-pop]').forEach((b) => b.setAttribute('aria-pressed', +b.dataset.pop === num(S.pop)));
+  }
+  function renderEverything(anim) {
+    document.body.classList.toggle('has-map', MK.length > 0);
+    renderSeg(); renderGot(); renderMap(anim); renderCrumbs(); renderTree();
+    if (MK.length) { renderCapTable(); renderMine(); renderShare(); renderPassport(); }
+    save();
+  }
+  $('#sizeMode').addEventListener('click', (e) => { const b = e.target.closest('[data-sm]'); if (!b) return; S.sizeMode = b.dataset.sm; renderSeg(); renderMap(true); save(); });
+  $('#reshuffle').addEventListener('click', () => { S.seed = (S.seed || 0) + 1; renderMap(false); save(); });
+  let toastT; function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 2800); }
+
+  /* введення болю */
+  function drawFromPain(scroll) {
+    S.pain = $('#pain').value; S.biz = $('#biz').value;
+    if (!S.pain.trim() && !S.biz.trim()) { toast('Напиши, що болить клієнту'); $('#pain').focus(); return; }
+    const sc = scoreNeeds(S.pain + ' ' + S.biz);
+    let idx = sc[0].s > 0 ? sc[0].i : null;
+    if (idx == null) { // за назвою ринку чи продукту
+      const f = locate(S.pain + ' ' + S.biz);
+      if (f && f.sc >= 1.5) idx = NEEDS.findIndex((n) => n.m[0] === f.id); if (idx < 0 || idx == null) idx = f && f.sc >= 1.5 ? NEEDS.findIndex((n) => n.m.includes(f.id)) : null;
+    }
+    if (idx == null || idx < 0) {
+      document.body.classList.add('has-map');
+      S.needIdx = null; MK = []; renderMap(false);
+      $('#got').innerHTML = `<div class="got-ico">🤔</div><div><h3>Не впевнений, що зрозумів</h3><p>Обери, що з цього найближче до болю твого клієнта, і я намалюю ринок:</p><div class="chips" style="margin-top:8px">${NEEDS.map((n, i) => `<button type="button" class="chip" data-need="${i}">${n.e} ${esc(n.t)}</button>`).join('')}</div></div>`;
+      $('#ways').innerHTML = ''; $('#gotNote').innerHTML = '';
+      $('#sGot').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+      return;
+    }
+    build(idx, false);
+    if (scroll) $('#sGot').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }
+  $('#draw').addEventListener('click', () => drawFromPain(true));
+  $('#pain').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); drawFromPain(true); } });
+  $('#pain').addEventListener('input', () => { S.pain = $('#pain').value; save(); });
+  $('#biz').addEventListener('input', () => { S.biz = $('#biz').value; save(); });
+  $('#biz').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); findMe(); } });
+  $('#findMe').addEventListener('click', findMe);
+  function findMe() {
+    S.biz = $('#biz').value;
+    if (!S.biz.trim()) { toast('Впиши свій бізнес чи продукт'); $('#biz').focus(); return; }
+    if (S.needIdx == null) { drawFromPain(true); return; }
+    const f = locate(S.biz);
+    if (!f || f.sc < 1.5) { toast('Не знайшов. Обери своє місто в розборі під картою'); return; }
+    if (!MK.some((m) => m.id === f.id)) S.neighbors.push(f.id);
+    S.my = f.n ? { id: f.id, n: f.n, s: f.s, p: f.p } : null;
+    buildMK(); const mi = MK.findIndex((m) => m.id === f.id);
+    if (mi > 0) makeCenter(mi, true); else { const loc = myLoc(); Sel.m = 0; Sel.n = loc ? loc.j : -1; Sel.s = loc ? loc.s : -1; Sel.depth = loc && loc.j >= 0 ? 2 : 1; renderEverything(true); }
+    toast('⭐ Знайшов: ' + (f.p || f.s || f.n || LIB[f.id].name));
+    $('#sMap').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }
+  $('#examples').innerHTML = EXAMPLES.map((t) => `<button type="button" class="chip" data-ex="${esc(t)}">${esc(t)}</button>`).join('');
+  $('#examples').addEventListener('click', (e) => { const b = e.target.closest('[data-ex]'); if (!b) return; $('#pain').value = b.dataset.ex; drawFromPain(true); });
+  addEventListener('beforeprint', () => { const t = $('#pain'); t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; });
+
+  /* старт */
+  $('#pain').value = S.pain || ''; $('#biz').value = S.biz || ''; $('#pop').value = nf0.format(num(S.pop));
+  if (!Array.isArray(S.mine) || !S.mine.length) S.mine = [{ name: '', q: '', p: '' }];
+  if (S.needIdx != null && NEEDS[S.needIdx] && S.center) buildMK();
+  renderEverything(false);
+})();
+</script>
+</body>
+</html>
