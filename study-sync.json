@@ -1,0 +1,12 @@
+{
+  "rules": [
+    { "from": "^(index)\\.html$", "to": "spe/ipoteka-yeoselia.html" },
+    { "from": "^(arkhitekturne-biuro|zubry-ukryttia|uvaga|zoshyt)\\.html$", "to": null },
+    { "from": "^smart\\.html$", "to": "bubbles/smart.html" },
+    { "from": "^speech\\.html$", "to": "bubbles/speech.html" },
+    { "from": "^zapytannia\\.html$", "to": "bubbles/zapytannia-v2-interaktyvna.html" },
+    { "from": "^bubbles/uvaga\\.html$", "to": "spe/uvaga.html" },
+    { "from": "^vpravy/out/([^/]+\\.pdf)$", "to": "spe/pdf/$1" },
+    { "from": "^([^/]+\\.html)$", "to": "spe/$1" }
+  ]
+}

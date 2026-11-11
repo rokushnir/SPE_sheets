@@ -1,0 +1,33 @@
+name: Оновити study.spe.org.ua
+
+# Після кожного push у main надсилає на сайт змінені сторінки (HTML у корені, PDF вправ).
+# Потрібен секрет STUDY_SYNC_TOKEN (ключ створюється в адмінці сайту → «Ще» → «Автооновлення з GitHub»).
+on:
+  push:
+    branches: [main]
+    paths: ['**.html', 'vpravy/out/*.pdf', 'study-sync.json']
+  workflow_dispatch:
+    inputs:
+      full:
+        description: 'Надіслати всі файли, а не лише змінені'
+        type: boolean
+        default: false
+
+concurrency: { group: study-sync, cancel-in-progress: false }
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Надіслати зміни на сайт
+        env:
+          STUDY_SYNC_TOKEN: ${{ secrets.STUDY_SYNC_TOKEN }}
+          STUDY_URL: ${{ vars.STUDY_URL }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          FULL: ${{ inputs.full }}
+        run: node tools/study-sync.mjs
